@@ -1,0 +1,156 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    x:Class="Files.MainPage"
+    x:Name="page"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+        <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop"  TintColor="White" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+        <AcrylicBrush x:Key="WhiteFallbackAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="White"/>
+        <SolidColorBrush x:Key="GreyFallback" Color="{StaticResource SystemChromeMediumColor}"/>
+
+    </Page.Resources>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--VisualState to be triggered when window width is 0-863 effective pixels.-->
+                        <AdaptiveTrigger MinWindowHeight="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--VisualState to be triggered when window width is >=864 effective pixels.-->
+                        
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--VisualState to be triggered when window width is >=864 effective pixels.-->
+                        
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+
+
+        
+        <Grid Background="Transparent" Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" version1803:Canvas.ZIndex="5">
+        </Grid>
+        <Grid Visibility="Collapsed" Canvas.ZIndex="3" x:Name="WelcomeGrid">
+            <Rectangle Height="1080" Fill="{StaticResource InAppAcrylic}"/>
+            <RelativePanel>
+                <Rectangle Height="600" Width="1000" Fill="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                <RelativePanel Height="600" Width="1000" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+                    <TextBlock FontSize="48" HorizontalAlignment="Left" Margin="50,25,0,0" Text="Files Setup" TextWrapping="Wrap" VerticalAlignment="Top" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"/>
+                    <TextBlock HorizontalAlignment="Left" Margin="50,100,0,0" Text="Hey There! To get started, all you need to do is grant access to your files. In the next window, select your Local Disk and then choose Select Folder. " FontSize="18" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" Width="790" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"/>
+                    <Button Content="Grant Access" Height="45" Width="200" Background="#FF0E62CA" Foreground="White" Click="Button_Click" Margin="0,0,50,25" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
+                    <Image Width="500" Height="300" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,75,0,0" Source="Assets/screenshot.png" Stretch="UniformToFill"/>
+                    <TextBlock x:Name="diagText" HorizontalAlignment="Left" Height="20" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
+
+                </RelativePanel>
+            </RelativePanel>
+        </Grid>
+
+        
+
+            <NavigationView AlwaysShowHeader="False" IsPaneOpen="True"  IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemInvoked" VerticalAlignment="Stretch" >
+            
+
+                <NavigationView.MenuItems>
+
+                    <NavigationViewItemHeader Content="Libraries"/>
+                    <NavigationViewItem x:Name="homeIc" IsSelected="True" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE8B9;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+
+                    <NavigationViewItemHeader Content="Drives"/>
+
+                    <NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                        <NavigationViewItem.Icon>
+                            <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
+                        </NavigationViewItem.Icon>
+                    </NavigationViewItem>
+                </NavigationView.MenuItems>
+
+                <NavigationView.AutoSuggestBox>
+
+                    <AutoSuggestBox QuerySubmitted="auto_suggest_QuerySubmitted" x:Name="auto_suggest" PlaceholderText="Search" QueryIcon="Find"/>
+                </NavigationView.AutoSuggestBox>
+
+                
+                    <Frame Name="ContentFrame">
+                        <Frame.ContentTransitions>
+                            <TransitionCollection>
+                                <NavigationThemeTransition/>
+                            </TransitionCollection>
+                        </Frame.ContentTransitions>
+                    </Frame>
+                
+                
+            </NavigationView>
+        
+    </Grid>
+
+
+</Page>

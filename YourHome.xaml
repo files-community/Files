@@ -1,0 +1,190 @@
+﻿<Page
+    x:Class="Files.YourHome"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--VisualState to be triggered when window height is >=0 effective pixels.-->
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--VisualState to be triggered when window height is >=560 effective pixels.-->
+                        <AdaptiveTrigger MinWindowWidth="560"/>
+                    </VisualState.StateTriggers>
+
+                    <VisualState.Setters>
+                        
+                        <Setter Target="gvItem0.Width" Value="160"/>
+                        <Setter Target="gvItem1.Width" Value="160"/>
+                        <Setter Target="gvItem2.Width" Value="160"/>
+                        <Setter Target="gvItem3.Width" Value="160"/>
+                        <Setter Target="gvItem4.Width" Value="160"/>
+                        <Setter Target="gvItem5.Width" Value="160"/>
+
+                        <Setter Target="gvItem0.Height" Value="200"/>
+                        <Setter Target="gvItem1.Height" Value="200"/>
+                        <Setter Target="gvItem2.Height" Value="200"/>
+                        <Setter Target="gvItem3.Height" Value="200"/>
+                        <Setter Target="gvItem4.Height" Value="200"/>
+                        <Setter Target="gvItem5.Height" Value="200"/>
+
+                        <Setter Target="b0.Width" Value="160"/>
+                        <Setter Target="b1.Width" Value="160"/>
+                        <Setter Target="b2.Width" Value="160"/>
+                        <Setter Target="b3.Width" Value="160"/>
+                        <Setter Target="b4.Width" Value="160"/>
+                        <Setter Target="b5.Width" Value="160"/>
+
+                        <Setter Target="b0.Height" Value="200" />
+                        <Setter Target="b1.Height" Value="200" />
+                        <Setter Target="b2.Height" Value="200" />
+                        <Setter Target="b3.Height" Value="200" />
+                        <Setter Target="b4.Height" Value="200" />
+                        <Setter Target="b5.Height" Value="200" />
+
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1536"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+
+                        <Setter Target="gvItem0.Width" Value="160"/>
+                        <Setter Target="gvItem1.Width" Value="160"/>
+                        <Setter Target="gvItem2.Width" Value="160"/>
+                        <Setter Target="gvItem3.Width" Value="160"/>
+                        <Setter Target="gvItem4.Width" Value="160"/>
+                        <Setter Target="gvItem5.Width" Value="160"/>
+
+                        <Setter Target="gvItem0.Height" Value="200"/>
+                        <Setter Target="gvItem1.Height" Value="200"/>
+                        <Setter Target="gvItem2.Height" Value="200"/>
+                        <Setter Target="gvItem3.Height" Value="200"/>
+                        <Setter Target="gvItem4.Height" Value="200"/>
+                        <Setter Target="gvItem5.Height" Value="200"/>
+
+                        <Setter Target="b0.Width" Value="160"/>
+                        <Setter Target="b1.Width" Value="160"/>
+                        <Setter Target="b2.Width" Value="160"/>
+                        <Setter Target="b3.Width" Value="160"/>
+                        <Setter Target="b4.Width" Value="160"/>
+                        <Setter Target="b5.Width" Value="160"/>
+
+                        <Setter Target="b0.Height" Value="200" />
+                        <Setter Target="b1.Height" Value="200" />
+                        <Setter Target="b2.Height" Value="200" />
+                        <Setter Target="b3.Height" Value="200" />
+                        <Setter Target="b4.Height" Value="200" />
+                        <Setter Target="b5.Height" Value="200" />
+
+
+
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="1920"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        
+
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+
+
+        <ScrollViewer>
+            <Grid>
+                <ParallaxView Visibility="Collapsed" x:Name="ParaHeroView" Source="{x:Bind Path=Cards}" VerticalShift="0" Height="600">
+                    <Image Visibility="Collapsed" x:Name="imgHero" Source="ms-appx:///Assets/heroWall.jpg" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </ParallaxView>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" Padding="0,170,0,0"/>
+                    <GridView  x:Name="Cards"   HorizontalAlignment="Center"  Padding="20,20,20,20" Margin="0,50,0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                        <GridViewItem x:Name="gvItem0" Margin="25,25,0,0" Padding="0, 0, 0, 0" >
+                            <controls:DropShadowPanel x:Name="Shadow1" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
+                                <Button  x:Name="b0" Click="b0_Click" Height="250" Width="200" VerticalAlignment="Top" Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xE8FC;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+
+                                </Button>
+                            </controls:DropShadowPanel>
+                        </GridViewItem>
+                        <GridViewItem x:Name="gvItem1"  Margin="25,25, 0,0">
+                            <controls:DropShadowPanel x:Name="Shadow2" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
+                                <Button  x:Name="b1" Click="b1_Click" Height="250" Width="200" VerticalAlignment="Top"   Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xE896;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+
+                                </Button>
+                            </controls:DropShadowPanel>
+                        </GridViewItem>
+                        <GridViewItem  x:Name="gvItem2"  Margin="25,25,0,0">
+                            <controls:DropShadowPanel x:Name="Shadow3" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
+                                <Button x:Name="b2" Click="b2_Click" Height="250" Width="200" VerticalAlignment="Top"   Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+
+                                </Button>
+                            </controls:DropShadowPanel>
+                        </GridViewItem>
+                        <GridViewItem  x:Name="gvItem3" Margin="25,25,0,0">
+                            <controls:DropShadowPanel x:Name="Shadow4" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
+                                <Button  x:Name="b3" Click="b3_Click" Height="250" Width="200" VerticalAlignment="Top"  Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xE8B9;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+
+                                </Button>
+                            </controls:DropShadowPanel>
+                        </GridViewItem>
+                        <GridViewItem  x:Name="gvItem4" Margin="25,25,0,0">
+                            <controls:DropShadowPanel x:Name="Shadow5" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
+                                <Button x:Name="b4" Click="b4_Click" Height="250" Width="200" VerticalAlignment="Top"  Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xEC4F;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+
+                                </Button>
+                            </controls:DropShadowPanel>
+                        </GridViewItem>
+                        <GridViewItem  x:Name="gvItem5" Margin="25,25,0,0" Height="256">
+                            <controls:DropShadowPanel x:Name="Shadow6" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
+                                <Button x:Name="b5" Click="b5_Click" Height="250" Width="200" VerticalAlignment="Top"  Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
+                                    <TextBlock Text="&#xE8B2;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                                </Button>
+                            </controls:DropShadowPanel>
+                        </GridViewItem>
+                    </GridView>
+
+                    <ListView HorizontalAlignment="Center" Height="450" VerticalAlignment="Center" Width="1351" Margin="0,0,0,0" Padding="0,50,0,0">
+                        <ListView.Header>
+                            <TextBlock Text="No recent files" HorizontalAlignment="Center" FontSize="24"/>
+                        </ListView.Header>
+                    </ListView>
+
+                </StackPanel>
+
+
+            </Grid>
+        </ScrollViewer>
+
+    </Grid>
+</Page>
