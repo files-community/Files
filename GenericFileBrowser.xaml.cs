@@ -13,6 +13,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -62,7 +63,7 @@ namespace Files
         public ItemViewModel ViewModel { get; set; }
 
         
-        private void AllView_ItemClick(object sender, SelectionChangedEventArgs e)
+        private async void AllView_ItemClick(object sender, SelectionChangedEventArgs e)
         {
 
             if (AllView.SelectedItems.Count > 0)
@@ -83,6 +84,16 @@ namespace Files
 
                     VisiblePath.Text = clickedOnItem.FilePath;
                     this.Bindings.Update();
+                }
+                else
+                {
+                    Debug.WriteLine(clickedOnItem.FilePath);
+                    
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                    var options = new Windows.System.LauncherOptions();
+                    options.DisplayApplicationPicker = true;
+                    await Launcher.LaunchFileAsync(file, options);
+
                 }
 
             }
@@ -161,6 +172,7 @@ namespace Files
         string gotName;
         string gotDate;
         string gotType;
+        string gotPath;
         string gottenPath;
         string gotFolName;
         string gotFolDate;
@@ -301,6 +313,7 @@ namespace Files
                     gotName = f.Name.ToString();
                     gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
                     gotType = f.FileType.ToString();
+                    gotPath = f.Path.ToString();
                     gotFolImg = Visibility.Collapsed;
                     const uint requestedSize = 20;
                     const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
@@ -312,7 +325,7 @@ namespace Files
                         icon.SetSource(gotFileImg.CloneStream());
                     }
                     gotFileImgVis = Visibility.Visible;
-                    this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType });
+                    this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FilePath = gotPath, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType });
                     NumItemsRead++;
                 }
             }

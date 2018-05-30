@@ -51,7 +51,7 @@ namespace Files
             
 
 
-            WelcomeFileCheck();
+            //WelcomeFileCheck();
             ContentFrame.Navigate(typeof(YourHome));
             auto_suggest.IsEnabled = true;
         }
