@@ -224,13 +224,29 @@ namespace Files
 
             folder = await StorageFolder.GetFolderFromPathAsync(path);
             folderList = await folder.GetFoldersAsync();
-            var numOfFolders = folderList.Count;
-            int FolCount = 1;
-            int incr = 50 / numOfFolders;
+            double numOfFolders = folderList.Count;
+            double FolCount = 1;
+            if(numOfFolders > 0)
+            {
+                incr = 50 / numOfFolders;
+            }
+            else
+            {
+                incr = 50;
+            }
             foreach (StorageFolder fol in folderList)
             {
-                int PartOneProg = FolCount * incr;
-                UpdateProgUI(PartOneProg);
+                if(incr == 50)
+                {
+                    double PartOneProg = 50;
+                    UpdateProgUI(PartOneProg, true);
+                }
+                else
+                {
+                    double PartOneProg = FolCount * incr;
+                    UpdateProgUI(PartOneProg, true);
+                }
+                
                 gotFolName = fol.Name.ToString();
                 gotFolDate = fol.DateCreated.ToString();
                 gotFolPath = fol.Path.ToString();
@@ -257,47 +273,69 @@ namespace Files
             }
         }
         bool flag = false;
-        public int UpdateProgUI(int level)
+        public int UpdateProgUI(double level, bool FromFolderReading)
         {
             if(flag == false)
             {
-                PROGRESSUI.prog = "Loading " + level + "% complete";
-                return level;
+                if(FromFolderReading == true)
+                {
+                    PROGRESSUI.prog = "Loading " + (int) level + "% complete";
+                    Debug.WriteLine("Status Updated For Folder Read Loop");
+                    return (int) level;
+                }
+                else
+                {
+                    PROGRESSUI.prog = "Loading " + (int) level + "% complete";
+                    Debug.WriteLine("Status Updated For File Read Loop");
+                    return (int) level;
+                }
+                
             }
             else
             {
-                PROGRESSUI.prog = "Loading " + (level + 50) + "% complete";
-                return level;
+                if(FromFolderReading == true)
+                {
+                    PROGRESSUI.prog = "Loading " + ((int) level + 50) + "% complete";
+                    Debug.WriteLine("Status Updated For Folder Read Loop");
+                    return (int) level;
+                }
+                else
+                {
+                    PROGRESSUI.prog = "Loading " + ((int) level + 50) + "% complete";
+                    Debug.WriteLine("Status Updated For File Read Loop");
+                    return (int) level;
+                }
+                
             }
             
         }
-        int incr;
+        double incr;
         public async void GetTheFilesAsync(string path)
         {
             folder = await StorageFolder.GetFolderFromPathAsync(path);
             IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
-            var numOfFiles = fileList.Count;
-            int FileCount = 1;
+            double numOfFiles = (double) fileList.Count;
+            double FileCount = 1.0;
             if(numOfFiles > 0)
             {
-                incr = 50 / numOfFiles;
+                incr = 50.0 / numOfFiles;
             }
             else
             {
-                incr = 50;
+                incr = 50.0;
             }
             flag = true;
             foreach (StorageFile f in fileList)
             {
                 if(incr == 50)
                 {
-                    int PartTwoProg = 50;
-                    UpdateProgUI(PartTwoProg);
+                    double PartTwoProg = 50.0;
+                    UpdateProgUI(PartTwoProg, false);
                 }
                 else
                 {
-                    int PartTwoProg = FileCount * incr;
-                    UpdateProgUI(PartTwoProg);
+                    double PartTwoProg = FileCount * incr;
+                    UpdateProgUI(PartTwoProg, false);
                 }
                 
                 gotName = f.Name.ToString();
@@ -437,7 +475,7 @@ namespace Files
                 {
                     _prog = value;
                     NotifyPropertyChanged("prog");
-                    Debug.WriteLine("NotifyPropertyChanged was called successfully for ProgressUI");
+                    //Debug.WriteLine("NotifyPropertyChanged was called successfully for ProgressUI");
                 }
             }
         }

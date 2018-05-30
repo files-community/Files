@@ -53,10 +53,10 @@
 
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="White" Margin="0,0,0,0">
-            <Grid Name="ProgressIndicator" Visibility="{x:Bind local:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="150" Height="200" Canvas.ZIndex="5">
-                <StackPanel>
-                    <ProgressRing IsActive="True" Canvas.ZIndex="5" Width="150" Height="150" />
-                    <TextBlock Text="{x:Bind local:ItemViewModel.PROGRESSUI.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center"/>
+            <Grid Name="ProgressIndicator" Visibility="{x:Bind local:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Canvas.ZIndex="5" Background="White" Margin="0,255,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="815" Width="1865">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressRing IsActive="True" Canvas.ZIndex="5" Width="100" Height="100" />
+                    <TextBlock Text="{x:Bind local:ItemViewModel.PROGRESSUI.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 </StackPanel>
             </Grid>
             <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="250" VerticalAlignment="Top">
