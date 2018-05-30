@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -88,13 +89,18 @@ namespace Files
 
         }
 
-      
+        bool CancelledBefore = false;
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
 
             if (HistoryList.HistoryListArr.Count() > 1)
             {
+                if (!CancelledBefore)
+                {
+                    //ItemViewModel.CancellationTokenSource.Cancel();
+                    
+                }
                 Debug.WriteLine("\nBefore Removals");
                 ArrayDiag.DumpArray();
                 this.ViewModel = new ItemViewModel(HistoryList.HistoryListArr[HistoryList.HistoryListArr.Count() - 2]);
@@ -104,12 +110,24 @@ namespace Files
                 ViewModel.filesAndFolders.Clear();
                 VisiblePath.Text = HistoryList.HistoryListArr[HistoryList.HistoryListArr.Count() - 1];
                 this.Bindings.Update();
+                if (!CancelledBefore)
+                {
+                    //ItemViewModel.CancellationTokenSource = new CancellationTokenSource();
+                    CancelledBefore = true;
+                }
 
             }
             else if (HistoryList.HistoryListArr.Count() == 1)
             {
 
             }
+
+        }
+
+        private void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ListView listView = (ListView) sender;
+            RightClickContextMenu.ShowAt(listView, e.GetPosition(listView));
 
         }
     }
@@ -191,11 +209,24 @@ namespace Files
             }
         }
 
+        public static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        public static CancellationTokenSource CancellationTokenSource
+        {
+            get
+            {
+                return cancellationTokenSource;
+            }
+            set
+            {
+
+            }
+        }
+
         public ItemViewModel(string ViewPath)
         {
+
             gottenPath = ViewPath;
-            GetTheFilesAsync(ViewPath);
-            GetTheFoldersAsync(ViewPath);
+            GetItemsAsync(ViewPath, CancellationTokenSource.Token);
             HistoryList.HistoryStore(ViewPath);
             
             
@@ -218,45 +249,74 @@ namespace Files
         private ListedItem li = new ListedItem();
         public ListedItem LI { get { return this.li; } }
 
-        public async void GetTheFoldersAsync(string path)
+        public async void GetItemsAsync(string path, CancellationToken ct)
         {
-            pvis.isVisible = Visibility.Visible;
+            
 
-            folder = await StorageFolder.GetFolderFromPathAsync(path);
-            folderList = await folder.GetFoldersAsync();
-            double numOfFolders = folderList.Count;
-            double FolCount = 1;
-            if(numOfFolders > 0)
+            folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
+            folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
+            IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync(); // Create a read-only list of all files in location
+            int NumOfFolders = folderList.Count;                                // How many folders are in the list
+            int NumOfFiles = fileList.Count;                                    // How many files are in the list
+            int NumOfItems = NumOfFiles + NumOfFolders;
+            int NumItemsRead = 0;
+            if (NumOfItems == 0)
             {
-                incr = 50 / numOfFolders;
+                return;
             }
-            else
-            {
-                incr = 50;
-            }
+            PVIS.isVisible = Visibility.Visible;
             foreach (StorageFolder fol in folderList)
             {
-                if(incr == 50)
+                if (ct.IsCancellationRequested)
                 {
-                    double PartOneProg = 50;
-                    UpdateProgUI(PartOneProg, true);
+                    return;
+                }
+                else
+                {  
+
+                    int ProgressReported = (NumItemsRead * 100 / NumOfItems);
+                    UpdateProgUI(ProgressReported);
+                    gotFolName = fol.Name.ToString();
+                    gotFolDate = fol.DateCreated.ToString();
+                    gotFolPath = fol.Path.ToString();
+                    gotFolType = "Folder";
+                    gotFolImg = Visibility.Visible;
+                    gotFileImgVis = Visibility.Collapsed;
+                    this.filesAndFolders.Add(new ListedItem() { FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                    NumItemsRead++;
+                }
+
+            }
+
+            foreach (StorageFile f in fileList)
+            {
+                if (ct.IsCancellationRequested)
+                {
+                    return;
                 }
                 else
                 {
-                    double PartOneProg = FolCount * incr;
-                    UpdateProgUI(PartOneProg, true);
+                    int ProgressReported = (NumItemsRead * 100 / NumOfItems);
+                    UpdateProgUI(ProgressReported);
+                    gotName = f.Name.ToString();
+                    gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
+                    gotType = f.FileType.ToString();
+                    gotFolImg = Visibility.Collapsed;
+                    const uint requestedSize = 20;
+                    const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
+                    const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
+                    gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                    BitmapImage icon = new BitmapImage();
+                    if (gotFileImg != null)
+                    {
+                        icon.SetSource(gotFileImg.CloneStream());
+                    }
+                    gotFileImgVis = Visibility.Visible;
+                    this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType });
+                    NumItemsRead++;
                 }
-                
-                gotFolName = fol.Name.ToString();
-                gotFolDate = fol.DateCreated.ToString();
-                gotFolPath = fol.Path.ToString();
-                gotFolType = "Folder";
-                gotFolImg = Visibility.Visible;
-                gotFileImgVis = Visibility.Collapsed;
-                this.filesAndFolders.Add(new ListedItem() { FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
-                FolCount++;
-
             }
+            PVIS.isVisible = Visibility.Collapsed;
 
         }
 
@@ -272,90 +332,15 @@ namespace Files
 
             }
         }
-        bool flag = false;
-        public int UpdateProgUI(double level, bool FromFolderReading)
-        {
-            if(flag == false)
-            {
-                if(FromFolderReading == true)
-                {
-                    PROGRESSUI.prog = "Loading " + (int) level + "% complete";
-                    Debug.WriteLine("Status Updated For Folder Read Loop");
-                    return (int) level;
-                }
-                else
-                {
-                    PROGRESSUI.prog = "Loading " + (int) level + "% complete";
-                    Debug.WriteLine("Status Updated For File Read Loop");
-                    return (int) level;
-                }
-                
-            }
-            else
-            {
-                if(FromFolderReading == true)
-                {
-                    PROGRESSUI.prog = "Loading " + ((int) level + 50) + "% complete";
-                    Debug.WriteLine("Status Updated For Folder Read Loop");
-                    return (int) level;
-                }
-                else
-                {
-                    PROGRESSUI.prog = "Loading " + ((int) level + 50) + "% complete";
-                    Debug.WriteLine("Status Updated For File Read Loop");
-                    return (int) level;
-                }
-                
-            }
-            
-        }
-        double incr;
-        public async void GetTheFilesAsync(string path)
-        {
-            folder = await StorageFolder.GetFolderFromPathAsync(path);
-            IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync();
-            double numOfFiles = (double) fileList.Count;
-            double FileCount = 1.0;
-            if(numOfFiles > 0)
-            {
-                incr = 50.0 / numOfFiles;
-            }
-            else
-            {
-                incr = 50.0;
-            }
-            flag = true;
-            foreach (StorageFile f in fileList)
-            {
-                if(incr == 50)
-                {
-                    double PartTwoProg = 50.0;
-                    UpdateProgUI(PartTwoProg, false);
-                }
-                else
-                {
-                    double PartTwoProg = FileCount * incr;
-                    UpdateProgUI(PartTwoProg, false);
-                }
-                
-                gotName = f.Name.ToString();
-                gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
-                gotType = f.FileType.ToString();
-                gotFolImg = Visibility.Collapsed;
 
-                const uint requestedSize = 20;
-                const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
-                const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
-                gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
-                BitmapImage icon = new BitmapImage();
-                icon.SetSource(gotFileImg.CloneStream());
-                gotFileImgVis = Visibility.Visible;
-                this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType });
-                FileCount++;
-            }
-            flag = false;
-            pvis.isVisible = Visibility.Collapsed;
+        public int UpdateProgUI(int level)
+        {
+             PROGRESSUI.prog = "Loading " + level + "% complete";
+             //Debug.WriteLine("Status Updated For Folder Read Loop");
+             return (int) level;
         }
+
+        
 
     }
 

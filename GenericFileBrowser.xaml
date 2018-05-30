@@ -76,7 +76,59 @@
             <Grid Padding="50,250,50,0">
 
 
-                <ListView x:Name="AllView" SelectionMode="Single" IsItemClickEnabled="False" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0">
+                <ListView x:Name="AllView" SelectionMode="Single" RightTapped="AllView_RightTapped" IsItemClickEnabled="False" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0">
+                    <ListView.Resources>
+                        <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="Open" Name="OpenItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE7AC;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+
+                                <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE83D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Delete" Name="DeleteItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE74D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Rename" Name="RenameItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8AC;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Cut" Name="CutItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C6;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Copy" Name="CopyItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE946;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout.Items>
+                            
+                        </MenuFlyout>
+                    </ListView.Resources>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="Padding" Value="0"/>
