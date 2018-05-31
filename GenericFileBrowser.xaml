@@ -64,7 +64,7 @@
 
                 </Button>
                 <Grid DataContext="{Binding FowardObject}">
-                    <Button IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="DarkGray" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="115,52,0,0" VerticalAlignment="Top"/>
+                    <Button IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="DarkGray" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="115,52,0,0" VerticalAlignment="Top" Click="Foward_Click"/>
                 </Grid>
                 <Button x:Name="Up" Foreground="DarkGray" Content="&#xE74a;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="190,52,0,0" VerticalAlignment="Top"/>
                 <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,148,0,25" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
@@ -80,40 +80,40 @@
                     <ListView.Resources>
                         <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="Open" Name="OpenItem">
+                                <MenuFlyoutItem Text="Open" Name="OpenItem" Click="OpenItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE7AC;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 
-                                <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                <MenuFlyoutItem Text="Share" Name="ShareItem" Click="ShareItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem">
+                                <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem" Click="ScanItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE83D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Delete" Name="DeleteItem">
+                                <MenuFlyoutItem Text="Delete" Name="DeleteItem" Click="DeleteItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE74D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Rename" Name="RenameItem">
+                                <MenuFlyoutItem Text="Rename" Name="RenameItem" Click="RenameItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8AC;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Cut" Name="CutItem">
+                                <MenuFlyoutItem Text="Cut" Name="CutItem" Click="CutItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8C6;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Copy" Name="CopyItem">
+                                <MenuFlyoutItem Text="Copy" Name="CopyItem" Click="CopyItem_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8C8;"/>
                                     </MenuFlyoutItem.Icon>

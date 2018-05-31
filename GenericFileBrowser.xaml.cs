@@ -78,7 +78,7 @@ namespace Files
                     ViewModel.filesAndFolders.Clear();
                     this.ViewModel = new ItemViewModel(clickedOnItem.FilePath);
 
-                    Debug.WriteLine(clickedOnItem.FilePath);
+                    //Debug.WriteLine(clickedOnItem.FilePath);
 
 
 
@@ -87,7 +87,7 @@ namespace Files
                 }
                 else
                 {
-                    Debug.WriteLine(clickedOnItem.FilePath);
+                    //Debug.WriteLine(clickedOnItem.FilePath);
                     
                     StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
                     var options = new Windows.System.LauncherOptions();
@@ -105,7 +105,7 @@ namespace Files
         private void Back_Click(object sender, RoutedEventArgs e)
         {
 
-            if (HistoryList.HistoryListArr.Count() > 1)
+            if (History.HistoryList.Count() > 1)
             {
                 if (!CancelledBefore)
                 {
@@ -114,13 +114,15 @@ namespace Files
                 }
                 Debug.WriteLine("\nBefore Removals");
                 ArrayDiag.DumpArray();
-                this.ViewModel = new ItemViewModel(HistoryList.HistoryListArr[HistoryList.HistoryListArr.Count() - 2]);
-                HistoryList.HistoryListArr.RemoveAt(HistoryList.HistoryListArr.Count() - 1);
+                History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
+                //History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
                 Debug.WriteLine("\nAfter Removals");
                 ArrayDiag.DumpArray();
+                this.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1]);     // Minus two in order to take into account the correct index without interference from the folder being navigated to
                 ViewModel.filesAndFolders.Clear();
-                VisiblePath.Text = HistoryList.HistoryListArr[HistoryList.HistoryListArr.Count() - 1];
+                VisiblePath.Text = History.HistoryList[History.HistoryList.Count() - 1];
                 this.Bindings.Update();
+
                 if (!CancelledBefore)
                 {
                     //ItemViewModel.CancellationTokenSource = new CancellationTokenSource();
@@ -128,10 +130,12 @@ namespace Files
                 }
 
             }
-            else if (HistoryList.HistoryListArr.Count() == 1)
-            {
+            
 
-            }
+        }
+
+        private void Foward_Click(object sender, RoutedEventArgs e)
+        {
 
         }
 
@@ -141,6 +145,42 @@ namespace Files
             RightClickContextMenu.ShowAt(listView, e.GetPosition(listView));
 
         }
+
+        private void OpenItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShareItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ScanItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RenameItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CutItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CopyItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
     }
     public class ListedItem
     {
@@ -239,23 +279,24 @@ namespace Files
 
             gottenPath = ViewPath;
             GetItemsAsync(ViewPath, CancellationTokenSource.Token);
-            HistoryList.HistoryStore(ViewPath);
+
+            History.AddToHistory(ViewPath);
+            //ArrayDiag.DumpArray();
             
             
-            
-            if (HistoryList.HistoryListArr.Count == 1)
+            if (History.HistoryList.Count == 1)
             {
                 BS.isEnabled = false;
                 Debug.WriteLine("Disabled Property");
                 
 
             }
-            else if (HistoryList.HistoryListArr.Count > 1)
+            else if (History.HistoryList.Count > 1)
             {
                 BS.isEnabled = true;
                 Debug.WriteLine("Enabled Property");
             }
-            ArrayDiag.DumpArray();
+            // ArrayDiag.DumpArray();
         }
 
         private ListedItem li = new ListedItem();
@@ -357,28 +398,34 @@ namespace Files
 
     }
 
-    public class HistoryList
+    public class History
     {
-        public static List<string> HistoryListArr = new List<string>();
-        public static int counter = 0;
-
-        public static void HistoryStore(string ViewedPath)
+        public static List<string> HistoryList = new List<string>();                // The list of paths previously navigated to
+        public static void AddToHistory(string PathToBeAdded)
         {
-            if (counter <= 9 && !HistoryListArr.Contains(ViewedPath))
+            if(HistoryList.Count < 25)                                              // If HistoryList is currently less than 25 items and 
             {
-                HistoryListArr.Add(ViewedPath);
-                counter++;
-            }
-            else if (counter >= 10 && HistoryListArr.Count == 10)
-            {
-                for (int i = 0; i < (HistoryListArr.Count - 1); i++)
+                if(HistoryList.Count > 0)                                           // If there are items in HistoryList
                 {
-                    HistoryListArr[i] = HistoryListArr[i + 1];
+                    if(HistoryList[HistoryList.Count - 1] != PathToBeAdded)         // Make sure the item being added is not already added
+                    {
+                        HistoryList.Add(PathToBeAdded);
+                    }
                 }
-                HistoryListArr[9] = ViewedPath;
-                counter++;
+                else                                                                // If there are no items in HistoryList
+                {
+                    HistoryList.Add(PathToBeAdded);
+                }
+                
             }
-
+            else if( (HistoryList.Count >= 25) && (HistoryList[HistoryList.Count - 1] != PathToBeAdded) )     // If History list is exactly 25 items (or greater) and the item being added is not already added
+            {
+                for (int i = 0; i < (HistoryList.Count - 1); i++)
+                {
+                    HistoryList[i] = HistoryList[i + 1];                // Shift list contents left by one to delete first item, effectively making space for next item 
+                }
+                HistoryList[24] = PathToBeAdded;                        // Add new item in freed spot
+            }
         }
     }
 
@@ -387,7 +434,7 @@ namespace Files
 
         public static void DumpArray()
         {
-            foreach (string s in HistoryList.HistoryListArr)
+            foreach (string s in History.HistoryList)
             {
                 Debug.Write(s + ", ");
             }
@@ -501,7 +548,7 @@ namespace Files
                 {
                     _isVisible = value;
                     NotifyPropertyChanged("isVisible");
-                    Debug.WriteLine("NotifyPropertyChanged was called successfully for ProgressUI Visibility");
+                    //Debug.WriteLine("NotifyPropertyChanged was called successfully for ProgressUI Visibility");
                 }
             }
         }
