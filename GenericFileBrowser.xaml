@@ -67,7 +67,7 @@
                     <Button IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="DarkGray" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="115,52,0,0" VerticalAlignment="Top" Click="Foward_Click"/>
                 </Grid>
                 <Button x:Name="Up" Foreground="DarkGray" Content="&#xE74a;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="190,52,0,0" VerticalAlignment="Top"/>
-                <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,148,0,25" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
+                <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,150,0,25" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
                     <TextBlock x:Name="VisiblePath" Text="C:\" Margin="50,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
                 </ScrollViewer>
 

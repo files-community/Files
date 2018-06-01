@@ -10,11 +10,12 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <!--VisualState to be triggered when window height is >=0 effective pixels.-->
+                        <!--VisualState to be triggered when window width is 0-559 effective pixels.-->
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
 
@@ -25,7 +26,7 @@
 
                 <VisualState>
                     <VisualState.StateTriggers>
-                        <!--VisualState to be triggered when window height is >=560 effective pixels.-->
+                        <!--VisualState to be triggered when window width is 560-1536 effective pixels.-->
                         <AdaptiveTrigger MinWindowWidth="560"/>
                     </VisualState.StateTriggers>
 
@@ -115,15 +116,15 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
+        <ParallaxView Visibility="Collapsed" Source="{x:Bind Content}" VerticalShift="50">
+            <Image Name="Image" Source="Assets/abstract_HeroImage.jpg" Stretch="UniformToFill"/>
+        </ParallaxView>
 
-
-        <ScrollViewer>
+       <ScrollViewer Name="Content">
             <Grid>
-                <ParallaxView Visibility="Collapsed" x:Name="ParaHeroView" Source="{x:Bind Path=Cards}" VerticalShift="0" Height="600">
-                    <Image Visibility="Collapsed" x:Name="imgHero" Source="ms-appx:///Assets/heroWall.jpg" Stretch="UniformToFill" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                </ParallaxView>
+                
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" Padding="0,170,0,0"/>
+                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" Padding="0,170,0,0" TextAlignment="Center"/>
                     <GridView  x:Name="Cards"   HorizontalAlignment="Center"  Padding="20,20,20,20" Margin="0,50,0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <GridViewItem x:Name="gvItem0" Margin="25,25,0,0" Padding="0, 0, 0, 0" >
                             <controls:DropShadowPanel x:Name="Shadow1" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">

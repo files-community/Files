@@ -98,6 +98,9 @@ namespace Files
             {
                 ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                 auto_suggest.PlaceholderText = "Search";
+            }else if(item.Content.Equals("Settings"))
+            {
+                ContentFrame.Navigate(typeof(Settings));
             }
         }
 

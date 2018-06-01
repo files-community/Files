@@ -107,6 +107,12 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\Personalization.xaml.cs">
+      <DependentUpon>Personalization.xaml</DependentUpon>
+    </Compile>
     <Compile Include="YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>
@@ -118,6 +124,8 @@
     <None Include="Files_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\abstract_HeroImage.jpg" />
+    <Content Include="Assets\friends_HeroImage.jpg" />
     <Content Include="Assets\screenshot.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
@@ -140,6 +148,14 @@
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Settings.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\Personalization.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="YourHome.xaml">
       <SubType>Designer</SubType>

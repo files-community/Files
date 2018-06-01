@@ -74,9 +74,9 @@
             </RelativePanel>
         </Grid>
 
-        
 
-            <NavigationView AlwaysShowHeader="False" IsPaneOpen="True"  IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemInvoked" VerticalAlignment="Stretch" >
+
+        <NavigationView Background="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" AlwaysShowHeader="False" IsPaneOpen="True"  IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemInvoked" VerticalAlignment="Stretch" >
             
 
                 <NavigationView.MenuItems>
@@ -139,7 +139,7 @@
                 </NavigationView.AutoSuggestBox>
 
                 
-                    <Frame Name="ContentFrame">
+                    <Frame Name="ContentFrame" Background="White">
                         <Frame.ContentTransitions>
                             <TransitionCollection>
                                 <NavigationThemeTransition/>
