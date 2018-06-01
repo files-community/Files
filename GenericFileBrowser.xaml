@@ -20,6 +20,70 @@
         </Storyboard>
         <local:BackState x:Key="BackObject"/>
         <local:FowardState x:Key="FowardObject"/>
+        <Style x:Key="FluentHistoryButton" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="8,4,8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="-3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
 
     </Page.Resources>
     <Grid>
@@ -60,13 +124,13 @@
                 </StackPanel>
             </Grid>
             <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="250" VerticalAlignment="Top">
-                <Button x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="DarkGray" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top">
+                <Button BorderThickness="2" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
 
                 </Button>
                 <Grid DataContext="{Binding FowardObject}">
-                    <Button IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="DarkGray" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="115,52,0,0" VerticalAlignment="Top" Click="Foward_Click"/>
+                    <Button BorderThickness="2" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Click="Foward_Click" Height="50" Width="50" HorizontalAlignment="Left"/>
                 </Grid>
-                <Button x:Name="Up" Foreground="DarkGray" Content="&#xE74a;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="190,52,0,0" VerticalAlignment="Top"/>
+                <Button x:Name="Up" BorderThickness="1" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE74a;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50"/>
                 <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,150,0,25" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
                     <TextBlock x:Name="VisiblePath" Text="C:\" Margin="50,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
                 </ScrollViewer>
@@ -118,7 +182,7 @@
                                         <FontIcon Glyph="&#xE8C8;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                
+
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
                                     <MenuFlyoutItem.Icon>
@@ -126,7 +190,7 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout.Items>
-                            
+
                         </MenuFlyout>
                     </ListView.Resources>
                     <ListView.ItemContainerStyle>

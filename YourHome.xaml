@@ -124,8 +124,8 @@
             <Grid>
                 
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" Padding="0,170,0,0" TextAlignment="Center"/>
-                    <GridView  x:Name="Cards"   HorizontalAlignment="Center"  Padding="20,20,20,20" Margin="0,50,0,0" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" TextAlignment="Center" Padding="0,170,0,0"/>
+                    <GridView  x:Name="Cards"   HorizontalAlignment="Center"  Padding="20,20,20,20" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                         <GridViewItem x:Name="gvItem0" Margin="25,25,0,0" Padding="0, 0, 0, 0" >
                             <controls:DropShadowPanel x:Name="Shadow1" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
                                 <Button  x:Name="b0" Click="b0_Click" Height="250" Width="200" VerticalAlignment="Top" Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
