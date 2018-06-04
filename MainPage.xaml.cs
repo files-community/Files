@@ -1,26 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Imaging;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-using Windows.Graphics;
-using Microsoft.Toolkit.Uwp;
 using Windows.Storage.Pickers;
 using Windows.Storage;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Files
 {
@@ -30,6 +17,7 @@ namespace Files
         string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+        string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
         string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
@@ -51,9 +39,10 @@ namespace Files
             
 
 
-            //WelcomeFileCheck();
+            //WelcomeFileCheck(); - Legacy Function to be Removed Eventually
             ContentFrame.Navigate(typeof(YourHome));
             auto_suggest.IsEnabled = true;
+            auto_suggest.PlaceholderText = "Search Recents";
         }
 
         private void navView_ItemInvoked(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
@@ -98,7 +87,13 @@ namespace Files
             {
                 ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                 auto_suggest.PlaceholderText = "Search";
-            }else if(item.Content.Equals("Settings"))
+            }
+            else if (item.Name == "OneD_IC")
+            {
+                ContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                auto_suggest.PlaceholderText = "Search OneDrive";
+            }
+            else if(item.Content.Equals("Settings"))
             {
                 ContentFrame.Navigate(typeof(Settings));
             }

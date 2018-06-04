@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.System;
@@ -18,10 +14,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -38,7 +31,6 @@ namespace Files
         {
             this.InitializeComponent();
 
-            //pathToView = @"C:\";
             string env = Environment.ExpandEnvironmentVariables("%userprofile%");
             
             this.IsTextScaleFactorEnabled = true;
@@ -49,7 +41,7 @@ namespace Files
             titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-
+            ProgressBox.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -57,7 +49,30 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             var parameters = (string)eventArgs.Parameter;
             this.ViewModel = new ItemViewModel(parameters);
-            VisiblePath.Text = parameters;
+            if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
+            {
+                VisiblePath.Text = "Desktop";
+            }else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
+            {
+                VisiblePath.Text = "Documents";
+            }else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
+            {
+                VisiblePath.Text = "Downloads";
+            }else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
+            {
+                VisiblePath.Text = "Pictures";
+            }else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
+            {
+                VisiblePath.Text = "Music";
+            }else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
+            {
+                VisiblePath.Text = "Videos";
+            }
+            else
+            {
+                VisiblePath.Text = parameters;
+            }
+
         }
 
         public ItemViewModel ViewModel { get; set; }
@@ -207,7 +222,7 @@ namespace Files
         public ObservableCollection<ListedItem> filesAndFolders = new ObservableCollection<ListedItem>();
         public ObservableCollection<ListedItem> FilesAndFolders { get { return this.filesAndFolders; } }
 
-
+        
         StorageFolder folder;
         string gotName;
         string gotDate;
@@ -222,6 +237,8 @@ namespace Files
         Visibility gotFolImg;
         StorageItemThumbnail gotFileImg;
         public IReadOnlyList<StorageFolder> folderList;
+        public IReadOnlyList<StorageFile> fileList;
+
 
         public static BackState bs = new BackState();
         public static BackState BS {
@@ -302,21 +319,30 @@ namespace Files
         private ListedItem li = new ListedItem();
         public ListedItem LI { get { return this.li; } }
 
+        private static ProgressUIHeader pUIh = new ProgressUIHeader();
+        public static ProgressUIHeader PUIH { get { return ItemViewModel.pUIh; } }
+
+        private static ProgressUIPath pUIp = new ProgressUIPath();
+        public static ProgressUIPath PUIP { get { return ItemViewModel.pUIp; } }
+        
         public async void GetItemsAsync(string path, CancellationToken ct)
         {
             
-
+            PUIP.Path = path;
             folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
             folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
-            IReadOnlyList<StorageFile> fileList = await folder.GetFilesAsync(); // Create a read-only list of all files in location
+            fileList = await folder.GetFilesAsync();                            // Create a read-only list of all files in location
             int NumOfFolders = folderList.Count;                                // How many folders are in the list
             int NumOfFiles = fileList.Count;                                    // How many files are in the list
             int NumOfItems = NumOfFiles + NumOfFolders;
             int NumItemsRead = 0;
+            
             if (NumOfItems == 0)
             {
                 return;
             }
+            //await Task.Run(CalculateItemSizes);
+            PUIH.Header = "Loading " + NumOfItems + " items";
             PVIS.isVisible = Visibility.Visible;
             foreach (StorageFolder fol in folderList)
             {
@@ -357,7 +383,7 @@ namespace Files
                     gotPath = f.Path.ToString();
                     gotFolImg = Visibility.Collapsed;
                     const uint requestedSize = 20;
-                    const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
+                    const ThumbnailMode thumbnailMode = ThumbnailMode.ListView;
                     const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
                     gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
                     BitmapImage icon = new BitmapImage();
@@ -374,12 +400,13 @@ namespace Files
 
         }
 
-        public static ProgressUI progressUI = new ProgressUI();
-        public static ProgressUI PROGRESSUI
+        
+        public static ProgressPercentage progressPER = new ProgressPercentage();
+        public static ProgressPercentage PROGRESSPER
         {
             get
             {
-                return progressUI;
+                return progressPER;
             }
             set
             {
@@ -389,7 +416,7 @@ namespace Files
 
         public int UpdateProgUI(int level)
         {
-             PROGRESSUI.prog = "Loading " + level + "% complete";
+             PROGRESSPER.prog = level;
              //Debug.WriteLine("Status Updated For Folder Read Loop");
              return (int) level;
         }
@@ -504,10 +531,10 @@ namespace Files
 
     }
 
-    public class ProgressUI : INotifyPropertyChanged
+    public class ProgressPercentage : INotifyPropertyChanged
     {
-        public string _prog;
-        public string prog
+        public int _prog;
+        public int prog
         {
             get
             {
@@ -560,4 +587,59 @@ namespace Files
         }
     }
 
+    public class ProgressUIHeader : INotifyPropertyChanged
+    {
+        public string _header;
+        public string Header
+        {
+            get
+            {
+                return _header;
+            }
+
+            set
+            {
+                if (value != _header)
+                {
+                    _header = value;
+                    NotifyPropertyChanged("Header");
+                    //Debug.WriteLine("NotifyPropertyChanged was called successfully for ProgressUI Visibility");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+    }
+
+    public class ProgressUIPath : INotifyPropertyChanged
+    {
+        public string _path;
+        public string Path
+        {
+            get
+            {
+                return _path;
+            }
+
+            set
+            {
+                if (value != _path)
+                {
+                    _path = value;
+                    NotifyPropertyChanged("Path");
+                    //Debug.WriteLine("NotifyPropertyChanged was called successfully for ProgressUI Visibility");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+    }
 }

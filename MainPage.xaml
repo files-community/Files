@@ -11,9 +11,10 @@
 
     <Page.Resources>
         <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
-        <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop"  TintColor="White" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+        <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop" TintColor="Red" TintOpacity="0.8" FallbackColor="{ThemeResource SystemChromeMediumColor}"/>
         <AcrylicBrush x:Key="WhiteFallbackAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="White"/>
         <SolidColorBrush x:Key="GreyFallback" Color="{StaticResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="Accent" Color="{StaticResource SystemAccentColor}"/>
 
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -131,6 +132,11 @@
                             <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
+                <NavigationViewItem Content="OneDrive" x:Name="OneD_IC">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 </NavigationView.MenuItems>
 
                 <NavigationView.AutoSuggestBox>

@@ -11,9 +11,10 @@
 
     <Page.Resources>
         <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
-        <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop"  TintColor="#FF16B7E8" TintOpacity="0.6" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+        <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop" TintColor="{StaticResource SystemAccentColor}" TintOpacity="0.6" FallbackColor="{ThemeResource SystemChromeMediumColor}"/>
         <AcrylicBrush x:Key="LightAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.8" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
         <SolidColorBrush x:Key="GreyFallback" Color="{StaticResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="Accent" Color="{StaticResource SystemAccentColor}"/>
         <Storyboard x:Name="PointerHoverButton1">
             <FadeOutThemeAnimation Storyboard.TargetName="Shadow1"/>
 
@@ -117,20 +118,15 @@
 
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="White" Margin="0,0,0,0">
-            <Grid Name="ProgressIndicator" Visibility="{x:Bind local:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Canvas.ZIndex="5" Background="White" Margin="0,255,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Height="815" Width="1865">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <ProgressRing IsActive="True" Canvas.ZIndex="5" Width="100" Height="100" />
-                    <TextBlock Text="{x:Bind local:ItemViewModel.PROGRESSUI.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
-            </Grid>
+
             <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="250" VerticalAlignment="Top">
-                <Button BorderThickness="2" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
+                <Button BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
 
                 </Button>
                 <Grid DataContext="{Binding FowardObject}">
-                    <Button BorderThickness="2" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Click="Foward_Click" Height="50" Width="50" HorizontalAlignment="Left"/>
+                    <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Click="Foward_Click" Height="50" Width="50" HorizontalAlignment="Left"/>
                 </Grid>
-                <Button x:Name="Up" BorderThickness="1" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE74a;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50"/>
+                <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50"/>
                 <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,150,0,25" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
                     <TextBlock x:Name="VisiblePath" Text="C:\" Margin="50,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
                 </ScrollViewer>
@@ -220,6 +216,16 @@
 
 
 
+            </Grid>
+            <Grid Visibility="Collapsed" Background="{StaticResource Accent}" VerticalAlignment="Bottom" Height="30">
+
+            </Grid>
+            <Grid x:Name="ProgressBox" Visibility="{x:Bind local:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
+                <Rectangle Fill="White" Stroke="Blue" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock Text="{x:Bind local:ItemViewModel.PUIH.Header}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
+                <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175"/>
+                <TextBlock Text="{x:Bind local:ItemViewModel.PUIP.Path}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
+                <ProgressBar Name="pbar"  Value="{x:Bind local:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
             </Grid>
         </Grid>
 
