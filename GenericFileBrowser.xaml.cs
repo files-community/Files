@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -24,7 +25,7 @@ namespace Files
     public sealed partial class GenericFileBrowser : Page
     {
         public TextBlock textBlock;
-
+        static DataGrid data;
 
 
         public GenericFileBrowser()
@@ -42,6 +43,31 @@ namespace Files
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ProgressBox.Visibility = Visibility.Collapsed;
+            data = AllView;
+            RemoveHiddenColumns();
+
+        }
+
+
+        public static void RemoveHiddenColumns()
+        {
+            if (data.Columns.Count > 5)
+            {
+                // 385,300, 150
+                
+                data.Columns[5].Visibility = Visibility.Collapsed;
+                data.Columns[6].Visibility = Visibility.Collapsed;
+                data.Columns[7].Visibility = Visibility.Collapsed;
+                data.Columns[8].Visibility = Visibility.Collapsed;
+                data.Columns[9].Visibility = Visibility.Collapsed;
+                data.Columns[10].Visibility = Visibility.Collapsed;
+                data.Columns[11].Visibility = Visibility.Collapsed;
+                //data.Columns[12].Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                Debug.WriteLine("Less than 4 columns in datagrid");
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -137,6 +163,7 @@ namespace Files
                 ViewModel.filesAndFolders.Clear();
                 VisiblePath.Text = History.HistoryList[History.HistoryList.Count() - 1];
                 this.Bindings.Update();
+                
 
                 if (!CancelledBefore)
                 {
@@ -156,8 +183,8 @@ namespace Files
 
         private void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            ListView listView = (ListView) sender;
-            RightClickContextMenu.ShowAt(listView, e.GetPosition(listView));
+            DataGrid dataGrid = (DataGrid) sender;
+            RightClickContextMenu.ShowAt(dataGrid, e.GetPosition(dataGrid));
 
         }
 
@@ -361,12 +388,13 @@ namespace Files
                     gotFolType = "Folder";
                     gotFolImg = Visibility.Visible;
                     gotFileImgVis = Visibility.Collapsed;
-                    this.filesAndFolders.Add(new ListedItem() { FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                    this.filesAndFolders.Add(new ListedItem() { FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                    
                     NumItemsRead++;
+                    GenericFileBrowser.RemoveHiddenColumns();
                 }
 
             }
-
             foreach (StorageFile f in fileList)
             {
                 if (ct.IsCancellationRequested)
@@ -375,6 +403,7 @@ namespace Files
                 }
                 else
                 {
+                    
                     int ProgressReported = (NumItemsRead * 100 / NumOfItems);
                     UpdateProgUI(ProgressReported);
                     gotName = f.Name.ToString();
@@ -392,8 +421,9 @@ namespace Files
                         icon.SetSource(gotFileImg.CloneStream());
                     }
                     gotFileImgVis = Visibility.Visible;
-                    this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FilePath = gotPath, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType });
+                    this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath});
                     NumItemsRead++;
+                    GenericFileBrowser.RemoveHiddenColumns();
                 }
             }
             PVIS.isVisible = Visibility.Collapsed;

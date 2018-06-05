@@ -119,7 +119,7 @@
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="White" Margin="0,0,0,0">
 
-            <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="250" VerticalAlignment="Top">
+            <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top">
                 <Button BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
 
                 </Button>
@@ -127,17 +127,17 @@
                     <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Click="Foward_Click" Height="50" Width="50" HorizontalAlignment="Left"/>
                 </Grid>
                 <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50"/>
-                <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,150,0,25" HorizontalAlignment="Stretch" VerticalAlignment="Center" >
-                    <TextBlock x:Name="VisiblePath" Text="C:\" Margin="50,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
+                <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="50,126,50,25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                    <TextBlock x:Name="VisiblePath" Text="C:\" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
                 </ScrollViewer>
 
             </Grid>
 
-            <Grid Padding="50,250,50,0">
+            <Grid Padding="50,200,50,0">
 
 
-                <ListView x:Name="AllView" SelectionMode="Single" RightTapped="AllView_RightTapped" IsItemClickEnabled="False" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0">
-                    <ListView.Resources>
+                <controls:DataGrid IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" x:Name="AllView" SelectionMode="Single" RightTapped="AllView_RightTapped" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0" HorizontalAlignment="Left">
+                    <controls:DataGrid.Resources>
                         <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="Open" Name="OpenItem" Click="OpenItem_Click">
@@ -188,31 +188,28 @@
                             </MenuFlyout.Items>
 
                         </MenuFlyout>
-                    </ListView.Resources>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Setter Property="Padding" Value="0"/>
-                            <Setter Property="Margin" Value="0"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="local:ListedItem">
+                    </controls:DataGrid.Resources>
 
-                            <StackPanel Orientation="Horizontal" Spacing="50"  Width="1500" Height="45">
-                                <Grid  Margin="15, 0, 0, 0">
-                                    <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                    <Image Visibility="{Binding FileIconVis}" Height="20" Width="20" Source="{Binding FileImg}" Stretch="UniformToFill" />
-                                </Grid>
-                                <TextBlock Text="{Binding FileName}" Width="400" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center"></TextBlock>
-                                <TextBlock Text="{Binding FileDate}" Width="200"  HorizontalAlignment="Center" Margin="0,0,0,0" VerticalAlignment="Center"></TextBlock>
-                                <TextBlock Text="{Binding FileExtension}" Width="200" HorizontalAlignment="Right" Margin="0,0,0,0" VerticalAlignment="Center"></TextBlock>
-                            </StackPanel>
+   
+                    
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridTemplateColumn>
+                            <controls:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid  Margin="15, 0, 0, 0">
+                                        <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                        <Image Visibility="{Binding FileIconVis}" Height="20" Width="20" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                    </Grid>
+                                </DataTemplate>
+                            </controls:DataGridTemplateColumn.CellTemplate>
+                        </controls:DataGridTemplateColumn>
+                        <controls:DataGridTextColumn Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
+                        <controls:DataGridTextColumn Header="Date modified" Width="300" Binding="{Binding FileDate}" Tag="Date"/>
+                        <controls:DataGridTextColumn Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
+                        <controls:DataGridTextColumn Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
+                    </controls:DataGrid.Columns>
 
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-
-                </ListView>
+                </controls:DataGrid>
 
 
 
