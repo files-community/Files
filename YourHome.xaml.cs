@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -53,6 +54,11 @@ namespace Files
         private void b5_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(GenericFileBrowser), VideosPath);
+        }
+
+        private void b6_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
         }
     }
 }

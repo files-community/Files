@@ -7,6 +7,83 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Key="CardStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource ButtonBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="8,4,8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="-3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SystemAccentColor}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource SystemAccentColor}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Transparent"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="White"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
+        
+    </Page.Resources>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -20,7 +97,26 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        
+                        <Setter Target="b0.Width" Value="125"/>
+                        <Setter Target="b0.Height" Value="225"/>
+
+                        <Setter Target="b1.Width" Value="125"/>
+                        <Setter Target="b1.Height" Value="225"/>
+
+                        <Setter Target="b2.Width" Value="125"/>
+                        <Setter Target="b2.Height" Value="225"/>
+
+                        <Setter Target="b3.Width" Value="125"/>
+                        <Setter Target="b3.Height" Value="225"/>
+
+                        <Setter Target="b4.Width" Value="125"/>
+                        <Setter Target="b4.Height" Value="225"/>
+
+                        <Setter Target="b5.Width" Value="125"/>
+                        <Setter Target="b5.Height" Value="225"/>
+
+                        <Setter Target="b6.Width" Value="125"/>
+                        <Setter Target="b6.Height" Value="225"/>
                     </VisualState.Setters>
                 </VisualState>
 
@@ -31,34 +127,26 @@
                     </VisualState.StateTriggers>
 
                     <VisualState.Setters>
-                        
-                        <Setter Target="gvItem0.Width" Value="160"/>
-                        <Setter Target="gvItem1.Width" Value="160"/>
-                        <Setter Target="gvItem2.Width" Value="160"/>
-                        <Setter Target="gvItem3.Width" Value="160"/>
-                        <Setter Target="gvItem4.Width" Value="160"/>
-                        <Setter Target="gvItem5.Width" Value="160"/>
+                        <Setter Target="b0.Width" Value="320"/>
+                        <Setter Target="b0.Height" Value="220"/>
 
-                        <Setter Target="gvItem0.Height" Value="200"/>
-                        <Setter Target="gvItem1.Height" Value="200"/>
-                        <Setter Target="gvItem2.Height" Value="200"/>
-                        <Setter Target="gvItem3.Height" Value="200"/>
-                        <Setter Target="gvItem4.Height" Value="200"/>
-                        <Setter Target="gvItem5.Height" Value="200"/>
+                        <Setter Target="b1.Width" Value="320"/>
+                        <Setter Target="b1.Height" Value="220"/>
 
-                        <Setter Target="b0.Width" Value="160"/>
-                        <Setter Target="b1.Width" Value="160"/>
-                        <Setter Target="b2.Width" Value="160"/>
-                        <Setter Target="b3.Width" Value="160"/>
-                        <Setter Target="b4.Width" Value="160"/>
-                        <Setter Target="b5.Width" Value="160"/>
+                        <Setter Target="b2.Width" Value="320"/>
+                        <Setter Target="b2.Height" Value="220"/>
 
-                        <Setter Target="b0.Height" Value="200" />
-                        <Setter Target="b1.Height" Value="200" />
-                        <Setter Target="b2.Height" Value="200" />
-                        <Setter Target="b3.Height" Value="200" />
-                        <Setter Target="b4.Height" Value="200" />
-                        <Setter Target="b5.Height" Value="200" />
+                        <Setter Target="b3.Width" Value="320"/>
+                        <Setter Target="b3.Height" Value="220"/>
+
+                        <Setter Target="b4.Width" Value="320"/>
+                        <Setter Target="b4.Height" Value="220"/>
+
+                        <Setter Target="b5.Width" Value="320"/>
+                        <Setter Target="b5.Height" Value="220"/>
+
+                        <Setter Target="b6.Width" Value="320"/>
+                        <Setter Target="b6.Height" Value="220"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -68,37 +156,26 @@
                         <AdaptiveTrigger MinWindowWidth="1536"/>
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        
+                        <Setter Target="b0.Width" Value="320"/>
+                        <Setter Target="b0.Height" Value="220"/>
 
-                        <Setter Target="gvItem0.Width" Value="160"/>
-                        <Setter Target="gvItem1.Width" Value="160"/>
-                        <Setter Target="gvItem2.Width" Value="160"/>
-                        <Setter Target="gvItem3.Width" Value="160"/>
-                        <Setter Target="gvItem4.Width" Value="160"/>
-                        <Setter Target="gvItem5.Width" Value="160"/>
+                        <Setter Target="b1.Width" Value="320"/>
+                        <Setter Target="b1.Height" Value="220"/>
 
-                        <Setter Target="gvItem0.Height" Value="200"/>
-                        <Setter Target="gvItem1.Height" Value="200"/>
-                        <Setter Target="gvItem2.Height" Value="200"/>
-                        <Setter Target="gvItem3.Height" Value="200"/>
-                        <Setter Target="gvItem4.Height" Value="200"/>
-                        <Setter Target="gvItem5.Height" Value="200"/>
+                        <Setter Target="b2.Width" Value="320"/>
+                        <Setter Target="b2.Height" Value="220"/>
 
-                        <Setter Target="b0.Width" Value="160"/>
-                        <Setter Target="b1.Width" Value="160"/>
-                        <Setter Target="b2.Width" Value="160"/>
-                        <Setter Target="b3.Width" Value="160"/>
-                        <Setter Target="b4.Width" Value="160"/>
-                        <Setter Target="b5.Width" Value="160"/>
+                        <Setter Target="b3.Width" Value="320"/>
+                        <Setter Target="b3.Height" Value="220"/>
 
-                        <Setter Target="b0.Height" Value="200" />
-                        <Setter Target="b1.Height" Value="200" />
-                        <Setter Target="b2.Height" Value="200" />
-                        <Setter Target="b3.Height" Value="200" />
-                        <Setter Target="b4.Height" Value="200" />
-                        <Setter Target="b5.Height" Value="200" />
+                        <Setter Target="b4.Width" Value="320"/>
+                        <Setter Target="b4.Height" Value="220"/>
 
+                        <Setter Target="b5.Width" Value="320"/>
+                        <Setter Target="b5.Height" Value="220"/>
 
+                        <Setter Target="b6.Width" Value="320"/>
+                        <Setter Target="b6.Height" Value="220"/>
 
                     </VisualState.Setters>
                 </VisualState>
@@ -122,58 +199,74 @@
 
        <ScrollViewer Name="Content">
             <Grid>
-                
+               
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" TextAlignment="Center" Padding="0,170,0,0"/>
-                    <GridView  x:Name="Cards"   HorizontalAlignment="Center"  Padding="20,20,20,20" ScrollViewer.HorizontalScrollBarVisibility="Auto">
-                        <GridViewItem x:Name="gvItem0" Margin="25,25,0,0" Padding="0, 0, 0, 0" >
-                            <controls:DropShadowPanel x:Name="Shadow1" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
-                                <Button  x:Name="b0" Click="b0_Click" Height="250" Width="200" VerticalAlignment="Top" Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="&#xE8FC;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                    <controls:Carousel ItemRotationY="25" SelectedIndex="1" ItemDepth="125"  Orientation="Horizontal" ItemMargin="50" HorizontalAlignment="Stretch" Padding="0,-2,0,0" Margin="0,25,0,0" >
+                        <controls:Carousel.EasingFunction>
+                        <CubicEase EasingMode="EaseOut" />
+                        </controls:Carousel.EasingFunction>
 
-                                </Button>
-                            </controls:DropShadowPanel>
-                        </GridViewItem>
-                        <GridViewItem x:Name="gvItem1"  Margin="25,25, 0,0">
-                            <controls:DropShadowPanel x:Name="Shadow2" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
-                                <Button  x:Name="b1" Click="b1_Click" Height="250" Width="200" VerticalAlignment="Top"   Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="&#xE896;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                        <controls:Carousel.Items>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b0" Click="b0_Click" Height="275" Width="400" VerticalAlignment="Top" Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                        <TextBlock Text="&#xE8FC;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
+                                    <Image Source="Assets/Cards/desktop.jpg" Stretch="Fill"/>
+                                </Grid>
+                            </Button>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b1" Click="b1_Click" Height="275" Width="400" VerticalAlignment="Top"   Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                    <TextBlock Text="&#xE896;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
 
-                                </Button>
-                            </controls:DropShadowPanel>
-                        </GridViewItem>
-                        <GridViewItem  x:Name="gvItem2"  Margin="25,25,0,0">
-                            <controls:DropShadowPanel x:Name="Shadow3" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
-                                <Button x:Name="b2" Click="b2_Click" Height="250" Width="200" VerticalAlignment="Top"   Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                                    <Image Source="Assets/Cards/downloads.jpg" Stretch="Fill"/>
+                                </Grid>
+                            </Button>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b2" Click="b2_Click" Height="275" Width="400" VerticalAlignment="Top"   Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                    <TextBlock Text="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
 
-                                </Button>
-                            </controls:DropShadowPanel>
-                        </GridViewItem>
-                        <GridViewItem  x:Name="gvItem3" Margin="25,25,0,0">
-                            <controls:DropShadowPanel x:Name="Shadow4" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
-                                <Button  x:Name="b3" Click="b3_Click" Height="250" Width="200" VerticalAlignment="Top"  Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="&#xE8B9;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                                    <Image Source="Assets/Cards/documents.jpg" Stretch="Fill"  />
+                                </Grid>
+                            </Button>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b3" Click="b3_Click" Height="275" Width="400" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                    <TextBlock Text="&#xE8B9;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
 
-                                </Button>
-                            </controls:DropShadowPanel>
-                        </GridViewItem>
-                        <GridViewItem  x:Name="gvItem4" Margin="25,25,0,0">
-                            <controls:DropShadowPanel x:Name="Shadow5" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
-                                <Button x:Name="b4" Click="b4_Click" Height="250" Width="200" VerticalAlignment="Top"  Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="&#xEC4F;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
+                                    <Image Source="Assets/Cards/pictures.jpg" Stretch="Fill" />
+                                </Grid>
+                            </Button>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b4" Click="b4_Click" Height="275" Width="400" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                    <TextBlock Text="&#xEC4F;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
 
-                                </Button>
-                            </controls:DropShadowPanel>
-                        </GridViewItem>
-                        <GridViewItem  x:Name="gvItem5" Margin="25,25,0,0" Height="256">
-                            <controls:DropShadowPanel x:Name="Shadow6" BlurRadius="20.0" ShadowOpacity="0.70" Color="Black">
-                                <Button x:Name="b5" Click="b5_Click" Height="250" Width="200" VerticalAlignment="Top"  Foreground="White" Background="{StaticResource SystemControlBackgroundAccentBrush}">
-                                    <TextBlock Text="&#xE8B2;" FontFamily="Segoe MDL2 Assets" FontSize="72"/>
-                                </Button>
-                            </controls:DropShadowPanel>
-                        </GridViewItem>
-                    </GridView>
+                                    <Image Source="Assets/Cards/music.jpg" Stretch="Fill"/>
+                                </Grid>
+
+                            </Button>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b5" Click="b5_Click" Height="275" Width="400" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                    <TextBlock Text="&#xE8B2;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
+
+                                    <Image Source="Assets/Cards/videos.jpg" Stretch="Fill"/>
+                                </Grid>    
+                            </Button>
+                            <Button Style="{StaticResource CardStyle}" x:Name="b6" Click="b6_Click" Height="275" Width="400" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
+                                <Grid>
+                                    <TextBlock Text="&#xE753;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
+
+                                    <Image Source="Assets/Cards/onedrive.jpg" Stretch="Fill"/>
+                                </Grid>    
+                            </Button>
+                                
+                        </controls:Carousel.Items>
+                    </controls:Carousel>
 
                     <ListView HorizontalAlignment="Center" Height="450" VerticalAlignment="Center" Width="1351" Margin="0,0,0,0" Padding="0,50,0,0">
                         <ListView.Header>
@@ -186,6 +279,7 @@
 
             </Grid>
         </ScrollViewer>
+        
 
     </Grid>
 </Page>

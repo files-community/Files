@@ -25,7 +25,6 @@ namespace Files
         {
             this.InitializeComponent();
             this.IsTextScaleFactorEnabled = true;
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
 
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;

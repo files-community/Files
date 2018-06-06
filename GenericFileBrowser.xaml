@@ -116,9 +116,8 @@
         </VisualStateManager.VisualStateGroups>
 
 
-
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="White" Margin="0,0,0,0">
-
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,300,0,0" Canvas.ZIndex="5"/>
             <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top">
                 <Button BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
 
@@ -190,8 +189,8 @@
                         </MenuFlyout>
                     </controls:DataGrid.Resources>
 
-   
-                    
+
+
                     <controls:DataGrid.Columns>
                         <controls:DataGridTemplateColumn>
                             <controls:DataGridTemplateColumn.CellTemplate>
@@ -219,9 +218,9 @@
             </Grid>
             <Grid x:Name="ProgressBox" Visibility="{x:Bind local:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
                 <Rectangle Fill="White" Stroke="Blue" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind local:ItemViewModel.PUIH.Header}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
+                <TextBlock Text="{x:Bind local:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
                 <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175"/>
-                <TextBlock Text="{x:Bind local:ItemViewModel.PUIP.Path}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
+                <TextBlock Text="{x:Bind local:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
                 <ProgressBar Name="pbar"  Value="{x:Bind local:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
             </Grid>
         </Grid>

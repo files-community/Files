@@ -35,7 +35,6 @@ namespace Files
             string env = Environment.ExpandEnvironmentVariables("%userprofile%");
             
             this.IsTextScaleFactorEnabled = true;
-            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(500, 500));
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -43,6 +42,8 @@ namespace Files
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ProgressBox.Visibility = Visibility.Collapsed;
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
             data = AllView;
             RemoveHiddenColumns();
 
@@ -52,9 +53,7 @@ namespace Files
         public static void RemoveHiddenColumns()
         {
             if (data.Columns.Count > 5)
-            {
-                // 385,300, 150
-                
+            {   
                 data.Columns[5].Visibility = Visibility.Collapsed;
                 data.Columns[6].Visibility = Visibility.Collapsed;
                 data.Columns[7].Visibility = Visibility.Collapsed;
@@ -62,7 +61,6 @@ namespace Files
                 data.Columns[9].Visibility = Visibility.Collapsed;
                 data.Columns[10].Visibility = Visibility.Collapsed;
                 data.Columns[11].Visibility = Visibility.Collapsed;
-                //data.Columns[12].Visibility = Visibility.Collapsed;
             }
             else
             {
@@ -351,7 +349,10 @@ namespace Files
 
         private static ProgressUIPath pUIp = new ProgressUIPath();
         public static ProgressUIPath PUIP { get { return ItemViewModel.pUIp; } }
-        
+
+        private static EmptyFolderTextState textState = new EmptyFolderTextState();
+        public static EmptyFolderTextState TextState { get { return ItemViewModel.textState; } }
+
         public async void GetItemsAsync(string path, CancellationToken ct)
         {
             
@@ -366,11 +367,18 @@ namespace Files
             
             if (NumOfItems == 0)
             {
+                GenericFileBrowser.RemoveHiddenColumns();
+                TextState.isVisible = Visibility.Visible;
                 return;
             }
-            //await Task.Run(CalculateItemSizes);
+
             PUIH.Header = "Loading " + NumOfItems + " items";
-            PVIS.isVisible = Visibility.Visible;
+
+            if(NumOfItems >= 75)
+            {
+                PVIS.isVisible = Visibility.Visible;
+            }
+
             foreach (StorageFolder fol in folderList)
             {
                 if (ct.IsCancellationRequested)
@@ -426,8 +434,10 @@ namespace Files
                     GenericFileBrowser.RemoveHiddenColumns();
                 }
             }
-            PVIS.isVisible = Visibility.Collapsed;
-
+            if (NumOfItems >= 75)
+            {
+                PVIS.isVisible = Visibility.Collapsed;
+            }
         }
 
         
@@ -671,5 +681,35 @@ namespace Files
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
+    }
+
+    public class EmptyFolderTextState : INotifyPropertyChanged
+    {
+
+
+        public Visibility _isVisible;
+        public Visibility isVisible
+        {
+            get
+            {
+                return _isVisible;
+            }
+
+            set
+            {
+                if (value != _isVisible)
+                {
+                    _isVisible = value;
+                    NotifyPropertyChanged("isVisible");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+
     }
 }

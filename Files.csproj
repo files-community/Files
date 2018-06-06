@@ -23,6 +23,8 @@
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+    <AppxPackageDir>C:\Users\lukeb\Documents\Packages\</AppxPackageDir>
+    <PackageCertificateThumbprint>BF3562C511CDFB8E5D64D0E2417E07562882BB2B</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -125,6 +127,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\abstract_HeroImage.jpg" />
+    <Content Include="Assets\Cards\desktop.jpg" />
+    <Content Include="Assets\Cards\documents.jpg" />
+    <Content Include="Assets\Cards\downloads.jpg" />
+    <Content Include="Assets\Cards\music.jpg" />
+    <Content Include="Assets\Cards\onedrive.jpg" />
+    <Content Include="Assets\Cards\pictures.jpg" />
+    <Content Include="Assets\Cards\videos.jpg" />
     <Content Include="Assets\friends_HeroImage.jpg" />
     <Content Include="Assets\screenshot.png" />
     <Content Include="Properties\Default.rd.xml" />
