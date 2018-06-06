@@ -113,7 +113,9 @@ namespace Files
 
                 if (clickedOnItem.FileExtension == "Folder")
                 {
-                   
+                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                    History.FowardList.Clear();
+                    ItemViewModel.FS.isEnabled = false;
                     ViewModel.filesAndFolders.Clear();
                     this.ViewModel = new ItemViewModel(clickedOnItem.FilePath);
 
@@ -139,35 +141,33 @@ namespace Files
 
         }
 
-        bool CancelledBefore = false;
 
         private void Back_Click(object sender, RoutedEventArgs e)
         {
 
             if (History.HistoryList.Count() > 1)
             {
-                if (!CancelledBefore)
-                {
-                    //ItemViewModel.CancellationTokenSource.Cancel();
-                    
-                }
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 Debug.WriteLine("\nBefore Removals");
                 ArrayDiag.DumpArray();
+                History.AddToFowardList(History.HistoryList[History.HistoryList.Count() - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
-                //History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
                 Debug.WriteLine("\nAfter Removals");
                 ArrayDiag.DumpArray();
-                this.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1]);     // Minus two in order to take into account the correct index without interference from the folder being navigated to
+                this.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
                 ViewModel.filesAndFolders.Clear();
                 VisiblePath.Text = History.HistoryList[History.HistoryList.Count() - 1];
                 this.Bindings.Update();
                 
-
-                if (!CancelledBefore)
+                if(History.FowardList.Count == 0)
                 {
-                    //ItemViewModel.CancellationTokenSource = new CancellationTokenSource();
-                    CancelledBefore = true;
+                    ItemViewModel.FS.isEnabled = false;
                 }
+                else if(History.FowardList.Count > 0)
+                {
+                    ItemViewModel.FS.isEnabled = true;
+                }
+                
 
             }
             
@@ -176,7 +176,26 @@ namespace Files
 
         private void Foward_Click(object sender, RoutedEventArgs e)
         {
+            if(History.FowardList.Count() > 0)
+            {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                this.ViewModel = new ItemViewModel(History.FowardList[History.FowardList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
+                ViewModel.filesAndFolders.Clear();
+                VisiblePath.Text = History.FowardList[History.FowardList.Count() - 1];
+                History.FowardList.RemoveAt(History.FowardList.Count() - 1);
+                this.Bindings.Update();
+                ArrayDiag.DumpFowardArray();
 
+                if (History.FowardList.Count == 0)
+                {
+                    ItemViewModel.FS.isEnabled = false;
+                }
+                else if (History.FowardList.Count > 0)
+                {
+                    ItemViewModel.FS.isEnabled = true;
+                }
+
+            }
         }
 
         private void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -303,24 +322,11 @@ namespace Files
             }
         }
 
-        public static CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
-        public static CancellationTokenSource CancellationTokenSource
-        {
-            get
-            {
-                return cancellationTokenSource;
-            }
-            set
-            {
-
-            }
-        }
-
         public ItemViewModel(string ViewPath)
         {
 
             gottenPath = ViewPath;
-            GetItemsAsync(ViewPath, CancellationTokenSource.Token);
+            GetItemsAsync(ViewPath);
 
             History.AddToHistory(ViewPath);
             //ArrayDiag.DumpArray();
@@ -353,7 +359,7 @@ namespace Files
         private static EmptyFolderTextState textState = new EmptyFolderTextState();
         public static EmptyFolderTextState TextState { get { return ItemViewModel.textState; } }
 
-        public async void GetItemsAsync(string path, CancellationToken ct)
+        public async void GetItemsAsync(string path)
         {
             
             PUIP.Path = path;
@@ -381,37 +387,21 @@ namespace Files
 
             foreach (StorageFolder fol in folderList)
             {
-                if (ct.IsCancellationRequested)
-                {
-                    return;
-                }
-                else
-                {  
-
-                    int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-                    UpdateProgUI(ProgressReported);
-                    gotFolName = fol.Name.ToString();
-                    gotFolDate = fol.DateCreated.ToString();
-                    gotFolPath = fol.Path.ToString();
-                    gotFolType = "Folder";
-                    gotFolImg = Visibility.Visible;
-                    gotFileImgVis = Visibility.Collapsed;
-                    this.filesAndFolders.Add(new ListedItem() { FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                int ProgressReported = (NumItemsRead * 100 / NumOfItems);
+                UpdateProgUI(ProgressReported);
+                gotFolName = fol.Name.ToString();
+                gotFolDate = fol.DateCreated.ToString();
+                gotFolPath = fol.Path.ToString();
+                gotFolType = "Folder";
+                gotFolImg = Visibility.Visible;
+                gotFileImgVis = Visibility.Collapsed;
+                this.filesAndFolders.Add(new ListedItem() { FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
                     
-                    NumItemsRead++;
-                    GenericFileBrowser.RemoveHiddenColumns();
-                }
-
+                NumItemsRead++;
+                GenericFileBrowser.RemoveHiddenColumns();
             }
             foreach (StorageFile f in fileList)
             {
-                if (ct.IsCancellationRequested)
-                {
-                    return;
-                }
-                else
-                {
-                    
                     int ProgressReported = (NumItemsRead * 100 / NumOfItems);
                     UpdateProgUI(ProgressReported);
                     gotName = f.Name.ToString();
@@ -432,7 +422,6 @@ namespace Files
                     this.filesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath});
                     NumItemsRead++;
                     GenericFileBrowser.RemoveHiddenColumns();
-                }
             }
             if (NumOfItems >= 75)
             {
@@ -494,6 +483,23 @@ namespace Files
                 HistoryList[24] = PathToBeAdded;                        // Add new item in freed spot
             }
         }
+
+        public static List<string> FowardList = new List<string>();
+        public static void AddToFowardList(string PathToBeAdded)
+        {
+            if(FowardList.Count > 0)
+            {
+                if (FowardList[FowardList.Count - 1] != PathToBeAdded)
+                {
+                    FowardList.Add(PathToBeAdded);
+                }
+            }
+            else
+            {
+                FowardList.Add(PathToBeAdded);
+            }
+
+        }
     }
 
     public class ArrayDiag
@@ -502,6 +508,15 @@ namespace Files
         public static void DumpArray()
         {
             foreach (string s in History.HistoryList)
+            {
+                Debug.Write(s + ", ");
+            }
+            Debug.WriteLine(" ");
+        }
+
+        public static void DumpFowardArray()
+        {
+            foreach (string s in History.FowardList)
             {
                 Debug.Write(s + ", ");
             }

@@ -202,7 +202,7 @@
                
                 <StackPanel Orientation="Vertical">
                     <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" TextAlignment="Center" Padding="0,170,0,0"/>
-                    <controls:Carousel ItemRotationY="25" SelectedIndex="1" ItemDepth="125"  Orientation="Horizontal" ItemMargin="50" HorizontalAlignment="Stretch" Padding="0,-2,0,0" Margin="0,25,0,0" >
+                    <controls:Carousel ItemRotationY="15" SelectedIndex="1" ItemDepth="125"  Orientation="Horizontal" ItemMargin="50" HorizontalAlignment="Stretch" Padding="0,-2,0,0" Margin="0,25,0,0" >
                         <controls:Carousel.EasingFunction>
                         <CubicEase EasingMode="EaseOut" />
                         </controls:Carousel.EasingFunction>

@@ -60,66 +60,50 @@
         
         <Grid Background="Transparent" Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" version1803:Canvas.ZIndex="5">
         </Grid>
-        <Grid Visibility="Collapsed" Canvas.ZIndex="3" x:Name="WelcomeGrid">
-            <Rectangle Height="1080" Fill="{StaticResource InAppAcrylic}"/>
-            <RelativePanel>
-                <Rectangle Height="600" Width="1000" Fill="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-                <RelativePanel Height="600" Width="1000" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
-                    <TextBlock FontSize="48" HorizontalAlignment="Left" Margin="50,25,0,0" Text="Files Setup" TextWrapping="Wrap" VerticalAlignment="Top" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"/>
-                    <TextBlock HorizontalAlignment="Left" Margin="50,100,0,0" Text="Hey There! To get started, all you need to do is grant access to your files. In the next window, select your Local Disk and then choose Select Folder. " FontSize="18" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" Width="790" RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True"/>
-                    <Button Content="Grant Access" Height="45" Width="200" Background="#FF0E62CA" Foreground="White" Click="Button_Click" Margin="0,0,50,25" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"/>
-                    <Image Width="500" Height="300" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True" Margin="0,75,0,0" Source="Assets/screenshot.png" Stretch="UniformToFill"/>
-                    <TextBlock x:Name="diagText" HorizontalAlignment="Left" Height="20" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top"/>
-
-                </RelativePanel>
-            </RelativePanel>
-        </Grid>
-
-
-
+       
         <NavigationView Background="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" AlwaysShowHeader="False" IsPaneOpen="True"  IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemInvoked" VerticalAlignment="Stretch" >
             
 
                 <NavigationView.MenuItems>
 
                     <NavigationViewItemHeader Content="Libraries"/>
-                    <NavigationViewItem x:Name="homeIc" IsSelected="True" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI">
+                    <NavigationViewItem x:Name="homeIc" IsSelected="True" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DesktopPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DownloadsPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DocumentsPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="PicturesPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE8B9;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="MusicPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 
-                    <NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="VideosPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
@@ -127,12 +111,12 @@
 
                     <NavigationViewItemHeader Content="Drives"/>
 
-                    <NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0">
+                    <NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
-                <NavigationViewItem Content="OneDrive" x:Name="OneD_IC">
+                <NavigationViewItem Content="OneDrive" x:Name="OneD_IC" Tag="OneDrivePage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>

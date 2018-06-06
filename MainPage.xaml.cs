@@ -98,40 +98,8 @@ namespace Files
             }
         }
 
-        public async void WelcomeFileCheck()
-        {
-            string env = Environment.ExpandEnvironmentVariables("%userprofile%");
-            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-            string cachePath = storageFolder.Path + @"\welcome.txt";
-            diagText.Text = cachePath;
-            FileInfo fInfo = new FileInfo(cachePath);
-            if (await storageFolder.TryGetItemAsync("welcome.txt") == null)
-            {
-                WelcomeGrid.Visibility = Visibility.Visible;
-            }
-
-        }
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
-        {
-            FolderPicker folderPicker = new FolderPicker();
-            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.ComputerFolder;
-            folderPicker.FileTypeFilter.Add("*");
-
-            StorageFolder folder = await folderPicker.PickSingleFolderAsync();
-
-            if (folder != null)
-            {
-                WelcomeGrid.Visibility = Visibility.Collapsed;
-
-                var fal = Windows.Storage.AccessCache.StorageApplicationPermissions.FutureAccessList;
-                fal.Clear();
-                fal.AddOrReplace("CDriveToken", folder);
-
-                Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-                Windows.Storage.StorageFile sampleFile = await storageFolder.CreateFileAsync("welcome.txt", Windows.Storage.CreationCollisionOption.ReplaceExisting);
-            }
-        }
+        
+        
 
         private void auto_suggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
