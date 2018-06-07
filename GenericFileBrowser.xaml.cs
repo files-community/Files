@@ -380,7 +380,7 @@ namespace Files
 
             PUIH.Header = "Loading " + NumOfItems + " items";
 
-            if(NumOfItems >= 75)
+            if(NumOfItems >= 250)
             {
                 PVIS.isVisible = Visibility.Visible;
             }

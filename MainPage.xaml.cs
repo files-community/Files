@@ -1,19 +1,18 @@
 ﻿using System;
-using System.IO;
+using System.ComponentModel;
+using System.Diagnostics;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Storage.Pickers;
-using Windows.Storage;
 
 namespace Files
 {
 
     public sealed partial class MainPage : Page
     {
+        public static NavigationView nv;
         string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -28,25 +27,22 @@ namespace Files
 
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
-            //DragArea.Height = CoreTitleBar.Height;
             Window.Current.SetTitleBar(DragArea);
-
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
+            nv = navView;
             
-
-
-            //WelcomeFileCheck(); - Legacy Function to be Removed Eventually
-            ContentFrame.Navigate(typeof(YourHome));
-            auto_suggest.IsEnabled = true;
-            auto_suggest.PlaceholderText = "Search Recents";
         }
 
-        private void navView_ItemInvoked(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private static SelectItem select = new SelectItem();
+        public static SelectItem Select { get { return MainPage.select; } }
+
+        private void navView_ItemSelected(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
             NavigationViewItem item = args.SelectedItem as NavigationViewItem;
+            
             if (item.Name == "homeIc")
             {
                 ContentFrame.Navigate(typeof(YourHome));
@@ -105,5 +101,52 @@ namespace Files
         {
             
         }
+
+        private void navView_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+            foreach (NavigationViewItemBase item in navView.MenuItems)
+            {
+                if(item is NavigationViewItem && item.Name.ToString() == "homeIc")
+                {
+                    Select.itemSelected = item;
+                    break;
+                }
+            }
+            auto_suggest.IsEnabled = true;
+            auto_suggest.PlaceholderText = "Search Recents";
+        }
+    }
+
+
+    public class SelectItem : INotifyPropertyChanged
+    {
+
+
+        public NavigationViewItemBase _itemSelected;
+        public NavigationViewItemBase itemSelected
+        {
+            get
+            {
+                return _itemSelected;
+            }
+
+            set
+            {
+                if (value != _itemSelected)
+                {
+                    _itemSelected = value;
+                    NotifyPropertyChanged("itemSelected");
+                    Debug.WriteLine("NotifyPropertyChanged was called successfully for NavView Selection");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+
     }
 }

@@ -1,12 +1,10 @@
 ﻿<Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:version1803="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     x:Class="Files.MainPage"
-    x:Name="page"
+    xmlns:local="using:Files"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -58,16 +56,16 @@
 
 
         
-        <Grid Background="Transparent" Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" version1803:Canvas.ZIndex="5">
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" Canvas.ZIndex="5">
         </Grid>
        
-        <NavigationView Background="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" AlwaysShowHeader="False" IsPaneOpen="True"  IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemInvoked" VerticalAlignment="Stretch" >
+        <NavigationView SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:FieldModifier="public" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
             
 
                 <NavigationView.MenuItems>
 
                     <NavigationViewItemHeader Content="Libraries"/>
-                    <NavigationViewItem x:Name="homeIc" IsSelected="True" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
+                    <NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
                         <NavigationViewItem.Icon>
                             <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>

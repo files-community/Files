@@ -23,42 +23,91 @@ namespace Files
         public YourHome()
         {
             this.InitializeComponent();
+            
         }
 
         private void b0_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), DesktopPath);
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
 
         private void b1_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
 
         private void b2_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
 
         private void b3_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), PicturesPath);
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
 
         private void b4_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), MusicPath);
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
 
         private void b5_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), VideosPath);
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
 
         private void b6_Click(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            {
+                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                {
+                    MainPage.Select.itemSelected = NavItemChoice;
+                    break;
+                }
+            }
         }
     }
 }
