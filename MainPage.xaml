@@ -17,48 +17,8 @@
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <!--VisualState to be triggered when window width is 0-863 effective pixels.-->
-                        <AdaptiveTrigger MinWindowHeight="0"/>
-                    </VisualState.StateTriggers>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" Canvas.ZIndex="5"/>
 
-                    <VisualState.Setters>
-
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <!--VisualState to be triggered when window width is >=864 effective pixels.-->
-                        
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        
-                    </VisualState.Setters>
-                </VisualState>
-
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <!--VisualState to be triggered when window width is >=864 effective pixels.-->
-                        
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        
-                    </VisualState.Setters>
-                </VisualState>
-
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-
-
-
-        
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" Canvas.ZIndex="5">
-        </Grid>
-       
         <NavigationView SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:FieldModifier="public" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
             
 

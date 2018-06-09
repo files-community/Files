@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
@@ -240,6 +241,28 @@ namespace Files
 
         }
 
+        private void AllView_DragOver(object sender, DragEventArgs e)
+        {
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+            
+        }
+
+        private async void AllView_DropAsync(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                var items = await e.DataView.GetStorageItemsAsync();
+                if(items.Count() == 1)
+                {
+                    DataPackage data = new DataPackage();
+                    foreach(IStorageItem storageItem in items)
+                    {
+                        var itemPath = storageItem.Path;
+
+                    } 
+                }
+            }
+        }
     }
     public class ListedItem
     {

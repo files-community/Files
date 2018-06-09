@@ -135,7 +135,7 @@
             <Grid Padding="50,200,50,0">
 
 
-                <controls:DataGrid IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" x:Name="AllView" SelectionMode="Single" RightTapped="AllView_RightTapped" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0" HorizontalAlignment="Left">
+                <controls:DataGrid Drop="AllView_DropAsync" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" x:Name="AllView" SelectionMode="Single" RightTapped="AllView_RightTapped" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
                     <controls:DataGrid.Resources>
                         <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
