@@ -1,7 +1,7 @@
 <h1>Files for Windows 10</h1>
 <h3>Meet Files, a free and open-sourced File Manager for Windows 10.</h3>
-<img src="https://github.com/duke7553/files-windows-10/blob/master/Assets/FilesHome.PNG" width="800px">
-<img src="https://github.com/duke7553/files-windows-10/blob/master/Assets/FilesDrive.PNG" width="800px">
+<img src="https://gitlab.com/duke7553/files-windows-10/blob/master/Assets/FilesHome.PNG" width="800px">
+<img src="https://gitlab.com/duke7553/files-windows-10/blob/master/Assets/FilesDrive.PNG" width="800px">
 <p>Created from the ground up to look and feel amazing, Files is built to replace the outdated Windows File Explorer.</p>
 <br>
 <h3>Download Files</h3>
@@ -9,6 +9,6 @@
 <br>
 <p>There are many helpful features on the way! If you have a good technical skillset and a desire to contribute, feel free to boot up Visual Studio and crack open the source code. As you can tell, Files is still in its early stages of development and very incomplete.</p>
 
-<img src="https://github.com/duke7553/files-windows-10/blob/master/Assets/FeatureMap_Files.png" width="800px">
+<img src="https://gitlab.com/duke7553/files-windows-10/blob/master/Assets/FeatureMap_Files.png" width="800px">
 
 <p><i>Project Started By Luke Blevins</i></p>
