@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="Files.PhotoAlbum"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:local2="using:ItemListPresenter"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    xmlns:Interactions="using:Interact"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Name="PhotoAlbumViewer">
+
+    <Page.Resources>
+        <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.6" FallbackColor="White"/>
+    </Page.Resources>
+    
+    <Grid Background="{ThemeResource RegAcrylic}" Tag="{x:Bind Tag, Mode=OneWay}" HorizontalAlignment="Stretch">
+        
+        <controls:DropShadowPanel HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Stretch" >
+        <ListView Background="White"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="300" >
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="275">
+                            <Grid Name="Picture" Background="White" Visibility="{Binding FileIconVis}">
+                                <Image Source="{Binding FileImg}"/>
+                            </Grid>
+                            
+                            <Grid Name="Album" Visibility="{Binding FolderImg}" Width="300">
+                                <controls:DropShadowPanel>
+                                    <Grid Background="White">
+                                        <FontIcon Foreground="Black" FontSize="148" Glyph="&#xE7C5;"/>
+                                        <TextBlock Text="{Binding FileName}"/>
+                                    </Grid>
+                                </controls:DropShadowPanel>
+                            </Grid>
+                        </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        </controls:DropShadowPanel>
+        <Image Name="LargeDisplayedImage" Source="{x:Bind Interactions:Interaction.LIS.image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        
+        
+    </Grid>
+</Page>

@@ -65,7 +65,7 @@ namespace Files
             }
             else if (item.Name == "PicturesIC")
             {
-                ContentFrame.Navigate(typeof(GenericFileBrowser), PicturesPath);
+                ContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                 auto_suggest.PlaceholderText = "Search Pictures";
             }
             else if (item.Name == "MusicIC")

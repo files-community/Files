@@ -23,7 +23,7 @@
             
 
                 <NavigationView.MenuItems>
-
+               
                     <NavigationViewItemHeader Content="Libraries"/>
                     <NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
                         <NavigationViewItem.Icon>

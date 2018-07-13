@@ -6,7 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Files"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:local1="using:Navigation"
+    xmlns:local2="using:ItemListPresenter"
+    Name="GenericItemView"
     mc:Ignorable="d" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
     <Page.Resources>
@@ -19,8 +21,8 @@
             <FadeOutThemeAnimation Storyboard.TargetName="Shadow1"/>
 
         </Storyboard>
-        <local:BackState x:Key="BackObject"/>
-        <local:FowardState x:Key="FowardObject"/>
+        <local1:BackState x:Key="BackObject"/>
+        <local1:FowardState x:Key="FowardObject"/>
         <Style x:Key="FluentHistoryButton" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/>
             <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
@@ -117,62 +119,64 @@
 
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="White" Margin="0,0,0,0">
-            <TextBlock Name="EmptyText" Visibility="{x:Bind local:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,300,0,0" Canvas.ZIndex="5"/>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,275,0,0" Canvas.ZIndex="5"/>
             <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top">
-                <Button BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Click="Back_Click" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
+                <Button  BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
 
                 </Button>
                 <Grid DataContext="{Binding FowardObject}">
-                    <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Click="Foward_Click" Height="50" Width="50" HorizontalAlignment="Left"/>
+                    <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Foward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
                 </Grid>
-                <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50"/>
+                <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50" />
                 <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="50,126,50,25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
-                    <TextBlock x:Name="VisiblePath" Text="C:\" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
+                    <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
                 </ScrollViewer>
 
             </Grid>
 
             <Grid Padding="50,200,50,0">
 
-
-                <controls:DataGrid Drop="AllView_DropAsync" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" x:Name="AllView" SelectionMode="Single" RightTapped="AllView_RightTapped" SelectionChanged="AllView_ItemClick" ItemsSource="{x:Bind ViewModel.FilesAndFolders}" Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
-                    <controls:DataGrid.Resources>
+                <controls:DataGrid x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  SelectionMode="Single" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
+                    
+                <controls:DataGrid.Resources>
+                        
+                        
                         <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="Open" Name="OpenItem" Click="OpenItem_Click">
+                                <MenuFlyoutItem Text="Open" Name="OpenItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE7AC;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
 
-                                <MenuFlyoutItem Text="Share" Name="ShareItem" Click="ShareItem_Click">
+                                <MenuFlyoutItem Text="Share" Name="ShareItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem" Click="ScanItem_Click">
+                                <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE83D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Delete" Name="DeleteItem" Click="DeleteItem_Click">
+                                <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE74D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Rename" Name="RenameItem" Click="RenameItem_Click">
+                                <MenuFlyoutItem Text="Rename" Name="RenameItem" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8AC;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Cut" Name="CutItem" Click="CutItem_Click">
+                                <MenuFlyoutItem Text="Cut" Name="CutItem" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8C6;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Copy" Name="CopyItem" Click="CopyItem_Click">
+                                <MenuFlyoutItem Text="Copy" Name="CopyItem" >
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE8C8;"/>
                                     </MenuFlyoutItem.Icon>
@@ -189,7 +193,7 @@
                         </MenuFlyout>
                     </controls:DataGrid.Resources>
 
-
+                    
 
                     <controls:DataGrid.Columns>
                         <controls:DataGridTemplateColumn>
@@ -216,12 +220,12 @@
             <Grid Visibility="Collapsed" Background="{StaticResource Accent}" VerticalAlignment="Bottom" Height="30">
 
             </Grid>
-            <Grid x:Name="ProgressBox" Visibility="{x:Bind local:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
+            <Grid x:Name="ProgressBox" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
                 <Rectangle Fill="White" Stroke="Blue" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind local:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
+                <TextBlock Text="{x:Bind local2:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
                 <Button Content="Cancel" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175"/>
-                <TextBlock Text="{x:Bind local:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
-                <ProgressBar Name="pbar"  Value="{x:Bind local:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
+                <TextBlock Text="{x:Bind local2:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
+                <ProgressBar Name="pbar"  Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
             </Grid>
         </Grid>
 
