@@ -158,7 +158,7 @@ namespace ItemListPresenter
             folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
             QueryOptions options = new QueryOptions()
             {
-                FolderDepth = FolderDepth.Deep,
+                FolderDepth = FolderDepth.Shallow,
                 IndexerOption = IndexerOption.UseIndexerWhenAvailable
 
             };
@@ -171,17 +171,17 @@ namespace ItemListPresenter
             SortEntry sort = new SortEntry()
             {
                 AscendingOrder = true,
-                PropertyName = "System.FileName"
-                
+                //PropertyName = "System.FileName"
+                PropertyName = "System.ItemNameDisplay"
             };
             options.SortOrder.Add(sort);
-            uint index = 0;
-
+            uint fol_index = 0;
+            uint file_index = 0;
             const uint step = 100;
             StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
             StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
-            folderList = await folderQueryResult.GetFoldersAsync(index, step);                          // Create a read-only list of all folders in location
-            fileList = await fileQueryResult.GetFilesAsync(index, step);                                // Create a read-only list of all files in location
+            folderList = await folderQueryResult.GetFoldersAsync(fol_index, step);                          // Create a read-only list of all folders in location
+            fileList = await fileQueryResult.GetFilesAsync(file_index, step);                                // Create a read-only list of all files in location
             int NumOfFolders = folderList.Count;                                                        // How many folders are in the list
             int NumOfFiles = fileList.Count;                                                            // How many files are in the list
             int NumOfItems = NumOfFiles + NumOfFolders;
@@ -200,57 +200,79 @@ namespace ItemListPresenter
                 PVIS.isVisible = Visibility.Visible;
             }
 
-            foreach (StorageFolder fol in folderList)
+            while(NumOfFolders > 0)
             {
-                int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-                UpdateProgUI(ProgressReported);
-                gotFolName = fol.Name.ToString();
-                gotFolDate = fol.DateCreated.ToString();
-                gotFolPath = fol.Path.ToString();
-                gotFolType = "Folder";
-                gotFolImg = Visibility.Visible;
-                gotFileImgVis = Visibility.Collapsed;
-                FilesAndFolders.Add(new ListedItem() { FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                foreach (StorageFolder fol in folderList)
+                {
+                    int ProgressReported = (NumItemsRead * 100 / NumOfItems);
+                    UpdateProgUI(ProgressReported);
+                    gotFolName = fol.Name.ToString();
+                    gotFolDate = fol.DateCreated.ToString();
+                    gotFolPath = fol.Path.ToString();
+                    gotFolType = "Folder";
+                    gotFolImg = Visibility.Visible;
+                    gotFileImgVis = Visibility.Collapsed;
+                    FilesAndFolders.Add(new ListedItem() { FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
 
-                NumItemsRead++;
+                    NumItemsRead++;
+                }
+                fol_index += step;
+                folderList = await folderQueryResult.GetFoldersAsync(fol_index, step);
+                if(folderList.Count == 0)
+                {
+                    break;
+                }
             }
-            foreach (StorageFile f in fileList)
+
+            while(NumOfFiles > 0)
             {
-                int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-                UpdateProgUI(ProgressReported);
-                gotName = f.Name.ToString();
-                gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
-                gotType = f.FileType.ToString();
-                gotPath = f.Path.ToString();
-                gotFolImg = Visibility.Collapsed;
-                if(isPhotoAlbumMode == false)
+                foreach (StorageFile f in fileList)
                 {
-                    const uint requestedSize = 20;
-                    const ThumbnailMode thumbnailMode = ThumbnailMode.ListView;
-                    const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
-                    gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
-                }
-                else
-                {
-                    const uint requestedSize = 275;
-                    const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
-                    const ThumbnailOptions thumbnailOptions = ThumbnailOptions.ResizeThumbnail;
-                    gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                    int ProgressReported = (NumItemsRead * 100 / NumOfItems);
+                    UpdateProgUI(ProgressReported);
+                    gotName = f.Name.ToString();
+                    gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
+                    gotType = f.FileType.ToString();
+                    gotPath = f.Path.ToString();
+                    gotFolImg = Visibility.Collapsed;
+                    if (isPhotoAlbumMode == false)
+                    {
+                        const uint requestedSize = 20;
+                        const ThumbnailMode thumbnailMode = ThumbnailMode.ListView;
+                        const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
+                        gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                    }
+                    else
+                    {
+                        const uint requestedSize = 275;
+                        const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
+                        const ThumbnailOptions thumbnailOptions = ThumbnailOptions.ResizeThumbnail;
+                        gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                    }
+
+                    BitmapImage icon = new BitmapImage();
+                    if (gotFileImg != null)
+                    {
+                        icon.SetSource(gotFileImg.CloneStream());
+                    }
+                    gotFileImgVis = Visibility.Visible;
+                    FilesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                    NumItemsRead++;
                 }
 
-                BitmapImage icon = new BitmapImage();
-                if (gotFileImg != null)
+                file_index += step;
+                fileList = await fileQueryResult.GetFilesAsync(file_index, step);
+                if (fileList.Count == 0)
                 {
-                    icon.SetSource(gotFileImg.CloneStream());
+                    break;
                 }
-                gotFileImgVis = Visibility.Visible;
-                FilesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
-                NumItemsRead++;
             }
+
             if (NumOfItems >= 75)
             {
                 PVIS.isVisible = Visibility.Collapsed;
             }
+
         }
 
 
