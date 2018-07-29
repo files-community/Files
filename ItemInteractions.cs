@@ -61,7 +61,7 @@ namespace Interact
                     if (clickedOnItem.FileExtension == "Folder")
                     {
                         ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                        History.FowardList.Clear();
+                        History.ForwardList.Clear();
                         ItemViewModel.FS.isEnabled = false;
                         ItemViewModel.FilesAndFolders.Clear();
                         ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, false);
@@ -81,23 +81,23 @@ namespace Interact
            
         }
 
-        public static async void PhotoAlbumItemList_Click(object sender, ItemClickEventArgs e)
+        public static void PhotoAlbumItemList_Click(object sender, ItemClickEventArgs e)
         {
-            var index = PhotoAlbum.lv.SelectedIndex;
+            var index = PhotoAlbum.gv.SelectedIndex;
             var clickedOnItem = ItemViewModel.FilesAndFolders[index];
             Debug.WriteLine("Reached PhotoAlbumViewer event");
 
             if (clickedOnItem.FileExtension == "Folder")
             {
-                
+
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                History.FowardList.Clear();
+                History.ForwardList.Clear();
                 ItemViewModel.FS.isEnabled = false;
                 ItemViewModel.FilesAndFolders.Clear();
                 ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, true);
                 GenericFileBrowser.P.path = clickedOnItem.FilePath;
                 GenericFileBrowser.UpdateAllBindings();
-                
+
             }
             else
             {
@@ -130,7 +130,7 @@ namespace Interact
             if (RowData.FileExtension == "Folder")
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                History.FowardList.Clear();
+                History.ForwardList.Clear();
                 ItemViewModel.FS.isEnabled = false;
                 ItemViewModel.FilesAndFolders.Clear();
                 ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, false);

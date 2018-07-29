@@ -8,7 +8,7 @@
 //
 //       http://www.apache.org/licenses/LICENSE-2.0
 //
-//  ---- This file contains code for the back and foward navigation ---- 
+//  ---- This file contains code for the back and forward navigation ---- 
 //
 
 
@@ -54,19 +54,19 @@ namespace Navigation
             }
         }
 
-        public static List<string> FowardList = new List<string>();
-        public static void AddToFowardList(string PathToBeAdded)
+        public static List<string> ForwardList = new List<string>();
+        public static void AddToForwardList(string PathToBeAdded)
         {
-            if (FowardList.Count > 0)
+            if (ForwardList.Count > 0)
             {
-                if (FowardList[FowardList.Count - 1] != PathToBeAdded)
+                if (ForwardList[ForwardList.Count - 1] != PathToBeAdded)
                 {
-                    FowardList.Add(PathToBeAdded);
+                    ForwardList.Add(PathToBeAdded);
                 }
             }
             else
             {
-                FowardList.Add(PathToBeAdded);
+                ForwardList.Add(PathToBeAdded);
             }
 
         }
@@ -84,9 +84,9 @@ namespace Navigation
             Debug.WriteLine(" ");
         }
 
-        public static void DumpFowardArray()
+        public static void DumpForwardArray()
         {
-            foreach (string s in History.FowardList)
+            foreach (string s in History.ForwardList)
             {
                 Debug.Write(s + ", ");
             }
@@ -125,7 +125,7 @@ namespace Navigation
 
     }
 
-    public class FowardState : INotifyPropertyChanged
+    public class ForwardState : INotifyPropertyChanged
     {
 
 
@@ -160,13 +160,17 @@ namespace Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
+            if (ItemViewModel.IsTerminated == false)
+            {
+                ItemViewModel.IsStopRequested = true;
+            }
 
             if (History.HistoryList.Count() > 1)
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 Debug.WriteLine("\nBefore Removals");
                 ArrayDiag.DumpArray();
-                History.AddToFowardList(History.HistoryList[History.HistoryList.Count() - 1]);
+                History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
                 Debug.WriteLine("\nAfter Removals");
                 ArrayDiag.DumpArray();
@@ -175,11 +179,11 @@ namespace Navigation
                 GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
                 GenericFileBrowser.UpdateAllBindings();
 
-                if (History.FowardList.Count == 0)
+                if (History.ForwardList.Count == 0)
                 {
                     ItemViewModel.FS.isEnabled = false;
                 }
-                else if (History.FowardList.Count > 0)
+                else if (History.ForwardList.Count > 0)
                 {
                     ItemViewModel.FS.isEnabled = true;
                 }
@@ -187,26 +191,30 @@ namespace Navigation
 
             }
 
-
         }
 
-        public static void Foward_Click(object sender, RoutedEventArgs e)
+        public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            if (History.FowardList.Count() > 0)
+            if(ItemViewModel.IsTerminated == false)
+            {
+                ItemViewModel.IsStopRequested = true;
+            }
+
+            if (History.ForwardList.Count() > 0)
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.ViewModel = new ItemViewModel(History.FowardList[History.FowardList.Count() - 1], false);     // To take into account the correct index without interference from the folder being navigated to
+                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], false);     // To take into account the correct index without interference from the folder being navigated to
                 ItemViewModel.FilesAndFolders.Clear();
-                GenericFileBrowser.P.path = History.FowardList[History.FowardList.Count() - 1];
-                History.FowardList.RemoveAt(History.FowardList.Count() - 1);
+                GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
+                History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
                 GenericFileBrowser.UpdateAllBindings();
-                ArrayDiag.DumpFowardArray();
+                ArrayDiag.DumpForwardArray();
 
-                if (History.FowardList.Count == 0)
+                if (History.ForwardList.Count == 0)
                 {
                     ItemViewModel.FS.isEnabled = false;
                 }
-                else if (History.FowardList.Count > 0)
+                else if (History.ForwardList.Count > 0)
                 {
                     ItemViewModel.FS.isEnabled = true;
                 }

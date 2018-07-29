@@ -27,33 +27,41 @@
     <Page.Resources>
         <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.6" FallbackColor="White"/>
     </Page.Resources>
-    
-    <Grid Background="{ThemeResource RegAcrylic}" Tag="{x:Bind Tag, Mode=OneWay}" HorizontalAlignment="Stretch">
-        
-        <controls:DropShadowPanel HorizontalAlignment="Right" Grid.Column="1" VerticalAlignment="Stretch" >
-        <ListView Background="White"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Margin="0,0,0,0" HorizontalAlignment="Stretch" Width="300" >
-            <ListView.ItemTemplate>
+
+    <Grid Background="White" Tag="{x:Bind Tag, Mode=OneWay}" HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="17*"/>
+            <RowDefinition Height="73*"/>
+        </Grid.RowDefinitions>
+
+        <GridView Background="White" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Margin="0, 0, 0, 0" Grid.Row="1" VerticalAlignment="Stretch" >
+            <GridView.ItemsPanel>
+                <ItemsPanelTemplate>
+                     <StackPanel Orientation="Vertical" Spacing="50"/>
+                </ItemsPanelTemplate>
+            </GridView.ItemsPanel>
+            <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Height="275">
-                            <Grid Name="Picture" Background="White" Visibility="{Binding FileIconVis}">
-                                <Image Source="{Binding FileImg}"/>
-                            </Grid>
-                            
-                            <Grid Name="Album" Visibility="{Binding FolderImg}" Width="300">
-                                <controls:DropShadowPanel>
-                                    <Grid Background="White">
-                                        <FontIcon Foreground="Black" FontSize="148" Glyph="&#xE7C5;"/>
-                                        <TextBlock Text="{Binding FileName}"/>
-                                    </Grid>
-                                </controls:DropShadowPanel>
-                            </Grid>
+                    <Grid Margin="0, 0, 0, 0" Width="250" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid Name="Picture" Background="White" Visibility="{Binding FileIconVis}">
+                            <Image Source="{Binding FileImg}"/>
                         </Grid>
+
+                        <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
+
+                                <Grid Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <FontIcon Foreground="Black" FontSize="148" Glyph="&#xE7C5;"/>
+                                    <TextBlock Text="{Binding FileName}"/>
+                                </Grid>
+                        </Grid>
+                    </Grid>
+                        
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-        </controls:DropShadowPanel>
-        <Image Name="LargeDisplayedImage" Source="{x:Bind Interactions:Interaction.LIS.image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Center" />
-        
-        
+            </GridView.ItemTemplate>
+
+        </GridView>
+        <Image Name="LargeDisplayedImage" Source="{x:Bind Interactions:Interaction.LIS.image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,336.322,0,0" Grid.Row="1" />
+
+
     </Grid>
 </Page>

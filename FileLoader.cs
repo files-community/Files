@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using System;
 using Windows.Storage.Search;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace ItemListPresenter
 {
@@ -84,8 +85,8 @@ namespace ItemListPresenter
             }
         }
 
-        public static FowardState fs = new FowardState();
-        public static FowardState FS
+        public static ForwardState fs = new ForwardState();
+        public static ForwardState FS
         {
             get
             {
@@ -148,12 +149,12 @@ namespace ItemListPresenter
 
         private static EmptyFolderTextState textState = new EmptyFolderTextState();
         public static EmptyFolderTextState TextState { get { return ItemViewModel.textState; } }
-
-        
+        public static bool IsStopRequested = false;
+        public static bool IsTerminated = true;
 
         public async void GetItemsAsync(string path)
         {
-
+            IsTerminated = false;
             PUIP.Path = path;
             folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
             QueryOptions options = new QueryOptions()
@@ -171,7 +172,6 @@ namespace ItemListPresenter
             SortEntry sort = new SortEntry()
             {
                 AscendingOrder = true,
-                //PropertyName = "System.FileName"
                 PropertyName = "System.ItemNameDisplay"
             };
             options.SortOrder.Add(sort);
@@ -180,10 +180,10 @@ namespace ItemListPresenter
             const uint step = 100;
             StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
             StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
-            folderList = await folderQueryResult.GetFoldersAsync(fol_index, step);                          // Create a read-only list of all folders in location
-            fileList = await fileQueryResult.GetFilesAsync(file_index, step);                                // Create a read-only list of all files in location
-            int NumOfFolders = folderList.Count;                                                        // How many folders are in the list
-            int NumOfFiles = fileList.Count;                                                            // How many files are in the list
+            folderList = await folder.GetFoldersAsync();                                        // Create a read-only list of all folders in location
+            fileList = await folder.GetFilesAsync();                                            // Create a read-only list of all files in location
+            int NumOfFolders = folderList.Count;                                                // How many folders are in the list
+            int NumOfFiles = fileList.Count;                                                    // How many files are in the list
             int NumOfItems = NumOfFiles + NumOfFolders;
             int NumItemsRead = 0;
 
@@ -200,10 +200,16 @@ namespace ItemListPresenter
                 PVIS.isVisible = Visibility.Visible;
             }
 
-            while(NumOfFolders > 0)
+            if(NumOfFolders > 0)
             {
                 foreach (StorageFolder fol in folderList)
                 {
+                    if(IsStopRequested)
+                    {
+                        IsStopRequested = false;
+                        IsTerminated = true;
+                        return;
+                    }
                     int ProgressReported = (NumItemsRead * 100 / NumOfItems);
                     UpdateProgUI(ProgressReported);
                     gotFolName = fol.Name.ToString();
@@ -216,18 +222,19 @@ namespace ItemListPresenter
 
                     NumItemsRead++;
                 }
-                fol_index += step;
-                folderList = await folderQueryResult.GetFoldersAsync(fol_index, step);
-                if(folderList.Count == 0)
-                {
-                    break;
-                }
+                
             }
 
-            while(NumOfFiles > 0)
+            if(NumOfFiles > 0)
             {
                 foreach (StorageFile f in fileList)
                 {
+                    if (IsStopRequested)
+                    {
+                        IsStopRequested = false;
+                        IsTerminated = true;
+                        return;
+                    }
                     int ProgressReported = (NumItemsRead * 100 / NumOfItems);
                     UpdateProgUI(ProgressReported);
                     gotName = f.Name.ToString();
@@ -260,19 +267,19 @@ namespace ItemListPresenter
                     NumItemsRead++;
                 }
 
-                file_index += step;
-                fileList = await fileQueryResult.GetFilesAsync(file_index, step);
-                if (fileList.Count == 0)
-                {
-                    break;
-                }
+                //file_index += step;
+                //fileList = await fileQueryResult.GetFilesAsync(file_index, step);
+                //if (fileList.Count == 0)
+                //{
+                //    break;
+                //}
             }
 
-            if (NumOfItems >= 75)
-            {
+            //if (NumOfItems >= 75)
+            //{
                 PVIS.isVisible = Visibility.Collapsed;
-            }
-
+            //}
+            IsTerminated = true;
         }
 
 

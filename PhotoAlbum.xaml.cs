@@ -40,14 +40,14 @@ namespace Files
     
     public sealed partial class PhotoAlbum : Page
     {
-        public static ListView lv;
+        public static GridView gv;
         public static Image largeImg;
         public PhotoAlbum()
         {
             this.InitializeComponent();
             
             largeImg = LargeDisplayedImage;
-            lv = FileList;
+            gv = FileList;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)

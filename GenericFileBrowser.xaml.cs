@@ -73,7 +73,7 @@ namespace Files
             CopyItem.Click += Interact.Interaction.CopyItem_Click;
             AllView.RightTapped += Interact.Interaction.AllView_RightTapped;
             Back.Click += Navigation.NavigationActions.Back_Click;
-            Foward.Click += Navigation.NavigationActions.Foward_Click;
+            Forward.Click += Navigation.NavigationActions.Forward_Click;
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
             AllView.SelectionChanged += Interact.Interaction.List_ItemClick;
         }
