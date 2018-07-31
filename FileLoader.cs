@@ -11,6 +11,7 @@
 //  ---- This file contains code for loading filesystem items ---- 
 //
 
+using System;
 using Files;
 using Navigation;
 using System.Collections.Generic;
@@ -20,7 +21,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using System;
 using Windows.Storage.Search;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
