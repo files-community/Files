@@ -63,7 +63,7 @@
 
                     <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="PicturesPage">
                         <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE8B9;" FontFamily="Segoe MDL2 Assets"/>
+                        <FontIcon Glyph="&#xEB9F;" FontFamily="Segoe MDL2 Assets"/>
                         </NavigationViewItem.Icon>
                     </NavigationViewItem>
 

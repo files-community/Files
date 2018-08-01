@@ -16,24 +16,15 @@ using ItemListPresenter;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Navigation;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
 using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.System;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -154,8 +145,14 @@ namespace Files
                 }
             }
         }
+
+        // Click event for Hide button on Progress UI Synthetic Dialog 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            ProgressBox.Visibility = Visibility.Collapsed;
+        }
     }
-    
+
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
 

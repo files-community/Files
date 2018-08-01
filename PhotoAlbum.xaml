@@ -15,6 +15,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
+    xmlns:local1="using:Navigation"
     xmlns:local2="using:ItemListPresenter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,42 +26,121 @@
     Name="PhotoAlbumViewer">
 
     <Page.Resources>
-        <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.6" FallbackColor="White"/>
+        <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+        <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop" TintColor="{StaticResource SystemAccentColor}" TintOpacity="0.6" FallbackColor="{ThemeResource SystemChromeMediumColor}"/>
+        <AcrylicBrush x:Key="LightAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.8" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="GreyFallback" Color="{StaticResource SystemChromeMediumColor}"/>
+        <SolidColorBrush x:Key="Accent" Color="{StaticResource SystemAccentColor}"/>
+        <Storyboard x:Name="PointerHoverButton1">
+            <FadeOutThemeAnimation Storyboard.TargetName="Shadow1"/>
+
+        </Storyboard>
+        <local1:BackState x:Key="BackObject"/>
+        <local1:ForwardState x:Key="ForwardObject"/>
+        <Style x:Key="FluentHistoryButton" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="8,4,8,4"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="-3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+
     </Page.Resources>
 
     <Grid Background="White" Tag="{x:Bind Tag, Mode=OneWay}" HorizontalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="17*"/>
-            <RowDefinition Height="73*"/>
-        </Grid.RowDefinitions>
+        
 
-        <GridView Background="White" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Margin="0, 0, 0, 0" Grid.Row="1" VerticalAlignment="Stretch" >
-            <GridView.ItemsPanel>
-                <ItemsPanelTemplate>
-                     <StackPanel Orientation="Vertical" Spacing="50"/>
-                </ItemsPanelTemplate>
-            </GridView.ItemsPanel>
+        <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0" Height="200">
+            <Button  BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
+
+            </Button>
+            <Grid DataContext="{Binding ForwardObject}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
+            </Grid>
+            <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50" />
+            <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="50,126,50,25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
+                <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
+            </ScrollViewer>
+
+        </Grid>
+        <GridView Background="White" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="15, 0, 0, 0" Margin="0,200,0,0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+
             <GridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0, 0, 0, 0" Width="250" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Name="Picture" Background="White" Visibility="{Binding FileIconVis}">
+                    <Grid Margin="0, 0, 0, 0" Padding="15, 15, 15, 15" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Grid Name="Picture" Visibility="{Binding FileIconVis}">
                             <Image Source="{Binding FileImg}"/>
                         </Grid>
 
                         <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
 
-                                <Grid Background="White" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <FontIcon Foreground="Black" FontSize="148" Glyph="&#xE7C5;"/>
-                                    <TextBlock Text="{Binding FileName}"/>
-                                </Grid>
+                            <Grid  HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <FontIcon Foreground="Black" FontSize="48" Glyph="&#xE7C5;"/>
+                            </Grid>
                         </Grid>
+                        <TextBlock VerticalAlignment="Bottom" Text="{Binding FileName}" TextAlignment="Center"/>
                     </Grid>
-                        
+
                 </DataTemplate>
             </GridView.ItemTemplate>
 
         </GridView>
-        <Image Name="LargeDisplayedImage" Source="{x:Bind Interactions:Interaction.LIS.image, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Stretch="Fill" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,336.322,0,0" Grid.Row="1" />
 
 
     </Grid>

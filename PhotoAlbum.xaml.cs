@@ -46,7 +46,6 @@ namespace Files
         {
             this.InitializeComponent();
             
-            largeImg = LargeDisplayedImage;
             gv = FileList;
         }
 

@@ -48,7 +48,7 @@ namespace Interact
 
         public static async void List_ItemClick(object sender, SelectionChangedEventArgs e)
         {
-            if (Interaction.page.Name == "GenericItemView")
+            if (page.Name == "GenericItemView")
             {
 
 

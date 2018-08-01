@@ -213,8 +213,8 @@
             <Grid>
                
                 <StackPanel Orientation="Vertical">
-                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" TextAlignment="Center" Padding="0,170,0,0"/>
-                    <controls:Carousel ItemRotationY="0" SelectedIndex="1" ItemDepth="125"  Orientation="Horizontal" ItemMargin="50" HorizontalAlignment="Stretch" Padding="0,-2,0,0" Margin="0,25,0,0" >
+                    <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Top" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" Foreground="Black" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" TextAlignment="Center" Padding="0,170,0,10"/>
+                    <controls:Carousel ItemRotationY="0" SelectedIndex="1" ItemDepth="125"  Orientation="Horizontal" ItemMargin="50" HorizontalAlignment="Stretch" Padding="0,0,0,0" Margin="0,0,0,0" >
                         <controls:Carousel.EasingFunction>
                         <CubicEase EasingMode="EaseOut" />
                         </controls:Carousel.EasingFunction>
@@ -245,7 +245,7 @@
                             </Button>
                             <Button Style="{StaticResource CardStyle}" x:Name="b3" Click="b3_Click" Height="275" Width="400" VerticalAlignment="Top"  Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
                                 <Grid>
-                                    <TextBlock Text="&#xE8B9;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <TextBlock Text="&#xEB9F;" FontFamily="Segoe MDL2 Assets" FontSize="72" Canvas.ZIndex="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     <Rectangle Fill="#7F000000" Canvas.ZIndex="2"/>
 
                                     <Image Source="Assets/Cards/pictures.jpg" Stretch="Fill" />
