@@ -17,6 +17,7 @@
     xmlns:local="using:Files"
     xmlns:local1="using:Navigation"
     xmlns:local2="using:ItemListPresenter"
+    xmlns:local3="using:Interact"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -119,8 +120,59 @@
             </ScrollViewer>
 
         </Grid>
-        <GridView Background="White" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="15, 0, 0, 0" Margin="0,200,0,0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+        <GridView IsRightTapEnabled="True" IsItemClickEnabled="True" Background="White" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" Margin="40,200,40,0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
+            <GridView.Resources>
+                <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
+                    <MenuFlyout.Items>
+                        <MenuFlyoutItem Text="Open" Name="OpenItem">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE7AC;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
 
+                        <MenuFlyoutItem Text="Share" Name="ShareItem">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE72D;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE83D;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE74D;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8AC;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8C6;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8C8;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE946;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout.Items>
+
+                </MenuFlyout>
+            </GridView.Resources>
             <GridView.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0, 0, 0, 0" Padding="15, 15, 15, 15" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">

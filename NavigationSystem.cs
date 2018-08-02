@@ -232,6 +232,82 @@ namespace Navigation
         }
     }
 
+    public class PhotoAlbumNavActions
+    {
+        public static void Back_Click(object sender, RoutedEventArgs e)
+        {
+            if (ItemViewModel.IsTerminated == false)
+            {
+                ItemViewModel.IsStopRequested = true;
+            }
+
+            if (History.HistoryList.Count() > 1)
+            {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                Debug.WriteLine("\nBefore Removals");
+                ArrayDiag.DumpArray();
+                History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
+                History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
+                Debug.WriteLine("\nAfter Removals");
+                ArrayDiag.DumpArray();
+                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], true);     // To take into account the correct index without interference from the folder being navigated to
+                ItemViewModel.FilesAndFolders.Clear();
+                GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
+                GenericFileBrowser.UpdateAllBindings();
+
+                if (History.ForwardList.Count == 0)
+                {
+                    ItemViewModel.FS.isEnabled = false;
+                }
+                else if (History.ForwardList.Count > 0)
+                {
+                    ItemViewModel.FS.isEnabled = true;
+                }
+
+
+            }
+
+        }
+
+        public static void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            if (ItemViewModel.IsTerminated == false)
+            {
+                ItemViewModel.IsStopRequested = true;
+            }
+
+            if (History.ForwardList.Count() > 0)
+            {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], true);     // To take into account the correct index without interference from the folder being navigated to
+                ItemViewModel.FilesAndFolders.Clear();
+                GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
+                History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
+                GenericFileBrowser.UpdateAllBindings();
+                ArrayDiag.DumpForwardArray();
+
+                if (History.ForwardList.Count == 0)
+                {
+                    ItemViewModel.FS.isEnabled = false;
+                }
+                else if (History.ForwardList.Count > 0)
+                {
+                    ItemViewModel.FS.isEnabled = true;
+                }
+
+            }
+        }
+
+        public static void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            ItemViewModel.FilesAndFolders.Clear();
+            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, true);
+            GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
+            GenericFileBrowser.UpdateAllBindings();
+        }
+    }
+
     public class UniversalPath : INotifyPropertyChanged
     {
 

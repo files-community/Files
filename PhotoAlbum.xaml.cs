@@ -12,41 +12,26 @@
 //
 
 using ItemListPresenter;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 
 
 namespace Files
 {
-    
+
     public sealed partial class PhotoAlbum : Page
     {
         public static GridView gv;
         public static Image largeImg;
+        public static MenuFlyout context;
+
         public PhotoAlbum()
         {
             this.InitializeComponent();
             
             gv = FileList;
+            context = RightClickContextMenu;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -55,7 +40,11 @@ namespace Files
             var parameters = eventArgs.Parameter.ToString();
             ItemViewModel.ViewModel = new ItemViewModel(parameters, true);
             Interact.Interaction.page = this;
-            FileList.ItemClick += Interact.Interaction.PhotoAlbumItemList_Click;
+            FileList.ItemClick += Interact.Interaction.PhotoAlbumItemList_ClickAsync;
+            Back.Click += Navigation.PhotoAlbumNavActions.Back_Click;
+            Forward.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
+            Refresh.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
+            FileList.RightTapped += Interact.Interaction.FileList_RightTapped;
         }
 
         

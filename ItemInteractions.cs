@@ -81,10 +81,12 @@ namespace Interact
            
         }
 
-        public static void PhotoAlbumItemList_Click(object sender, ItemClickEventArgs e)
+        public static async void PhotoAlbumItemList_ClickAsync(object sender, ItemClickEventArgs e)
         {
-            var index = PhotoAlbum.gv.SelectedIndex;
+            GridView grid = sender as GridView;
+            var index = grid.Items.IndexOf(e.ClickedItem);
             var clickedOnItem = ItemViewModel.FilesAndFolders[index];
+            
             Debug.WriteLine("Reached PhotoAlbumViewer event");
 
             if (clickedOnItem.FileExtension == "Folder")
@@ -101,15 +103,15 @@ namespace Interact
             }
             else
             {
-                /* StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
                 var options = new LauncherOptions();
                 options.DisplayApplicationPicker = true;
-                await Launcher.LaunchFileAsync(file, options); */
-                var uri = new Uri(clickedOnItem.FilePath);
-                BitmapImage bitmap = new BitmapImage();
-                bitmap.UriSource = uri;
-                LIS.image = bitmap;
-                PhotoAlbum.largeImg.Source = bitmap;
+                await Launcher.LaunchFileAsync(file, options); 
+                //var uri = new Uri(clickedOnItem.FilePath);
+                //BitmapImage bitmap = new BitmapImage();
+                //bitmap.UriSource = uri;
+                //LIS.image = bitmap;
+                //PhotoAlbum.largeImg.Source = bitmap;
             }
         }
 
@@ -119,6 +121,12 @@ namespace Interact
             DataGrid dataGrid = (DataGrid)sender;
             GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
 
+        }
+
+        public static void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            GridView gridView = sender as GridView;
+            PhotoAlbum.context.ShowAt(gridView, e.GetPosition(gridView));
         }
 
         public static async void OpenItem_Click(object sender, RoutedEventArgs e)
