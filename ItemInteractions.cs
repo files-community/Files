@@ -46,17 +46,16 @@ namespace Interact
 
 
 
-        public static async void List_ItemClick(object sender, SelectionChangedEventArgs e)
+        public static async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (page.Name == "GenericItemView")
             {
+                
+                var index = GenericFileBrowser.data.SelectedIndex;
 
-
-                if (e.AddedItems.Count == 1)
+                if(index > -1)
                 {
-                    var index = GenericFileBrowser.data.SelectedIndex;
                     var clickedOnItem = ItemViewModel.FilesAndFolders[index];
-
 
                     if (clickedOnItem.FileExtension == "Folder")
                     {
@@ -75,8 +74,13 @@ namespace Interact
                         options.DisplayApplicationPicker = true;
                         await Launcher.LaunchFileAsync(file, options);
                     }
-
                 }
+                else
+                {
+                    // Placeholder for row sorting logic
+                }
+                    
+
             }
            
         }
@@ -118,8 +122,20 @@ namespace Interact
 
         public static void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            
+
             DataGrid dataGrid = (DataGrid)sender;
-            GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
+            
+            // If user clicks on header
+            if(dataGrid.CurrentColumn == null)
+            {
+                GenericFileBrowser.HeaderContextMenu.ShowAt(dataGrid, e.GetPosition(dataGrid));
+            }
+            // If user clicks on actual row
+            else
+            {
+                GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
+            }
 
         }
 

@@ -35,6 +35,7 @@ namespace Files
         public TextBlock textBlock;
         public static DataGrid data;
         public static MenuFlyout context;
+        public static MenuFlyout HeaderContextMenu;
 
         public GenericFileBrowser()
         {
@@ -54,6 +55,7 @@ namespace Files
             ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
             data = AllView;
             context = RightClickContextMenu;
+            HeaderContextMenu = HeaderRightClickMenu;
             Interact.Interaction.page = this;
             OpenItem.Click += Interact.Interaction.OpenItem_Click;
             ShareItem.Click += Interact.Interaction.ShareItem_Click;
@@ -66,9 +68,11 @@ namespace Files
             Back.Click += Navigation.NavigationActions.Back_Click;
             Forward.Click += Navigation.NavigationActions.Forward_Click;
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
-            AllView.SelectionChanged += Interact.Interaction.List_ItemClick;
+            AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
             
         }
+
+        
 
         public static UniversalPath p = new UniversalPath();
         public static UniversalPath P { get { return GenericFileBrowser.p; } }
@@ -152,6 +156,8 @@ namespace Files
         {
             ProgressBox.Visibility = Visibility.Collapsed;
         }
+
+       
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

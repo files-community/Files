@@ -29,7 +29,7 @@
     </Page.Resources>
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Left" Height="34" VerticalAlignment="Top" Width="1689" Margin="55,0,0,0" Canvas.ZIndex="5"/>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
 
         <NavigationView SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:FieldModifier="public" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
             
