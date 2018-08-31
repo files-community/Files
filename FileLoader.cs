@@ -175,9 +175,7 @@ namespace ItemListPresenter
                 PropertyName = "System.ItemNameDisplay"
             };
             options.SortOrder.Add(sort);
-            uint fol_index = 0;
-            uint file_index = 0;
-            const uint step = 100;
+            
             StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
             StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
             folderList = await folder.GetFoldersAsync();                                        // Create a read-only list of all folders in location

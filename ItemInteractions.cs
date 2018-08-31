@@ -34,8 +34,7 @@ namespace Interact
 
     public class Interaction
     {
-        public static LargeImageSource lis = new LargeImageSource();
-        public static LargeImageSource LIS { get { return lis; } }
+        
 
 
         public static Page page;
@@ -45,7 +44,7 @@ namespace Interact
         }
 
 
-
+        // Double-tap event for DataGrid
         public static async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
         {
             if (page.Name == "GenericItemView")
@@ -147,9 +146,8 @@ namespace Interact
 
         public static async void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            var ItemInvoked = sender as DataGridRow;
-            var RowIndex = ItemInvoked.GetIndex();
-            var RowData = ItemViewModel.FilesAndFolders[RowIndex];
+            var ItemSelected = GenericFileBrowser.data.SelectedIndex;
+            var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
 
             if (RowData.FileExtension == "Folder")
             {
@@ -203,33 +201,5 @@ namespace Interact
 
     
 
-    public class LargeImageSource : INotifyPropertyChanged
-    {
-
-
-        public BitmapImage _image;
-        public BitmapImage image
-        {
-            get
-            {
-                return _image;
-            }
-
-            set
-            {
-                if (value != _image)
-                {
-                    _image = value;
-                    NotifyPropertyChanged("image");
-                }
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string info)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
-
-    }
+    
 }

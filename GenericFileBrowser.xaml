@@ -165,7 +165,7 @@
                             </MenuFlyoutItem>
                         </MenuFlyout>
                         
-                        <MenuFlyout  x:Name="RightClickContextMenu"  x:Key="RightClickFlyout">
+                        <MenuFlyout x:Name="RightClickContextMenu"  x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="Open" Name="OpenItem">
                                     <MenuFlyoutItem.Icon>
@@ -244,13 +244,15 @@
             <Grid Visibility="Collapsed" Background="{StaticResource Accent}" VerticalAlignment="Bottom" Height="30">
 
             </Grid>
-            <Grid x:Name="ProgressBox" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
-                <Rectangle Fill="White" Stroke="Blue" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <controls:DropShadowPanel x:Name="ProgressBox" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
+            <Grid>
+                <Rectangle Fill="White" Stroke="White" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="{x:Bind local2:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
                 <Button Content="Hide" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175" Click="Button_Click"/>
                 <TextBlock Text="{x:Bind local2:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
                 <ProgressBar Name="pbar"  Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
             </Grid>
+            </controls:DropShadowPanel>
         </Grid>
 
 
