@@ -141,6 +141,16 @@
                     <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
                 </Grid>
                 <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50" />
+                <Button x:Name="Menu" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE712;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,40,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="50" Height="50">
+                    <Button.Flyout>
+                        <MenuFlyout>
+                            <MenuFlyoutItem Text="New..."/>
+                            <MenuFlyoutItem Text="Paste"/>
+                            <MenuFlyoutItem Text="Copy Path"/>
+                            <MenuFlyoutItem Text="Change View Mode..."/>
+                        </MenuFlyout>
+                    </Button.Flyout>
+                </Button>
                 <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="50,126,50,25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
                     <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
                 </ScrollViewer>
