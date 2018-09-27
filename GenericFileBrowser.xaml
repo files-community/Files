@@ -144,10 +144,10 @@
                 <Button x:Name="Menu" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE712;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,40,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="50" Height="50">
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem Text="New..."/>
-                            <MenuFlyoutItem Text="Paste"/>
-                            <MenuFlyoutItem Text="Copy Path"/>
-                            <MenuFlyoutItem Text="Change View Mode..."/>
+                            <MenuFlyoutItem Name="NewItem" Text="New..."/>
+                            <MenuFlyoutItem Name="PasteItem" Text="Paste"/>
+                            <MenuFlyoutItem Name="CopyPath" Text="Copy Path"/>
+                            <MenuFlyoutItem Name="ViewModeChange" Text="Change View Mode..."/>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
@@ -159,7 +159,7 @@
 
             <Grid Padding="50,200,50,0">
 
-                <controls:DataGrid FocusVisualPrimaryThickness="0" SelectionMode="Single" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
+                <controls:DataGrid  FocusVisualPrimaryThickness="0" SelectionMode="Single" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
                 
                 <controls:DataGrid.Resources>
                         <MenuFlyout x:Name="HeaderRightClickMenu" x:Key="HeaderRightClickFlyout">
@@ -227,7 +227,13 @@
                         </MenuFlyout>
                     </controls:DataGrid.Resources>
 
-                    
+                    <!--<controls:DataGrid.RowStyle>
+                        <Style TargetType="controls:DataGridRow">
+                            <Setter Property="Template">
+                                <Grid/>
+                            </Setter>
+                        </Style>
+                    </controls:DataGrid.RowStyle>-->
 
                     <controls:DataGrid.Columns>
                         <controls:DataGridTemplateColumn>

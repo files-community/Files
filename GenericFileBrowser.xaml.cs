@@ -63,13 +63,13 @@ namespace Files
             DeleteItem.Click += Interact.Interaction.DeleteItem_Click;
             RenameItem.Click += Interact.Interaction.RenameItem_Click;
             CutItem.Click += Interact.Interaction.CutItem_Click;
-            CopyItem.Click += Interact.Interaction.CopyItem_Click;
+            CopyItem.Click += Interact.Interaction.CopyItem_ClickAsync;
             AllView.RightTapped += Interact.Interaction.AllView_RightTapped;
             Back.Click += Navigation.NavigationActions.Back_Click;
             Forward.Click += Navigation.NavigationActions.Forward_Click;
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
             AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
-            
+            PasteItem.Click += Interact.Interaction.PasteItem_ClickAsync;
         }
 
         
@@ -157,7 +157,7 @@ namespace Files
             ProgressBox.Visibility = Visibility.Collapsed;
         }
 
-       
+        
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

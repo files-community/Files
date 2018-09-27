@@ -237,7 +237,14 @@ namespace ItemListPresenter
                     UpdateProgUI(ProgressReported);
                     gotName = f.Name.ToString();
                     gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
-                    gotType = f.FileType.ToString();
+                    if(f.FileType.ToString() == ".exe")
+                    {
+                        gotType = "Executable";
+                    }
+                    else
+                    {
+                        gotType = f.FileType.ToString();
+                    }
                     gotPath = f.Path.ToString();
                     gotFolImg = Visibility.Collapsed;
                     if (isPhotoAlbumMode == false)

@@ -26,6 +26,12 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
 using System.ComponentModel;
 using System.Diagnostics;
+using Windows.ApplicationModel.DataTransfer;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.Storage.Search;
+using Windows.UI.Popups;
 
 namespace Interact
 {
@@ -43,6 +49,8 @@ namespace Interact
             page = p;
         }
 
+        public static MessageDialog message;
+        private static Uri site_uri = new Uri(@"https://duke58701.wixsite.com/files-windows10/sideloading-help");
 
         // Double-tap event for DataGrid
         public static async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -66,11 +74,22 @@ namespace Interact
                         GenericFileBrowser.P.path = clickedOnItem.FilePath;
                         GenericFileBrowser.UpdateAllBindings();
                     }
+                    else if (clickedOnItem.FileExtension == "Executable")
+                    {
+                        message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        message.Title = "Unsupported Functionality";
+                        message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
+                        message.Commands.Add(new UICommand("Cancel"));
+                        await message.ShowAsync();
+                    }
                     else
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
-                        var options = new Windows.System.LauncherOptions();
-                        options.DisplayApplicationPicker = true;
+                        var options = new LauncherOptions
+                        {
+                            DisplayApplicationPicker = true
+                            
+                        };
                         await Launcher.LaunchFileAsync(file, options);
                     }
                 }
@@ -82,6 +101,11 @@ namespace Interact
 
             }
            
+        }
+
+        private static async void CommandInvokedHandler(IUICommand command)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
         }
 
         public static async void PhotoAlbumItemList_ClickAsync(object sender, ItemClickEventArgs e)
@@ -193,13 +217,98 @@ namespace Interact
 
         }
 
-        public static void CopyItem_Click(object sender, RoutedEventArgs e)
+        public static async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
         {
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            var DataGridSelectedItem = ItemViewModel.FilesAndFolders[GenericFileBrowser.data.SelectedIndex];
+            if(DataGridSelectedItem != null)
+            {
+                var path = ItemViewModel.PUIP.Path;
+                var fol = await StorageFolder.GetFolderFromPathAsync(path);
+                var item = await fol.GetItemAsync(DataGridSelectedItem.FileName);
+                List<IStorageItem> items = new List<IStorageItem>();
+                items.Add(item);
+                IEnumerable<IStorageItem> EnumerableOfItems = items;
+                dataPackage.SetStorageItems(EnumerableOfItems);
+                Clipboard.SetContent(dataPackage);
+                
+            }
+        }
+
+        public static async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            // TODO: Add progress box and collision for this operation
+            var DestinationPath = ItemViewModel.PUIP.Path;
+            DataPackageView packageView = Clipboard.GetContent();
+            var ItemsToPaste = await packageView.GetStorageItemsAsync();
+            foreach(IStorageItem item in ItemsToPaste)
+            {
+                StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+
+                if (item.IsOfType(StorageItemTypes.Folder))
+                {
+                    CloneDirectory(item.Path, DestinationPath);
+
+                }
+                else if (item.IsOfType(StorageItemTypes.File))
+                {
+                    StorageFile DestinationFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                    await DestinationFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath));
+                }
+
+            }
+
+        }
+
+        public static async void CloneDirectory(string root, string dest)
+        {
+            StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(root);
+            StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(dest);
+            //// Check for clone of source folder in destination folder
+            //var FolderCreate = await DestinationFolder.TryGetItemAsync(SourceFolder.Name);
+            //// if not there, then create it
+            //if (FolderCreate == null)
+            //{
+            //    await DestinationFolder.CreateFolderAsync(SourceFolder.Name);
+            //    Debug.WriteLine("Source folder clone not found in destination");
+            //}
+            //// If there, then update dest folder to reflect this
+            //else
+            //{
+            //    DestinationFolder = await StorageFolder.GetFolderFromPathAsync(dest + @"\" + SourceFolder.Name);
+            //    foreach (var directory in await SourceFolder.GetFoldersAsync())
+            //    {
+            //        string DirName = directory.Name;
+            //        if (await DestinationFolder.TryGetItemAsync(DirName) == null)
+            //        {
+            //            await DestinationFolder.CreateFolderAsync(DirName);
+            //        }
+            //        CloneDirectory(directory.Path, dest + @"\" + DirName);
+            //    }
+            //}
+
+            var FolderCreate = await DestinationFolder.TryGetItemAsync(SourceFolder.Name);
+            // Create initial root directory in dest if not there already
+            if (FolderCreate == null)
+            {
+                await DestinationFolder.CreateFolderAsync(SourceFolder.Name);
+                Debug.WriteLine("Source folder clone not found in destination");
+            }
+            foreach (var directory in await SourceFolder.GetFoldersAsync())
+            {
+                string DirName = directory.Name;
+                if (await DestinationFolder.TryGetItemAsync(DirName) == null)
+                {
+                    await DestinationFolder.CreateFolderAsync(DirName);
+                }
+            }
+
+
+
 
         }
     }
 
-    
 
-    
 }
