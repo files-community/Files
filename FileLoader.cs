@@ -24,6 +24,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Search;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
+using Windows.UI.Popups;
+using Interact;
 
 namespace ItemListPresenter
 {
@@ -115,8 +117,10 @@ namespace ItemListPresenter
         {
             isPhotoAlbumMode = isInPhotoMode;
             GenericFileBrowser.P.path = ViewPath;
-            FilesAndFolders.Clear();   
-            GetItemsAsync(ViewPath);
+            FilesAndFolders.Clear();
+            
+                GetItemsAsync(ViewPath);
+            
             History.AddToHistory(ViewPath);
 
 
@@ -136,7 +140,13 @@ namespace ItemListPresenter
 
         }
 
- 
+        private async void DisplayConsentDialog()
+        {
+            MessageDialog message = new MessageDialog("This app is not able to access your files. You need to allow it to by granting permission in Settings.");
+            message.Title = "Permission Denied";
+            message.Commands.Add(new UICommand("Allow...", new UICommandInvokedHandler(Interaction.GrantAccessPermissionHandler)));
+            await message.ShowAsync();
+        }
 
         private ListedItem li = new ListedItem();
         public ListedItem LI { get { return this.li; } }
@@ -156,7 +166,11 @@ namespace ItemListPresenter
         {
             IsTerminated = false;
             PUIP.Path = path;
-            folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
+            try
+            {
+                folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
+            
+
             QueryOptions options = new QueryOptions()
             {
                 FolderDepth = FolderDepth.Shallow,
@@ -285,6 +299,11 @@ namespace ItemListPresenter
                 PVIS.isVisible = Visibility.Collapsed;
             //}
             IsTerminated = true;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                DisplayConsentDialog();
+            }
         }
 
 

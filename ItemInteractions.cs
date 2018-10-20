@@ -108,6 +108,11 @@ namespace Interact
             await Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
         }
 
+        public static async void GrantAccessPermissionHandler(IUICommand command)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
+        }
+
         public static async void PhotoAlbumItemList_ClickAsync(object sender, ItemClickEventArgs e)
         {
             GridView grid = sender as GridView;
