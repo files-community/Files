@@ -226,30 +226,46 @@ namespace Interact
         {
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            var DataGridSelectedItem = ItemViewModel.FilesAndFolders[GenericFileBrowser.data.SelectedIndex];
-            if(DataGridSelectedItem != null)
+            if(GenericFileBrowser.data.SelectedItems.Count != 0)
             {
-                var path = ItemViewModel.PUIP.Path;
-                var fol = await StorageFolder.GetFolderFromPathAsync(path);
-                var item = await fol.GetItemAsync(DataGridSelectedItem.FileName);
                 List<IStorageItem> items = new List<IStorageItem>();
-                items.Add(item);
+                foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
+                {
+                    if(StorItem.FileExtension != "Folder")
+                    {
+                        var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                        items.Add(item);
+                    }
+                    else
+                    {
+                        var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                        items.Add(item);
+                    }
+                }
+                //var DataGridSelectedItem = ItemViewModel.FilesAndFolders[GenericFileBrowser.data.SelectedIndex];
+                PathSnapshot = ItemViewModel.PUIP.Path;
+                //var fol = await StorageFolder.GetFolderFromPathAsync(path);
+                //foreach(IStorageItem it in fol)
+                //{
+
+                //}
+                //var item = await fol.GetItemAsync(DataGridSelectedItem.FileName);
                 IEnumerable<IStorageItem> EnumerableOfItems = items;
                 dataPackage.SetStorageItems(EnumerableOfItems);
                 Clipboard.SetContent(dataPackage);
                 
             }
         }
-
+        static string PathSnapshot;
         public static async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            // TODO: Add progress box and collision for this operation
+            // TODO: Add progress box and collision options for this operation
             var DestinationPath = ItemViewModel.PUIP.Path;
             DataPackageView packageView = Clipboard.GetContent();
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
             foreach(IStorageItem item in ItemsToPaste)
             {
-                StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(PathSnapshot);
 
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
@@ -263,6 +279,7 @@ namespace Interact
                 }
 
             }
+            Navigation.NavigationActions.Refresh_Click(null, null);
 
         }
 
@@ -270,48 +287,7 @@ namespace Interact
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(root);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(dest);
-            //// Check for clone of source folder in destination folder
-            //var FolderCreate = await DestinationFolder.TryGetItemAsync(SourceFolder.Name);
-            //// if not there, then create it
-            //if (FolderCreate == null)
-            //{
-            //    await DestinationFolder.CreateFolderAsync(SourceFolder.Name);
-            //    Debug.WriteLine("Source folder clone not found in destination");
-            //}
-            //// If there, then update dest folder to reflect this
-            //else
-            //{
-            //    DestinationFolder = await StorageFolder.GetFolderFromPathAsync(dest + @"\" + SourceFolder.Name);
-            //    foreach (var directory in await SourceFolder.GetFoldersAsync())
-            //    {
-            //        string DirName = directory.Name;
-            //        if (await DestinationFolder.TryGetItemAsync(DirName) == null)
-            //        {
-            //            await DestinationFolder.CreateFolderAsync(DirName);
-            //        }
-            //        CloneDirectory(directory.Path, dest + @"\" + DirName);
-            //    }
-            //}
-
-            var FolderCreate = await DestinationFolder.TryGetItemAsync(SourceFolder.Name);
-            // Create initial root directory in dest if not there already
-            if (FolderCreate == null)
-            {
-                await DestinationFolder.CreateFolderAsync(SourceFolder.Name);
-                Debug.WriteLine("Source folder clone not found in destination");
-            }
-            foreach (var directory in await SourceFolder.GetFoldersAsync())
-            {
-                string DirName = directory.Name;
-                if (await DestinationFolder.TryGetItemAsync(DirName) == null)
-                {
-                    await DestinationFolder.CreateFolderAsync(DirName);
-                }
-            }
-
-
-
-
+            
         }
     }
 

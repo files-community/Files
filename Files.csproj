@@ -24,8 +24,8 @@
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxPackageDir>C:\Users\lukeb\Documents\Packages\</AppxPackageDir>
-    <PackageCertificateThumbprint>8B355EE80FDC6E5376DCC25B991A3CDED92C4333</PackageCertificateThumbprint>
-    <AppxBundle>Always</AppxBundle>
+    <PackageCertificateThumbprint>40C19AD60464664359C53F014D2D7703AB1320FD</PackageCertificateThumbprint>
+    <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
