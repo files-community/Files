@@ -1,0 +1,42 @@
+﻿<Page
+    x:Class="Files.SettingsPages.Preferences"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="50,150,50,0">
+        <StackPanel>
+            <TextBlock x:Name="Header" Text="Preferences" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <Grid Name="CustomLibraries">
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Custom Library Locations"/>
+                    <ToggleSwitch VerticalAlignment="Top"/>
+                    <Grid Margin="0, 0, 0, 12.5">
+                        <TextBlock Text="Downloads" VerticalAlignment="Center" Margin="0,0,25,0"/>
+                        <TextBox BorderThickness="1" PlaceholderText="Custom Downloads Location" HorizontalAlignment="Left" Width="500" Margin="125,0,0,0"/>
+                    </Grid>
+                    <Grid Margin="0, 0, 0, 12.5">
+                        <TextBlock Text="Documents" VerticalAlignment="Center" Margin="0,0,25,0"/>
+                        <TextBox BorderThickness="1" PlaceholderText="Custom Documents Location" HorizontalAlignment="Left" Width="500" Margin="125,0,0,0"/>
+                    </Grid>
+                    <Grid Margin="0, 0, 0, 12.5">
+                        <TextBlock Text="Pictures" VerticalAlignment="Center" Margin="0,0,25,0"/>
+                        <TextBox BorderThickness="1" PlaceholderText="Custom Pictures Location" HorizontalAlignment="Left" Width="500" Margin="125,0,0,0"/>
+                    </Grid>
+                    <Grid Margin="0, 0, 0, 12.5">
+                        <TextBlock Text="Music" VerticalAlignment="Center" Margin="0,0,25,0"/>
+                        <TextBox BorderThickness="1" PlaceholderText="Custom Music Location" HorizontalAlignment="Left" Width="500" Margin="125,0,0,0"/>
+                    </Grid>
+                    <Grid Margin="0, 0, 0, 12.5">
+                        <TextBlock Text="Videos" VerticalAlignment="Center" Margin="0,0,25,0"/>
+                        <TextBox BorderThickness="1" PlaceholderText="Custom Videos Location" HorizontalAlignment="Left" Width="500" Margin="125,0,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>

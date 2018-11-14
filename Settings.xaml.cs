@@ -40,6 +40,7 @@ namespace Files
         public Settings()
         {
             this.InitializeComponent();
+            SecondaryPane.SelectedIndex = 0;
             SettingsContentFrame.Navigate(typeof(Personalization));
         }
 
@@ -55,6 +56,19 @@ namespace Files
             }else if(item.Name == "About")
             {
 
+            }
+        }
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach(ListViewItem lvi in SecondaryPane.Items)
+            {
+                
             }
         }
     }

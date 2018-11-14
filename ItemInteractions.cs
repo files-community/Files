@@ -269,13 +269,14 @@ namespace Interact
 
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    CloneDirectory(item.Path, DestinationPath);
-
+                    //CloneDirectory(item.Path, DestinationPath);
+                    StorageFolder ClipboardFolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                    //await ClipboardFolder.
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    StorageFile DestinationFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                    await DestinationFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath));
+                    StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                    await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath));
                 }
 
             }
