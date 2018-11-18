@@ -38,6 +38,7 @@ namespace ItemListPresenter
         public string FileDate { get; set; }
         public string FileExtension { get; set; }
         public string FilePath { get; set; }
+        public int ItemIndex { get; set; }
         public ListedItem()
         {
 
@@ -230,7 +231,7 @@ namespace ItemListPresenter
                     gotFolType = "Folder";
                     gotFolImg = Visibility.Visible;
                     gotFileImgVis = Visibility.Collapsed;
-                    FilesAndFolders.Add(new ListedItem() { FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                    FilesAndFolders.Add(new ListedItem() { ItemIndex = FilesAndFolders.Count, FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
 
                     NumItemsRead++;
                 }

@@ -70,6 +70,7 @@ namespace Files
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
             AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
             PasteItem.Click += Interact.Interaction.PasteItem_ClickAsync;
+            
         }
 
         

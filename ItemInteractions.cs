@@ -32,6 +32,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Media;
+using System.Collections.ObjectModel;
 
 namespace Interact
 {
@@ -150,21 +152,39 @@ namespace Interact
 
         public static void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            
-
             DataGrid dataGrid = (DataGrid)sender;
-            
+            var RowPressed  = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+
             // If user clicks on header
-            if(dataGrid.CurrentColumn == null)
+            if (RowPressed == null)
             {
                 GenericFileBrowser.HeaderContextMenu.ShowAt(dataGrid, e.GetPosition(dataGrid));
             }
             // If user clicks on actual row
             else
             {
+                var ObjectPressed = ((ObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
+                dataGrid.SelectedItems.Add(ObjectPressed);
                 GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
             }
+         
+        }
 
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            T parent = null;
+            DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
+            while(CurrentParent != null)
+            {
+                if(CurrentParent is T)
+                {
+                    parent = (T)CurrentParent;
+                    break;
+                }
+                CurrentParent = VisualTreeHelper.GetParent(CurrentParent);
+
+            }
+            return parent;
         }
 
         public static void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)

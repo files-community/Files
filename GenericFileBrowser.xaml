@@ -159,9 +159,9 @@
 
             <Grid Padding="50,200,50,0">
 
-                <controls:DataGrid  FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
-                
-                <controls:DataGrid.Resources>
+                <controls:DataGrid FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
+
+                    <controls:DataGrid.Resources>
                         <MenuFlyout x:Name="HeaderRightClickMenu" x:Key="HeaderRightClickFlyout">
                             <MenuFlyoutItem Text="Edit Columns" Name="EditColumn">
                                 <MenuFlyoutItem.Icon>
@@ -174,7 +174,7 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
-                        
+
                         <MenuFlyout x:Name="RightClickContextMenu"  x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem Text="Open" Name="OpenItem">
@@ -234,8 +234,8 @@
                             </Setter>
                         </Style>
                     </controls:DataGrid.RowStyle>-->
-
-                    <controls:DataGrid.Columns>
+                    
+                <controls:DataGrid.Columns>
                         <controls:DataGridTemplateColumn>
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
