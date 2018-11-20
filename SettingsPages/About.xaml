@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="Files.SettingsPages.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="50,100,50,0">
+        <StackPanel Orientation="Vertical">
+            <TextBlock x:Name="Header" Text="About Files" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
+            <TextBlock Margin="0,0,0,10" FontFamily="Segoe UI" FontSize="24" Text="Product Information"/>
+            <TextBlock FontSize="18" Text="Edition: Files Home"/>
+            <TextBlock FontSize="18" Text="Version: 0.4.2 Pre-Release"/>
+            <ListView IsItemClickEnabled="True" Margin="0,35,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch">
+                <ListViewItem Name="FeedbackForm">
+                    <StackPanel  Orientation="Horizontal">
+                        <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Submit Feedback"/>
+                            <TextBlock Text="Fill out a quick form to provide the developers with information" Foreground="Gray"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                </ListViewItem>
+            </ListView>
+        </StackPanel>
+    </Grid>
+</Page>

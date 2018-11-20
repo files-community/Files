@@ -22,26 +22,24 @@
 
     <Page.Resources>
         <AcrylicBrush TintOpacity="80" x:Key="SecondaryPaneBrush" BackgroundSource="HostBackdrop" />
+        
     </Page.Resources>
-    <Grid>
 
+    <Grid>
         <SplitView IsPaneOpen="True" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline">
             <SplitView.Pane>
-                <ListView Name="SecondaryPane" ItemClick="ListView_ItemClick" IsItemClickEnabled="True" SelectionChanged="ListView_SelectionChanged" SelectedIndex="0">
+                <ListView Name="SecondaryPane" IsItemClickEnabled="True" SelectionChanged="ListView_SelectionChanged">
                     <NavigationViewItemSeparator/>
                     <NavigationViewItemSeparator/>
                     <NavigationViewItemSeparator/>
                     <NavigationViewItemSeparator/>
                     <NavigationViewItemSeparator/>
-                    <NavigationViewItemHeader Margin="10, -4, 0, 0" Content="Settings"/>
-                    <ListViewItem x:Name="Personalization">
-                        <NavigationViewItem Content="Personalization" />
+                    <NavigationViewItemHeader Margin="5, -4, 0, 0" Content="Settings"/>
+                    <ListViewItem  Padding="20,0,0,0" Content="Personalization" x:Name="Personalization">
                     </ListViewItem>
-                    <ListViewItem x:Name="Preferences">
-                        <NavigationViewItem Content="Preferences" />
+                    <ListViewItem Padding="20,0,0,0" Content="Preferences" x:Name="Preferences">
                     </ListViewItem>
-                    <ListViewItem x:Name="About">
-                        <NavigationViewItem Content="About" />
+                    <ListViewItem Padding="20,0,0,0" Content="About" x:Name="About">
                     </ListViewItem>
                 </ListView>
                 

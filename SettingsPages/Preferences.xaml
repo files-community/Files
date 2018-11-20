@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="50,150,50,0">
+    <Grid Padding="50,100,50,0">
         <StackPanel>
             <TextBlock x:Name="Header" Text="Preferences" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
             <Grid Name="CustomLibraries">

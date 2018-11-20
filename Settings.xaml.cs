@@ -40,35 +40,25 @@ namespace Files
         public Settings()
         {
             this.InitializeComponent();
-            SecondaryPane.SelectedIndex = 0;
-            SettingsContentFrame.Navigate(typeof(Personalization));
-        }
-
-        private void NavigationView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
-        {
-            NavigationViewItem item = args.SelectedItem as NavigationViewItem;
-            if(item.Name == "Personalization")
-            {
-                SettingsContentFrame.Navigate(typeof(Personalization));
-            }else if(item.Name == "Features")
-            {
-
-            }else if(item.Name == "About")
-            {
-
-            }
-        }
-
-        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-
+            SecondaryPane.SelectedIndex = 6;
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach(ListViewItem lvi in SecondaryPane.Items)
             {
-                
+                if((e.AddedItems[0] as ListViewItem).Name == "Personalization" && lvi.Name == "Personalization")
+                {
+                    SettingsContentFrame.Navigate(typeof(Personalization));
+                }
+                else if((e.AddedItems[0] as ListViewItem).Name == "Preferences" && lvi.Name == "Preferences")
+                {
+                    SettingsContentFrame.Navigate(typeof(Preferences));
+                }
+                else if ((e.AddedItems[0] as ListViewItem).Name == "About" && lvi.Name == "About")
+                {
+                    SettingsContentFrame.Navigate(typeof(About));
+                }
             }
         }
     }

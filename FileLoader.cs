@@ -22,8 +22,6 @@ using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Search;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Interact;
 
@@ -165,6 +163,9 @@ namespace ItemListPresenter
 
         public async void GetItemsAsync(string path)
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             IsTerminated = false;
             PUIP.Path = path;
             try
@@ -287,24 +288,19 @@ namespace ItemListPresenter
                     NumItemsRead++;
                 }
 
-                //file_index += step;
-                //fileList = await fileQueryResult.GetFilesAsync(file_index, step);
-                //if (fileList.Count == 0)
-                //{
-                //    break;
-                //}
+                
             }
 
-            //if (NumOfItems >= 75)
-            //{
                 PVIS.isVisible = Visibility.Collapsed;
-            //}
-            IsTerminated = true;
+                IsTerminated = true;
             }
             catch (UnauthorizedAccessException e)
             {
                 DisplayConsentDialog();
             }
+            stopwatch.Stop();
+            Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
+
         }
 
 

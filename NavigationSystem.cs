@@ -168,12 +168,12 @@ namespace Navigation
             if (History.HistoryList.Count() > 1)
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                Debug.WriteLine("\nBefore Removals");
-                ArrayDiag.DumpArray();
+                //Debug.WriteLine("\nBefore Removals");
+                //ArrayDiag.DumpArray();
                 History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
-                Debug.WriteLine("\nAfter Removals");
-                ArrayDiag.DumpArray();
+                //Debug.WriteLine("\nAfter Removals");
+                //ArrayDiag.DumpArray();
                 ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], false);     // To take into account the correct index without interference from the folder being navigated to
                 ItemViewModel.FilesAndFolders.Clear();
                 GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
