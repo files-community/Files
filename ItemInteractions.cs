@@ -143,10 +143,11 @@ namespace Interact
             }
         }
 
+        public static DataGrid dataGrid;
 
         public static void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            DataGrid dataGrid = (DataGrid)sender;
+            dataGrid = (DataGrid)sender;
             var RowPressed  = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
 
             // If user clicks on header
@@ -213,6 +214,21 @@ namespace Interact
 
         public static void ShareItem_Click(object sender, RoutedEventArgs e)
         {
+            DataTransferManager manager = DataTransferManager.GetForCurrentView();
+            manager.DataRequested += Manager_DataRequested;
+            DataTransferManager.ShowShareUI();
+        }
+
+        private static void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        {
+            foreach(IStorageItem item in dataGrid.ItemsSource)
+            {
+
+            }
+            DataRequest dataRequest = args.Request;
+            dataRequest.Data.SetStorageItems(dataGrid.ItemsSource as IEnumerable<IStorageItem>);
+            dataRequest.Data.Properties.Title = "Data Shared From Files UWP";
+            dataRequest.Data.Properties.Description = "The files/folders you selected will be shared";
 
         }
 
@@ -277,15 +293,15 @@ namespace Interact
             var DestinationPath = ItemViewModel.PUIP.Path;
             DataPackageView packageView = Clipboard.GetContent();
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
+            
             foreach(IStorageItem item in ItemsToPaste)
             {
-                StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(PathSnapshot);
-
+                
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    //CloneDirectory(item.Path, DestinationPath);
-                    StorageFolder ClipboardFolder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                    //await ClipboardFolder.
+                    CloneDirectoryAsync(item.Path, DestinationPath, item.Name);
+                    
+                    
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
@@ -294,15 +310,35 @@ namespace Interact
                 }
 
             }
-            Navigation.NavigationActions.Refresh_Click(null, null);
+            NavigationActions.Refresh_Click(null, null);
 
         }
-
-        public static async void CloneDirectory(string root, string dest)
+        static int passNum = 0;
+        private static async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string DirName)
         {
-            StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(root);
-            StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(dest);
-            
+            passNum++;
+            StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
+            StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
+
+            if(passNum == 1)
+            {
+                await DestinationFolder.CreateFolderAsync(DirName);
+                DestinationPath = DestinationPath + @"\" + DirName;
+                DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
+            //    SourcePath = SourcePath + @"\" + DirName;
+            //    SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
+            }
+
+            Debug.WriteLine("Pass " + passNum);
+            foreach (StorageFile file in await SourceFolder.GetFilesAsync())
+            {
+                await file.CopyAsync(DestinationFolder);
+            }
+            foreach (StorageFolder folder in await SourceFolder.GetFoldersAsync())
+            {
+                await DestinationFolder.CreateFolderAsync(folder.DisplayName);
+                CloneDirectoryAsync(folder.Path, DestinationPath + @"\" + folder.DisplayName, folder.DisplayName);
+            }
         }
     }
 
