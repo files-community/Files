@@ -188,11 +188,7 @@
                                         <FontIcon Glyph="&#xE72D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem" >
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE83D;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
+                                
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
                                     <MenuFlyoutItem.Icon>

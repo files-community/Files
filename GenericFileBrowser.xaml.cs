@@ -59,7 +59,6 @@ namespace Files
             Interact.Interaction.page = this;
             OpenItem.Click += Interact.Interaction.OpenItem_Click;
             ShareItem.Click += Interact.Interaction.ShareItem_Click;
-            ScanItem.Click += Interact.Interaction.ScanItem_Click;
             DeleteItem.Click += Interact.Interaction.DeleteItem_Click;
             RenameItem.Click += Interact.Interaction.RenameItem_Click;
             CutItem.Click += Interact.Interaction.CutItem_Click;
