@@ -31,7 +31,7 @@
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
 
-        <NavigationView SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:FieldModifier="public" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
+        <NavigationView RequestedTheme="Default" SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:FieldModifier="public" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView"  SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
             
 
                 <NavigationView.MenuItems>
@@ -95,11 +95,11 @@
 
                 <NavigationView.AutoSuggestBox>
 
-                    <AutoSuggestBox QuerySubmitted="auto_suggest_QuerySubmitted" x:Name="auto_suggest" PlaceholderText="Search" QueryIcon="Find"/>
+                    <AutoSuggestBox BorderThickness="0.5"  QuerySubmitted="auto_suggest_QuerySubmitted" x:Name="auto_suggest" PlaceholderText="Search" QueryIcon="Find"/>
                 </NavigationView.AutoSuggestBox>
 
                 
-                    <Frame Name="ContentFrame" Background="White">
+                    <Frame Name="ContentFrame" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
                         <Frame.ContentTransitions>
                             <TransitionCollection>
                                 <NavigationThemeTransition/>

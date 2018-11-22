@@ -12,8 +12,6 @@
 //
 
 
-
-
 using System.ComponentModel;
 using Windows.UI.Xaml;
 

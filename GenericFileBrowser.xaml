@@ -10,7 +10,7 @@
 
    This file contains the markup code for the regular item layout  -->
 
-    
+
 <Page
     x:Class="Files.GenericFileBrowser"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -131,33 +131,39 @@
         </VisualStateManager.VisualStateGroups>
 
 
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="White" Margin="0,0,0,0">
-            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,275,0,0" Canvas.ZIndex="5"/>
-            <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" Height="200" VerticalAlignment="Top">
-                <Button  BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="50,0,50,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="80*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,100,0,0" Canvas.ZIndex="5" Grid.Row="1"/>
+            <Grid DataContext="{Binding BackObject}" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,25">
+                        <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}"   x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets"  FontSize="20"  VerticalAlignment="Center" Height="50" Width="50">
 
-                </Button>
-                <Grid DataContext="{Binding ForwardObject}">
-                    <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
-                </Grid>
-                <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50" />
-                <Button x:Name="Menu" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE712;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,40,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="50" Height="50">
-                    <Button.Flyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem Name="NewItem" Text="New..."/>
-                            <MenuFlyoutItem Name="PasteItem" Text="Paste"/>
-                            <MenuFlyoutItem Name="CopyPath" Text="Copy Path"/>
-                            <MenuFlyoutItem Name="ViewModeChange" Text="Change View Mode..."/>
-                        </MenuFlyout>
-                    </Button.Flyout>
-                </Button>
-                <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="50,126,50,25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
-                    <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
-                </ScrollViewer>
+                        </AppBarButton>
+                        <Grid DataContext="{Binding ForwardObject}" VerticalAlignment="Center">
+                            <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
+                        </Grid>
+                        <AppBarButton x:Name="Refresh" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                </StackPanel>
 
+                <AppBarButton x:Name="Menu"  Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE712;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right" Width="50" Height="50">
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem Name="NewItem" Text="New..."/>
+                                    <MenuFlyoutItem Name="PasteItem" Text="Paste"/>
+                                    <MenuFlyoutItem Name="CopyPath" Text="Copy Path"/>
+                                    <MenuFlyoutItem Name="ViewModeChange" Text="Change View Mode..."/>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </AppBarButton>
+                    <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
+                        <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
+                    </ScrollViewer>
             </Grid>
 
-            <Grid Padding="50,200,50,0">
+            <Grid Padding="0,25,0,0" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Row="1">
 
                 <controls:DataGrid  FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
 
@@ -188,7 +194,7 @@
                                         <FontIcon Glyph="&#xE72D;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                
+
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
                                     <MenuFlyoutItem.Icon>
@@ -230,8 +236,8 @@
                             </Setter>
                         </Style>
                     </controls:DataGrid.RowStyle>-->
-                    
-                <controls:DataGrid.Columns>
+
+                    <controls:DataGrid.Columns>
                         <controls:DataGridTemplateColumn>
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
@@ -253,17 +259,17 @@
 
 
             </Grid>
-            <Grid Visibility="Collapsed" Background="{StaticResource Accent}" VerticalAlignment="Bottom" Height="30">
+            <Grid Visibility="Collapsed" Background="{StaticResource Accent}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Stretch" Margin="0,872,0,0" Grid.Row="1">
 
             </Grid>
-            <controls:DropShadowPanel x:Name="ProgressBox" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Center" Width="500" Height="225">
-            <Grid>
-                <Rectangle Fill="White" Stroke="White" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{x:Bind local2:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
-                <Button Content="Hide" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175" Click="Button_Click"/>
-                <TextBlock Text="{x:Bind local2:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
-                <ProgressBar Name="pbar"  Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
-            </Grid>
+            <controls:DropShadowPanel x:Name="ProgressBox" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="225" Margin="0,150,0,0" Grid.Row="1">
+                <Grid>
+                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Stroke="White" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Bind local2:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
+                    <Button Content="Hide" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175" Click="Button_Click"/>
+                    <TextBlock Text="{x:Bind local2:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
+                    <ProgressBar Name="pbar"  Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
+                </Grid>
             </controls:DropShadowPanel>
         </Grid>
 

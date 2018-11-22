@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -22,6 +24,40 @@ namespace Files
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            if (localSettings.Values["theme"] != null)
+            {
+                if (localSettings.Values["theme"].ToString() == "Light")
+                {
+                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
+                    Debug.WriteLine("Theme Requested as Light");
+                }
+                else if (localSettings.Values["theme"].ToString() == "Dark")
+                {
+                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
+                    Debug.WriteLine("Theme Requested as Dark");
+                }
+                else
+                {
+                    var uiSettings = new Windows.UI.ViewManagement.UISettings();
+                    var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
+                    if (color == Colors.White)
+                    {
+                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
+                        Debug.WriteLine("Theme Requested as Default (Light)");
+
+                    }
+                    else
+                    {
+                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
+                        Debug.WriteLine("Theme Requested as Default (Dark)");
+                    }
+                }
+            }
+
+            this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
+            Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
         }
 
         /// <summary>
@@ -65,6 +101,7 @@ namespace Files
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
+                
             }
         }
 
