@@ -89,7 +89,8 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = (string)eventArgs.Parameter;
-            ItemViewModel.ViewModel = new ItemViewModel(parameters, false);
+            ItemViewModel.FilesAndFolders.Clear();
+            ItemViewModel.ViewModel = new ItemViewModel(parameters);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 P.path = "Desktop";

@@ -14,6 +14,7 @@
 
 
 
+using ItemListPresenter;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -66,41 +67,49 @@ namespace Files
             }
             else if (item.Name == "DesktopIC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                 auto_suggest.PlaceholderText = "Search Desktop";
             }
             else if (item.Name == "DocumentsIC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                 auto_suggest.PlaceholderText = "Search Documents";
             }
             else if (item.Name == "DownloadsIC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                 auto_suggest.PlaceholderText = "Search Downloads";
             }
             else if (item.Name == "PicturesIC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                 auto_suggest.PlaceholderText = "Search Pictures";
             }
             else if (item.Name == "MusicIC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                 auto_suggest.PlaceholderText = "Search Music";
             }
             else if (item.Name == "VideosIC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                 auto_suggest.PlaceholderText = "Search Videos";
             }
             else if (item.Name == "LocD_IC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                 auto_suggest.PlaceholderText = "Search";
             }
             else if (item.Name == "OneD_IC")
             {
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                 auto_suggest.PlaceholderText = "Search OneDrive";
             }

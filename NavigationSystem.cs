@@ -170,13 +170,14 @@ namespace Navigation
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 //Debug.WriteLine("\nBefore Removals");
                 //ArrayDiag.DumpArray();
-                History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
-                History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
+                History.AddToForwardList(History.HistoryList[History.HistoryList.Count - 1]);
+                History.HistoryList.RemoveAt(History.HistoryList.Count - 1);
                 //Debug.WriteLine("\nAfter Removals");
                 //ArrayDiag.DumpArray();
-                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], false);     // To take into account the correct index without interference from the folder being navigated to
                 ItemViewModel.FilesAndFolders.Clear();
-                GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
+                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count - 1]);     // To take into account the correct index without interference from the folder being navigated to
+                //ItemViewModel.FilesAndFolders.Clear();
+                GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count - 1];
                 GenericFileBrowser.UpdateAllBindings();
 
                 if (History.ForwardList.Count == 0)
@@ -203,8 +204,8 @@ namespace Navigation
             if (History.ForwardList.Count() > 0)
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], false);     // To take into account the correct index without interference from the folder being navigated to
                 ItemViewModel.FilesAndFolders.Clear();
+                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
                 GenericFileBrowser.UpdateAllBindings();
@@ -226,7 +227,7 @@ namespace Navigation
         {
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, false);
+            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path);
             GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
             GenericFileBrowser.UpdateAllBindings();
         }
@@ -250,8 +251,8 @@ namespace Navigation
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
                 Debug.WriteLine("\nAfter Removals");
                 ArrayDiag.DumpArray();
-                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], true);     // To take into account the correct index without interference from the folder being navigated to
                 ItemViewModel.FilesAndFolders.Clear();
+                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
                 GenericFileBrowser.UpdateAllBindings();
 
@@ -279,8 +280,8 @@ namespace Navigation
             if (History.ForwardList.Count() > 0)
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], true);     // To take into account the correct index without interference from the folder being navigated to
                 ItemViewModel.FilesAndFolders.Clear();
+                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
                 GenericFileBrowser.UpdateAllBindings();
@@ -302,7 +303,7 @@ namespace Navigation
         {
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, true);
+            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path);
             GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
             GenericFileBrowser.UpdateAllBindings();
         }

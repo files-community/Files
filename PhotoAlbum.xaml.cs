@@ -38,7 +38,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter.ToString();
-            ItemViewModel.ViewModel = new ItemViewModel(parameters, true);
+            ItemViewModel.ViewModel = new ItemViewModel(parameters);
             Interact.Interaction.page = this;
             FileList.ItemClick += Interact.Interaction.PhotoAlbumItemList_ClickAsync;
             Back.Click += Navigation.PhotoAlbumNavActions.Back_Click;

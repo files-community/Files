@@ -66,7 +66,7 @@ namespace Interact
                         History.ForwardList.Clear();
                         ItemViewModel.FS.isEnabled = false;
                         ItemViewModel.FilesAndFolders.Clear();
-                        ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, false);
+                        ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath);
                         GenericFileBrowser.P.path = clickedOnItem.FilePath;
                         GenericFileBrowser.UpdateAllBindings();
                     }
@@ -124,7 +124,7 @@ namespace Interact
                 History.ForwardList.Clear();
                 ItemViewModel.FS.isEnabled = false;
                 ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, true);
+                ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath);
                 GenericFileBrowser.P.path = clickedOnItem.FilePath;
                 GenericFileBrowser.UpdateAllBindings();
 
@@ -199,7 +199,7 @@ namespace Interact
                 History.ForwardList.Clear();
                 ItemViewModel.FS.isEnabled = false;
                 ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, false);
+                ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath);
                 GenericFileBrowser.P.path = RowData.FilePath;
                 GenericFileBrowser.UpdateAllBindings();
             }

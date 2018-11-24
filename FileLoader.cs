@@ -112,14 +112,12 @@ namespace ItemListPresenter
             }
         }
 
-        public ItemViewModel(string ViewPath, bool isInPhotoMode)
+        public ItemViewModel(string ViewPath)
         {
-            isPhotoAlbumMode = isInPhotoMode;
             GenericFileBrowser.P.path = ViewPath;
+
             FilesAndFolders.Clear();
-            
-                GetItemsAsync(ViewPath);
-            
+            GetItemsAsync(ViewPath);
             History.AddToHistory(ViewPath);
 
 
@@ -127,14 +125,14 @@ namespace ItemListPresenter
             if (History.HistoryList.Count == 1)
             {
                 BS.isEnabled = false;
-                Debug.WriteLine("Disabled Property");
+                //Debug.WriteLine("Disabled Property");
 
 
             }
             else if (History.HistoryList.Count > 1)
             {
                 BS.isEnabled = true;
-                Debug.WriteLine("Enabled Property");
+                //Debug.WriteLine("Enabled Property");
             }
 
         }
@@ -172,40 +170,17 @@ namespace ItemListPresenter
             try
             {
                 folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
-            
-
-                QueryOptions options = new QueryOptions()
-                {
-                    FolderDepth = FolderDepth.Shallow,
-                    IndexerOption = IndexerOption.UseIndexerWhenAvailable
-
-                };
-                string[] otherProperties = new string[]
-                {
-                    SystemProperties.Title
-                };
-            
-                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, otherProperties);
-                SortEntry sort = new SortEntry()
-                {
-                    AscendingOrder = true,
-                    PropertyName = "System.ItemNameDisplay"
-                };
-                options.SortOrder.Add(sort);
-            
-                StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
-                StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
-                folderList = await folder.GetFoldersAsync();                                        // Create a read-only list of all folders in location
-                fileList = await folder.GetFilesAsync();                                            // Create a read-only list of all files in location
-                int NumOfFolders = folderList.Count;                                                // How many folders are in the list
-                int NumOfFiles = fileList.Count;                                                    // How many files are in the list
+                folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
+                fileList = await folder.GetFilesAsync();                            // Create a read-only list of all files in location
+                int NumOfFolders = folderList.Count;                                // How many folders are in the list
+                int NumOfFiles = fileList.Count;                                    // How many files are in the list
                 int NumOfItems = NumOfFiles + NumOfFolders;
                 int NumItemsRead = 0;
 
                 if (NumOfItems == 0)
                 {
                     TextState.isVisible = Visibility.Visible;
-                    return;
+                    //return;
                 }
 
                 PUIH.Header = "Loading " + NumOfItems + " items";
