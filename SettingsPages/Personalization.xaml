@@ -36,8 +36,8 @@
                 <ComboBoxItem Content="Dark"/>
             </ComboBox.Items>
         </ComboBox>
-        
-        
+            <TextBlock Name="RestartReminder" Visibility="Collapsed" Foreground="Green" Text="Success! Restart app to apply theme." Margin="0,10,0,0"/>
+
         </StackPanel>
     </Grid>
 

@@ -55,6 +55,10 @@ namespace Files
                     }
                 }
             }
+            else
+            {
+                localSettings.Values["theme"] = "Default";
+            }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());

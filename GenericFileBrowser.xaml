@@ -131,36 +131,34 @@
         </VisualStateManager.VisualStateGroups>
 
 
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="50,0,50,0">
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="50,0,50,0" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20*"/>
-                <RowDefinition Height="80*"/>
+                <RowDefinition Height="18*"/>
+                <RowDefinition Height="82*"/>
             </Grid.RowDefinitions>
             <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,100,0,0" Canvas.ZIndex="5" Grid.Row="1"/>
-            <Grid DataContext="{Binding BackObject}" VerticalAlignment="Stretch" Margin="0,0,0,0">
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,25">
-                        <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}"   x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets"  FontSize="20"  VerticalAlignment="Center" Height="50" Width="50">
+            <Grid DataContext="{Binding BackObject}" VerticalAlignment="Bottom" Margin="0,0,0,20">
+                <StackPanel Orientation="Vertical">
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="-15,0,0,0">
+                    <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}"   x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets"  FontSize="20"  VerticalAlignment="Center" Height="50" Width="50">
 
                         </AppBarButton>
                         <Grid DataContext="{Binding ForwardObject}" VerticalAlignment="Center">
                             <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
                         </Grid>
                         <AppBarButton x:Name="Refresh" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                    <AppBarButton x:Name="AddItem" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                    <AppBarButton x:Name="Paste" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                    <AppBarButton x:Name="GetPath" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xF271;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                    <AppBarButton x:Name="ViewMode" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xF0E2;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+
                 </StackPanel>
 
-                <AppBarButton x:Name="Menu"  Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE712;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Right" Width="50" Height="50">
-                            <Button.Flyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem Name="NewItem" Text="New..."/>
-                                    <MenuFlyoutItem Name="PasteItem" Text="Paste"/>
-                                    <MenuFlyoutItem Name="CopyPath" Text="Copy Path"/>
-                                    <MenuFlyoutItem Name="ViewModeChange" Text="Change View Mode..."/>
-                                </MenuFlyout>
-                            </Button.Flyout>
-                        </AppBarButton>
                     <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
-                        <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
+                        <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
                     </ScrollViewer>
+                </StackPanel>
             </Grid>
 
             <Grid Padding="0,25,0,0" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Row="1">

@@ -71,6 +71,7 @@ namespace Files.SettingsPages
                 Debug.WriteLine("Default Mode Enabled");
                 //SettingsPages.Personalization.TV.ThemeValue = "Default";
             }
+            RestartReminder.Visibility = Visibility.Visible;
         }
     }
 
