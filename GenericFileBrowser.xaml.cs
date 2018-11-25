@@ -68,7 +68,7 @@ namespace Files
             Forward.Click += Navigation.NavigationActions.Forward_Click;
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
             AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
-            //PasteItem.Click += Interact.Interaction.PasteItem_ClickAsync;
+            Paste.Click += Interact.Interaction.PasteItem_ClickAsync;
             
         }
 
