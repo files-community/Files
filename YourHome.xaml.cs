@@ -11,6 +11,7 @@
 //  ---- This file contains various behind-the-scenes code for the home page shortcuts ---- 
 //
 
+using ItemListPresenter;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using Windows.UI.Xaml;
@@ -23,19 +24,17 @@ namespace Files
 
     public sealed partial class YourHome : Page
     {
-
-        string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
-        string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+        public static string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
+        public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
         public YourHome()
         {
             this.InitializeComponent();
-            
         }
 
         private void b0_Click(object sender, RoutedEventArgs e)
@@ -48,6 +47,8 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
         }
 
         private void b1_Click(object sender, RoutedEventArgs e)
@@ -60,6 +61,9 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+
         }
 
         private void b2_Click(object sender, RoutedEventArgs e)
@@ -72,6 +76,9 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+
         }
 
         private void b3_Click(object sender, RoutedEventArgs e)
@@ -84,6 +91,9 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+
         }
 
         private void b4_Click(object sender, RoutedEventArgs e)
@@ -96,6 +106,9 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+
         }
 
         private void b5_Click(object sender, RoutedEventArgs e)
@@ -108,6 +121,9 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+
         }
 
         private void b6_Click(object sender, RoutedEventArgs e)
@@ -120,6 +136,9 @@ namespace Files
                     break;
                 }
             }
+            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+
         }
     }
 }

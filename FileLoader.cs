@@ -24,6 +24,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
 using Interact;
+using Windows.UI.Xaml.Controls;
 
 namespace ItemListPresenter
 {
@@ -53,6 +54,13 @@ namespace ItemListPresenter
         public static ObservableCollection<ListedItem> filesAndFolders = new ObservableCollection<ListedItem>();
         public static ObservableCollection<ListedItem> FilesAndFolders { get { return filesAndFolders; } }
 
+        string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+        string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
+        string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
         StorageFolder folder;
         string gotName;
@@ -114,11 +122,16 @@ namespace ItemListPresenter
 
         public ItemViewModel(string ViewPath)
         {
-            GenericFileBrowser.P.path = ViewPath;
-
-            FilesAndFolders.Clear();
-            GetItemsAsync(ViewPath);
+            
+            
+                GenericFileBrowser.P.path = ViewPath;
+                FilesAndFolders.Clear();
+                GetItemsAsync(ViewPath);
+            
+            
+            
             History.AddToHistory(ViewPath);
+            
 
 
 
