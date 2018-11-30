@@ -43,7 +43,6 @@ namespace Files
         public MainPage()
         {
             this.InitializeComponent();
-            this.IsTextScaleFactorEnabled = true;
             accessibleContentFrame = ContentFrame;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;

@@ -14,6 +14,9 @@
 using ItemListPresenter;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Drawing;
+using Windows.Graphics.Display;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -35,6 +38,35 @@ namespace Files
         public YourHome()
         {
             this.InitializeComponent();
+            SizeChanged += YourHome_SizeChanged;
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            var size = new Size(Convert.ToInt32(bounds.Width *  scaleFactor), Convert.ToInt32(bounds.Height * scaleFactor));
+            // If width is between 1 - 800
+            if(bounds.Width >= 1 && bounds.Width <= 800)
+            {
+                
+            }
+            else if (bounds.Width > 800 && bounds.Width <= 1024)
+            {
+                
+            }
+        }
+
+        private void YourHome_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
+            var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            var size = new Size(Convert.ToInt32(bounds.Width * scaleFactor), Convert.ToInt32(bounds.Height * scaleFactor));
+            // If width is between 1 - 800
+            if (bounds.Width >= 1 && bounds.Width <= 800)
+            {
+                
+            }
+            else if (bounds.Width > 800 && bounds.Width <= 1024)
+            {
+                
+            }
         }
 
         private void b0_Click(object sender, RoutedEventArgs e)
