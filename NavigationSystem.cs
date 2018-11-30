@@ -113,7 +113,6 @@ namespace Navigation
                 {
                     _isEnabled = value;
                     NotifyPropertyChanged("isEnabled");
-                    Debug.WriteLine("NotifyPropertyChanged was called successfully");
                 }
             }
         }
@@ -144,7 +143,6 @@ namespace Navigation
                 {
                     _isEnabled = value;
                     NotifyPropertyChanged("isEnabled");
-                    Debug.WriteLine("NotifyPropertyChanged was called successfully");
                 }
             }
         }

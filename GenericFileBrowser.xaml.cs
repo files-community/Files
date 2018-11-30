@@ -69,10 +69,22 @@ namespace Files
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
             AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
             Paste.Click += Interact.Interaction.PasteItem_ClickAsync;
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
             
         }
 
-        
+        private void Clipboard_ContentChanged(object sender, object e)
+        {
+            DataPackageView packageView = Clipboard.GetContent();
+            if (packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                Interact.Interaction.PS.isEnabled = true;
+            }
+            else
+            {
+                Interact.Interaction.PS.isEnabled = false;
+            }
+        }
 
         public static UniversalPath p = new UniversalPath();
         public static UniversalPath P { get { return GenericFileBrowser.p; } }

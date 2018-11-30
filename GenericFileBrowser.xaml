@@ -21,6 +21,7 @@
     xmlns:local="using:Files"
     xmlns:local1="using:Navigation"
     xmlns:local2="using:ItemListPresenter"
+    xmlns:local3="using:Interact"
     Name="GenericItemView"
     mc:Ignorable="d" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
 
@@ -160,7 +161,7 @@
                             <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Add Item" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="2">
-                            <AppBarButton HorizontalAlignment="Center" x:Name="Paste" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                            <AppBarButton IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" x:Name="Paste" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
                             <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Paste" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical" Margin="2">

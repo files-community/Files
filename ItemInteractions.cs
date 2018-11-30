@@ -29,6 +29,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media.Animation;
+using System.ComponentModel;
 
 namespace Interact
 {
@@ -37,8 +38,9 @@ namespace Interact
 
     public class Interaction
     {
-        
 
+        private static PasteState ps = new PasteState();
+        public static PasteState PS { get { return ps; } }
 
         public static Page page;
         public Interaction(Page p)
@@ -452,5 +454,31 @@ namespace Interact
         }
     }
 
+    public class PasteState : INotifyPropertyChanged
+    {
+        public bool _isEnabled;
+        public bool isEnabled
+        {
+            get
+            {
+                return _isEnabled;
+            }
+
+            set
+            {
+                if (value != _isEnabled)
+                {
+                    _isEnabled = value;
+                    NotifyPropertyChanged("isEnabled");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+    }
 
 }
