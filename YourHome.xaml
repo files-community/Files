@@ -105,119 +105,15 @@
 
     </Page.Resources>
 
-    <VisualStateManager.VisualStateGroups>
-        <VisualStateGroup>
-            <VisualState>
-                <VisualState.StateTriggers>
-                    <!--VisualState to be triggered when window width is 0-559 effective pixels.-->
-                    <AdaptiveTrigger MinWindowWidth="0"/>
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-                    <Setter Target="b0.Width" Value="125"/>
-                    <Setter Target="b0.Height" Value="225"/>
-
-                    <Setter Target="b1.Width" Value="125"/>
-                    <Setter Target="b1.Height" Value="225"/>
-
-                    <Setter Target="b2.Width" Value="125"/>
-                    <Setter Target="b2.Height" Value="225"/>
-
-                    <Setter Target="b3.Width" Value="125"/>
-                    <Setter Target="b3.Height" Value="225"/>
-
-                    <Setter Target="b4.Width" Value="125"/>
-                    <Setter Target="b4.Height" Value="225"/>
-
-                    <Setter Target="b5.Width" Value="125"/>
-                    <Setter Target="b5.Height" Value="225"/>
-
-                    <Setter Target="b6.Width" Value="125"/>
-                    <Setter Target="b6.Height" Value="225"/>
-                </VisualState.Setters>
-            </VisualState>
-
-            <VisualState>
-                <VisualState.StateTriggers>
-                    <!--VisualState to be triggered when window width is 560-1536 effective pixels.-->
-                    <AdaptiveTrigger MinWindowWidth="560"/>
-                </VisualState.StateTriggers>
-
-                <VisualState.Setters>
-                    <Setter Target="b0.Width" Value="320"/>
-                    <Setter Target="b0.Height" Value="220"/>
-
-                    <Setter Target="b1.Width" Value="320"/>
-                    <Setter Target="b1.Height" Value="220"/>
-
-                    <Setter Target="b2.Width" Value="320"/>
-                    <Setter Target="b2.Height" Value="220"/>
-
-                    <Setter Target="b3.Width" Value="320"/>
-                    <Setter Target="b3.Height" Value="220"/>
-
-                    <Setter Target="b4.Width" Value="320"/>
-                    <Setter Target="b4.Height" Value="220"/>
-
-                    <Setter Target="b5.Width" Value="320"/>
-                    <Setter Target="b5.Height" Value="220"/>
-
-                    <Setter Target="b6.Width" Value="320"/>
-                    <Setter Target="b6.Height" Value="220"/>
-
-                </VisualState.Setters>
-            </VisualState>
-
-            <VisualState>
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="1536"/>
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-                    <Setter Target="b0.Width" Value="320"/>
-                    <Setter Target="b0.Height" Value="220"/>
-
-                    <Setter Target="b1.Width" Value="320"/>
-                    <Setter Target="b1.Height" Value="220"/>
-
-                    <Setter Target="b2.Width" Value="320"/>
-                    <Setter Target="b2.Height" Value="220"/>
-
-                    <Setter Target="b3.Width" Value="320"/>
-                    <Setter Target="b3.Height" Value="220"/>
-
-                    <Setter Target="b4.Width" Value="320"/>
-                    <Setter Target="b4.Height" Value="220"/>
-
-                    <Setter Target="b5.Width" Value="320"/>
-                    <Setter Target="b5.Height" Value="220"/>
-
-                    <Setter Target="b6.Width" Value="320"/>
-                    <Setter Target="b6.Height" Value="220"/>
-
-                </VisualState.Setters>
-            </VisualState>
-
-            <VisualState>
-                <VisualState.StateTriggers>
-                    <AdaptiveTrigger MinWindowWidth="1920"/>
-                </VisualState.StateTriggers>
-                <VisualState.Setters>
-
-
-                </VisualState.Setters>
-            </VisualState>
-
-        </VisualStateGroup>
-    </VisualStateManager.VisualStateGroups>
-
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*" MinHeight="200"/>
+            <RowDefinition Height="2.5*" MinHeight="200"/>
             <RowDefinition Height="Auto" MinHeight="0" />
             <RowDefinition Height="4*" />
         </Grid.RowDefinitions>
+        
         <TextBlock Text="Your Home For Everything" TextWrapping="Wrap" VerticalAlignment="Bottom" FontFamily="Segoe UI Black" FontSize="48" FontWeight="Bold" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="False" HorizontalAlignment="Center" TextAlignment="Center" Padding="0,0,0,10" Margin="0,0,0,0"/>
-        <controls:AdaptiveGridView Margin="100,0,100,0" ItemHeight="200" DesiredWidth="175" Grid.Row="1">
+        <controls:AdaptiveGridView OneRowModeEnabled="True" Margin="100,0,100,0" ItemHeight="200" DesiredWidth="175" Grid.Row="1">
             <controls:AdaptiveGridView.Items>
 
                 <Button Style="{StaticResource CardStyle}"  x:Name="button1" Click="b1_Click"  VerticalAlignment="Top"   Foreground="White" Background="{x:Null}" Padding="0,0,0,0">
@@ -271,13 +167,15 @@
                 </Button>
             </controls:AdaptiveGridView.Items>
         </controls:AdaptiveGridView>
-        
 
-        <ListView Name="RecentsView" MinHeight="350" HorizontalAlignment="Stretch" Grid.Row="2" Padding="0,50,0,0" Margin="200,0,200,0">
-            <ListView.Header>
-                <TextBlock Text="No recent files" HorizontalAlignment="Center" FontSize="24"/>
-            </ListView.Header>
-        </ListView>
+        <ScrollViewer Grid.Row="2" HorizontalScrollMode="Disabled" Margin="100,0,100,0" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto">
+            <ListView Name="RecentsView" MinHeight="350" HorizontalAlignment="Stretch"  Padding="0,50,0,0" >
+                <ListView.Header>
+                    <TextBlock Text="No recent files" HorizontalAlignment="Center" FontSize="24"/>
+                </ListView.Header>
+            </ListView>
+        </ScrollViewer>
+        
 
 
 
