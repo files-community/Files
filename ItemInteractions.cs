@@ -178,7 +178,7 @@ namespace Interact
                                     break;
                                 }
                             }
-                            ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath);
+                            ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, GenericFileBrowser.GFBPageName);
                         }
                         GenericFileBrowser.UpdateAllBindings();
                     }
@@ -236,7 +236,7 @@ namespace Interact
                 History.ForwardList.Clear();
                 ItemViewModel.FS.isEnabled = false;
                 ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath);
+                ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
                 GenericFileBrowser.P.path = clickedOnItem.FilePath;
                 GenericFileBrowser.UpdateAllBindings();
 
@@ -311,7 +311,7 @@ namespace Interact
                 History.ForwardList.Clear();
                 ItemViewModel.FS.isEnabled = false;
                 ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath);
+                ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, GenericFileBrowser.GFBPageName);
                 GenericFileBrowser.P.path = RowData.FilePath;
                 GenericFileBrowser.UpdateAllBindings();
             }

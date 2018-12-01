@@ -26,6 +26,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Name="PhotoAlbumViewer">
 
+
+
     <Page.Resources>
         <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
         <AcrylicBrush x:Key="InAppAcrylic" BackgroundSource="Backdrop" TintColor="{StaticResource SystemAccentColor}" TintOpacity="0.6" FallbackColor="{ThemeResource SystemChromeMediumColor}"/>
@@ -38,163 +40,161 @@
         </Storyboard>
         <local1:BackState x:Key="BackObject"/>
         <local1:ForwardState x:Key="ForwardObject"/>
-        <Style x:Key="FluentHistoryButton" TargetType="Button">
-            <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/>
-            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}"/>
-            <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}"/>
-            <Setter Property="Padding" Value="8,4,8,4"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
-            <Setter Property="FocusVisualMargin" Value="-3"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
-                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}"/>
-                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}"/>
-                                        </VisualState.Setters>
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
-                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}"/>
-                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPressed}"/>
-                                        </VisualState.Setters>
-                                        <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
-                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
-                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
 
 
     </Page.Resources>
+    <Grid>
 
-    <Grid Background="White" Tag="{x:Bind Tag, Mode=OneWay}" HorizontalAlignment="Stretch">
-        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <!--VisualState to be triggered when window width is >=0 effective pixels.-->
+                        <AdaptiveTrigger MinWindowHeight="0"/>
+                    </VisualState.StateTriggers>
 
-        <Grid DataContext="{Binding BackObject}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,0,0,0" Height="200">
-            <Button  BorderThickness="1.5" Style="{ThemeResource FluentHistoryButton}" x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Foreground="Black" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="40,52,0,0" VerticalAlignment="Top" Height="50" Width="50">
+                    <VisualState.Setters>
 
-            </Button>
-            <Grid DataContext="{Binding ForwardObject}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Button BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Foreground="Black" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF"  Margin="95,52,0,0" FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
-            </Grid>
-            <Button x:Name="Refresh" BorderThickness="1.5" Style="{ThemeResource ButtonRevealStyle}" Foreground="Black" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Background="#33FFFFFF" FontSize="20" Margin="150,52,0,0" VerticalAlignment="Top" Width="50" Height="50" />
-            <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto" Margin="50,126,50,25" HorizontalAlignment="Stretch" VerticalAlignment="Top" >
-                <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path ,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"></TextBlock>
-            </ScrollViewer>
+                    </VisualState.Setters>
+                </VisualState>
 
-        </Grid>
-        <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,275,0,0" Canvas.ZIndex="5"/>
-        <GridView IsRightTapEnabled="True" IsItemClickEnabled="True" Background="White" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" Margin="40,200,40,0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" >
-            <GridView.Resources>
-                <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
-                    <MenuFlyout.Items>
-                        <MenuFlyoutItem Text="Open" Name="OpenItem">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE7AC;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="1080"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
 
-                        <MenuFlyoutItem Text="Share" Name="ShareItem">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE72D;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Scan with Windows Defender..." Name="ScanItem" >
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE83D;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE74D;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Rename" Name="RenameItem" >
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8AC;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Cut" Name="CutItem" >
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8C6;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Copy" Name="CopyItem" >
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8C8;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
+                    </VisualState.Setters>
+                </VisualState>
 
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE946;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout.Items>
 
-                </MenuFlyout>
-            </GridView.Resources>
-            <GridView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="0, 0, 0, 0" Padding="15, 15, 15, 15" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid Name="Picture" Visibility="{Binding FileIconVis}">
-                            <Image Source="{Binding FileImg}"/>
-                        </Grid>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
-                        <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
 
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <FontIcon FontSize="72" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="50,35,50,0" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="80*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="475,100,0,0" Canvas.ZIndex="5" Grid.Row="1"/>
+            <Grid DataContext="{Binding BackObject}" VerticalAlignment="Center" Margin="0,0,0,0">
+                <StackPanel Orientation="Vertical">
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" Margin="-15,0,0,0">
+                        <StackPanel Orientation="Vertical" Margin="2">
+                            <AppBarButton HorizontalAlignment="Center" Style="{ThemeResource AppBarButtonRevealStyle}"   x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets"  FontSize="20"  VerticalAlignment="Center" Height="50" Width="50"/>
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center" Text="Back" Width="60"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"  Margin="2">
+                            <Grid HorizontalAlignment="Center" DataContext="{Binding ForwardObject}" VerticalAlignment="Center">
+                                <AppBarButton Style="{ThemeResource AppBarButtonRevealStyle}" IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
                             </Grid>
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" TextAlignment="Center" HorizontalAlignment="Center" Text="Forward" Width="60"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"  Margin="2">
+                            <AppBarButton HorizontalAlignment="Center" x:Name="Refresh" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Refresh" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"  Margin="2">
+                            <AppBarButton HorizontalAlignment="Center" x:Name="AddItem" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Add Item" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="2">
+                            <AppBarButton IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" x:Name="Paste" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Paste" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="2">
+                            <AppBarButton HorizontalAlignment="Center" x:Name="GetPath" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xF271;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Copy Path" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="2">
+                            <AppBarButton HorizontalAlignment="Center" x:Name="ViewMode" Style="{ThemeResource AppBarButtonRevealStyle}"  Content="&#xF0E2;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                            <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords" Text="Layout Mode" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <ScrollViewer HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Bottom" >
+                        <TextBlock x:Name="VisiblePath" Text="{x:Bind local:GenericFileBrowser.P.path,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" HorizontalAlignment="Stretch"/>
+                    </ScrollViewer>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Row="1">
+            <GridView IsRightTapEnabled="True" IsItemClickEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" Margin="40,200,40,0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <GridView.Resources>
+                    <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem Text="Open" Name="OpenItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE7AC;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE72D;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE74D;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8AC;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C6;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C8;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE946;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout.Items>
+
+                    </MenuFlyout>
+                </GridView.Resources>
+
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="75*"/>
+                                <RowDefinition Height="25*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
+                                <Image Source="{Binding FileImg}"/>
+                            </Grid>
+
+                            <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
+
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <FontIcon FontSize="72" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                </Grid>
+                            </Grid>
+                            <TextBlock Grid.Row="1" VerticalAlignment="Bottom" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>
                         </Grid>
-                        <TextBlock VerticalAlignment="Bottom" Text="{Binding FileName}" TextAlignment="Center"/>
-                    </Grid>
 
-                </DataTemplate>
-            </GridView.ItemTemplate>
-
-        </GridView>
-
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
 
     </Grid>
 </Page>

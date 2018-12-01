@@ -286,7 +286,7 @@ namespace Navigation
                             break;
                         }
                     }
-                    ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count - 1]); // To take into account the correct index without interference from the folder being navigated to
+                    ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
                 }
                 GenericFileBrowser.UpdateAllBindings();
 
@@ -426,7 +426,7 @@ namespace Navigation
                             break;
                         }
                     }
-                    ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1]); // To take into account the correct index without interference from the folder being navigated to
+                    ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
                 }
 
 
@@ -451,7 +451,7 @@ namespace Navigation
         {
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path);
+            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, GenericFileBrowser.GFBPageName);
             //GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
             GenericFileBrowser.UpdateAllBindings();
         }
@@ -476,7 +476,7 @@ namespace Navigation
                 Debug.WriteLine("\nAfter Removals");
                 ArrayDiag.DumpArray();
                 ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
+                ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
                 GenericFileBrowser.UpdateAllBindings();
 
@@ -505,7 +505,7 @@ namespace Navigation
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                 ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1]);     // To take into account the correct index without interference from the folder being navigated to
+                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
                 GenericFileBrowser.UpdateAllBindings();
@@ -527,7 +527,7 @@ namespace Navigation
         {
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path);
+            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, PhotoAlbum.PAPageName);
             GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
             GenericFileBrowser.UpdateAllBindings();
         }

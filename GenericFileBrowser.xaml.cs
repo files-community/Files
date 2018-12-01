@@ -36,11 +36,12 @@ namespace Files
         public static DataGrid data;
         public static MenuFlyout context;
         public static MenuFlyout HeaderContextMenu;
+        public static Page GFBPageName;
 
         public GenericFileBrowser()
         {
             this.InitializeComponent();
-
+            GFBPageName = GenericItemView;
             string env = Environment.ExpandEnvironmentVariables("%userprofile%");
 
             this.IsTextScaleFactorEnabled = true;
@@ -102,7 +103,7 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             var parameters = (string)eventArgs.Parameter;
             ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(parameters);
+            ItemViewModel.ViewModel = new ItemViewModel(parameters, this.GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 P.path = "Desktop";

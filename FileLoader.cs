@@ -120,9 +120,17 @@ namespace ItemListPresenter
             }
         }
 
-        public ItemViewModel(string ViewPath)
+        public ItemViewModel(string ViewPath, Page p)
         {
-            
+            // Personalize retrieved items for view they are displayed in
+            if(p.Name == "GenericItemView")
+            {
+                isPhotoAlbumMode = false;
+            }
+            else if (p.Name == "PhotoAlbumViewer")
+            {
+                isPhotoAlbumMode = true;
+            }
             
                 GenericFileBrowser.P.path = ViewPath;
                 FilesAndFolders.Clear();
