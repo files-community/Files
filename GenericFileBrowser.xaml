@@ -211,12 +211,59 @@
             <Grid Visibility="Collapsed" Background="{StaticResource Accent}" VerticalAlignment="Top" Height="30" HorizontalAlignment="Stretch" Margin="0,872,0,0" Grid.Row="1">
 
             </Grid>
+
+            <controls:DropShadowPanel BorderBrush="White" BorderThickness="1" Name="FileConflictBox" Visibility="{x:Bind local2:ItemViewModel.ConflictUIVisibility.isVisible}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="225" Margin="0,150,0,0" Grid.Row="1" Canvas.ZIndex="3">
+                <Grid Padding="25">
+                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Stroke="White" StrokeThickness="1" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <StackPanel>
+                        <TextBlock Name="ConflictLargeHeader" Text="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="22"/>
+                        <TextBlock Name="ConflictSmallHeader" TextWrapping="WrapWholeWords" Text="{x:Bind local2:ItemViewModel.ConflictBoxSubHeader.SubHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <StackPanel Orientation="Horizontal" Padding="0,90,0,0">
+                            <Button Name="ReplaceChoice" Width="200" Margin="0,0,50,0" Content="Replace"/>
+                            <Button Name="SkipChoice" Width="200" Content="Skip"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </controls:DropShadowPanel>
+            
+            <controls:DropShadowPanel BorderBrush="White" BorderThickness="1" Name="CollisionBox" Visibility="{x:Bind local2:ItemViewModel.CollisionUIVisibility.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="275" Margin="0,150,0,0" Grid.Row="1" Canvas.ZIndex="3">
+                <Grid Padding="25">
+                    <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Stroke="White" StrokeThickness="1" Width="500" Height="275" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <StackPanel>
+                        <TextBlock Name="LargeHeader" Text="{x:Bind local2:ItemViewModel.CollisionBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="22"/>
+                        <TextBlock Name="SmallHeader" TextWrapping="WrapWholeWords" Text="{x:Bind local2:ItemViewModel.CollisionBoxSubHeader.SubHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ListView IsItemClickEnabled="True" Name="CollisonLV">
+                            <ListViewItem Name="ReplaceAll">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Accept" Margin="0,0,15,0"/>
+                                        <TextBlock Text="Replace all items with the same name"/>
+                                    </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem Name="SkipAll">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Forward"  Margin="0,0,15,0"/>
+                                    <TextBlock Text="Skip these items"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem Name="PromptForAll">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE9D5;" Margin="0,0,15,0"/>
+                                    <TextBlock Text="Prompt me for each item"/>
+                                </StackPanel>
+                            </ListViewItem>
+
+
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+            </controls:DropShadowPanel>
+            
             <controls:DropShadowPanel x:Name="ProgressBox" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="225" Margin="0,150,0,0" Grid.Row="1">
                 <Grid>
                     <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Stroke="White" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Bind local2:ItemViewModel.PUIH.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,150" FontSize="22"/>
-                    <Button Content="Hide" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175" Click="Button_Click"/>
-                    <TextBlock Text="{x:Bind local2:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,50" FontSize="14"/>
+                    <Button Content="{x:Bind local2:ItemViewModel.ButtonText.buttonText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Right" Margin="0,0,25,25" VerticalAlignment="Bottom" Width="175" Click="Button_Click"/>
+                    <TextBlock Text="{x:Bind local2:ItemViewModel.PUIP.Path, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="25,0,0,85" FontSize="14"/>
                     <ProgressBar Name="pbar"  Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Height="8" HorizontalAlignment="Center" Width="450" Margin="0,50,0,0"/>
                 </Grid>
             </controls:DropShadowPanel>

@@ -384,21 +384,19 @@ namespace Interact
                         items.Add(item);
                     }
                 }
-                //var DataGridSelectedItem = ItemViewModel.FilesAndFolders[GenericFileBrowser.data.SelectedIndex];
-                PathSnapshot = ItemViewModel.PUIP.Path;
-                //var fol = await StorageFolder.GetFolderFromPathAsync(path);
-                //foreach(IStorageItem it in fol)
-                //{
-
-                //}
-                //var item = await fol.GetItemAsync(DataGridSelectedItem.FileName);
+                
                 IEnumerable<IStorageItem> EnumerableOfItems = items;
                 dataPackage.SetStorageItems(EnumerableOfItems);
                 Clipboard.SetContent(dataPackage);
                 
             }
         }
-        static string PathSnapshot;
+        public static bool isSkipEnabled = false;
+        public static bool isReplaceEnabled = false;
+        public static bool isReviewEnabled = false;
+        public static IStorageItem ItemSnapshot;
+        public static string DestinationPathSnapshot;
+
         public static async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             // TODO: Add progress box and collision options for this operation
@@ -408,25 +406,61 @@ namespace Interact
             
             foreach(IStorageItem item in ItemsToPaste)
             {
+                try
+                {
+                    if (item.IsOfType(StorageItemTypes.Folder))
+                    {
+                        CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false, item);
+                    }
+                    else if (item.IsOfType(StorageItemTypes.File))
+                    {
+                        StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                        await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath));
+                    }
+                }
+                catch (Exception)
+                {
+                    if (isReplaceEnabled)
+                    {
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            CloneDirectoryAsync(item.Path, DestinationPath, item.Name, true, item);
+                        }
+                        else if (item.IsOfType(StorageItemTypes.File))
+                        {
+                            StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                            await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPath + @"\" + item.Name));
+                        }
+                    }
+                    else if (isSkipEnabled)
+                    {
+                        // Skip doing anything with file entirely
+                    }
+                    else if (isReviewEnabled)
+                    {
+                        ItemSnapshot = item;
+                        DestinationPathSnapshot = DestinationPath;
+                        ItemViewModel.DisplayReviewUIWithArgs("Skip or Replace This Item?", "An item already exists with the name " + item.Name + ".");
+
+                    }
+                    else   // First time of this collision, so prompt for user choice
+                    {
+                        ItemViewModel.DisplayCollisionUIWithArgs("Replace All Existing Items?", "You can choose whether to replace or skip all items if there are more than one. Optionally, you can review each one individually.");
+                        return;
+                    }
+                    
+                }
                 
-                if (item.IsOfType(StorageItemTypes.Folder))
-                {
-                    CloneDirectoryAsync(item.Path, DestinationPath, item.Name);
-                    
-                    
-                }
-                else if (item.IsOfType(StorageItemTypes.File))
-                {
-                    StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                    await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath));
-                }
 
             }
+            isReplaceEnabled = false;
+            isSkipEnabled = false;
+            isReviewEnabled = false;
             NavigationActions.Refresh_Click(null, null);
 
         }
         static int passNum = 0;
-        private static async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string DirName)
+        private static async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string DirName, bool replaceRoot, IStorageItem item)
         {
             passNum++;
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
@@ -434,23 +468,153 @@ namespace Interact
 
             if(passNum == 1)
             {
-                await DestinationFolder.CreateFolderAsync(DirName);
-                DestinationPath = DestinationPath + @"\" + DirName;
-                DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
-            //    SourcePath = SourcePath + @"\" + DirName;
-            //    SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
-            }
+                if (!replaceRoot)
+                {
+                    try
+                    {
+                        await DestinationFolder.CreateFolderAsync(DirName);
+                        DestinationPath = DestinationPath + @"\" + DirName;
+                        DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
+                        //    SourcePath = SourcePath + @"\" + DirName;
+                        //    SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
+                    }
+                    catch (Exception)
+                    {
+                        if (isReplaceEnabled)
+                        {
+                            if (item.IsOfType(StorageItemTypes.Folder))
+                            {
+                                CloneDirectoryAsync(item.Path, DestinationPath, item.Name, true, item);
+                            }
+                            else if (item.IsOfType(StorageItemTypes.File))
+                            {
+                                StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                                await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPath + @"\" + item.Name));
+                            }
+                        }
+                        else if (isSkipEnabled)
+                        {
+                            // Skip doing anything with file entirely
+                        }
+                        else if (isReviewEnabled)
+                        {
+                            ItemSnapshot = item;
+                            DestinationPathSnapshot = DestinationPath;
+                            ItemViewModel.DisplayReviewUIWithArgs("Skip or Replace This Item?", "An item already exists with the name " + item.Name + ".");
 
-            Debug.WriteLine("Pass " + passNum);
-            foreach (StorageFile file in await SourceFolder.GetFilesAsync())
-            {
-                await file.CopyAsync(DestinationFolder);
+                        }
+                        else   // First time of this collision, so prompt for user choice
+                        {
+                            ItemViewModel.DisplayCollisionUIWithArgs("Replace All Existing Items?", "You can choose whether to replace or skip all items if there are more than one. Optionally, you can review each one individually.");
+                            return;
+                        }
+
+                    }
+
+
+                }
+                else
+                {
+                    string ExistingFolderPath;
+                    ExistingFolderPath = DestinationPath + @"\" + DirName;
+                    StorageFolder ExistingFolder = await StorageFolder.GetFolderFromPathAsync(ExistingFolderPath);
+                    await ExistingFolder.DeleteAsync();
+                    await DestinationFolder.CreateFolderAsync(DirName);
+                    DestinationPath = DestinationPath + @"\" + DirName;
+                    DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
+                }
+
+
             }
-            foreach (StorageFolder folder in await SourceFolder.GetFoldersAsync())
-            {
-                await DestinationFolder.CreateFolderAsync(folder.DisplayName);
-                CloneDirectoryAsync(folder.Path, DestinationPath + @"\" + folder.DisplayName, folder.DisplayName);
+            try { 
+                Debug.WriteLine("Pass " + passNum);
+                foreach (StorageFile file in await SourceFolder.GetFilesAsync())
+                {
+                    await file.CopyAsync(DestinationFolder);
+                }
+                foreach (StorageFolder folder in await SourceFolder.GetFoldersAsync())
+                {
+                    await DestinationFolder.CreateFolderAsync(folder.DisplayName);
+                    CloneDirectoryAsync(folder.Path, DestinationPath + @"\" + folder.DisplayName, folder.DisplayName, false, item);
+                }
             }
+            catch (Exception)
+            {
+                if (isReplaceEnabled)
+                {
+                    if (item.IsOfType(StorageItemTypes.Folder))
+                    {
+                        CloneDirectoryAsync(item.Path, DestinationPath, item.Name, true, item);
+                    }
+                    else if (item.IsOfType(StorageItemTypes.File))
+                    {
+                        StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                        await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPath + @"\" + item.Name));
+                    }
+                }
+                else if (isSkipEnabled)
+                {
+                    // Skip doing anything with file entirely
+                }
+                else if (isReviewEnabled)
+                {
+                    ItemSnapshot = item;
+                    DestinationPathSnapshot = DestinationPath;
+                    ItemViewModel.DisplayReviewUIWithArgs("Skip or Replace This Item?", "An item already exists with the name " + item.Name + ".");
+
+                }
+                else   // First time of this collision, so prompt for user choice
+                {
+                    ItemViewModel.DisplayCollisionUIWithArgs("Replace All Existing Items?", "You can choose whether to replace or skip all items if there are more than one. Optionally, you can review each one individually.");
+                    return;
+                }
+
+            }
+        }
+
+        public static void CollisionLVItemClick(object sender, ItemClickEventArgs e)
+        {
+            var clicked = e.ClickedItem as ListViewBase;
+            var trulyclicked = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+            if (trulyclicked.Name == "ReplaceAll")
+            {
+                isReplaceEnabled = true;
+                ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                Debug.WriteLine("Click registered");
+                PasteItem_ClickAsync(null, null);
+
+            }
+            else if (trulyclicked.Name == "SkipAll")
+            {
+                isSkipEnabled = true;
+                ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                PasteItem_ClickAsync(null, null);
+            }
+            else
+            {
+                isReviewEnabled = true;
+                ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                PasteItem_ClickAsync(null, null);
+            }
+        }
+
+        public static async void ReplaceChoiceClick(object sender, RoutedEventArgs e)
+        {
+            if (ItemSnapshot.IsOfType(StorageItemTypes.Folder))
+            {
+                CloneDirectoryAsync(ItemSnapshot.Path, DestinationPathSnapshot, ItemSnapshot.Name, true, ItemSnapshot);
+            }
+            else if (ItemSnapshot.IsOfType(StorageItemTypes.File))
+            {
+                StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(ItemSnapshot.Path);
+                await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPathSnapshot + @"\" + ItemSnapshot.Name));
+            }
+            ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
+        }
+
+        public static void SkipChoiceClick(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

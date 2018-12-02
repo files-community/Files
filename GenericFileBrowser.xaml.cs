@@ -54,6 +54,8 @@ namespace Files
             ProgressBox.Visibility = Visibility.Collapsed;
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
+            ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+            ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
@@ -71,7 +73,9 @@ namespace Files
             AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
             Paste.Click += Interact.Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            
+            CollisonLV.ItemClick += Interact.Interaction.CollisionLVItemClick;
+            ReplaceChoice.Click += Interact.Interaction.ReplaceChoiceClick;
+            SkipChoice.Click += Interact.Interaction.SkipChoiceClick;
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -171,7 +175,6 @@ namespace Files
             ProgressBox.Visibility = Visibility.Collapsed;
         }
 
-        
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

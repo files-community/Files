@@ -175,6 +175,27 @@ namespace ItemListPresenter
         private static ProgressUIPath pUIp = new ProgressUIPath();
         public static ProgressUIPath PUIP { get { return ItemViewModel.pUIp; } }
 
+        private static ProgressUIButtonText buttonText = new ProgressUIButtonText();
+        public static ProgressUIButtonText ButtonText { get { return ItemViewModel.buttonText; } }
+
+        private static CollisionBoxHeader collisionBoxHeader = new CollisionBoxHeader();
+        public static CollisionBoxHeader CollisionBoxHeader { get { return collisionBoxHeader; } }
+
+        private static CollisionBoxSubHeader collisionBoxSubHeader = new CollisionBoxSubHeader();
+        public static CollisionBoxSubHeader CollisionBoxSubHeader { get { return collisionBoxSubHeader; } }
+
+        private static CollisionUIVisibility collisionUIVisibility = new CollisionUIVisibility();
+        public static CollisionUIVisibility CollisionUIVisibility { get { return collisionUIVisibility; } }
+
+        private static CollisionBoxHeader conflictBoxHeader = new CollisionBoxHeader();
+        public static CollisionBoxHeader ConflictBoxHeader { get { return conflictBoxHeader; } }
+
+        private static CollisionBoxSubHeader conflictBoxSubHeader = new CollisionBoxSubHeader();
+        public static CollisionBoxSubHeader ConflictBoxSubHeader { get { return conflictBoxSubHeader; } }
+
+        private static CollisionUIVisibility conflictUIVisibility = new CollisionUIVisibility();
+        public static CollisionUIVisibility ConflictUIVisibility { get { return conflictUIVisibility; } }
+
         private static EmptyFolderTextState textState = new EmptyFolderTextState();
         public static EmptyFolderTextState TextState { get { return ItemViewModel.textState; } }
         public static bool IsStopRequested = false;
@@ -205,6 +226,7 @@ namespace ItemListPresenter
                 }
 
                 PUIH.Header = "Loading " + NumOfItems + " items";
+                ButtonText.buttonText = "Hide";
 
                 if (NumOfItems >= 250)
                 {
@@ -315,14 +337,34 @@ namespace ItemListPresenter
             }
         }
 
-        public int UpdateProgUI(int level)
+        public static int UpdateProgUI(int level)
         {
             PROGRESSPER.prog = level;
-            //Debug.WriteLine("Status Updated For Folder Read Loop");
             return (int)level;
         }
 
+        public static void DisplayCollisionUIWithArgs(string header, string subHeader)
+        {
+            CollisionBoxHeader.Header = header;
+            CollisionBoxSubHeader.SubHeader = subHeader;
+            CollisionUIVisibility.isVisible = Visibility.Visible;
+        }
 
+        public static void DisplayReviewUIWithArgs(string header, string subHeader)
+        {
+            ConflictBoxHeader.Header = header;
+            ConflictBoxSubHeader.SubHeader = subHeader;
+            ConflictUIVisibility.isVisible = Visibility.Visible;
+        }
+
+        public static void DisplayProgUIWithArgs(string headerText, string messageText, string buttonText, int initialProgBarLevel)
+        {
+            PUIH.Header = headerText;
+            PUIP.Path = messageText;
+            ButtonText.buttonText = buttonText;
+            PROGRESSPER.prog = initialProgBarLevel;
+            PVIS.isVisible = Visibility.Visible;
+        }
 
     }
 }
