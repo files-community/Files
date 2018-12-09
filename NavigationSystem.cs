@@ -288,7 +288,6 @@ namespace Navigation
                     }
                     ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
                 }
-                GenericFileBrowser.UpdateAllBindings();
 
                 if (History.ForwardList.Count == 0)
                 {
@@ -432,7 +431,6 @@ namespace Navigation
 
                 
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
-                GenericFileBrowser.UpdateAllBindings();
                 //ArrayDiag.DumpForwardArray();
 
                 if (History.ForwardList.Count == 0)
@@ -453,7 +451,6 @@ namespace Navigation
             ItemViewModel.FilesAndFolders.Clear();
             ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, GenericFileBrowser.GFBPageName);
             //GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
-            GenericFileBrowser.UpdateAllBindings();
         }
     }
 
@@ -478,7 +475,6 @@ namespace Navigation
                 ItemViewModel.FilesAndFolders.Clear();
                 ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
-                GenericFileBrowser.UpdateAllBindings();
 
                 if (History.ForwardList.Count == 0)
                 {
@@ -508,7 +504,6 @@ namespace Navigation
                 ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
                 GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
-                GenericFileBrowser.UpdateAllBindings();
                 ArrayDiag.DumpForwardArray();
 
                 if (History.ForwardList.Count == 0)
@@ -529,7 +524,6 @@ namespace Navigation
             ItemViewModel.FilesAndFolders.Clear();
             ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, PhotoAlbum.PAPageName);
             GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
-            GenericFileBrowser.UpdateAllBindings();
         }
     }
 

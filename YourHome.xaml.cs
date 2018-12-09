@@ -12,7 +12,6 @@
 //
 
 using ItemListPresenter;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Drawing;
 using Windows.Graphics.Display;
@@ -38,18 +37,20 @@ namespace Files
         public YourHome()
         {
             this.InitializeComponent();
+            Locations.ItemLoader.itemsAdded.Clear();
+            Locations.ItemLoader.DisplayItems();
             SizeChanged += YourHome_SizeChanged;
             var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
             var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            var size = new Size(Convert.ToInt32(bounds.Width *  scaleFactor), Convert.ToInt32(bounds.Height * scaleFactor));
+            var size = new Size(Convert.ToInt32(bounds.Width * scaleFactor), Convert.ToInt32(bounds.Height * scaleFactor));
             // If width is between 1 - 800
-            if(bounds.Width >= 1 && bounds.Width <= 800)
+            if (bounds.Width >= 1 && bounds.Width <= 800)
             {
-                
+
             }
             else if (bounds.Width > 800 && bounds.Width <= 1024)
             {
-                
+
             }
         }
 
@@ -61,11 +62,11 @@ namespace Files
             // If width is between 1 - 800
             if (bounds.Width >= 1 && bounds.Width <= 800)
             {
-                
+
             }
             else if (bounds.Width > 800 && bounds.Width <= 1024)
             {
-                
+
             }
         }
 

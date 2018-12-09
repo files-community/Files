@@ -94,20 +94,16 @@ namespace Files
         public static UniversalPath p = new UniversalPath();
         public static UniversalPath P { get { return GenericFileBrowser.p; } }
 
-        public static GenericFileBrowser getGenericFileBrowser = new GenericFileBrowser();
-        public static GenericFileBrowser GetGenericFileBrowser { get { return getGenericFileBrowser; } }
+        //private static GenericFileBrowser getGenericFileBrowser = new GenericFileBrowser();
+        //public static GenericFileBrowser GetGenericFileBrowser { get { return getGenericFileBrowser; } }
 
-        public static void UpdateAllBindings()
-        {
-            GetGenericFileBrowser.Bindings.Update();
-        }
-
+        
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = (string)eventArgs.Parameter;
             ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(parameters, this.GenericItemView);
+            ItemViewModel.ViewModel = new ItemViewModel(parameters, GFBPageName);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 P.path = "Desktop";
@@ -175,6 +171,22 @@ namespace Files
             ProgressBox.Visibility = Visibility.Collapsed;
         }
 
+        private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        {
+            //var NewCellText = (e.Column.GetCellContent(e.Row) as TextBlock).Text.ToString();
+            var NewCellText = (GenericFileBrowser.data.SelectedItem as ListedItem).FileName;
+            var SelectedItem = ItemViewModel.FilesAndFolders[e.Row.GetIndex()];
+            if(SelectedItem.FileExtension == "Folder")
+            {
+                StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(SelectedItem.FilePath);
+                await FolderToRename.RenameAsync(NewCellText);
+            }
+            else
+            {
+                StorageFile FileToRename = await StorageFile.GetFileFromPathAsync(SelectedItem.FilePath);
+                await FileToRename.RenameAsync(NewCellText);
+            }
+        }
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

@@ -29,12 +29,8 @@
         <SplitView IsPaneOpen="True" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline">
             <SplitView.Pane>
                 <ListView Name="SecondaryPane" IsItemClickEnabled="True" SelectionChanged="ListView_SelectionChanged">
-                    <NavigationViewItemSeparator/>
-                    <NavigationViewItemSeparator/>
-                    <NavigationViewItemSeparator/>
-                    <NavigationViewItemSeparator/>
-                    <NavigationViewItemSeparator/>
-                    <NavigationViewItemHeader Margin="5, -4, 0, 0" Content="Settings"/>
+                    
+                    <NavigationViewItemHeader Margin="5, 120, 0, 0" Content="Settings"/>
                     <ListViewItem  Padding="20,0,0,0" Content="Personalization" x:Name="Personalization">
                     </ListViewItem>
                     <ListViewItem Padding="20,0,0,0" Content="Preferences" x:Name="Preferences">

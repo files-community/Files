@@ -4,6 +4,37 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
     xmlns:pages="using:Files.SettingsPages">
-    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <!-- The "Default" theme dictionary is used unless a specific
+                                 light, dark, or high contrast dictionary is provided. These
+                                 resources should be tested with both the light and dark themes,
+                                 and specific light or dark resources provided as needed. -->
+                    <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
+                                   BackgroundSource="Backdrop"
+                                   TintColor="LightSlateGray"
+                                   TintOpacity="0.6"/>
+                    <AcrylicBrush x:Key="NavigationViewTopPaneBackground"
+                                   BackgroundSource="Backdrop"
+                                   TintColor="{ThemeResource SystemAccentColor}"
+                                   TintOpacity="0.6"/>
+                    <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="White" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="Black" FallbackColor="#FF494949"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <!-- Always include a "HighContrast" dictionary when you override
+                                 theme resources. This empty dictionary ensures that the 
+                                 default high contrast resources are used when the user
+                                 turns on high contrast mode. -->
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+
+
+    </Application.Resources>
     
 </Application>

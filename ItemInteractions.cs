@@ -180,7 +180,6 @@ namespace Interact
                             }
                             ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, GenericFileBrowser.GFBPageName);
                         }
-                        GenericFileBrowser.UpdateAllBindings();
                     }
                     else if (clickedOnItem.FileExtension == "Executable")
                     {
@@ -238,7 +237,6 @@ namespace Interact
                 ItemViewModel.FilesAndFolders.Clear();
                 ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
                 GenericFileBrowser.P.path = clickedOnItem.FilePath;
-                GenericFileBrowser.UpdateAllBindings();
 
             }
             else
@@ -313,7 +311,6 @@ namespace Interact
                 ItemViewModel.FilesAndFolders.Clear();
                 ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, GenericFileBrowser.GFBPageName);
                 GenericFileBrowser.P.path = RowData.FilePath;
-                GenericFileBrowser.UpdateAllBindings();
             }
             else
             {
@@ -356,7 +353,10 @@ namespace Interact
 
         public static void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-
+            var ItemSelected = GenericFileBrowser.data.SelectedIndex;
+            var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+            GenericFileBrowser.data.BeginEdit();
+            
         }
 
         public static void CutItem_Click(object sender, RoutedEventArgs e)
@@ -396,6 +396,7 @@ namespace Interact
         public static bool isReviewEnabled = false;
         public static IStorageItem ItemSnapshot;
         public static string DestinationPathSnapshot;
+        public static bool isLoopPaused = false;
 
         public static async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
@@ -403,19 +404,38 @@ namespace Interact
             var DestinationPath = ItemViewModel.PUIP.Path;
             DataPackageView packageView = Clipboard.GetContent();
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
-            
             foreach(IStorageItem item in ItemsToPaste)
             {
-                try
+               
+                try // tries to do this if collision doesn't happen
                 {
-                    if (item.IsOfType(StorageItemTypes.Folder))
+                    if (isReplaceEnabled)
                     {
-                        CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false, item);
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            CloneDirectoryAsync(item.Path, DestinationPath, item.Name, true, item);
+                        }
+                        else if (item.IsOfType(StorageItemTypes.File))
+                        {
+                            StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                            await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPath + @"\" + item.Name));
+                        }
                     }
-                    else if (item.IsOfType(StorageItemTypes.File))
+                    else if (isSkipEnabled)
                     {
-                        StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                        await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath));
+                        // Skip doing anything with file entirely
+                    }
+                    else if (isReviewEnabled)
+                    {
+                        ItemSnapshot = item;
+                        DestinationPathSnapshot = DestinationPath;
+                        ItemViewModel.DisplayReviewUIWithArgs("Skip or Replace This Item?", "An item already exists with the name " + item.Name + ".");
+                        isLoopPaused = true;
+                    }
+                    else   // First time of this collision, so prompt for user choice
+                    {
+                        ItemViewModel.DisplayCollisionUIWithArgs("Replace All Existing Items?", "You can choose whether to replace or skip all items if there are more than one. Optionally, you can review each one individually.");
+                        return;
                     }
                 }
                 catch (Exception)
@@ -453,9 +473,7 @@ namespace Interact
                 
 
             }
-            isReplaceEnabled = false;
-            isSkipEnabled = false;
-            isReviewEnabled = false;
+            
             NavigationActions.Refresh_Click(null, null);
 
         }
@@ -576,12 +594,15 @@ namespace Interact
         {
             var clicked = e.ClickedItem as ListViewBase;
             var trulyclicked = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+            Debug.WriteLine("Collison Choice Selected");
             if (trulyclicked.Name == "ReplaceAll")
             {
                 isReplaceEnabled = true;
                 ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
-                Debug.WriteLine("Click registered");
                 PasteItem_ClickAsync(null, null);
+                isReplaceEnabled = false;
+                isSkipEnabled = false;
+                isReviewEnabled = false;
 
             }
             else if (trulyclicked.Name == "SkipAll")
@@ -589,12 +610,18 @@ namespace Interact
                 isSkipEnabled = true;
                 ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
                 PasteItem_ClickAsync(null, null);
+                isReplaceEnabled = false;
+                isSkipEnabled = false;
+                isReviewEnabled = false;
             }
             else
             {
                 isReviewEnabled = true;
                 ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
                 PasteItem_ClickAsync(null, null);
+                isReplaceEnabled = false;
+                isSkipEnabled = false;
+                isReviewEnabled = false;
             }
         }
 
@@ -610,11 +637,13 @@ namespace Interact
                 await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPathSnapshot + @"\" + ItemSnapshot.Name));
             }
             ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
+            isLoopPaused = false;
         }
 
         public static void SkipChoiceClick(object sender, RoutedEventArgs e)
         {
-
+            ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
+            isLoopPaused = false;
         }
     }
 

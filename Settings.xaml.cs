@@ -40,7 +40,7 @@ namespace Files
         public Settings()
         {
             this.InitializeComponent();
-            SecondaryPane.SelectedIndex = 6;
+            SecondaryPane.SelectedIndex = 1;
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)

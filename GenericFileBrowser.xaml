@@ -120,7 +120,7 @@
 
             <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Row="1">
 
-                <controls:DataGrid  FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
+                <controls:DataGrid CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="False"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  Margin="0,0,0,0" Padding="0, 0, 0, 0" HorizontalAlignment="Left">
 
                     <controls:DataGrid.Resources>
                         <MenuFlyout x:Name="HeaderRightClickMenu" x:Key="HeaderRightClickFlyout">
@@ -184,10 +184,16 @@
                         </MenuFlyout>
                     </controls:DataGrid.Resources>
 
-                    
+                    <controls:DataGrid.CellStyle>
+                        <Style TargetType="controls:DataGridCell">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="FocusVisualPrimaryThickness" Value="0"/>
+                            <Setter Property="FocusVisualSecondaryThickness" Value="0"/>
+                        </Style>
+                    </controls:DataGrid.CellStyle>
 
                     <controls:DataGrid.Columns>
-                        <controls:DataGridTemplateColumn>
+                        <controls:DataGridTemplateColumn IsReadOnly="True">
                             <controls:DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Grid  Margin="15, 0, 0, 0">
@@ -197,10 +203,10 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTextColumn Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
-                        <controls:DataGridTextColumn Header="Date modified" Width="300" Binding="{Binding FileDate}" Tag="Date"/>
-                        <controls:DataGridTextColumn Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
-                        <controls:DataGridTextColumn Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
+                        <controls:DataGridTextColumn  Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="300" Binding="{Binding FileDate}" Tag="Date"/>
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
                     </controls:DataGrid.Columns>
 
                 </controls:DataGrid>
@@ -212,8 +218,8 @@
 
             </Grid>
 
-            <controls:DropShadowPanel BorderBrush="White" BorderThickness="1" Name="FileConflictBox" Visibility="{x:Bind local2:ItemViewModel.ConflictUIVisibility.isVisible}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="225" Margin="0,150,0,0" Grid.Row="1" Canvas.ZIndex="3">
-                <Grid Padding="25">
+            <controls:DropShadowPanel BorderBrush="White" BorderThickness="1" Name="FileConflictBox" Visibility="{x:Bind local2:ItemViewModel.ConflictUIVisibility.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="225" Margin="0,150,0,0" Grid.Row="1" Canvas.ZIndex="3">
+                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="25">
                     <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Stroke="White" StrokeThickness="1" Width="500" Height="225" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <StackPanel>
                         <TextBlock Name="ConflictLargeHeader" Text="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="22"/>
@@ -227,7 +233,7 @@
             </controls:DropShadowPanel>
             
             <controls:DropShadowPanel BorderBrush="White" BorderThickness="1" Name="CollisionBox" Visibility="{x:Bind local2:ItemViewModel.CollisionUIVisibility.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" VerticalAlignment="Top" Width="500" Height="275" Margin="0,150,0,0" Grid.Row="1" Canvas.ZIndex="3">
-                <Grid Padding="25">
+                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="25">
                     <Rectangle Fill="{ThemeResource ApplicationPageBackgroundThemeBrush}" Stroke="White" StrokeThickness="1" Width="500" Height="275" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <StackPanel>
                         <TextBlock Name="LargeHeader" Text="{x:Bind local2:ItemViewModel.CollisionBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontSize="22"/>

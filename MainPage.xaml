@@ -9,7 +9,7 @@
    http://www.apache.org/licenses/LICENSE-2.0
 
    This file contains the markup code for the page containing the navigation items and necessary frame  -->
-    
+
 <Page
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -17,6 +17,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Class="Files.MainPage"
     xmlns:local="using:Files"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -27,89 +28,88 @@
         <SolidColorBrush x:Key="Accent" Color="{StaticResource SystemAccentColor}"/>
 
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
 
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent"  Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
 
-        <NavigationView RequestedTheme="Default" SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:FieldModifier="public" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
-            
+        <NavigationView IsBackEnabled="False" Windows10version1809:PaneDisplayMode="Left"  SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
+           
+            <NavigationView.MenuItems>
 
-                <NavigationView.MenuItems>
-               
-                    <NavigationViewItemHeader Content="Libraries"/>
-                    <NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItemHeader Content="Libraries"/>
+                <NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DesktopPage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DesktopPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DownloadsPage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DownloadsPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DocumentsPage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DocumentsPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="PicturesPage">
-                        <NavigationViewItem.Icon>
+                <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="PicturesPage">
+                    <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEB9F;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="MusicPage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="MusicPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="VideosPage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="VideosPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
 
-                    <NavigationViewItemHeader Content="Drives"/>
+                <NavigationViewItemHeader Content="Drives"/>
 
-                    <NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
-                        <NavigationViewItem.Icon>
-                            <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
-                        </NavigationViewItem.Icon>
-                    </NavigationViewItem>
+                <NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem Content="OneDrive" x:Name="OneD_IC" Tag="OneDrivePage">
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                </NavigationView.MenuItems>
+            </NavigationView.MenuItems>
 
-                <NavigationView.AutoSuggestBox>
+            <NavigationView.AutoSuggestBox>
 
-                    <AutoSuggestBox BorderThickness="0.5"  QuerySubmitted="auto_suggest_QuerySubmitted" x:Name="auto_suggest" PlaceholderText="Search" QueryIcon="Find"/>
-                </NavigationView.AutoSuggestBox>
+                <AutoSuggestBox BorderThickness="0.5"  QuerySubmitted="auto_suggest_QuerySubmitted" x:Name="auto_suggest" PlaceholderText="Search" QueryIcon="Find"/>
+            </NavigationView.AutoSuggestBox>
 
-                
-                    <Frame Name="ContentFrame" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-                        <Frame.ContentTransitions>
-                            <TransitionCollection>
-                                <NavigationThemeTransition/>
-                            </TransitionCollection>
-                        </Frame.ContentTransitions>
-                    </Frame>
-                
-                
-            </NavigationView>
-        
+
+            <Frame Name="ContentFrame" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+                <Frame.ContentTransitions>
+                    <TransitionCollection>
+                        <NavigationThemeTransition/>
+                    </TransitionCollection>
+                </Frame.ContentTransitions>
+            </Frame>
+
+
+        </NavigationView>
+
     </Grid>
 
 

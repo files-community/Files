@@ -14,7 +14,6 @@
 
 
 
-using Interact;
 using ItemListPresenter;
 using System;
 using System.ComponentModel;
@@ -48,7 +47,7 @@ namespace Files
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DragArea);
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
+            //titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             nv = navView;
@@ -62,7 +61,7 @@ namespace Files
         {
             NavigationViewItem item = args.SelectedItem as NavigationViewItem;
 
-            
+
             if (item.Content.Equals("Settings"))
             {
                 //ContentFrame.Navigate(typeof(Settings));
@@ -95,9 +94,9 @@ namespace Files
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
         {
-            
+
             var item = args.InvokedItem;
-            
+
             //var item = Interaction.FindParent<NavigationViewItemBase>(args.InvokedItem as DependencyObject);
             if (args.IsSettingsInvoked == true)
             {
@@ -192,6 +191,6 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
 
-    }    
-    
+    }
+
 }
