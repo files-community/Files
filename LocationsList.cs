@@ -10,6 +10,7 @@ namespace Locations
         public string ImageSource { get; set; }
         public string Icon { get; set; }
         public string Text { get; set; }
+        public string DominantImageColor { get; set; }
     }
 
     public class ItemLoader
@@ -28,7 +29,7 @@ namespace Locations
             itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/pictures.jpg", Icon = "&#xE8A5;", Text = "Pictures" });
             itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/music.jpg", Icon = "&#xE8A5;", Text = "Music" });
             itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/videos.jpg", Icon = "&#xE8A5;", Text = "Videos" });
-
+            // Eventually, pull dominant color from image and style dropshadowpanel accordingly
 
 
 
