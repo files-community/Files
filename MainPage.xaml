@@ -32,7 +32,7 @@
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
 
-        <NavigationView IsBackEnabled="False" Windows10version1809:PaneDisplayMode="Left"  SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
+        <NavigationView IsBackEnabled="False" Windows10version1809:PaneDisplayMode="Auto"  SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
            
             <NavigationView.MenuItems>
 

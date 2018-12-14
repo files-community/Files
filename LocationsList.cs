@@ -24,11 +24,11 @@ namespace Locations
         public static List<LocationItem> itemsAdded = new List<LocationItem>();
         public static void DisplayItems()
         {
-            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/downloads.jpg", Icon = "&#xE896;", Text = "Downloads"});
-            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/documents.jpg", Icon = "&#xE8A5;", Text = "Documents"});
-            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/pictures.jpg", Icon = "&#xE8A5;", Text = "Pictures" });
-            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/music.jpg", Icon = "&#xE8A5;", Text = "Music" });
-            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/videos.jpg", Icon = "&#xE8A5;", Text = "Videos" });
+            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Blue.png", Icon = "\xE896", Text = "Downloads"});
+            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Green.png", Icon = "\xE8A5", Text = "Documents"});
+            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xEB9F", Text = "Pictures" });
+            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xEC4F", Text = "Music" });
+            itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xE8B2", Text = "Videos" });
             // Eventually, pull dominant color from image and style dropshadowpanel accordingly
 
 

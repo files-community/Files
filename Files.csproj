@@ -149,6 +149,11 @@
     <Content Include="Assets\Cards\desktop.jpg" />
     <Content Include="Assets\Cards\documents.jpg" />
     <Content Include="Assets\Cards\downloads.jpg" />
+    <Content Include="Assets\Cards\Gradients\Blue.png" />
+    <Content Include="Assets\Cards\Gradients\Green.png" />
+    <Content Include="Assets\Cards\Gradients\Orange.png" />
+    <Content Include="Assets\Cards\Gradients\Pink.png" />
+    <Content Include="Assets\Cards\Gradients\Red.png" />
     <Content Include="Assets\Cards\music.jpg" />
     <Content Include="Assets\Cards\onedrive.jpg" />
     <Content Include="Assets\Cards\pictures.jpg" />

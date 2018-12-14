@@ -12,8 +12,11 @@
 //
 
 using ItemListPresenter;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using Windows.Graphics.Display;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -33,10 +36,9 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-
         public YourHome()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
             SizeChanged += YourHome_SizeChanged;
@@ -70,108 +72,86 @@ namespace Files
             }
         }
 
-        private void b0_Click(object sender, RoutedEventArgs e)
+        private void CardPressed(object sender, ItemClickEventArgs e)
         {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+            Debug.WriteLine(e.ClickedItem.GetType().ToString());
+            string BelowCardText = ((Locations.LocationItem)e.ClickedItem).Text;
+            Debug.WriteLine("Pressed Card Text: " + BelowCardText);
+            if (BelowCardText == "Downloads")
             {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                 {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
+                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
                 }
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
             }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
+            else if (BelowCardText == "Documents")
+            {
+                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+            }
+            else if (BelowCardText == "Pictures")
+            {
+                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+            }
+            else if (BelowCardText == "Music")
+            {
+                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+            }
+            else if (BelowCardText == "Videos")
+            {
+                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+            }
         }
 
-        private void b1_Click(object sender, RoutedEventArgs e)
+        private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-            {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
-                }
-            }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-
+            (sender as DropShadowPanel).ShadowOpacity = 0.00;
         }
 
-        private void b2_Click(object sender, RoutedEventArgs e)
+        private void DropShadowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-            {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
-                }
-            }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-
-        }
-
-        private void b3_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-            {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
-                }
-            }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-
-        }
-
-        private void b4_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-            {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
-                }
-            }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-
-        }
-
-        private void b5_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-            {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
-                }
-            }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-
-        }
-
-        private void b6_Click(object sender, RoutedEventArgs e)
-        {
-            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-            {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
-                {
-                    MainPage.Select.itemSelected = NavItemChoice;
-                    break;
-                }
-            }
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
-
+            (sender as DropShadowPanel).ShadowOpacity = 0.15;
         }
     }
 }
