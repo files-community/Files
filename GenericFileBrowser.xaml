@@ -21,7 +21,7 @@
     xmlns:local="using:Files"
     xmlns:local1="using:Navigation"
     xmlns:local2="using:ItemListPresenter"
-    xmlns:local3="using:Interact"
+    xmlns:local3="using:Interacts"
     Name="GenericItemView"
     mc:Ignorable="d" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollBarVisibility="Auto">
 

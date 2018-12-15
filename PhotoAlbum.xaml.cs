@@ -11,9 +11,17 @@
 //  ---- This file contains various behind-the-scenes code for the image-optimized layout ---- 
 //
 
+using Interacts;
 using ItemListPresenter;
+using Navigation;
 using System;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -43,13 +51,13 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter.ToString();
             ItemViewModel.ViewModel = new ItemViewModel(parameters, this.PhotoAlbumViewer);
-            Interact.Interaction.page = this;
-            FileList.ItemClick += Interact.Interaction.PhotoAlbumItemList_ClickAsync;
+            Interacts.Interaction.page = this;
+            FileList.DoubleTapped += Interacts.Interaction.List_ItemClick;
             Back.Click += Navigation.PhotoAlbumNavActions.Back_Click;
             Forward.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
             Refresh.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
-            FileList.RightTapped += Interact.Interaction.FileList_RightTapped;
-
+            FileList.RightTapped += Interacts.Interaction.FileList_RightTapped;
+            OpenItem.Click += Interacts.Interaction.OpenItem_Click;
            
         
            
@@ -89,7 +97,25 @@ namespace Files
         
     }
 
-        
+        private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            
+            //PhotoAlbum.context.ShowAt(gridView, e.GetPosition(gridView));
+            // README: Remember to figure out how to match BoxPressed (GridViewItem) to its background data source mate
+            //var ObjectPressed = ((ObservableCollection<ListedItem>)gridView.ItemsSource)[];
+            var ObjectPressed = (sender as Grid).DataContext as ListedItem;
+            gv.SelectedItems.Add(ObjectPressed);
+            context.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
+        }
+
+        private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            if(BoxPressed == null)
+            {
+                gv.SelectedItems.Clear();
+            }
+        }
     }
     
     

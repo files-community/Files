@@ -43,12 +43,10 @@ namespace Files
             this.InitializeComponent();
             GFBPageName = GenericItemView;
             string env = Environment.ExpandEnvironmentVariables("%userprofile%");
-
-            this.IsTextScaleFactorEnabled = true;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
+            //titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ProgressBox.Visibility = Visibility.Collapsed;
@@ -59,23 +57,23 @@ namespace Files
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
-            Interact.Interaction.page = this;
-            OpenItem.Click += Interact.Interaction.OpenItem_Click;
-            ShareItem.Click += Interact.Interaction.ShareItem_Click;
-            DeleteItem.Click += Interact.Interaction.DeleteItem_Click;
-            RenameItem.Click += Interact.Interaction.RenameItem_Click;
-            CutItem.Click += Interact.Interaction.CutItem_Click;
-            CopyItem.Click += Interact.Interaction.CopyItem_ClickAsync;
-            AllView.RightTapped += Interact.Interaction.AllView_RightTapped;
+            Interacts.Interaction.page = this;
+            OpenItem.Click += Interacts.Interaction.OpenItem_Click;
+            ShareItem.Click += Interacts.Interaction.ShareItem_Click;
+            DeleteItem.Click += Interacts.Interaction.DeleteItem_Click;
+            RenameItem.Click += Interacts.Interaction.RenameItem_Click;
+            CutItem.Click += Interacts.Interaction.CutItem_Click;
+            CopyItem.Click += Interacts.Interaction.CopyItem_ClickAsync;
+            AllView.RightTapped += Interacts.Interaction.AllView_RightTapped;
             Back.Click += Navigation.NavigationActions.Back_Click;
             Forward.Click += Navigation.NavigationActions.Forward_Click;
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
-            AllView.DoubleTapped += Interact.Interaction.List_ItemClick;
-            Paste.Click += Interact.Interaction.PasteItem_ClickAsync;
+            AllView.DoubleTapped += Interacts.Interaction.List_ItemClick;
+            Paste.Click += Interacts.Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            CollisonLV.ItemClick += Interact.Interaction.CollisionLVItemClick;
-            ReplaceChoice.Click += Interact.Interaction.ReplaceChoiceClick;
-            SkipChoice.Click += Interact.Interaction.SkipChoiceClick;
+            CollisonLV.ItemClick += Interacts.Interaction.CollisionLVItemClick;
+            ReplaceChoice.Click += Interacts.Interaction.ReplaceChoiceClick;
+            SkipChoice.Click += Interacts.Interaction.SkipChoiceClick;
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -83,11 +81,11 @@ namespace Files
             DataPackageView packageView = Clipboard.GetContent();
             if (packageView.Contains(StandardDataFormats.StorageItems))
             {
-                Interact.Interaction.PS.isEnabled = true;
+                Interacts.Interaction.PS.isEnabled = true;
             }
             else
             {
-                Interact.Interaction.PS.isEnabled = false;
+                Interacts.Interaction.PS.isEnabled = false;
             }
         }
 

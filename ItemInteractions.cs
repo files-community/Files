@@ -31,7 +31,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media.Animation;
 using System.ComponentModel;
 
-namespace Interact
+namespace Interacts
 {
 
 
@@ -200,17 +200,158 @@ namespace Interact
                         await Launcher.LaunchFileAsync(file, options);
                     }
                 }
-                else
+            }
+            else if (page.Name == "PhotoAlbumViewer")
+            {
+                var index = PhotoAlbum.gv.SelectedIndex;
+
+                if (index > -1)
                 {
-                    // Placeholder for row sorting logic
+                    var clickedOnItem = ItemViewModel.FilesAndFolders[index];
+
+                    if (clickedOnItem.FileExtension == "Folder")
+                    {
+                        ItemViewModel.TextState.isVisible = Windows.UI.Xaml.Visibility.Collapsed;
+                        History.ForwardList.Clear();
+                        ItemViewModel.FS.isEnabled = false;
+                        ItemViewModel.FilesAndFolders.Clear();
+                        if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
+                        {
+                            GenericFileBrowser.P.path = "Desktop";
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
+                        }
+                        else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
+                        {
+                            GenericFileBrowser.P.path = "Documents";
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
+                        }
+                        else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
+                        {
+                            GenericFileBrowser.P.path = "Downloads";
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
+                        }
+                        else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
+                        {
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
+                            GenericFileBrowser.P.path = "Pictures";
+                        }
+                        else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
+                        {
+                            GenericFileBrowser.P.path = "Music";
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
+                        }
+                        else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
+                        {
+                            GenericFileBrowser.P.path = "OneDrive";
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
+                        }
+                        else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
+                        {
+                            GenericFileBrowser.P.path = "Videos";
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
+                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
+                        }
+                        else
+                        {
+                            GenericFileBrowser.P.path = clickedOnItem.FilePath;
+                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            {
+                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                                {
+                                    MainPage.Select.itemSelected = NavItemChoice;
+                                    break;
+                                }
+                            }
+                            ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
+                        }
+                    }
+                    else if (clickedOnItem.FileExtension == "Executable")
+                    {
+                        Interaction.message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        Interaction.message.Title = "Unsupported Functionality";
+                        Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
+                        Interaction.message.Commands.Add(new UICommand("Cancel"));
+                        await Interaction.message.ShowAsync();
+                    }
+                    else
+                    {
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                        var options = new LauncherOptions
+                        {
+                            DisplayApplicationPicker = true
+
+                        };
+                        await Launcher.LaunchFileAsync(file, options);
+                    }
                 }
-                    
 
             }
            
         }
 
-        private static async void CommandInvokedHandler(IUICommand command)
+        public static async void CommandInvokedHandler(IUICommand command)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
         }
@@ -220,38 +361,38 @@ namespace Interact
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
         }
 
-        public static async void PhotoAlbumItemList_ClickAsync(object sender, ItemClickEventArgs e)
-        {
-            GridView grid = sender as GridView;
-            var index = grid.Items.IndexOf(e.ClickedItem);
-            var clickedOnItem = ItemViewModel.FilesAndFolders[index];
+        //public static async void PhotoAlbumItemList_ClickAsync(object sender, DoubleTappedRoutedEventArgs e)
+        //{
+        //    GridView grid = sender as GridView;
+        //    var index = grid.Items.IndexOf(e.);
+        //    var clickedOnItem = ItemViewModel.FilesAndFolders[index];
             
-            Debug.WriteLine("Reached PhotoAlbumViewer event");
+        //    //Debug.WriteLine("Reached PhotoAlbumViewer event");
 
-            if (clickedOnItem.FileExtension == "Folder")
-            {
+        //    if (clickedOnItem.FileExtension == "Folder")
+        //    {
 
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                History.ForwardList.Clear();
-                ItemViewModel.FS.isEnabled = false;
-                ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
-                GenericFileBrowser.P.path = clickedOnItem.FilePath;
+        //        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+        //        History.ForwardList.Clear();
+        //        ItemViewModel.FS.isEnabled = false;
+        //        ItemViewModel.FilesAndFolders.Clear();
+        //        ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
+        //        GenericFileBrowser.P.path = clickedOnItem.FilePath;
 
-            }
-            else
-            {
-                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
-                var options = new LauncherOptions();
-                options.DisplayApplicationPicker = true;
-                await Launcher.LaunchFileAsync(file, options); 
-                //var uri = new Uri(clickedOnItem.FilePath);
-                //BitmapImage bitmap = new BitmapImage();
-                //bitmap.UriSource = uri;
-                //LIS.image = bitmap;
-                //PhotoAlbum.largeImg.Source = bitmap;
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+        //        var options = new LauncherOptions();
+        //        options.DisplayApplicationPicker = true;
+        //        await Launcher.LaunchFileAsync(file, options); 
+        //        //var uri = new Uri(clickedOnItem.FilePath);
+        //        //BitmapImage bitmap = new BitmapImage();
+        //        //bitmap.UriSource = uri;
+        //        //LIS.image = bitmap;
+        //        //PhotoAlbum.largeImg.Source = bitmap;
+        //    }
+        //}
 
         public static DataGrid dataGrid;
 
@@ -294,31 +435,56 @@ namespace Interact
 
         public static void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            GridView gridView = sender as GridView;
-            PhotoAlbum.context.ShowAt(gridView, e.GetPosition(gridView));
+            
         }
 
         public static async void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            var ItemSelected = GenericFileBrowser.data.SelectedIndex;
-            var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+            if(page.Name == "GenericItemView")
+            {
+                var ItemSelected = GenericFileBrowser.data.SelectedIndex;
+                var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
 
-            if (RowData.FileExtension == "Folder")
-            {
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                History.ForwardList.Clear();
-                ItemViewModel.FS.isEnabled = false;
-                ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, GenericFileBrowser.GFBPageName);
-                GenericFileBrowser.P.path = RowData.FilePath;
+                if (RowData.FileExtension == "Folder")
+                {
+                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                    History.ForwardList.Clear();
+                    ItemViewModel.FS.isEnabled = false;
+                    ItemViewModel.FilesAndFolders.Clear();
+                    ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, GenericFileBrowser.GFBPageName);
+                    GenericFileBrowser.P.path = RowData.FilePath;
+                }
+                else
+                {
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
+                    var options = new LauncherOptions();
+                    options.DisplayApplicationPicker = true;
+                    await Launcher.LaunchFileAsync(file, options);
+                }
             }
-            else
+            else if(page.Name == "PhotoAlbumViewer")
             {
-                StorageFile file = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
-                var options = new LauncherOptions();
-                options.DisplayApplicationPicker = true;
-                await Launcher.LaunchFileAsync(file, options);
+                var ItemSelected = PhotoAlbum.gv.SelectedIndex;
+                var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+
+                if (RowData.FileExtension == "Folder")
+                {
+                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                    History.ForwardList.Clear();
+                    ItemViewModel.FS.isEnabled = false;
+                    ItemViewModel.FilesAndFolders.Clear();
+                    ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, PhotoAlbum.PAPageName);
+                    GenericFileBrowser.P.path = RowData.FilePath;
+                }
+                else
+                {
+                    StorageFile file = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
+                    var options = new LauncherOptions();
+                    options.DisplayApplicationPicker = true;
+                    await Launcher.LaunchFileAsync(file, options);
+                }
             }
+            
         }
 
         public static void ShareItem_Click(object sender, RoutedEventArgs e)

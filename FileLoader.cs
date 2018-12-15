@@ -23,7 +23,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Search;
 using Windows.UI.Popups;
-using Interact;
+using Interacts;
 using Windows.UI.Xaml.Controls;
 
 namespace ItemListPresenter
@@ -197,7 +197,7 @@ namespace ItemListPresenter
         public static CollisionUIVisibility ConflictUIVisibility { get { return conflictUIVisibility; } }
 
         private static EmptyFolderTextState textState = new EmptyFolderTextState();
-        public static EmptyFolderTextState TextState { get { return ItemViewModel.textState; } }
+        public static EmptyFolderTextState TextState { get { return textState; } }
         public static bool IsStopRequested = false;
         public static bool IsTerminated = true;
 
@@ -227,7 +227,7 @@ namespace ItemListPresenter
 
                 PUIH.Header = "Loading " + NumOfItems + " items";
                 ButtonText.buttonText = "Hide";
-
+                
                 if (NumOfItems >= 250)
                 {
                     PVIS.isVisible = Visibility.Visible;
@@ -313,7 +313,7 @@ namespace ItemListPresenter
                 PVIS.isVisible = Visibility.Collapsed;
                 IsTerminated = true;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 DisplayConsentDialog();
             }
