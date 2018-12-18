@@ -184,7 +184,7 @@
             <Setter Property="IsHoldingEnabled" Value="True"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,0,4,4"/>
+            <Setter Property="Margin" Value="0,0,8,4"/>
             <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}"/>
             <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}"/>
             <Setter Property="AllowDrop" Value="False"/>
@@ -375,11 +375,28 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="DropShadowPanelStyle1" TargetType="controls:DropShadowPanel">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:DropShadowPanel">
+                        <Grid Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Border x:Name="ShadowElement" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Page.Resources>
 
     <Grid Padding="50,0,50,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        
+
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="Auto"/>
@@ -389,27 +406,29 @@
         <controls:AdaptiveGridView IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,10,0" OneRowModeEnabled="True" ItemHeight="210" DesiredWidth="175" Grid.Row="1" Margin="50,0,50,0" Grid.ColumnSpan="2" ItemClick="CardPressed">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid  Margin="0,0,0,0" Padding="0,0,0,0">
+                    <Grid Margin="0,0,0,0" Padding="0,0,0,0">
 
                         <Grid Margin="2">
-                            <StackPanel Orientation="Vertical">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="85*"/>
+                                <RowDefinition Height="15*"/>
+                            </Grid.RowDefinitions>
 
 
-                                <controls:DropShadowPanel PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="7.50" OffsetY="7.50" ShadowOpacity="0.15" BlurRadius="10" Height="175" Width="175" HorizontalAlignment="Left">
-                                    <Grid>
-                                        <Rectangle Width="175" Height="175" RadiusX="10" RadiusY="10">
-                                            <Rectangle.Fill>
-                                                <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImageSource}"/>
-                                            </Rectangle.Fill>
-                                        </Rectangle>
-                                        <TextBlock Canvas.ZIndex="5" FontFamily="Segoe MDL2 Assets" FontSize="58" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </controls:DropShadowPanel>
+                            <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="7.50" OffsetY="7.50" ShadowOpacity="0.15" BlurRadius="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
+                                <Grid >
+                                    <Rectangle  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RadiusX="10" RadiusY="10">
+                                        <Rectangle.Fill>
+                                            <ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImageSource}"/>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
+                                    <TextBlock Canvas.ZIndex="5" FontFamily="Segoe MDL2 Assets" FontSize="58" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Grid>
+                            </controls:DropShadowPanel>
 
 
 
-                                <TextBlock Margin="0,5,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontWeight="Bold" FontSize="14" HorizontalAlignment="Left" />
-                            </StackPanel>
+                            <TextBlock Margin="0,5,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontWeight="Bold" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
                         </Grid>
                     </Grid>
                 </DataTemplate>
@@ -420,14 +439,14 @@
 
         <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch" Margin="50,25,75,0">
             <StackPanel>
-            <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontSize="30" Text="Recent Items"/>
-            <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto" >
-            <ListView Name="RecentsView" MinHeight="400" HorizontalAlignment="Stretch"  Padding="0,50,0,0" >
-                <ListView.Header>
-                    <TextBlock Text="No recent files" HorizontalAlignment="Center" FontSize="24"/>
-                </ListView.Header>
-            </ListView>
-        </ScrollViewer>
+                <TextBlock FontFamily="Segoe UI" FontWeight="Bold" FontSize="30" Text="Recent Items"/>
+                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto" >
+                    <ListView Name="RecentsView" MinHeight="400" HorizontalAlignment="Stretch"  Padding="0,50,0,0" >
+                        <ListView.Header>
+                            <TextBlock Text="No recent files" HorizontalAlignment="Center" FontSize="24"/>
+                        </ListView.Header>
+                    </ListView>
+                </ScrollViewer>
             </StackPanel>
         </Grid>
 
