@@ -13,15 +13,9 @@
 
 using Interacts;
 using ItemListPresenter;
-using Navigation;
 using System;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -44,7 +38,7 @@ namespace Files
             context = RightClickContextMenu;
         }
 
-        
+
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
@@ -58,9 +52,9 @@ namespace Files
             Refresh.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
             FileList.RightTapped += Interacts.Interaction.FileList_RightTapped;
             OpenItem.Click += Interacts.Interaction.OpenItem_Click;
-           
-        
-           
+
+
+
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 GenericFileBrowser.P.path = "Desktop";
@@ -94,15 +88,11 @@ namespace Files
                 GenericFileBrowser.P.path = parameters;
             }
 
-        
-    }
+
+        }
 
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            
-            //PhotoAlbum.context.ShowAt(gridView, e.GetPosition(gridView));
-            // README: Remember to figure out how to match BoxPressed (GridViewItem) to its background data source mate
-            //var ObjectPressed = ((ObservableCollection<ListedItem>)gridView.ItemsSource)[];
             var ObjectPressed = (sender as Grid).DataContext as ListedItem;
             gv.SelectedItems.Add(ObjectPressed);
             context.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
@@ -111,14 +101,14 @@ namespace Files
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            if(BoxPressed == null)
+            if (BoxPressed == null)
             {
                 gv.SelectedItems.Clear();
             }
         }
     }
-    
-    
+
+
 
 
 }
