@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ItemListPresenter;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,15 +26,19 @@ namespace Files
     /// </summary>
     public sealed partial class ClassicMode : Page
     {
+        public static Page ClassicView;
         public ClassicMode()
         {
             this.InitializeComponent();
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            Window.Current.SetTitleBar(DragArea);
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
+            titleBar.ButtonBackgroundColor = Color.FromArgb(0, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
+            ClassicView = this.ClassicModePage;
+            //ItemViewModel viewModel = new ItemViewModel(@"C:\", ClassicView);
         }
     }
 }

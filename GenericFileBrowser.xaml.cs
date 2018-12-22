@@ -22,6 +22,7 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -68,12 +69,31 @@ namespace Files
             Back.Click += Navigation.NavigationActions.Back_Click;
             Forward.Click += Navigation.NavigationActions.Forward_Click;
             Refresh.Click += Navigation.NavigationActions.Refresh_Click;
+            AddItem.Click += AddItem_ClickAsync;
             AllView.DoubleTapped += Interacts.Interaction.List_ItemClick;
             Paste.Click += Interacts.Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             CollisonLV.ItemClick += Interacts.Interaction.CollisionLVItemClick;
             ReplaceChoice.Click += Interacts.Interaction.ReplaceChoiceClick;
             SkipChoice.Click += Interacts.Interaction.SkipChoiceClick;
+        }
+
+        private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            var CurrentView = ApplicationView.GetForCurrentView();
+            CoreApplicationView NewView = CoreApplication.CreateNewView();
+
+            await NewView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                var newWindow = Window.Current;
+                var newAppView = ApplicationView.GetForCurrentView();
+                Frame frame = new Frame();
+                frame.Navigate(typeof(AddItem), null);
+                Window.Current.Content = frame;
+                Window.Current.Activate();
+                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newAppView.Id, ViewSizePreference.Default, CurrentView.Id, ViewSizePreference.Default);
+
+            });
         }
 
         private void Clipboard_ContentChanged(object sender, object e)

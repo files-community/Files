@@ -123,7 +123,7 @@ namespace ItemListPresenter
         public ItemViewModel(string ViewPath, Page p)
         {
             // Personalize retrieved items for view they are displayed in
-            if(p.Name == "GenericItemView")
+            if(p.Name == "GenericItemView" || p.Name == "ClassicView")
             {
                 isPhotoAlbumMode = false;
             }

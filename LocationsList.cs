@@ -29,7 +29,6 @@ namespace Locations
             itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xEB9F", Text = "Pictures" });
             itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xEC4F", Text = "Music" });
             itemsAdded.Add(new LocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xE8B2", Text = "Videos" });
-            // Eventually, pull dominant color from image and style dropshadowpanel accordingly
 
 
 

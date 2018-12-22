@@ -1,0 +1,35 @@
+﻿<Page
+    x:Class="Files.AddItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlAcrylicWindowBrush}" Loaded="Page_Loaded">
+
+    <Grid Padding="25,50,25,0">
+        <StackPanel Spacing="25" Orientation="Vertical">
+            <Grid Name="HeaderArea">
+                <StackPanel>
+                    <TextBlock Name="Heading" Text="Create New Item" FontSize="36" FontWeight="Bold"/>
+                    <TextBlock Name="Description" Text="Choose a type below for this new item."/>
+                </StackPanel>
+            </Grid>
+            <Grid Name="SelectionListContent" HorizontalAlignment="Left">
+                <StackPanel>
+                    <ListView IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind local:AddItem.AddItemsList}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Header}"/>
+                                        <TextBlock Foreground="Gray" Text="{Binding SubHeader}"/>
+                                    </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Page>
