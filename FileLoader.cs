@@ -201,7 +201,6 @@ namespace ItemListPresenter
         public static bool IsStopRequested = false;
         public static bool IsTerminated = true;
 
-
         public async void GetItemsAsync(string path)
         {
             Stopwatch stopwatch = new Stopwatch();

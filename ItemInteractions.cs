@@ -49,7 +49,6 @@ namespace Interacts
         }
 
         public static MessageDialog message;
-        private static Uri site_uri = new Uri(@"https://duke58701.wixsite.com/files-windows10/sideloading-help");
 
         // Double-tap event for DataGrid
         public static async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
