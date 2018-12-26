@@ -44,12 +44,21 @@ namespace ItemListPresenter
         }
     }
 
+    public class Classic_ListedFolderItem
+    {
+        public string FileName { get; set; }
+        public string FileDate { get; set; }
+        public string FileExtension { get; set; }
+        public string FilePath { get; set; }
+        public ObservableCollection<Classic_ListedFolderItem> Children { get; set; } = new ObservableCollection<Classic_ListedFolderItem>();
+    }
+
     public class ItemViewModel
     {
-        public ObservableCollection<ListedItem> folInfoList = new ObservableCollection<ListedItem>();
-        public ObservableCollection<ListedItem> FolInfoList { get { return this.folInfoList; } }
-        public ObservableCollection<ListedItem> fileInfoList = new ObservableCollection<ListedItem>();
-        public ObservableCollection<ListedItem> FileInfoList { get { return this.fileInfoList; } }
+        public static ObservableCollection<Classic_ListedFolderItem> classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
+        public static ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get { return classicFolderList; } }
+        public ObservableCollection<ListedItem> classicFileList = new ObservableCollection<ListedItem>();
+        public ObservableCollection<ListedItem> ClassicFileList { get { return classicFileList; } }
 
         public static ObservableCollection<ListedItem> filesAndFolders = new ObservableCollection<ListedItem>();
         public static ObservableCollection<ListedItem> FilesAndFolders { get { return filesAndFolders; } }
@@ -74,9 +83,11 @@ namespace ItemListPresenter
         Visibility gotFileImgVis;
         Visibility gotFolImg;
         StorageItemThumbnail gotFileImg;
+        public static ObservableCollection<Classic_ListedFolderItem> ChildrenList;
         public IReadOnlyList<StorageFolder> folderList;
         public IReadOnlyList<StorageFile> fileList;
         public bool isPhotoAlbumMode;
+        public static string pageName;
 
         public static ItemViewModel vm;
         public static ItemViewModel ViewModel { get { return vm; } set { } }
@@ -122,8 +133,9 @@ namespace ItemListPresenter
 
         public ItemViewModel(string ViewPath, Page p)
         {
+            pageName = p.Name;
             // Personalize retrieved items for view they are displayed in
-            if(p.Name == "GenericItemView" || p.Name == "ClassicView")
+            if(p.Name == "GenericItemView" || p.Name == "ClassicModePage")
             {
                 isPhotoAlbumMode = false;
             }
@@ -132,29 +144,32 @@ namespace ItemListPresenter
                 isPhotoAlbumMode = true;
             }
             
+            if(pageName != "ClassicModePage")
+            {
                 GenericFileBrowser.P.path = ViewPath;
                 FilesAndFolders.Clear();
-                GetItemsAsync(ViewPath);
-            
-            
-            
-            History.AddToHistory(ViewPath);
-            
-
-
-
-            if (History.HistoryList.Count == 1)
-            {
-                BS.isEnabled = false;
-                //Debug.WriteLine("Disabled Property");
-
-
             }
-            else if (History.HistoryList.Count > 1)
+                
+            GetItemsAsync(ViewPath);
+
+            if (pageName != "ClassicModePage")
             {
-                BS.isEnabled = true;
-                //Debug.WriteLine("Enabled Property");
+                History.AddToHistory(ViewPath);
+
+                if (History.HistoryList.Count == 1)
+                {
+                    BS.isEnabled = false;
+                    //Debug.WriteLine("Disabled Property");
+
+
+                }
+                else if (History.HistoryList.Count > 1)
+                {
+                    BS.isEnabled = true;
+                    //Debug.WriteLine("Enabled Property");
+                }
             }
+            
 
         }
 
@@ -250,7 +265,17 @@ namespace ItemListPresenter
                         gotFolType = "Folder";
                         gotFolImg = Visibility.Visible;
                         gotFileImgVis = Visibility.Collapsed;
-                        FilesAndFolders.Add(new ListedItem() { ItemIndex = FilesAndFolders.Count, FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                        
+
+                        if (pageName == "ClassicModePage")
+                        {
+                            ClassicFolderList.Add(new Classic_ListedFolderItem() { FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                        }
+                        else
+                        {
+                            FilesAndFolders.Add(new ListedItem() { ItemIndex = FilesAndFolders.Count, FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                        }
+
 
                         NumItemsRead++;
                     }
@@ -277,7 +302,7 @@ namespace ItemListPresenter
                         }
                         else
                         {
-                            gotType = f.FileType.ToString();
+                            gotType = f.DisplayType;
                         }
                         gotPath = f.Path.ToString();
                         gotFolImg = Visibility.Collapsed;
@@ -302,14 +327,25 @@ namespace ItemListPresenter
                             icon.SetSource(gotFileImg.CloneStream());
                         }
                         gotFileImgVis = Visibility.Visible;
-                        FilesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+
+                        if(pageName == "ClassicModePage")
+                        {
+                            ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                        }
+                        else
+                        {
+                            FilesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                        }
                         NumItemsRead++;
                     }
 
                 
                 }
-
-                PVIS.isVisible = Visibility.Collapsed;
+                if(pageName != "ClassicModePage")
+                {
+                    PVIS.isVisible = Visibility.Collapsed;
+                }
+                
                 IsTerminated = true;
             }
             catch (UnauthorizedAccessException)
@@ -365,5 +401,20 @@ namespace ItemListPresenter
             PVIS.isVisible = Visibility.Visible;
         }
 
+        public static async void FillTreeNode(object item, TreeView EntireControl)
+        {
+            var PathToFillFrom = (item as Classic_ListedFolderItem).FilePath;
+            StorageFolder FolderFromPath = await StorageFolder.GetFolderFromPathAsync(PathToFillFrom);
+            IReadOnlyList<StorageFolder> SubFolderList = await FolderFromPath.GetFoldersAsync();
+            foreach(StorageFolder fol in SubFolderList)
+            {
+                var name = fol.Name;
+                var date = fol.DateCreated.LocalDateTime.ToString();
+                var ext = fol.DisplayType;
+                var path = fol.Path;
+                (item as Classic_ListedFolderItem).Children.Add(new Classic_ListedFolderItem() { FileName = name, FilePath = path, FileDate = date, FileExtension = ext});
+
+            }
+        }
     }
 }

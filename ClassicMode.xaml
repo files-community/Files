@@ -54,8 +54,19 @@
         <SplitView DisplayMode="Inline" IsPaneOpen="True" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch">
             <SplitView.Pane>
                 <Grid Background="{StaticResource SystemControlAcrylicWindowMediumHighBrush}">
-                    <TreeView Windows10version1809:ItemsSource="{x:Bind local1:ItemViewModel.FilesAndFolders}" Name="DirectoryView">
-                        
+                    <TreeView ScrollViewer.HorizontalScrollMode="Enabled" Expanding="DirectoryView_Expanding" Windows10version1809:ItemsSource="{x:Bind local1:ItemViewModel.ClassicFolderList}" Name="DirectoryView">
+                        <Windows10version1809:TreeView.ItemTemplate>
+                            <DataTemplate>
+                                <TreeViewItem ItemsSource="{Binding Children}" HasUnrealizedChildren="True">
+                                    <TreeViewItem.Content>
+                                        <StackPanel Orientation="Horizontal">
+                                            <FontIcon Margin="0,0,10,0" Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                            <TextBlock Text="{Binding FileName}"/>
+                                        </StackPanel>
+                                    </TreeViewItem.Content>
+                                </TreeViewItem>
+                            </DataTemplate>
+                        </Windows10version1809:TreeView.ItemTemplate>
 
 
                     </TreeView>
