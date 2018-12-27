@@ -1,16 +1,4 @@
-﻿<!--- YourHome.xaml 
-
-   Copyright 2018 Luke Blevins 
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-   This file contains the markup code for the home page  -->
-
-<Page
+﻿<Page
     x:Class="Files.YourHome"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"

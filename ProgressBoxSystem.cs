@@ -1,18 +1,4 @@
-﻿//  ---- ProgressBoxSystem.cs ----
-//
-//   Copyright 2018 Luke Blevins
-//
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
-//
-//       http://www.apache.org/licenses/LICENSE-2.0
-//
-//  ---- This file contains code for the progress indicator displayed for intensive item loading ---- 
-//
-
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using Windows.UI.Xaml;
 
 public class ProgressPercentage : INotifyPropertyChanged

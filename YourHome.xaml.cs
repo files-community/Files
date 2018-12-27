@@ -1,22 +1,8 @@
-﻿//  ---- YourHome.xaml.cs ----
-//
-//   Copyright 2018 Luke Blevins
-//
-//   Licensed under the Apache License, Version 2.0 (the "License");
-//   you may not use this file except in compliance with the License.
-//   You may obtain a copy of the License at
-//
-//       http://www.apache.org/licenses/LICENSE-2.0
-//
-//  ---- This file contains various behind-the-scenes code for the home page shortcuts ---- 
-//
-
-using ItemListPresenter;
+﻿using ItemListPresenter;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using Windows.Graphics.Display;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;

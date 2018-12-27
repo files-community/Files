@@ -1,16 +1,4 @@
-﻿<!--- About.xaml 
-
-   Copyright 2018 Luke Blevins 
-
-   Licensed under the Apache License, Version 2.0 (the "License");
-   you may not use this file except in compliance with the License.
-   You may obtain a copy of the License at
-
-   http://www.apache.org/licenses/LICENSE-2.0
-
-   This file contains the markup code for the About settings page  -->
-    
-<Page
+﻿<Page
     x:Class="Files.SettingsPages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -27,7 +15,7 @@
             <TextBlock FontSize="18" Text="Edition: Files Home"/>
             <TextBlock FontSize="18" Text="Version: 0.4.5 Pre-Release"/>
             <ListView IsItemClickEnabled="True" Margin="0,35,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch">
-                <ListViewItem Name="FeedbackForm">
+                <ListViewItem IsEnabled="False" Name="FeedbackForm">
                     <StackPanel  Orientation="Horizontal">
                         <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>
                         <StackPanel Orientation="Vertical">
