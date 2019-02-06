@@ -3,24 +3,43 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
+        
         <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Light">
-                    
-                    <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
-                                   BackgroundSource="Backdrop"
-                                   TintColor="LightSlateGray"
-                                   TintOpacity="0.6"/>
-                    <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#FFFAFAFA"/>
-                    <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="White" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources  xmlns="using:Microsoft.UI.Xaml.Controls"/>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
+                                       BackgroundSource="Backdrop"
+                                       TintColor="LightSlateGray"
+                                       TintOpacity="0.6"/>
+                            <AcrylicBrush x:Key="NavigationViewTopPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.8" TintColor="White" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+                            <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="White" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
+                                       BackgroundSource="Backdrop"
+                                       TintColor="LightSlateGray"
+                                       TintOpacity="0.6"/>
+                            <AcrylicBrush x:Key="NavigationViewTopPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.8" TintColor="White" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+                            <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="White" FallbackColor="{StaticResource SystemChromeHighColor}"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground"
+                                       BackgroundSource="Backdrop"
+                                       TintColor="Black"
+                                       TintOpacity="0.6"/>
+                            <AcrylicBrush x:Key="NavigationViewTopPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.8" TintColor="Black" FallbackColor="#FF494949"/>
+                            <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="Black" FallbackColor="#FF494949"/>
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="Black" FallbackColor="#FF494949"/>
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="HighContrast">
-                    <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
+            </ResourceDictionary.MergedDictionaries>
+            
         </ResourceDictionary>
 
 

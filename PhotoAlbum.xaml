@@ -246,7 +246,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="80*"/>
         </Grid.RowDefinitions>
-        <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="425,135.2,0,0" Canvas.ZIndex="5" Grid.Row="2"/>
+        <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,55,0,0" Canvas.ZIndex="5" Grid.Row="2"/>
         <Grid DataContext="{Binding BackObject}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="-15,0,0,0">

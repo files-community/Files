@@ -30,12 +30,12 @@ namespace Files
             this.InitializeComponent();
             GFBPageName = GenericItemView;
             string env = Environment.ExpandEnvironmentVariables("%userprofile%");
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = true;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
+            //var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            //CoreTitleBar.ExtendViewIntoTitleBar = false;
+            //var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             //titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
+            //titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
+            //titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ProgressBox.Visibility = Visibility.Collapsed;
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
@@ -84,15 +84,23 @@ namespace Files
 
         private void Clipboard_ContentChanged(object sender, object e)
         {
-            DataPackageView packageView = Clipboard.GetContent();
-            if (packageView.Contains(StandardDataFormats.StorageItems))
+            try
             {
-                Interacts.Interaction.PS.isEnabled = true;
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems))
+                {
+                    Interacts.Interaction.PS.isEnabled = true;
+                }
+                else
+                {
+                    Interacts.Interaction.PS.isEnabled = false;
+                }
             }
-            else
+            catch (Exception)
             {
                 Interacts.Interaction.PS.isEnabled = false;
             }
+
         }
 
         public static UniversalPath p = new UniversalPath();

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Files"
@@ -242,8 +243,8 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
                             <Grid Height="50" Width="50" x:Name="ContentRoot" MinHeight="50" Margin="0,0">
-                                
-                                
+
+
                                 <Viewbox x:Name="ContentViewbox" AutomationProperties.AccessibilityView="Raw" HorizontalAlignment="Stretch" Height="16" Margin="{StaticResource AppBarButtonContentViewboxCollapsedMargin}">
                                     <ContentPresenter x:Name="Content" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}"/>
                                 </Viewbox>
@@ -296,23 +297,23 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="80*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="425,135.2,0,0" Canvas.ZIndex="5" Grid.Row="2"/>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,55,0,0" Canvas.ZIndex="5" Grid.Row="2"/>
             <Grid DataContext="{Binding BackObject}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-               
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="-15,0,0,0">
-                        <StackPanel Orientation="Vertical" Margin="2">
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="-15,0,0,0">
+                    <StackPanel Orientation="Vertical" Margin="2">
                         <AppBarButton LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"   HorizontalAlignment="Center"  x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back"  VerticalAlignment="Center" Height="50" Width="50">
-                            
+
                             <AppBarButton.ContentTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="&#xE76B;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                                 </DataTemplate>
                             </AppBarButton.ContentTemplate>
                         </AppBarButton>
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center" Text="Back" Width="60"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical"  Margin="2">
-                            <Grid HorizontalAlignment="Center" DataContext="{Binding ForwardObject}" VerticalAlignment="Center">
+                        <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center" Text="Back" Width="60"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"  Margin="2">
+                        <Grid HorizontalAlignment="Center" DataContext="{Binding ForwardObject}" VerticalAlignment="Center">
                             <AppBarButton LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"  IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" FontFamily="Segoe MDL2 Assets"  FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left">
                                 <AppBarButton.ContentTemplate>
                                     <DataTemplate>
@@ -320,10 +321,10 @@
                                     </DataTemplate>
                                 </AppBarButton.ContentTemplate>
                             </AppBarButton>
-                            </Grid>
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" TextAlignment="Center" HorizontalAlignment="Center" Text="Forward" Width="60"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical"  Margin="2">
+                        </Grid>
+                        <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" TextAlignment="Center" HorizontalAlignment="Center" Text="Forward" Width="60"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"  Margin="2">
                         <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="Refresh"  Style="{ThemeResource AppBarButtonFixedStyle}" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50">
                             <AppBarButton.ContentTemplate>
                                 <DataTemplate>
@@ -332,26 +333,28 @@
                             </AppBarButton.ContentTemplate>
                         </AppBarButton>
                         <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Refresh" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical"  Margin="2">
-                        <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="AddItem"  Style="{ThemeResource AppBarButtonFixedStyle}" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Add Item" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="2">
-                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" x:Name="Paste"  Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Paste" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="2">
-                        <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="GetPath"  Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xF271;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Copy Path" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="2">
-                        <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="ViewMode"  Style="{ThemeResource AppBarButtonFixedStyle}"   Content="&#xF0E2;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                            <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords" Text="Layout Mode" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                        </StackPanel>
                     </StackPanel>
+                    <StackPanel Orientation="Vertical"  Margin="2">
+                        <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="AddItem"  Style="{ThemeResource AppBarButtonFixedStyle}" Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                        <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Add Item" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" x:Name="Paste"  Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                        <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Paste" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="GetPath"  Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xF271;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                        <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Copy Path" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical" Margin="2">
+                        <AppBarButton LabelPosition="Collapsed" HorizontalAlignment="Center" x:Name="ViewMode"  Style="{ThemeResource AppBarButtonFixedStyle}"   Content="&#xF0E2;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
+                        <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords" Text="Layout Mode" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
+                    </StackPanel>
+                </StackPanel>
+                
+                
 
-                    
+
             </Grid>
 
             <ScrollViewer Padding="5" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" >
@@ -444,7 +447,7 @@
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
                         <controls:DataGridTextColumn  Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
-                        <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="300" Binding="{Binding FileDate}" Tag="Date"/>
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
                     </controls:DataGrid.Columns>

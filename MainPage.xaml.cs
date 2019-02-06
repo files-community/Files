@@ -31,7 +31,7 @@ namespace Files
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DragArea);
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            //titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
+            titleBar.ButtonBackgroundColor = Color.FromArgb(0, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             nv = navView;
