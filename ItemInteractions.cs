@@ -57,9 +57,9 @@ namespace Interacts
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
                             GenericFileBrowser.P.path = "Desktop";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -71,9 +71,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
                             GenericFileBrowser.P.path = "Documents";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -85,9 +85,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
                             GenericFileBrowser.P.path = "Downloads";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -98,9 +98,9 @@ namespace Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                         {
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -113,9 +113,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
                             GenericFileBrowser.P.path = "Music";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -127,9 +127,9 @@ namespace Interacts
                         else if(clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
                             GenericFileBrowser.P.path = "OneDrive";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -141,9 +141,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
                             GenericFileBrowser.P.path = "Videos";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -155,9 +155,9 @@ namespace Interacts
                         else
                         {
                             GenericFileBrowser.P.path = clickedOnItem.FilePath;
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -203,9 +203,9 @@ namespace Interacts
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
                             GenericFileBrowser.P.path = "Desktop";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -217,9 +217,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
                             GenericFileBrowser.P.path = "Documents";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -231,9 +231,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
                             GenericFileBrowser.P.path = "Downloads";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -244,9 +244,9 @@ namespace Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                         {
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -259,9 +259,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
                             GenericFileBrowser.P.path = "Music";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -273,9 +273,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
                             GenericFileBrowser.P.path = "OneDrive";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -287,9 +287,9 @@ namespace Interacts
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
                             GenericFileBrowser.P.path = "Videos";
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -301,9 +301,9 @@ namespace Interacts
                         else
                         {
                             GenericFileBrowser.P.path = clickedOnItem.FilePath;
-                            foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
-                                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
                                 {
                                     MainPage.Select.itemSelected = NavItemChoice;
                                     break;
@@ -749,7 +749,8 @@ namespace Interacts
             if (trulyclicked.Name == "ReplaceAll")
             {
                 isReplaceEnabled = true;
-                ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                //ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                GenericFileBrowser.collisionBox.Hide();
                 PasteItem_ClickAsync(null, null);
                 isReplaceEnabled = false;
                 isSkipEnabled = false;
@@ -759,7 +760,8 @@ namespace Interacts
             else if (trulyclicked.Name == "SkipAll")
             {
                 isSkipEnabled = true;
-                ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                //ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                GenericFileBrowser.collisionBox.Hide();
                 PasteItem_ClickAsync(null, null);
                 isReplaceEnabled = false;
                 isSkipEnabled = false;
@@ -768,7 +770,8 @@ namespace Interacts
             else
             {
                 isReviewEnabled = true;
-                ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                //ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
+                GenericFileBrowser.collisionBox.Hide();
                 PasteItem_ClickAsync(null, null);
                 isReplaceEnabled = false;
                 isSkipEnabled = false;
@@ -776,7 +779,7 @@ namespace Interacts
             }
         }
 
-        public static async void ReplaceChoiceClick(object sender, RoutedEventArgs e)
+        public static async void ReplaceChoiceClick(object sender, ContentDialogButtonClickEventArgs e)
         {
             if (ItemSnapshot.IsOfType(StorageItemTypes.Folder))
             {
@@ -787,13 +790,13 @@ namespace Interacts
                 StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(ItemSnapshot.Path);
                 await ClipboardFile.CopyAndReplaceAsync(await StorageFile.GetFileFromPathAsync(DestinationPathSnapshot + @"\" + ItemSnapshot.Name));
             }
-            ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
+            GenericFileBrowser.reviewBox.Hide();
             isLoopPaused = false;
         }
 
-        public static void SkipChoiceClick(object sender, RoutedEventArgs e)
+        public static void SkipChoiceClick(object sender, ContentDialogButtonClickEventArgs e)
         {
-            ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
+            GenericFileBrowser.reviewBox.Hide();
             isLoopPaused = false;
         }
     }

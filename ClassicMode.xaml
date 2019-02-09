@@ -5,6 +5,7 @@
     xmlns:local1="using:ItemListPresenter"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     mc:Ignorable="d"
     Name="ClassicModePage"
@@ -25,13 +26,13 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-                <Windows10version1809:MenuBar HorizontalAlignment="Left" VerticalAlignment="Stretch">
-                    <MenuBar.Items>
-                        <MenuBarItem Title="File">
+                <UILib:MenuBar HorizontalAlignment="Left" VerticalAlignment="Stretch">
+                    <UILib:MenuBar.Items>
+                        <UILib:MenuBarItem Title="File">
                             <MenuFlyoutItem Text="Open"/>
-                        </MenuBarItem>
-                    </MenuBar.Items>
-                </Windows10version1809:MenuBar>
+                        </UILib:MenuBarItem>
+                    </UILib:MenuBar.Items>
+                </UILib:MenuBar>
                 <Grid Name="DragArea" Background="Transparent" Height="40" Grid.Column="1">
                 
             </Grid>
@@ -52,22 +53,22 @@
         <SplitView DisplayMode="Inline" IsPaneOpen="True" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch">
             <SplitView.Pane>
                 <Grid Background="{StaticResource SystemControlAcrylicWindowMediumHighBrush}">
-                    <TreeView ScrollViewer.HorizontalScrollMode="Enabled" Expanding="DirectoryView_Expanding" Windows10version1809:ItemsSource="{x:Bind local1:ItemViewModel.ClassicFolderList}" Name="DirectoryView">
-                        <Windows10version1809:TreeView.ItemTemplate>
+                    <UILib:TreeView ScrollViewer.HorizontalScrollMode="Enabled" Expanding="DirectoryView_Expanding" UILib:ItemsSource="{x:Bind local1:ItemViewModel.ClassicFolderList}" Name="DirectoryView">
+                        <UILib:TreeView.ItemTemplate>
                             <DataTemplate>
-                                <TreeViewItem ItemsSource="{Binding Children}" HasUnrealizedChildren="True">
-                                    <TreeViewItem.Content>
+                                <UILib:TreeViewItem ItemsSource="{Binding Children}" HasUnrealizedChildren="True">
+                                    <UILib:TreeViewItem.Content>
                                         <StackPanel Orientation="Horizontal">
                                             <FontIcon Margin="0,0,10,0" Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
                                             <TextBlock Text="{Binding FileName}"/>
                                         </StackPanel>
-                                    </TreeViewItem.Content>
-                                </TreeViewItem>
+                                    </UILib:TreeViewItem.Content>
+                                </UILib:TreeViewItem>
                             </DataTemplate>
-                        </Windows10version1809:TreeView.ItemTemplate>
+                        </UILib:TreeView.ItemTemplate>
 
 
-                    </TreeView>
+                    </UILib:TreeView>
                 </Grid>
             </SplitView.Pane>
             <Grid/>

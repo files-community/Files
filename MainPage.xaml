@@ -5,7 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Class="Files.MainPage"
     xmlns:local="using:Files"
-    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -374,71 +374,71 @@
 
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
 
-        <NavigationView IsBackEnabled="False" Windows10version1809:PaneDisplayMode="Auto"  SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
+        <UILib:NavigationView IsBackEnabled="False" PaneDisplayMode="Auto"  SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
            
-            <NavigationView.MenuItems>
+            <UILib:NavigationView.MenuItems>
 
-                <NavigationViewItemHeader Content="Libraries"/>
-                <NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItemHeader Content="Libraries"/>
+                <UILib:NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DesktopPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem x:Name="DesktopIC" Content="Desktop" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DesktopPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DownloadsPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem Content="Downloads" x:Name="DownloadsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DownloadsPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DocumentsPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem Content="Documents" x:Name="DocumentsIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="DocumentsPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="PicturesPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem Content="Pictures" x:Name="PicturesIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="PicturesPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEB9F;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="MusicPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem Content="Music" x:Name="MusicIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="MusicPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="VideosPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem Content="Videos" x:Name="VideosIC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="VideosPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
 
-                <NavigationViewItemHeader Content="Drives"/>
+                <UILib:NavigationViewItemHeader Content="Drives"/>
 
-                <NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
-                    <NavigationViewItem.Icon>
+                <UILib:NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-                <NavigationViewItem Content="OneDrive" x:Name="OneD_IC" Tag="OneDrivePage">
-                    <NavigationViewItem.Icon>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
+                <UILib:NavigationViewItem Content="OneDrive" x:Name="OneD_IC" Tag="OneDrivePage">
+                    <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </NavigationView.MenuItems>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
+            </UILib:NavigationView.MenuItems>
 
-            <NavigationView.AutoSuggestBox>
+            <UILib:NavigationView.AutoSuggestBox>
 
                 <AutoSuggestBox  QuerySubmitted="auto_suggest_QuerySubmitted" x:Name="auto_suggest" PlaceholderText="Search" QueryIcon="Find"/>
-            </NavigationView.AutoSuggestBox>
+            </UILib:NavigationView.AutoSuggestBox>
 
 
             <Frame Name="ContentFrame" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
@@ -450,7 +450,7 @@
             </Frame>
 
 
-        </NavigationView>
+        </UILib:NavigationView>
 
     </Grid>
 

@@ -26,7 +26,8 @@ namespace Files
             ItemViewModel viewModel = new ItemViewModel(@"C:\", ClassicView);
         }
 
-        private void DirectoryView_Expanding(TreeView sender, TreeViewExpandingEventArgs args)
+        
+        private void DirectoryView_Expanding(Microsoft.UI.Xaml.Controls.TreeView sender, Microsoft.UI.Xaml.Controls.TreeViewExpandingEventArgs args)
         {
             if (args.Node.HasUnrealizedChildren)
             {

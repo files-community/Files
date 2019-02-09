@@ -166,9 +166,9 @@ namespace Navigation
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
                     GenericFileBrowser.P.path = "Desktop";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -180,9 +180,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
                     GenericFileBrowser.P.path = "Documents";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -194,9 +194,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
                     GenericFileBrowser.P.path = "Downloads";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -207,9 +207,9 @@ namespace Navigation
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                 {
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -222,9 +222,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
                     GenericFileBrowser.P.path = "Music";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -236,9 +236,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
                     GenericFileBrowser.P.path = "OneDrive";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -250,9 +250,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
                     GenericFileBrowser.P.path = "Videos";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -264,9 +264,9 @@ namespace Navigation
                 else
                 {
                     GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -305,9 +305,9 @@ namespace Navigation
                 if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
                     GenericFileBrowser.P.path = "Desktop";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -319,9 +319,9 @@ namespace Navigation
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
                     GenericFileBrowser.P.path = "Documents";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -333,9 +333,9 @@ namespace Navigation
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
                     GenericFileBrowser.P.path = "Downloads";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -346,9 +346,9 @@ namespace Navigation
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                 {
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -361,9 +361,9 @@ namespace Navigation
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
                     GenericFileBrowser.P.path = "Music";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -375,9 +375,9 @@ namespace Navigation
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
                     GenericFileBrowser.P.path = "OneDrive";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -389,9 +389,9 @@ namespace Navigation
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
                     GenericFileBrowser.P.path = "Videos";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -403,9 +403,9 @@ namespace Navigation
                 else
                 {
                     GenericFileBrowser.P.path = (History.ForwardList[History.ForwardList.Count() - 1]);
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -504,9 +504,9 @@ namespace Navigation
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
                     GenericFileBrowser.P.path = "Desktop";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -518,9 +518,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
                     GenericFileBrowser.P.path = "Documents";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -532,9 +532,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
                     GenericFileBrowser.P.path = "Downloads";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -545,9 +545,9 @@ namespace Navigation
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                 {
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -560,9 +560,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
                     GenericFileBrowser.P.path = "Music";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -574,9 +574,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
                     GenericFileBrowser.P.path = "OneDrive";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -588,9 +588,9 @@ namespace Navigation
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
                     GenericFileBrowser.P.path = "Videos";
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;
@@ -602,9 +602,9 @@ namespace Navigation
                 else
                 {
                     GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
-                    foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
                             break;

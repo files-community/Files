@@ -24,6 +24,9 @@ namespace Files
         public static MenuFlyout context;
         public static MenuFlyout HeaderContextMenu;
         public static Page GFBPageName;
+        public static ContentDialog collisionBox;
+        public static ContentDialog reviewBox;
+
 
         public GenericFileBrowser()
         {
@@ -36,7 +39,6 @@ namespace Files
             //titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
             //titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             //titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-            ProgressBox.Visibility = Visibility.Collapsed;
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
             ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
@@ -44,6 +46,8 @@ namespace Files
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
+            reviewBox = ReviewBox;
+            collisionBox = CollisionBox;
             Interacts.Interaction.page = this;
             OpenItem.Click += Interacts.Interaction.OpenItem_Click;
             ShareItem.Click += Interacts.Interaction.ShareItem_Click;
@@ -60,8 +64,8 @@ namespace Files
             Paste.Click += Interacts.Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             CollisonLV.ItemClick += Interacts.Interaction.CollisionLVItemClick;
-            ReplaceChoice.Click += Interacts.Interaction.ReplaceChoiceClick;
-            SkipChoice.Click += Interacts.Interaction.SkipChoiceClick;
+            ReviewBox.PrimaryButtonClick += Interacts.Interaction.ReplaceChoiceClick;
+            ReviewBox.SecondaryButtonClick += Interacts.Interaction.SkipChoiceClick;
         }
 
         private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
@@ -177,10 +181,9 @@ namespace Files
             }
         }
 
-        // Click event for Hide button on Progress UI Synthetic Dialog 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            ProgressBox.Visibility = Visibility.Collapsed;
+            ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
         }
 
         private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
@@ -205,6 +208,8 @@ namespace Files
                 }
             }
         }
+
+        
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

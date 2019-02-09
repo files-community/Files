@@ -13,7 +13,7 @@ namespace Files
 
     public sealed partial class MainPage : Page
     {
-        public static NavigationView nv;
+        public static Microsoft.UI.Xaml.Controls.NavigationView nv;
         public static Frame accessibleContentFrame;
         public static AutoSuggestBox accessibleAutoSuggestBox;
         string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
@@ -41,9 +41,9 @@ namespace Files
         private static SelectItem select = new SelectItem();
         public static SelectItem Select { get { return MainPage.select; } }
 
-        private void navView_ItemSelected(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        private void navView_ItemSelected(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            NavigationViewItem item = args.SelectedItem as NavigationViewItem;
+            Microsoft.UI.Xaml.Controls.NavigationViewItem item = args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
 
 
             if (item.Content.Equals("Settings"))
@@ -63,9 +63,9 @@ namespace Files
         private void navView_Loaded(object sender, RoutedEventArgs e)
         {
 
-            foreach (NavigationViewItemBase NavItemChoice in nv.MenuItems)
+            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in nv.MenuItems)
             {
-                if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "homeIc")
+                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "homeIc")
                 {
                     Select.itemSelected = NavItemChoice;
                     break;
@@ -76,7 +76,7 @@ namespace Files
             auto_suggest.PlaceholderText = "Search Recents";
         }
 
-        private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
+        private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
 
             var item = args.InvokedItem;
@@ -150,8 +150,8 @@ namespace Files
     {
 
 
-        public NavigationViewItemBase _itemSelected;
-        public NavigationViewItemBase itemSelected
+        public Microsoft.UI.Xaml.Controls.NavigationViewItemBase _itemSelected;
+        public Microsoft.UI.Xaml.Controls.NavigationViewItemBase itemSelected
         {
             get
             {

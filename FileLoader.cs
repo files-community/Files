@@ -44,8 +44,8 @@ namespace ItemListPresenter
     {
         public static ObservableCollection<Classic_ListedFolderItem> classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
         public static ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get { return classicFolderList; } }
-        public ObservableCollection<ListedItem> classicFileList = new ObservableCollection<ListedItem>();
-        public ObservableCollection<ListedItem> ClassicFileList { get { return classicFileList; } }
+        public static ObservableCollection<ListedItem> classicFileList = new ObservableCollection<ListedItem>();
+        public static ObservableCollection<ListedItem> ClassicFileList { get { return classicFileList; } }
 
         public static ObservableCollection<ListedItem> filesAndFolders = new ObservableCollection<ListedItem>();
         public static ObservableCollection<ListedItem> FilesAndFolders { get { return filesAndFolders; } }
@@ -59,21 +59,21 @@ namespace ItemListPresenter
         string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
         StorageFolder folder;
-        string gotName;
-        string gotDate;
-        string gotType;
-        string gotPath;
-        string gotFolName;
-        string gotFolDate;
-        string gotFolPath;
-        string gotFolType;
-        Visibility gotFileImgVis;
-        Visibility gotFolImg;
-        StorageItemThumbnail gotFileImg;
+        static string gotName;
+        static string gotDate;
+        static string gotType;
+        static string gotPath;
+        static string gotFolName;
+        static string gotFolDate;
+        static string gotFolPath;
+        static string gotFolType;
+        static Visibility gotFileImgVis;
+        static Visibility gotFolImg;
+        static StorageItemThumbnail gotFileImg;
         public static ObservableCollection<Classic_ListedFolderItem> ChildrenList;
-        public IReadOnlyList<StorageFolder> folderList;
-        public IReadOnlyList<StorageFile> fileList;
-        public bool isPhotoAlbumMode;
+        public static IReadOnlyList<StorageFolder> folderList;
+        public static IReadOnlyList<StorageFile> fileList;
+        public static bool isPhotoAlbumMode;
         public static string pageName;
 
         public static ItemViewModel vm;
@@ -203,6 +203,10 @@ namespace ItemListPresenter
         public static bool IsStopRequested = false;
         public static bool IsTerminated = true;
 
+        public static int NumOfItems;
+        public static int NumItemsRead;
+        public static int NumOfFiles;
+        public static int NumOfFolders;
         public async void GetItemsAsync(string path)
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -215,15 +219,14 @@ namespace ItemListPresenter
                 folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
                 folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
                 fileList = await folder.GetFilesAsync();                            // Create a read-only list of all files in location
-                int NumOfFolders = folderList.Count;                                // How many folders are in the list
-                int NumOfFiles = fileList.Count;                                    // How many files are in the list
-                int NumOfItems = NumOfFiles + NumOfFolders;
-                int NumItemsRead = 0;
+                NumOfFolders = folderList.Count;                                // How many folders are in the list
+                NumOfFiles = fileList.Count;                                    // How many files are in the list
+                NumOfItems = NumOfFiles + NumOfFolders;
+                NumItemsRead = 0;
 
                 if (NumOfItems == 0)
                 {
                     TextState.isVisible = Visibility.Visible;
-                    //return;
                 }
 
                 PUIH.Header = "Loading " + NumOfItems + " items";
@@ -233,12 +236,11 @@ namespace ItemListPresenter
                 {
                     PVIS.isVisible = Visibility.Visible;
                 }
-
-                if(NumOfFolders > 0)
+                if (NumOfFolders > 0)
                 {
                     foreach (StorageFolder fol in folderList)
                     {
-                        if(IsStopRequested)
+                        if (IsStopRequested)
                         {
                             IsStopRequested = false;
                             IsTerminated = true;
@@ -252,7 +254,7 @@ namespace ItemListPresenter
                         gotFolType = "Folder";
                         gotFolImg = Visibility.Visible;
                         gotFileImgVis = Visibility.Collapsed;
-                        
+
 
                         if (pageName == "ClassicModePage")
                         {
@@ -266,10 +268,10 @@ namespace ItemListPresenter
 
                         NumItemsRead++;
                     }
-                
+
                 }
 
-                if(NumOfFiles > 0)
+                if (NumOfFiles > 0)
                 {
                     foreach (StorageFile f in fileList)
                     {
@@ -283,7 +285,7 @@ namespace ItemListPresenter
                         UpdateProgUI(ProgressReported);
                         gotName = f.Name.ToString();
                         gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
-                        if(f.FileType.ToString() == ".exe")
+                        if (f.FileType.ToString() == ".exe")
                         {
                             gotType = "Executable";
                         }
@@ -315,7 +317,7 @@ namespace ItemListPresenter
                         }
                         gotFileImgVis = Visibility.Visible;
 
-                        if(pageName == "ClassicModePage")
+                        if (pageName == "ClassicModePage")
                         {
                             ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
                         }
@@ -326,14 +328,15 @@ namespace ItemListPresenter
                         NumItemsRead++;
                     }
 
-                
+
                 }
-                if(pageName != "ClassicModePage")
+                if (pageName != "ClassicModePage")
                 {
                     PVIS.isVisible = Visibility.Collapsed;
                 }
-                
+
                 IsTerminated = true;
+
             }
             catch (UnauthorizedAccessException)
             {
@@ -343,7 +346,6 @@ namespace ItemListPresenter
             Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
 
         }
-
 
         public static ProgressPercentage progressPER = new ProgressPercentage();
 
@@ -365,30 +367,23 @@ namespace ItemListPresenter
             return (int)level;
         }
 
-        public static void DisplayCollisionUIWithArgs(string header, string subHeader)
+        public static async void DisplayCollisionUIWithArgs(string header, string subHeader)
         {
             CollisionBoxHeader.Header = header;
             CollisionBoxSubHeader.SubHeader = subHeader;
-            CollisionUIVisibility.isVisible = Visibility.Visible;
+            await GenericFileBrowser.collisionBox.ShowAsync();
+            //CollisionUIVisibility.isVisible = Visibility.Visible;
         }
 
-        public static void DisplayReviewUIWithArgs(string header, string subHeader)
+        public static async void DisplayReviewUIWithArgs(string header, string subHeader)
         {
             ConflictBoxHeader.Header = header;
             ConflictBoxSubHeader.SubHeader = subHeader;
-            ConflictUIVisibility.isVisible = Visibility.Visible;
+            await GenericFileBrowser.reviewBox.ShowAsync();
+            //ConflictUIVisibility.isVisible = Visibility.Visible;
         }
 
-        public static void DisplayProgUIWithArgs(string headerText, string messageText, string buttonText, int initialProgBarLevel)
-        {
-            PUIH.Header = headerText;
-            PUIP.Path = messageText;
-            ButtonText.buttonText = buttonText;
-            PROGRESSPER.prog = initialProgBarLevel;
-            PVIS.isVisible = Visibility.Visible;
-        }
-
-        public static async void FillTreeNode(object item, TreeView EntireControl)
+        public static async void FillTreeNode(object item, Microsoft.UI.Xaml.Controls.TreeView EntireControl)
         {
             var PathToFillFrom = (item as Classic_ListedFolderItem).FilePath;
             StorageFolder FolderFromPath = await StorageFolder.GetFolderFromPathAsync(PathToFillFrom);

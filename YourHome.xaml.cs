@@ -65,9 +65,9 @@ namespace Files
             Debug.WriteLine("Pressed Card Text: " + BelowCardText);
             if (BelowCardText == "Downloads")
             {
-                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                 {
-                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
                     {
                         MainPage.Select.itemSelected = NavItemChoice;
                         break;
@@ -78,9 +78,9 @@ namespace Files
             }
             else if (BelowCardText == "Documents")
             {
-                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                 {
-                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
                     {
                         MainPage.Select.itemSelected = NavItemChoice;
                         break;
@@ -91,9 +91,9 @@ namespace Files
             }
             else if (BelowCardText == "Pictures")
             {
-                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                 {
-                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
                     {
                         MainPage.Select.itemSelected = NavItemChoice;
                         break;
@@ -104,9 +104,9 @@ namespace Files
             }
             else if (BelowCardText == "Music")
             {
-                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                 {
-                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
                     {
                         MainPage.Select.itemSelected = NavItemChoice;
                         break;
@@ -117,9 +117,9 @@ namespace Files
             }
             else if (BelowCardText == "Videos")
             {
-                foreach (NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                 {
-                    if (NavItemChoice is NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
                     {
                         MainPage.Select.itemSelected = NavItemChoice;
                         break;
