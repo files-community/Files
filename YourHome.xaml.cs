@@ -132,12 +132,12 @@ namespace Files
 
         private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            (sender as DropShadowPanel).ShadowOpacity = 0.00;
+            (sender as DropShadowPanel).ShadowOpacity = 0.15;
         }
 
         private void DropShadowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            (sender as DropShadowPanel).ShadowOpacity = 0.15;
+            (sender as DropShadowPanel).ShadowOpacity = 0.00;
         }
     }
 }

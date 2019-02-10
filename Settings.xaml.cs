@@ -1,4 +1,5 @@
 ﻿using Files.SettingsPages;
+using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml.Controls;
 
 
@@ -12,6 +13,8 @@ namespace Files
         {
             this.InitializeComponent();
             SecondaryPane.SelectedIndex = 1;
+            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            CoreTitleBar.ExtendViewIntoTitleBar = true;
         }
 
         private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
