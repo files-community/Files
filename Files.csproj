@@ -23,8 +23,8 @@
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
-    <AppxPackageDir>C:\Users\lukeb\Documents\Packages\</AppxPackageDir>
-    <PackageCertificateThumbprint>8A20ABE1D687015D3DA4C50D4E3B1B93D28951CD</PackageCertificateThumbprint>
+    <AppxPackageDir>C:\Users\Luke\Documents\Packages\</AppxPackageDir>
+    <PackageCertificateThumbprint>28AE037A1F13461E0372E31085451A86570D5A1B</PackageCertificateThumbprint>
     <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">

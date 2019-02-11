@@ -378,7 +378,7 @@
            
             <UILib:NavigationView.MenuItems>
 
-                <UILib:NavigationViewItemHeader Content="Libraries"/>
+                <UILib:NavigationViewItemHeader Content="Locations"/>
                 <UILib:NavigationViewItem x:Name="homeIc" Margin="0,0,0,0" Content="Home" FontFamily="Segoe UI" Tag="HomePage">
                     <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" FontFamily="Segoe MDL2 Assets"/>
