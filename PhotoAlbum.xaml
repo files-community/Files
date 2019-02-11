@@ -239,128 +239,195 @@
             </Setter>
         </Style>
     </Page.Resources>
-    
-    <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="50,0,50,0" VerticalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="80*"/>
-        </Grid.RowDefinitions>
-        <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,55,0,0" Canvas.ZIndex="5" Grid.Row="2"/>
-        <Grid DataContext="{Binding BackObject}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" Margin="-15,0,0,0">
-                <StackPanel Orientation="Vertical" Margin="2">
-                    <AppBarButton HorizontalAlignment="Center" LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"  x:FieldModifier="public" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back" Content="&#xE76B;" FontFamily="Segoe MDL2 Assets"  FontSize="20"  VerticalAlignment="Center" Height="50" Width="50"/>
-                    <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" HorizontalAlignment="Center" TextAlignment="Center" Text="Back" Width="60"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"  Margin="2">
-                    <Grid HorizontalAlignment="Center" DataContext="{Binding ForwardObject}" VerticalAlignment="Center">
-                        <AppBarButton LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"  IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward" Content="&#xE76C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" VerticalAlignment="Top" Height="50" Width="50" HorizontalAlignment="Left"/>
-                    </Grid>
-                    <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" TextAlignment="Center" HorizontalAlignment="Center" Text="Forward" Width="60"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"  Margin="2">
-                    <AppBarButton HorizontalAlignment="Center" x:Name="Refresh" LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                    <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Refresh" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical"  Margin="2">
-                    <AppBarButton HorizontalAlignment="Center" x:Name="AddItem" LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                    <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Add Item" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="2">
-                    <AppBarButton IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" x:Name="Paste" LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"  Content="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                    <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Paste" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="2">
-                    <AppBarButton HorizontalAlignment="Center" x:Name="GetPath" LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"   Content="&#xF271;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                    <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom"  Text="Copy Path" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                </StackPanel>
-                <StackPanel Orientation="Vertical" Margin="2">
-                    <AppBarButton HorizontalAlignment="Center" x:Name="ViewMode" LabelPosition="Collapsed" Style="{ThemeResource AppBarButtonFixedStyle}"   Content="&#xF0E2;" FontFamily="Segoe MDL2 Assets" FontSize="20" VerticalAlignment="Center" Width="50" Height="50" />
-                    <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords" Text="Layout Mode" HorizontalAlignment="Center" TextAlignment="Center" Width="60"/>
-                </StackPanel>
+    <Grid>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="80*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+
+
+
+            <CommandBar Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Grid.Row="1" DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsSticky="True" VerticalAlignment="Stretch">
+                <CommandBar.Content>
+                    <StackPanel Orientation="Horizontal">
+                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE76B;" FontFamily="Segoe MDL2 Assets"/>
+                            </AppBarButton.Icon>
+
+                        </AppBarButton>
+
+                        <AppBarButton LabelPosition="Collapsed"  IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward">
+                            <AppBarButton.Icon>
+
+                                <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets"/>
+
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+
+
+                    </StackPanel>
+                </CommandBar.Content>
+
+                <CommandBar.SecondaryCommands>
+                    <AppBarButton Label="Paste" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Paste">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE77F;" FontFamily="Segoe MDL2 Assets"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton x:Name="GetPath" Label="Copy Full Path">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton x:Name="ViewMode" Label="Layout Mode">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xF0E2;" FontFamily="Segoe MDL2 Assets"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar.SecondaryCommands>
+
+
+                <AppBarButton Label="Refresh" x:Name="Refresh" >
+                    <AppBarButton.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </AppBarButton.ContentTemplate>
+                </AppBarButton>
+
+
+                <AppBarButton x:Name="AddItem" Label="Add Item" >
+                    <AppBarButton.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </DataTemplate>
+                    </AppBarButton.ContentTemplate>
+                </AppBarButton>
+            </CommandBar>
+
+            <StackPanel Margin="24,0,0,0" Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
+                <ScrollViewer  Padding="5" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                    <TextBlock x:Name="VisiblePath" Text="{x:Bind Mode=TwoWay, Path=local:GenericFileBrowser.P.path, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1"/>
+                </ScrollViewer>
+                <ProgressBar Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
 
-        </Grid>
+            <Grid Margin="24,0,0,0" Grid.Row="3" HorizontalAlignment="Left">
+                <GridView IsTapEnabled="True" Tapped="FileList_Tapped" SelectionMode="Extended" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <GridView.Resources>
+                        <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem Text="Open" Name="OpenItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE7AC;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE74D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8AC;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C6;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
 
-        <ScrollViewer Padding="5" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" >
-            <TextBlock x:Name="VisiblePath" Text="{x:Bind Mode=TwoWay, Path=local:GenericFileBrowser.P.path, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Margin="0,0,0,0" Grid.Row="1"/>
-        </ScrollViewer>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE946;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout.Items>
 
-        <Grid HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Grid.Row="2">
-            <GridView IsTapEnabled="True" Tapped="FileList_Tapped" SelectionMode="Extended" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <GridView.Resources>
-                    <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
-                        <MenuFlyout.Items>
-                            <MenuFlyoutItem Text="Open" Name="OpenItem">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE7AC;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Share" Name="ShareItem">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE72D;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutSeparator/>
-                            <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE74D;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Rename" Name="RenameItem" >
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8AC;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutSeparator/>
-                            <MenuFlyoutItem Text="Cut" Name="CutItem" >
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C6;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem Text="Copy" Name="CopyItem" >
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C8;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
+                        </MenuFlyout>
+                    </GridView.Resources>
 
-                            <MenuFlyoutSeparator/>
-                            <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE946;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout.Items>
-
-                    </MenuFlyout>
-                </GridView.Resources>
-
-                <GridView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid IsRightTapEnabled="True" RightTapped="Grid_RightTapped" Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="75*"/>
-                                <RowDefinition Height="25*"/>
-                            </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
-                                <Image Stretch="Uniform" Source="{Binding FileImg}"/>
-                            </Grid>
-
-                            <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
-
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <FontIcon FontSize="92" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                    <GridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid IsRightTapEnabled="True" RightTapped="Grid_RightTapped" Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="75*"/>
+                                    <RowDefinition Height="25*"/>
+                                </Grid.RowDefinitions>
+                                <Grid Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
+                                    <Image Stretch="Uniform" Source="{Binding FileImg}"/>
                                 </Grid>
-                            </Grid>
-                            <TextBlock Grid.Row="1" VerticalAlignment="Top" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>
-                        </Grid>
 
-                    </DataTemplate>
-                </GridView.ItemTemplate>
-            </GridView>
+                                <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
+
+                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <FontIcon FontSize="92" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                    </Grid>
+                                </Grid>
+                                <TextBlock Grid.Row="1" VerticalAlignment="Top" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>
+                            </Grid>
+
+                        </DataTemplate>
+                    </GridView.ItemTemplate>
+                </GridView>
+            </Grid>
+
+            <ContentDialog  PrimaryButtonText="Replace" SecondaryButtonText="Skip" Title="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="ReviewBox" Grid.RowSpan="4">
+                <Grid>
+                    <TextBlock Name="ConflictSmallHeader" TextWrapping="WrapWholeWords" Text="{x:Bind local2:ItemViewModel.ConflictBoxSubHeader.SubHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                </Grid>
+            </ContentDialog>
+
+            <ContentDialog Name="CollisionBox" Title="{x:Bind local2:ItemViewModel.CollisionBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.RowSpan="4">
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Name="SmallHeader" TextWrapping="WrapWholeWords" Text="{x:Bind local2:ItemViewModel.CollisionBoxSubHeader.SubHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <ListView IsItemClickEnabled="True" Name="CollisonLV">
+                            <ListViewItem Name="ReplaceAll">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Accept" Margin="0,0,15,0"/>
+                                    <TextBlock Text="Replace all items with the same name"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem Name="SkipAll">
+                                <StackPanel Orientation="Horizontal">
+                                    <SymbolIcon Symbol="Forward"  Margin="0,0,15,0"/>
+                                    <TextBlock Text="Skip these items"/>
+                                </StackPanel>
+                            </ListViewItem>
+                            <ListViewItem Name="PromptForAll">
+                                <StackPanel Orientation="Horizontal">
+                                    <FontIcon Glyph="&#xE9D5;" Margin="0,0,15,0"/>
+                                    <TextBlock Text="Prompt me for each item"/>
+                                </StackPanel>
+                            </ListViewItem>
+
+
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+            </ContentDialog>
         </Grid>
     </Grid>
 </Page>
