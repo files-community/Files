@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Navigation;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -68,6 +69,8 @@ namespace Files
             ReviewBox.SecondaryButtonClick += Interacts.Interaction.SkipChoiceClick;
         }
 
+        
+
         private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             var CurrentView = ApplicationView.GetForCurrentView();
@@ -109,10 +112,6 @@ namespace Files
 
         public static UniversalPath p = new UniversalPath();
         public static UniversalPath P { get { return GenericFileBrowser.p; } }
-
-        //private static GenericFileBrowser getGenericFileBrowser = new GenericFileBrowser();
-        //public static GenericFileBrowser GetGenericFileBrowser { get { return getGenericFileBrowser; } }
-
         
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {

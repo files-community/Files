@@ -1,12 +1,20 @@
 ﻿using ItemListPresenter;
 using System;
+using System.Collections;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using Windows.ApplicationModel.Core;
+using Windows.Devices.Enumeration;
+using Windows.Devices.Usb;
+using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Files
 {
@@ -23,6 +31,7 @@ namespace Files
         string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -36,8 +45,25 @@ namespace Files
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             nv = navView;
             accessibleAutoSuggestBox = auto_suggest;
+            PopulateNavViewWithExternalDrives();
+
         }
 
+        public async void PopulateNavViewWithExternalDrives()
+        {
+            StorageFolder RemDevicesFolder = KnownFolders.RemovableDevices;
+            foreach (StorageFolder fol in await RemDevicesFolder.GetFoldersAsync())
+            {
+                nv.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
+                {
+                    Content = "Removable Drive (" + fol.Name + ")",
+                    Icon = new SymbolIcon((Symbol)0xE88E),
+                    Tag = fol.Name
+                });
+                
+            }
+        }
+        
         private static SelectItem select = new SelectItem();
         public static SelectItem Select { get { return MainPage.select; } }
 
@@ -52,9 +78,7 @@ namespace Files
             }
         }
 
-
-
-
+        
         private void auto_suggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
 
@@ -62,7 +86,7 @@ namespace Files
 
         private void navView_Loaded(object sender, RoutedEventArgs e)
         {
-
+            
             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in nv.MenuItems)
             {
                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "homeIc")
@@ -80,7 +104,7 @@ namespace Files
         {
 
             var item = args.InvokedItem;
-
+            var itemContainer = args.InvokedItemContainer;
             //var item = Interaction.FindParent<NavigationViewItemBase>(args.InvokedItem as DependencyObject);
             if (args.IsSettingsInvoked == true)
             {
@@ -129,7 +153,7 @@ namespace Files
                     ContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                     auto_suggest.PlaceholderText = "Search Videos";
                 }
-                else if (item.ToString() == "Local Disk")
+                else if (item.ToString() == "Local Disk (C:\\)")
                 {
                     ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
@@ -140,6 +164,22 @@ namespace Files
                     ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     auto_suggest.PlaceholderText = "Search OneDrive";
+                }
+                else
+                {
+                    var tagOfInvokedItem = (nv.MenuItems[nv.MenuItems.IndexOf(itemContainer)] as Microsoft.UI.Xaml.Controls.NavigationViewItem).Tag;
+
+                    if (StorageFolder.GetFolderFromPathAsync(tagOfInvokedItem.ToString()) != null)
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ContentFrame.Navigate(typeof(GenericFileBrowser), tagOfInvokedItem);
+                        auto_suggest.PlaceholderText = "Search " + tagOfInvokedItem;
+                    }
+                    else
+                    {
+                        
+                    }
+                    
                 }
 
             }

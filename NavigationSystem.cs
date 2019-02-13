@@ -263,16 +263,21 @@ namespace Navigation
                 }
                 else
                 {
-                    GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+
+                    if((History.HistoryList[History.HistoryList.Count - 1]).Contains("C:"))
                     {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                        foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                         {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
+                            if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                            {
+                                MainPage.Select.itemSelected = NavItemChoice;
+                                break;
+                            }
                         }
                     }
+                    GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
                     ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
+
                 }
 
                 if (History.ForwardList.Count == 0)

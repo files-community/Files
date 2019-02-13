@@ -154,15 +154,18 @@ namespace Interacts
                         }
                         else
                         {
-                            GenericFileBrowser.P.path = clickedOnItem.FilePath;
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            if (clickedOnItem.FilePath.Contains("C:"))
                             {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                                 {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
+                                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                                    {
+                                        MainPage.Select.itemSelected = NavItemChoice;
+                                        break;
+                                    }
                                 }
                             }
+                            GenericFileBrowser.P.path = clickedOnItem.FilePath;
                             ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, GenericFileBrowser.GFBPageName);
                         }
                     }
@@ -319,6 +322,7 @@ namespace Interacts
                         Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
                         Interaction.message.Commands.Add(new UICommand("Cancel"));
                         await Interaction.message.ShowAsync();
+
                     }
                     else
                     {
@@ -489,11 +493,6 @@ namespace Interacts
             dataRequest.Data.SetStorageItems(dataGrid.ItemsSource as IEnumerable<IStorageItem>);
             dataRequest.Data.Properties.Title = "Data Shared From Files UWP";
             dataRequest.Data.Properties.Description = "The files/folders you selected will be shared";
-
-        }
-
-        public static void ScanItem_Click(object sender, RoutedEventArgs e)
-        {
 
         }
 

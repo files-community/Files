@@ -12,6 +12,7 @@ using Windows.Storage.Search;
 using Windows.UI.Popups;
 using Interacts;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace ItemListPresenter
 {
@@ -341,6 +342,13 @@ namespace ItemListPresenter
             catch (UnauthorizedAccessException)
             {
                 DisplayConsentDialog();
+            }
+            catch (System.Runtime.InteropServices.COMException e)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                MessageDialog driveGone = new MessageDialog(e.Message, "Drive Not Found");
+                await driveGone.ShowAsync();
+                rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
             }
             stopwatch.Stop();
             Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");

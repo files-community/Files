@@ -423,7 +423,7 @@
 
                 <UILib:NavigationViewItemHeader Content="Drives"/>
 
-                <UILib:NavigationViewItem Content="Local Disk" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
+                <UILib:NavigationViewItem Content="Local Disk (C:\)" x:Name="LocD_IC" FontFamily="Segoe UI" Margin="0,0,0,0" Tag="LDPage">
                     <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
                     </UILib:NavigationViewItem.Icon>
