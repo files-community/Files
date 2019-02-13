@@ -407,16 +407,23 @@ namespace Navigation
                 }
                 else
                 {
-                    GenericFileBrowser.P.path = (History.ForwardList[History.ForwardList.Count() - 1]);
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    Debug.WriteLine("Debug: " + ("Removable Drive (" + History.ForwardList[History.ForwardList.Count() - 1].Split('\\')[0] + "\\)"));
+                    if (!History.ForwardList[History.ForwardList.Count() - 1].Split('\\')[0].Contains("C:\\"))
                     {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                        
+                        foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                         {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
+                            if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Content.ToString() == ("Removable Drive (" + History.ForwardList[History.ForwardList.Count() - 1].Split('\\')[0] + "\\)"))
+                            {
+
+                                MainPage.Select.itemSelected = NavItemChoice;
+                                break;
+                            }
                         }
                     }
+                    GenericFileBrowser.P.path = (History.ForwardList[History.ForwardList.Count() - 1]);
                     ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
+
                 }
 
 
@@ -482,7 +489,6 @@ namespace Navigation
                 
             }
 
-            //GenericFileBrowser.P.path = ItemViewModel.PUIP.Path;
         }
     }
 
