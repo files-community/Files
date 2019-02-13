@@ -527,6 +527,11 @@ namespace Interacts
             {
 
             }
+            catch (System.UnauthorizedAccessException)
+            {
+                MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
+                await AccessDeniedDialog.ShowAsync();
+            }
         }
 
         public static void RenameItem_Click(object sender, RoutedEventArgs e)
