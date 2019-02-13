@@ -496,9 +496,37 @@ namespace Interacts
 
         }
 
-        public static void DeleteItem_Click(object sender, RoutedEventArgs e)
+        public static async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            
+            //MessageDialog DeleteConfirmationDialog = new MessageDialog("Are you sure you want to send " + GenericFileBrowser.data.SelectedItems.Count + " item(s) to the Recycle Bin?", "Move to Recycle Bin?");
+            //DeleteConfirmationDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(Interaction.DeleteConfirmed)));
+            //DeleteConfirmationDialog.Commands.Add(new UICommand("Cancel"));
+            //await DeleteConfirmationDialog.ShowAsync();
+            try
+            {
+                foreach (ListedItem storItem in GenericFileBrowser.data.SelectedItems)
+                {
+                    if (storItem.FileExtension != "Folder")
+                    {
+                        var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                        await item.DeleteAsync(StorageDeleteOption.Default);
+
+                    }
+                    else
+                    {
+                        var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                        await item.DeleteAsync(StorageDeleteOption.Default);
+
+                    }
+
+                }
+                NavigationActions.Refresh_Click(null, null);
+
+            }
+            catch (InvalidOperationException)
+            {
+
+            }
         }
 
         public static void RenameItem_Click(object sender, RoutedEventArgs e)

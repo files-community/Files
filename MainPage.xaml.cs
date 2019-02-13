@@ -51,16 +51,51 @@ namespace Files
 
         public async void PopulateNavViewWithExternalDrives()
         {
-            StorageFolder RemDevicesFolder = KnownFolders.RemovableDevices;
-            foreach (StorageFolder fol in await RemDevicesFolder.GetFoldersAsync())
+
+            StorageFolder fol;
+            string driveLetter;
+            string NavItemContent;
+            SymbolIcon icon; 
+            ObservableCollection<string> knownRemDevices = new ObservableCollection<string>();
+            foreach (StorageFolder f in await KnownFolders.RemovableDevices.GetFoldersAsync())
             {
-                nv.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
+                var path = f.Path;
+                knownRemDevices.Add(path);
+            }
+
+            for (char let = 'A'; let <= 'Z'; let++)
+            {
+                if (let != 'C')
                 {
-                    Content = "Removable Drive (" + fol.Name + ")",
-                    Icon = new SymbolIcon((Symbol)0xE88E),
-                    Tag = fol.Name
-                });
-                
+                    try
+                    {
+                        driveLetter = let + ":\\";
+                        fol = await StorageFolder.GetFolderFromPathAsync(driveLetter);
+
+                        if (knownRemDevices.Contains(driveLetter))
+                        {
+                            NavItemContent = "Removable Drive (" + driveLetter + ")";
+                            icon = new SymbolIcon((Symbol)0xE88E);
+                        }
+                        else
+                        {
+                            NavItemContent = "Local Disk (" + driveLetter + ")";
+                            icon = new SymbolIcon((Symbol)0xEDA2);
+                        }
+
+                        nv.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
+                        {
+                            Content = NavItemContent,
+                            Icon = icon,
+                            Tag = driveLetter
+                        });
+                    }
+                    catch (Exception)
+                    {
+                        // Debug.WriteLine("{0} not found", let);
+                    }
+                    
+                }
             }
         }
         
