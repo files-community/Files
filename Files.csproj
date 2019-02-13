@@ -154,8 +154,8 @@
     <Content Include="Assets\Cards\Gradients\Orange.png" />
     <Content Include="Assets\Cards\Gradients\Pink.png" />
     <Content Include="Assets\Cards\Gradients\Red.png" />
-    <Content Include="Assets\FilesDrive.PNG" />
-    <Content Include="Assets\FilesHome.PNG" />
+    <Content Include="Assets\FilesDrive.jpg" />
+    <Content Include="Assets\FilesHome.jpg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
