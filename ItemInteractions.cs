@@ -498,7 +498,7 @@ namespace Interacts
 
         public static void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         public static void RenameItem_Click(object sender, RoutedEventArgs e)
