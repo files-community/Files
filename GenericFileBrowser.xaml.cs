@@ -28,6 +28,7 @@ namespace Files
         public static Page GFBPageName;
         public static ContentDialog collisionBox;
         public static ContentDialog reviewBox;
+        public static ContentDialog AddItemBox;
 
 
         public GenericFileBrowser()
@@ -68,6 +69,7 @@ namespace Files
             CollisonLV.ItemClick += Interacts.Interaction.CollisionLVItemClick;
             ReviewBox.PrimaryButtonClick += Interacts.Interaction.ReplaceChoiceClick;
             ReviewBox.SecondaryButtonClick += Interacts.Interaction.SkipChoiceClick;
+            AddItemBox = AddDialog;
         }
 
         

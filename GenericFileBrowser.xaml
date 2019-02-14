@@ -193,7 +193,7 @@
             </Grid>
             
             <ContentDialog  BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
-                <Frame Width="450" Height="500" Name="AddDialogFrame"/>
+                <Frame Width="450" Name="AddDialogFrame"/>
             </ContentDialog>
             
             <ContentDialog PrimaryButtonText="Replace" SecondaryButtonText="Skip" Title="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="ReviewBox" Grid.RowSpan="4">

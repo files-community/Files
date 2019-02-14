@@ -22,9 +22,12 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="50">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding Header}"/>
-                                        <TextBlock Foreground="Gray" Text="{Binding SubHeader}"/>
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="32" Text="{Binding Icon}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Header}"/>
+                                            <TextBlock Foreground="Gray" Text="{Binding SubHeader}"/>
+                                        </StackPanel>
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
