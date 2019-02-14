@@ -1,4 +1,5 @@
-﻿using ItemListPresenter;
+﻿using Interacts;
+using ItemListPresenter;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Navigation;
 using System;
@@ -215,6 +216,11 @@ namespace Files
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
             AddDialogFrame.Navigate(typeof(AddItem), new SuppressNavigationTransitionInfo());
+        }
+
+        private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            data.SelectedItems.Clear();
         }
     }
 

@@ -11,7 +11,7 @@
     xmlns:local2="using:ItemListPresenter"
     xmlns:local3="using:Interacts"
     Name="GenericItemView"
-    mc:Ignorable="d">
+    mc:Ignorable="d" PointerReleased="GenericItemView_PointerReleased">
 
     <Grid>
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
@@ -112,7 +112,7 @@
 
                         <MenuFlyout x:Name="RightClickContextMenu"  x:Key="RightClickFlyout">
                             <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="Open" Name="OpenItem">
+                                <MenuFlyoutItem Text="Open With..." Name="OpenItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE7AC;"/>
                                     </MenuFlyoutItem.Icon>
@@ -180,7 +180,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTextColumn  Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
+                        <controls:DataGridTextColumn  Header="Name" IsReadOnly="False" Width="385" Binding="{Binding FileName}" Tag="Name"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
