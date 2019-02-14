@@ -8,24 +8,27 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="50,100,50,0">
-        <StackPanel Orientation="Vertical">
-            <TextBlock x:Name="Header" Text="About Files" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
-            <TextBlock Margin="0,0,0,10" FontFamily="Segoe UI" FontSize="24" Text="Product Information"/>
-            <TextBlock FontSize="18" Text="Edition: Files Pre-Release"/>
-            <TextBlock FontSize="18" Text="Version: 0.4.6"/>
-            <ListView IsItemClickEnabled="True" Margin="0,35,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch">
-                <ListViewItem IsEnabled="True" Name="FeedbackForm">
-                    <StackPanel  Orientation="Horizontal">
-                        <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Submit Feedback"/>
-                            <TextBlock Text="Submit an issue report to provide the developers with information" Foreground="Gray"/>
+    <Grid Padding="24,35,24,0">
+       
+        <ScrollViewer>
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock x:Name="Header" Text="About Files" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBlock Margin="0,0,0,10" FontFamily="Segoe UI" FontSize="24" Text="Product Information"/>
+                <TextBlock FontSize="18" Text="Edition: Files Pre-Release"/>
+                <TextBlock FontSize="18" Text="Version: 0.4.6"/>
+                <ListView  IsItemClickEnabled="True" Margin="0,35,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Left" Width="875">
+                    <ListViewItem IsEnabled="True" Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
+                        <StackPanel  Orientation="Horizontal">
+                            <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="Submit Feedback"/>
+                                <TextBlock Text="Submit an issue report to provide the developers with information" Foreground="Gray"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    
-                </ListViewItem>
-            </ListView>
-        </StackPanel>
+
+                    </ListViewItem>
+                </ListView>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

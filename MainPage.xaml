@@ -6,6 +6,7 @@
     x:Class="Files.MainPage"
     xmlns:local="using:Files"
     xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:Windows10InsiderPreview="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -372,7 +373,7 @@
     </Page.Resources>
     <Grid>
 
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="55,0,200,0" Canvas.ZIndex="5"/>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="0,0,200,0" Canvas.ZIndex="5"/>
 
         <UILib:NavigationView IsBackEnabled="False" PaneDisplayMode="Auto"  SelectedItem="{x:Bind local:MainPage.Select.itemSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AlwaysShowHeader="False" IsPaneOpen="True" Loaded="navView_Loaded" IsBackButtonVisible="Collapsed" IsSettingsVisible="True"  x:Name="navView" ItemInvoked="NavView_ItemInvoked" SelectionChanged="navView_ItemSelected" VerticalAlignment="Stretch" >
            

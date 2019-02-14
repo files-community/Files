@@ -143,7 +143,8 @@ namespace Files
             //var item = Interaction.FindParent<NavigationViewItemBase>(args.InvokedItem as DependencyObject);
             if (args.IsSettingsInvoked == true)
             {
-                ContentFrame.Navigate(typeof(Settings));
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(Settings));
             }
             else
             {

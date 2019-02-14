@@ -5,33 +5,27 @@
     xmlns:local="using:Files"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
-        <AcrylicBrush TintOpacity="80" x:Key="SecondaryPaneBrush" BackgroundSource="HostBackdrop" />
+        <AcrylicBrush TintOpacity="80" x:Key="SecondaryPaneBrush" FallbackColor="LightGray" BackgroundSource="HostBackdrop" />
         
     </Page.Resources>
 
     <Grid>
-        <SplitView IsPaneOpen="True" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline">
-            <SplitView.Pane>
-                <ListView Name="SecondaryPane" IsItemClickEnabled="True" SelectionChanged="ListView_SelectionChanged">
-                    
-                    <NavigationViewItemHeader Margin="5, 120, 0, 0" Content="Settings"/>
-                    <ListViewItem  Padding="20,0,0,0" Content="Personalization" x:Name="Personalization">
-                    </ListViewItem>
-                    <ListViewItem Padding="20,0,0,0" Content="Preferences" x:Name="Preferences">
-                    </ListViewItem>
-                    <ListViewItem Padding="20,0,0,0" Content="About" x:Name="About">
-                    </ListViewItem>
-                </ListView>
-                
-            </SplitView.Pane>
-            <Frame Name="SettingsContentFrame" HorizontalAlignment="Stretch">
-                
-            </Frame>
-            </SplitView>
+        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="0,0,200,0" Canvas.ZIndex="5"/>
+
+        <UILib:NavigationView IsSettingsVisible="False" BackRequested="SettingsPane_BackRequested" Name="SettingsPane" IsBackEnabled="True" ItemInvoked="NavigationView_ItemInvoked" PaneTitle="Settings" PaneDisplayMode="Top">
+            <UILib:NavigationView.MenuItems>
+                <UILib:NavigationViewItem Content="Personalization"/>
+                <UILib:NavigationViewItem Content="Preferences"/>
+                <UILib:NavigationViewItem Content="About"/>
+            </UILib:NavigationView.MenuItems>
+            <Frame Name="SettingsContentFrame"/>
+        </UILib:NavigationView>
+        
 
 
             

@@ -1,5 +1,6 @@
 ﻿using Files.SettingsPages;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
@@ -12,28 +13,35 @@ namespace Files
         public Settings()
         {
             this.InitializeComponent();
-            SecondaryPane.SelectedIndex = 1;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
+            Window.Current.SetTitleBar(DragArea);
+            SettingsContentFrame.Navigate(typeof(Personalization));
         }
 
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void NavigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            foreach(ListViewItem lvi in SecondaryPane.Items)
+            var item = args.InvokedItem;
+            if (item.ToString() == "Personalization")
             {
-                if((e.AddedItems[0] as ListViewItem).Name == "Personalization" && lvi.Name == "Personalization")
-                {
-                    SettingsContentFrame.Navigate(typeof(Personalization));
-                }
-                else if((e.AddedItems[0] as ListViewItem).Name == "Preferences" && lvi.Name == "Preferences")
-                {
-                    SettingsContentFrame.Navigate(typeof(Preferences));
-                }
-                else if ((e.AddedItems[0] as ListViewItem).Name == "About" && lvi.Name == "About")
-                {
-                    SettingsContentFrame.Navigate(typeof(About));
-                }
+                SettingsContentFrame.Navigate(typeof(Personalization));
+
             }
+            else if (item.ToString() == "Preferences")
+            {
+                SettingsContentFrame.Navigate(typeof(Preferences));
+            }
+            else if (item.ToString() == "About")
+            {
+                SettingsContentFrame.Navigate(typeof(About));
+            }
+
+        }
+
+        private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(MainPage));
         }
     }
 }
