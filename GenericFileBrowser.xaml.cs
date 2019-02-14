@@ -13,6 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -73,20 +74,21 @@ namespace Files
 
         private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var CurrentView = ApplicationView.GetForCurrentView();
-            CoreApplicationView NewView = CoreApplication.CreateNewView();
+            await AddDialog.ShowAsync();
+            //var CurrentView = ApplicationView.GetForCurrentView();
+            //CoreApplicationView NewView = CoreApplication.CreateNewView();
 
-            await NewView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            {
-                var newWindow = Window.Current;
-                var newAppView = ApplicationView.GetForCurrentView();
-                Frame frame = new Frame();
-                frame.Navigate(typeof(AddItem), null);
-                Window.Current.Content = frame;
-                Window.Current.Activate();
-                await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newAppView.Id, ViewSizePreference.Default, CurrentView.Id, ViewSizePreference.Default);
+            //await NewView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            //{
+            //    var newWindow = Window.Current;
+            //    var newAppView = ApplicationView.GetForCurrentView();
+            //    Frame frame = new Frame();
+            //    frame.Navigate(typeof(AddItem), null);
+            //    Window.Current.Content = frame;
+            //    Window.Current.Activate();
+            //    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newAppView.Id, ViewSizePreference.Default, CurrentView.Id, ViewSizePreference.Default);
 
-            });
+            //});
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -208,7 +210,10 @@ namespace Files
             }
         }
 
-        
+        private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            AddDialogFrame.Navigate(typeof(AddItem), new SuppressNavigationTransitionInfo());
+        }
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

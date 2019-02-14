@@ -6,9 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource SystemControlAcrylicWindowBrush}" Loaded="Page_Loaded">
+    Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Loaded="Page_Loaded">
 
-    <Grid Padding="25,50,25,0">
+    <Grid>
         <StackPanel Spacing="25" Orientation="Vertical">
             <Grid Name="HeaderArea">
                 <StackPanel>
@@ -16,15 +16,17 @@
                     <TextBlock Name="Description" Text="Choose a type below for this new item."/>
                 </StackPanel>
             </Grid>
-            <Grid Name="SelectionListContent" HorizontalAlignment="Left">
+            <Grid Name="SelectionListContent" HorizontalAlignment="Stretch">
                 <StackPanel>
                     <ListView IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind local:AddItem.AddItemsList}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
+                                <Grid Height="50">
                                     <StackPanel>
                                         <TextBlock Text="{Binding Header}"/>
                                         <TextBlock Foreground="Gray" Text="{Binding SubHeader}"/>
                                     </StackPanel>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

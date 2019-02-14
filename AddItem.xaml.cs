@@ -20,11 +20,10 @@ namespace Files
         public static void AddItemsToList()
         {
             AddItemsList.Clear();
-            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder.", isEnabled = true });
+            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", isEnabled = true });
             AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple file for text input", isEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file.", isEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Shortcut", SubHeader = "In Development: Creates a shortcut to a different location.", isEnabled = false });
-            AddItemsList.Add(new AddListItem { Header = "Compressed Folder", SubHeader = "In Development: Creates a new compressed folder from an existing folder.", isEnabled = false });
+            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", isEnabled = true });
+            
         }
 
         
