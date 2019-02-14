@@ -220,8 +220,8 @@ namespace ItemListPresenter
                 folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
                 folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
                 fileList = await folder.GetFilesAsync();                            // Create a read-only list of all files in location
-                NumOfFolders = folderList.Count;                                // How many folders are in the list
-                NumOfFiles = fileList.Count;                                    // How many files are in the list
+                NumOfFolders = folderList.Count;                                    // How many folders are in the list
+                NumOfFiles = fileList.Count;                                        // How many files are in the list
                 NumOfItems = NumOfFiles + NumOfFolders;
                 NumItemsRead = 0;
 

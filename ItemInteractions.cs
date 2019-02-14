@@ -182,7 +182,7 @@ namespace Interacts
                         StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
                         var options = new LauncherOptions
                         {
-                            DisplayApplicationPicker = true
+                            DisplayApplicationPicker = false
                             
                         };
                         await Launcher.LaunchFileAsync(file, options);
