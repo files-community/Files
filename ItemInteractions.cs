@@ -521,7 +521,8 @@ namespace Interacts
 
                 }
                 NavigationActions.Refresh_Click(null, null);
-
+                History.ForwardList.Clear();
+                ItemViewModel.FS.isEnabled = false;
             }
             catch (InvalidOperationException)
             {
