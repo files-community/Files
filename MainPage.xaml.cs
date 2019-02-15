@@ -148,6 +148,12 @@ namespace Files
             }
             else
             {
+                if(ItemViewModel.tokenSource != null)
+                {
+                    ItemViewModel.tokenSource.Cancel();
+                    ItemViewModel.FilesAndFolders.Clear();
+                }
+                
                 if (item.ToString() == "Home")
                 {
                     ContentFrame.Navigate(typeof(YourHome));
@@ -218,7 +224,9 @@ namespace Files
                     
                 }
 
+                
             }
+
         }
 
     }

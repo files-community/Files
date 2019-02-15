@@ -318,80 +318,77 @@
                 <ProgressBar Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
+            <GridView  Margin="24,0,24,0" Grid.Row="3" IsTapEnabled="True" Tapped="FileList_Tapped" SelectionMode="Extended" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
+                <GridView.Resources>
+                    <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem Text="Open" Name="OpenItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE7AC;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE72D;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE74D;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8AC;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C6;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C8;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
 
-            <Grid Margin="24,0,0,0" Grid.Row="3" HorizontalAlignment="Left">
-                <GridView IsTapEnabled="True" Tapped="FileList_Tapped" SelectionMode="Extended" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <GridView.Resources>
-                        <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem Text="Open" Name="OpenItem">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE7AC;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Share" Name="ShareItem">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE72D;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE74D;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Rename" Name="RenameItem" >
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE8AC;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Cut" Name="CutItem" >
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE8C6;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Copy" Name="CopyItem" >
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE8C8;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE946;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout.Items>
 
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE946;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout.Items>
+                    </MenuFlyout>
+                </GridView.Resources>
 
-                        </MenuFlyout>
-                    </GridView.Resources>
-
-                    <GridView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid IsRightTapEnabled="True" RightTapped="Grid_RightTapped" Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="75*"/>
-                                    <RowDefinition Height="25*"/>
-                                </Grid.RowDefinitions>
-                                <Grid Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
-                                    <Image Stretch="Uniform" Source="{Binding FileImg}"/>
-                                </Grid>
-
-                                <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
-
-                                    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <FontIcon FontSize="92" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                    </Grid>
-                                </Grid>
-                                <TextBlock Grid.Row="1" VerticalAlignment="Top" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid IsRightTapEnabled="True" RightTapped="Grid_RightTapped" Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="75*"/>
+                                <RowDefinition Height="25*"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
+                                <Image Stretch="Uniform" Source="{Binding FileImg}"/>
                             </Grid>
 
-                        </DataTemplate>
-                    </GridView.ItemTemplate>
-                </GridView>
-            </Grid>
+                            <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
+
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <FontIcon FontSize="92" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                </Grid>
+                            </Grid>
+                            <TextBlock Grid.Row="1" VerticalAlignment="Top" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>
+                        </Grid>
+
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
 
             <ContentDialog  PrimaryButtonText="Replace" SecondaryButtonText="Skip" Title="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="ReviewBox" Grid.RowSpan="4">
                 <Grid>

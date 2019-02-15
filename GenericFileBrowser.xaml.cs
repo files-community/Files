@@ -192,7 +192,6 @@ namespace Files
 
         private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            //var NewCellText = (e.Column.GetCellContent(e.Row) as TextBlock).Text.ToString();
             var NewCellText = (GenericFileBrowser.data.SelectedItem as ListedItem).FileName;
             var SelectedItem = ItemViewModel.FilesAndFolders[e.Row.GetIndex()];
             if(SelectedItem.FileExtension == "Folder")
@@ -211,6 +210,7 @@ namespace Files
                     await FileToRename.RenameAsync(NewCellText);
                 }
             }
+            Navigation.NavigationActions.Refresh_Click(null, null);
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
@@ -220,6 +220,7 @@ namespace Files
 
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
+            data.CommitEdit();
             data.SelectedItems.Clear();
         }
     }

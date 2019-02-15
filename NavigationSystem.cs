@@ -145,10 +145,12 @@ namespace Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (ItemViewModel.IsTerminated == false)
-            {
-                ItemViewModel.IsStopRequested = true;
-            }
+            // NOTE: THIS CHECK WAS REMOVED, REVERT BACK IF THINGS BREAK
+            //if (ItemViewModel.IsTerminated == false)
+            //{
+            ItemViewModel.tokenSource.Cancel();
+            ItemViewModel.FilesAndFolders.Clear();
+            //}
 
             if (History.HistoryList.Count() > 1)
             {
@@ -296,11 +298,13 @@ namespace Navigation
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            if(ItemViewModel.IsTerminated == false)
-            {
-                ItemViewModel.IsStopRequested = true;
-            }
-
+            // NOTE: THIS CHECK WAS REMOVED, REVERT BACK IF THINGS BREAK
+            //if (ItemViewModel.IsTerminated == false)
+            //{
+            ItemViewModel.tokenSource.Cancel();
+            ItemViewModel.FilesAndFolders.Clear();
+            //}
+            
             if (History.ForwardList.Count() > 0)
             {
                 ItemViewModel.TextState.isVisible = Visibility.Collapsed;
@@ -445,6 +449,7 @@ namespace Navigation
 
         public static void Refresh_Click(object sender, RoutedEventArgs e)
         {
+            ItemViewModel.tokenSource.Cancel();
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.FilesAndFolders.Clear();
             ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, GenericFileBrowser.GFBPageName);
@@ -496,10 +501,11 @@ namespace Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (ItemViewModel.IsTerminated == false)
-            {
-                ItemViewModel.IsStopRequested = true;
-            }
+            //if (ItemViewModel.IsTerminated == false)
+            //{
+            ItemViewModel.tokenSource.Cancel();
+            ItemViewModel.FilesAndFolders.Clear();
+            //}
 
             if (History.HistoryList.Count() > 1)
             {
@@ -646,10 +652,11 @@ namespace Navigation
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            if (ItemViewModel.IsTerminated == false)
-            {
-                ItemViewModel.IsStopRequested = true;
-            }
+            //if (ItemViewModel.IsTerminated == false)
+            //{
+            ItemViewModel.tokenSource.Cancel();
+            ItemViewModel.FilesAndFolders.Clear();
+            //}
 
             if (History.ForwardList.Count() > 0)
             {
@@ -674,6 +681,7 @@ namespace Navigation
 
         public static void Refresh_Click(object sender, RoutedEventArgs e)
         {
+            //ItemViewModel.IsStopRequested = true;
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.FilesAndFolders.Clear();
             ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, PhotoAlbum.PAPageName);

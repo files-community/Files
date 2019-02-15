@@ -13,6 +13,8 @@ using Windows.UI.Popups;
 using Interacts;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ItemListPresenter
 {
@@ -119,56 +121,6 @@ namespace ItemListPresenter
             }
         }
 
-        public ItemViewModel(string ViewPath, Page p)
-        {
-            pageName = p.Name;
-            // Personalize retrieved items for view they are displayed in
-            if(p.Name == "GenericItemView" || p.Name == "ClassicModePage")
-            {
-                isPhotoAlbumMode = false;
-            }
-            else if (p.Name == "PhotoAlbumViewer")
-            {
-                isPhotoAlbumMode = true;
-            }
-            
-            if(pageName != "ClassicModePage")
-            {
-                GenericFileBrowser.P.path = ViewPath;
-                FilesAndFolders.Clear();
-            }
-                
-            GetItemsAsync(ViewPath);
-
-            if (pageName != "ClassicModePage")
-            {
-                History.AddToHistory(ViewPath);
-
-                if (History.HistoryList.Count == 1)
-                {
-                    BS.isEnabled = false;
-                    //Debug.WriteLine("Disabled Property");
-
-
-                }
-                else if (History.HistoryList.Count > 1)
-                {
-                    BS.isEnabled = true;
-                    //Debug.WriteLine("Enabled Property");
-                }
-            }
-            
-
-        }
-
-        private async void DisplayConsentDialog()
-        {
-            MessageDialog message = new MessageDialog("This app is not able to access your files. You need to allow it to by granting permission in Settings.");
-            message.Title = "Permission Denied";
-            message.Commands.Add(new UICommand("Allow...", new UICommandInvokedHandler(Interaction.GrantAccessPermissionHandler)));
-            await message.ShowAsync();
-        }
-
         private ListedItem li = new ListedItem();
         public ListedItem LI { get { return this.li; } }
 
@@ -201,24 +153,81 @@ namespace ItemListPresenter
 
         private static EmptyFolderTextState textState = new EmptyFolderTextState();
         public static EmptyFolderTextState TextState { get { return textState; } }
-        public static bool IsStopRequested = false;
-        public static bool IsTerminated = true;
 
         public static int NumOfItems;
         public static int NumItemsRead;
         public static int NumOfFiles;
         public static int NumOfFolders;
-        public async void GetItemsAsync(string path)
+        public static CancellationToken token;
+        public static CancellationTokenSource tokenSource;
+
+        public ItemViewModel(string ViewPath, Page p)
+        {
+            pageName = p.Name;
+            // Personalize retrieved items for view they are displayed in
+            if(p.Name == "GenericItemView" || p.Name == "ClassicModePage")
+            {
+                isPhotoAlbumMode = false;
+            }
+            else if (p.Name == "PhotoAlbumViewer")
+            {
+                isPhotoAlbumMode = true;
+            }
+            
+            if(pageName != "ClassicModePage")
+            {
+                GenericFileBrowser.P.path = ViewPath;
+                FilesAndFolders.Clear();
+            }
+
+            tokenSource = new CancellationTokenSource();
+            token = tokenSource.Token;
+            GetItemsAsync(ViewPath, token);
+
+            if (pageName != "ClassicModePage")
+            {
+                History.AddToHistory(ViewPath);
+
+                if (History.HistoryList.Count == 1)
+                {
+                    BS.isEnabled = false;
+                    //Debug.WriteLine("Disabled Property");
+
+
+                }
+                else if (History.HistoryList.Count > 1)
+                {
+                    BS.isEnabled = true;
+                    //Debug.WriteLine("Enabled Property");
+                }
+            }
+            
+
+        }
+
+        private async void DisplayConsentDialog()
+        {
+            MessageDialog message = new MessageDialog("This app is not able to access your files. You need to allow it to by granting permission in Settings.");
+            message.Title = "Permission Denied";
+            message.Commands.Add(new UICommand("Allow...", new UICommandInvokedHandler(Interaction.GrantAccessPermissionHandler)));
+            await message.ShowAsync();
+        }
+
+        
+        public async void GetItemsAsync(string path, CancellationToken token)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            IsTerminated = false;
             PUIP.Path = path;
             try
             {
                 folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
                 folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
+                if (token.IsCancellationRequested == true)
+                {
+                    return;
+                }
                 fileList = await folder.GetFilesAsync();                            // Create a read-only list of all files in location
                 NumOfFolders = folderList.Count;                                    // How many folders are in the list
                 NumOfFiles = fileList.Count;                                        // How many files are in the list
@@ -241,10 +250,8 @@ namespace ItemListPresenter
                 {
                     foreach (StorageFolder fol in folderList)
                     {
-                        if (IsStopRequested)
+                        if (token.IsCancellationRequested == true)
                         {
-                            IsStopRequested = false;
-                            IsTerminated = true;
                             return;
                         }
                         int ProgressReported = (NumItemsRead * 100 / NumOfItems);
@@ -276,10 +283,8 @@ namespace ItemListPresenter
                 {
                     foreach (StorageFile f in fileList)
                     {
-                        if (IsStopRequested)
+                        if (token.IsCancellationRequested == true)
                         {
-                            IsStopRequested = false;
-                            IsTerminated = true;
                             return;
                         }
                         int ProgressReported = (NumItemsRead * 100 / NumOfItems);
@@ -336,7 +341,6 @@ namespace ItemListPresenter
                     PVIS.isVisible = Visibility.Collapsed;
                 }
 
-                IsTerminated = true;
 
             }
             catch (UnauthorizedAccessException)
@@ -352,7 +356,7 @@ namespace ItemListPresenter
             }
             stopwatch.Stop();
             Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
-
+            
         }
 
         public static ProgressPercentage progressPER = new ProgressPercentage();
