@@ -1,13 +1,13 @@
-﻿using ItemListPresenter;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Usb;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Popups;
@@ -15,6 +15,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Files.Filesystem;
 
 namespace Files
 {
@@ -50,53 +51,47 @@ namespace Files
         }
 
         public async void PopulateNavViewWithExternalDrives()
-        {
-
-            StorageFolder fol;
-            string driveLetter;
-            string NavItemContent;
-            SymbolIcon icon; 
-            ObservableCollection<string> knownRemDevices = new ObservableCollection<string>();
-            foreach (StorageFolder f in await KnownFolders.RemovableDevices.GetFoldersAsync())
+        {   
+            var knownRemDevices = new ObservableCollection<string>();
+            foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
             {
                 var path = f.Path;
                 knownRemDevices.Add(path);
             }
 
-            for (char let = 'A'; let <= 'Z'; let++)
+            var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList();
+
+            if (!driveLetters.Any()) return;
+
+            driveLetters.ToList().ForEach(roots =>
             {
-                if (let != 'C')
+                try
                 {
-                    try
+                    if (roots.Name == @"C:\") return;
+                    var content = string.Empty;
+                    SymbolIcon icon;
+                    if (knownRemDevices.Contains(roots.Name))
                     {
-                        driveLetter = let + ":\\";
-                        fol = await StorageFolder.GetFolderFromPathAsync(driveLetter);
-
-                        if (knownRemDevices.Contains(driveLetter))
-                        {
-                            NavItemContent = "Removable Drive (" + driveLetter + ")";
-                            icon = new SymbolIcon((Symbol)0xE88E);
-                        }
-                        else
-                        {
-                            NavItemContent = "Local Disk (" + driveLetter + ")";
-                            icon = new SymbolIcon((Symbol)0xEDA2);
-                        }
-
-                        nv.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
-                        {
-                            Content = NavItemContent,
-                            Icon = icon,
-                            Tag = driveLetter
-                        });
+                        content = $"Removable Drive ({roots.Name})";
+                        icon = new SymbolIcon((Symbol)0xE88E);
                     }
-                    catch (Exception)
+                    else
                     {
-                        // Debug.WriteLine("{0} not found", let);
+                        content = $"Local Disk ({roots.Name})";
+                        icon = new SymbolIcon((Symbol)0xEDA2);
                     }
-                    
+                    nv.MenuItems.Add(new Microsoft.UI.Xaml.Controls.NavigationViewItem()
+                    {
+                        Content = content,
+                        Icon = icon,
+                        Tag = roots.Name
+                    });
                 }
-            }
+                catch (UnauthorizedAccessException e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            });
         }
         
         private static SelectItem select = new SelectItem();

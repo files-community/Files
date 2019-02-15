@@ -1,23 +1,22 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using System;
-using Files;
-using ItemListPresenter;
-using Navigation;
-using System.Diagnostics;
-using Windows.ApplicationModel.DataTransfer;
-using System.Collections.Generic;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
-using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media.Animation;
 using System.ComponentModel;
+using Files.Filesystem;
+using Files.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
-namespace Interacts
+namespace Files.Interacts
 {
 
 
@@ -41,10 +40,10 @@ namespace Interacts
         {
             if (page.Name == "GenericItemView")
             {
-                
+
                 var index = GenericFileBrowser.data.SelectedIndex;
 
-                if(index > -1)
+                if (index > -1)
                 {
                     var clickedOnItem = ItemViewModel.FilesAndFolders[index];
 
@@ -124,7 +123,7 @@ namespace Interacts
                             MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                             MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
                         }
-                        else if(clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
+                        else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
                             GenericFileBrowser.P.path = "OneDrive";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
@@ -183,7 +182,7 @@ namespace Interacts
                         var options = new LauncherOptions
                         {
                             DisplayApplicationPicker = false
-                            
+
                         };
                         await Launcher.LaunchFileAsync(file, options);
                     }
@@ -337,7 +336,7 @@ namespace Interacts
                 }
 
             }
-           
+
         }
 
         public static async void CommandInvokedHandler(IUICommand command)
@@ -355,7 +354,7 @@ namespace Interacts
         //    GridView grid = sender as GridView;
         //    var index = grid.Items.IndexOf(e.);
         //    var clickedOnItem = ItemViewModel.FilesAndFolders[index];
-            
+
         //    //Debug.WriteLine("Reached PhotoAlbumViewer event");
 
         //    if (clickedOnItem.FileExtension == "Folder")
@@ -388,7 +387,7 @@ namespace Interacts
         public static void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             dataGrid = (DataGrid)sender;
-            var RowPressed  = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            var RowPressed = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
 
             // If user clicks on header
             if (RowPressed == null)
@@ -402,16 +401,16 @@ namespace Interacts
                 dataGrid.SelectedItems.Add(ObjectPressed);
                 GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
             }
-         
+
         }
 
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
         {
             T parent = null;
             DependencyObject CurrentParent = VisualTreeHelper.GetParent(child);
-            while(CurrentParent != null)
+            while (CurrentParent != null)
             {
-                if(CurrentParent is T)
+                if (CurrentParent is T)
                 {
                     parent = (T)CurrentParent;
                     break;
@@ -424,12 +423,12 @@ namespace Interacts
 
         public static void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            
+
         }
 
         public static async void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            if(page.Name == "GenericItemView")
+            if (page.Name == "GenericItemView")
             {
                 var ItemSelected = GenericFileBrowser.data.SelectedIndex;
                 var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
@@ -451,7 +450,7 @@ namespace Interacts
                     await Launcher.LaunchFileAsync(file, options);
                 }
             }
-            else if(page.Name == "PhotoAlbumViewer")
+            else if (page.Name == "PhotoAlbumViewer")
             {
                 var ItemSelected = PhotoAlbum.gv.SelectedIndex;
                 var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
@@ -473,7 +472,7 @@ namespace Interacts
                     await Launcher.LaunchFileAsync(file, options);
                 }
             }
-            
+
         }
 
         public static void ShareItem_Click(object sender, RoutedEventArgs e)
@@ -485,7 +484,7 @@ namespace Interacts
 
         private static void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-            foreach(IStorageItem item in dataGrid.ItemsSource)
+            foreach (IStorageItem item in dataGrid.ItemsSource)
             {
 
             }
@@ -540,7 +539,7 @@ namespace Interacts
             var ItemSelected = GenericFileBrowser.data.SelectedIndex;
             var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
             GenericFileBrowser.data.BeginEdit();
-            
+
         }
 
         public static void CutItem_Click(object sender, RoutedEventArgs e)
@@ -552,12 +551,12 @@ namespace Interacts
         {
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            if(GenericFileBrowser.data.SelectedItems.Count != 0)
+            if (GenericFileBrowser.data.SelectedItems.Count != 0)
             {
                 List<IStorageItem> items = new List<IStorageItem>();
                 foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                 {
-                    if(StorItem.FileExtension != "Folder")
+                    if (StorItem.FileExtension != "Folder")
                     {
                         var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                         items.Add(item);
@@ -568,11 +567,11 @@ namespace Interacts
                         items.Add(item);
                     }
                 }
-                
+
                 IEnumerable<IStorageItem> EnumerableOfItems = items;
                 dataPackage.SetStorageItems(EnumerableOfItems);
                 Clipboard.SetContent(dataPackage);
-                
+
             }
         }
         public static bool isSkipEnabled = false;
@@ -588,9 +587,9 @@ namespace Interacts
             var DestinationPath = ItemViewModel.PUIP.Path;
             DataPackageView packageView = Clipboard.GetContent();
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
-            foreach(IStorageItem item in ItemsToPaste)
+            foreach (IStorageItem item in ItemsToPaste)
             {
-               
+
                 try // tries to do this if collision doesn't happen
                 {
                     if (isReplaceEnabled)
@@ -652,12 +651,12 @@ namespace Interacts
                         ItemViewModel.DisplayCollisionUIWithArgs("Replace All Existing Items?", "You can choose whether to replace or skip all items if there are more than one. Optionally, you can review each one individually.");
                         return;
                     }
-                    
+
                 }
-                
+
 
             }
-            
+
             NavigationActions.Refresh_Click(null, null);
 
         }
@@ -668,7 +667,7 @@ namespace Interacts
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
 
-            if(passNum == 1)
+            if (passNum == 1)
             {
                 if (!replaceRoot)
                 {
@@ -728,7 +727,8 @@ namespace Interacts
 
 
             }
-            try { 
+            try
+            {
                 Debug.WriteLine("Pass " + passNum);
                 foreach (StorageFile file in await SourceFolder.GetFilesAsync())
                 {
@@ -833,32 +833,4 @@ namespace Interacts
             isLoopPaused = false;
         }
     }
-
-    public class PasteState : INotifyPropertyChanged
-    {
-        public bool _isEnabled;
-        public bool isEnabled
-        {
-            get
-            {
-                return _isEnabled;
-            }
-
-            set
-            {
-                if (value != _isEnabled)
-                {
-                    _isEnabled = value;
-                    NotifyPropertyChanged("isEnabled");
-                }
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string info)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
-    }
-
 }

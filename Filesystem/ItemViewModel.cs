@@ -1,53 +1,29 @@
 ﻿using System;
-using Files;
-using Navigation;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Globalization;
+using System.Runtime.InteropServices;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Storage.Search;
 using Windows.UI.Popups;
-using Interacts;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Media.Imaging;
 using System.Threading;
-using System.Threading.Tasks;
+using Files.Interacts;
+using Files.Navigation;
+using Windows.Storage.Search;
+using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
-namespace ItemListPresenter
+namespace Files.Filesystem
 {
-    public class ListedItem
-    {
-        public Visibility FolderImg { get; set; }
-        public Visibility FileIconVis { get; set; }
-        public BitmapImage FileImg { get; set; }
-        public string FileName { get; set; }
-        public string FileDate { get; set; }
-        public string FileExtension { get; set; }
-        public string FilePath { get; set; }
-        public int ItemIndex { get; set; }
-        public ListedItem()
-        {
-
-        }
-    }
-
-    public class Classic_ListedFolderItem
-    {
-        public string FileName { get; set; }
-        public string FileDate { get; set; }
-        public string FileExtension { get; set; }
-        public string FilePath { get; set; }
-        public ObservableCollection<Classic_ListedFolderItem> Children { get; set; } = new ObservableCollection<Classic_ListedFolderItem>();
-    }
-
     public class ItemViewModel
     {
         public static ObservableCollection<Classic_ListedFolderItem> classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
         public static ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get { return classicFolderList; } }
-        
+
         public static ObservableCollection<ListedItem> classicFileList = new ObservableCollection<ListedItem>();
         public static ObservableCollection<ListedItem> ClassicFileList { get { return classicFileList; } }
 
@@ -82,10 +58,6 @@ namespace ItemListPresenter
             {
                 return bs;
             }
-            set
-            {
-
-            }
         }
 
         public static ForwardState fs = new ForwardState();
@@ -95,10 +67,6 @@ namespace ItemListPresenter
             {
                 return fs;
             }
-            set
-            {
-
-            }
         }
 
         public static ProgressUIVisibility pvis = new ProgressUIVisibility();
@@ -107,10 +75,6 @@ namespace ItemListPresenter
             get
             {
                 return pvis;
-            }
-            set
-            {
-
             }
         }
 
@@ -154,12 +118,12 @@ namespace ItemListPresenter
         public static CancellationToken token;
         public static CancellationTokenSource tokenSource;
 
-        public ItemViewModel(string ViewPath, Page p)
+        public ItemViewModel(string viewPath, Page p)
         {
-            
+
             pageName = p.Name;
             // Personalize retrieved items for view they are displayed in
-            if(p.Name == "GenericItemView" || p.Name == "ClassicModePage")
+            if (p.Name == "GenericItemView" || p.Name == "ClassicModePage")
             {
                 isPhotoAlbumMode = false;
             }
@@ -167,20 +131,20 @@ namespace ItemListPresenter
             {
                 isPhotoAlbumMode = true;
             }
-            
-            if(pageName != "ClassicModePage")
+
+            if (pageName != "ClassicModePage")
             {
-                GenericFileBrowser.P.path = ViewPath;
+                GenericFileBrowser.P.path = viewPath;
                 FilesAndFolders.Clear();
             }
 
             tokenSource = new CancellationTokenSource();
             token = tokenSource.Token;
-            MemoryFriendlyGetItemsAsync(ViewPath, token);
+            MemoryFriendlyGetItemsAsync(viewPath, token);
 
             if (pageName != "ClassicModePage")
             {
-                History.AddToHistory(ViewPath);
+                History.AddToHistory(viewPath);
 
                 if (History.HistoryList.Count == 1)
                 {
@@ -195,7 +159,7 @@ namespace ItemListPresenter
                     //Debug.WriteLine("Enabled Property");
                 }
             }
-            
+
 
         }
 
@@ -203,7 +167,7 @@ namespace ItemListPresenter
         {
             MessageDialog message = new MessageDialog("This app is not able to access your files. You need to allow it to by granting permission in Settings.");
             message.Title = "Permission Denied";
-            message.Commands.Add(new UICommand("Allow...", new UICommandInvokedHandler(Interaction.GrantAccessPermissionHandler)));
+            message.Commands.Add(new UICommand("Allow...", Interaction.GrantAccessPermissionHandler));
             await message.ShowAsync();
         }
         string sort = "By_Name";
@@ -248,13 +212,13 @@ namespace ItemListPresenter
                 int foldersCountSnapshot = folders.Count;
                 while (folders.Count != 0)
                 {
-                    foreach(StorageFolder folder in folders)
+                    foreach (StorageFolder folder in folders)
                     {
                         if (token.IsCancellationRequested)
                         {
                             return;
                         }
-                        
+
                         gotFolName = folder.Name.ToString();
                         gotFolDate = folder.DateCreated.ToString();
                         gotFolPath = folder.Path.ToString();
@@ -288,7 +252,7 @@ namespace ItemListPresenter
                         {
                             return;
                         }
-                        
+
                         gotName = file.Name.ToString();
                         gotDate = file.DateCreated.ToString(); // In the future, parse date to human readable format
                         if (file.FileType.ToString() == ".exe")
@@ -306,7 +270,15 @@ namespace ItemListPresenter
                             const uint requestedSize = 20;
                             const ThumbnailMode thumbnailMode = ThumbnailMode.ListView;
                             const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
-                            gotFileImg = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                            try
+                            {
+                                gotFileImg = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                            }
+                            catch
+                            {
+                                // Silent catch here to avoid crash
+                                // TODO maybe some logging could be added in the future...
+                            }
                         }
                         else
                         {
@@ -335,7 +307,7 @@ namespace ItemListPresenter
                     index += step;
                     files = await fileQueryResult.GetFilesAsync(index, step);
                 }
-                if(foldersCountSnapshot + filesCountSnapshot == 0)
+                if (foldersCountSnapshot + filesCountSnapshot == 0)
                 {
                     TextState.isVisible = Visibility.Visible;
                 }
@@ -344,23 +316,36 @@ namespace ItemListPresenter
                     PVIS.isVisible = Visibility.Collapsed;
                 }
                 PVIS.isVisible = Visibility.Collapsed;
-            }        
-            catch (UnauthorizedAccessException)
-            {
-                DisplayConsentDialog();
+                stopwatch.Stop();
+                Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
             }
-            catch (System.Runtime.InteropServices.COMException e)
+            catch (UnauthorizedAccessException e)
             {
+                if (path.Contains(@"C:\"))
+                {
+                    DisplayConsentDialog();
+                }
+                else
+                {
+                    MessageDialog unsupportedDevice = new MessageDialog("This device is unsupported. Please file an issue report in Settings - About containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
+                    await unsupportedDevice.ShowAsync();
+                }
+                stopwatch.Stop();
+                Debug.WriteLine("Loading of: " + path + " failed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
+            }
+            catch (COMException e)
+            {
+                stopwatch.Stop();
+                Debug.WriteLine("Loading of: " + path + " failed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
                 Frame rootFrame = Window.Current.Content as Frame;
                 MessageDialog driveGone = new MessageDialog(e.Message, "Drive Unplugged");
                 await driveGone.ShowAsync();
                 rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
             }
-            stopwatch.Stop();
-            Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
+
         }
-        
-        
+
+
 
         public static ProgressPercentage progressPER = new ProgressPercentage();
 
@@ -396,18 +381,18 @@ namespace ItemListPresenter
             await GenericFileBrowser.reviewBox.ShowAsync();
         }
 
-        public static async void FillTreeNode(object item, Microsoft.UI.Xaml.Controls.TreeView EntireControl)
+        public static async void FillTreeNode(object item, TreeView EntireControl)
         {
-            var PathToFillFrom = (item as Classic_ListedFolderItem).FilePath;
-            StorageFolder FolderFromPath = await StorageFolder.GetFolderFromPathAsync(PathToFillFrom);
-            IReadOnlyList<StorageFolder> SubFolderList = await FolderFromPath.GetFoldersAsync();
-            foreach(StorageFolder fol in SubFolderList)
+            var pathToFillFrom = (item as Classic_ListedFolderItem)?.FilePath;
+            StorageFolder folderFromPath = await StorageFolder.GetFolderFromPathAsync(pathToFillFrom);
+            IReadOnlyList<StorageFolder> SubFolderList = await folderFromPath.GetFoldersAsync();
+            foreach (StorageFolder fol in SubFolderList)
             {
                 var name = fol.Name;
-                var date = fol.DateCreated.LocalDateTime.ToString();
+                var date = fol.DateCreated.LocalDateTime.ToString(CultureInfo.InvariantCulture);
                 var ext = fol.DisplayType;
                 var path = fol.Path;
-                (item as Classic_ListedFolderItem).Children.Add(new Classic_ListedFolderItem() { FileName = name, FilePath = path, FileDate = date, FileExtension = ext});
+                (item as Classic_ListedFolderItem)?.Children.Add(new Classic_ListedFolderItem() { FileName = name, FilePath = path, FileDate = date, FileExtension = ext });
 
             }
         }

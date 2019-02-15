@@ -3,20 +3,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
-    xmlns:local1="using:Navigation"
-    xmlns:local2="using:ItemListPresenter"
-    xmlns:local3="using:Interacts"
+    xmlns:local3="using:Files.Interacts"
+    xmlns:local2="using:Files.Filesystem"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    xmlns:Interactions="using:Interacts"
+    xmlns:navigation="using:Files.Navigation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Name="PhotoAlbumViewer">
 
     <Page.Resources>
-        <local1:BackState x:Key="BackObject"/>
-        <local1:ForwardState x:Key="ForwardObject"/>
+        <navigation:BackState x:Key="BackObject"/>
+        <navigation:ForwardState x:Key="ForwardObject"/>
 
         <Style x:Key="AppBarButtonFixedStyle" TargetType="AppBarButton">
             <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}"/>
@@ -315,7 +314,7 @@
                 <ScrollViewer  Padding="5" HorizontalScrollMode="Auto" HorizontalScrollBarVisibility="Auto"  HorizontalAlignment="Stretch" VerticalAlignment="Top">
                     <TextBlock x:Name="VisiblePath" Text="{x:Bind Mode=TwoWay, Path=local:GenericFileBrowser.P.path, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1"/>
                 </ScrollViewer>
-                <ProgressBar Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
+                <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
             <GridView ShowsScrollingPlaceholders="True" Margin="24,0,24,0" Grid.Row="3" IsTapEnabled="True" Tapped="FileList_Tapped" SelectionMode="Extended" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >

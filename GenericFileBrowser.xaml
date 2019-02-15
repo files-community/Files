@@ -7,9 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Files"
-    xmlns:local1="using:Navigation"
-    xmlns:local2="using:ItemListPresenter"
-    xmlns:local3="using:Interacts"
+    xmlns:local1="using:Files.Navigation"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.Interacts"
     Name="GenericItemView"
     mc:Ignorable="d" PointerReleased="GenericItemView_PointerReleased">
 

@@ -111,16 +111,25 @@
     <Compile Include="ClassicMode.xaml.cs">
       <DependentUpon>ClassicMode.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileLoader.cs" />
+    <Compile Include="Filesystem\Classic_ListedFolderItem.cs" />
+    <Compile Include="Filesystem\ItemViewModel.cs" />
+    <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ItemInteractions.cs" />
+    <Compile Include="Interacts\Interaction.cs" />
+    <Compile Include="Interacts\ItemInteractions.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NavigationSystem.cs" />
+    <Compile Include="Navigation\ArrayDiag.cs" />
+    <Compile Include="Navigation\BackState.cs" />
+    <Compile Include="Navigation\ForwardState.cs" />
+    <Compile Include="Navigation\History.cs" />
+    <Compile Include="Navigation\NavigationActions.cs" />
+    <Compile Include="Navigation\PhotoAlbumNavActions.cs" />
+    <Compile Include="Navigation\UniversalPath.cs" />
     <Compile Include="PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
@@ -280,6 +289,7 @@
   <ItemGroup>
     <None Include="Files_TemporaryKey.pfx" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

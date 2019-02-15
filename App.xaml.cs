@@ -9,10 +9,8 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
-
     sealed partial class App : Application
-    {
-        
+    {       
         public App()
         {
             this.InitializeComponent();

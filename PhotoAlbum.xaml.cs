@@ -1,10 +1,9 @@
-﻿using Interacts;
-using ItemListPresenter;
-using System;
+﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-
+using Files.Filesystem;
+using Files.Interacts;
 
 
 namespace Files
