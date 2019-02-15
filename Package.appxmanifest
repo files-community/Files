@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3" xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4" IgnorableNamespaces="uap mp rescap desktop4 desktop uap3 uap4">
-  <Identity Name="cd15f916-6036-4135-8201-430a5c5547dd" Publisher="CN=lukeb" Version="0.4.6.0" />
+  <Identity Name="cd15f916-6036-4135-8201-430a5c5547dd" Publisher="CN=lukeb" Version="0.4.7.0" />
   <mp:PhoneIdentity PhoneProductId="cd15f916-6036-4135-8201-430a5c5547dd" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Files</DisplayName>
