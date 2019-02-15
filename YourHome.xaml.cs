@@ -1,5 +1,4 @@
-﻿using ItemListPresenter;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Diagnostics;
 using System.Drawing;
@@ -7,12 +6,11 @@ using Windows.Graphics.Display;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Filesystem;
 
 
 namespace Files
 {
-
-
     public sealed partial class YourHome : Page
     {
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);

@@ -3,20 +3,19 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
-    xmlns:local1="using:Navigation"
-    xmlns:local2="using:ItemListPresenter"
-    xmlns:local3="using:Interacts"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:local3="using:Files.Interacts"
+    xmlns:local2="using:Files.Filesystem"
     mc:Ignorable="d"
-    xmlns:Interactions="using:Interacts"
+    xmlns:navigation="using:Files.Navigation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Name="PhotoAlbumViewer">
 
     <Page.Resources>
-        <local1:BackState x:Key="BackObject"/>
-        <local1:ForwardState x:Key="ForwardObject"/>
+        <navigation:BackState x:Key="BackObject"/>
+        <navigation:ForwardState x:Key="ForwardObject"/>
 
         <Style x:Key="AppBarButtonFixedStyle" TargetType="AppBarButton">
             <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}"/>

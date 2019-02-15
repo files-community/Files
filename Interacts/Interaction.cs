@@ -1,30 +1,25 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using System;
-using Files;
-using ItemListPresenter;
-using Navigation;
-using System.Diagnostics;
-using Windows.ApplicationModel.DataTransfer;
-using System.Collections.Generic;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
-using System.Collections.ObjectModel;
 using Windows.UI.Xaml.Media.Animation;
-using System.ComponentModel;
+using Files.Filesystem;
+using Files.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
-namespace Interacts
+namespace Files.Interacts
 {
-
-
-
     public class Interaction
     {
-
+        // Can these all be converted into auto properies?
         private static PasteState ps = new PasteState();
         public static PasteState PS { get { return ps; } }
 
@@ -832,32 +827,4 @@ namespace Interacts
             isLoopPaused = false;
         }
     }
-
-    public class PasteState : INotifyPropertyChanged
-    {
-        public bool _isEnabled;
-        public bool isEnabled
-        {
-            get
-            {
-                return _isEnabled;
-            }
-
-            set
-            {
-                if (value != _isEnabled)
-                {
-                    _isEnabled = value;
-                    NotifyPropertyChanged("isEnabled");
-                }
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string info)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
-    }
-
 }

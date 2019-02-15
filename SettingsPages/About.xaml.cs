@@ -1,8 +1,8 @@
-﻿using Interacts;
-using System;
+﻿using System;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Interacts;
 
 
 namespace Files.SettingsPages

@@ -1,6 +1,4 @@
-﻿using ItemListPresenter;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using Navigation;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -15,10 +13,11 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Files.Filesystem;
+using Files.Navigation;
 
 namespace Files
 {
-
     public sealed partial class GenericFileBrowser : Page
     {
         public TextBlock textBlock;
@@ -70,8 +69,6 @@ namespace Files
             ReviewBox.SecondaryButtonClick += Interacts.Interaction.SkipChoiceClick;
         }
 
-        
-
         private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             await AddDialog.ShowAsync();
@@ -113,7 +110,7 @@ namespace Files
         }
 
         public static UniversalPath p = new UniversalPath();
-        public static UniversalPath P { get { return GenericFileBrowser.p; } }
+        public static UniversalPath P { get { return p; } }
         
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
@@ -156,13 +153,9 @@ namespace Files
 
         }
 
-
-
-
         private void AllView_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
-            
         }
 
         private async void AllView_DropAsync(object sender, DragEventArgs e)
@@ -190,22 +183,22 @@ namespace Files
         private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
             //var NewCellText = (e.Column.GetCellContent(e.Row) as TextBlock).Text.ToString();
-            var NewCellText = (GenericFileBrowser.data.SelectedItem as ListedItem).FileName;
-            var SelectedItem = ItemViewModel.FilesAndFolders[e.Row.GetIndex()];
-            if(SelectedItem.FileExtension == "Folder")
+            var newCellText = (data.SelectedItem as ListedItem)?.FileName;
+            var selectedItem = ItemViewModel.FilesAndFolders[e.Row.GetIndex()];
+            if(selectedItem.FileExtension == "Folder")
             {
-                StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(SelectedItem.FilePath);
-                if(FolderToRename.Name != NewCellText)
+                StorageFolder folderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
+                if(folderToRename.Name != newCellText)
                 {
-                    await FolderToRename.RenameAsync(NewCellText);
+                    await folderToRename.RenameAsync(newCellText);
                 }
             }
             else
             {
-                StorageFile FileToRename = await StorageFile.GetFileFromPathAsync(SelectedItem.FilePath);
-                if (FileToRename.Name != NewCellText)
+                StorageFile fileToRename = await StorageFile.GetFileFromPathAsync(selectedItem.FilePath);
+                if (fileToRename.Name != newCellText)
                 {
-                    await FileToRename.RenameAsync(NewCellText);
+                    await fileToRename.RenameAsync(newCellText);
                 }
             }
         }
@@ -218,8 +211,6 @@ namespace Files
 
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
-
-
         public Visibility _isVisible;
         public Visibility isVisible
         {
@@ -243,6 +234,5 @@ namespace Files
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
-
     }
 }
