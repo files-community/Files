@@ -47,19 +47,12 @@ namespace ItemListPresenter
     {
         public static ObservableCollection<Classic_ListedFolderItem> classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
         public static ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get { return classicFolderList; } }
+        
         public static ObservableCollection<ListedItem> classicFileList = new ObservableCollection<ListedItem>();
         public static ObservableCollection<ListedItem> ClassicFileList { get { return classicFileList; } }
 
         public static ObservableCollection<ListedItem> filesAndFolders = new ObservableCollection<ListedItem>();
         public static ObservableCollection<ListedItem> FilesAndFolders { get { return filesAndFolders; } }
-
-        string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
-        string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
 
         StorageFolder folder;
         static string gotName;
@@ -163,6 +156,7 @@ namespace ItemListPresenter
 
         public ItemViewModel(string ViewPath, Page p)
         {
+            
             pageName = p.Name;
             // Personalize retrieved items for view they are displayed in
             if(p.Name == "GenericItemView" || p.Name == "ClassicModePage")
@@ -222,6 +216,9 @@ namespace ItemListPresenter
             PUIP.Path = path;
             try
             {
+
+                PVIS.isVisible = Visibility.Visible;
+                TextState.isVisible = Visibility.Collapsed;
                 folder = await StorageFolder.GetFolderFromPathAsync(path);
                 QueryOptions options = new QueryOptions()
                 {
@@ -248,7 +245,8 @@ namespace ItemListPresenter
 
                 StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
                 IReadOnlyList<StorageFolder> folders = await folderQueryResult.GetFoldersAsync(index, step);
-                while(folders.Count != 0)
+                int foldersCountSnapshot = folders.Count;
+                while (folders.Count != 0)
                 {
                     foreach(StorageFolder folder in folders)
                     {
@@ -256,8 +254,7 @@ namespace ItemListPresenter
                         {
                             return;
                         }
-                        //int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-                        //UpdateProgUI(ProgressReported);
+                        
                         gotFolName = folder.Name.ToString();
                         gotFolDate = folder.DateCreated.ToString();
                         gotFolPath = folder.Path.ToString();
@@ -282,7 +279,7 @@ namespace ItemListPresenter
                 index = 0;
                 StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
                 IReadOnlyList<StorageFile> files = await fileQueryResult.GetFilesAsync(index, step);
-
+                int filesCountSnapshot = files.Count;
                 while (files.Count != 0)
                 {
                     foreach (StorageFile file in files)
@@ -291,8 +288,7 @@ namespace ItemListPresenter
                         {
                             return;
                         }
-                        //int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-                        //UpdateProgUI(ProgressReported);
+                        
                         gotName = file.Name.ToString();
                         gotDate = file.DateCreated.ToString(); // In the future, parse date to human readable format
                         if (file.FileType.ToString() == ".exe")
@@ -339,11 +335,15 @@ namespace ItemListPresenter
                     index += step;
                     files = await fileQueryResult.GetFilesAsync(index, step);
                 }
+                if(foldersCountSnapshot + filesCountSnapshot == 0)
+                {
+                    TextState.isVisible = Visibility.Visible;
+                }
                 if (pageName != "ClassicModePage")
                 {
                     PVIS.isVisible = Visibility.Collapsed;
                 }
-
+                PVIS.isVisible = Visibility.Collapsed;
             }        
             catch (UnauthorizedAccessException)
             {
@@ -352,7 +352,7 @@ namespace ItemListPresenter
             catch (System.Runtime.InteropServices.COMException e)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
-                MessageDialog driveGone = new MessageDialog(e.Message, "Drive Not Found");
+                MessageDialog driveGone = new MessageDialog(e.Message, "Drive Unplugged");
                 await driveGone.ShowAsync();
                 rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
             }
@@ -360,150 +360,7 @@ namespace ItemListPresenter
             Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
         }
         
-        //public async void GetItemsAsync(string path, CancellationToken token)
-        //{
-        //    Stopwatch stopwatch = new Stopwatch();
-        //    stopwatch.Start();
-
-        //    PUIP.Path = path;
-        //    try
-        //    {
-        //        folder = await StorageFolder.GetFolderFromPathAsync(path);          // Set location to the current directory specified in path
-        //        folderList = await folder.GetFoldersAsync();                        // Create a read-only list of all folders in location
-        //        if (token.IsCancellationRequested == true)
-        //        {
-        //            return;
-        //        }
-        //        fileList = await folder.GetFilesAsync();                            // Create a read-only list of all files in location
-        //        NumOfFolders = folderList.Count;                                    // How many folders are in the list
-        //        NumOfFiles = fileList.Count;                                        // How many files are in the list
-        //        NumOfItems = NumOfFiles + NumOfFolders;
-        //        NumItemsRead = 0;
-
-        //        if (NumOfItems == 0)
-        //        {
-        //            TextState.isVisible = Visibility.Visible;
-        //        }
-
-        //        PUIH.Header = "Loading " + NumOfItems + " items";
-        //        ButtonText.buttonText = "Hide";
-                
-        //        if (NumOfItems >= 250)
-        //        {
-        //            PVIS.isVisible = Visibility.Visible;
-        //        }
-        //        if (NumOfFolders > 0)
-        //        {
-        //            foreach (StorageFolder fol in folderList)
-        //            {
-        //                if (token.IsCancellationRequested == true)
-        //                {
-        //                    return;
-        //                }
-        //                int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-        //                UpdateProgUI(ProgressReported);
-        //                gotFolName = fol.Name.ToString();
-        //                gotFolDate = fol.DateCreated.ToString();
-        //                gotFolPath = fol.Path.ToString();
-        //                gotFolType = "Folder";
-        //                gotFolImg = Visibility.Visible;
-        //                gotFileImgVis = Visibility.Collapsed;
-
-
-        //                if (pageName == "ClassicModePage")
-        //                {
-        //                    ClassicFolderList.Add(new Classic_ListedFolderItem() { FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
-        //                }
-        //                else
-        //                {
-        //                    FilesAndFolders.Add(new ListedItem() { ItemIndex = FilesAndFolders.Count, FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
-        //                }
-
-
-        //                NumItemsRead++;
-        //            }
-
-        //        }
-
-        //        if (NumOfFiles > 0)
-        //        {
-        //            foreach (StorageFile f in fileList)
-        //            {
-        //                if (token.IsCancellationRequested == true)
-        //                {
-        //                    return;
-        //                }
-        //                int ProgressReported = (NumItemsRead * 100 / NumOfItems);
-        //                UpdateProgUI(ProgressReported);
-        //                gotName = f.Name.ToString();
-        //                gotDate = f.DateCreated.ToString(); // In the future, parse date to human readable format
-        //                if (f.FileType.ToString() == ".exe")
-        //                {
-        //                    gotType = "Executable";
-        //                }
-        //                else
-        //                {
-        //                    gotType = f.DisplayType;
-        //                }
-        //                gotPath = f.Path.ToString();
-        //                gotFolImg = Visibility.Collapsed;
-        //                if (isPhotoAlbumMode == false)
-        //                {
-        //                    const uint requestedSize = 20;
-        //                    const ThumbnailMode thumbnailMode = ThumbnailMode.ListView;
-        //                    const ThumbnailOptions thumbnailOptions = ThumbnailOptions.UseCurrentScale;
-        //                    gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
-        //                }
-        //                else
-        //                {
-        //                    const uint requestedSize = 275;
-        //                    const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
-        //                    const ThumbnailOptions thumbnailOptions = ThumbnailOptions.ResizeThumbnail;
-        //                    gotFileImg = await f.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
-        //                }
-
-        //                BitmapImage icon = new BitmapImage();
-        //                if (gotFileImg != null)
-        //                {
-        //                    icon.SetSource(gotFileImg.CloneStream());
-        //                }
-        //                gotFileImgVis = Visibility.Visible;
-
-        //                if (pageName == "ClassicModePage")
-        //                {
-        //                    ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
-        //                }
-        //                else
-        //                {
-        //                    FilesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
-        //                }
-        //                NumItemsRead++;
-        //            }
-
-
-        //        }
-        //        if (pageName != "ClassicModePage")
-        //        {
-        //            PVIS.isVisible = Visibility.Collapsed;
-        //        }
-
-
-        //    }
-        //    catch (UnauthorizedAccessException)
-        //    {
-        //        DisplayConsentDialog();
-        //    }
-        //    catch (System.Runtime.InteropServices.COMException e)
-        //    {
-        //        Frame rootFrame = Window.Current.Content as Frame;
-        //        MessageDialog driveGone = new MessageDialog(e.Message, "Drive Not Found");
-        //        await driveGone.ShowAsync();
-        //        rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
-        //    }
-        //    stopwatch.Stop();
-        //    Debug.WriteLine("Loading of: " + path + " completed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
-            
-        //}
+        
 
         public static ProgressPercentage progressPER = new ProgressPercentage();
 
@@ -530,7 +387,6 @@ namespace ItemListPresenter
             CollisionBoxHeader.Header = header;
             CollisionBoxSubHeader.SubHeader = subHeader;
             await GenericFileBrowser.collisionBox.ShowAsync();
-            //CollisionUIVisibility.isVisible = Visibility.Visible;
         }
 
         public static async void DisplayReviewUIWithArgs(string header, string subHeader)
@@ -538,7 +394,6 @@ namespace ItemListPresenter
             ConflictBoxHeader.Header = header;
             ConflictBoxSubHeader.SubHeader = subHeader;
             await GenericFileBrowser.reviewBox.ShowAsync();
-            //ConflictUIVisibility.isVisible = Visibility.Visible;
         }
 
         public static async void FillTreeNode(object item, Microsoft.UI.Xaml.Controls.TreeView EntireControl)

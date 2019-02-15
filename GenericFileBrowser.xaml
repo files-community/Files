@@ -19,7 +19,7 @@
                 <RowDefinition Height="35"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="80*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
@@ -187,14 +187,10 @@
 
                 </controls:DataGrid>
 
-
-
-            
-            
             <ContentDialog  BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
                 <Frame Width="450" Name="AddDialogFrame"/>
             </ContentDialog>
-            
+
             <ContentDialog PrimaryButtonText="Replace" SecondaryButtonText="Skip" Title="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="ReviewBox" Grid.RowSpan="4">
                 <Grid>
                     <TextBlock Name="ConflictSmallHeader" TextWrapping="WrapWholeWords" Text="{x:Bind local2:ItemViewModel.ConflictBoxSubHeader.SubHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
