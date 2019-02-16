@@ -255,7 +255,7 @@ namespace Files.Filesystem
                             return;
                         }
 
-                        gotName = file.Name.ToString();
+                        gotName = file.DisplayName.ToString();
                         gotDate = file.DateCreated.ToString(); // In the future, parse date to human readable format
                         if (file.FileType.ToString() == ".exe")
                         {
@@ -275,6 +275,26 @@ namespace Files.Filesystem
                             try
                             {
                                 gotFileImg = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                                BitmapImage icon = new BitmapImage();
+                                if (gotFileImg != null)
+                                {
+                                    gotEmptyImgVis = Visibility.Collapsed;
+                                    icon.SetSource(gotFileImg.CloneStream());
+                                }
+                                else
+                                {
+                                    gotEmptyImgVis = Visibility.Visible;
+                                }
+                                gotFileImgVis = Visibility.Visible;
+
+                                if (pageName == "ClassicModePage")
+                                {
+                                    ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                                }
+                                else
+                                {
+                                    FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                                }
                             }
                             catch
                             {
@@ -287,29 +307,38 @@ namespace Files.Filesystem
                             const uint requestedSize = 275;
                             const ThumbnailMode thumbnailMode = ThumbnailMode.PicturesView;
                             const ThumbnailOptions thumbnailOptions = ThumbnailOptions.ResizeThumbnail;
-                            gotFileImg = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                            try
+                            {
+                                gotFileImg = await file.GetThumbnailAsync(thumbnailMode, requestedSize, thumbnailOptions);
+                                BitmapImage icon = new BitmapImage();
+                                if (gotFileImg != null)
+                                {
+                                    gotEmptyImgVis = Visibility.Collapsed;
+                                    icon.SetSource(gotFileImg.CloneStream());
+                                }
+                                else
+                                {
+                                    gotEmptyImgVis = Visibility.Visible;
+                                }
+                                gotFileImgVis = Visibility.Visible;
+
+                                if (pageName == "ClassicModePage")
+                                {
+                                    ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                                }
+                                else
+                                {
+                                    FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                                }
+                            }
+                            catch
+                            {
+                                // Silent catch here to avoid crash
+                                // TODO maybe some logging could be added in the future...
+                            }
                         }
 
-                        BitmapImage icon = new BitmapImage();
-                        if (gotFileImg != null)
-                        {
-                            gotEmptyImgVis = Visibility.Collapsed;
-                            icon.SetSource(gotFileImg.CloneStream());
-                        }
-                        else
-                        {
-                            gotEmptyImgVis = Visibility.Visible;
-                        }
-                        gotFileImgVis = Visibility.Visible;
-
-                        if (pageName == "ClassicModePage")
-                        {
-                            ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
-                        }
-                        else
-                        {
-                            FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
-                        }
+                        
                     }
                     index += step;
                     files = await fileQueryResult.GetFilesAsync(index, step);

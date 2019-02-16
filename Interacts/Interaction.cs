@@ -328,7 +328,7 @@ namespace Files.Interacts
                         StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
                         var options = new LauncherOptions
                         {
-                            DisplayApplicationPicker = true
+                            DisplayApplicationPicker = false
 
                         };
                         await Launcher.LaunchFileAsync(file, options);
@@ -423,7 +423,17 @@ namespace Files.Interacts
 
         public static void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-
+            GridView gridView = (GridView)sender;
+            var selItems = gridView.SelectedItems;
+            if(selItems.Count > 0)
+            {
+                PhotoAlbum.context.ShowAt(gridView);
+            }
+            else
+            {
+                PhotoAlbum.gridContext.ShowAt(PhotoAlbum.PAPageName, e.GetPosition(PhotoAlbum.PAPageName));
+            }
+            
         }
 
         public static async void OpenItem_Click(object sender, RoutedEventArgs e)
@@ -503,25 +513,48 @@ namespace Files.Interacts
             //await DeleteConfirmationDialog.ShowAsync();
             try
             {
-                foreach (ListedItem storItem in GenericFileBrowser.data.SelectedItems)
+                if (page.Name == "GenericItemView")
                 {
-                    if (storItem.FileExtension != "Folder")
+                    foreach (ListedItem storItem in GenericFileBrowser.data.SelectedItems)
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                        await item.DeleteAsync(StorageDeleteOption.Default);
+                        if (storItem.FileExtension != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
 
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+
+                        }
                     }
-                    else
-                    {
-                        var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                        await item.DeleteAsync(StorageDeleteOption.Default);
-
-                    }
-
+                    NavigationActions.Refresh_Click(null, null);
+                    History.ForwardList.Clear();
+                    ItemViewModel.FS.isEnabled = false;
                 }
-                NavigationActions.Refresh_Click(null, null);
-                History.ForwardList.Clear();
-                ItemViewModel.FS.isEnabled = false;
+                else if (page.Name == "PhotoAlbumViewer")
+                {
+                    foreach (ListedItem storItem in PhotoAlbum.gv.SelectedItems)
+                    {
+                        if (storItem.FileExtension != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+                        }
+                    }
+                    
+                    PhotoAlbumNavActions.Refresh_Click(null, null);
+                    History.ForwardList.Clear();
+                    ItemViewModel.FS.isEnabled = false;
+                }
+                
             }
             catch (InvalidOperationException)
             {
@@ -551,28 +584,57 @@ namespace Files.Interacts
         {
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
-            if (GenericFileBrowser.data.SelectedItems.Count != 0)
+            if (page.Name == "GenericItemView")
             {
-                List<IStorageItem> items = new List<IStorageItem>();
-                foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
+                if (GenericFileBrowser.data.SelectedItems.Count != 0)
                 {
-                    if (StorItem.FileExtension != "Folder")
+                    List<IStorageItem> items = new List<IStorageItem>();
+                    foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
-                        items.Add(item);
+                        if (StorItem.FileExtension != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
                     }
-                    else
-                    {
-                        var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
-                        items.Add(item);
-                    }
+
+                    IEnumerable<IStorageItem> EnumerableOfItems = items;
+                    dataPackage.SetStorageItems(EnumerableOfItems);
+                    Clipboard.SetContent(dataPackage);
+
                 }
-
-                IEnumerable<IStorageItem> EnumerableOfItems = items;
-                dataPackage.SetStorageItems(EnumerableOfItems);
-                Clipboard.SetContent(dataPackage);
-
             }
+            else if (page.Name == "PhotoAlbumViewer")
+            {
+                if (PhotoAlbum.gv.SelectedItems.Count != 0)
+                {
+                    List<IStorageItem> items = new List<IStorageItem>();
+                    foreach (ListedItem StorItem in PhotoAlbum.gv.SelectedItems)
+                    {
+                        if (StorItem.FileExtension != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                    }
+
+                    IEnumerable<IStorageItem> EnumerableOfItems = items;
+                    dataPackage.SetStorageItems(EnumerableOfItems);
+                    Clipboard.SetContent(dataPackage);
+
+                }
+            }
+            
         }
         public static bool isSkipEnabled = false;
         public static bool isReplaceEnabled = false;

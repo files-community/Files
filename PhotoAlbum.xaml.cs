@@ -14,6 +14,7 @@ namespace Files
         public static GridView gv;
         public static Image largeImg;
         public static MenuFlyout context;
+        public static MenuFlyout gridContext;
         public static Page PAPageName;
 
         public PhotoAlbum()
@@ -22,6 +23,7 @@ namespace Files
             PAPageName = PhotoAlbumViewer;
             gv = FileList;
             context = RightClickContextMenu;
+            gridContext = GridRightClickContextMenu;
         }
 
 
@@ -30,15 +32,17 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter.ToString();
-            ItemViewModel.ViewModel = new ItemViewModel(parameters, this.PhotoAlbumViewer);
-            Interacts.Interaction.page = this;
-            FileList.DoubleTapped += Interacts.Interaction.List_ItemClick;
+            ItemViewModel.ViewModel = new ItemViewModel(parameters, PhotoAlbumViewer);
+            Interaction.page = this;
+            FileList.DoubleTapped += Interaction.List_ItemClick;
             Back.Click += Navigation.PhotoAlbumNavActions.Back_Click;
             Forward.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
             Refresh.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
-            FileList.RightTapped += Interacts.Interaction.FileList_RightTapped;
-            OpenItem.Click += Interacts.Interaction.OpenItem_Click;
-
+            FileList.RightTapped += Interaction.FileList_RightTapped;
+            OpenItem.Click += Interaction.OpenItem_Click;
+            CopyItem.Click += Interaction.CopyItem_ClickAsync;
+            RefreshGrid.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
+            DeleteItem.Click += Interaction.DeleteItem_Click;
 
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
@@ -80,7 +84,7 @@ namespace Files
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             var ObjectPressed = (sender as Grid).DataContext as ListedItem;
-            gv.SelectedItems.Add(ObjectPressed);
+            gv.SelectedItem = ObjectPressed;
             context.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
         }
 
@@ -92,9 +96,15 @@ namespace Files
                 gv.SelectedItems.Clear();
             }
         }
+
+        private void PhotoAlbumViewer_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            FileList.SelectedItem = null;
+        }
+
+        private void PhotoAlbumViewer_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            gridContext.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
+        }
     }
-
-
-
-
 }
