@@ -7,6 +7,7 @@ namespace Files.Filesystem
     {
         public Visibility FolderImg { get; set; }
         public Visibility FileIconVis { get; set; }
+        public Visibility EmptyImgVis { get; set; }
         public BitmapImage FileImg { get; set; }
         public string FileName { get; set; }
         public string FileDate { get; set; }

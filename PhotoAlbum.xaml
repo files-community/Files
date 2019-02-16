@@ -321,7 +321,7 @@
                 <GridView.Resources>
                     <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                         <MenuFlyout.Items>
-                            <MenuFlyoutItem Text="Open" Name="OpenItem">
+                            <MenuFlyoutItem Text="Open With..." Name="OpenItem">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE7AC;"/>
                                 </MenuFlyoutItem.Icon>
@@ -380,6 +380,12 @@
 
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon FontSize="92" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                </Grid>
+                            </Grid>
+                            <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding EmptyImgVis}">
+
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <FontIcon FontSize="92" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
                                 </Grid>
                             </Grid>
                             <TextBlock Grid.Row="1" VerticalAlignment="Top" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>

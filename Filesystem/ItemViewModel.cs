@@ -40,6 +40,7 @@ namespace Files.Filesystem
         static string gotFolPath;
         static string gotFolType;
         static Visibility gotFileImgVis;
+        static Visibility gotEmptyImgVis;
         static Visibility gotFolImg;
         static StorageItemThumbnail gotFileImg;
         public static ObservableCollection<Classic_ListedFolderItem> ChildrenList;
@@ -225,6 +226,7 @@ namespace Files.Filesystem
                         gotFolType = "Folder";
                         gotFolImg = Visibility.Visible;
                         gotFileImgVis = Visibility.Collapsed;
+                        gotEmptyImgVis = Visibility.Collapsed;
 
 
                         if (pageName == "ClassicModePage")
@@ -233,7 +235,7 @@ namespace Files.Filesystem
                         }
                         else
                         {
-                            FilesAndFolders.Add(new ListedItem() { ItemIndex = FilesAndFolders.Count, FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
+                            FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, ItemIndex = FilesAndFolders.Count, FileImg = null, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotFolName, FileDate = gotFolDate, FileExtension = gotFolType, FilePath = gotFolPath });
                         }
                     }
                     index += step;
@@ -291,7 +293,12 @@ namespace Files.Filesystem
                         BitmapImage icon = new BitmapImage();
                         if (gotFileImg != null)
                         {
+                            gotEmptyImgVis = Visibility.Collapsed;
                             icon.SetSource(gotFileImg.CloneStream());
+                        }
+                        else
+                        {
+                            gotEmptyImgVis = Visibility.Visible;
                         }
                         gotFileImgVis = Visibility.Visible;
 
@@ -301,7 +308,7 @@ namespace Files.Filesystem
                         }
                         else
                         {
-                            FilesAndFolders.Add(new ListedItem() { FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                            FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
                         }
                     }
                     index += step;
