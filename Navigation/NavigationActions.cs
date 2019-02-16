@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -315,53 +316,55 @@ namespace Files.Navigation
             }
         }
 
-        public static void Refresh_Click(object sender, RoutedEventArgs e)
+        public async static void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            ItemViewModel.tokenSource.Cancel();
-            ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-            ItemViewModel.FilesAndFolders.Clear();
-            ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, GenericFileBrowser.GFBPageName);
-            if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                GenericFileBrowser.P.path = "Desktop";
+                ItemViewModel.tokenSource.Cancel();
+                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                ItemViewModel.FilesAndFolders.Clear();
+                ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, GenericFileBrowser.GFBPageName);
+                if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
+                {
+                    GenericFileBrowser.P.path = "Desktop";
 
-            }
-            else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
-            {
-                GenericFileBrowser.P.path = "Documents";
+                }
+                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
+                {
+                    GenericFileBrowser.P.path = "Documents";
 
-            }
-            else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
-            {
-                GenericFileBrowser.P.path = "Downloads";
+                }
+                else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
+                {
+                    GenericFileBrowser.P.path = "Downloads";
 
-            }
-            else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
-            {
+                }
+                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
+                {
 
-                GenericFileBrowser.P.path = "Pictures";
-            }
-            else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
-            {
-                GenericFileBrowser.P.path = "Music";
+                    GenericFileBrowser.P.path = "Pictures";
+                }
+                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
+                {
+                    GenericFileBrowser.P.path = "Music";
 
-            }
-            else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
-            {
-                GenericFileBrowser.P.path = "OneDrive";
+                }
+                else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
+                {
+                    GenericFileBrowser.P.path = "OneDrive";
 
-            }
-            else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
-            {
-                GenericFileBrowser.P.path = "Videos";
+                }
+                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
+                {
+                    GenericFileBrowser.P.path = "Videos";
 
-            }
-            else
-            {
-                GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
+                }
+                else
+                {
+                    GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
 
-            }
-
+                }
+            });
         }
     }
 }

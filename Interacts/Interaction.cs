@@ -529,8 +529,9 @@ namespace Files.Interacts
                             await item.DeleteAsync(StorageDeleteOption.Default);
 
                         }
+                        ItemViewModel.FilesAndFolders.Remove(storItem);
                     }
-                    NavigationActions.Refresh_Click(null, null);
+                    //NavigationActions.Refresh_Click(null, null);
                     History.ForwardList.Clear();
                     ItemViewModel.FS.isEnabled = false;
                 }
@@ -548,9 +549,10 @@ namespace Files.Interacts
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
                             await item.DeleteAsync(StorageDeleteOption.Default);
                         }
+                        ItemViewModel.FilesAndFolders.Remove(storItem);
                     }
-                    
-                    PhotoAlbumNavActions.Refresh_Click(null, null);
+
+                    //PhotoAlbumNavActions.Refresh_Click(null, null);
                     History.ForwardList.Clear();
                     ItemViewModel.FS.isEnabled = false;
                 }
@@ -719,7 +721,7 @@ namespace Files.Interacts
 
             }
 
-            NavigationActions.Refresh_Click(null, null);
+            //NavigationActions.Refresh_Click(null, null);
 
         }
         static int passNum = 0;

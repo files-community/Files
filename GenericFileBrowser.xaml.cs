@@ -209,7 +209,7 @@ namespace Files
                     await fileToRename.RenameAsync(newCellText);
                 }
             }
-            Navigation.NavigationActions.Refresh_Click(null, null);
+            //Navigation.NavigationActions.Refresh_Click(null, null);
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)

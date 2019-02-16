@@ -46,7 +46,7 @@ namespace Files
             {
                 await folderToCreateItem.CreateFileAsync("New Bitmap Image.bmp", CreationCollisionOption.GenerateUniqueName);
             }
-            Navigation.NavigationActions.Refresh_Click(null, null);
+            //Navigation.NavigationActions.Refresh_Click(null, null);
 
         }
 

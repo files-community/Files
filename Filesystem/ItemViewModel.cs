@@ -16,6 +16,7 @@ using Files.Interacts;
 using Files.Navigation;
 using Windows.Storage.Search;
 using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
+using Windows.UI.Core;
 
 namespace Files.Filesystem
 {
@@ -116,6 +117,8 @@ namespace Files.Filesystem
         public static int NumItemsRead;
         public static int NumOfFiles;
         public static int NumOfFolders;
+        StorageFileQueryResult fileQueryResult;
+        StorageFolderQueryResult folderQueryResult;
         public static CancellationToken token;
         public static CancellationTokenSource tokenSource;
 
@@ -208,7 +211,7 @@ namespace Files.Filesystem
                     options.SortOrder.Clear();
                 }
 
-                StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
+                folderQueryResult = folder.CreateFolderQueryWithOptions(options);
                 IReadOnlyList<StorageFolder> folders = await folderQueryResult.GetFoldersAsync(index, step);
                 int foldersCountSnapshot = folders.Count;
                 while (folders.Count != 0)
@@ -243,7 +246,7 @@ namespace Files.Filesystem
                 }
 
                 index = 0;
-                StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
+                fileQueryResult = folder.CreateFileQueryWithOptions(options);
                 IReadOnlyList<StorageFile> files = await fileQueryResult.GetFilesAsync(index, step);
                 int filesCountSnapshot = files.Count;
                 while (files.Count != 0)
@@ -380,8 +383,6 @@ namespace Files.Filesystem
             }
 
         }
-
-
 
         public static ProgressPercentage progressPER = new ProgressPercentage();
 
