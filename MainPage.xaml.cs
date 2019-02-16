@@ -226,11 +226,6 @@ namespace Files
 
         }
 
-        public static async Task LaunchExe(string executablePath)
-        {
-            ApplicationData.Current.LocalSettings.Values["executable"] = executablePath;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
     }
     public class SelectItem : INotifyPropertyChanged
     {

@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap mp rescap desktop">
-  <Identity Name="85bc74fc-1b61-4232-97b5-1ed702381499" Publisher="CN=asalim" Version="1.0.0.0" />
+  <Identity Name="85bc74fc-1b61-4232-97b5-1ed702381499" Publisher="CN=lukeb" Version="0.4.7.0" />
   <Properties>
-    <DisplayName>FilesUwp.Package</DisplayName>
-    <PublisherDisplayName>FilesUwpDeveloper</PublisherDisplayName>
+    <DisplayName>Files</DisplayName>
+    <PublisherDisplayName>Luke Blevins</PublisherDisplayName>
     <Logo>Images\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
@@ -14,18 +14,17 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-      <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
-          <uap:VisualElements DisplayName="FilesUwp.Package" Description="FilesUwp.Package" BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
-              <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png">
-              </uap:DefaultTile>
-          </uap:VisualElements>
-          <Extensions>
-              <desktop:Extension Category="windows.fullTrustProcess" Executable="Launcher/Launcher.exe" />
-              <!--<uap:Extension Category="windows.appService" EntryPoint="MyAppService.ExeNameProvider">
-                    <uap3:AppService Name="com.placeholder.here" uap4:SupportsMultipleInstances="true"/>
-                </uap:Extension>-->
-          </Extensions>
-      </Application>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
+      <uap:VisualElements DisplayName="Files" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." BackgroundColor="transparent" Square150x150Logo="Images\Square150x150Logo.png" Square44x44Logo="Images\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png">
+          
+        </uap:DefaultTile>
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="black" />
+      </uap:VisualElements>
+      <Extensions>
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="Launcher/Launcher.exe" />
+      </Extensions>
+    </Application>
   </Applications>
   <Capabilities>
     <Capability Name="internetClient" />
