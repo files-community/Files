@@ -53,6 +53,24 @@ namespace Files
             PopulateNavViewWithExternalDrives();
             permissionBox = PermissionDialog;
 
+            //make the minimize, maximize and close button visible in light theme
+            if (App.Current.RequestedTheme == ApplicationTheme.Dark)
+            {
+                titleBar.ButtonForegroundColor = Colors.White;
+            }
+            else if (App.Current.RequestedTheme == ApplicationTheme.Light)
+            {
+                titleBar.ButtonForegroundColor = Colors.Black;
+            }
+
+            if (this.RequestedTheme == ElementTheme.Dark)
+            {
+                titleBar.ButtonForegroundColor = Colors.White;
+            }
+            else if (this.RequestedTheme == ElementTheme.Light)
+            {
+                titleBar.ButtonForegroundColor = Colors.Black;
+            }
         }
 
         public async void PopulateNavViewWithExternalDrives()
