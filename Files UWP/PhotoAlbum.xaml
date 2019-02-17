@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d"
     xmlns:navigation="using:Files.Navigation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -340,7 +341,7 @@
                 <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
-            <controls:AdaptiveGridView ShowsScrollingPlaceholders="True" Margin="24,0,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
+            <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,0,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
                 <controls:AdaptiveGridView.Resources>
                     <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                         <MenuFlyout.Items>
