@@ -23,8 +23,6 @@
             </Grid.RowDefinitions>
             <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-
-
             <CommandBar Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Grid.Row="1" DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsSticky="True" VerticalAlignment="Stretch">
                 <CommandBar.Content>
                     <StackPanel Orientation="Horizontal">
@@ -72,6 +70,9 @@
                             <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </DataTemplate>
                     </AppBarButton.ContentTemplate>
+                    <AppBarButton.KeyboardAccelerators>
+                        <KeyboardAccelerator Key="F5"/>
+                    </AppBarButton.KeyboardAccelerators>
                 </AppBarButton>
 
 
@@ -81,6 +82,7 @@
                             <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </DataTemplate>
                     </AppBarButton.ContentTemplate>
+                    
                 </AppBarButton>
             </CommandBar>
 
@@ -121,6 +123,9 @@
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE72D;"/>
                                 </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                                </MenuFlyoutItem.KeyboardAccelerators>
                             </MenuFlyoutItem>
 
                             <MenuFlyoutSeparator/>
@@ -136,17 +141,26 @@
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8AC;"/>
                                 </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="F2"/>
+                                </MenuFlyoutItem.KeyboardAccelerators>
                             </MenuFlyoutItem>
                             <MenuFlyoutSeparator/>
                             <MenuFlyoutItem Text="Cut" Name="CutItem" >
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8C6;"/>
                                 </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Modifiers="Control" Key="X"/>
+                                </MenuFlyoutItem.KeyboardAccelerators>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem Text="Copy" Name="CopyItem" >
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE8C8;"/>
                                 </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem.KeyboardAccelerators>
+                                    <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                                </MenuFlyoutItem.KeyboardAccelerators>
                             </MenuFlyoutItem>
 
                             <MenuFlyoutSeparator/>
@@ -154,6 +168,7 @@
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xE946;"/>
                                 </MenuFlyoutItem.Icon>
+                                
                             </MenuFlyoutItem>
                         </MenuFlyout.Items>
 
