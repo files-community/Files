@@ -483,15 +483,16 @@ namespace Files.Interacts
 
         public static async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            //MessageDialog DeleteConfirmationDialog = new MessageDialog("Are you sure you want to send " + GenericFileBrowser.data.SelectedItems.Count + " item(s) to the Recycle Bin?", "Move to Recycle Bin?");
-            //DeleteConfirmationDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(Interaction.DeleteConfirmed)));
-            //DeleteConfirmationDialog.Commands.Add(new UICommand("Cancel"));
-            //await DeleteConfirmationDialog.ShowAsync();
             try
             {
                 if (page.Name == "GenericItemView")
                 {
-                    foreach (ListedItem storItem in GenericFileBrowser.data.SelectedItems)
+                    List<ListedItem> selectedItems = new List<ListedItem>();
+                    foreach(ListedItem selectedItem in GenericFileBrowser.data.SelectedItems)
+                    {
+                        selectedItems.Add(selectedItem);
+                    }
+                    foreach (ListedItem storItem in selectedItems)
                     {
                         if (storItem.FileExtension != "Folder")
                         {
@@ -507,43 +508,40 @@ namespace Files.Interacts
                         }
                         ItemViewModel.FilesAndFolders.Remove(storItem);
                     }
-                    //NavigationActions.Refresh_Click(null, null);
+                    Debug.WriteLine("Ended for loop");
                     History.ForwardList.Clear();
                     ItemViewModel.FS.isEnabled = false;
-                    // TODO: FIX SELECTION LOST (maybe?) ON ITEM REMOVAL 
-                    if (GenericFileBrowser.data.SelectedItems.Count > 0)
-                    {
-                        DeleteItem_Click(null, null);
-                    }
                 }
                 else if (page.Name == "PhotoAlbumViewer")
                 {
-                    foreach (ListedItem storItem in PhotoAlbum.gv.SelectedItems)
+                    List<ListedItem> selectedItems = new List<ListedItem>();
+                    foreach (ListedItem selectedItem in PhotoAlbum.gv.SelectedItems)
+                    {
+                        selectedItems.Add(selectedItem);
+                    }
+                    foreach (ListedItem storItem in selectedItems)
                     {
                         if (storItem.FileExtension != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
                             await item.DeleteAsync(StorageDeleteOption.Default);
+
                         }
                         else
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
                             await item.DeleteAsync(StorageDeleteOption.Default);
+
                         }
                         ItemViewModel.FilesAndFolders.Remove(storItem);
                     }
-
-                    //PhotoAlbumNavActions.Refresh_Click(null, null);
+                    Debug.WriteLine("Ended for loop");
                     History.ForwardList.Clear();
                     ItemViewModel.FS.isEnabled = false;
                 }
                 
             }
-            catch (InvalidOperationException)
-            {
-
-            }
-            catch (System.UnauthorizedAccessException)
+            catch (UnauthorizedAccessException)
             {
                 MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
                 await AccessDeniedDialog.ShowAsync();
