@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Filesystem;
 using Files.Navigation;
+using Files.Interacts;
 
 namespace Files
 {
@@ -29,6 +30,10 @@ namespace Files
         public static ContentDialog collisionBox;
         public static ContentDialog reviewBox;
         public static ContentDialog AddItemBox;
+        public static ContentDialog NameBox;
+        public static TextBox inputFromRename;
+        public static string inputForRename;
+
 
 
         public GenericFileBrowser()
@@ -61,7 +66,7 @@ namespace Files
             AllView.RightTapped += Interacts.Interaction.AllView_RightTapped;
             Back.Click += Navigation.NavigationActions.Back_Click;
             Forward.Click += Navigation.NavigationActions.Forward_Click;
-            Refresh.Click += Navigation.NavigationActions.Refresh_Click;
+            Refresh.Click += NavigationActions.Refresh_Click;
             AddItem.Click += AddItem_ClickAsync;
             AllView.DoubleTapped += Interacts.Interaction.List_ItemClick;
             Paste.Click += Interacts.Interaction.PasteItem_ClickAsync;
@@ -70,6 +75,8 @@ namespace Files
             ReviewBox.PrimaryButtonClick += Interacts.Interaction.ReplaceChoiceClick;
             ReviewBox.SecondaryButtonClick += Interacts.Interaction.SkipChoiceClick;
             AddItemBox = AddDialog;
+            NameBox = NameDialog;
+            inputFromRename = RenameInput;
         }
 
         
@@ -199,6 +206,11 @@ namespace Files
                 if(FolderToRename.Name != newCellText)
                 {
                     await FolderToRename.RenameAsync(newCellText);
+                    AllView.CommitEdit();
+                }
+                else
+                {
+                    AllView.CancelEdit();
                 }
             }
             else
@@ -207,6 +219,11 @@ namespace Files
                 if (fileToRename.Name != newCellText)
                 {
                     await fileToRename.RenameAsync(newCellText);
+                    AllView.CommitEdit();
+                }
+                else
+                {
+                    AllView.CancelEdit();
                 }
             }
             //Navigation.NavigationActions.Refresh_Click(null, null);
@@ -221,6 +238,26 @@ namespace Files
         {
             data.CommitEdit();
             data.SelectedItems.Clear();
+        }
+
+        private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            AllView.CommitEdit();
+        }
+
+        private void NameDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            inputForRename = inputFromRename.Text;
+        }
+
+        private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+
         }
     }
 

@@ -18,9 +18,6 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Files.Interacts
 {
-
-
-
     public class Interaction
     {
 
@@ -349,39 +346,6 @@ namespace Files.Interacts
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
         }
 
-        //public static async void PhotoAlbumItemList_ClickAsync(object sender, DoubleTappedRoutedEventArgs e)
-        //{
-        //    GridView grid = sender as GridView;
-        //    var index = grid.Items.IndexOf(e.);
-        //    var clickedOnItem = ItemViewModel.FilesAndFolders[index];
-
-        //    //Debug.WriteLine("Reached PhotoAlbumViewer event");
-
-        //    if (clickedOnItem.FileExtension == "Folder")
-        //    {
-
-        //        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-        //        History.ForwardList.Clear();
-        //        ItemViewModel.FS.isEnabled = false;
-        //        ItemViewModel.FilesAndFolders.Clear();
-        //        ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
-        //        GenericFileBrowser.P.path = clickedOnItem.FilePath;
-
-        //    }
-        //    else
-        //    {
-        //        StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
-        //        var options = new LauncherOptions();
-        //        options.DisplayApplicationPicker = true;
-        //        await Launcher.LaunchFileAsync(file, options); 
-        //        //var uri = new Uri(clickedOnItem.FilePath);
-        //        //BitmapImage bitmap = new BitmapImage();
-        //        //bitmap.UriSource = uri;
-        //        //LIS.image = bitmap;
-        //        //PhotoAlbum.largeImg.Source = bitmap;
-        //    }
-        //}
-
         public static DataGrid dataGrid;
 
         public static void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -573,7 +537,7 @@ namespace Files.Interacts
         {
             var ItemSelected = GenericFileBrowser.data.SelectedIndex;
             var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
-            GenericFileBrowser.data.BeginEdit();
+            //GenericFileBrowser.data.BeginEdit();
 
         }
 

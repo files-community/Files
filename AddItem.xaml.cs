@@ -4,6 +4,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System;
 using Files.Filesystem;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Files
 {
@@ -27,7 +29,7 @@ namespace Files
             
         }
 
-        
+
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
 
@@ -36,18 +38,35 @@ namespace Files
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             if ((e.ClickedItem as AddListItem).Header == "Folder")
             {
-                await folderToCreateItem.CreateFolderAsync("New Folder", CreationCollisionOption.GenerateUniqueName);
+                await GenericFileBrowser.NameBox.ShowAsync();
+                var userInput = GenericFileBrowser.inputForRename;
+                if (userInput != null)
+                {
+                    await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
+                    ItemViewModel.FilesAndFolders.Add(new ListedItem(){ FileName = userInput, FileDate = DateTime.Now.ToString(), EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput) });
+                }
             }
-            else if((e.ClickedItem as AddListItem).Header == "Text Document")
+            else if ((e.ClickedItem as AddListItem).Header == "Text Document")
             {
-                await folderToCreateItem.CreateFileAsync("New Text Document.txt", CreationCollisionOption.GenerateUniqueName);
+                await GenericFileBrowser.NameBox.ShowAsync();
+                var userInput = GenericFileBrowser.inputForRename;
+                if (userInput != null)
+                {
+                    await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
+                    ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = userInput, FileDate = DateTime.Now.ToString(), EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = "Text Document", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput + ".txt") });
+                }
             }
-            else if((e.ClickedItem as AddListItem).Header == "Bitmap Image")
+            else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
             {
-                await folderToCreateItem.CreateFileAsync("New Bitmap Image.bmp", CreationCollisionOption.GenerateUniqueName);
-            }
-            //Navigation.NavigationActions.Refresh_Click(null, null);
+                await GenericFileBrowser.NameBox.ShowAsync();
+                var userInput = GenericFileBrowser.inputForRename;
+                if (userInput != null)
+                {
+                    await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
+                    ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = userInput, FileDate = DateTime.Now.ToString(), EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = "BMP File", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput + ".bmp") });
 
+                }
+            }
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

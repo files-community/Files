@@ -93,7 +93,7 @@
             
 
 
-                <controls:DataGrid Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="False"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
+                <controls:DataGrid SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
 
                     <controls:DataGrid.Resources>
                         <MenuFlyout x:Name="HeaderRightClickMenu" x:Key="HeaderRightClickFlyout">
@@ -180,7 +180,7 @@
                                 </DataTemplate>
                             </controls:DataGridTemplateColumn.CellTemplate>
                         </controls:DataGridTemplateColumn>
-                        <controls:DataGridTextColumn  Header="Name" IsReadOnly="False" Width="385" Binding="{Binding FileName}" Tag="Name"/>
+                        <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
                         <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
@@ -192,6 +192,12 @@
                 <Frame Width="450" Name="AddDialogFrame"/>
             </ContentDialog>
 
+            <ContentDialog Title="Rename this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" SecondaryButtonClick="NameDialog_SecondaryButtonClick" Name="NameDialog" PrimaryButtonText="Rename" SecondaryButtonText="Cancel" Loaded="NameDialog_Loaded" Grid.RowSpan="4">
+                <Grid>
+                    <TextBox Name="RenameInput" PlaceholderText="Enter an item name (Ex: MyTextFile)"/>
+                </Grid>
+            </ContentDialog>
+            
             <ContentDialog PrimaryButtonText="Replace" SecondaryButtonText="Skip" Title="{x:Bind local2:ItemViewModel.ConflictBoxHeader.Header, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="ReviewBox" Grid.RowSpan="4">
                 <Grid>
                     <TextBlock Name="ConflictSmallHeader" TextWrapping="WrapWholeWords" Text="{x:Bind local2:ItemViewModel.ConflictBoxSubHeader.SubHeader, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
