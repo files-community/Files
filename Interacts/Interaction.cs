@@ -498,6 +498,11 @@ namespace Files.Interacts
                     //NavigationActions.Refresh_Click(null, null);
                     History.ForwardList.Clear();
                     ItemViewModel.FS.isEnabled = false;
+                    // TODO: FIX SELECTION LOST (maybe?) ON ITEM REMOVAL 
+                    if (GenericFileBrowser.data.SelectedItems.Count > 0)
+                    {
+                        DeleteItem_Click(null, null);
+                    }
                 }
                 else if (page.Name == "PhotoAlbumViewer")
                 {
@@ -571,9 +576,40 @@ namespace Files.Interacts
             ItemViewModel.FS.isEnabled = false;
         }
 
-        public static void CutItem_Click(object sender, RoutedEventArgs e)
-        {
+        static List<string> pathsToDeleteAfterPaste = new List<string>();
 
+        public async static void CutItem_Click(object sender, RoutedEventArgs e)
+        {
+            DataPackage dataPackage = new DataPackage();
+            dataPackage.RequestedOperation = DataPackageOperation.Move;
+            pathsToDeleteAfterPaste.Clear();
+            if (page.Name == "GenericItemView")
+            {
+                if (GenericFileBrowser.data.SelectedItems.Count != 0)
+                {
+                    List<IStorageItem> items = new List<IStorageItem>();
+                    foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
+                    {
+                        pathsToDeleteAfterPaste.Add(StorItem.FilePath);
+                        if (StorItem.FileExtension != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                    }
+
+                    IEnumerable<IStorageItem> EnumerableOfItems = items;
+                    dataPackage.SetStorageItems(EnumerableOfItems);
+                    Clipboard.SetContent(dataPackage);
+                    
+
+                }
+            }
         }
 
         public static async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
@@ -638,6 +674,7 @@ namespace Files.Interacts
             // TODO: Add progress box and collision options for this operation
             var DestinationPath = ItemViewModel.PUIP.Path;
             DataPackageView packageView = Clipboard.GetContent();
+
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
             foreach (IStorageItem item in ItemsToPaste)
             {
@@ -652,6 +689,22 @@ namespace Files.Interacts
                 }
             }
             NavigationActions.Refresh_Click(null, null);
+            if (packageView.RequestedOperation == DataPackageOperation.Move)
+            {
+                foreach(string path in pathsToDeleteAfterPaste)
+                {
+                    if (path.Contains("."))
+                    {
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+                        await file.DeleteAsync();
+                    }
+                    if (!path.Contains("."))
+                    {
+                        StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
+                        await folder.DeleteAsync();
+                    }
+                }
+            }
         }
 
         public static async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName)
