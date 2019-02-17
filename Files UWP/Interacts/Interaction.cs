@@ -17,6 +17,8 @@ using Files.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using System.Collections;
+using Windows.Foundation;
 
 namespace Files.Interacts
 {
@@ -464,21 +466,32 @@ namespace Files.Interacts
         public static void ShareItem_Click(object sender, RoutedEventArgs e)
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();
-            manager.DataRequested += Manager_DataRequested;
+            manager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(Manager_DataRequested);
             DataTransferManager.ShowShareUI();
         }
 
-        private static void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
+        private async static void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
-            foreach (IStorageItem item in dataGrid.ItemsSource)
+            DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
+            List<IStorageItem> items = new List<IStorageItem>();
+            foreach (ListedItem li in dataGrid.SelectedItems)
             {
-
+                if (li.FileExtension == "Folder")
+                {
+                    var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
+                    items.Add(folderAsItem);
+                }
+                else
+                {
+                    var fileAsItem = await StorageFile.GetFileFromPathAsync(li.FilePath);
+                    items.Add(fileAsItem);
+                }
             }
             DataRequest dataRequest = args.Request;
-            dataRequest.Data.SetStorageItems(dataGrid.ItemsSource as IEnumerable<IStorageItem>);
-            dataRequest.Data.Properties.Title = "Data Shared From Files UWP";
-            dataRequest.Data.Properties.Description = "The files/folders you selected will be shared";
-
+            dataRequest.Data.SetStorageItems(items);
+            dataRequest.Data.Properties.Title = "Data Shared From Files";
+            dataRequest.Data.Properties.Description = "The items you selected will be shared";
+            dataRequestDeferral.Complete();
         }
 
         public static async void DeleteItem_Click(object sender, RoutedEventArgs e)
