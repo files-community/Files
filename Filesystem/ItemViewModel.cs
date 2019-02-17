@@ -39,6 +39,7 @@ namespace Files.Filesystem
         static string gotFolName;
         static string gotFolDate;
         static string gotFolPath;
+        static string gotDotFileExtension;
         static string gotFolType;
         static Visibility gotFileImgVis;
         static Visibility gotEmptyImgVis;
@@ -88,27 +89,6 @@ namespace Files.Filesystem
 
         private static ProgressUIPath pUIp = new ProgressUIPath();
         public static ProgressUIPath PUIP { get { return ItemViewModel.pUIp; } }
-
-        private static ProgressUIButtonText buttonText = new ProgressUIButtonText();
-        public static ProgressUIButtonText ButtonText { get { return ItemViewModel.buttonText; } }
-
-        private static CollisionBoxHeader collisionBoxHeader = new CollisionBoxHeader();
-        public static CollisionBoxHeader CollisionBoxHeader { get { return collisionBoxHeader; } }
-
-        private static CollisionBoxSubHeader collisionBoxSubHeader = new CollisionBoxSubHeader();
-        public static CollisionBoxSubHeader CollisionBoxSubHeader { get { return collisionBoxSubHeader; } }
-
-        private static CollisionUIVisibility collisionUIVisibility = new CollisionUIVisibility();
-        public static CollisionUIVisibility CollisionUIVisibility { get { return collisionUIVisibility; } }
-
-        private static CollisionBoxHeader conflictBoxHeader = new CollisionBoxHeader();
-        public static CollisionBoxHeader ConflictBoxHeader { get { return conflictBoxHeader; } }
-
-        private static CollisionBoxSubHeader conflictBoxSubHeader = new CollisionBoxSubHeader();
-        public static CollisionBoxSubHeader ConflictBoxSubHeader { get { return conflictBoxSubHeader; } }
-
-        private static CollisionUIVisibility conflictUIVisibility = new CollisionUIVisibility();
-        public static CollisionUIVisibility ConflictUIVisibility { get { return conflictUIVisibility; } }
 
         private static EmptyFolderTextState textState = new EmptyFolderTextState();
         public static EmptyFolderTextState TextState { get { return textState; } }
@@ -270,6 +250,7 @@ namespace Files.Filesystem
                         }
                         gotPath = file.Path.ToString();
                         gotFolImg = Visibility.Collapsed;
+                        gotDotFileExtension = file.FileType;
                         if (isPhotoAlbumMode == false)
                         {
                             const uint requestedSize = 20;
@@ -296,7 +277,7 @@ namespace Files.Filesystem
                                 }
                                 else
                                 {
-                                    FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                                    FilesAndFolders.Add(new ListedItem() { DotFileExtension = gotDotFileExtension, EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
                                 }
                             }
                             catch
@@ -402,20 +383,6 @@ namespace Files.Filesystem
         {
             PROGRESSPER.prog = level;
             return (int)level;
-        }
-
-        public static async void DisplayCollisionUIWithArgs(string header, string subHeader)
-        {
-            CollisionBoxHeader.Header = header;
-            CollisionBoxSubHeader.SubHeader = subHeader;
-            await GenericFileBrowser.collisionBox.ShowAsync();
-        }
-
-        public static async void DisplayReviewUIWithArgs(string header, string subHeader)
-        {
-            ConflictBoxHeader.Header = header;
-            ConflictBoxSubHeader.SubHeader = subHeader;
-            await GenericFileBrowser.reviewBox.ShowAsync();
         }
 
         public static async void FillTreeNode(object item, TreeView EntireControl)

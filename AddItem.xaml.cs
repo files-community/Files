@@ -43,7 +43,7 @@ namespace Files
                 if (userInput != null)
                 {
                     await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
-                    ItemViewModel.FilesAndFolders.Add(new ListedItem(){ FileName = userInput, FileDate = DateTime.Now.ToString(), EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput) });
+                    ItemViewModel.FilesAndFolders.Add(new ListedItem(){ FileName = userInput, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput) });
                 }
             }
             else if ((e.ClickedItem as AddListItem).Header == "Text Document")
@@ -53,7 +53,7 @@ namespace Files
                 if (userInput != null)
                 {
                     await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
-                    ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = userInput, FileDate = DateTime.Now.ToString(), EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = "Text Document", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput + ".txt") });
+                    ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = userInput, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = "Text Document", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput + ".txt") });
                 }
             }
             else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
@@ -63,7 +63,7 @@ namespace Files
                 if (userInput != null)
                 {
                     await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
-                    ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = userInput, FileDate = DateTime.Now.ToString(), EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = "BMP File", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput + ".bmp") });
+                    ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = userInput, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = "BMP File", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + userInput + ".bmp") });
 
                 }
             }

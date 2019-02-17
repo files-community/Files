@@ -40,40 +40,26 @@ namespace Files
         {
             this.InitializeComponent();
             GFBPageName = GenericItemView;
-            string env = Environment.ExpandEnvironmentVariables("%userprofile%");
-            //var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            //CoreTitleBar.ExtendViewIntoTitleBar = false;
-            //var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            //titleBar.ButtonBackgroundColor = Color.FromArgb(100, 255, 255, 255);
-            //titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-            //titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ItemViewModel.TextState.isVisible = Visibility.Collapsed;
             ItemViewModel.PVIS.isVisible = Visibility.Collapsed;
-            ItemViewModel.CollisionUIVisibility.isVisible = Visibility.Collapsed;
-            ItemViewModel.ConflictUIVisibility.isVisible = Visibility.Collapsed;
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
-            reviewBox = ReviewBox;
-            collisionBox = CollisionBox;
             Interacts.Interaction.page = this;
-            OpenItem.Click += Interacts.Interaction.OpenItem_Click;
-            ShareItem.Click += Interacts.Interaction.ShareItem_Click;
-            DeleteItem.Click += Interacts.Interaction.DeleteItem_Click;
-            RenameItem.Click += Interacts.Interaction.RenameItem_Click;
-            CutItem.Click += Interacts.Interaction.CutItem_Click;
-            CopyItem.Click += Interacts.Interaction.CopyItem_ClickAsync;
-            AllView.RightTapped += Interacts.Interaction.AllView_RightTapped;
-            Back.Click += Navigation.NavigationActions.Back_Click;
-            Forward.Click += Navigation.NavigationActions.Forward_Click;
+            OpenItem.Click += Interaction.OpenItem_Click;
+            ShareItem.Click += Interaction.ShareItem_Click;
+            DeleteItem.Click += Interaction.DeleteItem_Click;
+            RenameItem.Click += Interaction.RenameItem_Click;
+            CutItem.Click += Interaction.CutItem_Click;
+            CopyItem.Click += Interaction.CopyItem_ClickAsync;
+            AllView.RightTapped += Interaction.AllView_RightTapped;
+            Back.Click += NavigationActions.Back_Click;
+            Forward.Click += NavigationActions.Forward_Click;
             Refresh.Click += NavigationActions.Refresh_Click;
             AddItem.Click += AddItem_ClickAsync;
-            AllView.DoubleTapped += Interacts.Interaction.List_ItemClick;
-            Paste.Click += Interacts.Interaction.PasteItem_ClickAsync;
+            AllView.DoubleTapped += Interaction.List_ItemClick;
+            Paste.Click += Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            CollisonLV.ItemClick += Interacts.Interaction.CollisionLVItemClick;
-            ReviewBox.PrimaryButtonClick += Interacts.Interaction.ReplaceChoiceClick;
-            ReviewBox.SecondaryButtonClick += Interacts.Interaction.SkipChoiceClick;
             AddItemBox = AddDialog;
             NameBox = NameDialog;
             inputFromRename = RenameInput;
@@ -84,20 +70,6 @@ namespace Files
         private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             await AddDialog.ShowAsync();
-            //var CurrentView = ApplicationView.GetForCurrentView();
-            //CoreApplicationView NewView = CoreApplication.CreateNewView();
-
-            //await NewView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
-            //{
-            //    var newWindow = Window.Current;
-            //    var newAppView = ApplicationView.GetForCurrentView();
-            //    Frame frame = new Frame();
-            //    frame.Navigate(typeof(AddItem), null);
-            //    Window.Current.Content = frame;
-            //    Window.Current.Activate();
-            //    await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newAppView.Id, ViewSizePreference.Default, CurrentView.Id, ViewSizePreference.Default);
-
-            //});
         }
 
         private void Clipboard_ContentChanged(object sender, object e)

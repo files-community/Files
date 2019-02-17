@@ -303,7 +303,6 @@ namespace Files.Navigation
 
 
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
-                //ArrayDiag.DumpForwardArray();
 
                 if (History.ForwardList.Count == 0)
                 {
