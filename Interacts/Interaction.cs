@@ -15,6 +15,8 @@ using System.ComponentModel;
 using Files.Filesystem;
 using Files.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 
 namespace Files.Interacts
 {
@@ -167,11 +169,13 @@ namespace Files.Interacts
                     }
                     else if (clickedOnItem.FileExtension == "Executable")
                     {
-                        message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
-                        message.Title = "Unsupported Functionality";
-                        message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
-                        message.Commands.Add(new UICommand("Cancel"));
-                        await message.ShowAsync();
+                        //message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        //message.Title = "Unsupported Functionality";
+                        //message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
+                        //message.Commands.Add(new UICommand("Cancel"));
+                        //await message.ShowAsync();
+                        await LaunchExe(clickedOnItem.FilePath);
+
                     }
                     else
                     {
@@ -313,11 +317,12 @@ namespace Files.Interacts
                     }
                     else if (clickedOnItem.FileExtension == "Executable")
                     {
-                        Interaction.message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
-                        Interaction.message.Title = "Unsupported Functionality";
-                        Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
-                        Interaction.message.Commands.Add(new UICommand("Cancel"));
-                        await Interaction.message.ShowAsync();
+                        //Interaction.message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        //Interaction.message.Title = "Unsupported Functionality";
+                        //Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
+                        //Interaction.message.Commands.Add(new UICommand("Cancel"));
+                        //await Interaction.message.ShowAsync();
+                        await LaunchExe(clickedOnItem.FilePath);
 
                     }
                     else
@@ -334,6 +339,13 @@ namespace Files.Interacts
 
             }
 
+        }
+
+
+        public static async Task LaunchExe(string executablePath)
+        {
+            ApplicationData.Current.LocalSettings.Values["executable"] = executablePath;
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         public static async void CommandInvokedHandler(IUICommand command)
