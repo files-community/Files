@@ -18,6 +18,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Files.Filesystem;
+using Windows.System;
 
 namespace Files
 {
@@ -34,6 +35,7 @@ namespace Files
         string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        public static ContentDialog permissionBox;
 
         public MainPage()
         {
@@ -49,6 +51,7 @@ namespace Files
             nv = navView;
             accessibleAutoSuggestBox = auto_suggest;
             PopulateNavViewWithExternalDrives();
+            permissionBox = PermissionDialog;
 
         }
 
@@ -226,6 +229,10 @@ namespace Files
 
         }
 
+        private async void PermissionDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
+        }
     }
     public class SelectItem : INotifyPropertyChanged
     {
