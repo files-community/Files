@@ -109,34 +109,113 @@ namespace Files
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 P.path = "Desktop";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
                 P.path = "Documents";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
             {
                 P.path = "Downloads";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             {
                 P.path = "Pictures";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
             {
                 P.path = "Music";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
             {
                 P.path = "OneDrive";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
             {
                 P.path = "Videos";
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
             }
             else
             {
                 P.path = parameters;
+                if(parameters.Contains("C:\\") || parameters.Contains("c:\\"))
+                {
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    {
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString() == "LDPage")
+                        {
+                            MainPage.Select.itemSelected = NavItemChoice;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                    {
+                        Debug.WriteLine(parameters.Split("\\")[0]);
+                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString().Contains(parameters.Split("\\")[0]))
+                        {
+                            MainPage.Select.itemSelected = NavItemChoice;
+                            break;
+                        }
+                    }
+                }
             }
 
         }

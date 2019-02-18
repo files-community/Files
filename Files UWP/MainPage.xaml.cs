@@ -117,7 +117,7 @@ namespace Files
                 }
             });
         }
-        
+
         private static SelectItem select = new SelectItem();
         public static SelectItem Select { get { return MainPage.select; } }
 
@@ -271,7 +271,7 @@ namespace Files
                 {
                     _itemSelected = value;
                     NotifyPropertyChanged("itemSelected");
-                    Debug.WriteLine("NotifyPropertyChanged was called successfully for NavView Selection");
+                    //Debug.WriteLine("NotifyPropertyChanged was called successfully for NavView Selection");
                 }
             }
         }
