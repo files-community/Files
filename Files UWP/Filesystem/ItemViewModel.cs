@@ -149,10 +149,7 @@ namespace Files.Filesystem
 
         private async void DisplayConsentDialog()
         {
-            MessageDialog message = new MessageDialog("This app is not able to access your files. You need to allow it to by granting permission in Settings.");
-            message.Title = "Permission Denied";
-            message.Commands.Add(new UICommand("Allow...", Interaction.GrantAccessPermissionHandler));
-            await message.ShowAsync();
+            await MainPage.permissionBox.ShowAsync();
         }
         string sort = "By_Name";
         SortEntry entry;
@@ -347,7 +344,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    MessageDialog unsupportedDevice = new MessageDialog("This device is unsupported. Please file an issue report in Settings - About containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
+                    MessageDialog unsupportedDevice = new MessageDialog("This device may be unsupported. Please file an issue report in Settings - About containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
                     await unsupportedDevice.ShowAsync();
                 }
                 stopwatch.Stop();

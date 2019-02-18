@@ -16,6 +16,10 @@ using Windows.UI.Xaml.Navigation;
 using Files.Filesystem;
 using Files.Navigation;
 using Files.Interacts;
+using Windows.System;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Popups;
+using System.IO;
 
 namespace Files
 {
@@ -230,6 +234,150 @@ namespace Files
         private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
 
+        }
+
+        private async void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                var PathBox = (sender as TextBox);
+                var CurrentInput = PathBox.Text;
+                if (CurrentInput != ItemViewModel.PUIP.Path)
+                {
+                    if (ItemViewModel.tokenSource != null)
+                    {
+                        ItemViewModel.tokenSource.Cancel();
+                        ItemViewModel.FilesAndFolders.Clear();
+                    }
+
+                    if (CurrentInput == "Home" || CurrentInput == "home")
+                    {
+                        MainPage.accessibleContentFrame.Navigate(typeof(YourHome));
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Recents";
+                    }
+                    else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DesktopPath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
+                        PathBox.Text = "Desktop";
+                    }
+                    else if (CurrentInput == "Documents" || CurrentInput == "documents")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DocumentsPath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
+                        PathBox.Text = "Documents";
+
+                    }
+                    else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DownloadsPath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
+                        PathBox.Text = "Downloads";
+
+                    }
+                    else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), MainPage.PicturesPath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
+
+                    }
+                    else if (CurrentInput == "Music" || CurrentInput == "music")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.MusicPath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
+                        PathBox.Text = "Music";
+
+                    }
+                    else if (CurrentInput == "Videos" || CurrentInput == "videos")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.VideosPath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
+                        PathBox.Text = "Videos";
+
+                    }
+                    else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
+                    {
+                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.OneDrivePath);
+                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
+                        PathBox.Text = "OneDrive";
+
+                    }
+                    else
+                    {
+                        if (CurrentInput.Contains("."))
+                        {
+                            if (CurrentInput.Contains(".exe") || CurrentInput.Contains(".EXE"))
+                            {
+                                if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
+                                {
+                                    await Interaction.LaunchExe(CurrentInput);
+                                    PathBox.Text = ItemViewModel.PUIP.Path;
+                                }
+                                else
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }    
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                    StorageFile file = await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                    var options = new LauncherOptions
+                                    {
+                                        DisplayApplicationPicker = false
+
+                                    };
+                                    await Launcher.LaunchFileAsync(file, options);
+                                    PathBox.Text = ItemViewModel.PUIP.Path;
+                                }
+                                catch (ArgumentException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                                catch (FileNotFoundException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search";
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+                            catch (FileNotFoundException)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+                            
+                        }
+
+                    }
+                }
+            }
+            
         }
     }
 

@@ -452,7 +452,11 @@
 
 
         </UILib:NavigationView>
-
+        <ContentDialog PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+            <Grid>
+                <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
+            </Grid>
+        </ContentDialog> 
     </Grid>
 
 
