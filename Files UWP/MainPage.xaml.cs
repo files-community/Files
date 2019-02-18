@@ -28,13 +28,13 @@ namespace Files
         public static Microsoft.UI.Xaml.Controls.NavigationView nv;
         public static Frame accessibleContentFrame;
         public static AutoSuggestBox accessibleAutoSuggestBox;
-        string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
-        string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+        public static string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
+        public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         public static ContentDialog permissionBox;
 
         public MainPage()
@@ -52,6 +52,7 @@ namespace Files
             accessibleAutoSuggestBox = auto_suggest;
             PopulateNavViewWithExternalDrives();
             permissionBox = PermissionDialog;
+            
 
             //make the minimize, maximize and close button visible in light theme
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)

@@ -583,7 +583,7 @@ namespace Files.Interacts
                         var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
                         await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
                         ItemViewModel.FilesAndFolders.Remove(RowData);
-                        ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + RowData.DotFileExtension) });
+                        ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
 
                     }
                 }
