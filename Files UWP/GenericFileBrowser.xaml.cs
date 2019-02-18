@@ -20,6 +20,7 @@ using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Files
 {
@@ -29,6 +30,7 @@ namespace Files
         public TextBlock textBlock;
         public static DataGrid data;
         public static MenuFlyout context;
+        public static MenuFlyout emptySpaceContext;
         public static MenuFlyout HeaderContextMenu;
         public static Page GFBPageName;
         public static ContentDialog collisionBox;
@@ -67,6 +69,10 @@ namespace Files
             AddItemBox = AddDialog;
             NameBox = NameDialog;
             inputFromRename = RenameInput;
+            emptySpaceContext = EmptySpaceFlyout;
+            RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
+            PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
+
         }
 
         
@@ -208,7 +214,6 @@ namespace Files
                 {
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
-                        Debug.WriteLine(parameters.Split("\\")[0]);
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString().Contains(parameters.Split("\\")[0]))
                         {
                             MainPage.Select.itemSelected = NavItemChoice;
@@ -291,7 +296,6 @@ namespace Files
 
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            data.CommitEdit();
             data.SelectedItems.Clear();
         }
 
@@ -456,6 +460,16 @@ namespace Files
                     }
                 }
             }
+            
+        }
+
+        private void GenericItemView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            GFBPageName.ContextFlyout.ShowAt(GFBPageName);
+        }
+
+        private void AllView_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
             
         }
     }
