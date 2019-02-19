@@ -474,19 +474,39 @@ namespace Files.Interacts
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
-            foreach (ListedItem li in dataGrid.SelectedItems)
+            if(page.Name == "GenericItemView")
             {
-                if (li.FileExtension == "Folder")
+                foreach (ListedItem li in dataGrid.SelectedItems)
                 {
-                    var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
-                    items.Add(folderAsItem);
-                }
-                else
-                {
-                    var fileAsItem = await StorageFile.GetFileFromPathAsync(li.FilePath);
-                    items.Add(fileAsItem);
+                    if (li.FileExtension == "Folder")
+                    {
+                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
+                        items.Add(folderAsItem);
+                    }
+                    else
+                    {
+                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.FilePath);
+                        items.Add(fileAsItem);
+                    }
                 }
             }
+            else if (page.Name == "PhotoAlbumViewer")
+            {
+                foreach (ListedItem li in PhotoAlbum.gv.SelectedItems)
+                {
+                    if (li.FileExtension == "Folder")
+                    {
+                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
+                        items.Add(folderAsItem);
+                    }
+                    else
+                    {
+                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.FilePath);
+                        items.Add(fileAsItem);
+                    }
+                }
+            }
+            
             DataRequest dataRequest = args.Request;
             dataRequest.Data.SetStorageItems(items);
             dataRequest.Data.Properties.Title = "Data Shared From Files";
@@ -563,38 +583,74 @@ namespace Files.Interacts
 
         public static async void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if(page.Name == "GenericItemView")
             {
-                var ItemSelected = GenericFileBrowser.data.SelectedIndex;
-                var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
-                await GenericFileBrowser.NameBox.ShowAsync();
-                var input = GenericFileBrowser.inputForRename;
-                if(input != null)
+                try
                 {
-                    if (RowData.FileExtension == "Folder")
+                    var ItemSelected = GenericFileBrowser.data.SelectedIndex;
+                    var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+                    await GenericFileBrowser.NameBox.ShowAsync();
+                    var input = GenericFileBrowser.inputForRename;
+                    if (input != null)
                     {
-                        var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
-                        await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                        ItemViewModel.FilesAndFolders.Remove(RowData);
-                        ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input) });
-                    }
-                    else
-                    {
-                        var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
-                        await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
-                        ItemViewModel.FilesAndFolders.Remove(RowData);
-                        ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
+                        if (RowData.FileExtension == "Folder")
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
+                            await item.RenameAsync(input, NameCollisionOption.FailIfExists);
+                            ItemViewModel.FilesAndFolders.Remove(RowData);
+                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input) });
+                        }
+                        else
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
+                            await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
+                            ItemViewModel.FilesAndFolders.Remove(RowData);
+                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
 
+                        }
                     }
+
                 }
-                
+                catch (Exception)
+                {
+                    MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
+                    await itemAlreadyExistsDialog.ShowAsync();
+                }
             }
-            catch (Exception)
+            else if (page.Name == "PhotoAlbumViewer")
             {
-                MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
-                await itemAlreadyExistsDialog.ShowAsync();
-            }
+                try
+                {
+                    var ItemSelected = PhotoAlbum.gv.SelectedIndex;
+                    var BoxData = ItemViewModel.FilesAndFolders[ItemSelected];
+                    await PhotoAlbum.NameBox.ShowAsync();
+                    var input = PhotoAlbum.inputForRename;
+                    if (input != null)
+                    {
+                        if (BoxData.FileExtension == "Folder")
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(BoxData.FilePath);
+                            await item.RenameAsync(input, NameCollisionOption.FailIfExists);
+                            ItemViewModel.FilesAndFolders.Remove(BoxData);
+                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input) });
+                        }
+                        else
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(BoxData.FilePath);
+                            await item.RenameAsync(input + BoxData.DotFileExtension, NameCollisionOption.FailIfExists);
+                            ItemViewModel.FilesAndFolders.Remove(BoxData);
+                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = BoxData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + BoxData.DotFileExtension), DotFileExtension = BoxData.DotFileExtension });
 
+                        }
+                    }
+
+                }
+                catch (Exception)
+                {
+                    MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
+                    await itemAlreadyExistsDialog.ShowAsync();
+                }
+            }
             History.ForwardList.Clear();
             ItemViewModel.FS.isEnabled = false;
         }
@@ -606,11 +662,11 @@ namespace Files.Interacts
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Move;
             pathsToDeleteAfterPaste.Clear();
+            List<IStorageItem> items = new List<IStorageItem>();
             if (page.Name == "GenericItemView")
             {
                 if (GenericFileBrowser.data.SelectedItems.Count != 0)
                 {
-                    List<IStorageItem> items = new List<IStorageItem>();
                     foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                     {
                         pathsToDeleteAfterPaste.Add(StorItem.FilePath);
@@ -625,25 +681,43 @@ namespace Files.Interacts
                             items.Add(item);
                         }
                     }
-
-                    IEnumerable<IStorageItem> EnumerableOfItems = items;
-                    dataPackage.SetStorageItems(EnumerableOfItems);
-                    Clipboard.SetContent(dataPackage);
-                    
-
                 }
             }
+            else if (page.Name == "PhotoAlbumViewer")
+            {
+                if (PhotoAlbum.gv.SelectedItems.Count != 0)
+                {
+                    foreach (ListedItem StorItem in PhotoAlbum.gv.SelectedItems)
+                    {
+                        pathsToDeleteAfterPaste.Add(StorItem.FilePath);
+                        if (StorItem.FileExtension != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            items.Add(item);
+                        }
+                    }
+                }
+            }
+            IEnumerable<IStorageItem> EnumerableOfItems = items;
+            dataPackage.SetStorageItems(EnumerableOfItems);
+            Clipboard.SetContent(dataPackage);
         }
-
+        public static string CopySourcePath;
         public static async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
         {
+            CopySourcePath = ItemViewModel.PUIP.Path;
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            List<IStorageItem> items = new List<IStorageItem>();
             if (page.Name == "GenericItemView")
             {
                 if (GenericFileBrowser.data.SelectedItems.Count != 0)
                 {
-                    List<IStorageItem> items = new List<IStorageItem>();
                     foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                     {
                         if (StorItem.FileExtension != "Folder")
@@ -657,18 +731,12 @@ namespace Files.Interacts
                             items.Add(item);
                         }
                     }
-
-                    IEnumerable<IStorageItem> EnumerableOfItems = items;
-                    dataPackage.SetStorageItems(EnumerableOfItems);
-                    Clipboard.SetContent(dataPackage);
-
                 }
             }
             else if (page.Name == "PhotoAlbumViewer")
             {
                 if (PhotoAlbum.gv.SelectedItems.Count != 0)
                 {
-                    List<IStorageItem> items = new List<IStorageItem>();
                     foreach (ListedItem StorItem in PhotoAlbum.gv.SelectedItems)
                     {
                         if (StorItem.FileExtension != "Folder")
@@ -682,22 +750,19 @@ namespace Files.Interacts
                             items.Add(item);
                         }
                     }
-
-                    IEnumerable<IStorageItem> EnumerableOfItems = items;
-                    dataPackage.SetStorageItems(EnumerableOfItems);
-                    Clipboard.SetContent(dataPackage);
-
                 }
             }
-            
+            IEnumerable<IStorageItem> EnumerableOfItems = items;
+            dataPackage.SetStorageItems(EnumerableOfItems);
+            Clipboard.SetContent(dataPackage);
+
         }
 
         public static async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            // TODO: Add progress box and collision options for this operation
             var DestinationPath = ItemViewModel.PUIP.Path;
             DataPackageView packageView = Clipboard.GetContent();
-
+            var oldCount = ItemViewModel.FilesAndFolders.Count;
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
             foreach (IStorageItem item in ItemsToPaste)
             {
@@ -711,7 +776,7 @@ namespace Files.Interacts
                     await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
                 }
             }
-            NavigationActions.Refresh_Click(null, null);
+            
             if (packageView.RequestedOperation == DataPackageOperation.Move)
             {
                 foreach(string path in pathsToDeleteAfterPaste)
@@ -728,6 +793,16 @@ namespace Files.Interacts
                     }
                 }
             }
+                    if (page.Name == "GenericItemView")
+                    {
+                        NavigationActions.Refresh_Click(null, null);
+                    }
+                    else if (page.Name == "PhotoAlbumViewer")
+                    {
+                        PhotoAlbumNavActions.Refresh_Click(null, null);
+                    }
+                
+            
         }
 
         public static async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName)

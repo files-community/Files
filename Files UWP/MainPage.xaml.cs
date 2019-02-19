@@ -19,6 +19,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Files.Filesystem;
 using Windows.System;
+using System.Threading;
+using System.Collections.Generic;
 
 namespace Files
 {

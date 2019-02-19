@@ -33,8 +33,6 @@ namespace Files
         public static MenuFlyout emptySpaceContext;
         public static MenuFlyout HeaderContextMenu;
         public static Page GFBPageName;
-        public static ContentDialog collisionBox;
-        public static ContentDialog reviewBox;
         public static ContentDialog AddItemBox;
         public static ContentDialog NameBox;
         public static TextBox inputFromRename;
@@ -51,7 +49,7 @@ namespace Files
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
-            Interacts.Interaction.page = this;
+            Interaction.page = this;
             OpenItem.Click += Interaction.OpenItem_Click;
             ShareItem.Click += Interaction.ShareItem_Click;
             DeleteItem.Click += Interaction.DeleteItem_Click;

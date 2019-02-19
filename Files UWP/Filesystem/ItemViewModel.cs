@@ -309,7 +309,7 @@ namespace Files.Filesystem
                                 }
                                 else
                                 {
-                                    FilesAndFolders.Add(new ListedItem() { EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
+                                    FilesAndFolders.Add(new ListedItem() { DotFileExtension = gotDotFileExtension, EmptyImgVis = gotEmptyImgVis, FileImg = icon, FileIconVis = gotFileImgVis, FolderImg = gotFolImg, FileName = gotName, FileDate = gotDate, FileExtension = gotType, FilePath = gotPath });
                                 }
                             }
                             catch
