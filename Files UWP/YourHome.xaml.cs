@@ -72,7 +72,7 @@ namespace Files
                         break;
                     }
                 }
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+               App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
             }
             else if (BelowCardText == "Documents")
@@ -85,7 +85,7 @@ namespace Files
                         break;
                     }
                 }
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+               App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
             }
             else if (BelowCardText == "Pictures")
@@ -98,7 +98,7 @@ namespace Files
                         break;
                     }
                 }
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+               App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
             }
             else if (BelowCardText == "Music")
@@ -111,7 +111,7 @@ namespace Files
                         break;
                     }
                 }
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+               App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
             }
             else if (BelowCardText == "Videos")
@@ -124,7 +124,7 @@ namespace Files
                         break;
                     }
                 }
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+               App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
             }
         }

@@ -215,12 +215,12 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
             <CommandBar Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Grid.Row="1" DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsSticky="True" VerticalAlignment="Stretch">
                 <CommandBar.Content>
                     <StackPanel Orientation="Horizontal">
-                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
+                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local:App.ViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
                             <AppBarButton.Icon>
                                 <FontIcon Glyph="&#xE76B;" FontFamily="Segoe MDL2 Assets"/>
                             </AppBarButton.Icon>
@@ -229,7 +229,7 @@
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
 
-                        <AppBarButton LabelPosition="Collapsed"  IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward">
+                        <AppBarButton LabelPosition="Collapsed"  IsEnabled="{x:Bind local:App.ViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward">
                             <AppBarButton.Icon>
 
                                 <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets"/>
@@ -287,15 +287,15 @@
 
             <StackPanel Margin="15,0,0,0" Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
                 <ScrollViewer  Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind Mode=TwoWay, Path=local:GenericFileBrowser.P.path, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path..."/>
+                    <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path..."/>
                 </ScrollViewer>
-                <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
+                <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local:App.ViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
 
 
-            <controls:DataGrid ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
-                
+            <controls:DataGrid  ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
+               
                 <controls:DataGrid.ColumnHeaderStyle>
                     <Style TargetType="controlsprimitives:DataGridColumnHeader">
                         <Setter Property="ContextFlyout">
@@ -414,7 +414,7 @@
 
             </controls:DataGrid>
 
-            <ContentDialog  BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
+            <ContentDialog BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
                 <Frame Width="450" Name="AddDialogFrame"/>
             </ContentDialog>
 

@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
 using Windows.ApplicationModel.Core;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Usb;
 using Windows.Storage;
 using Windows.UI;
-using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Files.Filesystem;
 using Windows.System;
 
@@ -120,18 +113,6 @@ namespace Files
 
         private static SelectItem select = new SelectItem();
         public static SelectItem Select { get { return MainPage.select; } }
-
-        private void navView_ItemSelected(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
-        {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem item = args.SelectedItem as Microsoft.UI.Xaml.Controls.NavigationViewItem;
-
-
-            if (item.Content.Equals("Settings"))
-            {
-                //ContentFrame.Navigate(typeof(Settings));
-            }
-        }
-
         
         private void auto_suggest_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
@@ -167,12 +148,12 @@ namespace Files
             }
             else
             {
-                if(ItemViewModel.tokenSource != null)
+                if(App.ViewModel.tokenSource != null)
                 {
-                    ItemViewModel.tokenSource.Cancel();
-                    ItemViewModel.FilesAndFolders.Clear();
+                    App.ViewModel.tokenSource.Cancel();
+                    App.ViewModel.FilesAndFolders.Clear();
                 }
-                
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 if (item.ToString() == "Home")
                 {
                     ContentFrame.Navigate(typeof(YourHome));
@@ -180,49 +161,41 @@ namespace Files
                 }
                 else if (item.ToString() == "Desktop")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                     auto_suggest.PlaceholderText = "Search Desktop";
                 }
                 else if (item.ToString() == "Documents")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                     auto_suggest.PlaceholderText = "Search Documents";
                 }
                 else if (item.ToString() == "Downloads")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                     auto_suggest.PlaceholderText = "Search Downloads";
                 }
                 else if (item.ToString() == "Pictures")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                     auto_suggest.PlaceholderText = "Search Pictures";
                 }
                 else if (item.ToString() == "Music")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                     auto_suggest.PlaceholderText = "Search Music";
                 }
                 else if (item.ToString() == "Videos")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                     auto_suggest.PlaceholderText = "Search Videos";
                 }
                 else if (item.ToString() == "Local Disk (C:\\)")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                     auto_suggest.PlaceholderText = "Search";
                 }
                 else if (item.ToString() == "OneDrive")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                     ContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     auto_suggest.PlaceholderText = "Search OneDrive";
                 }
@@ -232,20 +205,11 @@ namespace Files
 
                     if (StorageFolder.GetFolderFromPathAsync(tagOfInvokedItem.ToString()) != null)
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
                         ContentFrame.Navigate(typeof(GenericFileBrowser), tagOfInvokedItem);
                         auto_suggest.PlaceholderText = "Search " + tagOfInvokedItem;
-                    }
-                    else
-                    {
-                        
-                    }
-                    
+                    } 
                 }
-
-                
             }
-
         }
 
         private async void PermissionDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -271,7 +235,6 @@ namespace Files
                 {
                     _itemSelected = value;
                     NotifyPropertyChanged("itemSelected");
-                    //Debug.WriteLine("NotifyPropertyChanged was called successfully for NavView Selection");
                 }
             }
         }

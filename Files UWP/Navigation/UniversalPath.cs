@@ -31,4 +31,34 @@ namespace Files.Navigation
         }
 
     }
+
+    public class DisplayedPathText : INotifyPropertyChanged
+    {
+
+
+        private string text;
+        public string Text
+        {
+            get
+            {
+                return text;
+            }
+
+            set
+            {
+                if (value != text)
+                {
+                    text = value;
+                    NotifyPropertyChanged("Text");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+
+    }
 }

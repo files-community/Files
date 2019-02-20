@@ -9,37 +9,41 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Padding="24,35,24,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="80*"/>
-            <ColumnDefinition Width="20*"/>
-        </Grid.ColumnDefinitions>
         <ScrollViewer>
-            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock x:Name="Header" Text="Preferences" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <Grid  Name="CustomLibraries">
+            <StackPanel Spacing="25" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <TextBlock x:Name="Header" Text="Preferences" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <Grid Name="CustomLibraries">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text="Custom Locations - Still In Development"/>
+                        <TextBlock FontSize="24" Text="Custom Locations - In Development"/>
+                        <TextBlock Text="Replaces common locations with those of your choice"/>
                         <ToggleSwitch IsEnabled="False" VerticalAlignment="Top"/>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Downloads" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox BorderThickness="1" PlaceholderText="Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox BorderThickness="1" PlaceholderText="Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" IsEnabled="False"/>
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Documents" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox BorderThickness="1" PlaceholderText="Custom Documents Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox BorderThickness="1" PlaceholderText="Custom Documents Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" IsEnabled="False"/>
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Pictures" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox BorderThickness="1" PlaceholderText="Custom Pictures Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox BorderThickness="1" PlaceholderText="Custom Pictures Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" IsEnabled="False"/>
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Music" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox BorderThickness="1" PlaceholderText="Custom Music Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox BorderThickness="1" PlaceholderText="Custom Music Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" IsEnabled="False"/>
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Videos" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox BorderThickness="1" PlaceholderText="Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox BorderThickness="1" PlaceholderText="Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" IsEnabled="False"/>
                         </Grid>
+                    </StackPanel>
+                </Grid>
+                <Grid Name="AutoRefreshSetting">
+                    <StackPanel Orientation="Vertical" Spacing="5">
+                        <TextBlock FontSize="24" Text="Smart Refresh Beta"/>
+                        <TextBlock Text="Files will check to see if changes have been made to the current folder and automatically refresh when necessary. This may cause increased resource usage." HorizontalAlignment="Stretch" TextWrapping="WrapWholeWords"/>
+                        <ToggleSwitch Name="AutoRefreshSwitch" Toggled="AutoRefreshSwitch_Toggled"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>
