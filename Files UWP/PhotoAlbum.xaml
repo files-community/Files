@@ -435,21 +435,21 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="EmptyText" Visibility="{x:Bind local2:ItemViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+            <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
 
 
             <CommandBar Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Grid.Row="1" DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsSticky="True" VerticalAlignment="Stretch">
                 <CommandBar.Content>
                     <StackPanel Orientation="Horizontal">
-                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local2:ItemViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
+                        <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local:App.ViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
                             <AppBarButton.Icon>
                                 <FontIcon Glyph="&#xE76B;" FontFamily="Segoe MDL2 Assets"/>
                             </AppBarButton.Icon>
 
                         </AppBarButton>
 
-                        <AppBarButton LabelPosition="Collapsed"  IsEnabled="{x:Bind local2:ItemViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward">
+                        <AppBarButton LabelPosition="Collapsed"  IsEnabled="{x:Bind local:App.ViewModel.FS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Forward">
                             <AppBarButton.Icon>
 
                                 <FontIcon Glyph="&#xE76C;" FontFamily="Segoe MDL2 Assets"/>
@@ -500,12 +500,12 @@
 
             <StackPanel Margin="15,0,0,0" Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
                 <ScrollViewer  Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind Mode=TwoWay, Path=local:GenericFileBrowser.P.path, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path..."/>
+                    <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind Mode=TwoWay, Path=local:App.PathText.Text, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path..."/>
                 </ScrollViewer>
-                <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local2:ItemViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="{x:Bind local2:ItemViewModel.PROGRESSPER.prog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
+                <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local:App.ViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
-            <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,0,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local2:ItemViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
+            <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,0,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
                 <controls:AdaptiveGridView.Resources>
                     <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                         <MenuFlyout.Items>

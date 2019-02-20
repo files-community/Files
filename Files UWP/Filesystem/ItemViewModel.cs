@@ -22,143 +22,76 @@ namespace Files.Filesystem
 {
     public class ItemViewModel
     {
-        public static ObservableCollection<Classic_ListedFolderItem> classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
-        public static ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get { return classicFolderList; } }
+        public ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get; set; } = new ObservableCollection<Classic_ListedFolderItem>();
+        public ObservableCollection<ListedItem> ClassicFileList { get; set; } = new ObservableCollection<ListedItem>();
+        public ObservableCollection<ListedItem> FilesAndFolders { get; set; } = new ObservableCollection<ListedItem>();
+        public ObservableCollection<Classic_ListedFolderItem> ChildrenList;
+        public ListedItem LI { get; } = new ListedItem();
+        public UniversalPath Universal { get; } = new UniversalPath();
+        public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
+        public BackState BS { get; set; } = new BackState();
+        public ForwardState FS { get; set; } = new ForwardState();
+        public ProgressUIVisibility PVIS { get; set; } = new ProgressUIVisibility();
+        private StorageFolder folder;
+        private string gotName;
+        private string gotDate;
+        private string gotType;
+        private string gotPath;
+        private string gotFolName;
+        private string gotFolDate;
+        private string gotFolPath;
+        private string gotDotFileExtension;
+        private string gotFolType;
+        private Visibility gotFileImgVis;
+        private Visibility gotEmptyImgVis;
+        private Visibility gotFolImg;
+        private StorageItemThumbnail gotFileImg;
+        private bool isPhotoAlbumMode;
+        public string pageName;
+        private StorageFileQueryResult fileQueryResult;
+        private StorageFolderQueryResult folderQueryResult;
+        public CancellationTokenSource tokenSource;
 
-        public static ObservableCollection<ListedItem> classicFileList = new ObservableCollection<ListedItem>();
-        public static ObservableCollection<ListedItem> ClassicFileList { get { return classicFileList; } }
 
-        public static ObservableCollection<ListedItem> filesAndFolders = new ObservableCollection<ListedItem>();
-        public static ObservableCollection<ListedItem> FilesAndFolders { get { return filesAndFolders; } }
-
-        StorageFolder folder;
-        static string gotName;
-        static string gotDate;
-        static string gotType;
-        static string gotPath;
-        static string gotFolName;
-        static string gotFolDate;
-        static string gotFolPath;
-        static string gotDotFileExtension;
-        static string gotFolType;
-        static Visibility gotFileImgVis;
-        static Visibility gotEmptyImgVis;
-        static Visibility gotFolImg;
-        static StorageItemThumbnail gotFileImg;
-        public static ObservableCollection<Classic_ListedFolderItem> ChildrenList;
-        public static IReadOnlyList<StorageFolder> folderList;
-        public static IReadOnlyList<StorageFile> fileList;
-        public static bool isPhotoAlbumMode;
-        public static string pageName;
-
-        public static ItemViewModel vm;
-        public static ItemViewModel ViewModel { get { return vm; } set { } }
-
-        public static BackState bs = new BackState();
-        public static BackState BS
+        public ItemViewModel()
         {
-            get
-            {
-                return bs;
-            }
-        }
-
-        public static ForwardState fs = new ForwardState();
-        public static ForwardState FS
-        {
-            get
-            {
-                return fs;
-            }
-        }
-
-        public static ProgressUIVisibility pvis = new ProgressUIVisibility();
-        public static ProgressUIVisibility PVIS
-        {
-            get
-            {
-                return pvis;
-            }
-        }
-
-        private ListedItem li = new ListedItem();
-        public ListedItem LI { get { return this.li; } }
-
-        private static ProgressUIHeader pUIh = new ProgressUIHeader();
-        public static ProgressUIHeader PUIH { get { return ItemViewModel.pUIh; } }
-
-        private static ProgressUIPath pUIp = new ProgressUIPath();
-        public static ProgressUIPath PUIP { get { return ItemViewModel.pUIp; } }
-
-        private static EmptyFolderTextState textState = new EmptyFolderTextState();
-        public static EmptyFolderTextState TextState { get { return textState; } }
-
-        public static int NumOfItems;
-        public static int NumItemsRead;
-        public static int NumOfFiles;
-        public static int NumOfFolders;
-        StorageFileQueryResult fileQueryResult;
-        StorageFolderQueryResult folderQueryResult;
-        public static CancellationToken token;
-        public static CancellationTokenSource tokenSource;
-
-        public ItemViewModel(string viewPath, Page p)
-        {
-
-            pageName = p.Name;
-            // Personalize retrieved items for view they are displayed in
-            if (p.Name == "GenericItemView" || p.Name == "ClassicModePage")
-            {
-                isPhotoAlbumMode = false;
-            }
-            else if (p.Name == "PhotoAlbumViewer")
-            {
-                isPhotoAlbumMode = true;
-            }
-
-            if (pageName != "ClassicModePage")
-            {
-                GenericFileBrowser.P.path = viewPath;
-                FilesAndFolders.Clear();
-            }
-
-            tokenSource = new CancellationTokenSource();
-            token = tokenSource.Token;
-            MemoryFriendlyGetItemsAsync(viewPath, token);
-
-            if (pageName != "ClassicModePage")
-            {
-                History.AddToHistory(viewPath);
-
-                if (History.HistoryList.Count == 1)
-                {
-                    BS.isEnabled = false;
-                    //Debug.WriteLine("Disabled Property");
-
-
-                }
-                else if (History.HistoryList.Count > 1)
-                {
-                    BS.isEnabled = true;
-                    //Debug.WriteLine("Enabled Property");
-                }
-            }
-
-
+            
         }
 
         private async void DisplayConsentDialog()
         {
             await MainPage.permissionBox.ShowAsync();
         }
-        string sort = "By_Name";
-        SortEntry entry;
-        public async void MemoryFriendlyGetItemsAsync(string path, CancellationToken token)
+        public async void MemoryFriendlyGetItemsAsync(string path, Page passedPage)
         {
+            TextState.isVisible = Visibility.Collapsed;
+            tokenSource = new CancellationTokenSource();
+            CancellationToken token = App.ViewModel.tokenSource.Token;
+            pageName = passedPage.Name;
+            Universal.path = path;
+            // Personalize retrieved items for view they are displayed in
+            switch (pageName)
+            {
+                case "GenericItemView":
+                    isPhotoAlbumMode = false;
+                    break;
+                case "PhotoAlbumViewer":
+                    isPhotoAlbumMode = true;
+                    break;
+                case "ClassicModePage":
+                    isPhotoAlbumMode = false;
+                    break;
+            }
+
+            if (pageName != "ClassicModePage")
+            {
+                FilesAndFolders.Clear();
+            }
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            PUIP.Path = path;
+            Universal.path = path;      // Set visible path to reflect new navigation
             try
             {
 
@@ -170,16 +103,16 @@ namespace Files.Filesystem
                     FolderDepth = FolderDepth.Shallow,
                     IndexerOption = IndexerOption.UseIndexerWhenAvailable
                 };
-
+                string sort = "By_Name";
                 if (sort == "By_Name")
                 {
-                    entry = new SortEntry()
+                    SortEntry entry = new SortEntry()
                     {
                         AscendingOrder = true,
                         PropertyName = "System.FileName"
                     };
+                    options.SortOrder.Add(entry);
                 }
-                options.SortOrder.Add(entry);
 
                 uint index = 0;
                 const uint step = 250;
@@ -360,27 +293,19 @@ namespace Files.Filesystem
                 rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
             }
 
-        }
+            History.AddToHistory(Universal.path);
 
-        public static ProgressPercentage progressPER = new ProgressPercentage();
-
-        public static ProgressPercentage PROGRESSPER
-        {
-            get
+            if (History.HistoryList.Count == 1)
             {
-                return progressPER;
+                BS.isEnabled = false;
             }
-            set
+            else if (History.HistoryList.Count > 1)
             {
-
+                BS.isEnabled = true;
             }
+            tokenSource = null;
         }
 
-        public static int UpdateProgUI(int level)
-        {
-            PROGRESSPER.prog = level;
-            return (int)level;
-        }
 
         public static async void FillTreeNode(object item, TreeView EntireControl)
         {

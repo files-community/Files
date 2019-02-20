@@ -21,7 +21,7 @@
                 <TextBlock Margin="0,0,0,15" HorizontalAlignment="Left"  Text="Choose your color scheme" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
                 <ComboBox SelectionChanged="ThemeChooser_SelectionChanged"  Name="ThemeChooser" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="300">
                     <ComboBox.Items>
-                        <ComboBoxItem Content="Use System Scheme"/>
+                        <ComboBoxItem Content="Windows default"/>
                         <ComboBoxItem Content="Light"/>
                         <ComboBoxItem Content="Dark"/>
                     </ComboBox.Items>

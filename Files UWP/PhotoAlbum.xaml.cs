@@ -46,7 +46,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter.ToString();
-            ItemViewModel.ViewModel = new ItemViewModel(parameters, PhotoAlbumViewer);
+            App.ViewModel.MemoryFriendlyGetItemsAsync(parameters, PhotoAlbumViewer);
             Interaction.page = this;
             FileList.DoubleTapped += Interaction.List_ItemClick;
             Back.Click += Navigation.PhotoAlbumNavActions.Back_Click;
@@ -61,35 +61,35 @@ namespace Files
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
-                GenericFileBrowser.P.path = "Desktop";
+               App.PathText.Text = "Desktop";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
-                GenericFileBrowser.P.path = "Documents";
+               App.PathText.Text = "Documents";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
             {
-                GenericFileBrowser.P.path = "Downloads";
+               App.PathText.Text = "Downloads";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             {
-                GenericFileBrowser.P.path = "Pictures";
+               App.PathText.Text = "Pictures";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
             {
-                GenericFileBrowser.P.path = "Music";
+               App.PathText.Text = "Music";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
             {
-                GenericFileBrowser.P.path = "OneDrive";
+               App.PathText.Text = "OneDrive";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
             {
-                GenericFileBrowser.P.path = "Videos";
+               App.PathText.Text = "Videos";
             }
             else
             {
-                GenericFileBrowser.P.path = parameters;
+               App.PathText.Text = parameters;
             }
 
 
@@ -127,12 +127,12 @@ namespace Files
             {
                 var PathBox = (sender as TextBox);
                 var CurrentInput = PathBox.Text;
-                if (CurrentInput != ItemViewModel.PUIP.Path)
+                if (CurrentInput !=App.PathText.Text)
                 {
-                    if (ItemViewModel.tokenSource != null)
+                    if (App.ViewModel.tokenSource != null)
                     {
-                        ItemViewModel.tokenSource.Cancel();
-                        ItemViewModel.FilesAndFolders.Clear();
+                        App.ViewModel.tokenSource.Cancel();
+                        App.ViewModel.FilesAndFolders.Clear();
                     }
 
                     if (CurrentInput == "Home" || CurrentInput == "home")
@@ -142,14 +142,14 @@ namespace Files
                     }
                     else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DesktopPath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
                         PathBox.Text = "Desktop";
                     }
                     else if (CurrentInput == "Documents" || CurrentInput == "documents")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DocumentsPath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
                         PathBox.Text = "Documents";
@@ -157,7 +157,7 @@ namespace Files
                     }
                     else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DownloadsPath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
                         PathBox.Text = "Downloads";
@@ -165,14 +165,14 @@ namespace Files
                     }
                     else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), MainPage.PicturesPath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
 
                     }
                     else if (CurrentInput == "Music" || CurrentInput == "music")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.MusicPath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
                         PathBox.Text = "Music";
@@ -180,7 +180,7 @@ namespace Files
                     }
                     else if (CurrentInput == "Videos" || CurrentInput == "videos")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.VideosPath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
                         PathBox.Text = "Videos";
@@ -188,7 +188,7 @@ namespace Files
                     }
                     else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.OneDrivePath);
                         MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
                         PathBox.Text = "OneDrive";
@@ -203,7 +203,7 @@ namespace Files
                                 if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
                                 {
                                     await Interaction.LaunchExe(CurrentInput);
-                                    PathBox.Text = ItemViewModel.PUIP.Path;
+                                    PathBox.Text =App.PathText.Text;
                                 }
                                 else
                                 {
@@ -223,7 +223,7 @@ namespace Files
 
                                     };
                                     await Launcher.LaunchFileAsync(file, options);
-                                    PathBox.Text = ItemViewModel.PUIP.Path;
+                                    PathBox.Text =App.PathText.Text;
                                 }
                                 catch (ArgumentException)
                                 {
@@ -242,7 +242,7 @@ namespace Files
                             try
                             {
                                 await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                                 MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
                                 MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search";
                             }

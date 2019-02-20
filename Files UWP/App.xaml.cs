@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Files.Navigation;
+using System;
 using System.Diagnostics;
+using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.UI;
@@ -54,6 +56,8 @@ namespace Files
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
         }
+        public static Filesystem.ItemViewModel ViewModel = new Filesystem.ItemViewModel();
+        public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

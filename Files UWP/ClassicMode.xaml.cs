@@ -22,7 +22,7 @@ namespace Files
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ClassicView = ClassicModePage;
-            ItemViewModel viewModel = new ItemViewModel(@"C:\", ClassicView);
+            App.ViewModel.MemoryFriendlyGetItemsAsync(@"C:\", ClassicView);
         }
 
         

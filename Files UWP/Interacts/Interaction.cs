@@ -46,17 +46,17 @@ namespace Files.Interacts
 
                 if (index > -1)
                 {
-                    var clickedOnItem = ItemViewModel.FilesAndFolders[index];
+                    var clickedOnItem = App.ViewModel.FilesAndFolders[index];
 
                     if (clickedOnItem.FileExtension == "Folder")
                     {
-                        ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         History.ForwardList.Clear();
-                        ItemViewModel.FS.isEnabled = false;
-                        ItemViewModel.FilesAndFolders.Clear();
+                        App.ViewModel.FS.isEnabled = false;
+                        App.ViewModel.FilesAndFolders.Clear();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
-                            GenericFileBrowser.P.path = "Desktop";
+                            App.ViewModel.Universal.path = "Desktop";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
@@ -70,7 +70,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
-                            GenericFileBrowser.P.path = "Documents";
+                            App.ViewModel.Universal.path = "Documents";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
@@ -84,7 +84,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
-                            GenericFileBrowser.P.path = "Downloads";
+                            App.ViewModel.Universal.path = "Downloads";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
@@ -108,11 +108,11 @@ namespace Files.Interacts
                             }
                             MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                             MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
-                            GenericFileBrowser.P.path = "Pictures";
+                            App.ViewModel.Universal.path = "Pictures";
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
-                            GenericFileBrowser.P.path = "Music";
+                            App.ViewModel.Universal.path = "Music";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
@@ -126,7 +126,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
-                            GenericFileBrowser.P.path = "OneDrive";
+                            App.ViewModel.Universal.path = "OneDrive";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
@@ -140,7 +140,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
-                            GenericFileBrowser.P.path = "Videos";
+                            App.ViewModel.Universal.path = "Videos";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
@@ -165,8 +165,8 @@ namespace Files.Interacts
                                     }
                                 }
                             }
-                            GenericFileBrowser.P.path = clickedOnItem.FilePath;
-                            ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, GenericFileBrowser.GFBPageName);
+                            App.ViewModel.Universal.path = clickedOnItem.FilePath;
+                            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                         }
                     }
                     else if (clickedOnItem.FileExtension == "Executable")
@@ -197,17 +197,17 @@ namespace Files.Interacts
 
                 if (index > -1)
                 {
-                    var clickedOnItem = ItemViewModel.FilesAndFolders[index];
+                    var clickedOnItem = App.ViewModel.FilesAndFolders[index];
 
                     if (clickedOnItem.FileExtension == "Folder")
                     {
-                        ItemViewModel.TextState.isVisible = Windows.UI.Xaml.Visibility.Collapsed;
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         History.ForwardList.Clear();
-                        ItemViewModel.FS.isEnabled = false;
-                        ItemViewModel.FilesAndFolders.Clear();
+                        App.ViewModel.FS.isEnabled = false;
+                        App.ViewModel.FilesAndFolders.Clear();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
-                            GenericFileBrowser.P.path = "Desktop";
+                            App.ViewModel.Universal.path = "Desktop";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
@@ -221,7 +221,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
-                            GenericFileBrowser.P.path = "Documents";
+                            App.ViewModel.Universal.path = "Documents";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
@@ -235,7 +235,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
-                            GenericFileBrowser.P.path = "Downloads";
+                            App.ViewModel.Universal.path = "Downloads";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
@@ -259,11 +259,11 @@ namespace Files.Interacts
                             }
                             MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                             MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
-                            GenericFileBrowser.P.path = "Pictures";
+                            App.ViewModel.Universal.path = "Pictures";
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
-                            GenericFileBrowser.P.path = "Music";
+                            App.ViewModel.Universal.path = "Music";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
@@ -277,7 +277,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
-                            GenericFileBrowser.P.path = "OneDrive";
+                            App.ViewModel.Universal.path = "OneDrive";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
@@ -291,7 +291,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
-                            GenericFileBrowser.P.path = "Videos";
+                            App.ViewModel.Universal.path = "Videos";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
@@ -305,7 +305,7 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            GenericFileBrowser.P.path = clickedOnItem.FilePath;
+                            App.ViewModel.Universal.path = clickedOnItem.FilePath;
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
@@ -314,7 +314,7 @@ namespace Files.Interacts
                                     break;
                                 }
                             }
-                            ItemViewModel.ViewModel = new ItemViewModel(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
+                            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, PhotoAlbum.PAPageName);
                         }
                     }
                     else if (clickedOnItem.FileExtension == "Executable")
@@ -419,16 +419,16 @@ namespace Files.Interacts
             if (page.Name == "GenericItemView")
             {
                 var ItemSelected = GenericFileBrowser.data.SelectedIndex;
-                var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+                var RowData = App.ViewModel.FilesAndFolders[ItemSelected];
 
                 if (RowData.FileExtension == "Folder")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                    App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                     History.ForwardList.Clear();
-                    ItemViewModel.FS.isEnabled = false;
-                    ItemViewModel.FilesAndFolders.Clear();
-                    ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, GenericFileBrowser.GFBPageName);
-                    GenericFileBrowser.P.path = RowData.FilePath;
+                    App.ViewModel.FS.isEnabled = false;
+                    App.ViewModel.FilesAndFolders.Clear();
+                    App.ViewModel.Universal.path = RowData.FilePath;
+                    App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                 }
                 else
                 {
@@ -441,16 +441,16 @@ namespace Files.Interacts
             else if (page.Name == "PhotoAlbumViewer")
             {
                 var ItemSelected = PhotoAlbum.gv.SelectedIndex;
-                var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+                var RowData = App.ViewModel.FilesAndFolders[ItemSelected];
 
                 if (RowData.FileExtension == "Folder")
                 {
-                    ItemViewModel.TextState.isVisible = Visibility.Collapsed;
+                    App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                     History.ForwardList.Clear();
-                    ItemViewModel.FS.isEnabled = false;
-                    ItemViewModel.FilesAndFolders.Clear();
-                    ItemViewModel.ViewModel = new ItemViewModel(RowData.FilePath, PhotoAlbum.PAPageName);
-                    GenericFileBrowser.P.path = RowData.FilePath;
+                    App.ViewModel.FS.isEnabled = false;
+                    App.ViewModel.FilesAndFolders.Clear();
+                    App.ViewModel.Universal.path = RowData.FilePath;
+                    App.ViewModel.MemoryFriendlyGetItemsAsync(RowData.FilePath, PhotoAlbum.PAPageName);
                 }
                 else
                 {
@@ -539,11 +539,11 @@ namespace Files.Interacts
                             await item.DeleteAsync(StorageDeleteOption.Default);
 
                         }
-                        ItemViewModel.FilesAndFolders.Remove(storItem);
+                        App.ViewModel.FilesAndFolders.Remove(storItem);
                     }
                     Debug.WriteLine("Ended for loop");
                     History.ForwardList.Clear();
-                    ItemViewModel.FS.isEnabled = false;
+                    App.ViewModel.FS.isEnabled = false;
                 }
                 else if (page.Name == "PhotoAlbumViewer")
                 {
@@ -566,11 +566,11 @@ namespace Files.Interacts
                             await item.DeleteAsync(StorageDeleteOption.Default);
 
                         }
-                        ItemViewModel.FilesAndFolders.Remove(storItem);
+                        App.ViewModel.FilesAndFolders.Remove(storItem);
                     }
                     Debug.WriteLine("Ended for loop");
                     History.ForwardList.Clear();
-                    ItemViewModel.FS.isEnabled = false;
+                    App.ViewModel.FS.isEnabled = false;
                 }
                 
             }
@@ -588,7 +588,7 @@ namespace Files.Interacts
                 try
                 {
                     var ItemSelected = GenericFileBrowser.data.SelectedIndex;
-                    var RowData = ItemViewModel.FilesAndFolders[ItemSelected];
+                    var RowData = App.ViewModel.FilesAndFolders[ItemSelected];
                     await GenericFileBrowser.NameBox.ShowAsync();
                     var input = GenericFileBrowser.inputForRename;
                     if (input != null)
@@ -597,15 +597,15 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            ItemViewModel.FilesAndFolders.Remove(RowData);
-                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input) });
+                            App.ViewModel.FilesAndFolders.Remove(RowData);
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            ItemViewModel.FilesAndFolders.Remove(RowData);
-                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
+                            App.ViewModel.FilesAndFolders.Remove(RowData);
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
 
                         }
                     }
@@ -622,7 +622,7 @@ namespace Files.Interacts
                 try
                 {
                     var ItemSelected = PhotoAlbum.gv.SelectedIndex;
-                    var BoxData = ItemViewModel.FilesAndFolders[ItemSelected];
+                    var BoxData = App.ViewModel.FilesAndFolders[ItemSelected];
                     await PhotoAlbum.NameBox.ShowAsync();
                     var input = PhotoAlbum.inputForRename;
                     if (input != null)
@@ -631,15 +631,15 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            ItemViewModel.FilesAndFolders.Remove(BoxData);
-                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input) });
+                            App.ViewModel.FilesAndFolders.Remove(BoxData);
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input + BoxData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            ItemViewModel.FilesAndFolders.Remove(BoxData);
-                            ItemViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = BoxData.FileExtension, FileImg = null, FilePath = (ItemViewModel.PUIP.Path + "\\" + input + BoxData.DotFileExtension), DotFileExtension = BoxData.DotFileExtension });
+                            App.ViewModel.FilesAndFolders.Remove(BoxData);
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = BoxData.FileExtension, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + BoxData.DotFileExtension), DotFileExtension = BoxData.DotFileExtension });
 
                         }
                     }
@@ -652,7 +652,7 @@ namespace Files.Interacts
                 }
             }
             History.ForwardList.Clear();
-            ItemViewModel.FS.isEnabled = false;
+            App.ViewModel.FS.isEnabled = false;
         }
 
         static List<string> pathsToDeleteAfterPaste = new List<string>();
@@ -710,7 +710,7 @@ namespace Files.Interacts
         public static string CopySourcePath;
         public static async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            CopySourcePath = ItemViewModel.PUIP.Path;
+            CopySourcePath = App.ViewModel.Universal.path;
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
             List<IStorageItem> items = new List<IStorageItem>();
@@ -760,9 +760,9 @@ namespace Files.Interacts
 
         public static async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            var DestinationPath = ItemViewModel.PUIP.Path;
+            var DestinationPath = App.ViewModel.Universal.path;
             DataPackageView packageView = Clipboard.GetContent();
-            var oldCount = ItemViewModel.FilesAndFolders.Count;
+            var oldCount = App.ViewModel.FilesAndFolders.Count;
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
             foreach (IStorageItem item in ItemsToPaste)
             {

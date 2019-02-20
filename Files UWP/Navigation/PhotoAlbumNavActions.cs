@@ -13,26 +13,29 @@ namespace Files.Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            //if (ItemViewModel.IsTerminated == false)
+            //if (App.ViewModel.IsTerminated == false)
             //{
-            ItemViewModel.tokenSource.Cancel();
-            ItemViewModel.FilesAndFolders.Clear();
+            if(App.ViewModel.tokenSource != null)
+            {
+                App.ViewModel.tokenSource.Cancel();
+            }
+            App.ViewModel.FilesAndFolders.Clear();
             //}
 
             if (History.HistoryList.Count() > 1)
             {
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                Debug.WriteLine("\nBefore Removals");
-                ArrayDiag.DumpArray();
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                //Debug.WriteLine("\nBefore Removals");
+                //ArrayDiag.DumpArray();
                 History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
-                Debug.WriteLine("\nAfter Removals");
-                ArrayDiag.DumpArray();
-                ItemViewModel.FilesAndFolders.Clear();
+                //Debug.WriteLine("\nAfter Removals");
+                //ArrayDiag.DumpArray();
+                App.ViewModel.FilesAndFolders.Clear();
 
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
-                    GenericFileBrowser.P.path = "Desktop";
+                    App.PathText.Text = "Desktop";
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
@@ -46,7 +49,7 @@ namespace Files.Navigation
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
-                    GenericFileBrowser.P.path = "Documents";
+                    App.PathText.Text = "Documents";
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
@@ -60,7 +63,7 @@ namespace Files.Navigation
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
-                    GenericFileBrowser.P.path = "Downloads";
+                    App.PathText.Text = "Downloads";
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
@@ -84,11 +87,11 @@ namespace Files.Navigation
                     }
                     MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                     MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
-                    GenericFileBrowser.P.path = "Pictures";
+                    App.PathText.Text = "Pictures";
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
-                    GenericFileBrowser.P.path = "Music";
+                    App.PathText.Text = "Music";
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
@@ -102,7 +105,7 @@ namespace Files.Navigation
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
-                    GenericFileBrowser.P.path = "OneDrive";
+                    App.PathText.Text = "OneDrive";
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
@@ -116,7 +119,7 @@ namespace Files.Navigation
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
-                    GenericFileBrowser.P.path = "Videos";
+                    App.PathText.Text = "Videos";
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
@@ -130,7 +133,7 @@ namespace Files.Navigation
                 }
                 else
                 {
-                    GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
+                    App.PathText.Text = (History.HistoryList[History.HistoryList.Count - 1]);
                     foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                     {
                         if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
@@ -139,22 +142,22 @@ namespace Files.Navigation
                             break;
                         }
                     }
-                    ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
+                    App.ViewModel.MemoryFriendlyGetItemsAsync(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
                 }
 
 
 
 
-                //ItemViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
-                //GenericFileBrowser.P.path = History.HistoryList[History.HistoryList.Count() - 1];
+                //App.ViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
+                //App.PathText.Text = History.HistoryList[History.HistoryList.Count() - 1];
 
                 if (History.ForwardList.Count == 0)
                 {
-                    ItemViewModel.FS.isEnabled = false;
+                    App.ViewModel.FS.isEnabled = false;
                 }
                 else if (History.ForwardList.Count > 0)
                 {
-                    ItemViewModel.FS.isEnabled = true;
+                    App.ViewModel.FS.isEnabled = true;
                 }
 
 
@@ -164,28 +167,31 @@ namespace Files.Navigation
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            //if (ItemViewModel.IsTerminated == false)
+            //if (App.ViewModel.IsTerminated == false)
             //{
-            ItemViewModel.tokenSource.Cancel();
-            ItemViewModel.FilesAndFolders.Clear();
+            if(App.ViewModel.tokenSource != null)
+            {
+                App.ViewModel.tokenSource.Cancel();
+            }
+            App.ViewModel.FilesAndFolders.Clear();
             //}
 
             if (History.ForwardList.Count() > 0)
             {
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(History.ForwardList[History.ForwardList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
-                GenericFileBrowser.P.path = History.ForwardList[History.ForwardList.Count() - 1];
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                App.ViewModel.FilesAndFolders.Clear();
+                App.ViewModel.MemoryFriendlyGetItemsAsync(History.ForwardList[History.ForwardList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
+                App.PathText.Text = History.ForwardList[History.ForwardList.Count() - 1];
                 History.ForwardList.RemoveAt(History.ForwardList.Count() - 1);
                 ArrayDiag.DumpForwardArray();
 
                 if (History.ForwardList.Count == 0)
                 {
-                    ItemViewModel.FS.isEnabled = false;
+                    App.ViewModel.FS.isEnabled = false;
                 }
                 else if (History.ForwardList.Count > 0)
                 {
-                    ItemViewModel.FS.isEnabled = true;
+                    App.ViewModel.FS.isEnabled = true;
                 }
 
             }
@@ -193,51 +199,54 @@ namespace Files.Navigation
 
         public async static void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            //ItemViewModel.IsStopRequested = true;
+            //App.ViewModel.IsStopRequested = true;
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ItemViewModel.tokenSource.Cancel();
-                ItemViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.FilesAndFolders.Clear();
-                ItemViewModel.ViewModel = new ItemViewModel(ItemViewModel.PUIP.Path, PhotoAlbum.PAPageName);
+                if(App.ViewModel != null)
+                {
+                    App.ViewModel.tokenSource.Cancel();
+                }
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                App.ViewModel.FilesAndFolders.Clear();
+                App.ViewModel.MemoryFriendlyGetItemsAsync(App.PathText.Text, PhotoAlbum.PAPageName);
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
-                    GenericFileBrowser.P.path = "Desktop";
+                    App.PathText.Text = "Desktop";
 
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
-                    GenericFileBrowser.P.path = "Documents";
+                    App.PathText.Text = "Documents";
 
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
-                    GenericFileBrowser.P.path = "Downloads";
+                    App.PathText.Text = "Downloads";
 
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                 {
 
-                    GenericFileBrowser.P.path = "Pictures";
+                    App.PathText.Text = "Pictures";
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
-                    GenericFileBrowser.P.path = "Music";
+                    App.PathText.Text = "Music";
 
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
-                    GenericFileBrowser.P.path = "OneDrive";
+                    App.PathText.Text = "OneDrive";
 
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
-                    GenericFileBrowser.P.path = "Videos";
+                    App.PathText.Text = "Videos";
 
                 }
                 else
                 {
-                    GenericFileBrowser.P.path = (History.HistoryList[History.HistoryList.Count - 1]);
+                    App.PathText.Text = (History.HistoryList[History.HistoryList.Count - 1]);
 
                 }
             });
