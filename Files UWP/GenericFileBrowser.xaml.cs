@@ -21,7 +21,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.UI.Xaml.Controls.Primitives;
-using Microsoft.Toolkit.Uwp;
 
 namespace Files
 {
@@ -71,7 +70,7 @@ namespace Files
             emptySpaceContext = EmptySpaceFlyout;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
             PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
-            App.CurrentPage.Name = "GenericItemView";
+
         }
 
         
@@ -110,9 +109,7 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.FilesAndFolders.Clear();
             App.ViewModel.Universal.path = parameters;
-            App.ViewModel.GetFilesystemItemsAsync(App.ViewModel.Universal.path, GenericItemView);
-            var collection = new IncrementalLoadingCollection<ItemViewModel, ListedItem>();
-            data.ItemsSource = collection;
+            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 App.PathText.Text = "Desktop";

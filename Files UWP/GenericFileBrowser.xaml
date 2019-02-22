@@ -294,7 +294,7 @@
 
 
 
-            <controls:DataGrid  ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  HorizontalAlignment="Left">
+            <controls:DataGrid  ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
                
                 <controls:DataGrid.ColumnHeaderStyle>
                     <Style TargetType="controlsprimitives:DataGridColumnHeader">

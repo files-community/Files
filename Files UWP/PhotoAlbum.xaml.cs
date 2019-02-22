@@ -38,7 +38,6 @@ namespace Files
             inputFromRename = RenameInput;
             ShareItem.Click += Interaction.ShareItem_Click;
             RenameItem.Click += Interaction.RenameItem_Click;
-            App.CurrentPage.Name = "PhotoAlbumViewer";
         }
 
 
