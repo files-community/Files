@@ -58,6 +58,8 @@ namespace Files
         }
         public static Filesystem.ItemViewModel ViewModel = new Filesystem.ItemViewModel();
         public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
+        public static UniversalPath UniversalPath { get; set; } = new UniversalPath();
+        public static CurrentPageName CurrentPage { get; set; } = new CurrentPageName();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

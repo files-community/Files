@@ -61,4 +61,34 @@ namespace Files.Navigation
         }
 
     }
+
+    public class CurrentPageName : INotifyPropertyChanged
+    {
+
+
+        private string name;
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                if (value != name)
+                {
+                    name = value;
+                    NotifyPropertyChanged("Name");
+                }
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+
+    }
 }
