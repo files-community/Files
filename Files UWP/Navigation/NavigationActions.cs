@@ -11,25 +11,18 @@ namespace Files.Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            // NOTE: THIS CHECK WAS REMOVED, REVERT BACK IF THINGS BREAK
-            //if (App.ViewModel.IsTerminated == false)
-            //{
             if(App.ViewModel.tokenSource != null)
             {
                 App.ViewModel.tokenSource.Cancel();
             }
             App.ViewModel.FilesAndFolders.Clear();
-            //}
 
             if (History.HistoryList.Count > 1)
             {
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                //Debug.WriteLine("\nBefore Removals");
-                //ArrayDiag.DumpArray();
+                
                 History.AddToForwardList(History.HistoryList[History.HistoryList.Count - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count - 1);
-                //Debug.WriteLine("\nAfter Removals");
-                //ArrayDiag.DumpArray();
 
                 App.ViewModel.FilesAndFolders.Clear();
 

@@ -24,9 +24,7 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-
-        private static PasteState ps = new PasteState();
-        public static PasteState PS { get { return ps; } }
+        public static PasteState PS { get; } = new PasteState();
 
         public static Page page;
         public Interaction(Page p)
@@ -39,24 +37,24 @@ namespace Files.Interacts
         // Double-tap event for DataGrid
         public static async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
         {
+            
             if (page.Name == "GenericItemView")
             {
-
                 var index = GenericFileBrowser.data.SelectedIndex;
-
                 if (index > -1)
                 {
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
-
                     if (clickedOnItem.FileExtension == "Folder")
                     {
+                        App.ViewModel.Universal.path = clickedOnItem.FilePath;
+                        App.PathText.Text = clickedOnItem.FilePath;
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         History.ForwardList.Clear();
                         App.ViewModel.FS.isEnabled = false;
                         App.ViewModel.FilesAndFolders.Clear();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
-                            App.ViewModel.Universal.path = "Desktop";
+                            App.PathText.Text = "Desktop";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
@@ -70,7 +68,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
-                            App.ViewModel.Universal.path = "Documents";
+                            App.PathText.Text = "Documents";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
@@ -84,7 +82,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
-                            App.ViewModel.Universal.path = "Downloads";
+                            App.PathText.Text = "Downloads";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
@@ -108,11 +106,11 @@ namespace Files.Interacts
                             }
                             MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                             MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
-                            App.ViewModel.Universal.path = "Pictures";
+                            App.PathText.Text = "Pictures";
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
-                            App.ViewModel.Universal.path = "Music";
+                            App.PathText.Text = "Music";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
@@ -126,7 +124,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
-                            App.ViewModel.Universal.path = "OneDrive";
+                            App.PathText.Text = "OneDrive";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
@@ -140,7 +138,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
-                            App.ViewModel.Universal.path = "Videos";
+                            App.PathText.Text = "Videos";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
@@ -198,16 +196,17 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
-
                     if (clickedOnItem.FileExtension == "Folder")
                     {
+                        App.ViewModel.Universal.path = clickedOnItem.FilePath;
+                        App.PathText.Text = clickedOnItem.FilePath;
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         History.ForwardList.Clear();
                         App.ViewModel.FS.isEnabled = false;
                         App.ViewModel.FilesAndFolders.Clear();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
-                            App.ViewModel.Universal.path = "Desktop";
+                            App.PathText.Text = "Desktop";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
@@ -221,7 +220,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
-                            App.ViewModel.Universal.path = "Documents";
+                            App.PathText.Text = "Documents";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
@@ -235,7 +234,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
-                            App.ViewModel.Universal.path = "Downloads";
+                            App.PathText.Text = "Downloads";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
@@ -259,11 +258,11 @@ namespace Files.Interacts
                             }
                             MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                             MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
-                            App.ViewModel.Universal.path = "Pictures";
+                            App.PathText.Text = "Pictures";
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
-                            App.ViewModel.Universal.path = "Music";
+                            App.PathText.Text = "Music";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
@@ -277,7 +276,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
-                            App.ViewModel.Universal.path = "OneDrive";
+                            App.PathText.Text = "OneDrive";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
@@ -291,7 +290,7 @@ namespace Files.Interacts
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
-                            App.ViewModel.Universal.path = "Videos";
+                            App.PathText.Text = "Videos";
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
@@ -305,7 +304,7 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            App.ViewModel.Universal.path = clickedOnItem.FilePath;
+                            App.PathText.Text = clickedOnItem.FilePath;
                             foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
                             {
                                 if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
@@ -314,7 +313,7 @@ namespace Files.Interacts
                                     break;
                                 }
                             }
-                            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, PhotoAlbum.PAPageName);
+                            App.ViewModel.MemoryFriendlyGetItemsAsync(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
                         }
                     }
                     else if (clickedOnItem.FileExtension == "Executable")

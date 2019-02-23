@@ -34,8 +34,6 @@ namespace Files.Navigation
 
     public class DisplayedPathText : INotifyPropertyChanged
     {
-
-
         private string text;
         public string Text
         {

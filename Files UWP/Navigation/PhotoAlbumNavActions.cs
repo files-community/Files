@@ -13,24 +13,19 @@ namespace Files.Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            //if (App.ViewModel.IsTerminated == false)
-            //{
+            
             if(App.ViewModel.tokenSource != null)
             {
                 App.ViewModel.tokenSource.Cancel();
             }
             App.ViewModel.FilesAndFolders.Clear();
-            //}
+            
 
             if (History.HistoryList.Count() > 1)
             {
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                //Debug.WriteLine("\nBefore Removals");
-                //ArrayDiag.DumpArray();
                 History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
-                //Debug.WriteLine("\nAfter Removals");
-                //ArrayDiag.DumpArray();
                 App.ViewModel.FilesAndFolders.Clear();
 
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
@@ -145,12 +140,6 @@ namespace Files.Navigation
                     App.ViewModel.MemoryFriendlyGetItemsAsync(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
                 }
 
-
-
-
-                //App.ViewModel.ViewModel = new ItemViewModel(History.HistoryList[History.HistoryList.Count() - 1], PhotoAlbum.PAPageName);     // To take into account the correct index without interference from the folder being navigated to
-                //App.PathText.Text = History.HistoryList[History.HistoryList.Count() - 1];
-
                 if (History.ForwardList.Count == 0)
                 {
                     App.ViewModel.FS.isEnabled = false;
@@ -159,22 +148,16 @@ namespace Files.Navigation
                 {
                     App.ViewModel.FS.isEnabled = true;
                 }
-
-
             }
-
         }
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            //if (App.ViewModel.IsTerminated == false)
-            //{
             if(App.ViewModel.tokenSource != null)
             {
                 App.ViewModel.tokenSource.Cancel();
             }
             App.ViewModel.FilesAndFolders.Clear();
-            //}
 
             if (History.ForwardList.Count() > 0)
             {
@@ -199,10 +182,9 @@ namespace Files.Navigation
 
         public async static void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            //App.ViewModel.IsStopRequested = true;
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if(App.ViewModel != null)
+                if(App.ViewModel.tokenSource != null)
                 {
                     App.ViewModel.tokenSource.Cancel();
                 }

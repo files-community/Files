@@ -97,7 +97,44 @@ namespace Files.Filesystem
 
                 PVIS.isVisible = Visibility.Visible;
                 TextState.isVisible = Visibility.Collapsed;
-                folder = await StorageFolder.GetFolderFromPathAsync(path);
+                switch (Universal.path)
+                {
+                    case "Desktop":
+                        Universal.path = MainPage.DesktopPath;
+                        break;
+                    case "Downloads":
+                        Universal.path = MainPage.DownloadsPath;
+                        break;
+                    case "Documents":
+                        Universal.path = MainPage.DocumentsPath;
+                        break;
+                    case "Pictures":
+                        Universal.path = MainPage.PicturesPath;
+                        break;
+                    case "Music":
+                        Universal.path = MainPage.MusicPath;
+                        break;
+                    case "Videos":
+                        Universal.path = MainPage.VideosPath;
+                        break;
+                    case "OneDrive":
+                        Universal.path = MainPage.OneDrivePath;
+                        break;
+                }
+
+                folder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
+
+                History.AddToHistory(Universal.path);
+
+                if (History.HistoryList.Count == 1)
+                {
+                    BS.isEnabled = false;
+                }
+                else if (History.HistoryList.Count > 1)
+                {
+                    BS.isEnabled = true;
+                }
+
                 QueryOptions options = new QueryOptions()
                 {
                     FolderDepth = FolderDepth.Shallow,
@@ -281,28 +318,18 @@ namespace Files.Filesystem
                     await unsupportedDevice.ShowAsync();
                 }
                 stopwatch.Stop();
-                Debug.WriteLine("Loading of: " + path + " failed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
+                Debug.WriteLine("Loading of: " + Universal.path + " failed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
             }
             catch (COMException e)
             {
                 stopwatch.Stop();
-                Debug.WriteLine("Loading of: " + path + " failed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
+                Debug.WriteLine("Loading of: " + Universal.path + " failed in " + stopwatch.ElapsedMilliseconds + " Milliseconds.");
                 Frame rootFrame = Window.Current.Content as Frame;
                 MessageDialog driveGone = new MessageDialog(e.Message, "Drive Unplugged");
                 await driveGone.ShowAsync();
                 rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
             }
 
-            History.AddToHistory(Universal.path);
-
-            if (History.HistoryList.Count == 1)
-            {
-                BS.isEnabled = false;
-            }
-            else if (History.HistoryList.Count > 1)
-            {
-                BS.isEnabled = true;
-            }
             tokenSource = null;
         }
 
