@@ -62,7 +62,6 @@ namespace Files
             Refresh.Click += NavigationActions.Refresh_Click;
             AddItem.Click += AddItem_ClickAsync;
             AllView.DoubleTapped += Interaction.List_ItemClick;
-            Paste.Click += Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             AddItemBox = AddDialog;
             NameBox = NameDialog;
@@ -70,7 +69,7 @@ namespace Files
             emptySpaceContext = EmptySpaceFlyout;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
             PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
-
+            //PathBarTip.IsOpen = true;
         }
 
         
@@ -109,7 +108,7 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.FilesAndFolders.Clear();
             App.ViewModel.Universal.path = parameters;
-            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericItemView);
+            App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 App.PathText.Text = "Desktop";
@@ -259,7 +258,7 @@ namespace Files
         {
             var newCellText = (data.SelectedItem as ListedItem)?.FileName;
             var selectedItem = App.ViewModel.FilesAndFolders[e.Row.GetIndex()];
-            if(selectedItem.FileExtension == "Folder")
+            if(selectedItem.FileType == "Folder")
             {
                 StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
                 if(FolderToRename.Name != newCellText)

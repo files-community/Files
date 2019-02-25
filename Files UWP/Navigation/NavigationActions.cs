@@ -140,7 +140,7 @@ namespace Files.Navigation
                         }
                     }
                     App.PathText.Text = (History.HistoryList[History.HistoryList.Count - 1]);
-                    App.ViewModel.MemoryFriendlyGetItemsAsync(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
+                    App.ViewModel.AddItemsToCollectionAsync(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
 
                 }
 
@@ -289,7 +289,7 @@ namespace Files.Navigation
                         }
                     }
                     App.PathText.Text = (History.ForwardList[History.ForwardList.Count() - 1]);
-                    App.ViewModel.MemoryFriendlyGetItemsAsync(History.ForwardList[History.ForwardList.Count() - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
+                    App.ViewModel.AddItemsToCollectionAsync(History.ForwardList[History.ForwardList.Count() - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
 
                 }
 
@@ -319,7 +319,7 @@ namespace Files.Navigation
                 }
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 App.ViewModel.FilesAndFolders.Clear();
-                App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
+                App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
                     App.PathText.Text = "Desktop";

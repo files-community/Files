@@ -39,7 +39,7 @@
                         </Grid>
                     </StackPanel>
                 </Grid>
-                <Grid Name="AutoRefreshSetting">
+                <Grid Visibility="Collapsed" Name="AutoRefreshSetting">
                     <StackPanel Orientation="Vertical" Spacing="5">
                         <TextBlock FontSize="24" Text="Smart Refresh Beta"/>
                         <TextBlock Text="Files will check to see if changes have been made to the current folder and automatically refresh when necessary. This may cause increased resource usage." HorizontalAlignment="Stretch" TextWrapping="WrapWholeWords"/>

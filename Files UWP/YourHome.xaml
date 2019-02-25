@@ -403,13 +403,13 @@
 
                             <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="5.00" ShadowOpacity="0" Padding="0,0,-4,0" BlurRadius="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
                                 <Grid >
-                                    <Rectangle  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" RadiusX="5" RadiusY="5">
-                                        <Rectangle.Fill>
-                                            <!--<ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImageSource}"/>-->
-                                            <SolidColorBrush Color="{StaticResource SystemChromeMediumColor}"/>
-                                        </Rectangle.Fill>
-                                    </Rectangle>
-                                    <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="58" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Button Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource ButtonRevealStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="5">
+                                        <!--<Button.Fill>
+                                            --><!--<ImageBrush Stretch="UniformToFill" ImageSource="{Binding ImageSource}"/>--><!--
+                                            <SolidColorBrush Color="{StaticResource SystemChromeMediumColor}" />
+                                        </Button.Fill>-->
+                                        <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="58" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </Button>
                                 </Grid>
                             </controls:DropShadowPanel>
 

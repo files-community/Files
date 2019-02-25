@@ -11,10 +11,10 @@ namespace Files.Filesystem
         public BitmapImage FileImg { get; set; }
         public string FileName { get; set; }
         public string FileDate { get; set; }
-        public string FileExtension { get; set; }
+        public string FileType { get; set; }
         public string DotFileExtension { get; set; }
         public string FilePath { get; set; }
-        public int ItemIndex { get; set; }
+        public string FileSize { get; set; }
         public ListedItem()
         {
 
