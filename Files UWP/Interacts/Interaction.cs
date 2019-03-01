@@ -167,9 +167,9 @@ namespace Files.Interacts
                             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                         }
                     }
-                    else if (clickedOnItem.FileType == "Executable")
+                    else if (clickedOnItem.FileType == "Application")
                     {
-                        //message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        //message = new MessageDialog("We noticed you’re trying to run an Application file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
                         //message.Title = "Unsupported Functionality";
                         //message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
                         //message.Commands.Add(new UICommand("Cancel"));
@@ -316,9 +316,9 @@ namespace Files.Interacts
                             App.ViewModel.AddItemsToCollectionAsync(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
                         }
                     }
-                    else if (clickedOnItem.FileType == "Executable")
+                    else if (clickedOnItem.FileType == "Application")
                     {
-                        //Interaction.message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        //Interaction.message = new MessageDialog("We noticed you’re trying to run an Application file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
                         //Interaction.message.Title = "Unsupported Functionality";
                         //Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
                         //Interaction.message.Commands.Add(new UICommand("Cancel"));
@@ -343,9 +343,10 @@ namespace Files.Interacts
         }
 
 
-        public static async Task LaunchExe(string executablePath)
+        public static async Task LaunchExe(string ApplicationPath)
         {
-            ApplicationData.Current.LocalSettings.Values["executable"] = executablePath;
+            Debug.WriteLine("Launching EXE in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
