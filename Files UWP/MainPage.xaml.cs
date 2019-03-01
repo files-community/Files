@@ -39,7 +39,7 @@ namespace Files
             Window.Current.SetTitleBar(DragArea);
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
+            titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             nv = navView;
             accessibleAutoSuggestBox = auto_suggest;
@@ -47,10 +47,11 @@ namespace Files
             permissionBox = PermissionDialog;
             
 
-            //make the minimize, maximize and close button visible in light theme
+            // Make the minimize, maximize, and close button visible in different themes
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)
             {
                 titleBar.ButtonForegroundColor = Colors.White;
+                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
             }
             else if (App.Current.RequestedTheme == ApplicationTheme.Light)
             {
@@ -60,6 +61,7 @@ namespace Files
             if (this.RequestedTheme == ElementTheme.Dark)
             {
                 titleBar.ButtonForegroundColor = Colors.White;
+                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
             }
             else if (this.RequestedTheme == ElementTheme.Light)
             {
