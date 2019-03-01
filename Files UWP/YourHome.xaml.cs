@@ -26,35 +26,6 @@ namespace Files
             InitializeComponent();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
-            SizeChanged += YourHome_SizeChanged;
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            var size = new Size(Convert.ToInt32(bounds.Width * scaleFactor), Convert.ToInt32(bounds.Height * scaleFactor));
-            // If width is between 1 - 800
-            if (bounds.Width >= 1 && bounds.Width <= 800)
-            {
-
-            }
-            else if (bounds.Width > 800 && bounds.Width <= 1024)
-            {
-
-            }
-        }
-
-        private void YourHome_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-            var scaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
-            var size = new Size(Convert.ToInt32(bounds.Width * scaleFactor), Convert.ToInt32(bounds.Height * scaleFactor));
-            // If width is between 1 - 800
-            if (bounds.Width >= 1 && bounds.Width <= 800)
-            {
-
-            }
-            else if (bounds.Width > 800 && bounds.Width <= 1024)
-            {
-
-            }
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)
@@ -137,6 +108,76 @@ namespace Files
         private void DropShadowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             (sender as DropShadowPanel).ShadowOpacity = 0.00;
+        }
+
+        private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var clickedButton = sender as Button;
+            if(clickedButton.Tag.ToString() == "\xE896") // Downloads
+            {
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+            }
+            else if(clickedButton.Tag.ToString() == "\xE8A5") // Documents
+            {
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+            }
+            else if(clickedButton.Tag.ToString() == "\xEB9F") // Pictures
+            {
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+            }
+            else if(clickedButton.Tag.ToString() == "\xEC4F") // Music
+            {
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+            }
+            else if(clickedButton.Tag.ToString() == "\xE8B2") // Videos
+            {
+                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                {
+                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                    {
+                        MainPage.Select.itemSelected = NavItemChoice;
+                        break;
+                    }
+                }
+                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+            }
         }
     }
 }
