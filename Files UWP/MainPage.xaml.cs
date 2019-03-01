@@ -65,10 +65,12 @@ namespace Files
             {
                 titleBar.ButtonForegroundColor = Colors.Black;
             }
+
+            
         }
 
         public async void PopulateNavViewWithExternalDrives()
-        {   
+        {
             var knownRemDevices = new ObservableCollection<string>();
             foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
             {

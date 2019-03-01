@@ -520,8 +520,10 @@
                                 <RowDefinition Height="75*"/>
                                 <RowDefinition Height="25*"/>
                             </Grid.RowDefinitions>
-                            <Grid Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
-                                <Image Stretch="Uniform" Source="{Binding FileImg}"/>
+                            <Grid Padding="2" Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
+                                <controls:DropShadowPanel OffsetY="5">
+                                    <Image Stretch="Uniform" Source="{Binding FileImg}"/>
+                                </controls:DropShadowPanel>
                             </Grid>
 
                             <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
