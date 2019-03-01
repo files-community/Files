@@ -407,6 +407,13 @@ namespace Files
                                     await dialog.ShowAsync();
                                 }    
                             }
+                            else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
+                            {
+                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search";
+                            }
                             else
                             {
                                 try
