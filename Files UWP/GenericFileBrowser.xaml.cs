@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.ApplicationModel.DataTransfer.DragDrop.Core;
+using System.Collections.Generic;
 
 namespace Files
 {
@@ -236,16 +238,17 @@ namespace Files
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                var items = await e.DataView.GetStorageItemsAsync();
-                if(items.Count() == 1)
-                {
-                    DataPackage data = new DataPackage();
-                    foreach(IStorageItem storageItem in items)
+                    foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
                     {
-                        var itemPath = storageItem.Path;
-
-                    } 
-                }
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            Interaction.CloneDirectoryAsync((item as StorageFolder).Path, App.ViewModel.Universal.path, (item as StorageFolder).DisplayName);
+                        }
+                        else
+                        {
+                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.ViewModel.Universal.path));
+                        }
+                    }
             }
         }
 
@@ -474,6 +477,16 @@ namespace Files
         }
 
         private void AllView_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+            
+        }
+
+        private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            args.DragUI.SetContentFromDataPackage();
+        }
+
+        private void AllView_DragLeave(object sender, DragEventArgs e)
         {
             
         }
