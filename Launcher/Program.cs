@@ -10,7 +10,7 @@ namespace Launcher
         {
             try
             {
-                var executable = (string) ApplicationData.Current.LocalSettings.Values["executable"];
+                var executable = (string) ApplicationData.Current.LocalSettings.Values["Application"];
                 Process.Start(executable);
             }
             catch (Exception e)

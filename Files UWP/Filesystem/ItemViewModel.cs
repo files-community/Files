@@ -78,7 +78,6 @@ namespace Files.Filesystem
             stopwatch.Start();
 
             PVIS.isVisible = Visibility.Visible;
-            TextState.isVisible = Visibility.Collapsed;
 
             switch (Universal.path)
             {
@@ -169,7 +168,7 @@ namespace Files.Filesystem
                 const uint step = 250;
                 BasicProperties basicProperties;
                 StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
-                uint NumItems = await folderQueryResult.GetItemCountAsync();
+                uint NumFolItems = await folderQueryResult.GetItemCountAsync();
                 IReadOnlyList<StorageFolder> storageFolders = await folderQueryResult.GetFoldersAsync(index, step);
                 while (storageFolders.Count > 0)
                 {
@@ -251,7 +250,7 @@ namespace Files.Filesystem
                             return;
                         }
                         itemName = file.DisplayName;
-                        SetAsFriendlyDate(basicProperties.ItemDate.LocalDateTime);
+                        SetAsFriendlyDate(basicProperties.DateModified.LocalDateTime);
                         itemPath = file.Path;
                         if (ByteSize.FromBytes(basicProperties.Size).KiloBytes < 1)
                         {
@@ -346,7 +345,10 @@ namespace Files.Filesystem
                     index += step;
                     storageFiles = await fileQueryResult.GetFilesAsync(index, step);
                 }
-
+                if (NumFolItems + NumFileItems == 0)
+                {
+                    TextState.isVisible = Visibility.Visible;
+                }
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.Elapsed.Seconds + " seconds.\n");
 
