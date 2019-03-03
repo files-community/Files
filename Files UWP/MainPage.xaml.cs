@@ -141,7 +141,6 @@ namespace Files
 
         private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-
             var item = args.InvokedItem;
             var itemContainer = args.InvokedItemContainer;
             //var item = Interaction.FindParent<NavigationViewItemBase>(args.InvokedItem as DependencyObject);

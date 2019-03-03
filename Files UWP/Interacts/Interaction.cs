@@ -47,7 +47,11 @@ namespace Files.Interacts
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
                     // Write location to recents file
                     StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
-                    await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+                    var existingLines = (await FileIO.ReadLinesAsync(RecentsFile));
+                    if (existingLines != null && !existingLines.Contains(clickedOnItem.FilePath))
+                    {
+                        await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+                    }
 
                     if (clickedOnItem.FileType == "Folder")
                     {
@@ -204,7 +208,11 @@ namespace Files.Interacts
 
                     // Write location to recents file
                     StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
-                    await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+                    var existingLines = (await FileIO.ReadLinesAsync(RecentsFile));
+                    if (existingLines != null && !existingLines.Contains(clickedOnItem.FilePath))
+                    {
+                        await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+                    }
 
                     if (clickedOnItem.FileType == "Folder")
                     {

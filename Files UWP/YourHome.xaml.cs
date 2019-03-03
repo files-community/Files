@@ -33,6 +33,7 @@ namespace Files
             InitializeComponent();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
+            recentItemsCollection.Clear();
             PopulateRecentsList();
         }
 
@@ -194,6 +195,7 @@ namespace Files
 
         public async void PopulateRecentsList()
         {
+            recentItemsCollection.Clear();
             dataFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
             RecentsFile = await dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
             BitmapImage ItemImage = new BitmapImage();
@@ -227,7 +229,10 @@ namespace Files
                         ItemFolderImgVis = Visibility.Visible;
                         ItemEmptyImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Collapsed;
-                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        if(!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                        {
+                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        }
 
                     }
                     catch (System.ArgumentException)
@@ -248,7 +253,10 @@ namespace Files
                         }
                         ItemFolderImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Visible;
-                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                        {
+                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        }
                     }
                 }
             }
@@ -266,7 +274,10 @@ namespace Files
                         ItemFolderImgVis = Visibility.Visible;
                         ItemEmptyImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Collapsed;
-                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                        {
+                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        }
 
                     }
                     catch (System.ArgumentException)
@@ -287,7 +298,10 @@ namespace Files
                         }
                         ItemFolderImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Visible;
-                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                        {
+                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        }
                     }
                 }
             }

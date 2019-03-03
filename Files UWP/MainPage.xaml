@@ -6,7 +6,7 @@
     x:Class="Files.MainPage"
     xmlns:local="using:Files"
     xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d" NavigationCacheMode="Disabled">
 
     <Page.Resources>
         <AcrylicBrush x:Key="RegAcrylic" BackgroundSource="HostBackdrop" TintColor="White" TintOpacity="0.7" FallbackColor="{StaticResource SystemChromeMediumColor}"/>
@@ -759,7 +759,7 @@
             </UILib:NavigationView.AutoSuggestBox>
 
 
-            <Frame Padding="0,35,0,0" Name="ContentFrame" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+            <Frame  Padding="0,35,0,0" Name="ContentFrame" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
                 <Frame.ContentTransitions>
                     <TransitionCollection>
                         <NavigationThemeTransition/>
