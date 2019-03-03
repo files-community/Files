@@ -21,6 +21,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.ApplicationModel.DataTransfer.DragDrop.Core;
+using System.Collections.Generic;
 
 namespace Files
 {
@@ -37,7 +39,8 @@ namespace Files
         public static ContentDialog NameBox;
         public static TextBox inputFromRename;
         public static string inputForRename;
-
+        public static Flyout CopiedFlyout;
+        public static Grid grid;
 
 
         public GenericFileBrowser()
@@ -62,7 +65,6 @@ namespace Files
             Refresh.Click += NavigationActions.Refresh_Click;
             AddItem.Click += AddItem_ClickAsync;
             AllView.DoubleTapped += Interaction.List_ItemClick;
-            Paste.Click += Interaction.PasteItem_ClickAsync;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             AddItemBox = AddDialog;
             NameBox = NameDialog;
@@ -70,7 +72,10 @@ namespace Files
             emptySpaceContext = EmptySpaceFlyout;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
             PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
-
+            CopiedFlyout = CopiedPathFlyout;
+            grid = RootGrid;
+            GetPath.Click += Interaction.GetPath_Click;
+            PathBarTip.IsOpen = true;
         }
 
         
@@ -109,7 +114,7 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.FilesAndFolders.Clear();
             App.ViewModel.Universal.path = parameters;
-            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericItemView);
+            App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 App.PathText.Text = "Desktop";
@@ -237,16 +242,17 @@ namespace Files
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                var items = await e.DataView.GetStorageItemsAsync();
-                if(items.Count() == 1)
-                {
-                    DataPackage data = new DataPackage();
-                    foreach(IStorageItem storageItem in items)
+                    foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
                     {
-                        var itemPath = storageItem.Path;
-
-                    } 
-                }
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            Interaction.CloneDirectoryAsync((item as StorageFolder).Path, App.ViewModel.Universal.path, (item as StorageFolder).DisplayName);
+                        }
+                        else
+                        {
+                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.ViewModel.Universal.path));
+                        }
+                    }
             }
         }
 
@@ -259,7 +265,7 @@ namespace Files
         {
             var newCellText = (data.SelectedItem as ListedItem)?.FileName;
             var selectedItem = App.ViewModel.FilesAndFolders[e.Row.GetIndex()];
-            if(selectedItem.FileExtension == "Folder")
+            if(selectedItem.FileType == "Folder")
             {
                 StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
                 if(FolderToRename.Name != newCellText)
@@ -408,6 +414,13 @@ namespace Files
                                     await dialog.ShowAsync();
                                 }    
                             }
+                            else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
+                            {
+                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search";
+                            }
                             else
                             {
                                 try
@@ -468,6 +481,16 @@ namespace Files
         }
 
         private void AllView_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+            
+        }
+
+        private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)
+        {
+            args.DragUI.SetContentFromDataPackage();
+        }
+
+        private void AllView_DragLeave(object sender, DragEventArgs e)
         {
             
         }

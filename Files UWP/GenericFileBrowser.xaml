@@ -12,7 +12,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Interacts"
     Name="GenericItemView"
-    mc:Ignorable="d" IsRightTapEnabled="True" RightTapped="GenericItemView_RightTapped" PointerReleased="GenericItemView_PointerReleased">
+    mc:Ignorable="d"  IsRightTapEnabled="True" RightTapped="GenericItemView_RightTapped" PointerReleased="GenericItemView_PointerReleased">
     <Page.Resources>
         <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
             <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}"/>
@@ -115,41 +115,8 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushPointerOver}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundPointerOver}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundPointerOver}}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundPointerOver}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundFocused}}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocused}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushFocused}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundFocused}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="RequestedTheme">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Light"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
+                                    <VisualState x:Name="PointerOver"/>
+                                    <VisualState x:Name="Focused"/>
                                 </VisualStateGroup>
                                 <VisualStateGroup x:Name="ButtonStates">
                                     <VisualState x:Name="ButtonVisible">
@@ -207,7 +174,18 @@
             </MenuFlyout.Items>
         </MenuFlyout>
     </Page.ContextFlyout>
-    <Grid>
+    
+    <Grid Name="RootGrid">
+        <Grid.Resources>
+            <Flyout x:Key="PathCopiedFlyout" x:Name="CopiedPathFlyout" AreOpenCloseAnimationsEnabled="False" Placement="Bottom">
+                <Grid>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE73E;"/>
+                        <TextBlock Text="Path copied to clipboard"/>
+                    </StackPanel>
+                </Grid>
+            </Flyout>
+        </Grid.Resources>
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
@@ -217,7 +195,7 @@
             </Grid.RowDefinitions>
             <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-            <CommandBar Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Grid.Row="1" DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsSticky="True" VerticalAlignment="Stretch">
+            <CommandBar Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Margin="0,0,0,0" Grid.Row="1" DefaultLabelPosition="Right" OverflowButtonVisibility="Visible" IsSticky="False" VerticalAlignment="Stretch" IsDynamicOverflowEnabled="True">
                 <CommandBar.Content>
                     <StackPanel Orientation="Horizontal">
                         <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local:App.ViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
@@ -245,11 +223,6 @@
                 </CommandBar.Content>
 
                 <CommandBar.SecondaryCommands>
-                    <AppBarButton Label="Paste" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Paste">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE77F;" FontFamily="Segoe MDL2 Assets"/>
-                        </AppBarButton.Icon>
-                    </AppBarButton>
                     <AppBarButton x:Name="GetPath" Label="Copy Full Path">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
@@ -284,17 +257,29 @@
                     
                 </AppBarButton>
             </CommandBar>
-
-            <StackPanel Margin="15,0,0,0" Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
+            
+            <StackPanel Margin="15,0,0,5" Orientation="Vertical" Grid.Row="2" VerticalAlignment="Top">
                 <ScrollViewer  Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                    <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path..."/>
+                    <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path...">
+                        <uilib:TeachingTip.Attach>
+                            <uilib:TeachingTip Name="PathBarTip" BleedingImagePlacement="Bottom" Title="Access a location quickly with the Path Bar">
+                                <uilib:TeachingTip.IconSource>
+                                    <uilib:SymbolIconSource Symbol="Help"/>
+                                </uilib:TeachingTip.IconSource>
+                                <uilib:TeachingTip.BleedingImageContent>
+                                    <Image Source="/Assets/PathbarTeachingTipVisual.gif"/>
+                                </uilib:TeachingTip.BleedingImageContent>
+                                
+                            </uilib:TeachingTip>
+                        </uilib:TeachingTip.Attach>
+                    </TextBox>
                 </ScrollViewer>
                 <ProgressBar IsIndeterminate="True" Visibility="{x:Bind local:App.ViewModel.PVIS.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Stretch"/>
             </StackPanel>
 
 
 
-            <controls:DataGrid  ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
+            <controls:DataGrid AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
                
                 <controls:DataGrid.ColumnHeaderStyle>
                     <Style TargetType="controlsprimitives:DataGridColumnHeader">
@@ -314,6 +299,7 @@
                                 </MenuFlyout>
                             </Setter.Value>
                         </Setter>
+                        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
                     </Style>
                 </controls:DataGrid.ColumnHeaderStyle>
                 <controls:DataGrid.RowStyle>
@@ -408,17 +394,16 @@
                     </controls:DataGridTemplateColumn>
                     <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
                     <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
-                    <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
+                    <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
                     <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
                 </controls:DataGrid.Columns>
-
             </controls:DataGrid>
 
-            <ContentDialog BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
+            <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
                 <Frame Width="450" Name="AddDialogFrame"/>
             </ContentDialog>
 
-            <ContentDialog Title="Name this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" SecondaryButtonClick="NameDialog_SecondaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel" Loaded="NameDialog_Loaded" Grid.RowSpan="4">
+            <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" SecondaryButtonClick="NameDialog_SecondaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel" Loaded="NameDialog_Loaded" Grid.RowSpan="4">
                 <Grid>
                     <TextBox Name="RenameInput" PlaceholderText="Enter an item name without a file extension" Width="300"/>
                 </Grid>

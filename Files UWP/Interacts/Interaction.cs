@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using System.Collections;
 using Windows.Foundation;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Files.Interacts
 {
@@ -44,7 +45,15 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
-                    if (clickedOnItem.FileExtension == "Folder")
+                    // Write location to recents file
+                    StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
+                    var existingLines = (await FileIO.ReadLinesAsync(RecentsFile));
+                    if (existingLines != null && !existingLines.Contains(clickedOnItem.FilePath))
+                    {
+                        await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+                    }
+
+                    if (clickedOnItem.FileType == "Folder")
                     {
                         App.ViewModel.Universal.path = clickedOnItem.FilePath;
                         App.PathText.Text = clickedOnItem.FilePath;
@@ -164,12 +173,12 @@ namespace Files.Interacts
                                 }
                             }
                             App.ViewModel.Universal.path = clickedOnItem.FilePath;
-                            App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
+                            App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                         }
                     }
-                    else if (clickedOnItem.FileExtension == "Executable")
+                    else if (clickedOnItem.FileType == "Application")
                     {
-                        //message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        //message = new MessageDialog("We noticed you’re trying to run an Application file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
                         //message.Title = "Unsupported Functionality";
                         //message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
                         //message.Commands.Add(new UICommand("Cancel"));
@@ -196,7 +205,16 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
-                    if (clickedOnItem.FileExtension == "Folder")
+
+                    // Write location to recents file
+                    StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
+                    var existingLines = (await FileIO.ReadLinesAsync(RecentsFile));
+                    if (existingLines != null && !existingLines.Contains(clickedOnItem.FilePath))
+                    {
+                        await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+                    }
+
+                    if (clickedOnItem.FileType == "Folder")
                     {
                         App.ViewModel.Universal.path = clickedOnItem.FilePath;
                         App.PathText.Text = clickedOnItem.FilePath;
@@ -313,12 +331,12 @@ namespace Files.Interacts
                                     break;
                                 }
                             }
-                            App.ViewModel.MemoryFriendlyGetItemsAsync(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
+                            App.ViewModel.AddItemsToCollectionAsync(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
                         }
                     }
-                    else if (clickedOnItem.FileExtension == "Executable")
+                    else if (clickedOnItem.FileType == "Application")
                     {
-                        //Interaction.message = new MessageDialog("We noticed you’re trying to run an executable file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
+                        //Interaction.message = new MessageDialog("We noticed you’re trying to run an Application file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
                         //Interaction.message.Title = "Unsupported Functionality";
                         //Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
                         //Interaction.message.Commands.Add(new UICommand("Cancel"));
@@ -342,10 +360,21 @@ namespace Files.Interacts
 
         }
 
-
-        public static async Task LaunchExe(string executablePath)
+        public static void GetPath_Click(object sender, RoutedEventArgs e)
         {
-            ApplicationData.Current.LocalSettings.Values["executable"] = executablePath;
+            Clipboard.Clear();
+            DataPackage data = new DataPackage();
+            data.SetText(App.ViewModel.Universal.path);
+            Clipboard.SetContent(data);
+            Clipboard.Flush();
+
+            //GenericFileBrowser.CopiedFlyout.ShowAt(GenericFileBrowser.grid as FrameworkElement);
+        }
+
+        public static async Task LaunchExe(string ApplicationPath)
+        {
+            Debug.WriteLine("Launching EXE in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
@@ -420,14 +449,14 @@ namespace Files.Interacts
                 var ItemSelected = GenericFileBrowser.data.SelectedIndex;
                 var RowData = App.ViewModel.FilesAndFolders[ItemSelected];
 
-                if (RowData.FileExtension == "Folder")
+                if (RowData.FileType == "Folder")
                 {
                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                     History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
                     App.ViewModel.FilesAndFolders.Clear();
                     App.ViewModel.Universal.path = RowData.FilePath;
-                    App.ViewModel.MemoryFriendlyGetItemsAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
+                    App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                 }
                 else
                 {
@@ -442,14 +471,14 @@ namespace Files.Interacts
                 var ItemSelected = PhotoAlbum.gv.SelectedIndex;
                 var RowData = App.ViewModel.FilesAndFolders[ItemSelected];
 
-                if (RowData.FileExtension == "Folder")
+                if (RowData.FileType == "Folder")
                 {
                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                     History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
                     App.ViewModel.FilesAndFolders.Clear();
                     App.ViewModel.Universal.path = RowData.FilePath;
-                    App.ViewModel.MemoryFriendlyGetItemsAsync(RowData.FilePath, PhotoAlbum.PAPageName);
+                    App.ViewModel.AddItemsToCollectionAsync(RowData.FilePath, PhotoAlbum.PAPageName);
                 }
                 else
                 {
@@ -477,7 +506,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem li in dataGrid.SelectedItems)
                 {
-                    if (li.FileExtension == "Folder")
+                    if (li.FileType == "Folder")
                     {
                         var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
                         items.Add(folderAsItem);
@@ -493,7 +522,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem li in PhotoAlbum.gv.SelectedItems)
                 {
-                    if (li.FileExtension == "Folder")
+                    if (li.FileType == "Folder")
                     {
                         var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
                         items.Add(folderAsItem);
@@ -526,7 +555,7 @@ namespace Files.Interacts
                     }
                     foreach (ListedItem storItem in selectedItems)
                     {
-                        if (storItem.FileExtension != "Folder")
+                        if (storItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
                             await item.DeleteAsync(StorageDeleteOption.Default);
@@ -553,7 +582,7 @@ namespace Files.Interacts
                     }
                     foreach (ListedItem storItem in selectedItems)
                     {
-                        if (storItem.FileExtension != "Folder")
+                        if (storItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
                             await item.DeleteAsync(StorageDeleteOption.Default);
@@ -592,19 +621,19 @@ namespace Files.Interacts
                     var input = GenericFileBrowser.inputForRename;
                     if (input != null)
                     {
-                        if (RowData.FileExtension == "Folder")
+                        if (RowData.FileType == "Folder")
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
                             App.ViewModel.FilesAndFolders.Remove(RowData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
                             App.ViewModel.FilesAndFolders.Remove(RowData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = RowData.FileExtension, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = RowData.FileType, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
 
                         }
                     }
@@ -626,19 +655,19 @@ namespace Files.Interacts
                     var input = PhotoAlbum.inputForRename;
                     if (input != null)
                     {
-                        if (BoxData.FileExtension == "Folder")
+                        if (BoxData.FileType == "Folder")
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
                             App.ViewModel.FilesAndFolders.Remove(BoxData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileExtension = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input + BoxData.DotFileExtension, NameCollisionOption.FailIfExists);
                             App.ViewModel.FilesAndFolders.Remove(BoxData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileExtension = BoxData.FileExtension, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + BoxData.DotFileExtension), DotFileExtension = BoxData.DotFileExtension });
+                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = BoxData.FileType, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + BoxData.DotFileExtension), DotFileExtension = BoxData.DotFileExtension });
 
                         }
                     }
@@ -669,7 +698,7 @@ namespace Files.Interacts
                     foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                     {
                         pathsToDeleteAfterPaste.Add(StorItem.FilePath);
-                        if (StorItem.FileExtension != "Folder")
+                        if (StorItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -689,7 +718,7 @@ namespace Files.Interacts
                     foreach (ListedItem StorItem in PhotoAlbum.gv.SelectedItems)
                     {
                         pathsToDeleteAfterPaste.Add(StorItem.FilePath);
-                        if (StorItem.FileExtension != "Folder")
+                        if (StorItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -719,7 +748,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                     {
-                        if (StorItem.FileExtension != "Folder")
+                        if (StorItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -738,7 +767,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem StorItem in PhotoAlbum.gv.SelectedItems)
                     {
-                        if (StorItem.FileExtension != "Folder")
+                        if (StorItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);

@@ -46,7 +46,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = eventArgs.Parameter.ToString();
-            App.ViewModel.MemoryFriendlyGetItemsAsync(parameters, PhotoAlbumViewer);
+            App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
             Interaction.page = this;
             FileList.DoubleTapped += Interaction.List_ItemClick;
             Back.Click += Navigation.PhotoAlbumNavActions.Back_Click;
@@ -127,7 +127,7 @@ namespace Files
             {
                 var PathBox = (sender as TextBox);
                 var CurrentInput = PathBox.Text;
-                if (CurrentInput !=App.PathText.Text)
+                if (CurrentInput != App.ViewModel.Universal.path)
                 {
                     if (App.ViewModel.tokenSource != null)
                     {
