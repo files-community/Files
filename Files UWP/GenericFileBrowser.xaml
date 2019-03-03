@@ -294,125 +294,141 @@
 
 
 
-            <controls:DataGrid  ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="24,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
-               
-                <controls:DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="controlsprimitives:DataGridColumnHeader">
-                        <Setter Property="ContextFlyout">
-                            <Setter.Value>
-                                <MenuFlyout x:Name="HeaderRightClickMenu">
-                                    <MenuFlyoutItem Text="Edit Columns" Name="EditColumn">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE70F;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Size All Columns to Fit" Name="FitColumns">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE9A6;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </controls:DataGrid.ColumnHeaderStyle>
-                <controls:DataGrid.RowStyle>
-                    <Style TargetType="controls:DataGridRow">
-                        <Setter Property="ContextFlyout">
-                            <Setter.Value>
-                                <MenuFlyout x:Name="RightClickContextMenu">
-                                    <MenuFlyout.Items>
-                                        <MenuFlyoutItem Text="Open With..." Name="OpenItem">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE7AC;"/>
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
+            <SplitView x:Name="mysplit" DisplayMode="Inline" PanePlacement="Right" PaneBackground="{ThemeResource NavigationViewExpandedPaneBackground}" Grid.Row="3">
+                <SplitView.Pane>
+                    <Grid>
+                        <ScrollViewer>
+                            <StackPanel Padding="10">
+                                <Image x:Name="Thumb" Width="100" Height="100" HorizontalAlignment="Left"></Image>
+                                <TextBlock FontWeight="SemiBold" Style="{ThemeResource TitleTextBlockStyle}" x:Name="NameOfFile"></TextBlock>
+                                <TextBlock x:Name="TypeOfFile"></TextBlock>
+                                <TextBlock x:Name="SizeOfFile"></TextBlock>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </Grid>
+                </SplitView.Pane>
+                <Grid>
+                    <controls:DataGrid  ContextRequested="AllView_ContextRequested" SelectionChanged="AllView_SelectionChanged" Margin="0,0,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" Drop="AllView_DropAsync"  AutoGenerateColumns="False" CanDrag="False" AllowDrop="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
 
-                                        <MenuFlyoutItem Text="Share" Name="ShareItem">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE72D;"/>
-                                            </MenuFlyoutItem.Icon>
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Modifiers="Control" Key="S"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
+                        <controls:DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="controlsprimitives:DataGridColumnHeader">
+                                <Setter Property="ContextFlyout">
+                                    <Setter.Value>
+                                        <MenuFlyout x:Name="HeaderRightClickMenu">
+                                            <MenuFlyoutItem Text="Edit Columns" Name="EditColumn">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE70F;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                            <MenuFlyoutItem Text="Size All Columns to Fit" Name="FitColumns">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon Glyph="&#xE9A6;"/>
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </controls:DataGrid.ColumnHeaderStyle>
+                        <controls:DataGrid.RowStyle>
+                            <Style TargetType="controls:DataGridRow">
+                                <Setter Property="ContextFlyout">
+                                    <Setter.Value>
+                                        <MenuFlyout x:Name="RightClickContextMenu">
+                                            <MenuFlyout.Items>
+                                                <MenuFlyoutItem Text="Open With..." Name="OpenItem">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE7AC;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
 
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE74D;"/>
-                                            </MenuFlyoutItem.Icon>
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="Delete"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="Rename" Name="RenameItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8AC;"/>
-                                            </MenuFlyoutItem.Icon>
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Key="F2"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Text="Cut" Name="CutItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8C6;"/>
-                                            </MenuFlyoutItem.Icon>
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Modifiers="Control" Key="X"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Text="Copy" Name="CopyItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8C8;"/>
-                                            </MenuFlyoutItem.Icon>
-                                            <MenuFlyoutItem.KeyboardAccelerators>
-                                                <KeyboardAccelerator Modifiers="Control" Key="C"/>
-                                            </MenuFlyoutItem.KeyboardAccelerators>
-                                        </MenuFlyoutItem>
+                                                <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE72D;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                                        <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                                </MenuFlyoutItem>
 
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE946;"/>
-                                            </MenuFlyoutItem.Icon>
+                                                <MenuFlyoutSeparator/>
+                                                <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE74D;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                                        <KeyboardAccelerator Key="Delete"/>
+                                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE8AC;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                                        <KeyboardAccelerator Key="F2"/>
+                                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutSeparator/>
+                                                <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE8C6;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                                        <KeyboardAccelerator Modifiers="Control" Key="X"/>
+                                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                                </MenuFlyoutItem>
+                                                <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE8C8;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                                        <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                                </MenuFlyoutItem>
 
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout.Items>
+                                                <MenuFlyoutSeparator/>
+                                                <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon Glyph="&#xE946;"/>
+                                                    </MenuFlyoutItem.Icon>
 
-                                </MenuFlyout>
-                            </Setter.Value>
-                        </Setter>
-                    </Style>
-                </controls:DataGrid.RowStyle>
-                    <controls:DataGrid.CellStyle>
-                    <Style TargetType="controls:DataGridCell">
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="FocusVisualPrimaryThickness" Value="0"/>
-                        <Setter Property="FocusVisualSecondaryThickness" Value="0"/>
-                    </Style>
-                </controls:DataGrid.CellStyle>
+                                                </MenuFlyoutItem>
+                                            </MenuFlyout.Items>
 
-                <controls:DataGrid.Columns>
-                    <controls:DataGridTemplateColumn IsReadOnly="True">
-                        <controls:DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid Margin="15, 0, 0, 0">
-                                    <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                    <FontIcon Visibility="{Binding EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                    <Image Visibility="{Binding FileIconVis}" Height="20" Width="20" Source="{Binding FileImg}" Stretch="UniformToFill" />
-                                </Grid>
-                            </DataTemplate>
-                        </controls:DataGridTemplateColumn.CellTemplate>
-                    </controls:DataGridTemplateColumn>
-                    <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
-                    <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
-                    <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
-                    <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
-                </controls:DataGrid.Columns>
+                                        </MenuFlyout>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </controls:DataGrid.RowStyle>
+                        <controls:DataGrid.CellStyle>
+                            <Style TargetType="controls:DataGridCell">
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="FocusVisualPrimaryThickness" Value="0"/>
+                                <Setter Property="FocusVisualSecondaryThickness" Value="0"/>
+                            </Style>
+                        </controls:DataGrid.CellStyle>
 
-            </controls:DataGrid>
+                        <controls:DataGrid.Columns>
+                            <controls:DataGridTemplateColumn IsReadOnly="True">
+                                <controls:DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="15, 0, 0, 0">
+                                            <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                            <FontIcon Visibility="{Binding EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                            <Image Visibility="{Binding FileIconVis}" Height="20" Width="20" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </controls:DataGridTemplateColumn.CellTemplate>
+                            </controls:DataGridTemplateColumn>
+                            <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
+                            <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
+                            <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileExtension}" Tag="Type"/>
+                            <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>
+                        </controls:DataGrid.Columns>
+
+                    </controls:DataGrid>
+                </Grid>
+            </SplitView>
 
             <ContentDialog BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Loaded="ContentDialog_Loaded" Grid.RowSpan="4">
                 <Frame Width="450" Name="AddDialogFrame"/>
