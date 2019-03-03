@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:list="using:Locations"
-    mc:Ignorable="d">
+    xmlns:local="using:Files"
+    mc:Ignorable="d" NavigationCacheMode="Disabled">
     <Page.Resources>
         <RevealBackgroundBrush x:Key="CardHoverBackground" TargetTheme="Dark" />
         <Style x:Key="CardStyle" TargetType="Button">
@@ -380,7 +381,7 @@
         </Style>
 
     </Page.Resources>
-
+    <ScrollViewer>
     <Grid Padding="24,35,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
@@ -420,22 +421,36 @@
 
         </controls:AdaptiveGridView>
 
-        <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch">
-            <StackPanel>
-                <TextBlock Margin="0,24,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="30" Text="Recent Items"/>
-                <ScrollViewer HorizontalScrollMode="Disabled" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Auto" VerticalScrollMode="Auto" >
-                    <ListView Name="RecentsView" MinHeight="400" HorizontalAlignment="Stretch"  Padding="0,50,0,0" >
-                        <ListView.Header>
-                            <TextBlock Text="No recent files" HorizontalAlignment="Center" FontSize="24"/>
-                        </ListView.Header>
+            <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch">
+                <StackPanel>
+                    <TextBlock Margin="0,24,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="30" Text="Recent Items"/>
+                    <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="20"/>
+                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" MinHeight="400" HorizontalAlignment="Stretch"  Padding="0,5,0,0" >
+                        <ListView.ContextFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                            </MenuFlyout>
+                        </ListView.ContextFlyout>    
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="10" VerticalAlignment="Center">
+                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                                        <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
+                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="30" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="30" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                            <Image Visibility="{Binding FileIconVis}" Height="30" Width="30" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                        </Grid>
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                                            <TextBlock Width="400" TextWrapping="NoWrap" Text="{Binding name}"/>
+                                            <TextBlock Margin="100,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
                     </ListView>
-                </ScrollViewer>
-            </StackPanel>
+                </StackPanel>
+            </Grid>
         </Grid>
-
-
-
-
-
-    </Grid>
+    </ScrollViewer>
 </Page>

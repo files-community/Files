@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -55,6 +56,8 @@ namespace Files
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
+
+
         }
         public static Filesystem.ItemViewModel ViewModel = new Filesystem.ItemViewModel();
         public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();

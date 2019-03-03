@@ -45,6 +45,10 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
+                    // Write location to recents file
+                    StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
+                    await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+
                     if (clickedOnItem.FileType == "Folder")
                     {
                         App.ViewModel.Universal.path = clickedOnItem.FilePath;
@@ -197,6 +201,11 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = App.ViewModel.FilesAndFolders[index];
+
+                    // Write location to recents file
+                    StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
+                    await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
+
                     if (clickedOnItem.FileType == "Folder")
                     {
                         App.ViewModel.Universal.path = clickedOnItem.FilePath;
