@@ -33,6 +33,11 @@ namespace Files
         public static MenuFlyout emptySpaceContext;
         public static MenuFlyout HeaderContextMenu;
         public static Page GFBPageName;
+        public static Image img1;
+        public static TextBlock nametext;
+        public static TextBlock typetext;
+        public static SplitView split;
+        public static TextBlock sizetext;
         public static ContentDialog AddItemBox;
         public static ContentDialog NameBox;
         public static TextBox inputFromRename;
@@ -50,10 +55,16 @@ namespace Files
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
             Interaction.page = this;
+            sizetext = SizeOfFile;
+            nametext = NameOfFile;
+            typetext = TypeOfFile;
+            split = mysplit;
+            img1 = Thumb;
             OpenItem.Click += Interaction.OpenItem_Click;
             ShareItem.Click += Interaction.ShareItem_Click;
             DeleteItem.Click += Interaction.DeleteItem_Click;
             RenameItem.Click += Interaction.RenameItem_Click;
+            PropertiesItem.Click += Interaction.Properties_Click;
             CutItem.Click += Interaction.CutItem_Click;
             CopyItem.Click += Interaction.CopyItem_ClickAsync;
             AllView.RightTapped += Interaction.AllView_RightTapped;
