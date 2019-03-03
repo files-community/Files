@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap mp rescap desktop">
-  <Identity Name="85bc74fc-1b61-4232-97b5-1ed702381499" Publisher="CN=lukeb" Version="0.4.8.0" />
+  <Identity Name="85bc74fc-1b61-4232-97b5-1ed702381499" Publisher="CN=lukeb" Version="0.4.9.0" />
   <Properties>
     <DisplayName>Files</DisplayName>
     <PublisherDisplayName>Luke Blevins</PublisherDisplayName>
