@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using System.Collections;
 using Windows.Foundation;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Files.Interacts
 {
@@ -342,6 +343,16 @@ namespace Files.Interacts
 
         }
 
+        public static void GetPath_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.Clear();
+            DataPackage data = new DataPackage();
+            data.SetText(App.ViewModel.Universal.path);
+            Clipboard.SetContent(data);
+            Clipboard.Flush();
+
+            //GenericFileBrowser.CopiedFlyout.ShowAt(GenericFileBrowser.grid as FrameworkElement);
+        }
 
         public static async Task LaunchExe(string ApplicationPath)
         {

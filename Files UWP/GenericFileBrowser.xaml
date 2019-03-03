@@ -174,7 +174,18 @@
             </MenuFlyout.Items>
         </MenuFlyout>
     </Page.ContextFlyout>
-    <Grid>
+    
+    <Grid Name="RootGrid">
+        <Grid.Resources>
+            <Flyout x:Key="PathCopiedFlyout" x:Name="CopiedPathFlyout" AreOpenCloseAnimationsEnabled="False" Placement="Bottom">
+                <Grid>
+                    <StackPanel Spacing="5" Orientation="Horizontal">
+                        <FontIcon Glyph="&#xE73E;"/>
+                        <TextBlock Text="Path copied to clipboard"/>
+                    </StackPanel>
+                </Grid>
+            </Flyout>
+        </Grid.Resources>
         <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
@@ -252,7 +263,9 @@
                     <TextBox KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="0" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="32" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Top" Margin="0,0,0,0" Grid.Row="1" PlaceholderText="Navigate to a path...">
                         <uilib:TeachingTip.Attach>
                             <uilib:TeachingTip Name="PathBarTip" BleedingImagePlacement="Bottom" Title="Access a location quickly with the Path Bar">
-
+                                <uilib:TeachingTip.IconSource>
+                                    <uilib:SymbolIconSource Symbol="Help"/>
+                                </uilib:TeachingTip.IconSource>
                                 <uilib:TeachingTip.BleedingImageContent>
                                     <Image Source="/Assets/PathbarTeachingTipVisual.gif"/>
                                 </uilib:TeachingTip.BleedingImageContent>

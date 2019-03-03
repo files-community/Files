@@ -39,7 +39,8 @@ namespace Files
         public static ContentDialog NameBox;
         public static TextBox inputFromRename;
         public static string inputForRename;
-
+        public static Flyout CopiedFlyout;
+        public static Grid grid;
 
 
         public GenericFileBrowser()
@@ -71,7 +72,10 @@ namespace Files
             emptySpaceContext = EmptySpaceFlyout;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
             PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
-            //PathBarTip.IsOpen = true;
+            CopiedFlyout = CopiedPathFlyout;
+            grid = RootGrid;
+            GetPath.Click += Interaction.GetPath_Click;
+            PathBarTip.IsOpen = true;
         }
 
         
