@@ -11,9 +11,9 @@ namespace Files.Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            if(App.ViewModel.tokenSource != null)
+            if (!App.ViewModel.TokenSource.IsCancellationRequested)
             {
-                App.ViewModel.tokenSource.Cancel();
+                App.ViewModel.TokenSource.Cancel();
             }
             App.ViewModel.FilesAndFolders.Clear();
 
@@ -160,13 +160,11 @@ namespace Files.Navigation
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            
-            if(App.ViewModel.tokenSource != null)
+            if (!App.ViewModel.TokenSource.IsCancellationRequested)
             {
-                App.ViewModel.tokenSource.Cancel();
+                App.ViewModel.TokenSource.Cancel();
             }
             App.ViewModel.FilesAndFolders.Clear();
-            
 
             if (History.ForwardList.Count() > 0)
             {
@@ -313,9 +311,9 @@ namespace Files.Navigation
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if(App.ViewModel.tokenSource != null)
+                if (!App.ViewModel.TokenSource.IsCancellationRequested)
                 {
-                    App.ViewModel.tokenSource.Cancel();
+                    App.ViewModel.TokenSource.Cancel();
                 }
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 App.ViewModel.FilesAndFolders.Clear();

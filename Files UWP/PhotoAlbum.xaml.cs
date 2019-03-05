@@ -129,9 +129,9 @@ namespace Files
                 var CurrentInput = PathBox.Text;
                 if (CurrentInput != App.ViewModel.Universal.path)
                 {
-                    if (App.ViewModel.tokenSource != null)
+                    if (!App.ViewModel.TokenSource.IsCancellationRequested)
                     {
-                        App.ViewModel.tokenSource.Cancel();
+                        App.ViewModel.TokenSource.Cancel();
                         App.ViewModel.FilesAndFolders.Clear();
                     }
 

@@ -151,9 +151,9 @@ namespace Files
             }
             else
             {
-                if(App.ViewModel.tokenSource != null)
+                if (!App.ViewModel.TokenSource.IsCancellationRequested)
                 {
-                    App.ViewModel.tokenSource.Cancel();
+                    App.ViewModel.TokenSource.Cancel();
                     App.ViewModel.FilesAndFolders.Clear();
                 }
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
