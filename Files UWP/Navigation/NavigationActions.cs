@@ -11,11 +11,7 @@ namespace Files.Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.TokenSource.IsCancellationRequested)
-            {
-                App.ViewModel.TokenSource.Cancel();
-            }
-            App.ViewModel.FilesAndFolders.Clear();
+            App.ViewModel.CancelLoadAndClearFiles();
 
             if (History.HistoryList.Count > 1)
             {
@@ -24,7 +20,7 @@ namespace Files.Navigation
                 History.AddToForwardList(History.HistoryList[History.HistoryList.Count - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count - 1);
 
-                App.ViewModel.FilesAndFolders.Clear();
+                App.ViewModel.CancelLoadAndClearFiles();
 
                 // If the item we are navigating back to is a specific library, accomodate this.
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
@@ -160,17 +156,12 @@ namespace Files.Navigation
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            if (!App.ViewModel.TokenSource.IsCancellationRequested)
-            {
-                App.ViewModel.TokenSource.Cancel();
-            }
-            App.ViewModel.FilesAndFolders.Clear();
+            App.ViewModel.CancelLoadAndClearFiles();
 
             if (History.ForwardList.Count() > 0)
             {
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                App.ViewModel.FilesAndFolders.Clear();
-
+                App.ViewModel.CancelLoadAndClearFiles();
 
                 if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
@@ -311,12 +302,9 @@ namespace Files.Navigation
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (!App.ViewModel.TokenSource.IsCancellationRequested)
-                {
-                    App.ViewModel.TokenSource.Cancel();
-                }
+                App.ViewModel.CancelLoadAndClearFiles();
+
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                App.ViewModel.FilesAndFolders.Clear();
                 App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {

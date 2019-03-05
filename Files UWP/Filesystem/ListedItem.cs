@@ -5,6 +5,8 @@ namespace Files.Filesystem
 {
     public class ListedItem
     {
+        public string FolderRelativeId { get; }
+
         public Visibility FolderImg { get; set; }
         public Visibility FileIconVis { get; set; }
         public Visibility EmptyImgVis { get; set; }
@@ -15,9 +17,10 @@ namespace Files.Filesystem
         public string DotFileExtension { get; set; }
         public string FilePath { get; set; }
         public string FileSize { get; set; }
-        public ListedItem()
-        {
 
+        public ListedItem(string folderRelativeId)
+        {
+            FolderRelativeId = folderRelativeId;
         }
     }
 }

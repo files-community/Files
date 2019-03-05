@@ -22,24 +22,59 @@ namespace Files.Filesystem
 {
     public class ItemViewModel
     {
-        public ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get; set; } = new ObservableCollection<Classic_ListedFolderItem>();
-        public ObservableCollection<ListedItem> ClassicFileList { get; set; } = new ObservableCollection<ListedItem>();
-        public ObservableCollection<ListedItem> FilesAndFolders { get; set; } = new ObservableCollection<ListedItem>();
-        public ObservableCollection<Classic_ListedFolderItem> ChildrenList;
-        public ListedItem LI { get; } = new ListedItem();
+        public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
+        public ReadOnlyObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get; }
+        public ReadOnlyObservableCollection<ListedItem> ClassicFileList { get; }
+
         public UniversalPath Universal { get; } = new UniversalPath();
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
         public BackState BS { get; set; } = new BackState();
         public ForwardState FS { get; set; } = new ForwardState();
         public ProgressUIVisibility PVIS { get; set; } = new ProgressUIVisibility();
-        public CancellationTokenSource TokenSource { get; private set; }
+
+        private ObservableCollection<ListedItem> _filesAndFolders;
+        private ObservableCollection<ListedItem> _classicFileList;
+        private ObservableCollection<Classic_ListedFolderItem> _classicFolderList;
 
         private StorageFolderQueryResult _folderQueryResult;
         private StorageFileQueryResult _fileQueryResult;
+        private CancellationTokenSource _cancellationTokenSource;
+
+        private volatile bool _filesRefreshing;
+        private volatile bool _foldersRefreshing;
+
+        private const int _step = 250;
 
         public ItemViewModel()
         {
-            TokenSource = new CancellationTokenSource();
+            _filesAndFolders = new ObservableCollection<ListedItem>();
+            _classicFileList = new ObservableCollection<ListedItem>();
+            _classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
+
+            FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
+            ClassicFileList = new ReadOnlyObservableCollection<ListedItem>(_classicFileList);
+            ClassicFolderList = new ReadOnlyObservableCollection<Classic_ListedFolderItem>(_classicFolderList);
+        }
+
+        public void AddFileOrFolder(ListedItem item)
+        {
+            _filesAndFolders.Add(item);
+        }
+
+        public void RemoveFileOrFolder(ListedItem item)
+        {
+            _filesAndFolders.Remove(item);
+        }
+
+        public void CancelLoadAndClearFiles()
+        {
+            if (_cancellationTokenSource == null) { return; }
+
+            _cancellationTokenSource.Cancel();
+            _filesAndFolders.Clear();
+
+            _folderQueryResult.ContentsChanged -= FolderContentsChanged;
+            _fileQueryResult.ContentsChanged -= FileContentsChanged;
         }
 
         private async void DisplayConsentDialog()
@@ -49,17 +84,20 @@ namespace Files.Filesystem
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
         {
-            TokenSource.Cancel();
-            TokenSource = new CancellationTokenSource();
-            var tokenSourceCopy = TokenSource;
+            CancelLoadAndClearFiles();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var tokenSourceCopy = _cancellationTokenSource;
 
             TextState.isVisible = Visibility.Collapsed;
-            
+
             var pageName = currentPage.Name;
             Universal.path = path;
 
             if (!pageName.Contains("Classic"))
-                FilesAndFolders.Clear();
+            {
+                _filesAndFolders.Clear();
+            }
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -151,10 +189,10 @@ namespace Files.Filesystem
                 }
 
                 uint index = 0;
-                const uint step = 250;
                 _folderQueryResult = rootFolder.CreateFolderQueryWithOptions(options);
+                _folderQueryResult.ContentsChanged += FolderContentsChanged;
                 uint NumFolItems = await _folderQueryResult.GetItemCountAsync();
-                IReadOnlyList<StorageFolder> storageFolders = await _folderQueryResult.GetFoldersAsync(index, step);
+                IReadOnlyList<StorageFolder> storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
                 while (storageFolders.Count > 0)
                 {
                     foreach (StorageFolder folder in storageFolders)
@@ -162,14 +200,15 @@ namespace Files.Filesystem
                         if (tokenSourceCopy.IsCancellationRequested) { return; }
                         await AddFolder(folder, pageName, tokenSourceCopy.Token);
                     }
-                    index += step;
-                    storageFolders = await _folderQueryResult.GetFoldersAsync(index, step);
+                    index += _step;
+                    storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
                 }
 
                 index = 0;
                 _fileQueryResult = rootFolder.CreateFileQueryWithOptions(options);
+                _fileQueryResult.ContentsChanged += FileContentsChanged;
                 uint NumFileItems = await _fileQueryResult.GetItemCountAsync();
-                IReadOnlyList<StorageFile> storageFiles = await _fileQueryResult.GetFilesAsync(index, step);
+                IReadOnlyList<StorageFile> storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 while (storageFiles.Count > 0)
                 {
                     foreach (StorageFile file in storageFiles)
@@ -177,8 +216,8 @@ namespace Files.Filesystem
                         if (tokenSourceCopy.IsCancellationRequested) { return; }
                         await AddFile(file, pageName, tokenSourceCopy.Token);
                     }
-                    index += step;
-                    storageFiles = await _fileQueryResult.GetFilesAsync(index, step);
+                    index += _step;
+                    storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 }
                 if (NumFolItems + NumFileItems == 0)
                 {
@@ -405,7 +444,7 @@ namespace Files.Filesystem
             {
                 if (token.IsCancellationRequested) { return; }
 
-                FilesAndFolders.Add(new ListedItem()
+                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     FileName = folder.Name,
                     FileDate = GetFriendlyDate(basicProperties.ItemDate.LocalDateTime),
@@ -422,7 +461,7 @@ namespace Files.Filesystem
             {
                 if (token.IsCancellationRequested) { return; }
 
-                ClassicFolderList.Add(new Classic_ListedFolderItem()
+                _classicFolderList.Add(new Classic_ListedFolderItem()
                 {
                     FileName = folder.Name,
                     FileDate = GetFriendlyDate(basicProperties.ItemDate.LocalDateTime),
@@ -504,7 +543,7 @@ namespace Files.Filesystem
             {
                 if (token.IsCancellationRequested) { return; }
 
-                FilesAndFolders.Add(new ListedItem()
+                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
                 {
                     DotFileExtension = itemFileExtension,
                     EmptyImgVis = itemEmptyImgVis,
@@ -522,7 +561,7 @@ namespace Files.Filesystem
             {
                 if (token.IsCancellationRequested) { return; }
 
-                ClassicFileList.Add(new ListedItem()
+                _classicFileList.Add(new ListedItem(file.FolderRelativeId)
                 {
                     FileImg = icon,
                     FileIconVis = itemThumbnailImgVis,
@@ -533,6 +572,20 @@ namespace Files.Filesystem
                     FilePath = itemPath
                 });
             }
+        }
+
+        private void FileContentsChanged(IStorageQueryResultBase sender, object args)
+        {
+            if (_filesRefreshing) { return; }
+
+            Debug.WriteLine("File changed " + sender.Folder.DisplayName);
+        }
+
+        private void FolderContentsChanged(IStorageQueryResultBase sender, object args)
+        {
+            if (_foldersRefreshing) { return; }
+
+            Debug.WriteLine("Folder changed " + sender.Folder.DisplayName);
         }
     }
 }

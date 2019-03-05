@@ -151,11 +151,8 @@ namespace Files
             }
             else
             {
-                if (!App.ViewModel.TokenSource.IsCancellationRequested)
-                {
-                    App.ViewModel.TokenSource.Cancel();
-                    App.ViewModel.FilesAndFolders.Clear();
-                }
+                App.ViewModel.CancelLoadAndClearFiles();
+
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 if (item.ToString() == "Home")
                 {

@@ -129,11 +129,7 @@ namespace Files
                 var CurrentInput = PathBox.Text;
                 if (CurrentInput != App.ViewModel.Universal.path)
                 {
-                    if (!App.ViewModel.TokenSource.IsCancellationRequested)
-                    {
-                        App.ViewModel.TokenSource.Cancel();
-                        App.ViewModel.FilesAndFolders.Clear();
-                    }
+                    App.ViewModel.CancelLoadAndClearFiles();
 
                     if (CurrentInput == "Home" || CurrentInput == "home")
                     {
