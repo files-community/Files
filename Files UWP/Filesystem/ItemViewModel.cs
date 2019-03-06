@@ -5,12 +5,15 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -39,9 +42,12 @@ namespace Files.Filesystem
         private StorageFolderQueryResult _folderQueryResult;
         private StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
+        private StorageFolder _rootFolder;
+        private QueryOptions _options;
+        private string _pageName;
 
         private volatile bool _filesRefreshing;
-        private volatile bool _foldersRefreshing;
+        //private volatile bool _foldersRefreshing;
 
         private const int _step = 250;
 
@@ -73,7 +79,7 @@ namespace Files.Filesystem
             _cancellationTokenSource.Cancel();
             _filesAndFolders.Clear();
 
-            _folderQueryResult.ContentsChanged -= FolderContentsChanged;
+            //_folderQueryResult.ContentsChanged -= FolderContentsChanged;
             _fileQueryResult.ContentsChanged -= FileContentsChanged;
         }
 
@@ -91,10 +97,10 @@ namespace Files.Filesystem
 
             TextState.isVisible = Visibility.Collapsed;
 
-            var pageName = currentPage.Name;
+            _pageName = currentPage.Name;
             Universal.path = path;
 
-            if (!pageName.Contains("Classic"))
+            if (!_pageName.Contains("Classic"))
             {
                 _filesAndFolders.Clear();
             }
@@ -131,7 +137,8 @@ namespace Files.Filesystem
 
             try
             {
-                var rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
+                _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
+
                 History.AddToHistory(Universal.path);
                 if (History.HistoryList.Count == 1)     // If this is the only item present in History, we don't want back button to be enabled
                 {
@@ -142,38 +149,37 @@ namespace Files.Filesystem
                     BS.isEnabled = true;
                 }
 
-                QueryOptions options = null;
-                switch (await rootFolder.GetIndexedStateAsync())
+                switch (await _rootFolder.GetIndexedStateAsync())
                 {
                     case (IndexedState.FullyIndexed):
-                        options = new QueryOptions();
-                        options.FolderDepth = FolderDepth.Shallow;
-                        if (pageName.Contains("Generic"))
+                        _options = new QueryOptions();
+                        _options.FolderDepth = FolderDepth.Shallow;
+                        if (_pageName.Contains("Generic"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
-                        else if (pageName.Contains("Photo"))
+                        else if (_pageName.Contains("Photo"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
-                        options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+                        _options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
                         break;
                     default:
-                        options = new QueryOptions();
-                        options.FolderDepth = FolderDepth.Shallow;
-                        if (pageName.Contains("Generic"))
+                        _options = new QueryOptions();
+                        _options.FolderDepth = FolderDepth.Shallow;
+                        if (_pageName.Contains("Generic"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
-                        else if (pageName.Contains("Photo"))
+                        else if (_pageName.Contains("Photo"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
-                        options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
+                        _options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
                         break;
                 }
 
@@ -182,44 +188,44 @@ namespace Files.Filesystem
                     PropertyName = "System.FileName",
                     AscendingOrder = true
                 };
-                options.SortOrder.Add(sort);
-                if (!rootFolder.AreQueryOptionsSupported(options))
+                _options.SortOrder.Add(sort);
+                if (!_rootFolder.AreQueryOptionsSupported(_options))
                 {
-                    options.SortOrder.Clear();
+                    _options.SortOrder.Clear();
                 }
 
                 uint index = 0;
-                _folderQueryResult = rootFolder.CreateFolderQueryWithOptions(options);
-                _folderQueryResult.ContentsChanged += FolderContentsChanged;
-                uint NumFolItems = await _folderQueryResult.GetItemCountAsync();
+                _folderQueryResult = _rootFolder.CreateFolderQueryWithOptions(_options);
+                //_folderQueryResult.ContentsChanged += FolderContentsChanged;
+                var numFolders = await _folderQueryResult.GetItemCountAsync();
                 IReadOnlyList<StorageFolder> storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
                 while (storageFolders.Count > 0)
                 {
                     foreach (StorageFolder folder in storageFolders)
                     {
                         if (tokenSourceCopy.IsCancellationRequested) { return; }
-                        await AddFolder(folder, pageName, tokenSourceCopy.Token);
+                        await AddFolder(folder, _pageName, tokenSourceCopy.Token);
                     }
                     index += _step;
                     storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
                 }
 
                 index = 0;
-                _fileQueryResult = rootFolder.CreateFileQueryWithOptions(options);
+                _fileQueryResult = _rootFolder.CreateFileQueryWithOptions(_options);
                 _fileQueryResult.ContentsChanged += FileContentsChanged;
-                uint NumFileItems = await _fileQueryResult.GetItemCountAsync();
+                var numFiles = await _fileQueryResult.GetItemCountAsync();
                 IReadOnlyList<StorageFile> storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 while (storageFiles.Count > 0)
                 {
                     foreach (StorageFile file in storageFiles)
                     {
                         if (tokenSourceCopy.IsCancellationRequested) { return; }
-                        await AddFile(file, pageName, tokenSourceCopy.Token);
+                        await AddFile(file, _pageName, tokenSourceCopy.Token);
                     }
                     index += _step;
                     storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 }
-                if (NumFolItems + NumFileItems == 0)
+                if (numFiles + numFolders == 0)
                 {
                     TextState.isVisible = Visibility.Visible;
                 }
@@ -249,7 +255,7 @@ namespace Files.Filesystem
                 return;
             }
 
-            if (!pageName.Contains("Classic"))
+            if (!_pageName.Contains("Classic"))
             {
                 PVIS.isVisible = Visibility.Collapsed;
             }
@@ -273,167 +279,6 @@ namespace Files.Filesystem
             }
         }
 
-        private static string GetFriendlyDate(DateTime d)
-        {
-            if (d.Year == DateTime.Now.Year)              // If item is accessed in the same year as stored
-            {
-                if (d.Month == DateTime.Now.Month)        // If item is accessed in the same month as stored
-                {
-                    if ((DateTime.Now.Day - d.Day) < 7) // If item is accessed on the same week
-                    {
-                        if (d.DayOfWeek == DateTime.Now.DayOfWeek)   // If item is accessed on the same day as stored
-                        {
-                            if ((DateTime.Now.Hour - d.Hour) > 1)
-                            {
-                                return DateTime.Now.Hour - d.Hour + " hours ago";
-                            }
-                            else
-                            {
-                                return DateTime.Now.Hour - d.Hour + " hour ago";
-                            }
-                        }
-                        else                                                        // If item is from a previous day of the same week
-                        {
-                            return d.DayOfWeek + " at " + d.ToShortTimeString();
-                        }
-                    }
-                    else                                                          // If item is from a previous week of the same month
-                    {
-                        string monthAsString = "Month";
-                        switch (d.Month)
-                        {
-                            case 1:
-                                monthAsString = "January";
-                                break;
-                            case 2:
-                                monthAsString = "February";
-                                break;
-                            case 3:
-                                monthAsString = "March";
-                                break;
-                            case 4:
-                                monthAsString = "April";
-                                break;
-                            case 5:
-                                monthAsString = "May";
-                                break;
-                            case 6:
-                                monthAsString = "June";
-                                break;
-                            case 7:
-                                monthAsString = "July";
-                                break;
-                            case 8:
-                                monthAsString = "August";
-                                break;
-                            case 9:
-                                monthAsString = "September";
-                                break;
-                            case 10:
-                                monthAsString = "October";
-                                break;
-                            case 11:
-                                monthAsString = "November";
-                                break;
-                            case 12:
-                                monthAsString = "December";
-                                break;
-                        }
-                        return monthAsString + " " + d.Day;
-                    }
-
-                }
-                else                                                            // If item is from a past month of the same year
-                {
-                    string monthAsString = "Month";
-                    switch (d.Month)
-                    {
-                        case 1:
-                            monthAsString = "January";
-                            break;
-                        case 2:
-                            monthAsString = "February";
-                            break;
-                        case 3:
-                            monthAsString = "March";
-                            break;
-                        case 4:
-                            monthAsString = "April";
-                            break;
-                        case 5:
-                            monthAsString = "May";
-                            break;
-                        case 6:
-                            monthAsString = "June";
-                            break;
-                        case 7:
-                            monthAsString = "July";
-                            break;
-                        case 8:
-                            monthAsString = "August";
-                            break;
-                        case 9:
-                            monthAsString = "September";
-                            break;
-                        case 10:
-                            monthAsString = "October";
-                            break;
-                        case 11:
-                            monthAsString = "November";
-                            break;
-                        case 12:
-                            monthAsString = "December";
-                            break;
-                    }
-                    return monthAsString + " " + d.Day;
-                }
-            }
-            else                                                                // If item is from a past year
-            {
-                string monthAsString = "Month";
-                switch (d.Month)
-                {
-                    case 1:
-                        monthAsString = "January";
-                        break;
-                    case 2:
-                        monthAsString = "February";
-                        break;
-                    case 3:
-                        monthAsString = "March";
-                        break;
-                    case 4:
-                        monthAsString = "April";
-                        break;
-                    case 5:
-                        monthAsString = "May";
-                        break;
-                    case 6:
-                        monthAsString = "June";
-                        break;
-                    case 7:
-                        monthAsString = "July";
-                        break;
-                    case 8:
-                        monthAsString = "August";
-                        break;
-                    case 9:
-                        monthAsString = "September";
-                        break;
-                    case 10:
-                        monthAsString = "October";
-                        break;
-                    case 11:
-                        monthAsString = "November";
-                        break;
-                    case 12:
-                        monthAsString = "December";
-                        break;
-                }
-                return monthAsString + " " + d.Day + ", " + d.Year;
-            }
-        }
-
         private async Task AddFolder(StorageFolder folder, string pageName, CancellationToken token)
         {
             if (token.IsCancellationRequested) { return; }
@@ -447,7 +292,7 @@ namespace Files.Filesystem
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     FileName = folder.Name,
-                    FileDate = GetFriendlyDate(basicProperties.ItemDate.LocalDateTime),
+                    FileDateReal = basicProperties.DateModified,
                     FileType = "Folder",    //TODO: Take a look at folder.DisplayType
                     FolderImg = Visibility.Visible,
                     FileImg = null,
@@ -464,7 +309,7 @@ namespace Files.Filesystem
                 _classicFolderList.Add(new Classic_ListedFolderItem()
                 {
                     FileName = folder.Name,
-                    FileDate = GetFriendlyDate(basicProperties.ItemDate.LocalDateTime),
+                    FileDate = ListedItem.GetFriendlyDate(basicProperties.DateModified.LocalDateTime),
                     FileExtension = "Folder",
                     FilePath = folder.Path
                 });
@@ -478,7 +323,7 @@ namespace Files.Filesystem
             var basicProperties = await file.GetBasicPropertiesAsync();
 
             var itemName = file.DisplayName;
-            var itemDate = GetFriendlyDate(basicProperties.DateModified.LocalDateTime);
+            var itemDate = basicProperties.DateModified;
             var itemPath = file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
             var itemType = file.DisplayType;
@@ -551,7 +396,7 @@ namespace Files.Filesystem
                     FileIconVis = itemThumbnailImgVis,
                     FolderImg = itemFolderImgVis,
                     FileName = itemName,
-                    FileDate = itemDate,
+                    FileDateReal = itemDate,
                     FileType = itemType,
                     FilePath = itemPath,
                     FileSize = itemSize
@@ -567,25 +412,87 @@ namespace Files.Filesystem
                     FileIconVis = itemThumbnailImgVis,
                     FolderImg = itemFolderImgVis,
                     FileName = itemName,
-                    FileDate = itemDate,
+                    FileDateReal = itemDate,
                     FileType = itemType,
                     FilePath = itemPath
                 });
             }
         }
 
-        private void FileContentsChanged(IStorageQueryResultBase sender, object args)
+        private async void FileContentsChanged(IStorageQueryResultBase sender, object args)
         {
-            if (_filesRefreshing) { return; }
+            if (_filesRefreshing)
+            {
+                Debug.WriteLine("Filesystem change event fired but refresh is already running");
+                return;
+            }
+            else
+            {
+                Debug.WriteLine("Filesystem change event fired. Refreshing...");
+            }
 
-            Debug.WriteLine("File changed " + sender.Folder.DisplayName);
+            _filesRefreshing = true;
+
+            //query options have to be reapplied otherwise old results are returned
+            _fileQueryResult.ApplyNewQueryOptions(_options);
+            _folderQueryResult.ApplyNewQueryOptions(_options);
+
+            var fileCount = await _fileQueryResult.GetItemCountAsync();
+            var folderCount = await _folderQueryResult.GetItemCountAsync();
+            var files = await _fileQueryResult.GetFilesAsync();
+            var folders = await _folderQueryResult.GetFoldersAsync();
+
+            var cancellationTokenSourceCopy = _cancellationTokenSource;
+
+            // modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
+
+            var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            var addedFolders = folders.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            var removedFilesAndFolders = _filesAndFolders
+                .Select(f => f.FolderRelativeId)
+                .Except(files.Select(f => f.FolderRelativeId))
+                .Except(folders.Select(f => f.FolderRelativeId))
+                .ToArray();
+
+            foreach (var file in addedFiles)
+            {
+                var toAdd = files.First(f => f.FolderRelativeId == file);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    await AddFile(toAdd, _pageName, cancellationTokenSourceCopy.Token);
+                });
+            }
+            foreach (var folder in addedFolders)
+            {
+                var toAdd = folders.First(f => f.FolderRelativeId == folder);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    await AddFolder(toAdd, _pageName, cancellationTokenSourceCopy.Token);
+                });
+            }
+            foreach (var item in removedFilesAndFolders)
+            {
+                var toRemove = _filesAndFolders.First(f => f.FolderRelativeId == item);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    RemoveFileOrFolder(toRemove);
+                });
+            }
+
+            _filesRefreshing = false;
+            Debug.WriteLine("Filesystem refresh complete");
         }
 
-        private void FolderContentsChanged(IStorageQueryResultBase sender, object args)
-        {
-            if (_foldersRefreshing) { return; }
+        //private async void FolderContentsChanged(IStorageQueryResultBase sender, object args)
+        //{
+        //    if (_foldersRefreshing) { return; }
 
-            Debug.WriteLine("Folder changed " + sender.Folder.DisplayName);
-        }
+        //    _foldersRefreshing = true;
+
+        //    _foldersRefreshing = false;
+        //}
     }
 }

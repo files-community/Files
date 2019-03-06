@@ -43,7 +43,7 @@ namespace Files
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
-                    App.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId){ FileName = userInput, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + userInput) });
+                    App.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId){ FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + userInput) });
                 }
             }
             else if ((e.ClickedItem as AddListItem).Header == "Text Document")
@@ -53,7 +53,7 @@ namespace Files
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
-                    App.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
+                    App.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
                 }
             }
             else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
@@ -63,7 +63,7 @@ namespace Files
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
-                    App.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "BMP File", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + userInput + ".bmp"), DotFileExtension = ".bmp" });
+                    App.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "BMP File", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + userInput + ".bmp"), DotFileExtension = ".bmp" });
                 }
             }
         }

@@ -630,7 +630,7 @@ namespace Files.Interacts
                             App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
-                                FileDate = "Now",
+                                FileDateReal = DateTimeOffset.Now,
                                 EmptyImgVis = Visibility.Collapsed,
                                 FolderImg = Visibility.Visible,
                                 FileIconVis = Visibility.Collapsed,
@@ -647,7 +647,7 @@ namespace Files.Interacts
                             App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
-                                FileDate = "Now",
+                                FileDateReal = DateTimeOffset.Now,
                                 EmptyImgVis = Visibility.Visible,
                                 FolderImg = Visibility.Collapsed,
                                 FileIconVis = Visibility.Collapsed,
@@ -684,7 +684,7 @@ namespace Files.Interacts
                             App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
-                                FileDate = "Now",
+                                FileDateReal = DateTimeOffset.Now,
                                 EmptyImgVis = Visibility.Collapsed,
                                 FolderImg = Visibility.Visible,
                                 FileIconVis = Visibility.Collapsed,
@@ -701,7 +701,7 @@ namespace Files.Interacts
                             App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
-                                FileDate = "Now",
+                                FileDateReal = DateTimeOffset.Now,
                                 EmptyImgVis = Visibility.Visible,
                                 FolderImg = Visibility.Collapsed,
                                 FileIconVis = Visibility.Collapsed,
