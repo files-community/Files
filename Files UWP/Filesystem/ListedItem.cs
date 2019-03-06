@@ -24,7 +24,7 @@ namespace Files.Filesystem
             get { return _fileDataReal; }
             set
             {
-                FileDate = GetFriendlyDate(value.LocalDateTime);
+                FileDate = GetFriendlyDate(value);
                 _fileDataReal = value;
             }
         }
@@ -36,164 +36,29 @@ namespace Files.Filesystem
             FolderRelativeId = folderRelativeId;
         }
 
-        public static string GetFriendlyDate(DateTime d)
+        public static string GetFriendlyDate(DateTimeOffset d)
         {
-            if (d.Year == DateTime.Now.Year)              // If item is accessed in the same year as stored
-            {
-                if (d.Month == DateTime.Now.Month)        // If item is accessed in the same month as stored
-                {
-                    if ((DateTime.Now.Day - d.Day) < 7) // If item is accessed on the same week
-                    {
-                        if (d.DayOfWeek == DateTime.Now.DayOfWeek)   // If item is accessed on the same day as stored
-                        {
-                            if ((DateTime.Now.Hour - d.Hour) > 1)
-                            {
-                                return DateTime.Now.Hour - d.Hour + " hours ago";
-                            }
-                            else
-                            {
-                                return DateTime.Now.Minute - d.Minute + " hour ago";
-                            }
-                        }
-                        else                                                        // If item is from a previous day of the same week
-                        {
-                            return d.DayOfWeek + " at " + d.ToShortTimeString();
-                        }
-                    }
-                    else                                                          // If item is from a previous week of the same month
-                    {
-                        string monthAsString = "Month";
-                        switch (d.Month)
-                        {
-                            case 1:
-                                monthAsString = "January";
-                                break;
-                            case 2:
-                                monthAsString = "February";
-                                break;
-                            case 3:
-                                monthAsString = "March";
-                                break;
-                            case 4:
-                                monthAsString = "April";
-                                break;
-                            case 5:
-                                monthAsString = "May";
-                                break;
-                            case 6:
-                                monthAsString = "June";
-                                break;
-                            case 7:
-                                monthAsString = "July";
-                                break;
-                            case 8:
-                                monthAsString = "August";
-                                break;
-                            case 9:
-                                monthAsString = "September";
-                                break;
-                            case 10:
-                                monthAsString = "October";
-                                break;
-                            case 11:
-                                monthAsString = "November";
-                                break;
-                            case 12:
-                                monthAsString = "December";
-                                break;
-                        }
-                        return monthAsString + " " + d.Day;
-                    }
+            var elapsed = DateTimeOffset.Now - d;
 
-                }
-                else                                                            // If item is from a past month of the same year
-                {
-                    string monthAsString = "Month";
-                    switch (d.Month)
-                    {
-                        case 1:
-                            monthAsString = "January";
-                            break;
-                        case 2:
-                            monthAsString = "February";
-                            break;
-                        case 3:
-                            monthAsString = "March";
-                            break;
-                        case 4:
-                            monthAsString = "April";
-                            break;
-                        case 5:
-                            monthAsString = "May";
-                            break;
-                        case 6:
-                            monthAsString = "June";
-                            break;
-                        case 7:
-                            monthAsString = "July";
-                            break;
-                        case 8:
-                            monthAsString = "August";
-                            break;
-                        case 9:
-                            monthAsString = "September";
-                            break;
-                        case 10:
-                            monthAsString = "October";
-                            break;
-                        case 11:
-                            monthAsString = "November";
-                            break;
-                        case 12:
-                            monthAsString = "December";
-                            break;
-                    }
-                    return monthAsString + " " + d.Day;
-                }
-            }
-            else                                                                // If item is from a past year
+            if (elapsed.TotalDays > 7)
             {
-                string monthAsString = "Month";
-                switch (d.Month)
-                {
-                    case 1:
-                        monthAsString = "January";
-                        break;
-                    case 2:
-                        monthAsString = "February";
-                        break;
-                    case 3:
-                        monthAsString = "March";
-                        break;
-                    case 4:
-                        monthAsString = "April";
-                        break;
-                    case 5:
-                        monthAsString = "May";
-                        break;
-                    case 6:
-                        monthAsString = "June";
-                        break;
-                    case 7:
-                        monthAsString = "July";
-                        break;
-                    case 8:
-                        monthAsString = "August";
-                        break;
-                    case 9:
-                        monthAsString = "September";
-                        break;
-                    case 10:
-                        monthAsString = "October";
-                        break;
-                    case 11:
-                        monthAsString = "November";
-                        break;
-                    case 12:
-                        monthAsString = "December";
-                        break;
-                }
-                return monthAsString + " " + d.Day + ", " + d.Year;
+                return d.ToString("D");
+            }
+            else if (elapsed.TotalDays > 1)
+            {
+                return $"{elapsed.Days} days ago";
+            }
+            else if (elapsed.TotalHours > 1)
+            {
+                return $"{elapsed.Hours} hours ago";
+            }
+            else if (elapsed.TotalMinutes > 1)
+            {
+                return $"{elapsed.Minutes} minutes ago";
+            }
+            else
+            {
+                return $"{elapsed.Seconds} seconds ago";
             }
         }
     }

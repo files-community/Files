@@ -309,7 +309,7 @@ namespace Files.Filesystem
                 _classicFolderList.Add(new Classic_ListedFolderItem()
                 {
                     FileName = folder.Name,
-                    FileDate = ListedItem.GetFriendlyDate(basicProperties.DateModified.LocalDateTime),
+                    FileDate = ListedItem.GetFriendlyDate(basicProperties.DateModified),
                     FileExtension = "Folder",
                     FilePath = folder.Path
                 });
