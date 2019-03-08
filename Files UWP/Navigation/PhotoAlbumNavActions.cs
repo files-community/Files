@@ -13,20 +13,14 @@ namespace Files.Navigation
     {
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            
-            if(App.ViewModel.tokenSource != null)
-            {
-                App.ViewModel.tokenSource.Cancel();
-            }
-            App.ViewModel.FilesAndFolders.Clear();
-            
+            App.ViewModel.CancelLoadAndClearFiles();
 
             if (History.HistoryList.Count() > 1)
             {
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 History.AddToForwardList(History.HistoryList[History.HistoryList.Count() - 1]);
                 History.HistoryList.RemoveAt(History.HistoryList.Count() - 1);
-                App.ViewModel.FilesAndFolders.Clear();
+                App.ViewModel.CancelLoadAndClearFiles();
 
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
@@ -161,17 +155,12 @@ namespace Files.Navigation
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            if(App.ViewModel.tokenSource != null)
-            {
-                App.ViewModel.tokenSource.Cancel();
-            }
-            App.ViewModel.FilesAndFolders.Clear();
+            App.ViewModel.CancelLoadAndClearFiles();
 
             if (History.ForwardList.Count() > 0)
             {
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                App.ViewModel.FilesAndFolders.Clear();
-
+                App.ViewModel.CancelLoadAndClearFiles();
 
                 if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
@@ -311,12 +300,9 @@ namespace Files.Navigation
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if(App.ViewModel.tokenSource != null)
-                {
-                    App.ViewModel.tokenSource.Cancel();
-                }
+                App.ViewModel.CancelLoadAndClearFiles();
+
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                App.ViewModel.FilesAndFolders.Clear();
                 App.ViewModel.AddItemsToCollectionAsync(App.PathText.Text, PhotoAlbum.PAPageName);
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {

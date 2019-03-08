@@ -1,61 +1,86 @@
-﻿using System;
+﻿using ByteSizeLib;
+using Files.Navigation;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.Storage.Search;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Threading;
-using Files.Interacts;
-using Files.Navigation;
-using Windows.Storage.Search;
 using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
-using Windows.UI.Core;
-using ByteSizeLib;
-using Windows.Storage.Pickers;
-using Microsoft.Win32.SafeHandles;
-using System.IO;
-using Windows.Foundation;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
 
 namespace Files.Filesystem
 {
     public class ItemViewModel
     {
-        public ObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get; set; } = new ObservableCollection<Classic_ListedFolderItem>();
-        public ObservableCollection<ListedItem> ClassicFileList { get; set; } = new ObservableCollection<ListedItem>();
-        public ObservableCollection<ListedItem> FilesAndFolders { get; set; } = new ObservableCollection<ListedItem>();
-        public ObservableCollection<Classic_ListedFolderItem> ChildrenList;
-        public ListedItem LI { get; } = new ListedItem();
+        public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
+        public ReadOnlyObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get; }
+        public ReadOnlyObservableCollection<ListedItem> ClassicFileList { get; }
+
         public UniversalPath Universal { get; } = new UniversalPath();
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
         public BackState BS { get; set; } = new BackState();
         public ForwardState FS { get; set; } = new ForwardState();
         public ProgressUIVisibility PVIS { get; set; } = new ProgressUIVisibility();
-        private StorageFolder folder;
-        private string itemName;
-        private string itemDate;
-        private string itemType;
-        private string itemPath;
-        private string itemSize;
-        private string itemFileExtension;
-        private Visibility itemThumbnailImgVis;
-        private Visibility itemEmptyImgVis;
-        private Visibility itemFolderImgVis;
-        private StorageItemThumbnail itemThumbnailImg;
-        public string pageName;
-        public CancellationTokenSource tokenSource;
+
+        private ObservableCollection<ListedItem> _filesAndFolders;
+        private ObservableCollection<ListedItem> _classicFileList;
+        private ObservableCollection<Classic_ListedFolderItem> _classicFolderList;
+
+        private StorageFolderQueryResult _folderQueryResult;
+        private StorageFileQueryResult _fileQueryResult;
+        private CancellationTokenSource _cancellationTokenSource;
+        private StorageFolder _rootFolder;
+        private QueryOptions _options;
+        private string _pageName;
+
+        private volatile bool _filesRefreshing;
+        //private volatile bool _foldersRefreshing;
+
+        private const int _step = 250;
 
         public ItemViewModel()
         {
-            
+            _filesAndFolders = new ObservableCollection<ListedItem>();
+            _classicFileList = new ObservableCollection<ListedItem>();
+            _classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
+
+            FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
+            ClassicFileList = new ReadOnlyObservableCollection<ListedItem>(_classicFileList);
+            ClassicFolderList = new ReadOnlyObservableCollection<Classic_ListedFolderItem>(_classicFolderList);
+        }
+
+        public void AddFileOrFolder(ListedItem item)
+        {
+            _filesAndFolders.Add(item);
+        }
+
+        public void RemoveFileOrFolder(ListedItem item)
+        {
+            _filesAndFolders.Remove(item);
+        }
+
+        public void CancelLoadAndClearFiles()
+        {
+            if (_cancellationTokenSource == null) { return; }
+
+            _cancellationTokenSource.Cancel();
+            _filesAndFolders.Clear();
+
+            //_folderQueryResult.ContentsChanged -= FolderContentsChanged;
+            _fileQueryResult.ContentsChanged -= FileContentsChanged;
         }
 
         private async void DisplayConsentDialog()
@@ -65,14 +90,20 @@ namespace Files.Filesystem
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
         {
+            CancelLoadAndClearFiles();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var tokenSourceCopy = _cancellationTokenSource;
+
             TextState.isVisible = Visibility.Collapsed;
-            tokenSource = new CancellationTokenSource();
-            CancellationToken token = App.ViewModel.tokenSource.Token;
-            pageName = currentPage.Name;
+
+            _pageName = currentPage.Name;
             Universal.path = path;
 
-            if (!pageName.Contains("Classic"))
-                FilesAndFolders.Clear();
+            if (!_pageName.Contains("Classic"))
+            {
+                _filesAndFolders.Clear();
+            }
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -106,8 +137,8 @@ namespace Files.Filesystem
 
             try
             {
+                _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
 
-                folder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
                 History.AddToHistory(Universal.path);
                 if (History.HistoryList.Count == 1)     // If this is the only item present in History, we don't want back button to be enabled
                 {
@@ -118,234 +149,83 @@ namespace Files.Filesystem
                     BS.isEnabled = true;
                 }
 
-                QueryOptions options = null;
-                switch(await folder.GetIndexedStateAsync())
+                switch (await _rootFolder.GetIndexedStateAsync())
                 {
                     case (IndexedState.FullyIndexed):
-                        options = new QueryOptions();
-                        options.FolderDepth = FolderDepth.Shallow;
-                        if (pageName.Contains("Generic"))
+                        _options = new QueryOptions();
+                        _options.FolderDepth = FolderDepth.Shallow;
+                        if (_pageName.Contains("Generic"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
-                        else if (pageName.Contains("Photo"))
+                        else if (_pageName.Contains("Photo"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
-                        options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+                        _options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
                         break;
                     default:
-                        options = new QueryOptions();
-                        options.FolderDepth = FolderDepth.Shallow;
-                        if (pageName.Contains("Generic"))
+                        _options = new QueryOptions();
+                        _options.FolderDepth = FolderDepth.Shallow;
+                        if (_pageName.Contains("Generic"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
-                        else if (pageName.Contains("Photo"))
+                        else if (_pageName.Contains("Photo"))
                         {
-                            options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
-                            options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
+                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
-                        options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
+                        _options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
                         break;
                 }
-                 
+
                 SortEntry sort = new SortEntry()
                 {
                     PropertyName = "System.FileName",
                     AscendingOrder = true
                 };
-                options.SortOrder.Add(sort);
-                if (!folder.AreQueryOptionsSupported(options))
+                _options.SortOrder.Add(sort);
+                if (!_rootFolder.AreQueryOptionsSupported(_options))
                 {
-                    options.SortOrder.Clear();
+                    _options.SortOrder.Clear();
                 }
 
                 uint index = 0;
-                const uint step = 250;
-                BasicProperties basicProperties;
-                StorageFolderQueryResult folderQueryResult = folder.CreateFolderQueryWithOptions(options);
-                uint NumFolItems = await folderQueryResult.GetItemCountAsync();
-                IReadOnlyList<StorageFolder> storageFolders = await folderQueryResult.GetFoldersAsync(index, step);
+                _folderQueryResult = _rootFolder.CreateFolderQueryWithOptions(_options);
+                //_folderQueryResult.ContentsChanged += FolderContentsChanged;
+                var numFolders = await _folderQueryResult.GetItemCountAsync();
+                IReadOnlyList<StorageFolder> storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
                 while (storageFolders.Count > 0)
                 {
                     foreach (StorageFolder folder in storageFolders)
                     {
-                        if (token.IsCancellationRequested)
-                        {
-                            return;
-                        }
-                        basicProperties = await folder.GetBasicPropertiesAsync();
-                        itemName = folder.Name;
-                        SetAsFriendlyDate(basicProperties.ItemDate.LocalDateTime);
-                        itemPath = folder.Path;
-                        if (ByteSize.FromBytes(basicProperties.Size).KiloBytes < 1)
-                        {
-                            itemSize = "0 KB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).KiloBytes >= 1 && ByteSize.FromBytes(basicProperties.Size).MegaBytes < 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).KiloBytes) + " KB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).MegaBytes >= 1 && ByteSize.FromBytes(basicProperties.Size).GigaBytes < 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).MegaBytes) + " MB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).GigaBytes >= 1 && ByteSize.FromBytes(basicProperties.Size).TeraBytes < 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).GigaBytes) + " GB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).TeraBytes >= 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).TeraBytes) + " TB";
-                        }
-
-                        itemType = "Folder";
-                        itemFolderImgVis = Visibility.Visible;
-                        itemThumbnailImgVis = Visibility.Collapsed;
-                        itemEmptyImgVis = Visibility.Collapsed;
-
-                        if (!pageName.Contains("Classic"))
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                tokenSource = null;
-                                return;
-                            }
-                            FilesAndFolders.Add(new ListedItem() { FileName = itemName, FileDate = itemDate, FileType = itemType, FolderImg = itemFolderImgVis, FileImg = null, FileIconVis = itemThumbnailImgVis, FilePath = itemPath, DotFileExtension = itemFileExtension, EmptyImgVis = itemEmptyImgVis, FileSize = null });
-                        }
-                        else
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                tokenSource = null;
-                                return;
-                            }
-                            ClassicFolderList.Add(new Classic_ListedFolderItem() { FileName = itemName, FileDate = itemDate, FileExtension = itemType, FilePath = itemPath });
-                        }
-
-                        
+                        if (tokenSourceCopy.IsCancellationRequested) { return; }
+                        await AddFolder(folder, _pageName, tokenSourceCopy.Token);
                     }
-                    index += step;
-                    storageFolders = await folderQueryResult.GetFoldersAsync(index, step);
+                    index += _step;
+                    storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
                 }
 
                 index = 0;
-                StorageFileQueryResult fileQueryResult = folder.CreateFileQueryWithOptions(options);
-                uint NumFileItems = await fileQueryResult.GetItemCountAsync();
-                IReadOnlyList<StorageFile> storageFiles = await fileQueryResult.GetFilesAsync(index, step);
-                List<string> propertiesToRetrieve = new List<string>();
-                propertiesToRetrieve.Add("System.FileExtension");
+                _fileQueryResult = _rootFolder.CreateFileQueryWithOptions(_options);
+                _fileQueryResult.ContentsChanged += FileContentsChanged;
+                var numFiles = await _fileQueryResult.GetItemCountAsync();
+                IReadOnlyList<StorageFile> storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 while (storageFiles.Count > 0)
                 {
                     foreach (StorageFile file in storageFiles)
                     {
-                        basicProperties = await file.GetBasicPropertiesAsync();
-                        var props = await file.Properties.RetrievePropertiesAsync(propertiesToRetrieve);
-                        if (token.IsCancellationRequested)
-                        {
-                            return;
-                        }
-                        itemName = file.DisplayName;
-                        SetAsFriendlyDate(basicProperties.DateModified.LocalDateTime);
-                        itemPath = file.Path;
-                        if (ByteSize.FromBytes(basicProperties.Size).KiloBytes < 1)
-                        {
-                            itemSize = "0 KB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).KiloBytes >= 1 && ByteSize.FromBytes(basicProperties.Size).MegaBytes < 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).KiloBytes) + " KB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).MegaBytes >= 1 && ByteSize.FromBytes(basicProperties.Size).GigaBytes < 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).MegaBytes) + " MB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).GigaBytes >= 1 && ByteSize.FromBytes(basicProperties.Size).TeraBytes < 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).GigaBytes) + " GB";
-                        }
-                        else if (ByteSize.FromBytes(basicProperties.Size).TeraBytes >= 1)
-                        {
-                            itemSize = decimal.Round((decimal)ByteSize.FromBytes(basicProperties.Size).TeraBytes) + " TB";
-                        }
-                        BitmapImage icon = new BitmapImage();
-                        itemType = file.DisplayType;
-                        itemFolderImgVis = Visibility.Collapsed;
-                        itemFileExtension = props["System.FileExtension"].ToString();
-                        if (!pageName.Contains("Photo"))
-                        {
-                            try
-                            {
-                                itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
-                                if (itemThumbnailImg != null)
-                                {
-                                    itemEmptyImgVis = Visibility.Collapsed;
-                                    itemThumbnailImgVis = Visibility.Visible;
-                                    await icon.SetSourceAsync(itemThumbnailImg.CloneStream());
-                                }
-                                else
-                                {
-                                    itemEmptyImgVis = Visibility.Visible;
-                                    itemThumbnailImgVis = Visibility.Collapsed;
-                                }
-                            }
-                            catch
-                            {
-                                itemEmptyImgVis = Visibility.Visible;
-                                itemThumbnailImgVis = Visibility.Collapsed;
-                                // Catch here to avoid crash
-                                // TODO maybe some logging could be added in the future...
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
-                                if (itemThumbnailImg != null)
-                                {
-                                    itemEmptyImgVis = Visibility.Collapsed;
-                                    itemThumbnailImgVis = Visibility.Visible;
-                                    await icon.SetSourceAsync(itemThumbnailImg.CloneStream());
-                                }
-                                else
-                                {
-                                    itemEmptyImgVis = Visibility.Visible;
-                                    itemThumbnailImgVis = Visibility.Collapsed;
-                                }
-                            }
-                            catch
-                            {
-                                itemEmptyImgVis = Visibility.Visible;
-                                itemThumbnailImgVis = Visibility.Collapsed;
-
-                            }
-                        }
-                        if (!pageName.Contains("Classic"))
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                return;
-                            }
-                            FilesAndFolders.Add(new ListedItem() { DotFileExtension = itemFileExtension, EmptyImgVis = itemEmptyImgVis, FileImg = icon, FileIconVis = itemThumbnailImgVis, FolderImg = itemFolderImgVis, FileName = itemName, FileDate = itemDate, FileType = itemType, FilePath = itemPath, FileSize = itemSize });
-                        }
-                        else
-                        {
-                            if (token.IsCancellationRequested)
-                            {
-                                return;
-                            }
-                            ClassicFileList.Add(new ListedItem() { FileImg = icon, FileIconVis = itemThumbnailImgVis, FolderImg = itemFolderImgVis, FileName = itemName, FileDate = itemDate, FileType = itemType, FilePath = itemPath });
-                        }
+                        if (tokenSourceCopy.IsCancellationRequested) { return; }
+                        await AddFile(file, _pageName, tokenSourceCopy.Token);
                     }
-                    index += step;
-                    storageFiles = await fileQueryResult.GetFilesAsync(index, step);
+                    index += _step;
+                    storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 }
-                if (NumFolItems + NumFileItems == 0)
+                if (numFiles + numFolders == 0)
                 {
                     TextState.isVisible = Visibility.Visible;
                 }
@@ -375,174 +255,12 @@ namespace Files.Filesystem
                 return;
             }
 
-            if (!pageName.Contains("Classic"))
+            if (!_pageName.Contains("Classic"))
             {
                 PVIS.isVisible = Visibility.Collapsed;
             }
 
             PVIS.isVisible = Visibility.Collapsed;
-            tokenSource = null;
-        }
-
-        public void SetAsFriendlyDate(DateTime d)
-        {
-            if (d.Year == DateTime.Now.Year)              // If item is accessed in the same year as stored
-            {
-                if (d.Month == DateTime.Now.Month)        // If item is accessed in the same month as stored
-                {
-                    if ((DateTime.Now.Day - d.Day) < 7) // If item is accessed on the same week
-                    {
-                        if (d.DayOfWeek == DateTime.Now.DayOfWeek)   // If item is accessed on the same day as stored
-                        {
-                            if ((DateTime.Now.Hour - d.Hour) > 1)
-                            {
-                                itemDate = DateTime.Now.Hour - d.Hour + " hours ago";
-                            }
-                            else
-                            {
-                                itemDate = DateTime.Now.Hour - d.Hour + " hour ago";
-                            }
-                        }
-                        else                                                        // If item is from a previous day of the same week
-                        {
-                            itemDate = d.DayOfWeek + " at " + d.ToShortTimeString();
-                        }
-                    }
-                    else                                                          // If item is from a previous week of the same month
-                    {
-                        string monthAsString = "Month";
-                        switch (d.Month)
-                        {
-                            case 1:
-                                monthAsString = "January";
-                                break;
-                            case 2:
-                                monthAsString = "February";
-                                break;
-                            case 3:
-                                monthAsString = "March";
-                                break;
-                            case 4:
-                                monthAsString = "April";
-                                break;
-                            case 5:
-                                monthAsString = "May";
-                                break;
-                            case 6:
-                                monthAsString = "June";
-                                break;
-                            case 7:
-                                monthAsString = "July";
-                                break;
-                            case 8:
-                                monthAsString = "August";
-                                break;
-                            case 9:
-                                monthAsString = "September";
-                                break;
-                            case 10:
-                                monthAsString = "October";
-                                break;
-                            case 11:
-                                monthAsString = "November";
-                                break;
-                            case 12:
-                                monthAsString = "December";
-                                break;
-                        }
-                        itemDate = monthAsString + " " + d.Day;
-                    }
-
-                }
-                else                                                            // If item is from a past month of the same year
-                {
-                    string monthAsString = "Month";
-                    switch (d.Month)
-                    {
-                        case 1:
-                            monthAsString = "January";
-                            break;
-                        case 2:
-                            monthAsString = "February";
-                            break;
-                        case 3:
-                            monthAsString = "March";
-                            break;
-                        case 4:
-                            monthAsString = "April";
-                            break;
-                        case 5:
-                            monthAsString = "May";
-                            break;
-                        case 6:
-                            monthAsString = "June";
-                            break;
-                        case 7:
-                            monthAsString = "July";
-                            break;
-                        case 8:
-                            monthAsString = "August";
-                            break;
-                        case 9:
-                            monthAsString = "September";
-                            break;
-                        case 10:
-                            monthAsString = "October";
-                            break;
-                        case 11:
-                            monthAsString = "November";
-                            break;
-                        case 12:
-                            monthAsString = "December";
-                            break;
-                    }
-                    itemDate = monthAsString + " " + d.Day;
-                }
-            }
-            else                                                                // If item is from a past year
-            {
-                string monthAsString = "Month";
-                switch (d.Month)
-                {
-                    case 1:
-                        monthAsString = "January";
-                        break;
-                    case 2:
-                        monthAsString = "February";
-                        break;
-                    case 3:
-                        monthAsString = "March";
-                        break;
-                    case 4:
-                        monthAsString = "April";
-                        break;
-                    case 5:
-                        monthAsString = "May";
-                        break;
-                    case 6:
-                        monthAsString = "June";
-                        break;
-                    case 7:
-                        monthAsString = "July";
-                        break;
-                    case 8:
-                        monthAsString = "August";
-                        break;
-                    case 9:
-                        monthAsString = "September";
-                        break;
-                    case 10:
-                        monthAsString = "October";
-                        break;
-                    case 11:
-                        monthAsString = "November";
-                        break;
-                    case 12:
-                        monthAsString = "December";
-                        break;
-                }
-                itemDate = monthAsString + " " + d.Day + ", " + d.Year;
-            }
         }
 
         public static async void FillTreeNode(object item, TreeView EntireControl)
@@ -560,5 +278,221 @@ namespace Files.Filesystem
 
             }
         }
+
+        private async Task AddFolder(StorageFolder folder, string pageName, CancellationToken token)
+        {
+            if (token.IsCancellationRequested) { return; }
+
+            var basicProperties = await folder.GetBasicPropertiesAsync();
+
+            if (!pageName.Contains("Classic"))
+            {
+                if (token.IsCancellationRequested) { return; }
+
+                _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
+                {
+                    FileName = folder.Name,
+                    FileDateReal = basicProperties.DateModified,
+                    FileType = "Folder",    //TODO: Take a look at folder.DisplayType
+                    FolderImg = Visibility.Visible,
+                    FileImg = null,
+                    FileIconVis = Visibility.Collapsed,
+                    FilePath = folder.Path,
+                    EmptyImgVis = Visibility.Collapsed,
+                    FileSize = null
+                });
+            }
+            else
+            {
+                if (token.IsCancellationRequested) { return; }
+
+                _classicFolderList.Add(new Classic_ListedFolderItem()
+                {
+                    FileName = folder.Name,
+                    FileDate = ListedItem.GetFriendlyDate(basicProperties.DateModified),
+                    FileExtension = "Folder",
+                    FilePath = folder.Path
+                });
+            }
+        }
+
+        private async Task AddFile(StorageFile file, string pageName, CancellationToken token)
+        {
+            if (token.IsCancellationRequested) { return; }
+
+            var basicProperties = await file.GetBasicPropertiesAsync();
+
+            var itemName = file.DisplayName;
+            var itemDate = basicProperties.DateModified;
+            var itemPath = file.Path;
+            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
+            var itemType = file.DisplayType;
+            var itemFolderImgVis = Visibility.Collapsed;
+            var itemFileExtension = file.FileType;
+
+            BitmapImage icon = new BitmapImage();
+            Visibility itemThumbnailImgVis;
+            Visibility itemEmptyImgVis;
+
+            if (!pageName.Contains("Photo"))
+            {
+                try
+                {
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                    if (itemThumbnailImg != null)
+                    {
+                        itemEmptyImgVis = Visibility.Collapsed;
+                        itemThumbnailImgVis = Visibility.Visible;
+                        await icon.SetSourceAsync(itemThumbnailImg.CloneStream());
+                    }
+                    else
+                    {
+                        itemEmptyImgVis = Visibility.Visible;
+                        itemThumbnailImgVis = Visibility.Collapsed;
+                    }
+                }
+                catch
+                {
+                    itemEmptyImgVis = Visibility.Visible;
+                    itemThumbnailImgVis = Visibility.Collapsed;
+                    // Catch here to avoid crash
+                    // TODO maybe some logging could be added in the future...
+                }
+            }
+            else
+            {
+                try
+                {
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                    if (itemThumbnailImg != null)
+                    {
+                        itemEmptyImgVis = Visibility.Collapsed;
+                        itemThumbnailImgVis = Visibility.Visible;
+                        await icon.SetSourceAsync(itemThumbnailImg.CloneStream());
+                    }
+                    else
+                    {
+                        itemEmptyImgVis = Visibility.Visible;
+                        itemThumbnailImgVis = Visibility.Collapsed;
+                    }
+                }
+                catch
+                {
+                    itemEmptyImgVis = Visibility.Visible;
+                    itemThumbnailImgVis = Visibility.Collapsed;
+
+                }
+            }
+
+            if (!pageName.Contains("Classic"))
+            {
+                if (token.IsCancellationRequested) { return; }
+
+                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
+                {
+                    DotFileExtension = itemFileExtension,
+                    EmptyImgVis = itemEmptyImgVis,
+                    FileImg = icon,
+                    FileIconVis = itemThumbnailImgVis,
+                    FolderImg = itemFolderImgVis,
+                    FileName = itemName,
+                    FileDateReal = itemDate,
+                    FileType = itemType,
+                    FilePath = itemPath,
+                    FileSize = itemSize
+                });
+            }
+            else
+            {
+                if (token.IsCancellationRequested) { return; }
+
+                _classicFileList.Add(new ListedItem(file.FolderRelativeId)
+                {
+                    FileImg = icon,
+                    FileIconVis = itemThumbnailImgVis,
+                    FolderImg = itemFolderImgVis,
+                    FileName = itemName,
+                    FileDateReal = itemDate,
+                    FileType = itemType,
+                    FilePath = itemPath
+                });
+            }
+        }
+
+        private async void FileContentsChanged(IStorageQueryResultBase sender, object args)
+        {
+            if (_filesRefreshing)
+            {
+                Debug.WriteLine("Filesystem change event fired but refresh is already running");
+                return;
+            }
+            else
+            {
+                Debug.WriteLine("Filesystem change event fired. Refreshing...");
+            }
+
+            _filesRefreshing = true;
+
+            //query options have to be reapplied otherwise old results are returned
+            _fileQueryResult.ApplyNewQueryOptions(_options);
+            _folderQueryResult.ApplyNewQueryOptions(_options);
+
+            var fileCount = await _fileQueryResult.GetItemCountAsync();
+            var folderCount = await _folderQueryResult.GetItemCountAsync();
+            var files = await _fileQueryResult.GetFilesAsync();
+            var folders = await _folderQueryResult.GetFoldersAsync();
+
+            var cancellationTokenSourceCopy = _cancellationTokenSource;
+
+            // modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
+
+            var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            var addedFolders = folders.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            var removedFilesAndFolders = _filesAndFolders
+                .Select(f => f.FolderRelativeId)
+                .Except(files.Select(f => f.FolderRelativeId))
+                .Except(folders.Select(f => f.FolderRelativeId))
+                .ToArray();
+
+            foreach (var file in addedFiles)
+            {
+                var toAdd = files.First(f => f.FolderRelativeId == file);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    await AddFile(toAdd, _pageName, cancellationTokenSourceCopy.Token);
+                });
+            }
+            foreach (var folder in addedFolders)
+            {
+                var toAdd = folders.First(f => f.FolderRelativeId == folder);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                async () =>
+                {
+                    await AddFolder(toAdd, _pageName, cancellationTokenSourceCopy.Token);
+                });
+            }
+            foreach (var item in removedFilesAndFolders)
+            {
+                var toRemove = _filesAndFolders.First(f => f.FolderRelativeId == item);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+                    RemoveFileOrFolder(toRemove);
+                });
+            }
+
+            _filesRefreshing = false;
+            Debug.WriteLine("Filesystem refresh complete");
+        }
+
+        //private async void FolderContentsChanged(IStorageQueryResultBase sender, object args)
+        //{
+        //    if (_foldersRefreshing) { return; }
+
+        //    _foldersRefreshing = true;
+
+        //    _foldersRefreshing = false;
+        //}
     }
 }

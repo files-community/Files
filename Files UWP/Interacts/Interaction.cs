@@ -20,6 +20,7 @@ using Windows.ApplicationModel;
 using System.Collections;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Primitives;
+using System.IO;
 
 namespace Files.Interacts
 {
@@ -60,7 +61,7 @@ namespace Files.Interacts
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         History.ForwardList.Clear();
                         App.ViewModel.FS.isEnabled = false;
-                        App.ViewModel.FilesAndFolders.Clear();
+                        App.ViewModel.CancelLoadAndClearFiles();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
                             App.PathText.Text = "Desktop";
@@ -221,7 +222,7 @@ namespace Files.Interacts
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                         History.ForwardList.Clear();
                         App.ViewModel.FS.isEnabled = false;
-                        App.ViewModel.FilesAndFolders.Clear();
+                        App.ViewModel.CancelLoadAndClearFiles();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
                             App.PathText.Text = "Desktop";
@@ -454,7 +455,7 @@ namespace Files.Interacts
                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                     History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
-                    App.ViewModel.FilesAndFolders.Clear();
+                    App.ViewModel.CancelLoadAndClearFiles();
                     App.ViewModel.Universal.path = RowData.FilePath;
                     App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
                 }
@@ -476,7 +477,7 @@ namespace Files.Interacts
                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                     History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
-                    App.ViewModel.FilesAndFolders.Clear();
+                    App.ViewModel.CancelLoadAndClearFiles();
                     App.ViewModel.Universal.path = RowData.FilePath;
                     App.ViewModel.AddItemsToCollectionAsync(RowData.FilePath, PhotoAlbum.PAPageName);
                 }
@@ -567,7 +568,7 @@ namespace Files.Interacts
                             await item.DeleteAsync(StorageDeleteOption.Default);
 
                         }
-                        App.ViewModel.FilesAndFolders.Remove(storItem);
+                        App.ViewModel.RemoveFileOrFolder(storItem);
                     }
                     Debug.WriteLine("Ended for loop");
                     History.ForwardList.Clear();
@@ -594,7 +595,7 @@ namespace Files.Interacts
                             await item.DeleteAsync(StorageDeleteOption.Default);
 
                         }
-                        App.ViewModel.FilesAndFolders.Remove(storItem);
+                        App.ViewModel.RemoveFileOrFolder(storItem);
                     }
                     Debug.WriteLine("Ended for loop");
                     History.ForwardList.Clear();
@@ -625,16 +626,36 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            App.ViewModel.FilesAndFolders.Remove(RowData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
+                            App.ViewModel.RemoveFileOrFolder(RowData);
+                            App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            {
+                                FileName = input,
+                                FileDateReal = DateTimeOffset.Now,
+                                EmptyImgVis = Visibility.Collapsed,
+                                FolderImg = Visibility.Visible,
+                                FileIconVis = Visibility.Collapsed,
+                                FileType = "Folder",
+                                FileImg = null,
+                                FilePath = Path.Combine(App.ViewModel.Universal.path, input)
+                            });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            App.ViewModel.FilesAndFolders.Remove(RowData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = RowData.FileType, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + RowData.DotFileExtension), DotFileExtension = RowData.DotFileExtension });
-
+                            App.ViewModel.RemoveFileOrFolder(RowData);
+                            App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            {
+                                FileName = input,
+                                FileDateReal = DateTimeOffset.Now,
+                                EmptyImgVis = Visibility.Visible,
+                                FolderImg = Visibility.Collapsed,
+                                FileIconVis = Visibility.Collapsed,
+                                FileType = RowData.FileType,
+                                FileImg = null,
+                                FilePath = Path.Combine(App.ViewModel.Universal.path, input + RowData.DotFileExtension),
+                                DotFileExtension = RowData.DotFileExtension
+                            });
                         }
                     }
 
@@ -659,16 +680,36 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            App.ViewModel.FilesAndFolders.Remove(BoxData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input) });
+                            App.ViewModel.RemoveFileOrFolder(BoxData);
+                            App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            {
+                                FileName = input,
+                                FileDateReal = DateTimeOffset.Now,
+                                EmptyImgVis = Visibility.Collapsed,
+                                FolderImg = Visibility.Visible,
+                                FileIconVis = Visibility.Collapsed,
+                                FileType = "Folder",
+                                FileImg = null,
+                                FilePath = Path.Combine(App.ViewModel.Universal.path, input)
+                            });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input + BoxData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            App.ViewModel.FilesAndFolders.Remove(BoxData);
-                            App.ViewModel.FilesAndFolders.Add(new ListedItem() { FileName = input, FileDate = "Now", EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = BoxData.FileType, FileImg = null, FilePath = (App.ViewModel.Universal.path + "\\" + input + BoxData.DotFileExtension), DotFileExtension = BoxData.DotFileExtension });
-
+                            App.ViewModel.RemoveFileOrFolder(BoxData);
+                            App.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            {
+                                FileName = input,
+                                FileDateReal = DateTimeOffset.Now,
+                                EmptyImgVis = Visibility.Visible,
+                                FolderImg = Visibility.Collapsed,
+                                FileIconVis = Visibility.Collapsed,
+                                FileType = BoxData.FileType,
+                                FileImg = null,
+                                FilePath = Path.Combine(App.ViewModel.Universal.path, input + BoxData.DotFileExtension),
+                                DotFileExtension = BoxData.DotFileExtension
+                            });
                         }
                     }
 

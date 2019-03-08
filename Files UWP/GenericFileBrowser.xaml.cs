@@ -112,7 +112,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var parameters = (string)eventArgs.Parameter;
-            App.ViewModel.FilesAndFolders.Clear();
+            App.ViewModel.CancelLoadAndClearFiles();
             App.ViewModel.Universal.path = parameters;
             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
@@ -332,11 +332,7 @@ namespace Files
                 var CurrentInput = PathBox.Text;
                 if (CurrentInput != App.ViewModel.Universal.path)
                 {
-                    if (App.ViewModel.tokenSource != null)
-                    {
-                        App.ViewModel.tokenSource.Cancel();
-                        App.ViewModel.FilesAndFolders.Clear();
-                    }
+                    App.ViewModel.CancelLoadAndClearFiles();
 
                     if (CurrentInput == "Home" || CurrentInput == "home")
                     {
