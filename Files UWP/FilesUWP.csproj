@@ -157,63 +157,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\abstract_HeroImage.jpg" />
-    <Content Include="Assets\Cards\Gradients\Blue.png" />
-    <Content Include="Assets\Cards\Gradients\Green.png" />
-    <Content Include="Assets\Cards\Gradients\Orange.png" />
-    <Content Include="Assets\Cards\Gradients\Pink.png" />
-    <Content Include="Assets\Cards\Gradients\Red.png" />
-    <Content Include="Assets\PathbarTeachingTipVisual.gif" />
-    <Content Include="Assets\FilesDrive.jpg" />
-    <Content Include="Assets\FilesHome.jpg" />
-    <Content Include="Assets\LargeTile.scale-100.png" />
-    <Content Include="Assets\LargeTile.scale-125.png" />
-    <Content Include="Assets\LargeTile.scale-150.png" />
-    <Content Include="Assets\LargeTile.scale-200.png" />
-    <Content Include="Assets\LargeTile.scale-400.png" />
-    <Content Include="Assets\logo.bmp" />
-    <Content Include="Assets\SmallTile.scale-100.png" />
-    <Content Include="Assets\SmallTile.scale-125.png" />
-    <Content Include="Assets\SmallTile.scale-150.png" />
-    <Content Include="Assets\SmallTile.scale-200.png" />
-    <Content Include="Assets\SmallTile.scale-400.png" />
-    <Content Include="Assets\SplashScreen.scale-100.png" />
-    <Content Include="Assets\SplashScreen.scale-125.png" />
-    <Content Include="Assets\SplashScreen.scale-150.png" />
-    <Content Include="Assets\SplashScreen.scale-400.png" />
-    <Content Include="Assets\Square150x150Logo.scale-100.png" />
-    <Content Include="Assets\Square150x150Logo.scale-125.png" />
-    <Content Include="Assets\Square150x150Logo.scale-150.png" />
-    <Content Include="Assets\Square150x150Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-16.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-256.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-32.png" />
-    <Content Include="Assets\Square44x44Logo.altform-unplated_targetsize-48.png" />
-    <Content Include="Assets\Square44x44Logo.scale-100.png" />
-    <Content Include="Assets\Square44x44Logo.scale-125.png" />
-    <Content Include="Assets\Square44x44Logo.scale-150.png" />
-    <Content Include="Assets\Square44x44Logo.scale-400.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-16.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
-    <Content Include="Assets\StoreLogo.scale-100.png" />
-    <Content Include="Assets\StoreLogo.scale-125.png" />
-    <Content Include="Assets\StoreLogo.scale-150.png" />
-    <Content Include="Assets\StoreLogo.scale-200.png" />
-    <Content Include="Assets\StoreLogo.scale-400.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-100.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-125.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-150.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-400.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
