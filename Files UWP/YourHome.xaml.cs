@@ -14,6 +14,7 @@ using Files.Interacts;
 using Windows.System;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Files
 {
@@ -199,112 +200,168 @@ namespace Files
             dataFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
             RecentsFile = await dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
             BitmapImage ItemImage = new BitmapImage();
-            string ItemPath;
+            string ItemPath = null;
             string ItemName;
             Visibility ItemFolderImgVis;
             Visibility ItemEmptyImgVis;
             Visibility ItemFileIconVis;
-            var lines = await FileIO.ReadLinesAsync(RecentsFile);
+            IList<string> lines = new List<string>();
+            lines = await FileIO.ReadLinesAsync(RecentsFile);
             if (lines.Count == 0)
             {
                 Empty.Visibility = Visibility.Visible;
             }
             else if (lines.Count > 10)
             {
-                for (int LineNum = 0; LineNum < 10; LineNum++)
+                try
                 {
-                    lines.RemoveAt(0);
-                }
-
-                await FileIO.WriteLinesAsync(RecentsFile, lines);
-                Empty.Visibility = Visibility.Collapsed;
-                lines = await FileIO.ReadLinesAsync(RecentsFile);
-                foreach (string s in lines)
-                {
-                    try
+                    for (int LineNum = 0; LineNum < 10; LineNum++)
                     {
-                        var item = await StorageFolder.GetFolderFromPathAsync(s);
-                        ItemName = item.DisplayName;
-                        ItemPath = item.Path;
-                        ItemFolderImgVis = Visibility.Visible;
-                        ItemEmptyImgVis = Visibility.Collapsed;
-                        ItemFileIconVis = Visibility.Collapsed;
-                        if(!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
-                        {
-                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                        }
-
+                        lines.RemoveAt(0);
                     }
-                    catch (System.ArgumentException)
+
+                    await FileIO.WriteLinesAsync(RecentsFile, lines);
+                    Empty.Visibility = Visibility.Collapsed;
+                    lines = await FileIO.ReadLinesAsync(RecentsFile);
+                    foreach (string s in lines)
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(s);
-                        ItemName = item.DisplayName;
-                        ItemPath = item.Path;
-                        ItemImage = new BitmapImage();
-                        var thumbnail = await item.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-                        if (thumbnail == null)
+                        try
                         {
-                            ItemEmptyImgVis = Visibility.Visible;
-                        }
-                        else
-                        {
-                            await ItemImage.SetSourceAsync(thumbnail.CloneStream());
+                            var item = await StorageFolder.GetFolderFromPathAsync(s);
+                            ItemName = item.DisplayName;
+                            ItemPath = item.Path;
+                            ItemFolderImgVis = Visibility.Visible;
                             ItemEmptyImgVis = Visibility.Collapsed;
+                            ItemFileIconVis = Visibility.Collapsed;
+                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                            {
+                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                            }
+
                         }
-                        ItemFolderImgVis = Visibility.Collapsed;
-                        ItemFileIconVis = Visibility.Visible;
-                        if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                        catch (System.IO.FileNotFoundException)
                         {
-                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                            IList<string> modifyLines = new List<string>();
+                            modifyLines = lines;
+                            modifyLines.Remove(s);
+                            await FileIO.WriteLinesAsync(RecentsFile, modifyLines);
+                            PopulateRecentsList();
                         }
+                        catch (UnauthorizedAccessException)
+                        {
+                            Empty.Visibility = Visibility.Visible;
+                        }
+                        catch (System.ArgumentException)
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(s);
+                            ItemName = item.DisplayName;
+                            ItemPath = item.Path;
+                            ItemImage = new BitmapImage();
+                            var thumbnail = await item.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                            if (thumbnail == null)
+                            {
+                                ItemEmptyImgVis = Visibility.Visible;
+                            }
+                            else
+                            {
+                                await ItemImage.SetSourceAsync(thumbnail.CloneStream());
+                                ItemEmptyImgVis = Visibility.Collapsed;
+                            }
+                            ItemFolderImgVis = Visibility.Collapsed;
+                            ItemFileIconVis = Visibility.Visible;
+                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                            {
+                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                            }
+                        }
+                    }
+                }
+                catch (System.IO.FileNotFoundException)
+                {
+                    if (ItemPath != null)
+                    {
+                        RemoveDeletedItemFromList(ItemPath, lines);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
                     }
                 }
             }
             else
             {
-                Empty.Visibility = Visibility.Collapsed;
-
-                foreach (string s in lines)
+                try
                 {
-                    try
-                    {
-                        var item = await StorageFolder.GetFolderFromPathAsync(s);
-                        ItemName = item.DisplayName;
-                        ItemPath = item.Path;
-                        ItemFolderImgVis = Visibility.Visible;
-                        ItemEmptyImgVis = Visibility.Collapsed;
-                        ItemFileIconVis = Visibility.Collapsed;
-                        if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
-                        {
-                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                        }
+                    Empty.Visibility = Visibility.Collapsed;
 
-                    }
-                    catch (System.ArgumentException)
+                    foreach (string s in lines)
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(s);
-                        ItemName = item.DisplayName;
-                        ItemPath = item.Path;
-                        ItemImage = new BitmapImage();
-                        var thumbnail = await item.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-                        if (thumbnail == null)
+                        try
                         {
-                            ItemEmptyImgVis = Visibility.Visible;
-                        }
-                        else
-                        {
-                            await ItemImage.SetSourceAsync(thumbnail.CloneStream());
+                            ItemPath = s;
+                            var item = await StorageFolder.GetFolderFromPathAsync(s);
+                            ItemName = item.DisplayName;
+                            ItemPath = item.Path;
+                            ItemFolderImgVis = Visibility.Visible;
                             ItemEmptyImgVis = Visibility.Collapsed;
+                            ItemFileIconVis = Visibility.Collapsed;
+                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                            {
+                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                            }
+
                         }
-                        ItemFolderImgVis = Visibility.Collapsed;
-                        ItemFileIconVis = Visibility.Visible;
-                        if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                        catch (UnauthorizedAccessException)
                         {
-                            recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                            Empty.Visibility = Visibility.Visible;
+                        }
+                        catch (System.ArgumentException)
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(s);
+                            ItemName = item.DisplayName;
+                            ItemPath = item.Path;
+                            ItemImage = new BitmapImage();
+                            var thumbnail = await item.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                            if (thumbnail == null)
+                            {
+                                ItemEmptyImgVis = Visibility.Visible;
+                            }
+                            else
+                            {
+                                await ItemImage.SetSourceAsync(thumbnail.CloneStream());
+                                ItemEmptyImgVis = Visibility.Collapsed;
+                            }
+                            ItemFolderImgVis = Visibility.Collapsed;
+                            ItemFileIconVis = Visibility.Visible;
+                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
+                            {
+                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                            }
                         }
                     }
                 }
+                catch (System.IO.FileNotFoundException)
+                {
+                    if(ItemPath != null)
+                    {
+                        RemoveDeletedItemFromList(ItemPath, lines);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
+                    }
+                }
+                
             }
+        }
+
+        private async void RemoveDeletedItemFromList(string s, IList<string> lines)
+        {
+            IList<string> modifyLines = new List<string>();
+            modifyLines = lines;
+            modifyLines.Remove(s);
+            await FileIO.WriteLinesAsync(RecentsFile, modifyLines);
+            PopulateRecentsList();
         }
 
         private async void RecentsView_ItemClick(object sender, ItemClickEventArgs e)

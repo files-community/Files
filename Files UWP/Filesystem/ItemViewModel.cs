@@ -80,10 +80,13 @@ namespace Files.Filesystem
             _filesAndFolders.Clear();
 
             //_folderQueryResult.ContentsChanged -= FolderContentsChanged;
-            _fileQueryResult.ContentsChanged -= FileContentsChanged;
+            if(_fileQueryResult != null)
+            {
+                _fileQueryResult.ContentsChanged -= FileContentsChanged;
+            }
         }
 
-        private async void DisplayConsentDialog()
+        public static async void DisplayConsentDialog()
         {
             await MainPage.permissionBox.ShowAsync();
         }

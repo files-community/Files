@@ -404,7 +404,7 @@ namespace Files.Interacts
             // If user clicks on actual row
             else
             {
-                var ObjectPressed = ((ObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
+                var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
                 dataGrid.SelectedItems.Add(ObjectPressed);
                 GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
             }
