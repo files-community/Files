@@ -9,14 +9,14 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
 
-    <Grid Padding="24,35,24,0">
+    <Grid Padding="24,24,24,0">
         
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel>
-                <TextBlock x:Name="Header" Text="Personalization" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBlock x:Name="Header" Text="Personalization" Margin="0,0,0,10" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <Grid Margin="0,0,0,25" HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <Rectangle Name="VisualRect" Fill="{ThemeResource SystemControlAcrylicElementBrush}" Width="384" Height="216" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.ZIndex="2" />
-                    <Image HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Source="ms-appx:///Assets/abstract_HeroImage.jpg" Stretch="UniformToFill" Width="480" Height="270"/>
+                    <Rectangle Name="VisualRect" Fill="{ThemeResource SystemControlAcrylicElementBrush}" Width="350" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Canvas.ZIndex="2" />
+                    <Image HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch" Source="ms-appx:///Assets/abstract_HeroImage.jpg" Stretch="UniformToFill" Width="450" Height="300"/>
                 </Grid>
                 <TextBlock Margin="0,0,0,15" HorizontalAlignment="Left"  Text="Choose your color scheme" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
                 <ComboBox SelectionChanged="ThemeChooser_SelectionChanged"  Name="ThemeChooser" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="300">

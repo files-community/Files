@@ -8,11 +8,11 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="24,35,24,0">
+    <Grid Padding="24,24,24,0">
        
         <ScrollViewer>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock x:Name="Header" Text="About Files" Margin="0,0,0,25" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="48" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBlock x:Name="Header" Text="About Files" Margin="0,0,0,5" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <TextBlock Margin="0,0,0,10" FontFamily="Segoe UI" FontSize="24" Text="Product Information"/>
                 <TextBlock FontSize="18" Text="Edition: Files Pre-Release"/>
                 <TextBlock FontSize="18" Text="Version: 0.4.9"/>

@@ -134,6 +134,9 @@
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProgressBoxSystem.cs" />
+    <Compile Include="ProHome.xaml.cs">
+      <DependentUpon>ProHome.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -191,6 +194,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PhotoAlbum.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ProHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
