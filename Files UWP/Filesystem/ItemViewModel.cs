@@ -88,7 +88,7 @@ namespace Files.Filesystem
 
         public static async void DisplayConsentDialog()
         {
-            await MainPage.permissionBox.ShowAsync();
+            await ProHome.permissionBox.ShowAsync();
         }
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
