@@ -40,73 +40,41 @@ namespace Files
 
         private void CardPressed(object sender, ItemClickEventArgs e)
         {
-            Debug.WriteLine(e.ClickedItem.GetType().ToString());
             string BelowCardText = ((Locations.LocationItem)e.ClickedItem).Text;
-            Debug.WriteLine("Pressed Card Text: " + BelowCardText);
             if (BelowCardText == "Downloads")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 2;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
             }
             else if (BelowCardText == "Documents")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 3;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
             }
             else if (BelowCardText == "Pictures")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 4;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
             }
             else if (BelowCardText == "Music")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 5;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
             }
             else if (BelowCardText == "Videos")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 6;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
             }
         }
 
@@ -125,68 +93,38 @@ namespace Files
             var clickedButton = sender as Button;
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 2;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 3;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 4;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 5;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                
+                ProHome.locationsList.SelectedIndex = 6;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
             }
         }
         public static StorageFile RecentsFile;

@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Files.Interacts;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,8 +9,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -28,7 +31,9 @@ namespace Files
     {
         ObservableCollection<Tab> tabList = new ObservableCollection<Tab>();
         public static ContentDialog permissionBox;
-
+        public static ListView locationsList;
+        public static ListView drivesList;
+        public static Frame accessibleContentFrame;
         public static ObservableCollection<Tab> TabList { get; set; } = new ObservableCollection<Tab>();
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -46,7 +51,11 @@ namespace Files
             titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             permissionBox = PermissionDialog;
+            locationsList = LocationsList;
+            drivesList = DrivesList;
+            accessibleContentFrame = ItemDisplayFrame;
             LocationsList.SelectedIndex = 0;
+            accessibleContentFrame.Navigate(typeof(YourHome));
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)
             {
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 0, 0, 0);
@@ -71,6 +80,7 @@ namespace Files
             }
             TabList.Clear();
             TabList.Add(new Tab() { TabName = "Home", TabContent = "local:MainPage" });
+            PathBarTip.IsOpen = false;
         }
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -81,7 +91,138 @@ namespace Files
 
         private async void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
         {
+            if (e.Key == VirtualKey.Enter)
+            {
+                var PathBox = (sender as TextBox);
+                var CurrentInput = PathBox.Text;
+                if (CurrentInput != App.ViewModel.Universal.path)
+                {
+                    App.ViewModel.CancelLoadAndClearFiles();
 
+                    if (CurrentInput == "Home" || CurrentInput == "home")
+                    {
+                        ProHome.accessibleContentFrame.Navigate(typeof(YourHome));
+                    }
+                    else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DesktopPath);
+                        App.PathText.Text = "Desktop";
+                    }
+                    else if (CurrentInput == "Documents" || CurrentInput == "documents")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DocumentsPath);
+                        App.PathText.Text = "Documents";
+
+                    }
+                    else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DownloadsPath);
+                        App.PathText.Text = "Downloads";
+
+                    }
+                    else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), MainPage.PicturesPath);
+                        App.PathText.Text = "Pictures";
+                    }
+                    else if (CurrentInput == "Music" || CurrentInput == "music")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.MusicPath);
+                        App.PathText.Text = "Music";
+
+                    }
+                    else if (CurrentInput == "Videos" || CurrentInput == "videos")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.VideosPath);
+                        App.PathText.Text = "Videos";
+
+                    }
+                    else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
+                    {
+                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.OneDrivePath);
+                        App.PathText.Text = "OneDrive";
+
+                    }
+                    else
+                    {
+                        if (CurrentInput.Contains("."))
+                        {
+                            if (CurrentInput.Contains(".exe") || CurrentInput.Contains(".EXE"))
+                            {
+                                if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
+                                {
+                                    await Interaction.LaunchExe(CurrentInput);
+                                    PathBox.Text = App.ViewModel.Universal.path;
+                                }
+                                else
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                            }
+                            else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
+                            {
+                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                    StorageFile file = await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                    var options = new LauncherOptions
+                                    {
+                                        DisplayApplicationPicker = false
+
+                                    };
+                                    await Launcher.LaunchFileAsync(file, options);
+                                    PathBox.Text = App.ViewModel.Universal.path;
+                                }
+                                catch (ArgumentException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                                catch (FileNotFoundException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            try
+                            {
+                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+                            catch (FileNotFoundException)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+
+                        }
+
+                    }
+                }
+            }
         }
 
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)

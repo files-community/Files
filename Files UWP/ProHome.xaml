@@ -1015,7 +1015,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <StackPanel Orientation="Vertical">
+            <Custom:DropShadowPanel OffsetY="-2" HorizontalContentAlignment="Stretch">
+            <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
             <Custom:TabView SelectedIndex="1" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                 <Custom:TabViewItem  BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="File">
                     <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -1114,26 +1115,23 @@
                         </AppBarButton>
                     </StackPanel>
                     <TextBox Grid.Column="1" CornerRadius="0" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="5" Margin="2,5" PlaceholderText="Navigate to a path...">
-                        <uilib:TeachingTip.Attach>
-                            <uilib:TeachingTip Name="PathBarTip" BleedingImagePlacement="Bottom" Title="Access a location quickly with the Path Bar">
-                                <uilib:TeachingTip.IconSource>
-                                    <uilib:SymbolIconSource Symbol="Help"/>
-                                </uilib:TeachingTip.IconSource>
-                                <uilib:TeachingTip.BleedingImageContent>
-                                    <Image Source="/Assets/PathbarTeachingTipVisual.gif"/>
-                                </uilib:TeachingTip.BleedingImageContent>
-
-                            </uilib:TeachingTip>
-                        </uilib:TeachingTip.Attach>
+                            <TextBox.Resources>
+                                <uilib:TeachingTip Target="{x:Bind VisiblePath}" x:Key="PathBarTeachingTip" Name="PathBarTip" PreferredPlacement="Bottom" Subtitle="Enter a full path or simply the name of a common location" Title="Access locations quickly">
+                                    <uilib:TeachingTip.IconSource>
+                                        <uilib:SymbolIconSource Symbol="Help"/>
+                                    </uilib:TeachingTip.IconSource>
+                                </uilib:TeachingTip>
+                        </TextBox.Resources>
                     </TextBox>
 
                     <AutoSuggestBox TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxThinStyle}" Style="{StaticResource AutoSuggestBoxThinStyle}" PlaceholderText="Search" CornerRadius="5" QueryIcon="Find" Width="275" Margin="5" Grid.Column="2"/>
 
                 </Grid>
             </StackPanel>
+            </Custom:DropShadowPanel>
         </Grid>
         
-        <SplitView PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" >
+        <SplitView Canvas.ZIndex="-2" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" >
             <SplitView.Pane>
                 <Grid>
                     <StackPanel>
@@ -1218,7 +1216,9 @@
                     </StackPanel>
                 </Grid>
             </SplitView.Pane>
-            <Frame Name="ItemDisplayFrame"/>
+            
+            <Frame Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
+                
         </SplitView>
         <ContentDialog Grid.RowSpan="2" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
             <Grid>

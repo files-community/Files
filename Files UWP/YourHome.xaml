@@ -390,22 +390,22 @@
             <RowDefinition Height="55*"/>
         </Grid.RowDefinitions>
         <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="32" FontWeight="Bold" Text="Locations" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
-        <controls:AdaptiveGridView IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="True" ItemHeight="210" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
+        <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
                     <Grid Margin="0,0,0,0" Padding="0,0,0,0">
 
                         <Grid Margin="2">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="85*"/>
-                                <RowDefinition Height="15*"/>
+                                <RowDefinition Height="75*"/>
+                                <RowDefinition Height="25*"/>
                             </Grid.RowDefinitions>
 
 
                             <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="5.00" ShadowOpacity="0" Padding="0,0,-4,0" BlurRadius="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
                                 <Grid >
-                                    <Button Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource ButtonRevealStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="5">
-                                        <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="58" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    <Button Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource ButtonRevealStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="0">
+                                        <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="28" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                     </Button>
                                 </Grid>
                             </controls:DropShadowPanel>
