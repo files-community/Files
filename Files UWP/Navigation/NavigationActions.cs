@@ -201,46 +201,7 @@ namespace Files.Navigation
 
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
-                if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
-                {
-                    App.PathText.Text = "Desktop";
-
-                }
-                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
-                {
-                    App.PathText.Text = "Documents";
-
-                }
-                else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
-                {
-                    App.PathText.Text = "Downloads";
-
-                }
-                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
-                {
-
-                    App.PathText.Text = "Pictures";
-                }
-                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
-                {
-                    App.PathText.Text = "Music";
-
-                }
-                else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
-                {
-                    App.PathText.Text = "OneDrive";
-
-                }
-                else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
-                {
-                    App.PathText.Text = "Videos";
-
-                }
-                else
-                {
-                    App.PathText.Text = (History.HistoryList[History.HistoryList.Count - 1]);
-
-                }
+                
             });
         }
     }

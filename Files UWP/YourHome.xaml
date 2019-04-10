@@ -433,12 +433,12 @@
                         </ListView.ContextFlyout>    
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Padding="10" VerticalAlignment="Center">
+                                <Grid Padding="5" VerticalAlignment="Center">
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
                                         <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
-                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="30" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="30" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                            <Image Visibility="{Binding FileIconVis}" Height="30" Width="30" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                            <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
                                         </Grid>
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                                             <TextBlock Width="400" TextWrapping="NoWrap" Text="{Binding name}"/>

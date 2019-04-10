@@ -74,9 +74,7 @@ namespace Files
             //PathBarTip.IsOpen = true;
         }
 
-        
-
-        private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
+        private void AddItem_Click(object sender, RoutedEventArgs e)
         {
             //await AddDialog.ShowAsync();
         }
@@ -107,13 +105,15 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
+            ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.CancelLoadAndClearFiles();
             App.ViewModel.Universal.path = parameters;
             //ProHome.BackButton.Click += NavigationActions.Back_Click;
             //ProHome.ForwardButton.Click += NavigationActions.Forward_Click;
             ProHome.RefreshButton.Click += NavigationActions.Refresh_Click;
-            ProHome.AddItemButton.Click += AddItem_ClickAsync;
+            ProHome.AddItemButton.Click += AddItem_Click;
             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {

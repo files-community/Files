@@ -142,15 +142,10 @@ namespace Files.Filesystem
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
 
-                History.AddToHistory(Universal.path);
-                if (History.HistoryList.Count == 1)     // If this is the only item present in History, we don't want back button to be enabled
-                {
-                    BS.isEnabled = false;
-                }
-                else if (History.HistoryList.Count > 1)     // Otherwise, if this is not the first item, we'll enable back click
-                {
-                    BS.isEnabled = true;
-                }
+                //History.AddToHistory(Universal.path);
+                
+                ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
+                ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {

@@ -103,11 +103,7 @@ namespace Files
             PopulateNavViewWithExternalDrives();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            BackButton.IsEnabled = accessibleContentFrame.CanGoBack;
-            ForwardButton.IsEnabled = accessibleContentFrame.CanGoForward;
-        }
+
 
         public async void PopulateNavViewWithExternalDrives()
         {
@@ -437,6 +433,15 @@ namespace Files
             if (accessibleContentFrame.CanGoBack)
             {
                 accessibleContentFrame.GoBack();
+            }
+        }
+
+        private void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            App.ViewModel.CancelLoadAndClearFiles();
+            if (accessibleContentFrame.CanGoForward)
+            {
+                accessibleContentFrame.GoForward();
             }
         }
     }

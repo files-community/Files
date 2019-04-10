@@ -123,10 +123,8 @@
     <Compile Include="Interacts\RibbonActions\Layout.cs" />
     <Compile Include="Interacts\RibbonActions\Share.cs" />
     <Compile Include="LocationsList.cs" />
-    <Compile Include="Navigation\ArrayDiag.cs" />
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
-    <Compile Include="Navigation\History.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Navigation\PhotoAlbumNavActions.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />

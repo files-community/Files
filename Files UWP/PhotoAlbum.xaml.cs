@@ -43,17 +43,19 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
+            ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
             var parameters = eventArgs.Parameter.ToString();
             App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
             Interaction.page = this;
             FileList.DoubleTapped += Interaction.List_ItemClick;
             //ProHome.BackButton.Click += Navigation.PhotoAlbumNavActions.Back_Click;
             //ProHome.ForwardButton.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
-            ProHome.RefreshButton.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
+            //ProHome.RefreshButton.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
             FileList.RightTapped += Interaction.FileList_RightTapped;
             OpenItem.Click += Interaction.OpenItem_Click;
             CopyItem.Click += Interaction.CopyItem_ClickAsync;
-            RefreshGrid.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
+            //RefreshGrid.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
             DeleteItem.Click += Interaction.DeleteItem_Click;
 
 

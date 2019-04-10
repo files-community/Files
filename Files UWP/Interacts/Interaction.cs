@@ -59,7 +59,6 @@ namespace Files.Interacts
                         App.ViewModel.Universal.path = clickedOnItem.FilePath;
                         App.PathText.Text = clickedOnItem.FilePath;
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        History.ForwardList.Clear();
                         App.ViewModel.FS.isEnabled = false;
                         App.ViewModel.CancelLoadAndClearFiles();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
@@ -155,7 +154,6 @@ namespace Files.Interacts
                         App.ViewModel.Universal.path = clickedOnItem.FilePath;
                         App.PathText.Text = clickedOnItem.FilePath;
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        History.ForwardList.Clear();
                         App.ViewModel.FS.isEnabled = false;
                         App.ViewModel.CancelLoadAndClearFiles();
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
@@ -390,7 +388,6 @@ namespace Files.Interacts
                 if (RowData.FileType == "Folder")
                 {
                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                    History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
                     App.ViewModel.CancelLoadAndClearFiles();
                     App.ViewModel.Universal.path = RowData.FilePath;
@@ -412,7 +409,6 @@ namespace Files.Interacts
                 if (RowData.FileType == "Folder")
                 {
                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                    History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
                     App.ViewModel.CancelLoadAndClearFiles();
                     App.ViewModel.Universal.path = RowData.FilePath;
@@ -508,7 +504,6 @@ namespace Files.Interacts
                         App.ViewModel.RemoveFileOrFolder(storItem);
                     }
                     Debug.WriteLine("Ended for loop");
-                    History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
                 }
                 else if (page.Name == "PhotoAlbumViewer")
@@ -535,7 +530,6 @@ namespace Files.Interacts
                         App.ViewModel.RemoveFileOrFolder(storItem);
                     }
                     Debug.WriteLine("Ended for loop");
-                    History.ForwardList.Clear();
                     App.ViewModel.FS.isEnabled = false;
                 }
                 
@@ -657,7 +651,6 @@ namespace Files.Interacts
                     await itemAlreadyExistsDialog.ShowAsync();
                 }
             }
-            History.ForwardList.Clear();
             App.ViewModel.FS.isEnabled = false;
         }
 
@@ -799,14 +792,14 @@ namespace Files.Interacts
                     }
                 }
             }
-                    if (page.Name == "GenericItemView")
-                    {
-                        NavigationActions.Refresh_Click(null, null);
-                    }
-                    else if (page.Name == "PhotoAlbumViewer")
-                    {
-                        PhotoAlbumNavActions.Refresh_Click(null, null);
-                    }
+                    //if (page.Name == "GenericItemView")
+                    //{
+                    //    NavigationActions.Refresh_Click(null, null);
+                    //}
+                    //else if (page.Name == "PhotoAlbumViewer")
+                    //{
+                    //    PhotoAlbumNavActions.Refresh_Click(null, null);
+                    //}
                 
             
         }
