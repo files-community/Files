@@ -103,6 +103,12 @@ namespace Files
             PopulateNavViewWithExternalDrives();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            BackButton.IsEnabled = accessibleContentFrame.CanGoBack;
+            ForwardButton.IsEnabled = accessibleContentFrame.CanGoForward;
+        }
+
         public async void PopulateNavViewWithExternalDrives()
         {
             var knownRemDevices = new ObservableCollection<string>();
@@ -423,6 +429,15 @@ namespace Files
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
 
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            App.ViewModel.CancelLoadAndClearFiles();
+            if (accessibleContentFrame.CanGoBack)
+            {
+                accessibleContentFrame.GoBack();
+            }
         }
     }
 

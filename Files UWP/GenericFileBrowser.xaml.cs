@@ -110,8 +110,8 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.CancelLoadAndClearFiles();
             App.ViewModel.Universal.path = parameters;
-            ProHome.BackButton.Click += NavigationActions.Back_Click;
-            ProHome.ForwardButton.Click += NavigationActions.Forward_Click;
+            //ProHome.BackButton.Click += NavigationActions.Back_Click;
+            //ProHome.ForwardButton.Click += NavigationActions.Forward_Click;
             ProHome.RefreshButton.Click += NavigationActions.Refresh_Click;
             ProHome.AddItemButton.Click += AddItem_ClickAsync;
             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);

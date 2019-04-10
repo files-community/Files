@@ -12,7 +12,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Interacts"
     Name="GenericItemView"
-    mc:Ignorable="d" Background="{StaticResource ApplicationPageBackgroundThemeBrush}"  IsRightTapEnabled="True" RightTapped="GenericItemView_RightTapped" PointerReleased="GenericItemView_PointerReleased">
+    mc:Ignorable="d" NavigationCacheMode="Required" Background="{StaticResource ApplicationPageBackgroundThemeBrush}"  IsRightTapEnabled="True" RightTapped="GenericItemView_RightTapped" PointerReleased="GenericItemView_PointerReleased">
     <Page.Resources>
         <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
             <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}"/>

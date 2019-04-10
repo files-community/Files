@@ -47,8 +47,8 @@ namespace Files
             App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
             Interaction.page = this;
             FileList.DoubleTapped += Interaction.List_ItemClick;
-            ProHome.BackButton.Click += Navigation.PhotoAlbumNavActions.Back_Click;
-            ProHome.ForwardButton.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
+            //ProHome.BackButton.Click += Navigation.PhotoAlbumNavActions.Back_Click;
+            //ProHome.ForwardButton.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
             ProHome.RefreshButton.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
             FileList.RightTapped += Interaction.FileList_RightTapped;
             OpenItem.Click += Interaction.OpenItem_Click;

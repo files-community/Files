@@ -1089,7 +1089,7 @@
                          <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                             <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <AppBarButton Icon="Back" LabelPosition="Collapsed" IsEnabled="{x:Bind local:App.ViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
+                            <AppBarButton Icon="Back" Click="Back_Click" LabelPosition="Collapsed" IsEnabled="{x:Bind local:App.ViewModel.BS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="Back">
                                 
                                 <AppBarButton.KeyboardAccelerators>
                                     <KeyboardAccelerator Modifiers="Control" Key="Left"/>

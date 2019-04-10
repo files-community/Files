@@ -115,7 +115,7 @@ namespace Files.Interacts
                         {
                             ProHome.drivesList.SelectedIndex = 0;
                             App.ViewModel.Universal.path = clickedOnItem.FilePath;
-                            App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
+                            ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.ViewModel.Universal.path, new SuppressNavigationTransitionInfo());
                         }
                     }
                     else if (clickedOnItem.FileType == "Application")

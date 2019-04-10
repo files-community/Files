@@ -51,12 +51,14 @@ namespace Files.Navigation
             {
                 if (ForwardList[ForwardList.Count - 1] != pathToBeAdded)
                 {
-                    ForwardList.Add(pathToBeAdded);
+                    //ForwardList.Add(pathToBeAdded);
+                    ForwardList.Insert(0, pathToBeAdded);
                 }
             }
             else
             {
-                ForwardList.Add(pathToBeAdded);
+                //ForwardList.Add(pathToBeAdded);
+                ForwardList.Insert(0, pathToBeAdded);
             }
         }
     }
