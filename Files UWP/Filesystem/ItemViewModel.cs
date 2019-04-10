@@ -116,25 +116,25 @@ namespace Files.Filesystem
             switch (Universal.path)
             {
                 case "Desktop":
-                    Universal.path = MainPage.DesktopPath;
+                    Universal.path = ProHome.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = MainPage.DownloadsPath;
+                    Universal.path = ProHome.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = MainPage.DocumentsPath;
+                    Universal.path = ProHome.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = MainPage.PicturesPath;
+                    Universal.path = ProHome.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = MainPage.MusicPath;
+                    Universal.path = ProHome.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = MainPage.VideosPath;
+                    Universal.path = ProHome.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = MainPage.OneDrivePath;
+                    Universal.path = ProHome.OneDrivePath;
                     break;
             }
 
@@ -254,7 +254,7 @@ namespace Files.Filesystem
                 Frame rootFrame = Window.Current.Content as Frame;
                 MessageDialog driveGone = new MessageDialog(e.Message, "Drive Unplugged");
                 await driveGone.ShowAsync();
-                rootFrame.Navigate(typeof(MainPage), new SuppressNavigationTransitionInfo());
+                rootFrame.Navigate(typeof(ProHome), new SuppressNavigationTransitionInfo());
                 return;
             }
 

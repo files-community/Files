@@ -26,114 +26,51 @@ namespace Files.Navigation
                 if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
                     App.PathText.Text = "Desktop";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
+                    ProHome.locationsList.SelectedIndex = 1;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
                     App.PathText.Text = "Documents";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
+                    ProHome.locationsList.SelectedIndex = 3;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
                     App.PathText.Text = "Downloads";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
+                    ProHome.locationsList.SelectedIndex = 2;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                 {
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
+                    ProHome.locationsList.SelectedIndex = 4;
+                    ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                     App.PathText.Text = "Pictures";
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
                     App.PathText.Text = "Music";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
+                    ProHome.locationsList.SelectedIndex = 5;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
                     App.PathText.Text = "OneDrive";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
+                    ProHome.drivesList.SelectedIndex = 1;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.HistoryList[History.HistoryList.Count - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
                     App.PathText.Text = "Videos";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
+                    ProHome.locationsList.SelectedIndex = 6;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
 
                     if ((History.HistoryList[History.HistoryList.Count - 1]).Contains("C:"))
                     {
-                        foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                        {
-                            if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
-                            {
-                                MainPage.Select.itemSelected = NavItemChoice;
-                                break;
-                            }
-                        }
+                        ProHome.drivesList.SelectedIndex = 0;
                     }
                     App.PathText.Text = (History.HistoryList[History.HistoryList.Count - 1]);
                     App.ViewModel.AddItemsToCollectionAsync(History.HistoryList[History.HistoryList.Count - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to
@@ -166,116 +103,51 @@ namespace Files.Navigation
                 if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                 {
                     App.PathText.Text = "Desktop";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
+                    ProHome.locationsList.SelectedIndex = 1;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                 {
                     App.PathText.Text = "Documents";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
+                    ProHome.locationsList.SelectedIndex = 3;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                 {
                     App.PathText.Text = "Downloads";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
+                    ProHome.locationsList.SelectedIndex = 2;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                 {
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
+                    ProHome.locationsList.SelectedIndex = 4;
+                    ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
                     App.PathText.Text = "Pictures";
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                 {
                     App.PathText.Text = "Music";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
+                    ProHome.locationsList.SelectedIndex = 5;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                 {
                     App.PathText.Text = "OneDrive";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
+                    ProHome.drivesList.SelectedIndex = 1;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                 }
                 else if ((History.ForwardList[History.ForwardList.Count() - 1]) == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                 {
                     App.PathText.Text = "Videos";
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                    MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
-                    MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
+                    ProHome.locationsList.SelectedIndex = 6;
+                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
                     Debug.WriteLine("Debug: " + ("Removable Drive (" + History.ForwardList[History.ForwardList.Count() - 1].Split('\\')[0] + "\\)"));
                     if (!History.ForwardList[History.ForwardList.Count() - 1].Split('\\')[0].Contains("C:\\"))
                     {
-
-                        foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                        {
-                            if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Content.ToString() == ("Removable Drive (" + History.ForwardList[History.ForwardList.Count() - 1].Split('\\')[0] + "\\)"))
-                            {
-
-                                MainPage.Select.itemSelected = NavItemChoice;
-                                break;
-                            }
-                        }
+                        ProHome.drivesList.SelectedIndex = 0;
                     }
                     App.PathText.Text = (History.ForwardList[History.ForwardList.Count() - 1]);
                     App.ViewModel.AddItemsToCollectionAsync(History.ForwardList[History.ForwardList.Count() - 1], GenericFileBrowser.GFBPageName); // To take into account the correct index without interference from the folder being navigated to

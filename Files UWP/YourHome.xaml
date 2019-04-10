@@ -382,14 +382,14 @@
 
     </Page.Resources>
     <ScrollViewer>
-    <Grid Padding="24,35,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Padding="24,24,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="55*"/>
         </Grid.RowDefinitions>
-        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="32" FontWeight="Bold" Text="Locations" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
+        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="28" FontWeight="Bold" Text="Locations" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
         <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
@@ -423,9 +423,9 @@
 
             <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Margin="0,24,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="30" Text="Recent Items"/>
+                    <TextBlock Margin="0,24,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="28" Text="Recent Items"/>
                     <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="20"/>
-                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" MinHeight="400" HorizontalAlignment="Stretch"  Padding="0,5,0,0" >
+                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,5,0,0" VerticalAlignment="Top" >
                         <ListView.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
@@ -442,7 +442,7 @@
                                         </Grid>
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                                             <TextBlock Width="400" TextWrapping="NoWrap" Text="{Binding name}"/>
-                                            <TextBlock Margin="100,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
+                                            <TextBlock Margin="50,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

@@ -3,6 +3,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -34,6 +35,14 @@ namespace Files
         public static ListView locationsList;
         public static ListView drivesList;
         public static Frame accessibleContentFrame;
+        public static Button BackButton;
+        public static Button ForwardButton;
+        public static Button RefreshButton;
+        public static Button AddItemButton;
+        public static ContentDialog AddItemBox;
+        public static ContentDialog NameBox;
+        public static TextBox inputFromRename;
+        public static string inputForRename;
         public static ObservableCollection<Tab> TabList { get; set; } = new ObservableCollection<Tab>();
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -45,6 +54,9 @@ namespace Files
         public ProHome()
         {
             this.InitializeComponent();
+            // TODO: Migrate preferred view size to page hosting tabs (when needed)
+            ApplicationView.PreferredLaunchViewSize = new Size(1080, 630);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = false;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -54,6 +66,13 @@ namespace Files
             locationsList = LocationsList;
             drivesList = DrivesList;
             accessibleContentFrame = ItemDisplayFrame;
+            AddItemBox = AddDialog;
+            NameBox = NameDialog;
+            inputFromRename = RenameInput;
+            BackButton = Back;
+            ForwardButton = Forward;
+            RefreshButton = Refresh;
+            AddItemButton = AddItem;
             LocationsList.SelectedIndex = 0;
             accessibleContentFrame.Navigate(typeof(YourHome));
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)
@@ -81,12 +100,83 @@ namespace Files
             TabList.Clear();
             TabList.Add(new Tab() { TabName = "Home", TabContent = "local:MainPage" });
             PathBarTip.IsOpen = false;
+            PopulateNavViewWithExternalDrives();
+        }
+
+        public async void PopulateNavViewWithExternalDrives()
+        {
+            var knownRemDevices = new ObservableCollection<string>();
+            foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
+            {
+                var path = f.Path;
+                knownRemDevices.Add(path);
+            }
+
+            var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList();
+
+            if (!driveLetters.Any()) return;
+
+            driveLetters.ToList().ForEach(roots =>
+            {
+                try
+                {
+                    if (roots.Name == @"C:\") return;
+                    var content = string.Empty;
+                    string icon;
+                    if (knownRemDevices.Contains(roots.Name))
+                    {
+                        content = $"Removable Drive ({roots.Name})";
+                        icon = "\uE88E";
+                    }
+                    else
+                    {
+                        content = $"Local Disk ({roots.Name})";
+                        icon = "\uEDA2";
+                    }
+                    FontFamily fontFamily = new FontFamily("Segoe MDL2 Assets");
+                    FontIcon fontIcon = new FontIcon()
+                    {
+                        FontSize = 16,
+                        FontFamily = fontFamily,
+                        Glyph = icon
+                    };
+
+                    TextBlock text = new TextBlock()
+                    {
+                        Text = content,
+                        FontSize = 12
+                    };
+
+                    StackPanel stackPanel = new StackPanel()
+                    {
+                        Spacing = 15,
+                        Orientation = Orientation.Horizontal
+                    };
+
+                    stackPanel.Children.Add(fontIcon);
+                    stackPanel.Children.Add(text);
+                    DrivesList.Items.Add(new ListViewItem()
+                    {
+                        Content = stackPanel,
+                        Tag = roots.Name
+                    });
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            });
         }
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selectedTab = e.AddedItems as TabViewItem;
 
+        }
+
+        private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            inputForRename = inputFromRename.Text;
         }
 
         private async void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
@@ -98,56 +188,73 @@ namespace Files
                 if (CurrentInput != App.ViewModel.Universal.path)
                 {
                     App.ViewModel.CancelLoadAndClearFiles();
-
+                    App.HomeItems.isEnabled = false;
+                    App.ShareItems.isEnabled = false;
                     if (CurrentInput == "Home" || CurrentInput == "home")
                     {
                         ProHome.accessibleContentFrame.Navigate(typeof(YourHome));
+                        App.PathText.Text = "This PC";
+                        App.LayoutItems.isEnabled = false;
                     }
                     else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DesktopPath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                         App.PathText.Text = "Desktop";
+                        App.LayoutItems.isEnabled = true;
+
                     }
                     else if (CurrentInput == "Documents" || CurrentInput == "documents")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DocumentsPath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                         App.PathText.Text = "Documents";
+                        App.LayoutItems.isEnabled = true;
+
 
                     }
                     else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DownloadsPath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                         App.PathText.Text = "Downloads";
+                        App.LayoutItems.isEnabled = true;
+
 
                     }
                     else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), MainPage.PicturesPath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                         App.PathText.Text = "Pictures";
+                        App.LayoutItems.isEnabled = true;
+
                     }
                     else if (CurrentInput == "Music" || CurrentInput == "music")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.MusicPath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                         App.PathText.Text = "Music";
+                        App.LayoutItems.isEnabled = true;
+
 
                     }
                     else if (CurrentInput == "Videos" || CurrentInput == "videos")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.VideosPath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                         App.PathText.Text = "Videos";
+                        App.LayoutItems.isEnabled = true;
+
 
                     }
                     else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.OneDrivePath);
+                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                         App.PathText.Text = "OneDrive";
+                        App.LayoutItems.isEnabled = true;
+
 
                     }
                     else
@@ -206,6 +313,7 @@ namespace Files
                                 await StorageFolder.GetFolderFromPathAsync(CurrentInput);
                                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                App.LayoutItems.isEnabled = true;
                             }
                             catch (ArgumentException)
                             {
@@ -227,31 +335,87 @@ namespace Files
 
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if(DrivesList.SelectedItem != null)
+            App.HomeItems.isEnabled = false;
+            App.ShareItems.isEnabled = false;
+            if (DrivesList.SelectedItem != null)
             {
                 DrivesList.SelectedItem = null;
+                App.LayoutItems.isEnabled = false;
             }
-            var clickedItem = Interacts.Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+            var clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
             if(clickedItem.Tag.ToString() == "ThisPC")
             {
                 ItemDisplayFrame.Navigate(typeof(YourHome));
+                App.PathText.Text = "This PC";
+                App.LayoutItems.isEnabled = false;
             }
             else if(clickedItem.Tag.ToString() == "Desktop")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
+                App.PathText.Text = "Desktop";
+                App.LayoutItems.isEnabled = true;
             }
             else if(clickedItem.Tag.ToString() == "Downloads")
             {
-
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                App.PathText.Text = "Downloads";
+                App.LayoutItems.isEnabled = true;
+            }
+            else if(clickedItem.Tag.ToString() == "Documents")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                App.PathText.Text = "Documents";
+                App.LayoutItems.isEnabled = true;
+            }
+            else if(clickedItem.Tag.ToString() == "Pictures")
+            {
+                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                App.PathText.Text = "Pictures";
+                App.LayoutItems.isEnabled = true;
+            }
+            else if(clickedItem.Tag.ToString() == "Music")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                App.PathText.Text = "Music";
+                App.LayoutItems.isEnabled = true;
+            }
+            else if(clickedItem.Tag.ToString() == "Videos")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                App.PathText.Text = "Videos";
+                App.LayoutItems.isEnabled = true;
             }
 
         }
 
         private void DrivesList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if(LocationsList.SelectedItem != null)
+            App.HomeItems.isEnabled = false;
+            App.ShareItems.isEnabled = false;
+            if (LocationsList.SelectedItem != null)
             {
                 LocationsList.SelectedItem = null;
+                App.LayoutItems.isEnabled = false;
+            }
+            var clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+
+            if(clickedItem.Tag.ToString() == "LocalDisk")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
+                App.PathText.Text = @"Local Disk (C:\)";
+                App.LayoutItems.isEnabled = true;
+            }
+            else if(clickedItem.Tag.ToString() == "OneDrive")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                App.PathText.Text = "OneDrive";
+                App.LayoutItems.isEnabled = true;
+            }
+            else
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+                App.PathText.Text = clickedItem.Tag.ToString();
+                App.LayoutItems.isEnabled = true;
             }
         }
 

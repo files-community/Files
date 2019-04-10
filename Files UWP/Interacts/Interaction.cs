@@ -161,112 +161,114 @@ namespace Files.Interacts
                         if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
                             App.PathText.Text = "Desktop";
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.locationsList.SelectedIndex = 1;
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
                             App.PathText.Text = "Documents";
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.locationsList.SelectedIndex = 3;
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
                             App.PathText.Text = "Downloads";
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.locationsList.SelectedIndex = 2;
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                         {
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
+                            ProHome.locationsList.SelectedIndex = 4;
                             App.PathText.Text = "Pictures";
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
                             App.PathText.Text = "Music";
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.locationsList.SelectedIndex = 5;
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
                             App.PathText.Text = "OneDrive";
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.drivesList.SelectedIndex = 1;
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                         }
                         else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
                             App.PathText.Text = "Videos";
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
-                            MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
-                            MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+                            ProHome.drivesList.SelectedIndex = 6;
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                         }
                         else
                         {
+                            ProHome.drivesList.SelectedIndex = 0;
                             App.PathText.Text = clickedOnItem.FilePath;
-                            foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                            {
-                                if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
-                                {
-                                    MainPage.Select.itemSelected = NavItemChoice;
-                                    break;
-                                }
-                            }
+                            //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
+                            //{
+                            //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "LocD_IC")
+                            //    {
+                            //        MainPage.Select.itemSelected = NavItemChoice;
+                            //        break;
+                            //    }
+                            //}
+
                             App.ViewModel.AddItemsToCollectionAsync(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
                         }
                     }

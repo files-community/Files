@@ -116,7 +116,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await MainPage.permissionBox.ShowAsync();
+                    await ProHome.permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -138,7 +138,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await MainPage.permissionBox.ShowAsync();
+                    await ProHome.permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -160,7 +160,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await MainPage.permissionBox.ShowAsync();
+                    await ProHome.permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -182,7 +182,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await MainPage.permissionBox.ShowAsync();
+                    await ProHome.permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -204,7 +204,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await MainPage.permissionBox.ShowAsync();
+                    await ProHome.permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)

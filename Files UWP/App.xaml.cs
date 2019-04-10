@@ -60,6 +60,9 @@ namespace Files
 
         }
         public static Filesystem.ItemViewModel ViewModel = new Filesystem.ItemViewModel();
+        public static Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
+        public static Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
+        public static Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
         public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
 
         /// <summary>

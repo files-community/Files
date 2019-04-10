@@ -60,10 +60,6 @@ namespace Files
             CutItem.Click += Interaction.CutItem_Click;
             CopyItem.Click += Interaction.CopyItem_ClickAsync;
             AllView.RightTapped += Interaction.AllView_RightTapped;
-            //Back.Click += NavigationActions.Back_Click;
-            //Forward.Click += NavigationActions.Forward_Click;
-            //Refresh.Click += NavigationActions.Refresh_Click;
-            //AddItem.Click += AddItem_ClickAsync;
             AllView.DoubleTapped += Interaction.List_ItemClick;
             //Clipboard.ContentChanged += Clipboard_ContentChanged;
             //AddItemBox = AddDialog;
@@ -114,6 +110,10 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.CancelLoadAndClearFiles();
             App.ViewModel.Universal.path = parameters;
+            ProHome.BackButton.Click += NavigationActions.Back_Click;
+            ProHome.ForwardButton.Click += NavigationActions.Forward_Click;
+            ProHome.RefreshButton.Click += NavigationActions.Refresh_Click;
+            ProHome.AddItemButton.Click += AddItem_ClickAsync;
             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
@@ -306,7 +306,14 @@ namespace Files
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             AllView.CommitEdit();
+            if(e.AddedItems.Count > 0)
+            {
+                App.HomeItems.isEnabled = true;
+                App.ShareItems.isEnabled = true;
+
+            }
         }
 
         private void NameDialog_Loaded(object sender, RoutedEventArgs e)

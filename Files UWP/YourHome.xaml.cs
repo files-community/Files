@@ -324,7 +324,7 @@ namespace Files
             }
             catch (System.ArgumentException)
             {
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
             }
         }
 
@@ -338,7 +338,7 @@ namespace Files
             recentItemsCollection.Clear();
             RecentsView.ItemsSource = null;
             await RecentsFile.DeleteAsync();
-            MainPage.accessibleContentFrame.Navigate(typeof(YourHome), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+            ProHome.accessibleContentFrame.Navigate(typeof(YourHome), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
 
         }
     }
