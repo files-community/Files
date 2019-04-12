@@ -30,7 +30,6 @@ namespace Files
     /// </summary>
     public sealed partial class ProHome : Page
     {
-        ObservableCollection<Tab> tabList = new ObservableCollection<Tab>();
         public static ContentDialog permissionBox;
         public static ListView locationsList;
         public static ListView drivesList;
@@ -43,7 +42,6 @@ namespace Files
         public static ContentDialog NameBox;
         public static TextBox inputFromRename;
         public static string inputForRename;
-        public static ObservableCollection<Tab> TabList { get; set; } = new ObservableCollection<Tab>();
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -97,8 +95,6 @@ namespace Files
             {
                 titleBar.ButtonForegroundColor = Colors.Black;
             }
-            TabList.Clear();
-            TabList.Add(new Tab() { TabName = "Home", TabContent = "local:MainPage" });
             PathBarTip.IsOpen = false;
             PopulateNavViewWithExternalDrives();
         }
@@ -506,6 +502,73 @@ namespace Files
             App.ViewModel.CancelLoadAndClearFiles();
             if (accessibleContentFrame.CanGoForward)
             {
+                var SourcePageType = accessibleContentFrame.ForwardStack[accessibleContentFrame.ForwardStack.Count - 1].SourcePageType;
+                var Parameter = accessibleContentFrame.ForwardStack[accessibleContentFrame.ForwardStack.Count - 1].Parameter;
+
+                if (SourcePageType == typeof(YourHome))
+                {
+                    locationsList.SelectedIndex = 0;
+                    App.PathText.Text = "Favorites";
+                }
+                else
+                {
+                    if (Parameter.ToString() == DesktopPath)
+                    {
+                        locationsList.SelectedIndex = 1;
+                        App.PathText.Text = "Desktop";
+                    }
+                    else if (Parameter.ToString() == DownloadsPath)
+                    {
+                        locationsList.SelectedIndex = 2;
+                        App.PathText.Text = "Downloads";
+                    }
+                    else if (Parameter.ToString() == DocumentsPath)
+                    {
+                        locationsList.SelectedIndex = 3;
+                        App.PathText.Text = "Documents";
+                    }
+                    else if (Parameter.ToString() == PicturesPath)
+                    {
+                        locationsList.SelectedIndex = 4;
+                        App.PathText.Text = "Pictures";
+                    }
+                    else if (Parameter.ToString() == MusicPath)
+                    {
+                        locationsList.SelectedIndex = 5;
+                        App.PathText.Text = "Music";
+                    }
+                    else if (Parameter.ToString() == VideosPath)
+                    {
+                        locationsList.SelectedIndex = 6;
+                        App.PathText.Text = "Videos";
+                    }
+                    else if (Parameter.ToString() == OneDrivePath)
+                    {
+                        drivesList.SelectedIndex = 1;
+                        App.PathText.Text = "OneDrive";
+                    }
+                    else
+                    {
+                        if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                        {
+                            drivesList.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            foreach (ListViewItem drive in drivesList.Items)
+                            {
+                                if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                {
+                                    drivesList.SelectedItem = drive;
+                                    break;
+                                }
+                            }
+
+                        }
+                        App.PathText.Text = Parameter.ToString();
+                    }
+                }
+
                 accessibleContentFrame.GoForward();
             }
         }
@@ -525,11 +588,5 @@ namespace Files
                 locationsList.SelectedItem = null;
             }
         }
-    }
-
-    public class Tab
-    {
-        public string TabName { get; set; }
-        public string TabContent { get; set; }
     }
 }

@@ -36,6 +36,7 @@ namespace Files
             Locations.ItemLoader.DisplayItems();
             recentItemsCollection.Clear();
             PopulateRecentsList();
+            App.PathText.Text = "Favorites";
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)

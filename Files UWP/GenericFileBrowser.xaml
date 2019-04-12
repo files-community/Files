@@ -290,7 +290,7 @@
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
-                <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="385" Binding="{Binding FileName}" Tag="Name"/>
+                <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
                 <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
                 <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
                 <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Binding="{Binding FileSize}" Tag="Size"/>

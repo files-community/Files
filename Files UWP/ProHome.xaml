@@ -120,7 +120,7 @@
                     <VisualStateGroup x:Name="CommonStates">
                         <VisualState x:Name="Normal"/>
                         <VisualState x:Name="PointerOver">
-                            
+
                         </VisualState>
                         <VisualState x:Name="Pressed">
                             <VisualState.Setters>
@@ -142,7 +142,7 @@
                             </VisualState.Setters>
                             <Storyboard>
                                 <DoubleAnimation Duration="0" Storyboard.TargetName="SelectionIndicator" Storyboard.TargetProperty="Opacity" To="1"/>
-                                
+
                             </Storyboard>
                         </VisualState>
                         <VisualState x:Name="PressedSelected">
@@ -151,7 +151,7 @@
                             </VisualState.Setters>
                             <Storyboard>
                                 <DoubleAnimation Duration="0" Storyboard.TargetName="SelectionIndicator" Storyboard.TargetProperty="Opacity" To="1"/>
-                                
+
                             </Storyboard>
                         </VisualState>
                     </VisualStateGroup>
@@ -242,7 +242,7 @@
                             <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentTransitions="{TemplateBinding ContentTransitions}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="Center" OpticalMarginAlignment="None" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             <Rectangle x:Name="SelectionIndicator" Fill="{ThemeResource SystemAccentColor}" Height="3" Margin="0,-1" Opacity="0" HorizontalAlignment="Stretch" />
                         </StackPanel>
-                        
+
                     </Grid>
                 </Grid>
             </Grid>
@@ -1005,6 +1005,81 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="FluentListViewItemContainerStyle" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="12,0,12,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="AllowDrop" Value="False"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter x:Name="Root" CheckBrush="{ThemeResource ListViewItemCheckBrush}" ContentMargin="{TemplateBinding Padding}" CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}" ContentTransitions="{TemplateBinding ContentTransitions}" CheckMode="{ThemeResource ListViewItemCheckMode}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackground}" DragForeground="{ThemeResource ListViewItemDragForeground}" FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}" FocusVisualMargin="{TemplateBinding FocusVisualMargin}" FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Control.IsTemplateFocusTarget="True" PressedBackground="{ThemeResource ListViewItemBackgroundPressed}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}" PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}" PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}" RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}" RevealBackground="{ThemeResource ListViewItemRevealBackground}" SelectedForeground="{ThemeResource ListViewItemForegroundSelected}" SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}" SelectedBackground="{ThemeResource ListViewItemBackgroundPressed}" SelectedPressedBackground="{ThemeResource ListViewItemBackgroundPressed}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundPressed}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.FontWeight" Value="Bold"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPointerOver}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPointerOver}"/>
+                                            <Setter Target="Root.FontWeight" Value="Bold"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverPressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}"/>
+                                            <Setter Target="Root.FontWeight" Value="Bold"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}"/>
+                                            <Setter Target="Root.FontWeight" Value="Bold"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.RevealBorderThickness" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ListViewItemPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Page.Resources>
 
     <Grid Padding="0,0,0,0">
@@ -1014,22 +1089,22 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Custom:DropShadowPanel OffsetY="-2" HorizontalContentAlignment="Stretch">
-            <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
-            <Custom:TabView SelectedIndex="1" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
-                <Custom:TabViewItem  BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="File">
-                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                        <CommandBar.Content>
+                <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
+                    <Custom:TabView SelectedIndex="1" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+                        <Custom:TabViewItem  BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="File">
                             <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <AppBarButton Label="Open new window" Icon="NewWindow"/>
-                                <AppBarButton Label="Settings" Icon="Setting"/>
+                                <CommandBar.Content>
+                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                        <AppBarButton Label="Open new window" Icon="NewWindow"/>
+                                        <AppBarButton Label="Settings" Icon="Setting"/>
+                                    </CommandBar>
+                                </CommandBar.Content>
                             </CommandBar>
-                        </CommandBar.Content>
-                    </CommandBar>
-                </Custom:TabViewItem>
-                <Custom:TabViewItem IsSelected="True" BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Home">
-                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                        <CommandBar.Content>
+                        </Custom:TabViewItem>
+                        <Custom:TabViewItem IsSelected="True" BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Home">
                             <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                <CommandBar.Content>
+                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Cut" Icon="Cut"/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste"/>
@@ -1038,188 +1113,188 @@
                                                 <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                    <AppBarSeparator/>
+                                        <AppBarSeparator/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
                                         <AppBarButton Name="AddItem" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
-                                    <AppBarSeparator/>
+                                        <AppBarSeparator/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
-                                        <AppBarButton.Icon>
-                                            <FontIcon Glyph="&#xE946;"/>
-                                        </AppBarButton.Icon>
-                                    </AppBarButton>
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xE946;"/>
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
                                     </CommandBar>
-                        </CommandBar.Content>
-                    </CommandBar>
-                </Custom:TabViewItem>
-                    <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Share">
-                        <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                            <CommandBar.Content>
-                                <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                </CommandBar.Content>
+                            </CommandBar>
+                        </Custom:TabViewItem>
+                        <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Share">
+                            <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                <CommandBar.Content>
+                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton IsEnabled="{x:Bind local:App.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
-                                </CommandBar>
-                            </CommandBar.Content>
-                        </CommandBar>
-                    </Custom:TabViewItem>
-                    <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Layout">
-                        <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                            <CommandBar.Content>
-                                <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    </CommandBar>
+                                </CommandBar.Content>
+                            </CommandBar>
+                        </Custom:TabViewItem>
+                        <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Layout">
+                            <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                <CommandBar.Content>
+                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
-                                        <AppBarButton.Icon>
-                                            <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
-                                        </AppBarButton.Icon>
-                                    </AppBarButton>
+                                            <AppBarButton.Icon>
+                                                <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
                                         <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All"/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
-                                </CommandBar>
-                            </CommandBar.Content>
-                        </CommandBar>
-                    </Custom:TabViewItem>
-                
-            </Custom:TabView>
-                <Grid VerticalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                         <ColumnDefinition Width="Auto"/>
-                         <ColumnDefinition Width="*"/>
-                         <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    </CommandBar>
+                                </CommandBar.Content>
+                            </CommandBar>
+                        </Custom:TabViewItem>
+
+                    </Custom:TabView>
+                    <Grid VerticalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal">
                             <AppBarButton Icon="Back" Click="Back_Click" LabelPosition="Collapsed" x:Name="Back">
-                                
+
                                 <AppBarButton.KeyboardAccelerators>
                                     <KeyboardAccelerator Modifiers="Control" Key="Left"/>
                                 </AppBarButton.KeyboardAccelerators>
                             </AppBarButton>
 
                             <AppBarButton Icon="Forward" Click="Forward_Click" LabelPosition="Collapsed" x:Name="Forward">
-                                
+
                                 <AppBarButton.KeyboardAccelerators>
                                     <KeyboardAccelerator Modifiers="Control" Key="Right"/>
                                 </AppBarButton.KeyboardAccelerators>
                             </AppBarButton>
 
-                        <AppBarButton LabelPosition="Collapsed" Label="Refresh" x:Name="Refresh" >
-                            <AppBarButton.ContentTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </AppBarButton.ContentTemplate>
-                            <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Key="F5"/>
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
-                    </StackPanel>
-                    <TextBox Grid.Column="1" CornerRadius="0" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="5" Margin="2,5" PlaceholderText="Navigate to a path...">
+                            <AppBarButton LabelPosition="Collapsed" Label="Refresh" x:Name="Refresh" >
+                                <AppBarButton.ContentTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </AppBarButton.ContentTemplate>
+                                <AppBarButton.KeyboardAccelerators>
+                                    <KeyboardAccelerator Key="F5"/>
+                                </AppBarButton.KeyboardAccelerators>
+                            </AppBarButton>
+                        </StackPanel>
+                        <TextBox Grid.Column="1" CornerRadius="0" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" Text="{x:Bind local:App.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="5" Margin="2,5" PlaceholderText="Navigate to a path...">
                             <TextBox.Resources>
                                 <uilib:TeachingTip Target="{x:Bind VisiblePath}" x:Key="PathBarTeachingTip" Name="PathBarTip" PreferredPlacement="Bottom" Subtitle="Enter a full path or simply the name of a common location" Title="Access locations quickly">
                                     <uilib:TeachingTip.IconSource>
                                         <uilib:SymbolIconSource Symbol="Help"/>
                                     </uilib:TeachingTip.IconSource>
                                 </uilib:TeachingTip>
-                        </TextBox.Resources>
-                    </TextBox>
+                            </TextBox.Resources>
+                        </TextBox>
 
-                    <AutoSuggestBox TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxThinStyle}" Style="{StaticResource AutoSuggestBoxThinStyle}" PlaceholderText="Search" CornerRadius="5" QueryIcon="Find" Width="275" Margin="5" Grid.Column="2"/>
+                        <AutoSuggestBox TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxThinStyle}" Style="{StaticResource AutoSuggestBoxThinStyle}" PlaceholderText="Search" CornerRadius="5" QueryIcon="Find" Width="275" Margin="5" Grid.Column="2"/>
 
-                </Grid>
-            </StackPanel>
+                    </Grid>
+                </StackPanel>
             </Custom:DropShadowPanel>
         </Grid>
-        
+
         <SplitView Canvas.ZIndex="-1" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" >
             <SplitView.Pane>
                 <ScrollViewer>
-                <Grid>
-                    <StackPanel>
-                    <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                        <ListView SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
-                            <ListViewItem Tag="Favorites">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
+                            <ListView ItemContainerStyle="{StaticResource FluentListViewItemContainerStyle}" SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
+                                <ListViewItem Tag="Favorites">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
                                             <FontIcon FontSize="16" Glyph="&#xE728;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Favorites" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                            <ListViewItem Tag="Desktop">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Desktop" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                            <ListViewItem Tag="Downloads">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Downloads" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                            <ListViewItem Tag="Documents">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Documents" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                            <ListViewItem Tag="Pictures">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xEB9F;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Pictures" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                            <ListViewItem Tag="Music">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Music" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                            <ListViewItem Tag="Videos">
-                                <ListViewItem.Content>
-                                    <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="Videos" FontSize="12"/>
-                                    </StackPanel>
-                                </ListViewItem.Content>
-                            </ListViewItem>
-                        </ListView>
-                        <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                        <ListView SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
-                            <ListViewItem Tag="LocalDisk">
-                            <ListViewItem.Content>
-                                <StackPanel Spacing="15" Orientation="Horizontal">
-                                    <FontIcon FontSize="16" Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
-                                    <TextBlock Text="Local Disk (C:\)" FontSize="12"/>
-                                </StackPanel>
-                            </ListViewItem.Content>
-                        </ListViewItem>
-                        <ListViewItem Tag="OneDrive">
-                            <ListViewItem.Content>
-                                <StackPanel Spacing="15" Orientation="Horizontal">
-                                    <FontIcon FontSize="16" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
-                                    <TextBlock Text="OneDrive" FontSize="12"/>
-                                </StackPanel>
-                            </ListViewItem.Content>
-                        </ListViewItem>
-                    </ListView>
-                    </StackPanel>
-                </Grid>
+                                            <TextBlock Text="Favorites" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="Desktop">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Desktop" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="Downloads">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Downloads" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="Documents">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Documents" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="Pictures">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xEB9F;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Pictures" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="Music">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Music" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="Videos">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Videos" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                            </ListView>
+                            <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
+                            <ListView ItemContainerStyle="{StaticResource FluentListViewItemContainerStyle}"  SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                                <ListViewItem Tag="LocalDisk">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Local Disk (C:\)" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                                <ListViewItem Tag="OneDrive">
+                                    <ListViewItem.Content>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <FontIcon FontSize="16" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="OneDrive" FontSize="12"/>
+                                        </StackPanel>
+                                    </ListViewItem.Content>
+                                </ListViewItem>
+                            </ListView>
+                        </StackPanel>
+                    </Grid>
                 </ScrollViewer>
             </SplitView.Pane>
-            
+
             <Frame Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
-                
+
         </SplitView>
-        <ContentDialog Grid.RowSpan="2" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+        <ContentDialog  Grid.RowSpan="2" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
             <Grid>
                 <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
             </Grid>
@@ -1229,7 +1304,7 @@
         </ContentDialog>
         <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel" Grid.RowSpan="4">
             <Grid>
-                <TextBox Name="RenameInput" PlaceholderText="Enter an item name without a file extension" Width="300"/>
+                <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
             </Grid>
         </ContentDialog>
 
