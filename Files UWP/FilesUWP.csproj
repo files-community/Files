@@ -126,7 +126,6 @@
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
-    <Compile Include="Navigation\PhotoAlbumNavActions.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />
     <Compile Include="PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>

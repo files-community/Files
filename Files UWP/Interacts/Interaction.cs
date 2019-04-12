@@ -267,18 +267,12 @@ namespace Files.Interacts
                             //    }
                             //}
 
-                            App.ViewModel.AddItemsToCollectionAsync(clickedOnItem.FilePath, PhotoAlbum.PAPageName);
+                            ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), clickedOnItem.FilePath, new SuppressNavigationTransitionInfo());
                         }
                     }
                     else if (clickedOnItem.FileType == "Application")
                     {
-                        //Interaction.message = new MessageDialog("We noticed you’re trying to run an Application file. This type of file may be a security risk to your device, and is not supported by the Universal Windows Platform. If you're not sure what this means, check out the Microsoft Store for a large selection of secure apps, games, and more.");
-                        //Interaction.message.Title = "Unsupported Functionality";
-                        //Interaction.message.Commands.Add(new UICommand("Continue...", new UICommandInvokedHandler(Interaction.CommandInvokedHandler)));
-                        //Interaction.message.Commands.Add(new UICommand("Cancel"));
-                        //await Interaction.message.ShowAsync();
                         await LaunchExe(clickedOnItem.FilePath);
-
                     }
                     else
                     {

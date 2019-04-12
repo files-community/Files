@@ -130,11 +130,8 @@
                         <VisualState x:Name="Selected">
                             <VisualState.Setters>
                                 <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource TabViewItemHeaderForegroundSelected}"/>
+                                <Setter Target="SelectionIndicator.Opacity" Value="1"/>
                             </VisualState.Setters>
-                            <Storyboard>
-                                <DoubleAnimation Duration="0:0:0.240" Storyboard.TargetName="SelectionIndicator" Storyboard.TargetProperty="Opacity" To="1"/>
-                                
-                            </Storyboard>
                         </VisualState>
                         <VisualState x:Name="PointerOverSelected">
                             <VisualState.Setters>
@@ -243,7 +240,7 @@
                         </Grid.RenderTransform>
                         <StackPanel Width="Auto" Name="TabContent" Spacing="5" Margin="8" Padding="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Vertical">
                             <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" ContentTransitions="{TemplateBinding ContentTransitions}" FontWeight="{TemplateBinding FontWeight}" HorizontalAlignment="Center" OpticalMarginAlignment="None" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            <Rectangle x:Name="SelectionIndicator" Fill="{ThemeResource SystemAccentColor}" Height="3" Margin="0,-1" Opacity="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
+                            <Rectangle x:Name="SelectionIndicator" Fill="{ThemeResource SystemAccentColor}" Height="3" Margin="0,-1" Opacity="0" HorizontalAlignment="Stretch" />
                         </StackPanel>
                         
                     </Grid>
@@ -1029,7 +1026,7 @@
                         </CommandBar.Content>
                     </CommandBar>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Home">
+                <Custom:TabViewItem IsSelected="True" BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Home">
                     <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                         <CommandBar.Content>
                             <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -1131,18 +1128,18 @@
             </Custom:DropShadowPanel>
         </Grid>
         
-        <SplitView Canvas.ZIndex="-2" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" >
+        <SplitView Canvas.ZIndex="-1" PaneBackground="{ThemeResource SystemControlAcrylicWindowBrush}" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" >
             <SplitView.Pane>
                 <ScrollViewer>
                 <Grid>
                     <StackPanel>
                     <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                        <ListView SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
-                            <ListViewItem Tag="ThisPC">
+                        <ListView SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
+                            <ListViewItem Tag="Favorites">
                                 <ListViewItem.Content>
                                     <StackPanel Spacing="15" Orientation="Horizontal">
-                                        <FontIcon FontSize="16" Glyph="&#xEC4E;" FontFamily="Segoe MDL2 Assets"/>
-                                        <TextBlock Text="This PC" FontSize="12"/>
+                                            <FontIcon FontSize="16" Glyph="&#xE728;" FontFamily="Segoe MDL2 Assets"/>
+                                        <TextBlock Text="Favorites" FontSize="12"/>
                                     </StackPanel>
                                 </ListViewItem.Content>
                             </ListViewItem>
@@ -1196,7 +1193,7 @@
                             </ListViewItem>
                         </ListView>
                         <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                        <ListView SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                        <ListView SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
                             <ListViewItem Tag="LocalDisk">
                             <ListViewItem.Content>
                                 <StackPanel Spacing="15" Orientation="Horizontal">

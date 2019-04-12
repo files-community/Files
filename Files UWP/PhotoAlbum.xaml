@@ -396,7 +396,7 @@
     <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
         <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,0,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
+        <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
             <controls:AdaptiveGridView.Resources>
                 <MenuFlyout x:Name="RightClickContextMenu" x:Key="RightClickFlyout">
                     <MenuFlyout.Items>

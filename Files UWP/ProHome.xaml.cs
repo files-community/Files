@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Files
 {
     /// <summary>
-    /// This is not finished yet. This is the work that was started on having multiple Tabs
+    /// Project Mumbai - Unfinished dense UI design
     /// </summary>
     public sealed partial class ProHome : Page
     {
@@ -192,10 +192,10 @@ namespace Files
                     App.ViewModel.CancelLoadAndClearFiles();
                     App.HomeItems.isEnabled = false;
                     App.ShareItems.isEnabled = false;
-                    if (CurrentInput == "Home" || CurrentInput == "home")
+                    if (CurrentInput == "Favorites" || CurrentInput == "favorites")
                     {
                         ProHome.accessibleContentFrame.Navigate(typeof(YourHome));
-                        App.PathText.Text = "This PC";
+                        App.PathText.Text = "Favorites";
                         App.LayoutItems.isEnabled = false;
                     }
                     else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
@@ -345,10 +345,10 @@ namespace Files
                 App.LayoutItems.isEnabled = false;
             }
             var clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-            if(clickedItem.Tag.ToString() == "ThisPC")
+            if(clickedItem.Tag.ToString() == "Favorites")
             {
                 ItemDisplayFrame.Navigate(typeof(YourHome));
-                App.PathText.Text = "This PC";
+                App.PathText.Text = "Favorites";
                 App.LayoutItems.isEnabled = false;
             }
             else if(clickedItem.Tag.ToString() == "Desktop")
@@ -426,12 +426,77 @@ namespace Files
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
 
         }
-
         private void Back_Click(object sender, RoutedEventArgs e)
         {
             App.ViewModel.CancelLoadAndClearFiles();
             if (accessibleContentFrame.CanGoBack)
             {
+                var SourcePageType = accessibleContentFrame.BackStack[accessibleContentFrame.BackStack.Count - 1].SourcePageType;
+                var Parameter = accessibleContentFrame.BackStack[accessibleContentFrame.BackStack.Count - 1].Parameter;
+
+                if (SourcePageType == typeof(YourHome))
+                {
+                    locationsList.SelectedIndex = 0;
+                    App.PathText.Text = "Favorites";
+                }
+                else
+                {
+                    if (Parameter.ToString() == DesktopPath)
+                    {
+                        locationsList.SelectedIndex = 1;
+                        App.PathText.Text = "Desktop";
+                    }
+                    else if (Parameter.ToString() == DownloadsPath)
+                    {
+                        locationsList.SelectedIndex = 2;
+                        App.PathText.Text = "Downloads";
+                    }
+                    else if (Parameter.ToString() == DocumentsPath)
+                    {
+                        locationsList.SelectedIndex = 3;
+                        App.PathText.Text = "Documents";
+                    }
+                    else if (Parameter.ToString() == PicturesPath)
+                    {
+                        locationsList.SelectedIndex = 4;
+                        App.PathText.Text = "Pictures";
+                    }
+                    else if (Parameter.ToString() == MusicPath)
+                    {
+                        locationsList.SelectedIndex = 5;
+                        App.PathText.Text = "Music";
+                    }
+                    else if (Parameter.ToString() == VideosPath)
+                    {
+                        locationsList.SelectedIndex = 6;
+                        App.PathText.Text = "Videos";
+                    }
+                    else if (Parameter.ToString() == OneDrivePath)
+                    {
+                        drivesList.SelectedIndex = 1;
+                        App.PathText.Text = "OneDrive";
+                    }
+                    else
+                    {
+                        if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                        {
+                            drivesList.SelectedIndex = 0;
+                        }
+                        else
+                        {
+                            foreach (ListViewItem drive in drivesList.Items)
+                            {
+                                if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                {
+                                    drivesList.SelectedItem = drive;
+                                    break;
+                                }
+                            }
+                            
+                        }
+                        App.PathText.Text = Parameter.ToString();
+                    }
+                }
                 accessibleContentFrame.GoBack();
             }
         }
@@ -442,6 +507,22 @@ namespace Files
             if (accessibleContentFrame.CanGoForward)
             {
                 accessibleContentFrame.GoForward();
+            }
+        }
+
+        private void LocationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(e.AddedItems.Count > 0)
+            {
+                drivesList.SelectedItem = null;
+            }
+        }
+
+        private void DrivesList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                locationsList.SelectedItem = null;
             }
         }
     }

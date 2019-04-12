@@ -38,6 +38,13 @@ namespace Files
             PopulateRecentsList();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
+            ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
+        }
+
         private void CardPressed(object sender, ItemClickEventArgs e)
         {
             string BelowCardText = ((Locations.LocationItem)e.ClickedItem).Text;
