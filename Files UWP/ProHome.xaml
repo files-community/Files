@@ -34,6 +34,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemChromeLowColor}"/>
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemChromeLowColor}"/>
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="{StaticResource SystemChromeLowColor}"/>
@@ -865,6 +866,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        
     </Page.Resources>
 
     <Grid Padding="0,0,0,0">
@@ -873,23 +876,23 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0" Canvas.ZIndex="2">
-            <Custom:DropShadowPanel OffsetY="-2" HorizontalContentAlignment="Stretch">
+            <Custom:DropShadowPanel OffsetY="-2" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
-                    <Custom:TabView x:Name="Ribbon" SelectedIndex="1" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
-                        <Custom:TabViewItem  BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="File">
-                            <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                    <Custom:TabView x:Name="Ribbon" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
+                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
-                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton Label="Open new window" Icon="NewWindow"/>
                                         <AppBarButton Label="Settings" Icon="Setting"/>
                                     </CommandBar>
                                 </CommandBar.Content>
                             </CommandBar>
                         </Custom:TabViewItem>
-                        <Custom:TabViewItem IsSelected="True" BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Home">
-                            <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home">
+                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
-                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Cut" Icon="Cut"/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste"/>
@@ -913,19 +916,19 @@
                                 </CommandBar.Content>
                             </CommandBar>
                         </Custom:TabViewItem>
-                        <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Share">
-                            <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share">
+                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
-                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton IsEnabled="{x:Bind local:App.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
                                     </CommandBar>
                                 </CommandBar.Content>
                             </CommandBar>
                         </Custom:TabViewItem>
-                        <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}"  Header="Layout">
-                            <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout">
+                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
-                                    <CommandBar Background="Transparent" IsOpen="True" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
@@ -988,7 +991,7 @@
             </Custom:DropShadowPanel>
         </Grid>
 
-        <SplitView Canvas.ZIndex="0" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" >
+        <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" >
             <SplitView.Pane>
                 <ScrollViewer>
                     <Grid>
@@ -1076,18 +1079,18 @@
                 </ScrollViewer>
             </SplitView.Pane>
 
-            <Frame IsRightTapEnabled="True" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
+            <Frame Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
-        <ContentDialog  Grid.RowSpan="2" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+        <ContentDialog DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
             <Grid>
                 <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel" Grid.RowSpan="4">
+        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
             <Frame Width="450" Name="AddDialogFrame"/>
         </ContentDialog>
-        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel" Grid.RowSpan="4">
+        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
             <Grid>
                 <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
             </Grid>

@@ -148,7 +148,7 @@ namespace Files
                 App.PathText.Text = parameters;
             }
 
-            if(Interaction.dataGridRows != null)
+            if (Interaction.dataGridRows != null)
             {
 
             }

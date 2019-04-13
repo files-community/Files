@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -74,7 +75,6 @@ namespace Files
             RefreshButton = Refresh;
             AddItemButton = AddItem;
             LocationsList.SelectedIndex = 0;
-            accessibleContentFrame.Navigate(typeof(YourHome));
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)
             {
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 0, 0, 0);
@@ -102,6 +102,7 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
                 titleBar.BackgroundColor = Colors.White;
             }
+            accessibleContentFrame.Navigate(typeof(YourHome), new SuppressNavigationTransitionInfo());
             RibbonTeachingTip = RibbonTip;
             ProHome.RibbonTeachingTip.IsOpen = false;
             PopulateNavViewWithExternalDrives();
