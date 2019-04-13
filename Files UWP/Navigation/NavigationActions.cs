@@ -17,7 +17,7 @@ namespace Files.Navigation
                 App.ViewModel.CancelLoadAndClearFiles();
 
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericFileBrowser.GFBPageName);
+                App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, Interacts.Interaction.page);
                 
             });
         }

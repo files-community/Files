@@ -44,6 +44,8 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
             ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
+            ProHome.RS.isEnabled = false;
+            App.AlwaysPresentCommands.isEnabled = false;
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)

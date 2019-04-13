@@ -52,6 +52,7 @@ namespace Files
             else
             {
                 localSettings.Values["theme"] = "Default";
+                ProHome.RibbonTeachingTip.IsOpen = false;
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
@@ -63,6 +64,7 @@ namespace Files
         public static Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
         public static Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
         public static Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
+        public static Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
         public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
 
         /// <summary>

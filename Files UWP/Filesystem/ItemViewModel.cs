@@ -228,7 +228,7 @@ namespace Files.Filesystem
                     TextState.isVisible = Visibility.Visible;
                 }
                 stopwatch.Stop();
-                Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.Elapsed.Seconds + " seconds.\n");
+                Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.Elapsed.Milliseconds + " milliseconds.\n");
 
             }
             catch (UnauthorizedAccessException e)
@@ -297,7 +297,9 @@ namespace Files.Filesystem
                     FileIconVis = Visibility.Collapsed,
                     FilePath = folder.Path,
                     EmptyImgVis = Visibility.Collapsed,
-                    FileSize = null
+                    FileSize = null,
+                    RowIndex = _filesAndFolders.Count
+                    
                 });
             }
             else
@@ -397,7 +399,8 @@ namespace Files.Filesystem
                     FileDateReal = itemDate,
                     FileType = itemType,
                     FilePath = itemPath,
-                    FileSize = itemSize
+                    FileSize = itemSize,
+                    RowIndex = _filesAndFolders.Count
                 });
             }
             else
@@ -483,14 +486,5 @@ namespace Files.Filesystem
             _filesRefreshing = false;
             Debug.WriteLine("Filesystem refresh complete");
         }
-
-        //private async void FolderContentsChanged(IStorageQueryResultBase sender, object args)
-        //{
-        //    if (_foldersRefreshing) { return; }
-
-        //    _foldersRefreshing = true;
-
-        //    _foldersRefreshing = false;
-        //}
     }
 }

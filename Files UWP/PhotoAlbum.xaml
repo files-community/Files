@@ -149,7 +149,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
         <Style x:Key="AppBarButtonFixedStyle" TargetType="AppBarButton">
             <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}"/>
             <Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}"/>
@@ -370,30 +370,31 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <MenuFlyout x:Name="GridRightClickContextMenu" x:Key="GridRightClickFlyout">
-            <MenuFlyout.Items>
-                <MenuFlyoutItem Text="Refresh" Name="RefreshGrid">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE72C;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutItem Text="Paste" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasteGrid">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE77F;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutItem Text="Properties" Name="PropertiesItemGrid">
-                    <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE946;"/>
-                    </MenuFlyoutItem.Icon>
-                </MenuFlyoutItem>
-            </MenuFlyout.Items>
-        </MenuFlyout>
     </Page.Resources>
 
     <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
+        <Grid.ContextFlyout>
+            <MenuFlyout x:Name="GridRightClickContextMenu">
+                <MenuFlyout.Items>
+                    <MenuFlyoutItem Text="Refresh" Name="RefreshGrid">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE72C;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Paste" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasteGrid">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE77F;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="Properties" Name="PropertiesItemGrid">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE946;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyout.Items>
+            </MenuFlyout>
+        </Grid.ContextFlyout>
         <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
         <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Single" IsDoubleTapEnabled="True" IsRightTapEnabled="True" ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >

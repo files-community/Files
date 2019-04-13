@@ -10,6 +10,9 @@ using System.IO;
 using Windows.Storage;
 using Windows.System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Windows.ApplicationModel.DataTransfer;
+using Files.Navigation;
+using System.Diagnostics;
 
 namespace Files
 {
@@ -33,7 +36,7 @@ namespace Files
             gv = FileList;
             context = RightClickContextMenu;
             gridContext = GridRightClickContextMenu;
-            
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
             ShareItem.Click += Interaction.ShareItem_Click;
             RenameItem.Click += Interaction.RenameItem_Click;
         }
@@ -45,17 +48,18 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
             ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
+            ProHome.RS.isEnabled = true;
+            App.AlwaysPresentCommands.isEnabled = true;
             var parameters = eventArgs.Parameter.ToString();
             App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
             Interaction.page = this;
             FileList.DoubleTapped += Interaction.List_ItemClick;
-            //ProHome.BackButton.Click += Navigation.PhotoAlbumNavActions.Back_Click;
-            //ProHome.ForwardButton.Click += Navigation.PhotoAlbumNavActions.Forward_Click;
-            //ProHome.RefreshButton.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
+            
             FileList.RightTapped += Interaction.FileList_RightTapped;
             OpenItem.Click += Interaction.OpenItem_Click;
             CopyItem.Click += Interaction.CopyItem_ClickAsync;
-            //RefreshGrid.Click += Navigation.PhotoAlbumNavActions.Refresh_Click;
+            RefreshGrid.Click += NavigationActions.Refresh_Click;
+
             DeleteItem.Click += Interaction.DeleteItem_Click;
 
 
@@ -95,6 +99,27 @@ namespace Files
 
         }
 
+        private void Clipboard_ContentChanged(object sender, object e)
+        {
+            try
+            {
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems))
+                {
+                    Interacts.Interaction.PS.isEnabled = true;
+                }
+                else
+                {
+                    Interacts.Interaction.PS.isEnabled = false;
+                }
+            }
+            catch (Exception)
+            {
+                Interacts.Interaction.PS.isEnabled = false;
+            }
+
+        }
+
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             var ObjectPressed = (sender as Grid).DataContext as ListedItem;
@@ -119,6 +144,7 @@ namespace Files
         private void PhotoAlbumViewer_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             gridContext.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
+            Debug.WriteLine("---context displayed---");
         }
 
         private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

@@ -61,11 +61,10 @@ namespace Files
             CopyItem.Click += Interaction.CopyItem_ClickAsync;
             AllView.RightTapped += Interaction.AllView_RightTapped;
             AllView.DoubleTapped += Interaction.List_ItemClick;
-            //Clipboard.ContentChanged += Clipboard_ContentChanged;
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
             //AddItemBox = AddDialog;
             //NameBox = NameDialog;
             //inputFromRename = RenameInput;
-            emptySpaceContext = EmptySpaceFlyout;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
             PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
             //CopiedFlyout = CopiedPathFlyout;
@@ -107,126 +106,52 @@ namespace Files
             base.OnNavigatedTo(eventArgs);
             ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
             ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
+            ProHome.RS.isEnabled = true;
+            App.AlwaysPresentCommands.isEnabled = true;
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.CancelLoadAndClearFiles();
             App.ViewModel.Universal.path = parameters;
-            //ProHome.BackButton.Click += NavigationActions.Back_Click;
-            //ProHome.ForwardButton.Click += NavigationActions.Forward_Click;
             ProHome.RefreshButton.Click += NavigationActions.Refresh_Click;
             ProHome.AddItemButton.Click += AddItem_Click;
             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
+            Interaction.page = this;
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 App.PathText.Text = "Desktop";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
                 App.PathText.Text = "Documents";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
             {
                 App.PathText.Text = "Downloads";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             {
                 App.PathText.Text = "Pictures";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
             {
                 App.PathText.Text = "Music";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
             {
                 App.PathText.Text = "OneDrive";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
             {
                 App.PathText.Text = "Videos";
-                //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                //{
-                //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                //    {
-                //        MainPage.Select.itemSelected = NavItemChoice;
-                //        break;
-                //    }
-                //}
             }
             else
             {
-                //App.ViewModel.Universal.path = parameters;
                 App.PathText.Text = parameters;
-                if (parameters.Contains("C:\\") || parameters.Contains("c:\\"))
-                {
-                    //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    //{
-                    //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString() == "LDPage")
-                    //    {
-                    //        MainPage.Select.itemSelected = NavItemChoice;
-                    //        break;
-                    //    }
-                    //}
-                }
-                else
-                {
-                    //foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    //{
-                    //    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString().Contains(parameters.Split("\\")[0]))
-                    //    {
-                    //        MainPage.Select.itemSelected = NavItemChoice;
-                    //        break;
-                    //    }
-                    //}
-                }
             }
 
+            if(Interaction.dataGridRows != null)
+            {
+
+            }
         }
 
 
@@ -301,12 +226,12 @@ namespace Files
 
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            data.SelectedItems.Clear();
+            data.SelectedItem = null;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            
             AllView.CommitEdit();
             if(e.AddedItems.Count > 0)
             {
@@ -329,22 +254,6 @@ namespace Files
         private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
 
-        }
-
-        private async void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
-        {
-            
-            
-        }
-
-        private void GenericItemView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            GFBPageName.ContextFlyout.ShowAt(GFBPageName);
-        }
-
-        private void AllView_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
-        {
-            
         }
 
         private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)

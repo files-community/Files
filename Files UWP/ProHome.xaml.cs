@@ -1,5 +1,6 @@
 ﻿using Files.Interacts;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +27,7 @@ using Windows.UI.Xaml.Navigation;
 namespace Files
 {
     /// <summary>
-    /// Project Mumbai - Unfinished dense UI design
+    /// Project Mumbai - Pre-release Dense UI Design
     /// </summary>
     public sealed partial class ProHome : Page
     {
@@ -49,6 +50,7 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        public static TeachingTip RibbonTeachingTip;
         public ProHome()
         {
             this.InitializeComponent();
@@ -78,27 +80,34 @@ namespace Files
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 0, 0, 0);
                 titleBar.ButtonForegroundColor = Colors.White;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
+                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
             }
             else if (App.Current.RequestedTheme == ApplicationTheme.Light)
             {
                 titleBar.ButtonBackgroundColor = Color.FromArgb(255, 255, 255, 255);
                 titleBar.ButtonForegroundColor = Colors.Black;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
+                titleBar.BackgroundColor = Colors.White;
             }
 
             if (this.RequestedTheme == ElementTheme.Dark)
             {
                 titleBar.ButtonForegroundColor = Colors.White;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
+                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
             }
             else if (this.RequestedTheme == ElementTheme.Light)
             {
                 titleBar.ButtonForegroundColor = Colors.Black;
+                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
+                titleBar.BackgroundColor = Colors.White;
             }
-            PathBarTip.IsOpen = false;
+            RibbonTeachingTip = RibbonTip;
+            ProHome.RibbonTeachingTip.IsOpen = false;
             PopulateNavViewWithExternalDrives();
         }
 
+        public static RefreshState RS { get; set; } = new RefreshState();
 
 
         public async void PopulateNavViewWithExternalDrives()
@@ -164,12 +173,6 @@ namespace Files
                     Debug.WriteLine(e.Message);
                 }
             });
-        }
-
-        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var selectedTab = e.AddedItems as TabViewItem;
-
         }
 
         private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -323,6 +326,11 @@ namespace Files
                                 MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
                                 await dialog.ShowAsync();
                             }
+                            catch (System.Exception)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
 
                         }
 
@@ -333,6 +341,7 @@ namespace Files
 
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            App.ViewModel.CancelLoadAndClearFiles();
             App.HomeItems.isEnabled = false;
             App.ShareItems.isEnabled = false;
             if (DrivesList.SelectedItem != null)
@@ -388,6 +397,7 @@ namespace Files
 
         private void DrivesList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            App.ViewModel.CancelLoadAndClearFiles();
             App.HomeItems.isEnabled = false;
             App.ShareItems.isEnabled = false;
             if (LocationsList.SelectedItem != null)

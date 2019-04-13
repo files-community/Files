@@ -21,6 +21,7 @@ using System.Collections;
 using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.IO;
+using System.Reflection;
 
 namespace Files.Interacts
 {
@@ -324,7 +325,6 @@ namespace Files.Interacts
         {
             dataGrid = (DataGrid)sender;
             var RowPressed = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-
             // If user clicks on header
             if (RowPressed == null)
             {
@@ -338,6 +338,21 @@ namespace Files.Interacts
                 GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
             }
 
+        }
+
+        public static void FindChildren<T>(List<T> results, DependencyObject startNode) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(startNode);
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+                if ((current.GetType()).Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
+                {
+                    T asType = (T)current;
+                    results.Add(asType);
+                }
+                FindChildren<T>(results, current);
+            }
         }
 
         public static T FindParent<T>(DependencyObject child) where T : DependencyObject
@@ -543,8 +558,8 @@ namespace Files.Interacts
                 {
                     var ItemSelected = GenericFileBrowser.data.SelectedIndex;
                     var RowData = App.ViewModel.FilesAndFolders[ItemSelected];
-                    await GenericFileBrowser.NameBox.ShowAsync();
-                    var input = GenericFileBrowser.inputForRename;
+                    await ProHome.NameBox.ShowAsync();
+                    var input = ProHome.inputForRename;
                     if (input != null)
                     {
                         if (RowData.FileType == "Folder")
@@ -597,8 +612,8 @@ namespace Files.Interacts
                 {
                     var ItemSelected = PhotoAlbum.gv.SelectedIndex;
                     var BoxData = App.ViewModel.FilesAndFolders[ItemSelected];
-                    await PhotoAlbum.NameBox.ShowAsync();
-                    var input = PhotoAlbum.inputForRename;
+                    await ProHome.NameBox.ShowAsync();
+                    var input = ProHome.inputForRename;
                     if (input != null)
                     {
                         if (BoxData.FileType == "Folder")
@@ -650,6 +665,7 @@ namespace Files.Interacts
 
         static List<string> pathsToDeleteAfterPaste = new List<string>();
 
+        public static List<DataGridRow> dataGridRows = new List<DataGridRow>();
         public async static void CutItem_Click(object sender, RoutedEventArgs e)
         {
             DataPackage dataPackage = new DataPackage();
@@ -660,8 +676,20 @@ namespace Files.Interacts
             {
                 if (GenericFileBrowser.data.SelectedItems.Count != 0)
                 {
+                    FindChildren<DataGridRow>(dataGridRows, GenericFileBrowser.GFBPageName.Content);
+                    
+
                     foreach (ListedItem StorItem in GenericFileBrowser.data.SelectedItems)
                     {
+                        foreach (DataGridRow dataGridRow in dataGridRows)
+                        {
+                            if(dataGridRow.GetIndex() == StorItem.RowIndex)
+                            {
+                                Debug.WriteLine(dataGridRow.GetIndex());
+                                dataGrid.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
+                            }
+                        }
+                        var RowPressed = FindParent<DataGridRow>(dataGrid as DependencyObject);
                         pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {
@@ -769,10 +797,10 @@ namespace Files.Interacts
                     await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
                 }
             }
-            
+
             if (packageView.RequestedOperation == DataPackageOperation.Move)
             {
-                foreach(string path in pathsToDeleteAfterPaste)
+                foreach (string path in pathsToDeleteAfterPaste)
                 {
                     if (path.Contains("."))
                     {
@@ -786,16 +814,7 @@ namespace Files.Interacts
                     }
                 }
             }
-                    //if (page.Name == "GenericItemView")
-                    //{
-                    //    NavigationActions.Refresh_Click(null, null);
-                    //}
-                    //else if (page.Name == "PhotoAlbumViewer")
-                    //{
-                    //    PhotoAlbumNavActions.Refresh_Click(null, null);
-                    //}
-                
-            
+            NavigationActions.Refresh_Click(null, null);
         }
 
         public static async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName)
