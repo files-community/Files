@@ -65,11 +65,16 @@ namespace Files.Filesystem
         public void AddFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Add(item);
+            App.ViewModel.TextState.isVisible = Visibility.Collapsed;
         }
 
         public void RemoveFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Remove(item);
+            if (_filesAndFolders.Count == 0)
+            {
+                App.ViewModel.TextState.isVisible = Visibility.Visible;
+            }
         }
 
         public void CancelLoadAndClearFiles()
@@ -314,6 +319,7 @@ namespace Files.Filesystem
                     FilePath = folder.Path
                 });
             }
+            App.ViewModel.TextState.isVisible = Visibility.Collapsed;
         }
 
         private async Task AddFile(StorageFile file, string pageName, CancellationToken token)
@@ -418,6 +424,7 @@ namespace Files.Filesystem
                     FilePath = itemPath
                 });
             }
+            App.ViewModel.TextState.isVisible = Visibility.Collapsed;
         }
 
         private async void FileContentsChanged(IStorageQueryResultBase sender, object args)
@@ -482,7 +489,6 @@ namespace Files.Filesystem
                     RemoveFileOrFolder(toRemove);
                 });
             }
-
             _filesRefreshing = false;
             Debug.WriteLine("Filesystem refresh complete");
         }

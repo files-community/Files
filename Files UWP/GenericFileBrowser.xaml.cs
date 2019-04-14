@@ -1,28 +1,15 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Filesystem;
 using Files.Navigation;
 using Files.Interacts;
-using Windows.System;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Popups;
-using System.IO;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.ApplicationModel.DataTransfer.DragDrop.Core;
-using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Files
 {
@@ -148,9 +135,14 @@ namespace Files
                 App.PathText.Text = parameters;
             }
 
-            if (Interaction.dataGridRows != null)
+            // Reset DataGrid Rows that may be in "cut" command mode
+            Interaction.FindChildren<DataGridRow>(Interaction.dataGridRows, GenericFileBrowser.GFBPageName.Content);
+            foreach (DataGridRow dataGridRow in Interaction.dataGridRows)
             {
-
+                if (data.Columns[0].GetCellContent(dataGridRow).Opacity < 1)
+                {
+                    data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
+                }
             }
         }
 
@@ -227,6 +219,8 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             data.SelectedItem = null;
+            App.HomeItems.isEnabled = false;
+            App.ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)

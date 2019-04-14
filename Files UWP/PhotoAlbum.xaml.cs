@@ -139,12 +139,13 @@ namespace Files
         private void PhotoAlbumViewer_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             FileList.SelectedItem = null;
+            App.HomeItems.isEnabled = false;
+            App.ShareItems.isEnabled = false;
         }
 
         private void PhotoAlbumViewer_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             gridContext.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
-            Debug.WriteLine("---context displayed---");
         }
 
         private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

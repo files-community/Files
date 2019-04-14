@@ -686,10 +686,10 @@ namespace Files.Interacts
                             if(dataGridRow.GetIndex() == StorItem.RowIndex)
                             {
                                 Debug.WriteLine(dataGridRow.GetIndex());
-                                dataGrid.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
+                                GenericFileBrowser.data.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
                             }
                         }
-                        var RowPressed = FindParent<DataGridRow>(dataGrid as DependencyObject);
+                        var RowPressed = FindParent<DataGridRow>(GenericFileBrowser.data as DependencyObject);
                         pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {
