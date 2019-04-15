@@ -10,6 +10,7 @@ using Files.Filesystem;
 using Files.Navigation;
 using Files.Interacts;
 using System.Diagnostics;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -58,6 +59,10 @@ namespace Files
             grid = RootGrid;
             //GetPath.Click += Interaction.GetPath_Click;
             //PathBarTip.IsOpen = true;
+        }
+
+        private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
+        {
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
@@ -259,6 +264,7 @@ namespace Files
         {
             
         }
+
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

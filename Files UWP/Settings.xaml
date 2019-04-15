@@ -15,11 +15,9 @@
     </Page.Resources>
 
     <Grid>
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="0,0,200,0" Canvas.ZIndex="5"/>
-
         <UILib:NavigationView IsSettingsVisible="False" BackRequested="SettingsPane_BackRequested" Name="SettingsPane" IsBackEnabled="True" ItemInvoked="NavigationView_ItemInvoked" PaneTitle="Settings" PaneDisplayMode="Top">
             <UILib:NavigationView.MenuItems>
-                <UILib:NavigationViewItem Content="Personalization"/>
+                <UILib:NavigationViewItem IsSelected="True" Content="Personalization"/>
                 <UILib:NavigationViewItem Content="Preferences"/>
                 <UILib:NavigationViewItem Content="About"/>
             </UILib:NavigationView.MenuItems>

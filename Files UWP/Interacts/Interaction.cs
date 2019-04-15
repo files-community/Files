@@ -447,7 +447,7 @@ namespace Files.Interacts
             List<IStorageItem> items = new List<IStorageItem>();
             if(page.Name == "GenericItemView")
             {
-                foreach (ListedItem li in dataGrid.SelectedItems)
+                foreach (ListedItem li in GenericFileBrowser.data.SelectedItems)
                 {
                     if (li.FileType == "Folder")
                     {
@@ -862,6 +862,24 @@ namespace Files.Interacts
                     goto tryagain;
                 }
             } 
+        }
+
+        public static void SelectAllItems()
+        {
+            if(page.Name == "GenericItemView")
+            {
+                foreach(ListedItem li in GenericFileBrowser.data.ItemsSource)
+                {
+                    if (!GenericFileBrowser.data.SelectedItems.Contains(li))
+                    {
+                        GenericFileBrowser.data.SelectedItems.Add(li);
+                    }
+                }
+            }
+            else if(page.Name == "PhotoAlbumViewer")
+            {
+                PhotoAlbum.gv.SelectAll();
+            }
         }
     }
 }

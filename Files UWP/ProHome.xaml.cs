@@ -271,9 +271,28 @@ namespace Files
                             }
                             else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
                             {
-                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                try
+                                {
+                                    await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                    App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                }
+                                catch (ArgumentException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                                catch (FileNotFoundException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                                catch (System.Exception)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+
                             }
                             else
                             {
@@ -295,6 +314,11 @@ namespace Files
                                     await dialog.ShowAsync();
                                 }
                                 catch (FileNotFoundException)
+                                {
+                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                    await dialog.ShowAsync();
+                                }
+                                catch (System.Exception)
                                 {
                                     MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
                                     await dialog.ShowAsync();
@@ -591,6 +615,72 @@ namespace Files
             {
                 locationsList.SelectedItem = null;
             }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(Settings));
+        }
+
+        private void CutButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.CutItem_Click(null, null);
+        }
+
+        private void CopyButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.CopyItem_ClickAsync(null, null);
+        }
+
+        private void PasteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.PasteItem_ClickAsync(null, null);
+        }
+
+        private void CopyPathButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.GetPath_Click(null, null);
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.DeleteItem_Click(null, null);
+        }
+
+        private void RenameButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.RenameItem_Click(null, null);
+        }
+
+        private async void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            await ProHome.AddItemBox.ShowAsync();
+        }
+
+        private void OpenWithButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.OpenItem_Click(null, null);
+        }
+
+        private void ShareButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.ShareItem_Click(null, null);
+        }
+
+        private void LayoutButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SelectAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.SelectAllItems();
+        }
+
+        private void ClearAllButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

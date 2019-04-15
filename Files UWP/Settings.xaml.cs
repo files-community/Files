@@ -14,8 +14,8 @@ namespace Files
         {
             this.InitializeComponent();
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = true;
-            Window.Current.SetTitleBar(DragArea);
+            CoreTitleBar.ExtendViewIntoTitleBar = false;
+            //Window.Current.SetTitleBar(DragArea);
             SettingsContentFrame.Navigate(typeof(Personalization));
         }
 

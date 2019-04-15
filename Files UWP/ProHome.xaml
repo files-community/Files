@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
     xmlns:local1="using:Files.Interacts.Home"
+    xmlns:local2="using:Files.Interacts"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -884,7 +885,7 @@
                                 <CommandBar.Content>
                                     <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                         <AppBarButton Label="Open new window" Icon="NewWindow"/>
-                                        <AppBarButton Label="Settings" Icon="Setting"/>
+                                        <AppBarButton Name="SettingsButton" Click="SettingsButton_Click" Label="Settings" Icon="Setting"/>
                                     </CommandBar>
                                 </CommandBar.Content>
                             </CommandBar>
@@ -893,25 +894,25 @@
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
                                     <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Cut" Icon="Cut"/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste"/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
+                                        <AppBarButton Click="CutButton_Click" Name="CutButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Cut" Icon="Cut"/>
+                                        <AppBarButton Click="CopyButton_Click" Name="CopyButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
+                                        <AppBarButton Click="PasteButton_Click" Name="PasteButton" IsEnabled="{x:Bind local2:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste"/>
+                                        <AppBarButton Click="CopyPathButton_Click" Name="CopyPathButton" IsEnabled="{x:Bind local:App.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
                                         <AppBarSeparator/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
-                                        <AppBarButton Name="AddItem" IsEnabled="{x:Bind local:App.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
+                                        <AppBarButton Click="DeleteButton_Click" Name="DeleteButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
+                                        <AppBarButton Click="RenameButton_Click" Name="RenameButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
+                                        <AppBarButton Click="AddItem_Click" Name="AddItem" IsEnabled="{x:Bind local:App.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
                                         <AppBarSeparator/>
                                         <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE946;"/>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
+                                        <AppBarButton Click="OpenWithButton_Click" Name="OpenWithButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
                                     </CommandBar>
                                 </CommandBar.Content>
                             </CommandBar>
@@ -920,7 +921,7 @@
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
                                     <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                        <AppBarButton IsEnabled="{x:Bind local:App.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
+                                        <AppBarButton Click="ShareButton_Click" Name="ShareButton" IsEnabled="{x:Bind local:App.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
                                     </CommandBar>
                                 </CommandBar.Content>
                             </CommandBar>
@@ -929,13 +930,18 @@
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
                                     <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                        <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
+                                        <AppBarButton Click="LayoutButton_Click" Name="LayoutButton" IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
                                             </AppBarButton.Icon>
                                         </AppBarButton>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All"/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
+                                        <AppBarButton Click="SelectAllButton_Click" Name="SelectAllButton" IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
+                                            <AppBarButton.KeyboardAccelerators>
+                                                <KeyboardAccelerator Modifiers="Control" Key="A"/>
+                                            </AppBarButton.KeyboardAccelerators>
+                                        </AppBarButton>
+                                        <AppBarButton Click="ClearAllButton_Click" Name="ClearAllButton" IsEnabled="{x:Bind local:App.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
+
                                     </CommandBar>
                                 </CommandBar.Content>
                             </CommandBar>
