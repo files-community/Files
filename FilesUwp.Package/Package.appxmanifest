@@ -21,7 +21,7 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="Launcher/Launcher.exe" />
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="ExecutableLauncher/ExecutableLauncher.exe" />
       </Extensions>
     </Application>
   </Applications>

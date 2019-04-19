@@ -53,7 +53,6 @@ namespace Files
             else
             {
                 localSettings.Values["theme"] = "Default";
-                ProHome.RibbonTeachingTip.IsOpen = false;
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
