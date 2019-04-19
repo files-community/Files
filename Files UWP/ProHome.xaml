@@ -947,7 +947,7 @@
                             </CommandBar>
                         </Custom:TabViewItem>
                         <Custom:TabView.Resources>
-                            <uilib:TeachingTip Target="{x:Bind Ribbon}" x:Key="RibbonTeachingTip" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
+                            <uilib:TeachingTip Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
                                 <uilib:TeachingTip.IconSource>
                                     <uilib:SymbolIconSource Symbol="Help"/>
                                 </uilib:TeachingTip.IconSource>
