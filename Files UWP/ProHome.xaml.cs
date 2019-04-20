@@ -672,9 +672,9 @@ namespace Files
             Interaction.ShareItem_Click(null, null);
         }
 
-        private void LayoutButton_Click(object sender, RoutedEventArgs e)
+        private async void LayoutButton_Click(object sender, RoutedEventArgs e)
         {
-
+            await LayoutDialog.ShowAsync();
         }
 
         private void SelectAllButton_Click(object sender, RoutedEventArgs e)

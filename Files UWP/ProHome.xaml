@@ -1118,5 +1118,19 @@
             <Frame Width="400" Height="450" Name="propertiesFrame" />
         </ContentDialog>
 
+        <ContentDialog Title="Pick an Item Layout" Name="LayoutDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
+            <Windows10version1903:ContentDialog.Shadow>
+                <Windows10version1903:ThemeShadow/>
+            </Windows10version1903:ContentDialog.Shadow>
+            <Grid Width="450">
+                <StackPanel Spacing="25" Orientation="Vertical">
+                    <StackPanel>
+                        <RadioButton Content="Details - Displays a sortable DataGrid containing item details"/>
+                        <RadioButton Content="Icons - Displays all items as larger icons with less information"/>
+                    </StackPanel>
+                    <CheckBox Content="Always use this layout for the current directory"/>
+                </StackPanel>
+            </Grid>
+        </ContentDialog>
     </Grid>
 </Page>
