@@ -232,7 +232,7 @@ namespace Files.Filesystem
                     TextState.isVisible = Visibility.Visible;
                 }
                 stopwatch.Stop();
-                Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.Elapsed.Milliseconds + " milliseconds.\n");
+                Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
 
             }
             catch (UnauthorizedAccessException e)

@@ -48,6 +48,7 @@ namespace Files
             ProHome.RS.isEnabled = false;
             ProHome.accessiblePasteButton.IsEnabled = false;
             App.AlwaysPresentCommands.isEnabled = false;
+            App.LayoutItems.isEnabled = false;
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)
@@ -59,6 +60,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 2;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
@@ -66,6 +68,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 3;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
@@ -73,6 +76,8 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 4;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                App.LayoutItems.isEnabled = true;
+
             }
             else if (BelowCardText == "Music")
             {
@@ -80,6 +85,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 5;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
@@ -87,6 +93,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 6;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                App.LayoutItems.isEnabled = true;
             }
         }
 
@@ -109,6 +116,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 2;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
@@ -116,6 +124,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 3;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
@@ -123,6 +132,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 4;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
@@ -130,6 +140,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 5;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                App.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
@@ -137,6 +148,7 @@ namespace Files
                 ProHome.locationsList.SelectedIndex = 6;
                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
                 ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                App.LayoutItems.isEnabled = true;
             }
         }
         public static StorageFile RecentsFile;

@@ -141,6 +141,7 @@ namespace Files
             }
 
             // Reset DataGrid Rows that may be in "cut" command mode
+            Interaction.dataGridRows.Clear();
             Interaction.FindChildren<DataGridRow>(Interaction.dataGridRows, GenericFileBrowser.GFBPageName.Content);
             foreach (DataGridRow dataGridRow in Interaction.dataGridRows)
             {
