@@ -175,6 +175,7 @@
                 </MenuFlyout.Items>
             </MenuFlyout>
         </Grid.ContextFlyout>
+        <ProgressBar Visibility="{x:Bind local:App.Loading.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
         <controls:DataGrid DataContext="{x:Bind local:App.ViewModel.FilesAndFolders}" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True"  ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}"  HorizontalAlignment="Left">
             <controls:DataGrid.ColumnHeaderStyle>

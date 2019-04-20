@@ -130,7 +130,7 @@
     <Compile Include="PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProgressBoxSystem.cs" />
+    <Compile Include="LoadingIndicator.cs" />
     <Compile Include="ProHome.xaml.cs">
       <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>

@@ -36,7 +36,7 @@ namespace Files
             this.InitializeComponent();
             GFBPageName = GenericItemView;
             App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-            App.ViewModel.PVIS.isVisible = Visibility.Collapsed;
+            App.Loading.isVisible = Visibility.Collapsed;
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
@@ -189,7 +189,7 @@ namespace Files
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            App.ViewModel.PVIS.isVisible = Visibility.Collapsed;
+            App.Loading.isVisible = Visibility.Collapsed;
         }
 
         private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)

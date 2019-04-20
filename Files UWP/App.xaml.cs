@@ -68,6 +68,7 @@ namespace Files
         public static Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
         public static Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
         public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
+        public static Filesystem.LoadingVisibility Loading { get; set; } = new Filesystem.LoadingVisibility(); 
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -76,6 +77,8 @@ namespace Files
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -98,6 +101,11 @@ namespace Files
 
             if (e.PrelaunchActivated == false)
             {
+                if (canEnablePrelaunch)
+                {
+                    TryEnablePrelaunch();
+                }
+
                 if (rootFrame.Content == null)
                 {
                     
@@ -114,6 +122,10 @@ namespace Files
             }
         }
 
+        private void TryEnablePrelaunch()
+        {
+            Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
+        }
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>

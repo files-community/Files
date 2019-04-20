@@ -33,7 +33,6 @@ namespace Files.Filesystem
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
         public BackState BS { get; set; } = new BackState();
         public ForwardState FS { get; set; } = new ForwardState();
-        public ProgressUIVisibility PVIS { get; set; } = new ProgressUIVisibility();
 
         private ObservableCollection<ListedItem> _filesAndFolders;
         private ObservableCollection<ListedItem> _classicFileList;
@@ -116,7 +115,7 @@ namespace Files.Filesystem
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            PVIS.isVisible = Visibility.Visible;
+            App.Loading.isVisible = Visibility.Visible;
 
             switch (Universal.path)
             {
@@ -260,10 +259,10 @@ namespace Files.Filesystem
 
             if (!_pageName.Contains("Classic"))
             {
-                PVIS.isVisible = Visibility.Collapsed;
+                App.Loading.isVisible = Visibility.Collapsed;
             }
 
-            PVIS.isVisible = Visibility.Collapsed;
+            App.Loading.isVisible = Visibility.Collapsed;
         }
 
         public static async void FillTreeNode(object item, TreeView EntireControl)
@@ -439,6 +438,11 @@ namespace Files.Filesystem
                 Debug.WriteLine("Filesystem change event fired. Refreshing...");
             }
 
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                App.Loading.isVisible = Visibility.Visible;
+            });
             _filesRefreshing = true;
 
             //query options have to be reapplied otherwise old results are returned
@@ -489,6 +493,13 @@ namespace Files.Filesystem
                     RemoveFileOrFolder(toRemove);
                 });
             }
+
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                App.Loading.isVisible = Visibility.Collapsed;
+            });
+
             _filesRefreshing = false;
             Debug.WriteLine("Filesystem refresh complete");
         }
