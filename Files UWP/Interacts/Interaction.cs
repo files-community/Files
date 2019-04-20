@@ -552,7 +552,9 @@ namespace Files.Interacts
 
         public static async void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-            if(page.Name == "GenericItemView")
+            ProHome.inputFromRename.Text = "";
+
+            if (page.Name == "GenericItemView")
             {
                 try
                 {

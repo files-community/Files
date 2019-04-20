@@ -12,9 +12,11 @@ namespace Files
 
     public sealed partial class AddItem : Page
     {
+        public static ListView addItemsChoices;
         public AddItem()
         {
             this.InitializeComponent();
+            addItemsChoices = AddItemsListView;
             AddItemsToList();
         }
 
@@ -33,13 +35,13 @@ namespace Files
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
 
-            GenericFileBrowser.AddItemBox.Hide();
+            ProHome.AddItemBox.Hide();
             var currentPath = App.ViewModel.Universal.path;
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             if ((e.ClickedItem as AddListItem).Header == "Folder")
             {
-                await GenericFileBrowser.NameBox.ShowAsync();
-                var userInput = GenericFileBrowser.inputForRename;
+                await ProHome.NameBox.ShowAsync();
+                var userInput = ProHome.inputForRename;
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
@@ -48,8 +50,8 @@ namespace Files
             }
             else if ((e.ClickedItem as AddListItem).Header == "Text Document")
             {
-                await GenericFileBrowser.NameBox.ShowAsync();
-                var userInput = GenericFileBrowser.inputForRename;
+                await ProHome.NameBox.ShowAsync();
+                var userInput = ProHome.inputForRename;
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
@@ -58,8 +60,8 @@ namespace Files
             }
             else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
             {
-                await GenericFileBrowser.NameBox.ShowAsync();
-                var userInput = GenericFileBrowser.inputForRename;
+                await ProHome.NameBox.ShowAsync();
+                var userInput = ProHome.inputForRename;
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);

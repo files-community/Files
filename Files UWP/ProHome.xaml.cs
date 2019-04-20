@@ -1,4 +1,5 @@
-﻿using Files.Interacts;
+﻿using Files.Filesystem;
+using Files.Interacts;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -12,8 +13,10 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -66,7 +69,7 @@ namespace Files
             BackButton = Back;
             ForwardButton = Forward;
             RefreshButton = Refresh;
-            AddItemButton = AddItem;
+            AddItemButton = addItemButton;
             LocationsList.SelectedIndex = 0;
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)
             {
@@ -655,6 +658,7 @@ namespace Files
 
         private async void AddItem_Click(object sender, RoutedEventArgs e)
         {
+            AddItem.addItemsChoices.SelectedItem = null;
             await ProHome.AddItemBox.ShowAsync();
         }
 
@@ -680,6 +684,31 @@ namespace Files
 
         private void ClearAllButton_Click(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void AddDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            AddDialogFrame.Navigate(typeof(AddItem), new SuppressNavigationTransitionInfo());
+        }
+
+        private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            inputForRename = null;
+        }
+
+        private async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (Interaction.page.Name == "GenericItemView")
+            {
+                propertiesFrame.Navigate(typeof(Properties), (GenericFileBrowser.data.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+            }
+            else if (Interaction.page.Name == "PhotoAlbumViewer")
+            {
+                propertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+            }
+            await PropertiesDialog.ShowAsync();
 
         }
     }

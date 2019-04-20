@@ -448,31 +448,23 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="55*"/>
         </Grid.RowDefinitions>
-        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="28" FontWeight="Bold" Text="Locations" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
+        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="28" FontWeight="Bold" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
         <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,0,0,0" Padding="0,0,0,0">
-
-                        <Grid Margin="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="75*"/>
-                                <RowDefinition Height="25*"/>
-                            </Grid.RowDefinitions>
-
-
-                            <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="5.00" ShadowOpacity="0" Padding="0,0,-4,0" BlurRadius="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
-                                <Grid >
-                                    <Button Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource FluentButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                        <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="28" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Button>
-                                </Grid>
-                            </controls:DropShadowPanel>
-
-
-
-                            <TextBlock Margin="0,5,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontWeight="Bold" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
-                        </Grid>
+                        <Grid Margin="0,0,0,0" Padding="0,0,0,0">
+                            <Grid Margin="2">
+                                <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerReleased="DropShadowPanel_PointerReleased" PointerPressed="DropShadowPanel_PointerPressed" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="2.50" ShadowOpacity="0.05" Padding="0,0,-4,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,5" VerticalAlignment="Stretch">
+                                    <Grid>
+                                        <Button Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource FluentButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <StackPanel Spacing="10" Orientation="Vertical">
+                                                <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="0,0,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                            </StackPanel>
+                                        </Button>
+                                    </Grid>
+                                </controls:DropShadowPanel>
+                            </Grid>
                     </Grid>
                 </DataTemplate>
 
@@ -482,12 +474,12 @@
 
             <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Margin="0,24,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="28" Text="Recent Items"/>
+                    <TextBlock Margin="0,14,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="28" Text="Recent Items"/>
                     <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="18"/>
                     <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,5,0,0" VerticalAlignment="Top" >
                         <ListView.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
                             </MenuFlyout>
                         </ListView.ContextFlyout>    
                         <ListView.ItemTemplate>

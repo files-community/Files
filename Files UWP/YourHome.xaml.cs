@@ -90,12 +90,12 @@ namespace Files
 
         private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            (sender as DropShadowPanel).ShadowOpacity = 0.15;
+            (sender as DropShadowPanel).ShadowOpacity = 0.25;
         }
 
         private void DropShadowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            (sender as DropShadowPanel).ShadowOpacity = 0.00;
+            (sender as DropShadowPanel).ShadowOpacity = 0.05;
         }
 
         private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -350,6 +350,16 @@ namespace Files
             await RecentsFile.DeleteAsync();
             ProHome.accessibleContentFrame.Navigate(typeof(YourHome), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
 
+        }
+
+        private void DropShadowPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            (sender as DropShadowPanel).ShadowOpacity = 0.025;
+        }
+
+        private void DropShadowPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            (sender as DropShadowPanel).ShadowOpacity = 0.25;
         }
     }
 

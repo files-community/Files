@@ -13,7 +13,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)">
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)">
     <Page.Resources>
         <Style x:Key="ListViewHeaderItemStyle1" TargetType="ListViewHeaderItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -905,9 +906,9 @@
                                         <AppBarSeparator/>
                                         <AppBarButton Click="DeleteButton_Click" Name="DeleteButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
                                         <AppBarButton Click="RenameButton_Click" Name="RenameButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
-                                        <AppBarButton Click="AddItem_Click" Name="AddItem" IsEnabled="{x:Bind local:App.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
+                                        <AppBarButton Click="AddItem_Click" Name="addItemButton" IsEnabled="{x:Bind local:App.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
                                         <AppBarSeparator/>
-                                        <AppBarButton IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
+                                        <AppBarButton Click="ShowPropertiesButton_Click" Name="ShowPropertiesButton" IsEnabled="{x:Bind local:App.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
                                             <AppBarButton.Icon>
                                                 <FontIcon Glyph="&#xE946;"/>
                                             </AppBarButton.Icon>
@@ -1088,18 +1089,33 @@
             <Frame Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
-        <ContentDialog DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+        <ContentDialog Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+            <Windows10version1903:ContentDialog.Shadow>
+                <Windows10version1903:ThemeShadow/>
+            </Windows10version1903:ContentDialog.Shadow>
             <Grid>
                 <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
+        <ContentDialog Grid.RowSpan="4" Loaded="AddDialog_Loaded" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
+            <Windows10version1903:ContentDialog.Shadow>
+                <Windows10version1903:ThemeShadow/>
+            </Windows10version1903:ContentDialog.Shadow>
             <Frame Width="450" Name="AddDialogFrame"/>
         </ContentDialog>
-        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
+        <ContentDialog Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
+            <Windows10version1903:ContentDialog.Shadow>
+                <Windows10version1903:ThemeShadow/>
+            </Windows10version1903:ContentDialog.Shadow>
             <Grid>
                 <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
             </Grid>
+        </ContentDialog>
+        <ContentDialog Name="PropertiesDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary" SecondaryButtonText="Apply">
+            <Windows10version1903:ContentDialog.Shadow>
+                <Windows10version1903:ThemeShadow/>
+            </Windows10version1903:ContentDialog.Shadow>
+            <Frame Width="400" Height="450" Name="propertiesFrame" />
         </ContentDialog>
 
     </Grid>

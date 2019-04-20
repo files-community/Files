@@ -18,7 +18,7 @@
             </Grid>
             <Grid Name="SelectionListContent" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <ListView IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind local:AddItem.AddItemsList}">
+                    <ListView Name="AddItemsListView" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind local:AddItem.AddItemsList}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="50">

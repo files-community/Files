@@ -1,0 +1,41 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    x:Class="Files.Properties"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="85*"/>
+        </Grid.RowDefinitions>
+
+        <Custom:TabView Background="White" CanCloseTabs="False" TabWidthBehavior="Equal" Grid.Row="0">
+            <Custom:TabViewItem Background="White" Header="Info">
+                <Custom:TabViewItem.Icon>
+                    <FontIcon Glyph="&#xE946;"/>
+                </Custom:TabViewItem.Icon>
+            </Custom:TabViewItem>
+            <Custom:TabViewItem Background="White" Header="Details">
+                <Custom:TabViewItem.Icon>
+                    <FontIcon Glyph="&#xEA37;"/>
+                </Custom:TabViewItem.Icon>
+            </Custom:TabViewItem>
+            <Custom:TabViewItem Background="White" Visibility="Collapsed" Header="Security">
+                <Custom:TabViewItem.Icon>
+                    <FontIcon Glyph="&#xE8A6;"/>
+                </Custom:TabViewItem.Icon>
+            </Custom:TabViewItem>
+        </Custom:TabView>
+
+        <Grid Grid.Row="1" >
+            <Frame Name="PropertiesTabContentFrame"/>
+        </Grid>
+
+    </Grid>
+</Page>
