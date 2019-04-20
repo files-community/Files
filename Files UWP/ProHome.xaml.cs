@@ -34,6 +34,7 @@ namespace Files
         public static Frame accessibleContentFrame;
         public static Button BackButton;
         public static Button ForwardButton;
+        public static Button accessiblePasteButton;
         public static Button RefreshButton;
         public static Button AddItemButton;
         public static ContentDialog AddItemBox;
@@ -70,6 +71,7 @@ namespace Files
             ForwardButton = Forward;
             RefreshButton = Refresh;
             AddItemButton = addItemButton;
+            accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
             if (App.Current.RequestedTheme == ApplicationTheme.Dark)
             {

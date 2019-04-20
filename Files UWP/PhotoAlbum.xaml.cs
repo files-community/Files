@@ -96,7 +96,14 @@ namespace Files
                App.PathText.Text = parameters;
             }
 
-
+            if (Clipboard.GetContent().Contains(StandardDataFormats.StorageItems))
+            {
+                Interaction.PS.isEnabled = true;
+            }
+            else
+            {
+                Interaction.PS.isEnabled = false;
+            }
         }
 
         private void Clipboard_ContentChanged(object sender, object e)

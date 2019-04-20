@@ -37,6 +37,7 @@ namespace Files
             recentItemsCollection.Clear();
             PopulateRecentsList();
             App.PathText.Text = "Favorites";
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -45,6 +46,7 @@ namespace Files
             ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
             ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
             ProHome.RS.isEnabled = false;
+            ProHome.accessiblePasteButton.IsEnabled = false;
             App.AlwaysPresentCommands.isEnabled = false;
         }
 

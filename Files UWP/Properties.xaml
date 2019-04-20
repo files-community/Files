@@ -15,7 +15,7 @@
             <RowDefinition Height="85*"/>
         </Grid.RowDefinitions>
 
-        <Custom:TabView Background="White" CanCloseTabs="False" TabWidthBehavior="Equal" Grid.Row="0">
+        <Custom:TabView Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" CanCloseTabs="False" TabWidthBehavior="Equal" Grid.Row="0">
             <Custom:TabViewItem Background="White" Header="Info">
                 <Custom:TabViewItem.Icon>
                     <FontIcon Glyph="&#xE946;"/>

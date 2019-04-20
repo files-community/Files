@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -58,6 +59,7 @@ namespace Files
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
 
+            
 
         }
         public static Filesystem.ItemViewModel ViewModel = new Filesystem.ItemViewModel();

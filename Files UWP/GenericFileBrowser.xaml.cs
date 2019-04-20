@@ -149,6 +149,15 @@ namespace Files
                     data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                 }
             }
+
+            if (Clipboard.GetContent().Contains(StandardDataFormats.StorageItems))
+            {
+                Interaction.PS.isEnabled = true;
+            }
+            else
+            {
+                Interaction.PS.isEnabled = false;
+            }
         }
 
 
