@@ -29,9 +29,11 @@ namespace Files
     public sealed partial class ProHome : Page
     {
         public static ContentDialog permissionBox;
+        public static ContentDialog propertiesBox;
         public static ListView locationsList;
         public static ListView drivesList;
         public static Frame accessibleContentFrame;
+        public static Frame accessiblePropertiesFrame;
         public static Button BackButton;
         public static Button ForwardButton;
         public static Button accessiblePasteButton;
@@ -64,8 +66,10 @@ namespace Files
             locationsList = LocationsList;
             drivesList = DrivesList;
             accessibleContentFrame = ItemDisplayFrame;
+            accessiblePropertiesFrame = propertiesFrame;
             AddItemBox = AddDialog;
             NameBox = NameDialog;
+            propertiesBox = PropertiesDialog;
             inputFromRename = RenameInput;
             BackButton = Back;
             ForwardButton = Forward;
@@ -699,7 +703,7 @@ namespace Files
             inputForRename = null;
         }
 
-        private async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
+        public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
 
             if (Interaction.page.Name == "GenericItemView")

@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Files.Navigation;
 using System.Diagnostics;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Files
 {
@@ -34,11 +35,8 @@ namespace Files
             this.InitializeComponent();
             PAPageName = PhotoAlbumViewer;
             gv = FileList;
-            context = RightClickContextMenu;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            ShareItem.Click += Interaction.ShareItem_Click;
-            RenameItem.Click += Interaction.RenameItem_Click;
         }
 
 
@@ -54,14 +52,6 @@ namespace Files
             App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
             Interaction.page = this;
             FileList.DoubleTapped += Interaction.List_ItemClick;
-            
-            FileList.RightTapped += Interaction.FileList_RightTapped;
-            OpenItem.Click += Interaction.OpenItem_Click;
-            CopyItem.Click += Interaction.CopyItem_ClickAsync;
-            RefreshGrid.Click += NavigationActions.Refresh_Click;
-
-            DeleteItem.Click += Interaction.DeleteItem_Click;
-
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
@@ -127,12 +117,6 @@ namespace Files
 
         }
 
-        private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-        {
-            var ObjectPressed = (sender as Grid).DataContext as ListedItem;
-            gv.SelectedItem = ObjectPressed;
-            context.ShowAt(sender as Grid, e.GetPosition(sender as Grid));
-        }
 
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
@@ -158,6 +142,59 @@ namespace Files
         private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             inputForRename = inputFromRename.Text;
+        }
+
+        private void OpenItem_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.OpenItem_Click(null, null);
+        }
+
+        private void ShareItem_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.ShareItem_Click(null, null);
+        }
+
+        private void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.DeleteItem_Click(null, null);
+        }
+
+        private void RenameItem_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.RenameItem_Click(null, null);
+        }
+
+        private void CutItem_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.CutItem_Click(null, null);
+        }
+
+        private void CopyItem_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.CopyItem_ClickAsync(null, null);
+        }
+
+        private async void PropertiesItem_Click(object sender, RoutedEventArgs e)
+        {
+            ProHome.accessiblePropertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+            await ProHome.propertiesBox.ShowAsync();
+            
+        }
+
+        private void RefreshGrid_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationActions.Refresh_Click(null, null);
+        }
+
+        private void PasteGrid_Click(object sender, RoutedEventArgs e)
+        {
+            Interaction.PasteItem_ClickAsync(null, null);
+        }
+
+        private async void PropertiesItemGrid_Click(object sender, RoutedEventArgs e)
+        {
+            ProHome.accessiblePropertiesFrame.Navigate(typeof(Properties), App.PathText.Text, new SuppressNavigationTransitionInfo());
+            await ProHome.propertiesBox.ShowAsync();
         }
     }
 }

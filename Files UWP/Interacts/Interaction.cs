@@ -372,21 +372,6 @@ namespace Files.Interacts
             return parent;
         }
 
-        public static void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            GridView gridView = (GridView)sender;
-            var selItems = gridView.SelectedItems;
-            if(selItems.Count > 0)
-            {
-                PhotoAlbum.context.ShowAt(gridView);
-            }
-            else
-            {
-                PhotoAlbum.gridContext.ShowAt(PhotoAlbum.PAPageName, e.GetPosition(PhotoAlbum.PAPageName));
-            }
-            
-        }
-
         public static async void OpenItem_Click(object sender, RoutedEventArgs e)
         {
             if (page.Name == "GenericItemView")
