@@ -877,10 +877,10 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0" Canvas.ZIndex="2">
+        <Grid x:Name="Ribbon" Grid.Row="0" Canvas.ZIndex="2">
             <Custom:DropShadowPanel OffsetY="-2" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
                 <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
-                    <Custom:TabView x:Name="Ribbon" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+                    <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                         <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <CommandBar.Content>
@@ -948,7 +948,7 @@
                             </CommandBar>
                         </Custom:TabViewItem>
                         <Custom:TabView.Resources>
-                            <uilib:TeachingTip Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
+                            <uilib:TeachingTip Loaded="RibbonTip_Loaded" Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
                                 <uilib:TeachingTip.IconSource>
                                     <uilib:SymbolIconSource Symbol="Help"/>
                                 </uilib:TeachingTip.IconSource>

@@ -106,7 +106,6 @@ namespace Files
             }
             accessibleContentFrame.Navigate(typeof(YourHome), new SuppressNavigationTransitionInfo());
             RibbonTeachingTip = RibbonTip;
-            ProHome.RibbonTeachingTip.IsOpen = false;
             PopulateNavViewWithExternalDrives();
         }
 
@@ -715,6 +714,20 @@ namespace Files
                 propertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
             }
             await PropertiesDialog.ShowAsync();
+
+        }
+
+        private void RibbonTip_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (ApplicationData.Current.LocalSettings.Values["HasBeenWelcomed"] == null)
+            {
+                ProHome.RibbonTeachingTip.IsOpen = true;
+                ApplicationData.Current.LocalSettings.Values["HasBeenWelcomed"] = true;
+            }
+            else
+            {
+                ProHome.RibbonTeachingTip.IsOpen = false;
+            }
 
         }
     }
