@@ -325,19 +325,18 @@ namespace Files.Interacts
         {
             dataGrid = (DataGrid)sender;
             var RowPressed = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            // If user clicks on header
-            if (RowPressed == null)
+            var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
+            // Check if RightTapped row is currently selected
+            foreach (ListedItem listedItem in GenericFileBrowser.data.SelectedItems)
             {
-                GenericFileBrowser.HeaderContextMenu.ShowAt(dataGrid, e.GetPosition(dataGrid));
+                if (RowPressed.GetIndex() == listedItem.RowIndex)
+                {
+                    return;
+                }
             }
-            // If user clicks on actual row
-            else
-            {
-                var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
-                dataGrid.SelectedItems.Add(ObjectPressed);
-                GenericFileBrowser.context.ShowAt(dataGrid, e.GetPosition(dataGrid));
-            }
-
+            // The following code is only reachable when a user RightTapped an unselected row
+            dataGrid.SelectedItems.Clear();
+            dataGrid.SelectedItems.Add(ObjectPressed);
         }
 
         public static void FindChildren<T>(List<T> results, DependencyObject startNode) where T : DependencyObject
