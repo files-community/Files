@@ -117,6 +117,9 @@
     <Compile Include="GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InstanceTabsView.xaml.cs">
+      <DependentUpon>InstanceTabsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="Interacts\ItemInteractions.cs" />
     <Compile Include="Interacts\RibbonActions\Home.cs" />
@@ -181,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="GenericFileBrowser.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InstanceTabsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

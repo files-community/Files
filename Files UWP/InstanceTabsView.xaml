@@ -1,0 +1,90 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    x:Class="Files.InstanceTabsView"
+    mc:Ignorable="d"
+    Background="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" Name="InstanceTabsPage">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="White" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="LightGray" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="White" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="White" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="LightGray" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="White" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="DarkGray" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="{Binding Width, ElementName=LeftPaddingColumn}"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="{Binding Width, ElementName=RightPaddingColumn}"/>
+        </Grid.ColumnDefinitions>
+
+        <ContentPresenter Name="tabContentPresenter" Grid.Row="1" Grid.ColumnSpan="3" Content="{x:Bind local:InstanceTabsView.ContentPresGrid, Mode=OneWay}"/>
+
+        <Grid Grid.ColumnSpan="3" Name="DragArea" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Loaded="DragArea_Loaded" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="LeftPaddingColumn" Width="0"/>
+                <ColumnDefinition/>
+                <ColumnDefinition x:Name="RightPaddingColumn" Width="0"/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <Custom:TabView CanReorderItems="False" SelectionChanged="TabStrip_SelectionChanged" Name="TabStrip" SelectedTabWidth="150" IsCloseButtonOverlay="False" Background="Transparent" TabWidthBehavior="Actual" CanCloseTabs="True" ItemsSource="{x:Bind local:InstanceTabsView.instanceTabs}" TabClosing="TabStrip_TabClosing">
+            <Custom:TabView.Resources>
+                <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
+                <StaticResource x:Key="TabViewSelectionIndicatorForeground" ResourceKey="SystemControlTransparentBrush" />
+            </Custom:TabView.Resources>
+            <Custom:TabView.ItemTemplate>
+                <DataTemplate/>
+            </Custom:TabView.ItemTemplate>
+
+            <Custom:TabView.ItemHeaderTemplate>
+                <DataTemplate>
+                    <Grid Canvas.ZIndex="5" Width="150">
+                        <TextBlock VerticalAlignment="Center" Text="{Binding HeaderText}"/>
+                    </Grid>
+                </DataTemplate>
+            </Custom:TabView.ItemHeaderTemplate>
+
+            <Custom:TabView.TabActionHeader>
+                <Button BorderThickness="1" x:Name="NewTabButton" Canvas.ZIndex="2" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Height="32" Width="32" Click="NewTabButton_Click">
+                    <Button.Content>
+                        <FontIcon FontSize="12" Glyph="&#xE710;"/>
+                    </Button.Content>
+                </Button>
+            </Custom:TabView.TabActionHeader>
+
+        </Custom:TabView>
+
+    </Grid>
+</Page>

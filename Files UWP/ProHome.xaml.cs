@@ -54,14 +54,7 @@ namespace Files
         public ProHome()
         {
             this.InitializeComponent();
-            // TODO: Migrate preferred view size to page hosting tabs (when needed)
-            ApplicationView.PreferredLaunchViewSize = new Size(1080, 630);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = false;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
+            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             permissionBox = PermissionDialog;
             locationsList = LocationsList;
             drivesList = DrivesList;
@@ -77,33 +70,6 @@ namespace Files
             AddItemButton = addItemButton;
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
-            if (App.Current.RequestedTheme == ApplicationTheme.Dark)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 0, 0, 0);
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (App.Current.RequestedTheme == ApplicationTheme.Light)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(255, 255, 255, 255);
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Colors.White;
-            }
-
-            if (this.RequestedTheme == ElementTheme.Dark)
-            {
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (this.RequestedTheme == ElementTheme.Light)
-            {
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Colors.White;
-            }
             accessibleContentFrame.Navigate(typeof(YourHome), new SuppressNavigationTransitionInfo());
             RibbonTeachingTip = RibbonTip;
             PopulateNavViewWithExternalDrives();

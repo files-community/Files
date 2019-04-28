@@ -878,7 +878,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="Ribbon" Grid.Row="0" Canvas.ZIndex="2">
-            <Custom:DropShadowPanel OffsetY="-2" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+            <Windows10version1903:Grid.Shadow>
+                <Windows10version1903:ThemeShadow/>
+            </Windows10version1903:Grid.Shadow>
                 <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
                     <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                         <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
@@ -995,7 +997,6 @@
 
                     </Grid>
                 </StackPanel>
-            </Custom:DropShadowPanel>
         </Grid>
 
         <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" >
