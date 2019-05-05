@@ -35,13 +35,13 @@ namespace Files
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
 
-            ProHome.AddItemBox.Hide();
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().AddItemBox.Hide();
             var currentPath = App.ViewModel.Universal.path;
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             if ((e.ClickedItem as AddListItem).Header == "Folder")
             {
-                await ProHome.NameBox.ShowAsync();
-                var userInput = ProHome.inputForRename;
+                await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().NameBox.ShowAsync();
+                var userInput = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().inputForRename;
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
@@ -50,8 +50,8 @@ namespace Files
             }
             else if ((e.ClickedItem as AddListItem).Header == "Text Document")
             {
-                await ProHome.NameBox.ShowAsync();
-                var userInput = ProHome.inputForRename;
+                await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().NameBox.ShowAsync();
+                var userInput = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().inputForRename;
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
@@ -60,8 +60,8 @@ namespace Files
             }
             else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
             {
-                await ProHome.NameBox.ShowAsync();
-                var userInput = ProHome.inputForRename;
+                await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().NameBox.ShowAsync();
+                var userInput = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().inputForRename;
                 if (userInput != null)
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);

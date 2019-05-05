@@ -4,6 +4,7 @@ using System;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using System.IO;
+using Files.Filesystem;
 
 namespace Files.SettingsPages
 {
@@ -116,7 +117,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ProHome.permissionBox.ShowAsync();
+                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -138,7 +139,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ProHome.permissionBox.ShowAsync();
+                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -160,7 +161,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ProHome.permissionBox.ShowAsync();
+                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -182,7 +183,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ProHome.permissionBox.ShowAsync();
+                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -204,7 +205,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ProHome.permissionBox.ShowAsync();
+                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)

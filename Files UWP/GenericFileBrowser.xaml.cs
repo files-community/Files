@@ -96,15 +96,15 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
-            ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
-            ProHome.RS.isEnabled = true;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = true;
             App.AlwaysPresentCommands.isEnabled = true;
             var parameters = (string)eventArgs.Parameter;
             App.ViewModel.CancelLoadAndClearFiles();
             App.ViewModel.Universal.path = parameters;
-            ProHome.RefreshButton.Click += NavigationActions.Refresh_Click;
-            ProHome.AddItemButton.Click += AddItem_Click;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.Click += NavigationActions.Refresh_Click;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().AddItemButton.Click += AddItem_Click;
             App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
             Interaction.page = this;
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))

@@ -1,6 +1,8 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.UI;
@@ -15,8 +17,8 @@ namespace Files
     /// </summary>
     public sealed partial class InstanceTabsView : Page
     {
-        public static ObservableCollection<InstanceTabItem> instanceTabs { get; set; } = new ObservableCollection<InstanceTabItem>();
-
+        public static TabView tabView;
+        public static List<Type> types = new List<Type>();
         public InstanceTabsView()
         {
             this.InitializeComponent();
@@ -24,11 +26,9 @@ namespace Files
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
-            CoreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged; ;
+            CoreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             CoreTitleBar_LayoutMetricsChanged(CoreTitleBar, null);
-            TabStrip.Loaded += TabStrip_Loaded;
-
-
+            tabView = TabStrip;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
             titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
@@ -58,102 +58,66 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 titleBar.BackgroundColor = Colors.Transparent;
             }
-            //instanceTabs.Clear();
-
+            AddNewTab(typeof(ProHome), null);
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            LeftPaddingColumn.Width = new GridLength((TabStrip.Items.Count * 150) + 32);
-            RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
+            //LeftPaddingColumn.Width = new GridLength((TabStrip.Items.Count * 150) + 32);
+            //RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
         }
 
-        public static Grid ContentPresGrid { get; set; } = new Grid();
-
-        private void TabStrip_Loaded(object sender, RoutedEventArgs e)
+        public void AddNewTab(Type t, string path)
         {
-            instanceTabs.CollectionChanged += InstanceTabs_CollectionChanged;
-            Frame FirstFrame = new Frame();
-            FirstFrame.Tag = 0;
-            FirstFrame.Navigate(typeof(ProHome));
-            ContentPresGrid.Children.Add(FirstFrame);
-            instanceTabs.Add(new InstanceTabItem() { HeaderText = "Favorites", SourcePage = "ProHome", index = 0, TabContent = FirstFrame });
+            Frame frame = new Frame();
+            frame.Navigate(t, path);
+            string TabLocationHeader;
+            if (path != null)
+            {
+                TabLocationHeader = Path.GetDirectoryName(path);
+            }
+            else
+            {
+                TabLocationHeader = "Favorites";
+            }
+            Grid gr = new Grid();
+            gr.Children.Add(frame);
+            gr.HorizontalAlignment = HorizontalAlignment.Stretch;
+            gr.VerticalAlignment = VerticalAlignment.Stretch;
+            TabViewItem tvi = new TabViewItem()
+            {
+                Header = TabLocationHeader,
+                Content = gr,
+                Width = 200
+            };
+            tvi.Loaded += Tvi_Loaded;
+            TabStrip.Items.Add(tvi);
+
         }
 
-        private void InstanceTabs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Tvi_Loaded(object sender, RoutedEventArgs e)
         {
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            LeftPaddingColumn.Width = new GridLength((TabStrip.Items.Count * 250) + 32);
-            RightPaddingColumn.Width = new GridLength(CoreTitleBar.SystemOverlayRightInset);
-            //if(e.NewItems.Count > 0)
-            //{
-            //    List<TabViewItem> tabsFound = new List<TabViewItem>();
-            //    Interacts.Interaction.FindChildren<TabViewItem>(tabsFound, InstanceTabsPage.Content as DependencyObject);
-
-            //    List<Frame> frames = new List<Frame>();
-            //    Interacts.Interaction.FindChildren<Frame>(frames, InstanceTabsPage.Content as DependencyObject);
-            //    frames[0].Navigate((e.NewItems as List<InstanceTabItem>)[0].SourcePage);
-            //}
-
+            //tabContentPresenter.Content = ((TabStrip.SelectedItem as TabViewItem));
+            TabStrip.SelectionChanged += TabStrip_SelectionChanged;
         }
-
-
 
         private void NewTabButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame FirstFrame = new Frame();
-            FirstFrame.Tag = 0;
-            FirstFrame.Navigate(typeof(ProHome));
-            ContentPresGrid.Children.Add(FirstFrame);
-            instanceTabs.Add(new InstanceTabItem() { HeaderText = "Favorites", SourcePage = "ProHome", index = TabStrip.Items.Count, TabContent = FirstFrame });
-            TabStrip.SelectedItem = instanceTabs[instanceTabs.Count - 1];
+            AddNewTab(typeof(ProHome), null);
+            TabStrip.SelectedItem = TabStrip.Items[TabStrip.Items.Count - 1];
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.SetTitleBar((Grid)sender);
+            Window.Current.SetTitleBar(sender as Grid);
         }
 
         private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            List<TabViewItem> tabsFound = new List<TabViewItem>();
-            Interacts.Interaction.FindChildren<TabViewItem>(tabsFound, InstanceTabsPage.Content as DependencyObject);
-            if ((e.AddedItems[0] as InstanceTabItem).SourcePage == "ProHome")
-            {
-                foreach(TabViewItem tvi in tabsFound)
-                {
-                    if ((e.AddedItems[0] as InstanceTabItem).index == TabStrip.Items.IndexOf(tvi))
-                    {
-                        // Applies below with selected Tab's information
-                        foreach(Frame instance in ContentPresGrid.Children)
-                        {
-                            // hide all other opened tab's content unless the instance belongs to the selected tab
-                            if( ((int) instance.Tag) != (e.AddedItems[0] as InstanceTabItem).index)
-                            {
-                                instance.Visibility = Visibility.Collapsed;
-                            }
-                            else
-                            {
-                                instance.Visibility = Visibility.Visible;
-                            }
-                        }
-                        return;
-                    }
-                }
-            }
+            //var g = ((TabStrip.SelectedItem as TabViewItem)).Content as DependencyObject;
+            //tabContentView.Content = g;
         }
 
-        private void TabStrip_TabClosing(object sender, TabClosingEventArgs e)
-        {
-            foreach(Frame instance in ContentPresGrid.Children)
-            {
-                if(((int) instance.Tag) == (e.Item as InstanceTabItem).index)
-                {
-                    ContentPresGrid.Children.Remove(instance);
-                    return;
-                }
-            }
-        }
     }
 
     public class InstanceTabItem

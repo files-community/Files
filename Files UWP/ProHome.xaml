@@ -14,7 +14,8 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)">
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
+    Loaded="Page_Loaded">
     <Page.Resources>
         <Style x:Key="ListViewHeaderItemStyle1" TargetType="ListViewHeaderItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -978,7 +979,7 @@
                                 </AppBarButton.KeyboardAccelerators>
                             </AppBarButton>
 
-                            <AppBarButton LabelPosition="Collapsed" IsEnabled="{x:Bind local:ProHome.RS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Refresh" x:Name="Refresh" >
+                            <AppBarButton LabelPosition="Collapsed" Label="Refresh" x:Name="Refresh" >
                                 <AppBarButton.ContentTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />

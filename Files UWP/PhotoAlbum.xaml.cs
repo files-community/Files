@@ -44,9 +44,9 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
-            ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
-            ProHome.RS.isEnabled = true;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = true;
             App.AlwaysPresentCommands.isEnabled = true;
             var parameters = eventArgs.Parameter.ToString();
             App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
@@ -176,8 +176,8 @@ namespace Files
 
         private async void PropertiesItem_Click(object sender, RoutedEventArgs e)
         {
-            ProHome.accessiblePropertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
-            await ProHome.propertiesBox.ShowAsync();
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+            await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
             
         }
 
@@ -193,8 +193,8 @@ namespace Files
 
         private async void PropertiesItemGrid_Click(object sender, RoutedEventArgs e)
         {
-            ProHome.accessiblePropertiesFrame.Navigate(typeof(Properties), App.PathText.Text, new SuppressNavigationTransitionInfo());
-            await ProHome.propertiesBox.ShowAsync();
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), App.PathText.Text, new SuppressNavigationTransitionInfo());
+            await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
         }
     }
 }

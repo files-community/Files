@@ -1,5 +1,7 @@
 ﻿using ByteSizeLib;
+using Files.Interacts;
 using Files.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -90,9 +92,22 @@ namespace Files.Filesystem
             }
         }
 
-        public static async void DisplayConsentDialog()
+        public static T GetCurrentSelectedTabInstance<T>()
         {
-            await ProHome.permissionBox.ShowAsync();
+            var selectedTabContent = ((InstanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
+            foreach (UIElement uiElement in selectedTabContent.Children)
+            {
+                if (uiElement.GetType() == typeof(Frame))
+                {
+                    return (T) ((uiElement as Frame).Content);
+                }
+            }
+            return default;
+        }
+
+        public async void DisplayConsentDialog()
+        {
+            await GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
         }
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
@@ -147,9 +162,9 @@ namespace Files.Filesystem
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
 
                 //History.AddToHistory(Universal.path);
-                
-                ProHome.BackButton.IsEnabled = ProHome.accessibleContentFrame.CanGoBack;
-                ProHome.ForwardButton.IsEnabled = ProHome.accessibleContentFrame.CanGoForward;
+
+                GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
+                GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {

@@ -1,4 +1,5 @@
-﻿using Files.Navigation;
+﻿using Files.Interacts;
+using Files.Navigation;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -68,7 +69,9 @@ namespace Files
         public static Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
         public static Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
         public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
-        public static Filesystem.LoadingVisibility Loading { get; set; } = new Filesystem.LoadingVisibility(); 
+        public static Filesystem.LoadingVisibility Loading { get; set; } = new Filesystem.LoadingVisibility();
+        public static RefreshState RS { get; set; } = new RefreshState();
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

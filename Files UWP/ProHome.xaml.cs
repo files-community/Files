@@ -28,21 +28,21 @@ namespace Files
     /// </summary>
     public sealed partial class ProHome : Page
     {
-        public static ContentDialog permissionBox;
-        public static ContentDialog propertiesBox;
-        public static ListView locationsList;
-        public static ListView drivesList;
-        public static Frame accessibleContentFrame;
-        public static Frame accessiblePropertiesFrame;
-        public static Button BackButton;
-        public static Button ForwardButton;
-        public static Button accessiblePasteButton;
-        public static Button RefreshButton;
-        public static Button AddItemButton;
-        public static ContentDialog AddItemBox;
-        public static ContentDialog NameBox;
-        public static TextBox inputFromRename;
-        public static string inputForRename;
+        public ContentDialog permissionBox;
+        public ContentDialog propertiesBox;
+        public ListView locationsList;
+        public ListView drivesList;
+        public Frame accessibleContentFrame;
+        public Frame accessiblePropertiesFrame;
+        public Button BackButton;
+        public Button ForwardButton;
+        public Button accessiblePasteButton;
+        public Button RefreshButton;
+        public Button AddItemButton;
+        public ContentDialog AddItemBox;
+        public ContentDialog NameBox;
+        public TextBox inputFromRename;
+        public string inputForRename;
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -50,11 +50,10 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-        public static TeachingTip RibbonTeachingTip;
+        public TeachingTip RibbonTeachingTip;
         public ProHome()
         {
             this.InitializeComponent();
-            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             permissionBox = PermissionDialog;
             locationsList = LocationsList;
             drivesList = DrivesList;
@@ -70,13 +69,9 @@ namespace Files
             AddItemButton = addItemButton;
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
-            accessibleContentFrame.Navigate(typeof(YourHome), new SuppressNavigationTransitionInfo());
             RibbonTeachingTip = RibbonTip;
             PopulateNavViewWithExternalDrives();
         }
-
-        public static RefreshState RS { get; set; } = new RefreshState();
-
 
         public async void PopulateNavViewWithExternalDrives()
         {
@@ -161,14 +156,14 @@ namespace Files
                     App.ShareItems.isEnabled = false;
                     if (CurrentInput == "Favorites" || CurrentInput == "favorites")
                     {
-                        ProHome.accessibleContentFrame.Navigate(typeof(YourHome));
+                        this.accessibleContentFrame.Navigate(typeof(YourHome));
                         App.PathText.Text = "Favorites";
                         App.LayoutItems.isEnabled = false;
                     }
                     else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
+                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                         App.PathText.Text = "Desktop";
                         App.LayoutItems.isEnabled = true;
 
@@ -176,7 +171,7 @@ namespace Files
                     else if (CurrentInput == "Documents" || CurrentInput == "documents")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                         App.PathText.Text = "Documents";
                         App.LayoutItems.isEnabled = true;
 
@@ -185,7 +180,7 @@ namespace Files
                     else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                         App.PathText.Text = "Downloads";
                         App.LayoutItems.isEnabled = true;
 
@@ -194,7 +189,7 @@ namespace Files
                     else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                        this.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                         App.PathText.Text = "Pictures";
                         App.LayoutItems.isEnabled = true;
 
@@ -202,7 +197,7 @@ namespace Files
                     else if (CurrentInput == "Music" || CurrentInput == "music")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                         App.PathText.Text = "Music";
                         App.LayoutItems.isEnabled = true;
 
@@ -211,7 +206,7 @@ namespace Files
                     else if (CurrentInput == "Videos" || CurrentInput == "videos")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                         App.PathText.Text = "Videos";
                         App.LayoutItems.isEnabled = true;
 
@@ -220,7 +215,7 @@ namespace Files
                     else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
                     {
                         App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                         App.PathText.Text = "OneDrive";
                         App.LayoutItems.isEnabled = true;
 
@@ -249,7 +244,7 @@ namespace Files
                                 {
                                     await StorageFolder.GetFolderFromPathAsync(CurrentInput);
                                     App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                                    ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
                                 }
                                 catch (ArgumentException)
                                 {
@@ -305,7 +300,7 @@ namespace Files
                             {
                                 await StorageFolder.GetFolderFromPathAsync(CurrentInput);
                                 App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                                ProHome.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
                                 App.LayoutItems.isEnabled = true;
                             }
                             catch (ArgumentException)
@@ -630,7 +625,7 @@ namespace Files
         private async void AddItem_Click(object sender, RoutedEventArgs e)
         {
             AddItem.addItemsChoices.SelectedItem = null;
-            await ProHome.AddItemBox.ShowAsync();
+            await this.AddItemBox.ShowAsync();
         }
 
         private void OpenWithButton_Click(object sender, RoutedEventArgs e)
@@ -687,14 +682,20 @@ namespace Files
         {
             if (ApplicationData.Current.LocalSettings.Values["HasBeenWelcomed"] == null)
             {
-                ProHome.RibbonTeachingTip.IsOpen = true;
+                this.RibbonTeachingTip.IsOpen = true;
                 ApplicationData.Current.LocalSettings.Values["HasBeenWelcomed"] = true;
             }
             else
             {
-                ProHome.RibbonTeachingTip.IsOpen = false;
+                this.RibbonTeachingTip.IsOpen = false;
             }
 
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            accessibleContentFrame.Navigate(typeof(YourHome), new SuppressNavigationTransitionInfo());
+            this.Loaded -= Page_Loaded;
         }
     }
 }
