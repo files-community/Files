@@ -61,6 +61,19 @@ namespace Files
             CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
             AllView.RightTapped += instanceInteraction.AllView_RightTapped;
             AllView.DoubleTapped += instanceInteraction.List_ItemClick;
+            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.PropertyChanged += TextState_PropertyChanged;
+        }
+
+        private void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Visible)
+            {
+                emptyTextGFB.Visibility = Visibility.Visible;
+            }
+            else if (ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Collapsed)
+            {
+                emptyTextGFB.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)

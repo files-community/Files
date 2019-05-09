@@ -445,356 +445,7 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="AutoSuggestBoxThinStyle" TargetType="AutoSuggestBox">
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="TextBoxStyle" Value="{StaticResource AutoSuggestBoxTextBoxStyle}"/>
-            <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="AutoSuggestBox">
-                        <Grid x:Name="LayoutRoot">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="Orientation">
-                                    <VisualState x:Name="Landscape"/>
-                                    <VisualState x:Name="Portrait"/>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <TextBox Windows10version1809:CornerRadius="5" Padding="5" BorderThickness="1" x:Name="TextBox" ScrollViewer.BringIntoViewOnFocusChange="False" DesiredCandidateWindowAlignment="BottomEdge" Header="{TemplateBinding Header}" Margin="0" PlaceholderText="{TemplateBinding PlaceholderText}" Style="{TemplateBinding TextBoxStyle}" UseSystemFocusVisuals="{TemplateBinding UseSystemFocusVisuals}" Width="{TemplateBinding Width}" Canvas.ZIndex="0"/>
-                            <Popup x:Name="SuggestionsPopup">
-                                <Border x:Name="SuggestionsContainer">
-                                    <ListView x:Name="SuggestionsList" Background="{ThemeResource AutoSuggestBoxSuggestionsListBackground}" BorderThickness="{ThemeResource AutoSuggestListBorderThemeThickness}" BorderBrush="{ThemeResource AutoSuggestBoxSuggestionsListBorderBrush}" DisplayMemberPath="{TemplateBinding DisplayMemberPath}" ItemContainerStyle="{TemplateBinding ItemContainerStyle}" ItemTemplate="{TemplateBinding ItemTemplate}" IsItemClickEnabled="True" ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}" MaxHeight="{ThemeResource AutoSuggestListMaxHeight}" Margin="{ThemeResource AutoSuggestListMargin}" Padding="{ThemeResource AutoSuggestListPadding}"/>
-                                </Border>
-                            </Popup>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
-        <Style TargetType="TextBox" x:Key="AutoSuggestBoxTextBoxThinStyle">
-            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
-            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeDisabledLowBrush}" />
-            <Setter Property="SelectionHighlightColor" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
-            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Grid>
-                            <Grid.Resources>
-                                <Style x:Name="DeleteButtonStyle" TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Grid>
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup x:Name="CommonStates">
-                                                            <VisualState x:Name="Normal" />
-                                                            <VisualState x:Name="PointerOver">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                                           Storyboard.TargetProperty="Background">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement"
-                                                           Storyboard.TargetProperty="Foreground">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltAccentBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Pressed">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                                           Storyboard.TargetProperty="Background">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement"
-                                                           Storyboard.TargetProperty="Foreground">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Disabled">
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="BorderElement"
-                                             Storyboard.TargetProperty="Opacity"
-                                             To="0"
-                                             Duration="0" />
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                    <Border x:Name="BorderElement"
-                            BorderBrush="{ThemeResource TextBoxButtonBorderThemeBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{ThemeResource TextBoxButtonBackgroundThemeBrush}">
-                                                        <TextBlock x:Name="GlyphElement"
-                                 Foreground="{ThemeResource SystemControlBackgroundChromeBlackMediumBrush}"
-                                 VerticalAlignment="Center"
-                                 HorizontalAlignment="Center"
-                                 FontStyle="Normal"
-                                 FontSize="12"
-                                 Text="&#xE10A;"
-                                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                 AutomationProperties.AccessibilityView="Raw"/>
-                                                    </Border>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                                <Style x:Name="QueryButtonStyle" TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Grid>
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup x:Name="CommonStates">
-                                                            <VisualState x:Name="Normal" />
-                                                            <VisualState x:Name="PointerOver">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                                           Storyboard.TargetProperty="Background">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                           Storyboard.TargetProperty="Foreground">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltAccentBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Pressed">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                                           Storyboard.TargetProperty="Background">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                           Storyboard.TargetProperty="Foreground">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Disabled">
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="BorderElement"
-                                             Storyboard.TargetProperty="Opacity"
-                                             To="0"
-                                             Duration="0" />
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                    <Border x:Name="BorderElement"
-                            BorderBrush="{ThemeResource TextBoxButtonBorderThemeBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{ThemeResource TextBoxButtonBackgroundThemeBrush}">
-                                                        <ContentPresenter x:Name="ContentPresenter"
-                                        Content="{TemplateBinding Content}"
-                                        ContentTransitions="{TemplateBinding ContentTransitions}"
-                                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                                        Margin="{TemplateBinding Padding}"
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        AutomationProperties.AccessibilityView="Raw"/>
-                                                    </Border>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Grid.Resources>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter"
-                                                 Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
-                                               Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                               Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                               Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
-                                               Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter"
-                                               Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                               Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
-                                               Storyboard.TargetProperty="Opacity">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundHoverOpacity}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Focused">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter"
-                                               Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPageTextChromeBlackMediumLowBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
-                                               Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundChromeWhiteBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
-                                               Storyboard.TargetProperty="Opacity">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundFocusedOpacity}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement"
-                                               Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
-                                               Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlForegroundChromeBlackHighBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement"
-                                               Storyboard.TargetProperty="RequestedTheme">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Light" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="QueryButton"
-                                               Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundChromeBlackMediumBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="ButtonStates">
-                                    <VisualState x:Name="ButtonVisible">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton"
-                                               Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                    <DiscreteObjectKeyFrame.Value>
-                                                        <Visibility>Visible</Visibility>
-                                                    </DiscreteObjectKeyFrame.Value>
-                                                </DiscreteObjectKeyFrame>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="ButtonCollapsed" />
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Border x:Name="BackgroundElement"
-                Grid.Row="1"
-                Background="{TemplateBinding Background}"
-                Margin="{TemplateBinding BorderThickness}"
-                Opacity="{ThemeResource TextControlBackgroundRestOpacity}"
-                Grid.ColumnSpan="3"
-                Grid.RowSpan="1"/>
-                            <Border x:Name="BorderElement"
-                Grid.Row="1"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                Grid.ColumnSpan="3"
-                Grid.RowSpan="1"/>
-                            <ContentPresenter x:Name="HeaderContentPresenter"
-                          x:DeferLoadStrategy="Lazy"
-                          Visibility="Collapsed"
-                          Grid.Row="0"
-                          Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}"
-                          Margin="0,0,0,8"
-                          Grid.ColumnSpan="3"
-                          Content="{TemplateBinding Header}"
-                          ContentTemplate="{TemplateBinding HeaderTemplate}"
-                          FontWeight="Normal"
-                          TextWrapping="Wrap" />
-                            <ScrollViewer x:Name="ContentElement"
-                      Grid.Row="1"
-                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                      Margin="{TemplateBinding BorderThickness}"
-                      Padding="{TemplateBinding Padding}"
-                      IsTabStop="False"
-                      AutomationProperties.AccessibilityView="Raw"
-                      ZoomMode="Disabled" />
-                            <ContentControl x:Name="PlaceholderTextContentPresenter"
-                      Grid.Row="1"
-                      Foreground="{ThemeResource SystemControlPageTextBaseMediumBrush}"
-                      Margin="{TemplateBinding BorderThickness}"
-                      Padding="{TemplateBinding Padding}"
-                      IsTabStop="False"
-                      Grid.ColumnSpan="3"
-                      Content="{TemplateBinding PlaceholderText}"
-                      IsHitTestVisible="False"/>
-                            <Button x:Name="DeleteButton"
-                Grid.Row="1"
-                Style="{StaticResource DeleteButtonStyle}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                Margin="{ThemeResource HelperButtonThemePadding}"
-                IsTabStop="False"
-                Grid.Column="1"
-                Visibility="Collapsed"
-                FontSize="{TemplateBinding FontSize}"
-                MinWidth="34"
-                VerticalAlignment="Stretch"/>
-                            <Button x:Name="QueryButton"
-                Grid.Row="1"
-                Style="{StaticResource QueryButtonStyle}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                Margin="{ThemeResource HelperButtonThemePadding}"
-                IsTabStop="False"
-                Grid.Column="2"
-                FontSize="{TemplateBinding FontSize}"
-                MinWidth="34"
-                VerticalAlignment="Stretch"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
         <Style x:Key="FluentListViewItemContainerStyle" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
             <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
@@ -870,8 +521,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
     </Page.Resources>
 
     <Grid Padding="0,0,0,0">
@@ -879,128 +528,132 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="Ribbon" Grid.Row="0" Canvas.ZIndex="2">
-            <Windows10version1903:Grid.Shadow>
-                <Windows10version1903:ThemeShadow/>
-            </Windows10version1903:Grid.Shadow>
-                <StackPanel Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
-                    <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
-                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <CommandBar.Content>
-                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                        <AppBarButton Label="Open new window" Icon="NewWindow"/>
-                                        <AppBarButton Name="SettingsButton" Click="SettingsButton_Click" Label="Settings" Icon="Setting"/>
-                                    </CommandBar>
-                                </CommandBar.Content>
-                            </CommandBar>
-                        </Custom:TabViewItem>
-                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home">
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <CommandBar.Content>
-                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+        <Windows10version1903:Grid.Resources>
+            <Windows10version1903:ThemeShadow x:Name="ribbonShadow"/>
+         </Windows10version1903:Grid.Resources>
+        <Grid RowSpan="2" Canvas.ZIndex="2" Name="RibbonShadowSurface"/>
+        <Grid Margin="0,-1,0,0" Canvas.ZIndex="2" Windows10version1903:Shadow="{StaticResource ribbonShadow}" x:Name="Ribbon" Grid.Row="0">
+                <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
+                <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+                    <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
+                        <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <AppBarButton Label="Open new window" Icon="NewWindow"/>
+                                    <AppBarButton Name="SettingsButton" Click="SettingsButton_Click" Label="Settings" Icon="Setting"/>
+                                </CommandBar>
+                            </CommandBar.Content>
+                        </CommandBar>
+                    </Custom:TabViewItem>
+                    <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home">
+                        <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                     <AppBarButton Click="CutButton_Click" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  Name="CutButton" Label="Cut" Icon="Cut"/>
-                                        <AppBarButton Click="CopyButton_Click" Name="CopyButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
+                                    <AppBarButton Click="CopyButton_Click" Name="CopyButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
                                     <AppBarButton Click="PasteButton_Click" Name="PasteButton" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste"/>
-                                        <AppBarButton Click="CopyPathButton_Click" Name="CopyPathButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
-                                            <AppBarButton.Icon>
-                                                <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
-                                            </AppBarButton.Icon>
-                                        </AppBarButton>
-                                        <AppBarSeparator/>
-                                        <AppBarButton Click="DeleteButton_Click" Name="DeleteButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
-                                        <AppBarButton Click="RenameButton_Click" Name="RenameButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
-                                        <AppBarButton Click="AddItem_Click" Name="addItemButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
-                                        <AppBarSeparator/>
-                                        <AppBarButton Click="ShowPropertiesButton_Click" Name="ShowPropertiesButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
-                                            <AppBarButton.Icon>
-                                                <FontIcon Glyph="&#xE946;"/>
-                                            </AppBarButton.Icon>
-                                        </AppBarButton>
-                                        <AppBarButton Click="OpenWithButton_Click" Name="OpenWithButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
-                                    </CommandBar>
-                                </CommandBar.Content>
-                            </CommandBar>
-                        </Custom:TabViewItem>
-                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share">
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <CommandBar.Content>
-                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                        <AppBarButton Click="ShareButton_Click" Name="ShareButton" IsEnabled="{x:Bind ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
-                                    </CommandBar>
-                                </CommandBar.Content>
-                            </CommandBar>
-                        </Custom:TabViewItem>
-                        <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout">
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <CommandBar.Content>
-                                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                        <AppBarButton Click="LayoutButton_Click" Name="LayoutButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
-                                            <AppBarButton.Icon>
-                                                <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
-                                            </AppBarButton.Icon>
-                                        </AppBarButton>
-                                        <AppBarButton Click="SelectAllButton_Click" Name="SelectAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
-                                            <AppBarButton.KeyboardAccelerators>
-                                                <KeyboardAccelerator Modifiers="Control" Key="A"/>
-                                            </AppBarButton.KeyboardAccelerators>
-                                        </AppBarButton>
-                                        <AppBarButton Click="ClearAllButton_Click" Name="ClearAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
+                                    <AppBarButton Click="CopyPathButton_Click" Name="CopyPathButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
+                                        <AppBarButton.Icon>
+                                            <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                    <AppBarSeparator/>
+                                    <AppBarButton Click="DeleteButton_Click" Name="DeleteButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
+                                    <AppBarButton Click="RenameButton_Click" Name="RenameButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
+                                    <AppBarButton Click="AddItem_Click" Name="addItemButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
+                                    <AppBarSeparator/>
+                                    <AppBarButton Click="ShowPropertiesButton_Click" Name="ShowPropertiesButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
+                                        <AppBarButton.Icon>
+                                            <FontIcon Glyph="&#xE946;"/>
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                    <AppBarButton Click="OpenWithButton_Click" Name="OpenWithButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
+                                </CommandBar>
+                            </CommandBar.Content>
+                        </CommandBar>
+                    </Custom:TabViewItem>
+                    <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share">
+                        <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <AppBarButton Click="ShareButton_Click" Name="ShareButton" IsEnabled="{x:Bind ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
+                                </CommandBar>
+                            </CommandBar.Content>
+                        </CommandBar>
+                    </Custom:TabViewItem>
+                    <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout">
+                        <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                            <CommandBar.Content>
+                                <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                                    <AppBarButton Click="LayoutButton_Click" Name="LayoutButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
+                                        <AppBarButton.Icon>
+                                            <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                    <AppBarButton Click="SelectAllButton_Click" Name="SelectAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
+                                        <AppBarButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="A"/>
+                                        </AppBarButton.KeyboardAccelerators>
+                                    </AppBarButton>
+                                    <AppBarButton Click="ClearAllButton_Click" Name="ClearAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
 
-                                    </CommandBar>
-                                </CommandBar.Content>
-                            </CommandBar>
-                        </Custom:TabViewItem>
-                        <Custom:TabView.Resources>
-                            <uilib:TeachingTip Loaded="RibbonTip_Loaded" Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
-                                <uilib:TeachingTip.IconSource>
-                                    <uilib:SymbolIconSource Symbol="Help"/>
-                                </uilib:TeachingTip.IconSource>
-                            </uilib:TeachingTip>
-                        </Custom:TabView.Resources>
-                    </Custom:TabView>
-                    <Grid VerticalAlignment="Stretch">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <AppBarButton Icon="Back" LabelPosition="Collapsed" x:Name="Back">
+                                </CommandBar>
+                            </CommandBar.Content>
+                        </CommandBar>
+                    </Custom:TabViewItem>
+                    <Custom:TabView.Resources>
+                        <uilib:TeachingTip Loaded="RibbonTip_Loaded" Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
+                            <uilib:TeachingTip.IconSource>
+                                <uilib:SymbolIconSource Symbol="Help"/>
+                            </uilib:TeachingTip.IconSource>
+                        </uilib:TeachingTip>
+                    </Custom:TabView.Resources>
+                </Custom:TabView>
+                <Grid ColumnSpacing="0" VerticalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <AppBarButton Icon="Back" LabelPosition="Collapsed" x:Name="Back">
 
-                                <AppBarButton.KeyboardAccelerators>
-                                    <KeyboardAccelerator Modifiers="Control" Key="Left"/>
-                                </AppBarButton.KeyboardAccelerators>
-                            </AppBarButton>
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="Left"/>
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
 
-                            <AppBarButton Icon="Forward" LabelPosition="Collapsed" x:Name="Forward">
+                        <AppBarButton Icon="Forward" LabelPosition="Collapsed" x:Name="Forward">
 
-                                <AppBarButton.KeyboardAccelerators>
-                                    <KeyboardAccelerator Modifiers="Control" Key="Right"/>
-                                </AppBarButton.KeyboardAccelerators>
-                            </AppBarButton>
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="Right"/>
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
 
-                            <AppBarButton LabelPosition="Collapsed" Label="Refresh" x:Name="Refresh" >
-                                <AppBarButton.ContentTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                    </DataTemplate>
-                                </AppBarButton.ContentTemplate>
-                                <AppBarButton.KeyboardAccelerators>
-                                    <KeyboardAccelerator Key="F5"/>
-                                </AppBarButton.KeyboardAccelerators>
-                            </AppBarButton>
-                        </StackPanel>
-                        <TextBox Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="5" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Center" Padding="5" Margin="2,5" PlaceholderText="Navigate to a path...">
-                            
-                        </TextBox>
+                        <AppBarButton LabelPosition="Collapsed" Label="Refresh" x:Name="Refresh" >
+                            <AppBarButton.ContentTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </DataTemplate>
+                            </AppBarButton.ContentTemplate>
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Key="F5"/>
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                    </StackPanel>
+                    <TextBox Margin="5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="5" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Navigate to a path...">
 
-                        <AutoSuggestBox TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxThinStyle}" Style="{StaticResource AutoSuggestBoxThinStyle}" PlaceholderText="Search" QueryIcon="Find" Width="275" Margin="5" Grid.Column="2"/>
+                    </TextBox>
 
-                    </Grid>
-                </StackPanel>
+                    <StackPanel Margin="0,0,5,0" Grid.Column="2" Orientation="Horizontal">
+                        <TextBox Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="5,0,0,5" BorderThickness="1" Margin="0,5,0,5" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260"/>
+                        <Button Width="35" BorderThickness="0" Margin="0,5,0,5.5" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,5,5,0" Background="{StaticResource SystemAccentColor}">
+                            <FontIcon FontSize="12" Foreground="White" Glyph="&#xEBE7;"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
         </Grid>
-
         <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" >
             <SplitView.Pane>
                 <ScrollViewer>
@@ -1092,7 +745,7 @@
             <Frame Navigated="ItemDisplayFrame_Navigated" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
-        <ContentDialog Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
@@ -1100,13 +753,13 @@
                 <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Grid.RowSpan="4" Loaded="AddDialog_Loaded" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
+        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" Loaded="AddDialog_Loaded" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
             <Frame Width="450" Name="AddDialogFrame"/>
         </ContentDialog>
-        <ContentDialog Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
+        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
@@ -1114,14 +767,14 @@
                 <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Name="PropertiesDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary" SecondaryButtonText="Apply">
+        <ContentDialog Windows10version1809:CornerRadius="5" Name="PropertiesDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary" SecondaryButtonText="Apply">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
             <Frame Width="400" Height="450" Name="propertiesFrame" />
         </ContentDialog>
 
-        <ContentDialog Title="Pick an Item Layout" Name="LayoutDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
+        <ContentDialog Windows10version1809:CornerRadius="5" Title="Pick an Item Layout" Name="LayoutDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>

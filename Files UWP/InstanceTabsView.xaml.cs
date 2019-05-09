@@ -89,7 +89,8 @@ namespace Files
                 Header = TabLocationHeader,
                 Content = gr,
                 CornerRadius = new CornerRadius(15),
-                Width = 200
+                Width = 200,
+                BorderThickness = new Thickness(0)
             };
             tvi.Loaded += Tvi_Loaded;
             TabStrip.Items.Add(tvi);
@@ -121,7 +122,7 @@ namespace Files
 
         private void TabStrip_TabClosing(object sender, TabClosingEventArgs e)
         {
-            if(TabStrip.Items.Count == 0)
+            if(TabStrip.Items.Count == 1)
             {
                 AddNewTab(typeof(ProHome), null);
             }

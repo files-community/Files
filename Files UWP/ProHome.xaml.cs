@@ -89,6 +89,8 @@ namespace Files
             PopulateNavViewWithExternalDrives();
             BackButton.Click += NavigationActions.Back_Click;
             ForwardButton.Click += NavigationActions.Forward_Click;
+            ribbonShadow.Receivers.Add(RibbonShadowSurface);
+            Ribbon.Translation += new System.Numerics.Vector3(0, 0, 4);
         }
 
         public async void PopulateNavViewWithExternalDrives()

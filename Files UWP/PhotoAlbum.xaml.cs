@@ -47,9 +47,20 @@ namespace Files
             instanceViewModel = new ItemViewModel<PhotoAlbum>(this, null);
             instanceInteraction = new Interaction<PhotoAlbum>(this);
             gv.ItemsSource = instanceViewModel.FilesAndFolders;
+            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.PropertyChanged += TextState_PropertyChanged;
         }
 
-
+        private void TextState_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Visible)
+            {
+                EmptyTextPA.Visibility = Visibility.Visible;
+            }
+            else if (ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Collapsed)
+            {
+                EmptyTextPA.Visibility = Visibility.Collapsed;
+            }
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
