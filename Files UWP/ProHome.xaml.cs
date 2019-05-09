@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.Navigation;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -11,6 +12,7 @@ using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
@@ -42,6 +44,7 @@ namespace Files
         public ContentDialog AddItemBox;
         public ContentDialog NameBox;
         public TextBox inputFromRename;
+        public TextBox PathBox;
         public string inputForRename;
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -51,6 +54,17 @@ namespace Files
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         public TeachingTip RibbonTeachingTip;
+
+        public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
+        public BackState BS { get; set; } = new BackState();
+        public ForwardState FS { get; set; } = new ForwardState();
+        public DisplayedPathText PathText { get; set; } = new DisplayedPathText();
+        public PasteState PS { get; set; } = new PasteState();
+        public Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
+        public Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
+        public Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
+        public Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
+
         public ProHome()
         {
             this.InitializeComponent();
@@ -67,10 +81,14 @@ namespace Files
             ForwardButton = Forward;
             RefreshButton = Refresh;
             AddItemButton = addItemButton;
+            PathBox = VisiblePath;
+            PathText.Text = "Favorites";
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
             RibbonTeachingTip = RibbonTip;
             PopulateNavViewWithExternalDrives();
+            BackButton.Click += NavigationActions.Back_Click;
+            ForwardButton.Click += NavigationActions.Forward_Click;
         }
 
         public async void PopulateNavViewWithExternalDrives()
@@ -143,165 +161,132 @@ namespace Files
             inputForRename = inputFromRename.Text;
         }
 
-        private async void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
+        private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
                 var CurrentInput = PathBox.Text;
-                if (CurrentInput != App.ViewModel.Universal.path)
+                if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    App.ViewModel.CancelLoadAndClearFiles();
-                    App.HomeItems.isEnabled = false;
-                    App.ShareItems.isEnabled = false;
-                    if (CurrentInput == "Favorites" || CurrentInput == "favorites")
+                    var contentInstance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                    CheckPathInput<GenericFileBrowser>(contentInstance, CurrentInput);
+                }
+                else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                {
+                    var contentInstance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
+                    CheckPathInput<PhotoAlbum>(contentInstance, CurrentInput);
+                }
+
+            }
+        }
+
+        public async void CheckPathInput<T>(ItemViewModel<T> instance, string CurrentInput) where T : class
+        {
+            if (CurrentInput != instance.Universal.path)
+            {
+                instance.CancelLoadAndClearFiles();
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (CurrentInput == "Favorites" || CurrentInput == "favorites")
+                {
+                    this.accessibleContentFrame.Navigate(typeof(YourHome));
+                    PathText.Text = "Favorites";
+                    instance.LayoutItems.isEnabled = false;
+                }
+                else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
+                    PathText.Text = "Desktop";
+                    instance.LayoutItems.isEnabled = true;
+
+                }
+                else if (CurrentInput == "Documents" || CurrentInput == "documents")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                    PathText.Text = "Documents";
+                    instance.LayoutItems.isEnabled = true;
+
+
+                }
+                else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                    PathText.Text = "Downloads";
+                    instance.LayoutItems.isEnabled = true;
+
+
+                }
+                else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                    PathText.Text = "Pictures";
+                    instance.LayoutItems.isEnabled = true;
+
+                }
+                else if (CurrentInput == "Music" || CurrentInput == "music")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                    PathText.Text = "Music";
+                    instance.LayoutItems.isEnabled = true;
+
+
+                }
+                else if (CurrentInput == "Videos" || CurrentInput == "videos")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                    PathText.Text = "Videos";
+                    instance.LayoutItems.isEnabled = true;
+
+
+                }
+                else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
+                {
+                    TextState.isVisible = Visibility.Collapsed;
+                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                    PathText.Text = "OneDrive";
+                    instance.LayoutItems.isEnabled = true;
+
+
+                }
+                else
+                {
+                    if (CurrentInput.Contains("."))
                     {
-                        this.accessibleContentFrame.Navigate(typeof(YourHome));
-                        App.PathText.Text = "Favorites";
-                        App.LayoutItems.isEnabled = false;
-                    }
-                    else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
-                        App.PathText.Text = "Desktop";
-                        App.LayoutItems.isEnabled = true;
-
-                    }
-                    else if (CurrentInput == "Documents" || CurrentInput == "documents")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                        App.PathText.Text = "Documents";
-                        App.LayoutItems.isEnabled = true;
-
-
-                    }
-                    else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                        App.PathText.Text = "Downloads";
-                        App.LayoutItems.isEnabled = true;
-
-
-                    }
-                    else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                        App.PathText.Text = "Pictures";
-                        App.LayoutItems.isEnabled = true;
-
-                    }
-                    else if (CurrentInput == "Music" || CurrentInput == "music")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                        App.PathText.Text = "Music";
-                        App.LayoutItems.isEnabled = true;
-
-
-                    }
-                    else if (CurrentInput == "Videos" || CurrentInput == "videos")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                        App.PathText.Text = "Videos";
-                        App.LayoutItems.isEnabled = true;
-
-
-                    }
-                    else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
-                        App.PathText.Text = "OneDrive";
-                        App.LayoutItems.isEnabled = true;
-
-
-                    }
-                    else
-                    {
-                        if (CurrentInput.Contains("."))
+                        if (CurrentInput.Contains(".exe") || CurrentInput.Contains(".EXE"))
                         {
-                            if (CurrentInput.Contains(".exe") || CurrentInput.Contains(".EXE"))
+                            if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
                             {
-                                if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
+                                if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                                 {
-                                    await Interaction.LaunchExe(CurrentInput);
-                                    PathBox.Text = App.ViewModel.Universal.path;
+                                    await (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.LaunchExe(CurrentInput);
                                 }
-                                else
+                                else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                                 {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                            }
-                            else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
-                            {
-                                try
-                                {
-                                    await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                    App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                                }
-                                catch (ArgumentException)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                                catch (FileNotFoundException)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                                catch (System.Exception)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
+                                    await (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.LaunchExe(CurrentInput);
                                 }
 
+                                PathBox.Text = instance.Universal.path;
                             }
                             else
                             {
-                                try
-                                {
-                                    await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                    StorageFile file = await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                    var options = new LauncherOptions
-                                    {
-                                        DisplayApplicationPicker = false
-
-                                    };
-                                    await Launcher.LaunchFileAsync(file, options);
-                                    PathBox.Text = App.ViewModel.Universal.path;
-                                }
-                                catch (ArgumentException)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                                catch (FileNotFoundException)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                                catch (System.Exception)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
                             }
                         }
-                        else
+                        else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
                         {
                             try
                             {
                                 await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
+                                TextState.isVisible = Visibility.Collapsed;
                                 this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                                App.LayoutItems.isEnabled = true;
                             }
                             catch (ArgumentException)
                             {
@@ -320,98 +305,274 @@ namespace Files
                             }
 
                         }
+                        else
+                        {
+                            try
+                            {
+                                await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                var options = new LauncherOptions
+                                {
+                                    DisplayApplicationPicker = false
+
+                                };
+                                await Launcher.LaunchFileAsync(file, options);
+                                PathBox.Text = instance.Universal.path;
+                            }
+                            catch (ArgumentException)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+                            catch (FileNotFoundException)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+                            catch (System.Exception)
+                            {
+                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                                await dialog.ShowAsync();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                            TextState.isVisible = Visibility.Collapsed;
+                            this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                            instance.LayoutItems.isEnabled = true;
+                        }
+                        catch (ArgumentException)
+                        {
+                            MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                            await dialog.ShowAsync();
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                            await dialog.ShowAsync();
+                        }
+                        catch (System.Exception)
+                        {
+                            MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
+                            await dialog.ShowAsync();
+                        }
 
                     }
+
                 }
             }
         }
 
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            App.ViewModel.CancelLoadAndClearFiles();
-            App.HomeItems.isEnabled = false;
-            App.ShareItems.isEnabled = false;
-            if (DrivesList.SelectedItem != null)
-            {
-                DrivesList.SelectedItem = null;
-                App.LayoutItems.isEnabled = false;
-            }
-            var clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-            if(clickedItem.Tag.ToString() == "Favorites")
+            ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+            ItemViewModel<GenericFileBrowser> instance = null;
+
+            if (clickedItem.Tag.ToString() == "Favorites")
             {
                 ItemDisplayFrame.Navigate(typeof(YourHome));
-                App.PathText.Text = "Favorites";
-                App.LayoutItems.isEnabled = false;
+                PathText.Text = "Favorites";
+                ItemViewModel<YourHome> homeInstance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
+                homeInstance.CancelLoadAndClearFiles();
+                homeInstance.HomeItems.isEnabled = false;
+                homeInstance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    homeInstance.LayoutItems.isEnabled = false;
+                }
+                homeInstance.LayoutItems.isEnabled = false;
             }
-            else if(clickedItem.Tag.ToString() == "Desktop")
+            else if (clickedItem.Tag.ToString() == "Desktop")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
-                App.PathText.Text = "Desktop";
-                App.LayoutItems.isEnabled = true;
+                PathText.Text = "Desktop";
+                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+                instance.LayoutItems.isEnabled = true;
             }
-            else if(clickedItem.Tag.ToString() == "Downloads")
+            else if (clickedItem.Tag.ToString() == "Downloads")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                App.PathText.Text = "Downloads";
-                App.LayoutItems.isEnabled = true;
+                PathText.Text = "Downloads";
+                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+                instance.LayoutItems.isEnabled = true;
             }
-            else if(clickedItem.Tag.ToString() == "Documents")
+            else if (clickedItem.Tag.ToString() == "Documents")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                App.PathText.Text = "Documents";
-                App.LayoutItems.isEnabled = true;
+                PathText.Text = "Documents";
+                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+                instance.LayoutItems.isEnabled = true;
             }
-            else if(clickedItem.Tag.ToString() == "Pictures")
+            else if (clickedItem.Tag.ToString() == "Pictures")
             {
                 ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                App.PathText.Text = "Pictures";
-                App.LayoutItems.isEnabled = true;
+                PathText.Text = "Pictures";
+                ItemViewModel<PhotoAlbum> PAInstance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
+                PAInstance.HomeItems.isEnabled = false;
+                PAInstance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    PAInstance.LayoutItems.isEnabled = false;
+                }
+                PAInstance.LayoutItems.isEnabled = true;
             }
-            else if(clickedItem.Tag.ToString() == "Music")
+            else if (clickedItem.Tag.ToString() == "Music")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                App.PathText.Text = "Music";
-                App.LayoutItems.isEnabled = true;
+                PathText.Text = "Music";
+                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+                instance.LayoutItems.isEnabled = true;
             }
-            else if(clickedItem.Tag.ToString() == "Videos")
+            else if (clickedItem.Tag.ToString() == "Videos")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                App.PathText.Text = "Videos";
-                App.LayoutItems.isEnabled = true;
+                PathText.Text = "Videos";
+                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+                instance.LayoutItems.isEnabled = true;
             }
 
         }
 
         private void DrivesList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            App.ViewModel.CancelLoadAndClearFiles();
-            App.HomeItems.isEnabled = false;
-            App.ShareItems.isEnabled = false;
-            if (LocationsList.SelectedItem != null)
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                LocationsList.SelectedItem = null;
-                App.LayoutItems.isEnabled = false;
-            }
-            var clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+                var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (LocationsList.SelectedItem != null)
+                {
+                    LocationsList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
 
-            if(clickedItem.Tag.ToString() == "LocalDisk")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
-                App.PathText.Text = @"Local Disk (C:\)";
-                App.LayoutItems.isEnabled = true;
+                ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+
+                if (clickedItem.Tag.ToString() == "LocalDisk")
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
+                    PathText.Text = @"Local Disk (C:\)";
+                    instance.LayoutItems.isEnabled = true;
+                }
+                else if (clickedItem.Tag.ToString() == "OneDrive")
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                    PathText.Text = "OneDrive";
+                    instance.LayoutItems.isEnabled = true;
+                }
+                else
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+                    PathText.Text = clickedItem.Tag.ToString();
+                    instance.LayoutItems.isEnabled = true;
+                }
             }
-            else if(clickedItem.Tag.ToString() == "OneDrive")
+            else if (this.accessibleContentFrame.SourcePageType == typeof(YourHome))
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
-                App.PathText.Text = "OneDrive";
-                App.LayoutItems.isEnabled = true;
+                var instance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (LocationsList.SelectedItem != null)
+                {
+                    LocationsList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+
+                ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+
+                if (clickedItem.Tag.ToString() == "LocalDisk")
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
+                    PathText.Text = @"Local Disk (C:\)";
+                    instance.LayoutItems.isEnabled = true;
+                }
+                else if (clickedItem.Tag.ToString() == "OneDrive")
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                    PathText.Text = "OneDrive";
+                    instance.LayoutItems.isEnabled = true;
+                }
+                else
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+                    PathText.Text = clickedItem.Tag.ToString();
+                    instance.LayoutItems.isEnabled = true;
+                }
             }
-            else
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
-                App.PathText.Text = clickedItem.Tag.ToString();
-                App.LayoutItems.isEnabled = true;
+                var instance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
+                instance.HomeItems.isEnabled = false;
+                instance.ShareItems.isEnabled = false;
+                if (LocationsList.SelectedItem != null)
+                {
+                    LocationsList.SelectedItem = null;
+                    instance.LayoutItems.isEnabled = false;
+                }
+
+                ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+
+                if (clickedItem.Tag.ToString() == "LocalDisk")
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
+                    PathText.Text = @"Local Disk (C:\)";
+                    instance.LayoutItems.isEnabled = true;
+                }
+                else if (clickedItem.Tag.ToString() == "OneDrive")
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                    PathText.Text = "OneDrive";
+                    instance.LayoutItems.isEnabled = true;
+                }
+                else
+                {
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+                    PathText.Text = clickedItem.Tag.ToString();
+                    instance.LayoutItems.isEnabled = true;
+                }
             }
+                
         }
 
         private async void PermissionDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -419,160 +580,10 @@ namespace Files
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
 
         }
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            App.ViewModel.CancelLoadAndClearFiles();
-            if (accessibleContentFrame.CanGoBack)
-            {
-                var SourcePageType = accessibleContentFrame.BackStack[accessibleContentFrame.BackStack.Count - 1].SourcePageType;
-                var Parameter = accessibleContentFrame.BackStack[accessibleContentFrame.BackStack.Count - 1].Parameter;
-
-                if (SourcePageType == typeof(YourHome))
-                {
-                    locationsList.SelectedIndex = 0;
-                    App.PathText.Text = "Favorites";
-                }
-                else
-                {
-                    if (Parameter.ToString() == DesktopPath)
-                    {
-                        locationsList.SelectedIndex = 1;
-                        App.PathText.Text = "Desktop";
-                    }
-                    else if (Parameter.ToString() == DownloadsPath)
-                    {
-                        locationsList.SelectedIndex = 2;
-                        App.PathText.Text = "Downloads";
-                    }
-                    else if (Parameter.ToString() == DocumentsPath)
-                    {
-                        locationsList.SelectedIndex = 3;
-                        App.PathText.Text = "Documents";
-                    }
-                    else if (Parameter.ToString() == PicturesPath)
-                    {
-                        locationsList.SelectedIndex = 4;
-                        App.PathText.Text = "Pictures";
-                    }
-                    else if (Parameter.ToString() == MusicPath)
-                    {
-                        locationsList.SelectedIndex = 5;
-                        App.PathText.Text = "Music";
-                    }
-                    else if (Parameter.ToString() == VideosPath)
-                    {
-                        locationsList.SelectedIndex = 6;
-                        App.PathText.Text = "Videos";
-                    }
-                    else if (Parameter.ToString() == OneDrivePath)
-                    {
-                        drivesList.SelectedIndex = 1;
-                        App.PathText.Text = "OneDrive";
-                    }
-                    else
-                    {
-                        if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
-                        {
-                            drivesList.SelectedIndex = 0;
-                        }
-                        else
-                        {
-                            foreach (ListViewItem drive in drivesList.Items)
-                            {
-                                if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
-                                {
-                                    drivesList.SelectedItem = drive;
-                                    break;
-                                }
-                            }
-                            
-                        }
-                        App.PathText.Text = Parameter.ToString();
-                    }
-                }
-                accessibleContentFrame.GoBack();
-            }
-        }
-
-        private void Forward_Click(object sender, RoutedEventArgs e)
-        {
-            App.ViewModel.CancelLoadAndClearFiles();
-            if (accessibleContentFrame.CanGoForward)
-            {
-                var SourcePageType = accessibleContentFrame.ForwardStack[accessibleContentFrame.ForwardStack.Count - 1].SourcePageType;
-                var Parameter = accessibleContentFrame.ForwardStack[accessibleContentFrame.ForwardStack.Count - 1].Parameter;
-
-                if (SourcePageType == typeof(YourHome))
-                {
-                    locationsList.SelectedIndex = 0;
-                    App.PathText.Text = "Favorites";
-                }
-                else
-                {
-                    if (Parameter.ToString() == DesktopPath)
-                    {
-                        locationsList.SelectedIndex = 1;
-                        App.PathText.Text = "Desktop";
-                    }
-                    else if (Parameter.ToString() == DownloadsPath)
-                    {
-                        locationsList.SelectedIndex = 2;
-                        App.PathText.Text = "Downloads";
-                    }
-                    else if (Parameter.ToString() == DocumentsPath)
-                    {
-                        locationsList.SelectedIndex = 3;
-                        App.PathText.Text = "Documents";
-                    }
-                    else if (Parameter.ToString() == PicturesPath)
-                    {
-                        locationsList.SelectedIndex = 4;
-                        App.PathText.Text = "Pictures";
-                    }
-                    else if (Parameter.ToString() == MusicPath)
-                    {
-                        locationsList.SelectedIndex = 5;
-                        App.PathText.Text = "Music";
-                    }
-                    else if (Parameter.ToString() == VideosPath)
-                    {
-                        locationsList.SelectedIndex = 6;
-                        App.PathText.Text = "Videos";
-                    }
-                    else if (Parameter.ToString() == OneDrivePath)
-                    {
-                        drivesList.SelectedIndex = 1;
-                        App.PathText.Text = "OneDrive";
-                    }
-                    else
-                    {
-                        if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
-                        {
-                            drivesList.SelectedIndex = 0;
-                        }
-                        else
-                        {
-                            foreach (ListViewItem drive in drivesList.Items)
-                            {
-                                if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
-                                {
-                                    drivesList.SelectedItem = drive;
-                                    break;
-                                }
-                            }
-
-                        }
-                        App.PathText.Text = Parameter.ToString();
-                    }
-                }
-
-                accessibleContentFrame.GoForward();
-            }
-        }
 
         private void LocationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(e.AddedItems.Count > 0)
+            if (e.AddedItems.Count > 0)
             {
                 drivesList.SelectedItem = null;
             }
@@ -594,48 +605,113 @@ namespace Files
 
         private void CutButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.CutItem_Click(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.CutItem_Click(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.CutItem_Click(null, null);
+            }
         }
 
         private void CopyButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.CopyItem_ClickAsync(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.CopyItem_ClickAsync(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.CopyItem_ClickAsync(null, null);
+            }
         }
 
         private void PasteButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.PasteItem_ClickAsync(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.PasteItem_ClickAsync(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.PasteItem_ClickAsync(null, null);
+            }
         }
 
         private void CopyPathButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.GetPath_Click(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.GetPath_Click(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.GetPath_Click(null, null);
+            }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.DeleteItem_Click(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.DeleteItem_Click(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.DeleteItem_Click(null, null);
+            }
         }
 
         private void RenameButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.RenameItem_Click(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.RenameItem_Click(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.RenameItem_Click(null, null);
+            }
         }
 
         private async void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            AddItem.addItemsChoices.SelectedItem = null;
-            await this.AddItemBox.ShowAsync();
+            if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                //addItemPageInstance = new AddItem(accessibleContentFrame.Content as GenericFileBrowser, null);
+                AddDialogFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as GenericFileBrowser, new SuppressNavigationTransitionInfo());
+            }
+            else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                //addItemPageInstance = new AddItem(null, accessibleContentFrame.Content as PhotoAlbum);
+                AddDialogFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as PhotoAlbum, new SuppressNavigationTransitionInfo());
+            }
+            await AddItemBox.ShowAsync();
         }
 
         private void OpenWithButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.OpenItem_Click(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.OpenItem_Click(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.OpenItem_Click(null, null);
+            }
         }
 
         private void ShareButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.ShareItem_Click(null, null);
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.ShareItem_Click(null, null);
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.ShareItem_Click(null, null);
+            }
         }
 
         private async void LayoutButton_Click(object sender, RoutedEventArgs e)
@@ -645,7 +721,14 @@ namespace Files
 
         private void SelectAllButton_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.SelectAllItems();
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.SelectAllItems();
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.SelectAllItems();
+            }
         }
 
         private void ClearAllButton_Click(object sender, RoutedEventArgs e)
@@ -653,9 +736,11 @@ namespace Files
 
         }
 
+        AddItem addItemPageInstance;
         private void AddDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            AddDialogFrame.Navigate(typeof(AddItem), new SuppressNavigationTransitionInfo());
+            addItemPageInstance = null;
+
         }
 
         private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -665,14 +750,14 @@ namespace Files
 
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-
-            if (Interaction.page.Name == "GenericItemView")
+            var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                propertiesFrame.Navigate(typeof(Properties), (GenericFileBrowser.data.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+                propertiesFrame.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
             }
-            else if (Interaction.page.Name == "PhotoAlbumViewer")
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                propertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+                propertiesFrame.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
             }
             await PropertiesDialog.ShowAsync();
 
@@ -694,8 +779,520 @@ namespace Files
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            accessibleContentFrame.Navigate(typeof(YourHome), new SuppressNavigationTransitionInfo());
+            accessibleContentFrame.Navigate(typeof(YourHome), null, new SuppressNavigationTransitionInfo());
             this.Loaded -= Page_Loaded;
+        }
+
+        private void ItemDisplayFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            
+        }
+    }
+    public class NavigationActions
+    {
+        public async static void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+                {
+                    var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                    ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
+                    (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path, (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).GFBPageName);
+                }
+                else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                {
+                    var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
+                    ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
+                    (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path, (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).PAPageName);
+                }
+
+            });
+        }
+
+        public static void Back_Click(object sender, RoutedEventArgs e)
+        {
+            Frame instanceContentFrame = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            {
+                var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
+                instance.CancelLoadAndClearFiles();
+                if (instanceContentFrame.CanGoBack)
+                {
+                    var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
+                    var Parameter = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].Parameter;
+
+                    if (previousSourcePageType == typeof(YourHome))
+                    {
+
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                    }
+                    else
+                    {
+                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        if (Parameter.ToString() == ProHome.DesktopPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "Desktop";
+                        }
+                        else if (Parameter.ToString() == ProHome.DownloadsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 2;
+                            CurrentTabInstance.PathText.Text = "Downloads";
+                        }
+                        else if (Parameter.ToString() == ProHome.DocumentsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 3;
+                            CurrentTabInstance.PathText.Text = "Documents";
+                        }
+                        else if (Parameter.ToString() == ProHome.PicturesPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 4;
+                            CurrentTabInstance.PathText.Text = "Pictures";
+                        }
+                        else if (Parameter.ToString() == ProHome.MusicPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 5;
+                            CurrentTabInstance.PathText.Text = "Music";
+                        }
+                        else if (Parameter.ToString() == ProHome.VideosPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 6;
+                            CurrentTabInstance.PathText.Text = "Videos";
+                        }
+                        else if (Parameter.ToString() == ProHome.OneDrivePath)
+                        {
+                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "OneDrive";
+                        }
+                        else
+                        {
+                            if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                            {
+                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                {
+                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    {
+                                        CurrentTabInstance.drivesList.SelectedItem = drive;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            CurrentTabInstance.PathText.Text = Parameter.ToString();
+                        }
+                    }
+                    instanceContentFrame.GoBack();
+                }
+            }
+            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            {
+                var instance = (instanceContentFrame.Content as PhotoAlbum).instanceViewModel;
+                var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
+                instance.CancelLoadAndClearFiles();
+                if (instanceContentFrame.CanGoBack)
+                {
+                    var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
+                    var Parameter = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].Parameter;
+
+                    if (previousSourcePageType == typeof(YourHome))
+                    {
+
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                    }
+                    else
+                    {
+                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        if (Parameter.ToString() == ProHome.DesktopPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "Desktop";
+                        }
+                        else if (Parameter.ToString() == ProHome.DownloadsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 2;
+                            CurrentTabInstance.PathText.Text = "Downloads";
+                        }
+                        else if (Parameter.ToString() == ProHome.DocumentsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 3;
+                            CurrentTabInstance.PathText.Text = "Documents";
+                        }
+                        else if (Parameter.ToString() == ProHome.PicturesPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 4;
+                            CurrentTabInstance.PathText.Text = "Pictures";
+                        }
+                        else if (Parameter.ToString() == ProHome.MusicPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 5;
+                            CurrentTabInstance.PathText.Text = "Music";
+                        }
+                        else if (Parameter.ToString() == ProHome.VideosPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 6;
+                            CurrentTabInstance.PathText.Text = "Videos";
+                        }
+                        else if (Parameter.ToString() == ProHome.OneDrivePath)
+                        {
+                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "OneDrive";
+                        }
+                        else
+                        {
+                            if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                            {
+                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                {
+                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    {
+                                        CurrentTabInstance.drivesList.SelectedItem = drive;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            CurrentTabInstance.PathText.Text = Parameter.ToString();
+                        }
+                    }
+                    instanceContentFrame.GoBack();
+                }
+            }
+            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
+            {
+                var instance = (instanceContentFrame.Content as YourHome).instanceViewModel;
+                var instanceContent = (instanceContentFrame.Content as YourHome);
+                instance.CancelLoadAndClearFiles();
+
+                if (instanceContentFrame.CanGoBack)
+                {
+                    var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
+                    var Parameter = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].Parameter;
+
+                    if (previousSourcePageType == typeof(YourHome))
+                    {
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                    }
+                    else
+                    {
+                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        if (Parameter.ToString() == ProHome.DesktopPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "Desktop";
+                        }
+                        else if (Parameter.ToString() == ProHome.DownloadsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 2;
+                            CurrentTabInstance.PathText.Text = "Downloads";
+                        }
+                        else if (Parameter.ToString() == ProHome.DocumentsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 3;
+                            CurrentTabInstance.PathText.Text = "Documents";
+                        }
+                        else if (Parameter.ToString() == ProHome.PicturesPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 4;
+                            CurrentTabInstance.PathText.Text = "Pictures";
+                        }
+                        else if (Parameter.ToString() == ProHome.MusicPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 5;
+                            CurrentTabInstance.PathText.Text = "Music";
+                        }
+                        else if (Parameter.ToString() == ProHome.VideosPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 6;
+                            CurrentTabInstance.PathText.Text = "Videos";
+                        }
+                        else if (Parameter.ToString() == ProHome.OneDrivePath)
+                        {
+                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "OneDrive";
+                        }
+                        else
+                        {
+                            if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                            {
+                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                {
+                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    {
+                                        CurrentTabInstance.drivesList.SelectedItem = drive;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            CurrentTabInstance.PathText.Text = Parameter.ToString();
+                        }
+                    }
+
+                    instanceContentFrame.GoBack();
+                }
+            }
+
+        }
+
+        public static void Forward_Click(object sender, RoutedEventArgs e)
+        {
+            Frame instanceContentFrame = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            {
+                var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
+                instance.CancelLoadAndClearFiles();
+
+                if (instanceContentFrame.CanGoForward)
+                {
+                    var previousSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
+                    var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
+
+                    if (previousSourcePageType == typeof(YourHome))
+                    {
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                    }
+                    else
+                    {
+                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        if (Parameter.ToString() == ProHome.DesktopPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "Desktop";
+                        }
+                        else if (Parameter.ToString() == ProHome.DownloadsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 2;
+                            CurrentTabInstance.PathText.Text = "Downloads";
+                        }
+                        else if (Parameter.ToString() == ProHome.DocumentsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 3;
+                            CurrentTabInstance.PathText.Text = "Documents";
+                        }
+                        else if (Parameter.ToString() == ProHome.PicturesPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 4;
+                            CurrentTabInstance.PathText.Text = "Pictures";
+                        }
+                        else if (Parameter.ToString() == ProHome.MusicPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 5;
+                            CurrentTabInstance.PathText.Text = "Music";
+                        }
+                        else if (Parameter.ToString() == ProHome.VideosPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 6;
+                            CurrentTabInstance.PathText.Text = "Videos";
+                        }
+                        else if (Parameter.ToString() == ProHome.OneDrivePath)
+                        {
+                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "OneDrive";
+                        }
+                        else
+                        {
+                            if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                            {
+                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                {
+                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    {
+                                        CurrentTabInstance.drivesList.SelectedItem = drive;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            CurrentTabInstance.PathText.Text = Parameter.ToString();
+                        }
+                    }
+
+                    instanceContentFrame.GoForward();
+                }
+            }
+            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            {
+                var instance = (instanceContentFrame.Content as PhotoAlbum).instanceViewModel;
+                var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
+                instance.CancelLoadAndClearFiles();
+
+                if (instanceContentFrame.CanGoForward)
+                {
+                    var previousSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
+                    var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
+
+                    if (previousSourcePageType == typeof(YourHome))
+                    {
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                    }
+                    else
+                    {
+                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        if (Parameter.ToString() == ProHome.DesktopPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "Desktop";
+                        }
+                        else if (Parameter.ToString() == ProHome.DownloadsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 2;
+                            CurrentTabInstance.PathText.Text = "Downloads";
+                        }
+                        else if (Parameter.ToString() == ProHome.DocumentsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 3;
+                            CurrentTabInstance.PathText.Text = "Documents";
+                        }
+                        else if (Parameter.ToString() == ProHome.PicturesPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 4;
+                            CurrentTabInstance.PathText.Text = "Pictures";
+                        }
+                        else if (Parameter.ToString() == ProHome.MusicPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 5;
+                            CurrentTabInstance.PathText.Text = "Music";
+                        }
+                        else if (Parameter.ToString() == ProHome.VideosPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 6;
+                            CurrentTabInstance.PathText.Text = "Videos";
+                        }
+                        else if (Parameter.ToString() == ProHome.OneDrivePath)
+                        {
+                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "OneDrive";
+                        }
+                        else
+                        {
+                            if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                            {
+                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                {
+                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    {
+                                        CurrentTabInstance.drivesList.SelectedItem = drive;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            CurrentTabInstance.PathText.Text = Parameter.ToString();
+                        }
+                    }
+
+                    instanceContentFrame.GoForward();
+                }
+            }
+            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
+            {
+                var instance = (instanceContentFrame.Content as YourHome).instanceViewModel;
+                var instanceContent = (instanceContentFrame.Content as YourHome);
+                instance.CancelLoadAndClearFiles();
+
+                if (instanceContentFrame.CanGoForward)
+                {
+                    var previousSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
+                    var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
+
+                    if (previousSourcePageType == typeof(YourHome))
+                    {
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                    }
+                    else
+                    {
+                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        if (Parameter.ToString() == ProHome.DesktopPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "Desktop";
+                        }
+                        else if (Parameter.ToString() == ProHome.DownloadsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 2;
+                            CurrentTabInstance.PathText.Text = "Downloads";
+                        }
+                        else if (Parameter.ToString() == ProHome.DocumentsPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 3;
+                            CurrentTabInstance.PathText.Text = "Documents";
+                        }
+                        else if (Parameter.ToString() == ProHome.PicturesPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 4;
+                            CurrentTabInstance.PathText.Text = "Pictures";
+                        }
+                        else if (Parameter.ToString() == ProHome.MusicPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 5;
+                            CurrentTabInstance.PathText.Text = "Music";
+                        }
+                        else if (Parameter.ToString() == ProHome.VideosPath)
+                        {
+                            CurrentTabInstance.locationsList.SelectedIndex = 6;
+                            CurrentTabInstance.PathText.Text = "Videos";
+                        }
+                        else if (Parameter.ToString() == ProHome.OneDrivePath)
+                        {
+                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.PathText.Text = "OneDrive";
+                        }
+                        else
+                        {
+                            if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
+                            {
+                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                {
+                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    {
+                                        CurrentTabInstance.drivesList.SelectedItem = drive;
+                                        break;
+                                    }
+                                }
+
+                            }
+                            CurrentTabInstance.PathText.Text = Parameter.ToString();
+                        }
+                    }
+
+                    instanceContentFrame.GoForward();
+                }
+            }
         }
     }
 }

@@ -381,7 +381,7 @@
                             <FontIcon Glyph="&#xE72C;"/>
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem Click="PasteGrid_Click" Text="Paste" IsEnabled="{x:Bind local3:Interaction.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasteGrid">
+                    <MenuFlyoutItem Click="PasteGrid_Click" Text="Paste" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasteGrid">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE77F;"/>
                         </MenuFlyoutItem.Icon>
@@ -395,10 +395,10 @@
                 </MenuFlyout.Items>
             </MenuFlyout>
         </Grid.ContextFlyout>
-        <ProgressBar Visibility="{x:Bind local:App.Loading.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
-        <TextBlock Name="EmptyText" Visibility="{x:Bind local:App.ViewModel.TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+        <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
+        <TextBlock Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" ItemsSource="{x:Bind local:App.ViewModel.FilesAndFolders}" Name="FileList" Padding="0, 0, 0, 0" >
+        <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
                     <Grid ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" IsRightTapEnabled="True" Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">

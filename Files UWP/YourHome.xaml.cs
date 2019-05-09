@@ -29,30 +29,48 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        public ItemViewModel<YourHome> instanceViewModel;
+        public Interaction<YourHome> instanceInteraction;
+
         public YourHome()
         {
             InitializeComponent();
+            instanceViewModel = new ItemViewModel<YourHome>(this, null);
+            instanceInteraction = new Interaction<YourHome>(this);
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
             recentItemsCollection.Clear();
             PopulateRecentsList();
-            App.PathText.Text = "Favorites";
+            GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
 
+        }
+
+        public T GetCurrentSelectedTabInstance<T>()
+        {
+            var selectedTabContent = ((InstanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
+            foreach (UIElement uiElement in selectedTabContent.Children)
+            {
+                if (uiElement.GetType() == typeof(Frame))
+                {
+                    return (T)((uiElement as Frame).Content);
+                }
+            }
+            return default;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>() == null)
+            if(GetCurrentSelectedTabInstance<ProHome>() == null)
             {
 
             }
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessiblePasteButton.IsEnabled = false;
-            App.AlwaysPresentCommands.isEnabled = false;
-            App.LayoutItems.isEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
+            GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
+            GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePasteButton.IsEnabled = false;
+            instanceViewModel.AlwaysPresentCommands.isEnabled = false;
+            instanceViewModel.LayoutItems.isEnabled = false;
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)
@@ -61,43 +79,39 @@ namespace Files
             if (BelowCardText == "Downloads")
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
+                //instanceViewModel.TextState.isVisible = Visibility.Collapsed;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
 
             }
             else if (BelowCardText == "Music")
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
         }
 
@@ -117,42 +131,37 @@ namespace Files
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
                 
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                App.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                instanceViewModel.LayoutItems.isEnabled = true;
             }
         }
         public static StorageFile RecentsFile;
@@ -338,7 +347,7 @@ namespace Files
                 var file = (await StorageFile.GetFileFromPathAsync(path));
                 if (file.FileType == "Application")
                 {
-                    await Interaction.LaunchExe(path);
+                    await instanceInteraction.LaunchExe(path);
 
                 }
                 else
@@ -352,7 +361,7 @@ namespace Files
             }
             catch (System.ArgumentException)
             {
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
             }
         }
 
@@ -366,7 +375,7 @@ namespace Files
             recentItemsCollection.Clear();
             RecentsView.ItemsSource = null;
             await RecentsFile.DeleteAsync();
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(YourHome), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+            GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(YourHome), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
 
         }
 

@@ -63,15 +63,8 @@ namespace Files
             
 
         }
-        public static Filesystem.ItemViewModel ViewModel = new Filesystem.ItemViewModel();
-        public static Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
-        public static Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
-        public static Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
-        public static Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
-        public static DisplayedPathText PathText { get; set; } = new DisplayedPathText();
-        public static Filesystem.LoadingVisibility Loading { get; set; } = new Filesystem.LoadingVisibility();
-        public static RefreshState RS { get; set; } = new RefreshState();
 
+        public static PasteState PS { get; set; } = new PasteState();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

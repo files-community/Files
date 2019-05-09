@@ -88,6 +88,7 @@ namespace Files
             {
                 Header = TabLocationHeader,
                 Content = gr,
+                CornerRadius = new CornerRadius(15),
                 Width = 200
             };
             tvi.Loaded += Tvi_Loaded;
@@ -118,6 +119,13 @@ namespace Files
             //tabContentView.Content = g;
         }
 
+        private void TabStrip_TabClosing(object sender, TabClosingEventArgs e)
+        {
+            if(TabStrip.Items.Count == 0)
+            {
+                AddNewTab(typeof(ProHome), null);
+            }
+        }
     }
 
     public class InstanceTabItem

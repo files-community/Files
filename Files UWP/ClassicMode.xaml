@@ -54,7 +54,7 @@
         <SplitView DisplayMode="Inline" IsPaneOpen="True" HorizontalAlignment="Stretch" Margin="0,0,0,0" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch">
             <SplitView.Pane>
                 <Grid Background="{StaticResource SystemControlAcrylicWindowMediumHighBrush}">
-                    <UILib:TreeView ScrollViewer.HorizontalScrollMode="Enabled" Expanding="DirectoryView_Expanding" UILib:ItemsSource="{x:Bind local:App.ViewModel.ClassicFolderList}" Name="DirectoryView">
+                    <UILib:TreeView ScrollViewer.HorizontalScrollMode="Enabled" Expanding="DirectoryView_Expanding" Name="DirectoryView">
                         <UILib:TreeView.ItemTemplate>
                             <DataTemplate>
                                 <UILib:TreeViewItem ItemsSource="{Binding Children}" HasUnrealizedChildren="True">

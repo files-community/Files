@@ -117,7 +117,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -139,7 +139,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -161,7 +161,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -183,7 +183,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -205,7 +205,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)

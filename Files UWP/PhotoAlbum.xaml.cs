@@ -20,23 +20,33 @@ namespace Files
 
     public sealed partial class PhotoAlbum : Page
     {
-        public static AdaptiveGridView gv;
-        public static Image largeImg;
-        public static MenuFlyout context;
-        public static MenuFlyout gridContext;
-        public static Page PAPageName;
-        public static ContentDialog AddItemBox;
-        public static ContentDialog NameBox;
-        public static TextBox inputFromRename;
-        public static string inputForRename;
+        public AdaptiveGridView gv;
+        public Image largeImg;
+        public MenuFlyout context;
+        public MenuFlyout gridContext;
+        public Page PAPageName;
+        public ContentDialog AddItemBox;
+        public ContentDialog NameBox;
+        public TextBox inputFromRename;
+        public TextBlock EmptyTextPA;
+        public string inputForRename;
+        public ProgressBar progressBar;
+        public ItemViewModel<PhotoAlbum> instanceViewModel;
+        public Interaction<PhotoAlbum> instanceInteraction;
+
 
         public PhotoAlbum()
         {
             this.InitializeComponent();
+            EmptyTextPA = EmptyText;
             PAPageName = PhotoAlbumViewer;
             gv = FileList;
+            progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
+            instanceViewModel = new ItemViewModel<PhotoAlbum>(this, null);
+            instanceInteraction = new Interaction<PhotoAlbum>(this);
+            gv.ItemsSource = instanceViewModel.FilesAndFolders;
         }
 
 
@@ -44,55 +54,55 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = true;
-            App.AlwaysPresentCommands.isEnabled = true;
+            var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+            CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
+            CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
+            CurrentInstance.RefreshButton.IsEnabled = true;
+            instanceViewModel.AlwaysPresentCommands.isEnabled = true;
             var parameters = eventArgs.Parameter.ToString();
-            App.ViewModel.AddItemsToCollectionAsync(parameters, PhotoAlbumViewer);
-            Interaction.page = this;
-            FileList.DoubleTapped += Interaction.List_ItemClick;
+            instanceViewModel.AddItemsToCollectionAsync(parameters, this);
+            FileList.DoubleTapped += instanceInteraction.List_ItemClick;
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
-               App.PathText.Text = "Desktop";
+               CurrentInstance.PathText.Text = "Desktop";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
-               App.PathText.Text = "Documents";
+               CurrentInstance.PathText.Text = "Documents";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
             {
-               App.PathText.Text = "Downloads";
+               CurrentInstance.PathText.Text = "Downloads";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             {
-               App.PathText.Text = "Pictures";
+               CurrentInstance.PathText.Text = "Pictures";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
             {
-               App.PathText.Text = "Music";
+               CurrentInstance.PathText.Text = "Music";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
             {
-               App.PathText.Text = "OneDrive";
+               CurrentInstance.PathText.Text = "OneDrive";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
             {
-               App.PathText.Text = "Videos";
+               CurrentInstance.PathText.Text = "Videos";
             }
             else
             {
-               App.PathText.Text = parameters;
+               CurrentInstance.PathText.Text = parameters;
             }
 
             if (Clipboard.GetContent().Contains(StandardDataFormats.StorageItems))
             {
-                Interaction.PS.isEnabled = true;
+                App.PS.isEnabled = true;
             }
             else
             {
-                Interaction.PS.isEnabled = false;
+                App.PS.isEnabled = false;
             }
         }
 
@@ -103,16 +113,16 @@ namespace Files
                 DataPackageView packageView = Clipboard.GetContent();
                 if (packageView.Contains(StandardDataFormats.StorageItems))
                 {
-                    Interacts.Interaction.PS.isEnabled = true;
+                    App.PS.isEnabled = true;
                 }
                 else
                 {
-                    Interacts.Interaction.PS.isEnabled = false;
+                   App.PS.isEnabled = false;
                 }
             }
             catch (Exception)
             {
-                Interacts.Interaction.PS.isEnabled = false;
+                App.PS.isEnabled = false;
             }
 
         }
@@ -120,7 +130,8 @@ namespace Files
 
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+
+            var BoxPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (BoxPressed == null)
             {
                 gv.SelectedItems.Clear();
@@ -130,8 +141,8 @@ namespace Files
         private void PhotoAlbumViewer_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             FileList.SelectedItem = null;
-            App.HomeItems.isEnabled = false;
-            App.ShareItems.isEnabled = false;
+            instanceViewModel.HomeItems.isEnabled = false;
+            instanceViewModel.ShareItems.isEnabled = false;
         }
 
         private void PhotoAlbumViewer_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
@@ -146,38 +157,38 @@ namespace Files
 
         private void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.OpenItem_Click(null, null);
+            instanceInteraction.OpenItem_Click(null, null);
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.ShareItem_Click(null, null);
+            instanceInteraction.ShareItem_Click(null, null);
         }
 
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.DeleteItem_Click(null, null);
+            instanceInteraction.DeleteItem_Click(null, null);
         }
 
         private void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.RenameItem_Click(null, null);
+            instanceInteraction.RenameItem_Click(null, null);
         }
 
         private void CutItem_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.CutItem_Click(null, null);
+            instanceInteraction.CutItem_Click(null, null);
         }
 
         private void CopyItem_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.CopyItem_ClickAsync(null, null);
+            instanceInteraction.CopyItem_ClickAsync(null, null);
         }
 
         private async void PropertiesItem_Click(object sender, RoutedEventArgs e)
         {
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), (PhotoAlbum.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
-            await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
+            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), (this.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+            await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
             
         }
 
@@ -188,13 +199,13 @@ namespace Files
 
         private void PasteGrid_Click(object sender, RoutedEventArgs e)
         {
-            Interaction.PasteItem_ClickAsync(null, null);
+            instanceInteraction.PasteItem_ClickAsync(null, null);
         }
 
         private async void PropertiesItemGrid_Click(object sender, RoutedEventArgs e)
         {
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), App.PathText.Text, new SuppressNavigationTransitionInfo());
-            await ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
+            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text, new SuppressNavigationTransitionInfo());
+            await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
         }
     }
 }
