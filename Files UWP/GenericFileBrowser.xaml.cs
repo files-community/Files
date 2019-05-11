@@ -33,7 +33,7 @@ namespace Files
         public ProgressBar progressBar;
         public ItemViewModel<GenericFileBrowser> instanceViewModel;
         public Interaction<GenericFileBrowser> instanceInteraction;
-
+        public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
         public GenericFileBrowser()
         {
@@ -41,7 +41,6 @@ namespace Files
             GFBPageName = GenericItemView;
             emptyTextGFB = EmptyText;
             progressBar = progBar;
-            EmptyText.Visibility = Visibility.Collapsed;
             progressBar.Visibility = Visibility.Collapsed;
             data = AllView;
             context = RightClickContextMenu;
@@ -61,19 +60,6 @@ namespace Files
             CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
             AllView.RightTapped += instanceInteraction.AllView_RightTapped;
             AllView.DoubleTapped += instanceInteraction.List_ItemClick;
-            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.PropertyChanged += TextState_PropertyChanged;
-        }
-
-        private void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Visible)
-            {
-                emptyTextGFB.Visibility = Visibility.Visible;
-            }
-            else if (ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Collapsed)
-            {
-                emptyTextGFB.Visibility = Visibility.Collapsed;
-            }
         }
 
         private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
@@ -122,6 +108,7 @@ namespace Files
             CurrentInstance.RefreshButton.Click += NavigationActions.Refresh_Click;
             CurrentInstance.AddItemButton.Click += AddItem_Click;
             instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path, this);
+            TextState_PropertyChanged(null, null);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 CurrentInstance.PathText.Text = "Desktop";
@@ -290,6 +277,10 @@ namespace Files
             
         }
 
+        internal void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            TextState.isVisible = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible;
+        }
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

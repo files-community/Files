@@ -14,6 +14,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Files.Navigation;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Animation;
+using System.ComponentModel;
 
 namespace Files
 {
@@ -33,6 +34,7 @@ namespace Files
         public ProgressBar progressBar;
         public ItemViewModel<PhotoAlbum> instanceViewModel;
         public Interaction<PhotoAlbum> instanceInteraction;
+        public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
 
         public PhotoAlbum()
@@ -47,19 +49,6 @@ namespace Files
             instanceViewModel = new ItemViewModel<PhotoAlbum>(this, null);
             instanceInteraction = new Interaction<PhotoAlbum>(this);
             gv.ItemsSource = instanceViewModel.FilesAndFolders;
-            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.PropertyChanged += TextState_PropertyChanged;
-        }
-
-        private void TextState_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Visible)
-            {
-                EmptyTextPA.Visibility = Visibility.Visible;
-            }
-            else if (ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible == Visibility.Collapsed)
-            {
-                EmptyTextPA.Visibility = Visibility.Collapsed;
-            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -72,6 +61,7 @@ namespace Files
             instanceViewModel.AlwaysPresentCommands.isEnabled = true;
             var parameters = eventArgs.Parameter.ToString();
             instanceViewModel.AddItemsToCollectionAsync(parameters, this);
+            TextState_PropertyChanged(null, null);
             FileList.DoubleTapped += instanceInteraction.List_ItemClick;
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
@@ -217,6 +207,11 @@ namespace Files
         {
             ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text, new SuppressNavigationTransitionInfo());
             await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
+        }
+
+        internal void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            TextState.isVisible = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible;
         }
     }
 }

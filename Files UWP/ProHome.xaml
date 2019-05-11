@@ -742,7 +742,7 @@
                 </ScrollViewer>
             </SplitView.Pane>
 
-            <Frame Navigated="ItemDisplayFrame_Navigated" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
+            <Frame Navigating="ItemDisplayFrame_Navigating" Navigated="ItemDisplayFrame_Navigated" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
         <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
@@ -753,7 +753,7 @@
                 <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" Loaded="AddDialog_Loaded" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
+        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>

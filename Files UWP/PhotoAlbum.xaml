@@ -396,7 +396,7 @@
             </MenuFlyout>
         </Grid.ContextFlyout>
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
-        <TextBlock Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+        <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
         <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
             <controls:AdaptiveGridView.ItemTemplate>

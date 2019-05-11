@@ -91,6 +91,7 @@ namespace Files
             ForwardButton.Click += NavigationActions.Forward_Click;
             ribbonShadow.Receivers.Add(RibbonShadowSurface);
             Ribbon.Translation += new System.Numerics.Vector3(0, 0, 4);
+
         }
 
         public async void PopulateNavViewWithExternalDrives()
@@ -738,13 +739,6 @@ namespace Files
 
         }
 
-        AddItem addItemPageInstance;
-        private void AddDialog_Loaded(object sender, RoutedEventArgs e)
-        {
-            addItemPageInstance = null;
-
-        }
-
         private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             inputForRename = null;
@@ -785,9 +779,21 @@ namespace Files
             this.Loaded -= Page_Loaded;
         }
 
-        private void ItemDisplayFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        private void ItemDisplayFrame_Navigating(object sender, Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
         {
             
+        }
+
+        private void ItemDisplayFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                TextState.PropertyChanged += (accessibleContentFrame.Content as GenericFileBrowser).TextState_PropertyChanged;
+            }
+            else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                TextState.PropertyChanged += (accessibleContentFrame.Content as PhotoAlbum).TextState_PropertyChanged;
+            }
         }
     }
     public class NavigationActions

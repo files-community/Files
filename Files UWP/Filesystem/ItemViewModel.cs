@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -367,7 +368,7 @@ namespace Files.Filesystem
                 }
                 else
                 {
-                    MessageDialog unsupportedDevice = new MessageDialog("This device may be unsupported. Please file an issue report in Settings - About containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
+                    MessageDialog unsupportedDevice = new MessageDialog("This device may be unsupported. Please file an issue report containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
                     await unsupportedDevice.ShowAsync();
                     return;
                 }
@@ -375,9 +376,9 @@ namespace Files.Filesystem
             catch (COMException e)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
-                MessageDialog driveGone = new MessageDialog(e.Message, "Drive Unplugged");
+                MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
                 await driveGone.ShowAsync();
-                rootFrame.Navigate(typeof(ProHome), null, new SuppressNavigationTransitionInfo());
+                rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                 return;
             }
 
