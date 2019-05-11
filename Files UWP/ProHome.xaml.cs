@@ -89,6 +89,7 @@ namespace Files
             PopulateNavViewWithExternalDrives();
             BackButton.Click += NavigationActions.Back_Click;
             ForwardButton.Click += NavigationActions.Forward_Click;
+            RefreshButton.Click += NavigationActions.Refresh_Click;
             ribbonShadow.Receivers.Add(RibbonShadowSurface);
             Ribbon.Translation += new System.Numerics.Vector3(0, 0, 4);
 
@@ -806,14 +807,12 @@ namespace Files
                 {
                     var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                     ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
-                    (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
                     ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path, (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).GFBPageName);
                 }
                 else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
                     var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
                     ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
-                    (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                     ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path, (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).PAPageName);
                 }
 

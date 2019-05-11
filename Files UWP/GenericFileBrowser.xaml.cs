@@ -105,7 +105,6 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             instanceViewModel.CancelLoadAndClearFiles();
             instanceViewModel.Universal.path = parameters;
-            CurrentInstance.RefreshButton.Click += NavigationActions.Refresh_Click;
             CurrentInstance.AddItemButton.Click += AddItem_Click;
             instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path, this);
             TextState_PropertyChanged(null, null);

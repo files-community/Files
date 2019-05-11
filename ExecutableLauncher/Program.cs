@@ -13,9 +13,11 @@ namespace ExecutableLauncher
                 var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
                 Process.Start(executable);
             }
-            catch (Exception e)
+            catch (System.ComponentModel.Win32Exception e)
             {
+                Console.WriteLine("While most executables work now, UWP restrictions still prevent the execution of this file");
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 Console.ReadLine();
             }
         }

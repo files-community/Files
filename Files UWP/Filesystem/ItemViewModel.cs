@@ -215,16 +215,8 @@ namespace Files.Filesystem
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            if (typeof(PageType) == typeof(GenericFileBrowser))
-            {
-                (currentPage as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                _filesAndFolders.Clear();
-            }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
-            {
-                (currentPage as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                _filesAndFolders.Clear();
-            }
+            GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible = Visibility.Collapsed;
+            _filesAndFolders.Clear();
             Universal.path = path;
 
             Stopwatch stopwatch = new Stopwatch();
