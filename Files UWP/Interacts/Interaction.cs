@@ -262,19 +262,23 @@ namespace Files.Interacts
         {
             dataGrid = (DataGrid)sender;
             var RowPressed = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
-            // Check if RightTapped row is currently selected
-            var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
-            foreach (ListedItem listedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
+            if(RowPressed != null)
             {
-                if (RowPressed.GetIndex() == listedItem.RowIndex)
+                var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
+                // Check if RightTapped row is currently selected
+                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                foreach (ListedItem listedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                 {
-                    return;
+                    if (RowPressed.GetIndex() == listedItem.RowIndex)
+                    {
+                        return;
+                    }
                 }
+                // The following code is only reachable when a user RightTapped an unselected row
+                dataGrid.SelectedItems.Clear();
+                dataGrid.SelectedItems.Add(ObjectPressed);
             }
-            // The following code is only reachable when a user RightTapped an unselected row
-            dataGrid.SelectedItems.Clear();
-            dataGrid.SelectedItems.Add(ObjectPressed);
+            
         }
 
         public static void FindChildren<T>(List<T> results, DependencyObject startNode) where T : DependencyObject
