@@ -101,6 +101,7 @@ namespace Files
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
+            Clipboard_ContentChanged(null, null);
             instanceViewModel.AlwaysPresentCommands.isEnabled = true;
             var parameters = (string)eventArgs.Parameter;
             instanceViewModel.CancelLoadAndClearFiles();
@@ -150,15 +151,6 @@ namespace Files
                 {
                     data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                 }
-            }
-
-            if (Clipboard.GetContent().Contains(StandardDataFormats.StorageItems))
-            {
-                App.PS.isEnabled = true;
-            }
-            else
-            {
-                App.PS.isEnabled = false;
             }
         }
 

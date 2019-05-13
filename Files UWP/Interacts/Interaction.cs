@@ -308,7 +308,7 @@ namespace Files.Interacts
             }
             return parent;
         }
-
+        
         public async void OpenItem_Click(object sender, RoutedEventArgs e)
         {
             if (typeof(PageType) == typeof(GenericFileBrowser))
@@ -664,6 +664,7 @@ namespace Files.Interacts
             IEnumerable<IStorageItem> EnumerableOfItems = items;
             dataPackage.SetStorageItems(EnumerableOfItems);
             Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
         }
         public string CopySourcePath;
         public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
@@ -717,6 +718,7 @@ namespace Files.Interacts
             IEnumerable<IStorageItem> EnumerableOfItems = items;
             dataPackage.SetStorageItems(EnumerableOfItems);
             Clipboard.SetContent(dataPackage);
+            Clipboard.Flush();
 
         }
 
