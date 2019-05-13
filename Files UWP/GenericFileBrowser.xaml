@@ -11,9 +11,15 @@
     xmlns:local1="using:Files.Navigation"
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Interacts"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     Name="GenericItemView"
     mc:Ignorable="d" NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
+        <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundThemeBrush}" />
+        </Style>
+
         <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
             <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}"/>
             <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
@@ -148,7 +154,7 @@
 
     <Grid Background="Transparent" Name="RootGrid">
         <Grid.ContextFlyout>
-            <MenuFlyout>
+            <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                 <MenuFlyout.Items>
                     <MenuFlyoutItem Text="Refresh" Name="RefreshEmptySpace">
                         <MenuFlyoutItem.Icon>
@@ -182,7 +188,7 @@
                 <Style TargetType="controlsprimitives:DataGridColumnHeader">
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
-                            <MenuFlyout x:Name="HeaderRightClickMenu">
+                            <MenuFlyout  x:Name="HeaderRightClickMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                 <MenuFlyoutItem Text="Edit Columns" Name="EditColumn">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE70F;"/>
@@ -203,7 +209,7 @@
                 <Style TargetType="controls:DataGridRow">
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
-                            <MenuFlyout x:Name="RightClickContextMenu">
+                            <MenuFlyout  x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                 <MenuFlyout.Items>
                                     <MenuFlyoutItem Text="Open With..." Name="OpenItem">
                                         <MenuFlyoutItem.Icon>

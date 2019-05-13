@@ -21,7 +21,7 @@ namespace Files
 
     public sealed partial class PhotoAlbum : Page
     {
-        public AdaptiveGridView gv;
+        public GridView gv;
         public Image largeImg;
         public MenuFlyout context;
         public MenuFlyout gridContext;

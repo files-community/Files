@@ -33,8 +33,6 @@ namespace Files.Interacts
             type = contentPageInstance;
         }
 
-        public static MessageDialog message;
-
         public async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
         {
             

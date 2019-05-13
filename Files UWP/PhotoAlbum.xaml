@@ -16,8 +16,10 @@
     PointerReleased="PhotoAlbumViewer_PointerReleased">
 
     <Page.Resources>
-        <navigation:BackState x:Key="BackObject"/>
-        <navigation:ForwardState x:Key="ForwardObject"/>
+        <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundThemeBrush}" />
+        </Style>
 
         <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
             <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}"/>
@@ -374,7 +376,7 @@
 
     <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
         <Grid.ContextFlyout>
-            <MenuFlyout x:Name="GridRightClickContextMenu">
+            <MenuFlyout x:Name="GridRightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                 <MenuFlyout.Items>
                     <MenuFlyoutItem Click="RefreshGrid_Click" Text="Refresh" Name="RefreshGrid">
                         <MenuFlyoutItem.Icon>
@@ -398,12 +400,12 @@
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <controls:AdaptiveGridView animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
+        <controls:AdaptiveGridView StretchContentForSingleRow="False" DesiredWidth="150" VerticalContentAlignment="Stretch" ItemHeight="150" animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" IsRightTapEnabled="True" Margin="0, 0, 0, 0" Padding="5, 5, 5, 5" Width="150" Height="150" HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Grid.ContextFlyout>
-                            <MenuFlyout x:Name="RightClickContextMenu">
+                    <StackPanel Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" IsRightTapEnabled="True" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <StackPanel.ContextFlyout>
+                            <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                 <MenuFlyout.Items>
                                     <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
                                         <MenuFlyoutItem.Icon>
@@ -447,32 +449,24 @@
                                 </MenuFlyout.Items>
 
                             </MenuFlyout>
-                        </Grid.ContextFlyout>
-                        
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="75*"/>
-                            <RowDefinition Height="25*"/>
-                        </Grid.RowDefinitions>
-                        <Grid Padding="2" Grid.Row="0" Name="Picture" Visibility="{Binding FileIconVis}">
-                            <controls:DropShadowPanel OffsetY="5">
+                        </StackPanel.ContextFlyout>
+                        <Grid Width="150" Height="100">
+                            <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="Picture" Visibility="{Binding FileIconVis}">
                                 <Image Stretch="Uniform" Source="{Binding FileImg}"/>
-                            </controls:DropShadowPanel>
-                        </Grid>
-
-                        <Grid Grid.Row="0" Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
-
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <FontIcon FontSize="92" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                            </Grid>
+                            <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <FontIcon FontSize="72" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                </Grid>
+                            </Grid>
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding EmptyImgVis}">
+                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <FontIcon FontSize="72" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                </Grid>
                             </Grid>
                         </Grid>
-                        <Grid Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding EmptyImgVis}">
-
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <FontIcon FontSize="92" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                            </Grid>
-                        </Grid>
-                        <TextBlock Grid.Row="1" VerticalAlignment="Top" Text="{Binding FileName}" TextWrapping="Wrap" TextAlignment="Center"/>
-                    </Grid>
+                        <TextBlock MaxWidth="150" HorizontalTextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding FileName}" TextWrapping="Wrap"/>
+                    </StackPanel>
 
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>
