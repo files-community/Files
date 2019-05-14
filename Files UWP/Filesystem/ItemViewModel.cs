@@ -33,13 +33,6 @@ namespace Files.Filesystem
         public ReadOnlyObservableCollection<ListedItem> ClassicFileList { get; }
         public UniversalPath Universal { get; } = new UniversalPath();
 
-
-
-        public Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
-        public Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
-        public Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
-        public Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
-
         private ObservableCollection<ListedItem> _filesAndFolders;
         private ObservableCollection<ListedItem> _classicFileList;
         private ObservableCollection<Classic_ListedFolderItem> _classicFolderList;
@@ -90,16 +83,16 @@ namespace Files.Filesystem
                     }
                 }
             }
-            
-            HomeItems.PropertyChanged += HomeItems_PropertyChanged;
-            ShareItems.PropertyChanged += ShareItems_PropertyChanged;
-            LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
-            AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
+
+            GetCurrentSelectedTabInstance<ProHome>().HomeItems.PropertyChanged += HomeItems_PropertyChanged;
+            GetCurrentSelectedTabInstance<ProHome>().ShareItems.PropertyChanged += ShareItems_PropertyChanged;
+            GetCurrentSelectedTabInstance<ProHome>().LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
+            GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
         }
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(AlwaysPresentCommands.isEnabled == true)
+            if(GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled == true)
             {
                 GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
             }
@@ -111,7 +104,7 @@ namespace Files.Filesystem
 
         private void LayoutItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (LayoutItems.isEnabled == true)
+            if (GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled == true)
             {
                 GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
@@ -123,7 +116,7 @@ namespace Files.Filesystem
 
         private void ShareItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (ShareItems.isEnabled == true)
+            if (GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled == true)
             {
                 GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
             }
@@ -135,7 +128,7 @@ namespace Files.Filesystem
 
         private void HomeItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (HomeItems.isEnabled == true)
+            if (GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled == true)
             {
                 GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
             }

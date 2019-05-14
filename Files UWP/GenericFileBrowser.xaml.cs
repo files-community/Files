@@ -102,7 +102,7 @@ namespace Files
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
             Clipboard_ContentChanged(null, null);
-            instanceViewModel.AlwaysPresentCommands.isEnabled = true;
+            CurrentInstance.AlwaysPresentCommands.isEnabled = true;
             var parameters = (string)eventArgs.Parameter;
             instanceViewModel.CancelLoadAndClearFiles();
             instanceViewModel.Universal.path = parameters;
@@ -227,8 +227,8 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             data.SelectedItem = null;
-            instanceViewModel.HomeItems.isEnabled = false;
-            instanceViewModel.ShareItems.isEnabled = false;
+            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -237,8 +237,8 @@ namespace Files
             AllView.CommitEdit();
             if(e.AddedItems.Count > 0)
             {
-                instanceViewModel.HomeItems.isEnabled = true;
-                instanceViewModel.ShareItems.isEnabled = true;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
 
             }
         }

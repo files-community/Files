@@ -190,20 +190,20 @@ namespace Files
             if (CurrentInput != instance.Universal.path)
             {
                 instance.CancelLoadAndClearFiles();
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (CurrentInput == "Favorites" || CurrentInput == "favorites")
                 {
                     this.accessibleContentFrame.Navigate(typeof(YourHome));
                     PathText.Text = "Favorites";
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
                 else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
                 {
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                     PathText.Text = "Desktop";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
                 }
                 else if (CurrentInput == "Documents" || CurrentInput == "documents")
@@ -211,7 +211,7 @@ namespace Files
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                     PathText.Text = "Documents";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
 
                 }
@@ -220,7 +220,7 @@ namespace Files
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                     PathText.Text = "Downloads";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
 
                 }
@@ -229,7 +229,7 @@ namespace Files
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                     PathText.Text = "Pictures";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
                 }
                 else if (CurrentInput == "Music" || CurrentInput == "music")
@@ -237,7 +237,7 @@ namespace Files
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                     PathText.Text = "Music";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
 
                 }
@@ -246,7 +246,7 @@ namespace Files
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                     PathText.Text = "Videos";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
 
                 }
@@ -255,7 +255,7 @@ namespace Files
                     TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     PathText.Text = "OneDrive";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
 
 
                 }
@@ -347,7 +347,7 @@ namespace Files
                             await StorageFolder.GetFolderFromPathAsync(CurrentInput);
                             TextState.isVisible = Visibility.Collapsed;
                             this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                            instance.LayoutItems.isEnabled = true;
+                            LayoutItems.isEnabled = true;
                         }
                         catch (ArgumentException)
                         {
@@ -382,98 +382,98 @@ namespace Files
                 PathText.Text = "Favorites";
                 ItemViewModel<YourHome> homeInstance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
                 homeInstance.CancelLoadAndClearFiles();
-                homeInstance.HomeItems.isEnabled = false;
-                homeInstance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    homeInstance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                homeInstance.LayoutItems.isEnabled = false;
+                LayoutItems.isEnabled = false;
             }
             else if (clickedItem.Tag.ToString() == "Desktop")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                 PathText.Text = "Desktop";
                 instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                instance.LayoutItems.isEnabled = true;
+                LayoutItems.isEnabled = true;
             }
             else if (clickedItem.Tag.ToString() == "Downloads")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                 PathText.Text = "Downloads";
                 instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                instance.LayoutItems.isEnabled = true;
+                LayoutItems.isEnabled = true;
             }
             else if (clickedItem.Tag.ToString() == "Documents")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                 PathText.Text = "Documents";
                 instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                instance.LayoutItems.isEnabled = true;
+                LayoutItems.isEnabled = true;
             }
             else if (clickedItem.Tag.ToString() == "Pictures")
             {
                 ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                 PathText.Text = "Pictures";
                 ItemViewModel<PhotoAlbum> PAInstance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
-                PAInstance.HomeItems.isEnabled = false;
-                PAInstance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    PAInstance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                PAInstance.LayoutItems.isEnabled = true;
+                LayoutItems.isEnabled = true;
             }
             else if (clickedItem.Tag.ToString() == "Music")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                 PathText.Text = "Music";
                 instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                instance.LayoutItems.isEnabled = true;
+                LayoutItems.isEnabled = true;
             }
             else if (clickedItem.Tag.ToString() == "Videos")
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                 PathText.Text = "Videos";
                 instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
                 {
                     DrivesList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
-                instance.LayoutItems.isEnabled = true;
+                LayoutItems.isEnabled = true;
             }
 
         }
@@ -483,12 +483,12 @@ namespace Files
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
                 {
                     LocationsList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
 
                 ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
@@ -497,30 +497,30 @@ namespace Files
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                     PathText.Text = @"Local Disk (C:\)";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
                 else if (clickedItem.Tag.ToString() == "OneDrive")
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     PathText.Text = "OneDrive";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
                 else
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
                     PathText.Text = clickedItem.Tag.ToString();
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(YourHome))
             {
                 var instance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
                 {
                     LocationsList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
 
                 ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
@@ -529,30 +529,30 @@ namespace Files
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                     PathText.Text = @"Local Disk (C:\)";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
                 else if (clickedItem.Tag.ToString() == "OneDrive")
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     PathText.Text = "OneDrive";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
                 else
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
                     PathText.Text = clickedItem.Tag.ToString();
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 var instance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
-                instance.HomeItems.isEnabled = false;
-                instance.ShareItems.isEnabled = false;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
                 {
                     LocationsList.SelectedItem = null;
-                    instance.LayoutItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
                 }
 
                 ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
@@ -561,19 +561,19 @@ namespace Files
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
                     PathText.Text = @"Local Disk (C:\)";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
                 else if (clickedItem.Tag.ToString() == "OneDrive")
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     PathText.Text = "OneDrive";
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
                 else
                 {
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
                     PathText.Text = clickedItem.Tag.ToString();
-                    instance.LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
                 }
             }
                 

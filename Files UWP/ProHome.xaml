@@ -647,7 +647,7 @@
 
                     <StackPanel Margin="0,0,5,0" Grid.Column="2" Orientation="Horizontal">
                         <TextBox Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="5,0,0,5" BorderThickness="1" Margin="0,5,0,5" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260"/>
-                        <Button Width="35" BorderThickness="0" Margin="0,5,0,5.5" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,5,5,0" Background="{StaticResource SystemAccentColor}">
+                        <Button BorderBrush="{StaticResource SystemAccentColor}" Width="35" BorderThickness="1" Margin="0,5,0,5.5" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,5,5,0" Background="{StaticResource SystemAccentColor}">
                             <FontIcon FontSize="12" Foreground="White" Glyph="&#xEBE7;"/>
                         </Button>
                     </StackPanel>

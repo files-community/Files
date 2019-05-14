@@ -61,16 +61,12 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            if(GetCurrentSelectedTabInstance<ProHome>() == null)
-            {
-
-            }
             GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
             GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
             GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
             GetCurrentSelectedTabInstance<ProHome>().accessiblePasteButton.IsEnabled = false;
-            instanceViewModel.AlwaysPresentCommands.isEnabled = false;
-            instanceViewModel.LayoutItems.isEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)
@@ -82,21 +78,21 @@ namespace Files
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
                 //instanceViewModel.TextState.isVisible = Visibility.Collapsed;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
 
             }
             else if (BelowCardText == "Music")
@@ -104,14 +100,14 @@ namespace Files
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
         }
 
@@ -133,35 +129,35 @@ namespace Files
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
                 
                 GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
                 GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                instanceViewModel.LayoutItems.isEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
         }
         public static StorageFile RecentsFile;

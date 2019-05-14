@@ -58,7 +58,7 @@ namespace Files
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
-            instanceViewModel.AlwaysPresentCommands.isEnabled = true;
+            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
             var parameters = eventArgs.Parameter.ToString();
             instanceViewModel.AddItemsToCollectionAsync(parameters, this);
             TextState_PropertyChanged(null, null);
@@ -142,8 +142,8 @@ namespace Files
         private void PhotoAlbumViewer_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             FileList.SelectedItem = null;
-            instanceViewModel.HomeItems.isEnabled = false;
-            instanceViewModel.ShareItems.isEnabled = false;
+            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
         }
 
         private void PhotoAlbumViewer_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
