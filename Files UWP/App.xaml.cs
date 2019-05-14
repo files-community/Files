@@ -21,6 +21,8 @@ namespace Files
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.UnhandledException += App_UnhandledException;
+
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
             if (localSettings.Values["theme"] != null)
@@ -62,6 +64,13 @@ namespace Files
 
             
 
+        }
+
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(UnhandledExceptionDisplay), e.Exception);
         }
 
         public static PasteState PS { get; set; } = new PasteState();
