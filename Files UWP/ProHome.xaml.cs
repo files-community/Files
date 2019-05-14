@@ -171,15 +171,20 @@ namespace Files
             {
                 var PathBox = (sender as TextBox);
                 var CurrentInput = PathBox.Text;
-                if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
                     var contentInstance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                     CheckPathInput<GenericFileBrowser>(contentInstance, CurrentInput);
                 }
-                else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
                     var contentInstance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
                     CheckPathInput<PhotoAlbum>(contentInstance, CurrentInput);
+                }
+                else if (accessibleContentFrame.SourcePageType == typeof(YourHome))
+                {
+                    var contentInstance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
+                    CheckPathInput<YourHome>(contentInstance, CurrentInput);
                 }
 
             }
