@@ -204,6 +204,7 @@ namespace Files.Filesystem
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
         {
+            InstanceTabsView.SetSelectedTabHeader(new DirectoryInfo(path).Name);
             CancelLoadAndClearFiles();
 
             _cancellationTokenSource = new CancellationTokenSource();

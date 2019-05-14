@@ -97,6 +97,11 @@ namespace Files
 
         }
 
+        public static void SetSelectedTabHeader(string text)
+        {
+            (tabView.Items[tabView.SelectedIndex] as TabViewItem).Header = text;
+        }
+
         private void Tvi_Loaded(object sender, RoutedEventArgs e)
         {
             //tabContentPresenter.Content = ((TabStrip.SelectedItem as TabViewItem));
