@@ -287,7 +287,7 @@
                 <controls:DataGridTemplateColumn IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid Name="Icon" Margin="15, 0, 0, 0">
+                            <Grid Name="Icon" Margin="0, 0, 0, 0">
                                 <Rectangle Visibility="Collapsed" Name="CutIndicator" Opacity="0.1" Fill="LightGray"/>
                                 <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
                                 <FontIcon Visibility="{Binding EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>

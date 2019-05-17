@@ -400,10 +400,10 @@
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <controls:AdaptiveGridView StretchContentForSingleRow="False" DesiredWidth="150" VerticalContentAlignment="Stretch" ItemHeight="150" animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
+        <controls:AdaptiveGridView RightTapped="FileList_RightTapped" StretchContentForSingleRow="False" DesiredWidth="150" VerticalContentAlignment="Stretch" ItemHeight="150" animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" IsRightTapEnabled="True" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <StackPanel Tag="{Binding RowIndex}" RightTapped="StackPanel_RightTapped" Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" IsRightTapEnabled="True" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <StackPanel.ContextFlyout>
                             <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                 <MenuFlyout.Items>

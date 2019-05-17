@@ -15,13 +15,16 @@ using Files.Navigation;
 using System.Diagnostics;
 using Windows.UI.Xaml.Media.Animation;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using Windows.UI.Xaml.Data;
 
 namespace Files
 {
 
     public sealed partial class PhotoAlbum : Page
     {
-        public GridView gv;
+        public AdaptiveGridView gv;
         public Image largeImg;
         public MenuFlyout context;
         public MenuFlyout gridContext;
@@ -212,6 +215,47 @@ namespace Files
         internal void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             TextState.isVisible = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible;
+        }
+
+
+        private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            //ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)FileList.ItemsSource)[(int)(sender as StackPanel).Tag];
+        }
+
+        private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var ItemPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            List<StackPanel> stackPanels = new List<StackPanel>();
+            Interaction<PhotoAlbum>.FindChildren<StackPanel>(stackPanels, ItemPressed);
+            var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)FileList.ItemsSource)[(int) stackPanels[0].Tag];
+            //List<int> indexes = new List<int>();
+            //foreach (ItemIndexRange range in FileList.SelectedRanges)
+            //{
+            //    for (int x = range.FirstIndex; x <= range.LastIndex; x++) { indexes.Add(x); }
+            //}
+            List<GridViewItem> items = new List<GridViewItem>();
+            List<GridViewItem> selitems = new List<GridViewItem>();
+            Interaction<PhotoAlbum>.FindChildren<GridViewItem>(items, FileList);
+            foreach (GridViewItem gvi in items)
+            {
+                if (gvi.IsSelected)
+                {
+                    selitems.Add(gvi);
+                }
+            }
+            
+            foreach (GridViewItem selectedItem in selitems)
+            {
+                if (FileList.IndexFromContainer(FileList.ContainerFromItem(selectedItem)) == FileList.IndexFromContainer(FileList.ContainerFromItem(ItemPressed)))
+                {
+                    return;
+                }
+            }
+
+            // The following code is only reachable when a user RightTapped an unselected row
+            FileList.SelectedItems.Clear();
+            FileList.SelectedItems.Add(ObjectPressed);
         }
     }
 }

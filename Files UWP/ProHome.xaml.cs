@@ -90,8 +90,12 @@ namespace Files
             BackButton.Click += NavigationActions.Back_Click;
             ForwardButton.Click += NavigationActions.Forward_Click;
             RefreshButton.Click += NavigationActions.Refresh_Click;
-            ribbonShadow.Receivers.Add(RibbonShadowSurface);
-            Ribbon.Translation += new System.Numerics.Vector3(0, 0, 4);
+            if(ribbonShadow != null)
+            {
+                ribbonShadow.Receivers.Add(RibbonShadowSurface);
+                Ribbon.Translation += new System.Numerics.Vector3(0, 0, 4);
+            }
+
 
         }
 
