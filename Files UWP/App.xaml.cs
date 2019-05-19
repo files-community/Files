@@ -68,7 +68,7 @@ namespace Files
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            e.Handled = true;
+            e.Handled = true;  
             Frame rootFrame = Window.Current.Content as Frame;
             rootFrame.Navigate(typeof(UnhandledExceptionDisplay), e.Exception);
         }

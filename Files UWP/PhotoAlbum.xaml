@@ -13,7 +13,7 @@
     xmlns:navigation="using:Files.Navigation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Name="PhotoAlbumViewer"
-    PointerReleased="PhotoAlbumViewer_PointerReleased">
+    PointerReleased="PhotoAlbumViewer_PointerReleased" PointerPressed="PhotoAlbumViewer_PointerPressed">
 
     <Page.Resources>
         <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">
@@ -372,6 +372,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <ItemsPanelTemplate x:Key="GridViewItemsPanel1">
+            <ItemsWrapGrid Orientation="Horizontal"/>
+        </ItemsPanelTemplate>
     </Page.Resources>
 
     <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
@@ -400,76 +403,76 @@
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <controls:AdaptiveGridView RightTapped="FileList_RightTapped" StretchContentForSingleRow="False" DesiredWidth="150" VerticalContentAlignment="Stretch" ItemHeight="150" animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
-            <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Tag="{Binding RowIndex}" RightTapped="StackPanel_RightTapped" Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" IsRightTapEnabled="True" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <StackPanel.ContextFlyout>
-                            <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                <MenuFlyout.Items>
-                                    <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE7AC;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="ShareItem_Click" Text="Share" Name="ShareItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE72D;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" Name="DeleteItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE74D;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" Name="RenameItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8AC;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="CutItem_Click" Text="Cut" Name="CutItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C6;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" Name="CopyItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C8;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
+        <GridView ContextRequested="FileList_ContextRequested" Background="Transparent" ItemsSource="{x:Bind instanceViewModel.FilesAndFolders}" RightTapped="FileList_RightTapped" VerticalContentAlignment="Stretch" animations:ReorderGridAnimation.Duration="300" ShowsScrollingPlaceholders="True" Margin="24,24,24,0" Grid.Row="3" SelectionMode="Extended" IsRightTapEnabled="True" IsDoubleTapEnabled="True" Name="FileList" Padding="0, 0, 0, 0" >
+            <GridView.ContextFlyout>
+                <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE7AC;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Click="ShareItem_Click" Text="Share" Name="ShareItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE72D;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" Name="DeleteItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE74D;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" Name="RenameItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8AC;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Click="CutItem_Click" Text="Cut" Name="CutItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C6;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" Name="CopyItem" >
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C8;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
 
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" Name="PropertiesItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE946;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout.Items>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" Name="PropertiesItem">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE946;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout.Items>
 
-                            </MenuFlyout>
-                        </StackPanel.ContextFlyout>
+                    </MenuFlyout>
+            </GridView.ContextFlyout>
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="local2:ListedItem">
+                    <StackPanel Width="150" Height="150" Tag="{x:Bind RowIndex}" Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid Width="150" Height="100">
-                            <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="Picture" Visibility="{Binding FileIconVis}">
-                                <Image Stretch="Uniform" Source="{Binding FileImg}"/>
+                            <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="Picture" Visibility="{x:Bind FileIconVis}">
+                                <Image Stretch="Uniform" Source="{x:Bind FileImg}"/>
                             </Grid>
-                            <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding FolderImg}">
+                            <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind FolderImg}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon FontSize="72" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
                                 </Grid>
                             </Grid>
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{Binding EmptyImgVis}">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind EmptyImgVis}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon FontSize="72" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <TextBlock MaxWidth="150" HorizontalTextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding FileName}" TextWrapping="Wrap"/>
+                        <TextBlock MaxWidth="150" HorizontalTextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{x:Bind FileName}" TextWrapping="Wrap"/>
                     </StackPanel>
 
                 </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+            </GridView.ItemTemplate>
+        </GridView>
     </Grid>
 </Page>

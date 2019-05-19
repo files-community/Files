@@ -18,13 +18,14 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Files
 {
 
     public sealed partial class PhotoAlbum : Page
     {
-        public AdaptiveGridView gv;
+        public GridView gv;
         public Image largeImg;
         public MenuFlyout context;
         public MenuFlyout gridContext;
@@ -51,7 +52,7 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             instanceViewModel = new ItemViewModel<PhotoAlbum>(this, null);
             instanceInteraction = new Interaction<PhotoAlbum>(this);
-            gv.ItemsSource = instanceViewModel.FilesAndFolders;
+            //gv.ItemsSource = instanceViewModel.FilesAndFolders;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -144,9 +145,8 @@ namespace Files
 
         private void PhotoAlbumViewer_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            FileList.SelectedItem = null;
-            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
-            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+            
+            
         }
 
         private void PhotoAlbumViewer_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
@@ -225,37 +225,45 @@ namespace Files
 
         private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var ItemPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            List<StackPanel> stackPanels = new List<StackPanel>();
-            Interaction<PhotoAlbum>.FindChildren<StackPanel>(stackPanels, ItemPressed);
-            var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)FileList.ItemsSource)[(int) stackPanels[0].Tag];
-            //List<int> indexes = new List<int>();
-            //foreach (ItemIndexRange range in FileList.SelectedRanges)
-            //{
-            //    for (int x = range.FirstIndex; x <= range.LastIndex; x++) { indexes.Add(x); }
-            //}
-            List<GridViewItem> items = new List<GridViewItem>();
-            List<GridViewItem> selitems = new List<GridViewItem>();
-            Interaction<PhotoAlbum>.FindChildren<GridViewItem>(items, FileList);
-            foreach (GridViewItem gvi in items)
+            try
             {
-                if (gvi.IsSelected)
+                Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+                var ItemPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+                List<StackPanel> stackPanels = new List<StackPanel>();
+                Interaction<PhotoAlbum>.FindChildren<StackPanel>(stackPanels, ItemPressed);
+                var indexOfObjectPressed = FileList.IndexFromContainer(FileList.ContainerFromItem(ItemPressed));
+                foreach (ListedItem selectedItem in (sender as GridView).SelectedItems)
                 {
-                    selitems.Add(gvi);
+                    if (selectedItem.RowIndex == indexOfObjectPressed)
+                    {
+                        return;
+                    }
                 }
+
+                // The following code is only reachable when a user RightTapped an unselected row
+                FileList.SelectedItems.Clear();
+                FileList.SelectedItems.Add(instanceViewModel.FilesAndFolders[indexOfObjectPressed]);
             }
-            
-            foreach (GridViewItem selectedItem in selitems)
+            catch (ArgumentException)
             {
-                if (FileList.IndexFromContainer(FileList.ContainerFromItem(selectedItem)) == FileList.IndexFromContainer(FileList.ContainerFromItem(ItemPressed)))
-                {
-                    return;
-                }
+                return;
             }
 
-            // The following code is only reachable when a user RightTapped an unselected row
-            FileList.SelectedItems.Clear();
-            FileList.SelectedItems.Add(ObjectPressed);
+        }
+
+        private void FileList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
+        {
+
+        }
+
+        private void PhotoAlbumViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
+            {
+                FileList.SelectedItem = null;
+                ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+                ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+            }
         }
     }
 }

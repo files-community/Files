@@ -1,9 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Diagnostics;
-using System.Drawing;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Filesystem;
@@ -15,6 +12,7 @@ using Windows.System;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace Files
 {
@@ -259,6 +257,17 @@ namespace Files
                         Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
                     }
                 }
+                catch (COMException)
+                {
+                    if (ItemPath != null)
+                    {
+                        RemoveDeletedItemFromList(ItemPath, lines);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
+                    }
+                }
             }
             else
             {
@@ -323,7 +332,18 @@ namespace Files
                         Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
                     }
                 }
-                
+                catch (COMException)
+                {
+                    if (ItemPath != null)
+                    {
+                        RemoveDeletedItemFromList(ItemPath, lines);
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
+                    }
+                }
+
             }
         }
 
