@@ -233,13 +233,17 @@ namespace Files
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
             AllView.CommitEdit();
             if(e.AddedItems.Count > 0)
             {
                 ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
                 ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
 
+            }
+            else if(data.SelectedItems.Count == 0)
+            {
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
             }
         }
 

@@ -235,39 +235,6 @@ namespace Files
             FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            try
-            {
-                var ItemPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-                List<StackPanel> stackPanels = new List<StackPanel>();
-                Interaction<PhotoAlbum>.FindChildren<StackPanel>(stackPanels, ItemPressed);
-                var indexOfObjectPressed = FileList.IndexFromContainer(FileList.ContainerFromItem(ItemPressed));
-                foreach (ListedItem selectedItem in (sender as GridView).SelectedItems)
-                {
-                    if (selectedItem.RowIndex == indexOfObjectPressed)
-                    {
-                        return;
-                    }
-                }
-
-                // The following code is only reachable when a user RightTapped an unselected row
-                FileList.SelectedItems.Clear();
-                FileList.SelectedItems.Add(instanceViewModel.FilesAndFolders[indexOfObjectPressed]);
-            }
-            catch (ArgumentException)
-            {
-                return;
-            }
-
-        }
-
-
-        private void FileList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
-        {
-
-        }
-
         private void PhotoAlbumViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
@@ -275,6 +242,21 @@ namespace Files
                 FileList.SelectedItem = null;
                 ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
                 ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+            }
+        }
+
+        private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
+
+            }
+            else if (FileList.SelectedItems.Count == 0)
+            {
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
             }
         }
     }
