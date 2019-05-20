@@ -22,8 +22,7 @@ namespace Files
         public InstanceTabsView()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchViewSize = new Size(1080, 630);
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             CoreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
