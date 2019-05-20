@@ -154,7 +154,11 @@ namespace Files
             }
         }
 
-
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+        }
 
 
         private void AllView_DragOver(object sender, DragEventArgs e)

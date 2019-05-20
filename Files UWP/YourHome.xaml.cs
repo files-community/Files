@@ -13,6 +13,8 @@ using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using System.IO;
+using Windows.UI.Popups;
 
 namespace Files
 {
@@ -250,7 +252,29 @@ namespace Files
             }
             catch (System.ArgumentException)
             {
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
+                {
+                    GetCurrentSelectedTabInstance<ProHome>().drivesList.SelectedIndex = 0;
+                    GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                }
+                else
+                {
+                    foreach(ListViewItem drive in GetCurrentSelectedTabInstance<ProHome>().drivesList.Items)
+                    {
+                        if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
+                        {
+                            GetCurrentSelectedTabInstance<ProHome>().drivesList.SelectedItem = null;
+                            drive.IsSelected = true;
+                            GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (COMException)
+            {
+                MessageDialog dialog = new MessageDialog("Please insert the necessary drive to access this item.", "Drive Unplugged");
+                await dialog.ShowAsync();
             }
         }
 

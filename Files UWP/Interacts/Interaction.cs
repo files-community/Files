@@ -50,6 +50,7 @@ namespace Files.Interacts
                     {
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
+
                         var TabInstance = CurrentInstance;
                         (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
                         TabInstance.PathText.Text = clickedOnItem.FilePath;
@@ -101,7 +102,10 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            TabInstance.drivesList.SelectedIndex = 0;
+                            if (clickedOnItem.FilePath.Split(@"\")[0].Contains("C:"))
+                            {
+                                TabInstance.drivesList.SelectedIndex = 0;
+                            }
                             (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
                             TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), (type as GenericFileBrowser).instanceViewModel.Universal.path, new SuppressNavigationTransitionInfo());
                         }
