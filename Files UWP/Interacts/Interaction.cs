@@ -43,16 +43,13 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[index];
-                    // Write location to recents file
-                    StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
-                    var existingLines = (await FileIO.ReadLinesAsync(RecentsFile));
-                    if (existingLines != null && !existingLines.Contains(clickedOnItem.FilePath))
-                    {
-                        await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
-                    }
+                    // Access MRU List
+                    var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
                     if (clickedOnItem.FileType == "Folder")
                     {
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
                         var TabInstance = CurrentInstance;
                         (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
                         TabInstance.PathText.Text = clickedOnItem.FilePath;
@@ -111,11 +108,15 @@ namespace Files.Interacts
                     }
                     else if (clickedOnItem.FileType == "Application")
                     {
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
                         await LaunchExe(clickedOnItem.FilePath);
                     }
                     else
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(file);
                         var options = new LauncherOptions
                         {
                             DisplayApplicationPicker = false
@@ -132,16 +133,14 @@ namespace Files.Interacts
                 if (index > -1)
                 {
                     var clickedOnItem = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[index];
-                    // Write location to recents file
-                    StorageFile RecentsFile = await YourHome.dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
-                    var existingLines = (await FileIO.ReadLinesAsync(RecentsFile));
-                    if (existingLines != null && !existingLines.Contains(clickedOnItem.FilePath))
-                    {
-                        await FileIO.AppendTextAsync(RecentsFile, clickedOnItem.FilePath + "\n");
-                    }
+                    // Access MRU List
+                    var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
                     if (clickedOnItem.FileType == "Folder")
                     {
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
+
                         var TabInstance = CurrentInstance;
                         (type as PhotoAlbum).instanceViewModel.Universal.path = clickedOnItem.FilePath;
                         TabInstance.PathText.Text = clickedOnItem.FilePath;
@@ -199,11 +198,15 @@ namespace Files.Interacts
                     }
                     else if (clickedOnItem.FileType == "Application")
                     {
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
                         await LaunchExe(clickedOnItem.FilePath);
                     }
                     else
                     {
                         StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(file);
                         var options = new LauncherOptions
                         {
                             DisplayApplicationPicker = false
