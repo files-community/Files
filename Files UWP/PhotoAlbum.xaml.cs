@@ -19,6 +19,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Controls.Primitives;
+using System.Windows.Input;
+using Microsoft.Xaml.Interactions.Core;
+using Microsoft.Xaml.Interactivity;
 
 namespace Files
 {
@@ -52,7 +55,6 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             instanceViewModel = new ItemViewModel<PhotoAlbum>(this, null);
             instanceInteraction = new Interaction<PhotoAlbum>(this);
-            //gv.ItemsSource = instanceViewModel.FilesAndFolders;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -220,14 +222,23 @@ namespace Files
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            //ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)FileList.ItemsSource)[(int)(sender as StackPanel).Tag];
+            var parentContainer = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            foreach (ListedItem listedItem in FileList.SelectedItems)
+            {
+                if (FileList.IndexFromContainer(parentContainer) == listedItem.RowIndex)
+                {
+                    return;
+                }
+            }
+            // The following code is only reachable when a user RightTapped an unselected row
+            FileList.SelectedItems.Clear();
+            FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
         private void FileList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             try
             {
-                Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
                 var ItemPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
                 List<StackPanel> stackPanels = new List<StackPanel>();
                 Interaction<PhotoAlbum>.FindChildren<StackPanel>(stackPanels, ItemPressed);
@@ -250,6 +261,7 @@ namespace Files
             }
 
         }
+
 
         private void FileList_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
         {
