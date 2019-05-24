@@ -14,7 +14,6 @@ using Windows.UI.Core;
 
 namespace Files
 {
-
     public sealed partial class GenericFileBrowser : Page
     {
         public TextBlock emptyTextGFB;
@@ -48,18 +47,7 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-            instanceViewModel = new ItemViewModel<GenericFileBrowser>(this, null);
-            instanceInteraction = new Interaction<GenericFileBrowser>(this);
-            PasteEmptySpace.Click += instanceInteraction.PasteItem_ClickAsync;
-            data.ItemsSource = instanceViewModel.FilesAndFolders;
-            OpenItem.Click += instanceInteraction.OpenItem_Click;
-            ShareItem.Click += instanceInteraction.ShareItem_Click;
-            DeleteItem.Click += instanceInteraction.DeleteItem_Click;
-            RenameItem.Click += instanceInteraction.RenameItem_Click;
-            CutItem.Click += instanceInteraction.CutItem_Click;
-            CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
-            AllView.RightTapped += instanceInteraction.AllView_RightTapped;
-            AllView.DoubleTapped += instanceInteraction.List_ItemClick;
+            
         }
 
         private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
@@ -97,6 +85,19 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            instanceViewModel = new ItemViewModel<GenericFileBrowser>();
+            instanceInteraction = new Interaction<GenericFileBrowser>();
+            PasteEmptySpace.Click += instanceInteraction.PasteItem_ClickAsync;
+            data.ItemsSource = instanceViewModel.FilesAndFolders;
+            OpenItem.Click += instanceInteraction.OpenItem_Click;
+            ShareItem.Click += instanceInteraction.ShareItem_Click;
+            DeleteItem.Click += instanceInteraction.DeleteItem_Click;
+            RenameItem.Click += instanceInteraction.RenameItem_Click;
+            CutItem.Click += instanceInteraction.CutItem_Click;
+            CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
+            AllView.RightTapped += instanceInteraction.AllView_RightTapped;
+            AllView.DoubleTapped += instanceInteraction.List_ItemClick;
+
             var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
@@ -107,8 +108,10 @@ namespace Files
             instanceViewModel.CancelLoadAndClearFiles();
             instanceViewModel.Universal.path = parameters;
             CurrentInstance.AddItemButton.Click += AddItem_Click;
+
+            TextState.isVisible = Visibility.Collapsed;
+
             instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path, this);
-            TextState_PropertyChanged(null, null);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 CurrentInstance.PathText.Text = "Desktop";
@@ -157,7 +160,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+            //instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
         }
 
 
@@ -274,11 +277,6 @@ namespace Files
         private void AllView_DragLeave(object sender, DragEventArgs e)
         {
             
-        }
-
-        internal void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            TextState.isVisible = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible;
         }
     }
 

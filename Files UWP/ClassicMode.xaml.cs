@@ -17,8 +17,8 @@ namespace Files
         public ClassicMode()
         {
             this.InitializeComponent();
-            instanceViewModel = new ItemViewModel<ClassicMode>(this, null);
-            instanceInteraction = new Interaction<ClassicMode>(this);
+            instanceViewModel = new ItemViewModel<ClassicMode>();
+            instanceInteraction = new Interaction<ClassicMode>();
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             Window.Current.SetTitleBar(DragArea);
             CoreTitleBar.ExtendViewIntoTitleBar = true;

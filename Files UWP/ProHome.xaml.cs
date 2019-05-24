@@ -49,7 +49,6 @@ namespace Files
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         public TeachingTip RibbonTeachingTip;
 
-        public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
         public BackState BS { get; set; } = new BackState();
         public ForwardState FS { get; set; } = new ForwardState();
         public DisplayedPathText PathText { get; set; } = new DisplayedPathText();
@@ -195,6 +194,7 @@ namespace Files
                 instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
+
                 if (CurrentInput == "Favorites" || CurrentInput == "favorites")
                 {
                     this.accessibleContentFrame.Navigate(typeof(YourHome));
@@ -203,64 +203,45 @@ namespace Files
                 }
                 else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                     PathText.Text = "Desktop";
                     LayoutItems.isEnabled = true;
-
                 }
                 else if (CurrentInput == "Documents" || CurrentInput == "documents")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                     PathText.Text = "Documents";
                     LayoutItems.isEnabled = true;
-
-
                 }
                 else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                     PathText.Text = "Downloads";
                     LayoutItems.isEnabled = true;
-
-
                 }
                 else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                     PathText.Text = "Pictures";
                     LayoutItems.isEnabled = true;
-
                 }
                 else if (CurrentInput == "Music" || CurrentInput == "music")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                     PathText.Text = "Music";
                     LayoutItems.isEnabled = true;
-
-
                 }
                 else if (CurrentInput == "Videos" || CurrentInput == "videos")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                     PathText.Text = "Videos";
                     LayoutItems.isEnabled = true;
-
-
                 }
                 else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
                 {
-                    TextState.isVisible = Visibility.Collapsed;
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     PathText.Text = "OneDrive";
                     LayoutItems.isEnabled = true;
-
-
                 }
                 else
                 {
@@ -292,7 +273,6 @@ namespace Files
                             try
                             {
                                 await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                TextState.isVisible = Visibility.Collapsed;
                                 this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
                             }
                             catch (ArgumentException)
@@ -348,7 +328,6 @@ namespace Files
                         try
                         {
                             await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                            TextState.isVisible = Visibility.Collapsed;
                             this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
                             LayoutItems.isEnabled = true;
                         }
@@ -606,8 +585,7 @@ namespace Files
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(Settings));
+            InstanceTabsView.AddNewTab(typeof(Settings), "Settings");
         }
 
         private void CutButton_Click(object sender, RoutedEventArgs e)
@@ -788,17 +766,6 @@ namespace Files
 
         }
 
-        private void ItemDisplayFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
-        {
-            if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                TextState.PropertyChanged += (accessibleContentFrame.Content as GenericFileBrowser).TextState_PropertyChanged;
-            }
-            else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                TextState.PropertyChanged += (accessibleContentFrame.Content as PhotoAlbum).TextState_PropertyChanged;
-            }
-        }
     }
     public class NavigationActions
     {

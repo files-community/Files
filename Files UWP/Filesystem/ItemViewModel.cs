@@ -48,7 +48,7 @@ namespace Files.Filesystem
 
         private const int _step = 250;
 
-        public ItemViewModel(PageType typeOfPage, Type pageTypeAlt)
+        public ItemViewModel()
         {
             
             _filesAndFolders = new ObservableCollection<ListedItem>();
@@ -58,29 +58,23 @@ namespace Files.Filesystem
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
             ClassicFileList = new ReadOnlyObservableCollection<ListedItem>(_classicFileList);
             ClassicFolderList = new ReadOnlyObservableCollection<Classic_ListedFolderItem>(_classicFolderList);
-            if(typeOfPage != null)
+            if(typeof(PageType) == typeof(GenericFileBrowser))
             {
-                if (typeof(PageType) == typeof(GenericFileBrowser))
-                {
-                    (typeOfPage as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                }
-                else if (typeof(PageType) == typeof(PhotoAlbum))
-                {
-                    (typeOfPage as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                }
+                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
             }
-            else
+            else if(typeof(PageType) == typeof(PhotoAlbum))
             {
-                if (typeof(PageType) == typeof(AddItem))
+                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+            }
+            else if(typeof(PageType) == typeof(AddItem))
+            {
+                if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
                 {
-                    if(pageTypeAlt == typeof(GenericFileBrowser))
-                    {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                    }
-                    else if(pageTypeAlt == typeof(PhotoAlbum))
-                    {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                    }
+                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                }
+                else if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                {
+                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
             }
 
@@ -214,7 +208,16 @@ namespace Files.Filesystem
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible = Visibility.Collapsed;
+            //GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible = Visibility.Collapsed;
+            if (typeof(PageType) == typeof(GenericFileBrowser))
+            {
+                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
+            }
+            else if (typeof(PageType) == typeof(PhotoAlbum))
+            {
+                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
+            }
+
             _filesAndFolders.Clear();
             Universal.path = path;
 
@@ -345,7 +348,14 @@ namespace Files.Filesystem
                 }
                 if (numFiles + numFolders == 0)
                 {
-                    GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible = Visibility.Visible;
+                    if (typeof(PageType) == typeof(GenericFileBrowser))
+                    {
+                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
+                    }
+                    else if (typeof(PageType) == typeof(PhotoAlbum))
+                    {
+                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
+                    }
                 }
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");

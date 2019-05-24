@@ -53,21 +53,23 @@ namespace Files
             progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            instanceViewModel = new ItemViewModel<PhotoAlbum>(this, null);
-            instanceInteraction = new Interaction<PhotoAlbum>(this);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            instanceViewModel = new ItemViewModel<PhotoAlbum>();
+            instanceInteraction = new Interaction<PhotoAlbum>();
             var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
             ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
             var parameters = eventArgs.Parameter.ToString();
+
+            TextState.isVisible = Visibility.Collapsed;
+            
             instanceViewModel.AddItemsToCollectionAsync(parameters, this);
-            TextState_PropertyChanged(null, null);
             FileList.DoubleTapped += instanceInteraction.List_ItemClick;
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
@@ -116,7 +118,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+            //instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -219,12 +221,6 @@ namespace Files
             ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text, new SuppressNavigationTransitionInfo());
             await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
         }
-
-        internal void TextState_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            TextState.isVisible = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible;
-        }
-
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {

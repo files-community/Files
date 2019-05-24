@@ -14,9 +14,9 @@
                 <TextBlock x:Name="Header" Text="Preferences" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <Grid Name="CustomLibraries">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock FontSize="24" Text="Custom Locations - In Development"/>
+                        <TextBlock FontSize="20" Text="Custom Locations"/>
                         <TextBlock Text="Replaces common locations with those of your choice"/>
-                        <ToggleSwitch IsEnabled="False" Toggled="ToggleSwitch_Toggled" Name="CustomLocationToggle" VerticalAlignment="Top"/>
+                        <ToggleSwitch IsEnabled="True" Toggled="ToggleSwitch_Toggled" Name="CustomLocationToggle" VerticalAlignment="Top"/>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Downloads" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
                             <TextBox Name="DownloadsL" PlaceholderText="Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
@@ -41,13 +41,6 @@
                             <Button Content="Save Locations" Name="SaveCustomL" HorizontalAlignment="Left" Click="SaveCustomL_Click" />
                             <FontIcon Glyph="&#xE73E;" Name="SuccessMark" Margin="25,0,0,0"/>
                         </StackPanel>
-                    </StackPanel>
-                </Grid>
-                <Grid Visibility="Collapsed" Name="AutoRefreshSetting">
-                    <StackPanel Orientation="Vertical" Spacing="5">
-                        <TextBlock FontSize="24" Text="Smart Refresh Beta"/>
-                        <TextBlock Text="Files will check to see if changes have been made to the current folder and automatically refresh when necessary. This may cause increased resource usage." HorizontalAlignment="Stretch" TextWrapping="WrapWholeWords"/>
-                        <ToggleSwitch Name="AutoRefreshSwitch" Toggled="AutoRefreshSwitch_Toggled"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

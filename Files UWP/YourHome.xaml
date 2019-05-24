@@ -8,7 +8,7 @@
     xmlns:list="using:Locations"
     xmlns:local="using:Files"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    mc:Ignorable="d" NavigationCacheMode="Disabled">
+    mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <RevealBackgroundBrush x:Key="CardHoverBackground" TargetTheme="Dark" />
         <Style x:Key="CardStyle" TargetType="Button">

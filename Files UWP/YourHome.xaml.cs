@@ -35,12 +35,8 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-            instanceViewModel = new ItemViewModel<YourHome>(this, null);
-            instanceInteraction = new Interaction<YourHome>(this);
-            Locations.ItemLoader.itemsAdded.Clear();
-            Locations.ItemLoader.DisplayItems();
-            recentItemsCollection.Clear();
-            PopulateRecentsList();
+            instanceViewModel = new ItemViewModel<YourHome>();
+            instanceInteraction = new Interaction<YourHome>();
             GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
 
         }
@@ -61,6 +57,10 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            Locations.ItemLoader.itemsAdded.Clear();
+            Locations.ItemLoader.DisplayItems();
+            recentItemsCollection.Clear();
+            PopulateRecentsList();
             InstanceTabsView.SetSelectedTabHeader("Favorites");
             GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
             GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;

@@ -18,7 +18,7 @@ namespace Files
     public sealed partial class InstanceTabsView : Page
     {
         public static TabView tabView;
-        public static List<Type> types = new List<Type>();
+        public List<Type> types = new List<Type>();
         public InstanceTabsView()
         {
             this.InitializeComponent();
@@ -66,14 +66,21 @@ namespace Files
             //RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
         }
 
-        public void AddNewTab(Type t, string path)
+        public static void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
             frame.Navigate(t, path);
             string TabLocationHeader;
             if (path != null)
             {
-                TabLocationHeader = Path.GetDirectoryName(path);
+                if (path == "Settings")
+                {
+                    TabLocationHeader = "Settings";
+                }
+                else
+                {
+                    TabLocationHeader = Path.GetDirectoryName(path);
+                }
             }
             else
             {
@@ -91,20 +98,13 @@ namespace Files
                 Width = 200,
                 BorderThickness = new Thickness(0)
             };
-            tvi.Loaded += Tvi_Loaded;
-            TabStrip.Items.Add(tvi);
+            tabView.Items.Add(tvi);
 
         }
 
         public static void SetSelectedTabHeader(string text)
         {
             (tabView.Items[tabView.SelectedIndex] as TabViewItem).Header = text;
-        }
-
-        private void Tvi_Loaded(object sender, RoutedEventArgs e)
-        {
-            //tabContentPresenter.Content = ((TabStrip.SelectedItem as TabViewItem));
-            TabStrip.SelectionChanged += TabStrip_SelectionChanged;
         }
 
         private void NewTabButton_Click(object sender, RoutedEventArgs e)
@@ -116,12 +116,6 @@ namespace Files
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
             Window.Current.SetTitleBar(sender as Grid);
-        }
-
-        private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //var g = ((TabStrip.SelectedItem as TabViewItem)).Content as DependencyObject;
-            //tabContentView.Content = g;
         }
 
         private void TabStrip_TabClosing(object sender, TabClosingEventArgs e)

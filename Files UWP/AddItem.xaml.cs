@@ -30,11 +30,11 @@ namespace Files
             var parameters = eventArgs.Parameter;
             if (parameters.GetType() == typeof(GenericFileBrowser))
             {
-                instanceViewModel = new ItemViewModel<AddItem>(null, typeof(GenericFileBrowser));
+                instanceViewModel = new ItemViewModel<AddItem>();
             }
             else if (parameters.GetType() == typeof(PhotoAlbum))
             {
-                instanceViewModel = new ItemViewModel<AddItem>(null, typeof(PhotoAlbum));
+                instanceViewModel = new ItemViewModel<AddItem>();
             }
         }
 
