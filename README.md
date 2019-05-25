@@ -1,7 +1,3 @@
 <h1>Files UWP</h1>
-<h3>Meet Files, a brand-new file manager for Windows 10.</h3>
-<img src="Files UWP/Assets/FilesHome.jpg" width="800px">
-<img src="Files UWP/Assets/FilesDrive.jpg" width="800px">
-<p>Created from the ground up to look and feel amazing, Files is built to replace the outdated Windows File Explorer.</p>
-<a href="https://youtu.be/1wSA8PYKhpA?t=124">Link to old sideloading help video</a>
-
+<h4>Welcome!</h4>
+<p>All new work is currently being done on the newui branch, so the designs in this branch are completely outdated. Expect these to go away soon.</p>
