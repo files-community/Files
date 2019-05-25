@@ -160,16 +160,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\abstract_HeroImage.jpg" />
-    <Content Include="Assets\Cards\Gradients\Blue.png" />
-    <Content Include="Assets\Cards\Gradients\Green.png" />
-    <Content Include="Assets\Cards\Gradients\Orange.png" />
-    <Content Include="Assets\Cards\Gradients\Pink.png" />
-    <Content Include="Assets\Cards\Gradients\Red.png" />
-    <Content Include="Assets\FilesDrive.jpg" />
-    <Content Include="Assets\FilesHome.jpg" />
+    <Content Include="Assets\FilesHome.png" />
+    <Content Include="Assets\FilesDrive.png" />
     <Content Include="Assets\logo.bmp" />
-    <Content Include="Assets\PathbarTeachingTipVisual.gif" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
