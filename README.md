@@ -1,7 +1,4 @@
 <h1>Files UWP</h1>
-<h3>Meet Files, a brand-new file manager for Windows 10.</h3>
-<img src="Files UWP/Assets/FilesHome.jpg" width="800px">
-<img src="Files UWP/Assets/FilesDrive.jpg" width="800px">
-<p>Created from the ground up to look and feel amazing, Files is built to replace the outdated Windows File Explorer.</p>
-<a href="https://youtu.be/1wSA8PYKhpA?t=124">Link to old sideloading help video</a>
-
+<p>Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should</b> be.</p>
+<img src="Files UWP/Assets/FilesHome.png" width="600px">
+<img src="Files UWP/Assets/FilesDrive.png" width="600px">
