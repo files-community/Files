@@ -160,7 +160,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            //instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+            instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
         }
 
 

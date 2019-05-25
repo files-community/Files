@@ -118,7 +118,7 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            //instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+            instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
         }
 
         private void Clipboard_ContentChanged(object sender, object e)

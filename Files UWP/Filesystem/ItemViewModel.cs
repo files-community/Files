@@ -185,7 +185,9 @@ namespace Files.Filesystem
 
         public static T GetCurrentSelectedTabInstance<T>()
         {
-            var selectedTabContent = ((InstanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            var selectedTabContent = ((instanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
@@ -203,7 +205,9 @@ namespace Files.Filesystem
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
         {
-            InstanceTabsView.SetSelectedTabHeader(new DirectoryInfo(path).Name);
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.SetSelectedTabHeader(new DirectoryInfo(path).Name);
             CancelLoadAndClearFiles();
 
             _cancellationTokenSource = new CancellationTokenSource();
@@ -376,10 +380,10 @@ namespace Files.Filesystem
             }
             catch (COMException e)
             {
-                Frame rootFrame = Window.Current.Content as Frame;
+                Frame rootContentFrame = Window.Current.Content as Frame;
                 MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
                 await driveGone.ShowAsync();
-                rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                rootContentFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                 return;
             }
 

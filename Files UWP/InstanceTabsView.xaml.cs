@@ -17,7 +17,7 @@ namespace Files
     /// </summary>
     public sealed partial class InstanceTabsView : Page
     {
-        public static TabView tabView;
+        public TabView tabView;
         public List<Type> types = new List<Type>();
         public InstanceTabsView()
         {
@@ -65,8 +65,8 @@ namespace Files
             //LeftPaddingColumn.Width = new GridLength((TabStrip.Items.Count * 150) + 32);
             //RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
         }
-
-        public static void AddNewTab(Type t, string path)
+        
+        public void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
             frame.Navigate(t, path);
@@ -99,10 +99,9 @@ namespace Files
                 BorderThickness = new Thickness(0)
             };
             tabView.Items.Add(tvi);
-
         }
 
-        public static void SetSelectedTabHeader(string text)
+        public void SetSelectedTabHeader(string text)
         {
             (tabView.Items[tabView.SelectedIndex] as TabViewItem).Header = text;
         }
@@ -120,6 +119,7 @@ namespace Files
 
         private void TabStrip_TabClosing(object sender, TabClosingEventArgs e)
         {
+            e.Tab.Content = null;
             if(TabStrip.Items.Count == 1)
             {
                 AddNewTab(typeof(ProHome), null);

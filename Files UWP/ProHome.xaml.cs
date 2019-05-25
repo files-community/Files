@@ -585,7 +585,9 @@ namespace Files
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            InstanceTabsView.AddNewTab(typeof(Settings), "Settings");
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.AddNewTab(typeof(Settings), "Settings");
         }
 
         private void CutButton_Click(object sender, RoutedEventArgs e)
