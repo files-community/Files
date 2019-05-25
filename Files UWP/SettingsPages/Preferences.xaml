@@ -8,10 +8,9 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="24,24,24,0">
+    <Grid Padding="24,24,0,0">
         <ScrollViewer>
             <StackPanel Spacing="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock x:Name="Header" Text="Preferences" Margin="0,0,0,0" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
                 <Grid Name="CustomLibraries">
                     <StackPanel Orientation="Vertical">
                         <TextBlock FontSize="20" Text="Custom Locations"/>
