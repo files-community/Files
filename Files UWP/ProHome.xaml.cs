@@ -3,6 +3,7 @@ using Files.Interacts;
 using Files.Navigation;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -79,6 +80,8 @@ namespace Files
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
             RibbonTeachingTip = RibbonTip;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            PopulatePinnedSidebarItems();
             PopulateNavViewWithExternalDrives();
             BackButton.Click += NavigationActions.Back_Click;
             ForwardButton.Click += NavigationActions.Forward_Click;
@@ -90,7 +93,6 @@ namespace Files
             }
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             if (localSettings.Values["customLocationsSetting"].Equals(true))
             {
                 DesktopPath = localSettings.Values["DesktopLocation"].ToString();
@@ -101,6 +103,127 @@ namespace Files
                 VideosPath = localSettings.Values["VideosLocation"].ToString();
             }
 
+        }
+
+        List<string> LinesToRemoveFromFile = new List<string>();
+
+        public async void PopulatePinnedSidebarItems()
+        {
+            StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            if(ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string s in ListFileLines)
+                {
+                    try
+                    {
+                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(s);
+                        var name = fol.DisplayName;
+                        var content = name;
+                        var icon = "\uE8B7";
+
+                        FontFamily fontFamily = new FontFamily("Segoe MDL2 Assets");
+                        FontIcon fontIcon = new FontIcon()
+                        {
+                            FontSize = 16,
+                            FontFamily = fontFamily,
+                            Glyph = icon
+                        };
+
+                        TextBlock text = new TextBlock()
+                        {
+                            Text = content,
+                            FontSize = 12
+                        };
+
+                        StackPanel stackPanel = new StackPanel()
+                        {
+                            Spacing = 15,
+                            Orientation = Orientation.Horizontal
+                        };
+
+                        stackPanel.Children.Add(fontIcon);
+                        stackPanel.Children.Add(text);
+                        MenuFlyout flyout = new MenuFlyout();
+                        MenuFlyoutItem flyoutItem = new MenuFlyoutItem()
+                        {
+                            Text = "Unpin item"
+                        };
+                        flyoutItem.Click += FlyoutItem_Click;
+                        flyout.Items.Add(flyoutItem);
+                        bool isDuplicate = false;
+                        foreach (ListViewItem lvi in LocationsList.Items)
+                        {
+                            if (lvi.Tag.ToString() == s)
+                            {
+                                isDuplicate = true;
+
+                            }
+                        }
+
+                        if (!isDuplicate)
+                        {
+                            ListViewItem newItem = new ListViewItem();
+                            newItem.Content = stackPanel;
+                            newItem.Tag = s;
+                            newItem.ContextFlyout = flyout;
+                            newItem.IsRightTapEnabled = true;
+                            newItem.RightTapped += NewItem_RightTapped;
+                            LocationsList.Items.Add(newItem);
+                        }
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(s);
+                    }
+                    catch (System.Runtime.InteropServices.COMException e)
+                    {
+                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(s);
+                    }
+                }
+
+                foreach (string path in LinesToRemoveFromFile)
+                {
+                    ListFileLines.Remove(path);
+                }
+                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
+                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+
+                // Remove unpinned items from sidebar
+                foreach (ListViewItem location in LocationsList.Items)
+                {
+                    if (!(location.Tag.ToString() == "Favorites" || location.Tag.ToString() == "Desktop" || location.Tag.ToString() == "Documents" || location.Tag.ToString() == "Downloads" || location.Tag.ToString() == "Pictures" || location.Tag.ToString() == "Music" || location.Tag.ToString() == "Videos"))
+                    {
+
+                        if (!ListFileLines.Contains(location.Tag.ToString()))
+                        {
+                            if(LocationsList.SelectedItem == location)
+                            {
+                                LocationsList.SelectedIndex = 0;
+                                accessibleContentFrame.Navigate(typeof(YourHome));
+                                PathText.Text = "Favorites";
+                                LayoutItems.isEnabled = false;
+                            }
+                            LocationsList.Items.Remove(location);
+                        }
+                    }
+                }
+                LinesToRemoveFromFile.Clear();
+            }
+        }
+
+        ListViewItem rightClickedItem;
+
+        private void NewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            rightClickedItem = sender as ListViewItem;
         }
 
         public async void PopulateNavViewWithExternalDrives()
@@ -166,6 +289,22 @@ namespace Files
                     Debug.WriteLine(e.Message);
                 }
             });
+        }
+
+        private async void FlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+            foreach (string s in ListFileLines)
+            {
+                if(s == rightClickedItem.Tag.ToString())
+                {
+                    LinesToRemoveFromFile.Add(s);
+                    PopulatePinnedSidebarItems();
+                    return;
+                }
+            }
         }
 
         private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -458,6 +597,20 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                 PathText.Text = "Videos";
+                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                HomeItems.isEnabled = false;
+                ShareItems.isEnabled = false;
+                if (DrivesList.SelectedItem != null)
+                {
+                    DrivesList.SelectedItem = null;
+                    LayoutItems.isEnabled = false;
+                }
+                LayoutItems.isEnabled = true;
+            }
+            else
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag);
+                PathText.Text = clickedItem.Tag.ToString();
                 instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;

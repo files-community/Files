@@ -246,6 +246,36 @@ namespace Files.Interacts
 
         }
 
+        public async void PinItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (typeof(PageType) == typeof(GenericFileBrowser))
+            {
+                var selectedDataItem = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[(type as GenericFileBrowser).AllView.SelectedIndex];
+                StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+
+                try
+                {
+                    List<string> items = new List<string>();
+                    items.Add(selectedDataItem.FilePath);
+                    var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+                    await FileIO.AppendLinesAsync(ListFile, items);
+                }
+                catch (FileNotFoundException)
+                {
+                    List<string> items = new List<string>();
+                    items.Add(selectedDataItem.FilePath);
+                    var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+                    await FileIO.WriteLinesAsync(createdListFile, items);
+                } 
+            }
+            else if(typeof(PageType) == typeof(PhotoAlbum))
+            {
+
+            }
+            var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+            CurrentInstance.PopulatePinnedSidebarItems();
+        }
+
         public void GetPath_Click(object sender, RoutedEventArgs e)
         {
             Clipboard.Clear();

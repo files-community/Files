@@ -95,6 +95,7 @@ namespace Files
             RenameItem.Click += instanceInteraction.RenameItem_Click;
             CutItem.Click += instanceInteraction.CutItem_Click;
             CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
+            SidebarPinItem.Click += instanceInteraction.PinItem_Click;
             AllView.RightTapped += instanceInteraction.AllView_RightTapped;
             AllView.DoubleTapped += instanceInteraction.List_ItemClick;
 
@@ -277,6 +278,19 @@ namespace Files
         private void AllView_DragLeave(object sender, DragEventArgs e)
         {
             
+        }
+
+        private void RightClickContextMenu_Opened(object sender, object e)
+        {
+            var selectedDataItem = instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
+            if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
+            {
+                SidebarPinItem.IsEnabled = false;
+            }
+            else if (selectedDataItem.FileType == "Folder")
+            {
+                SidebarPinItem.IsEnabled = true;
+            }
         }
     }
 
