@@ -410,7 +410,7 @@
                 <Style TargetType="GridViewItem">
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
-                            <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                            <MenuFlyout Opened="RightClickContextMenu_Opened" x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                     <MenuFlyout.Items>
                                         <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
                                             <MenuFlyoutItem.Icon>
@@ -439,14 +439,19 @@
                                                 <FontIcon Glyph="&#xE8C6;"/>
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
-                                        <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" Name="CopyItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8C8;"/>
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
+                                    <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" Name="CopyItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8C8;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem Text="Pin to sidebar" Name="SidebarPinItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <SymbolIcon Symbol="Pin"/>
+                                        </MenuFlyoutItem.Icon>
 
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" Name="PropertiesItem">
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" Name="PropertiesItem">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE946;"/>
                                             </MenuFlyoutItem.Icon>

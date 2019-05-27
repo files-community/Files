@@ -65,6 +65,7 @@ namespace Files
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
             ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
+            SidebarPinItem.Click += instanceInteraction.PinItem_Click;
             var parameters = eventArgs.Parameter.ToString();
 
             TextState.isVisible = Visibility.Collapsed;
@@ -259,6 +260,19 @@ namespace Files
             {
                 ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
                 ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+            }
+        }
+
+        private void RightClickContextMenu_Opened(object sender, object e)
+        {
+            var selectedDataItem = instanceViewModel.FilesAndFolders[gv.SelectedIndex];
+            if (selectedDataItem.FileType != "Folder" || gv.SelectedItems.Count > 1)
+            {
+                SidebarPinItem.IsEnabled = false;
+            }
+            else if (selectedDataItem.FileType == "Folder")
+            {
+                SidebarPinItem.IsEnabled = true;
             }
         }
     }

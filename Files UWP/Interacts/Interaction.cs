@@ -270,7 +270,23 @@ namespace Files.Interacts
             }
             else if(typeof(PageType) == typeof(PhotoAlbum))
             {
+                var selectedDataItem = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[(type as PhotoAlbum).gv.SelectedIndex];
+                StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
 
+                try
+                {
+                    List<string> items = new List<string>();
+                    items.Add(selectedDataItem.FilePath);
+                    var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+                    await FileIO.AppendLinesAsync(ListFile, items);
+                }
+                catch (FileNotFoundException)
+                {
+                    List<string> items = new List<string>();
+                    items.Add(selectedDataItem.FilePath);
+                    var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+                    await FileIO.WriteLinesAsync(createdListFile, items);
+                }
             }
             var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
             CurrentInstance.PopulatePinnedSidebarItems();
