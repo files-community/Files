@@ -99,6 +99,7 @@ namespace Files
                 BorderThickness = new Thickness(0)
             };
             tabView.Items.Add(tvi);
+            TabStrip.SelectedItem = TabStrip.Items[TabStrip.Items.Count - 1];
         }
 
         public void SetSelectedTabHeader(string text)
@@ -109,7 +110,6 @@ namespace Files
         private void NewTabButton_Click(object sender, RoutedEventArgs e)
         {
             AddNewTab(typeof(ProHome), null);
-            TabStrip.SelectedItem = TabStrip.Items[TabStrip.Items.Count - 1];
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
@@ -122,7 +122,7 @@ namespace Files
             e.Tab.Content = null;
             if(TabStrip.Items.Count == 1)
             {
-                AddNewTab(typeof(ProHome), null);
+                CoreApplication.Exit();
             }
         }
     }
