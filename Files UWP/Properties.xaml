@@ -6,9 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     x:Class="Files.Properties"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="400" Height="450">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemChromeLowColor}"/>
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemChromeLowColor}"/>
@@ -338,6 +339,12 @@
                 </Custom:TabViewItem.Icon>
             </Custom:TabViewItem>
         </Custom:TabView>
+            
+        <StackPanel HorizontalAlignment="Center" Spacing="5" Padding="10" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Foreground="White" Background="#0078d4" Windows10version1809:CornerRadius="2" Width="120" Content="OK" HorizontalAlignment="Stretch" />
+            <Button Windows10version1809:CornerRadius="2" Width="120" Content="Apply" HorizontalAlignment="Stretch" />
+            <Button x:Name="CancelButton" Windows10version1809:CornerRadius="2" Width="120" Content="Cancel" HorizontalAlignment="Stretch" />
 
+        </StackPanel>
     </Grid>
 </Page>

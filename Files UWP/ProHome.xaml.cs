@@ -8,12 +8,15 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -104,6 +107,8 @@ namespace Files
             }
 
         }
+
+
 
         List<string> LinesToRemoveFromFile = new List<string>();
 
@@ -891,20 +896,40 @@ namespace Files
         {
             inputForRename = null;
         }
-
+        //AppWindow propertiesWindow;
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                propertiesFrame.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+
+                //if (ApiInformation.IsTypePresent("Windows.UI.WindowManagement.AppWindow"))
+                //{
+                //    propertiesWindow = await AppWindow.TryCreateAsync();
+                //    Frame propertiesWindowContent = new Frame();
+                //    propertiesWindowContent.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+                //    ElementCompositionPreview.SetAppWindowContent(propertiesWindow, propertiesWindowContent);
+                //    propertiesWindow.Title = "Properties";
+                //    await propertiesWindow.TryShowAsync();
+
+                //}
+                //else
+                //{
+
+                //}
+
+                
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 propertiesFrame.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
             }
-            await PropertiesDialog.ShowAsync();
 
+        }
+
+        public void PropertiesWindow_CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            //propertiesWindow.RequestSize(new Windows.Foundation.Size(200, 450));
         }
 
         private void RibbonTip_Loaded(object sender, RoutedEventArgs e)

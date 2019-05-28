@@ -617,16 +617,14 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <AppBarButton Icon="Back" LabelPosition="Collapsed" x:Name="Back">
-
                             <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Control" Key="Left"/>
+                                <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
 
                         <AppBarButton Icon="Forward" LabelPosition="Collapsed" x:Name="Forward">
-
                             <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Control" Key="Right"/>
+                                <KeyboardAccelerator Modifiers="Menu" Key="Right"/>
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
 
@@ -646,7 +644,11 @@
                     </TextBox>
 
                     <StackPanel Margin="0,0,5,0" Grid.Column="2" Orientation="Horizontal">
-                        <TextBox Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="5,0,0,5" BorderThickness="1" Margin="0,5,0,5" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260"/>
+                        <TextBox Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="5,0,0,5" BorderThickness="1" Margin="0,5,0,5" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260">
+                            <TextBox.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="F"/>
+                            </TextBox.KeyboardAccelerators>
+                        </TextBox>
                         <Button BorderBrush="{StaticResource SystemAccentColor}" Width="35" BorderThickness="1" Margin="0,5,0,5.5" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,5,5,0" Background="{StaticResource SystemAccentColor}">
                             <FontIcon FontSize="12" Foreground="White" Glyph="&#xEBE7;"/>
                         </Button>

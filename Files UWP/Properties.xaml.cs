@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Files.Filesystem;
+using Files.Interacts;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,14 +27,10 @@ namespace Files
         public Properties()
         {
             this.InitializeComponent();
+            CancelButton.Click += ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().PropertiesWindow_CancelButton_Click;
         }
 
         private void OK_Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
