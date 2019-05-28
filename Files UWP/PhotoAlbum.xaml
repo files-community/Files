@@ -392,6 +392,9 @@
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE77F;"/>
                         </MenuFlyoutItem.Icon>
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers="Control" Key="V"/>
+                        </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator/>
                     <MenuFlyoutItem Click="PropertiesItemGrid_Click" Text="Properties" Name="PropertiesItemGrid">
@@ -421,28 +424,43 @@
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE72D;"/>
                                             </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
                                         <MenuFlyoutSeparator/>
                                         <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" Name="DeleteItem" >
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE74D;"/>
                                             </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Delete"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
                                         <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" Name="RenameItem" >
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE8AC;"/>
                                             </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="F2"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
                                         <MenuFlyoutSeparator/>
                                         <MenuFlyoutItem Click="CutItem_Click" Text="Cut" Name="CutItem" >
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Glyph="&#xE8C6;"/>
                                             </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="X"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" Name="CopyItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8C8;"/>
                                         </MenuFlyoutItem.Icon>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
                                     <MenuFlyoutItem Text="Pin to sidebar" Name="SidebarPinItem">
