@@ -386,6 +386,14 @@ namespace Files.Filesystem
                 rootContentFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                 return;
             }
+            catch (FileNotFoundException)
+            {
+                Frame rootContentFrame = Window.Current.Content as Frame;
+                MessageDialog folderGone = new MessageDialog("The folder you've navigated to was removed.", "Did you delete this folder?");
+                await folderGone.ShowAsync();
+                rootContentFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                return;
+            }
 
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
