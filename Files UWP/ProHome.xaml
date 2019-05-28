@@ -560,7 +560,11 @@
                                     <AppBarSeparator/>
                                     <AppBarButton Click="DeleteButton_Click" Name="DeleteButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
                                     <AppBarButton Click="RenameButton_Click" Name="RenameButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
-                                    <AppBarButton Click="AddItem_Click" Name="addItemButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add"/>
+                                    <AppBarButton Click="AddItem_Click" Name="addItemButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add">
+                                        <AppBarButton.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control, Shift"  Key="N"/>
+                                        </AppBarButton.KeyboardAccelerators>
+                                    </AppBarButton>
                                     <AppBarSeparator/>
                                     <AppBarButton Click="ShowPropertiesButton_Click" Name="ShowPropertiesButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
                                         <AppBarButton.Icon>
@@ -619,12 +623,14 @@
                         <AppBarButton Icon="Back" LabelPosition="Collapsed" x:Name="Back">
                             <AppBarButton.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
+                                <KeyboardAccelerator Key="XButton1"/>
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
 
                         <AppBarButton Icon="Forward" LabelPosition="Collapsed" x:Name="Forward">
                             <AppBarButton.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Right"/>
+                                <KeyboardAccelerator Key="XButton2"/>
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
 
