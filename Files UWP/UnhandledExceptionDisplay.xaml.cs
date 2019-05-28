@@ -15,13 +15,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class UnhandledExceptionDisplay : Page
     {
         public UnhandledExceptionDisplay()
@@ -35,7 +31,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             var Parameter = eventArgs.Parameter as Exception;
-            Summary.Text = Parameter.Message;
+            Summary.Text = Parameter.Message + " within " + Parameter.TargetSite;
             ErrorInfo.Text = Parameter.StackTrace;
         }
 

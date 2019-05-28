@@ -96,15 +96,19 @@ namespace Files
             }
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
-            if (localSettings.Values["customLocationsSetting"].Equals(true))
+            if(localSettings.Values["customLocationsSetting"] != null)
             {
-                DesktopPath = localSettings.Values["DesktopLocation"].ToString();
-                DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
-                DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
-                PicturesPath = localSettings.Values["PicturesLocation"].ToString();
-                MusicPath = localSettings.Values["MusicLocation"].ToString();
-                VideosPath = localSettings.Values["VideosLocation"].ToString();
+                if (localSettings.Values["customLocationsSetting"].Equals(true))
+                {
+                    DesktopPath = localSettings.Values["DesktopLocation"].ToString();
+                    DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
+                    DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
+                    PicturesPath = localSettings.Values["PicturesLocation"].ToString();
+                    MusicPath = localSettings.Values["MusicLocation"].ToString();
+                    VideosPath = localSettings.Values["VideosLocation"].ToString();
+                }
             }
+            
 
         }
 
@@ -114,8 +118,17 @@ namespace Files
 
         public async void PopulatePinnedSidebarItems()
         {
+            StorageFile ListFile;
             StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            try
+            {
+                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            }
+            catch(FileNotFoundException)
+            {
+                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+            }
+            
             if(ListFile != null)
             {
                 var ListFileLines = await FileIO.ReadLinesAsync(ListFile);

@@ -41,14 +41,17 @@ namespace Files
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["customLocationsSetting"].Equals(true))
+            if (localSettings.Values["customLocationsSetting"] != null)
             {
-                DesktopPath = localSettings.Values["DesktopLocation"].ToString();
-                DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
-                DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
-                PicturesPath = localSettings.Values["PicturesLocation"].ToString();
-                MusicPath = localSettings.Values["MusicLocation"].ToString();
-                VideosPath = localSettings.Values["VideosLocation"].ToString();
+                if (localSettings.Values["customLocationsSetting"].Equals(true))
+                {
+                    DesktopPath = localSettings.Values["DesktopLocation"].ToString();
+                    DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
+                    DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
+                    PicturesPath = localSettings.Values["PicturesLocation"].ToString();
+                    MusicPath = localSettings.Values["MusicLocation"].ToString();
+                    VideosPath = localSettings.Values["VideosLocation"].ToString();
+                }
             }
         }
 
