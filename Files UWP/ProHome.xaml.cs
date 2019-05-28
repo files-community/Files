@@ -957,6 +957,10 @@ namespace Files
 
         }
 
+        private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            SearchBox.Focus(FocusState.Programmatic);
+        }
     }
     public class NavigationActions
     {
