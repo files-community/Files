@@ -3,15 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
-        
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <XamlControlsResources  xmlns="using:Microsoft.UI.Xaml.Controls"/>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
                             <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground" BackgroundSource="Backdrop" FallbackColor="#eaeaea" TintColor="LightSlateGray" TintOpacity="0.6"/>
-                            <AcrylicBrush x:Key="NavigationViewTopPaneBackground" FallbackColor="#eaeaea" BackgroundSource="HostBackdrop" TintOpacity="0.8" TintColor="White"/>
+                            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="White"/>
                             <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="White" FallbackColor="#eaeaea"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White"/>
                             <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f4f4f4"/>
@@ -19,14 +18,14 @@
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Light">
                             <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground" FallbackColor="#eaeaea" BackgroundSource="Backdrop" TintColor="LightSlateGray" TintOpacity="0.6"/>
-                            <AcrylicBrush x:Key="NavigationViewTopPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.8" TintColor="White" FallbackColor="#eaeaea"/>
+                            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="White"/>
                             <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="White" FallbackColor="#eaeaea"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White"/>
                             <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f4f4f4"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <AcrylicBrush x:Key="NavigationViewDefaultPaneBackground" BackgroundSource="Backdrop" TintColor="Black" TintOpacity="0.6"/>
-                            <AcrylicBrush x:Key="NavigationViewTopPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.8" TintColor="Black"/>
+                            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#191919"/>
                             <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"  BackgroundSource="HostBackdrop" TintOpacity="0.6" TintColor="Black"/>
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black"/>

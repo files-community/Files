@@ -4,6 +4,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Filesystem;
+using Files.Interacts;
 
 namespace Files
 {
@@ -11,9 +12,13 @@ namespace Files
     public sealed partial class ClassicMode : Page
     {
         public static Page ClassicView;
+        public ItemViewModel<ClassicMode> instanceViewModel;
+        public Interaction<ClassicMode> instanceInteraction;
         public ClassicMode()
         {
             this.InitializeComponent();
+            instanceViewModel = new ItemViewModel<ClassicMode>();
+            instanceInteraction = new Interaction<ClassicMode>();
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             Window.Current.SetTitleBar(DragArea);
             CoreTitleBar.ExtendViewIntoTitleBar = true;
@@ -22,7 +27,7 @@ namespace Files
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ClassicView = ClassicModePage;
-            App.ViewModel.AddItemsToCollectionAsync(@"C:\", ClassicView);
+            instanceViewModel.AddItemsToCollectionAsync(@"C:\", ClassicView);
         }
 
         
@@ -30,7 +35,7 @@ namespace Files
         {
             if (args.Node.HasUnrealizedChildren)
             {
-                ItemViewModel.FillTreeNode(args.Item, sender);
+                instanceViewModel.FillTreeNode(args.Item, sender);
             }
         }
     }

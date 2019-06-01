@@ -1,9 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Diagnostics;
-using System.Drawing;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Filesystem;
@@ -15,6 +12,9 @@ using Windows.System;
 using Windows.UI.Xaml.Navigation;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.IO;
+using Windows.UI.Popups;
 
 namespace Files
 {
@@ -29,95 +29,115 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        public ItemViewModel<YourHome> instanceViewModel;
+        public Interaction<YourHome> instanceInteraction;
+
         public YourHome()
         {
             InitializeComponent();
+            instanceViewModel = new ItemViewModel<YourHome>();
+            instanceInteraction = new Interaction<YourHome>();
+            GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+
+            // Overwrite paths for common locations if Custom Locations setting is enabled
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["customLocationsSetting"] != null)
+            {
+                if (localSettings.Values["customLocationsSetting"].Equals(true))
+                {
+                    DesktopPath = localSettings.Values["DesktopLocation"].ToString();
+                    DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
+                    DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
+                    PicturesPath = localSettings.Values["PicturesLocation"].ToString();
+                    MusicPath = localSettings.Values["MusicLocation"].ToString();
+                    VideosPath = localSettings.Values["VideosLocation"].ToString();
+                }
+            }
+        }
+
+        public T GetCurrentSelectedTabInstance<T>()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            var selectedTabContent = ((instanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
+            foreach (UIElement uiElement in selectedTabContent.Children)
+            {
+                if (uiElement.GetType() == typeof(Frame))
+                {
+                    return (T)((uiElement as Frame).Content);
+                }
+            }
+            return default;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
             recentItemsCollection.Clear();
             PopulateRecentsList();
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.SetSelectedTabHeader("Favorites");
+            GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
+            GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
+            GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePasteButton.IsEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)
         {
-            Debug.WriteLine(e.ClickedItem.GetType().ToString());
             string BelowCardText = ((Locations.LocationItem)e.ClickedItem).Text;
-            Debug.WriteLine("Pressed Card Text: " + BelowCardText);
             if (BelowCardText == "Downloads")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
+                //instanceViewModel.TextState.isVisible = Visibility.Collapsed;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+
             }
             else if (BelowCardText == "Music")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
         }
 
         private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            (sender as DropShadowPanel).ShadowOpacity = 0.15;
+            (sender as DropShadowPanel).ShadowOpacity = 0.25;
         }
 
         private void DropShadowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            (sender as DropShadowPanel).ShadowOpacity = 0.00;
+            (sender as DropShadowPanel).ShadowOpacity = 0.05;
         }
 
         private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -125,68 +145,38 @@ namespace Files
             var clickedButton = sender as Button;
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
-                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                
+                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
+                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
             }
         }
         public static StorageFile RecentsFile;
@@ -196,172 +186,62 @@ namespace Files
 
         public async void PopulateRecentsList()
         {
-            recentItemsCollection.Clear();
-            dataFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-            RecentsFile = await dataFolder.CreateFileAsync("recents.txt", CreationCollisionOption.OpenIfExists);
+            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
             BitmapImage ItemImage = new BitmapImage();
             string ItemPath = null;
             string ItemName;
             Visibility ItemFolderImgVis;
             Visibility ItemEmptyImgVis;
             Visibility ItemFileIconVis;
-            IList<string> lines = new List<string>();
-            lines = await FileIO.ReadLinesAsync(RecentsFile);
-            if (lines.Count == 0)
+            if (mostRecentlyUsed.Entries.Count == 0)
             {
                 Empty.Visibility = Visibility.Visible;
             }
-            else if (lines.Count > 10)
-            {
-                try
-                {
-                    for (int LineNum = 0; LineNum < 10; LineNum++)
-                    {
-                        lines.RemoveAt(0);
-                    }
-
-                    await FileIO.WriteLinesAsync(RecentsFile, lines);
-                    Empty.Visibility = Visibility.Collapsed;
-                    lines = await FileIO.ReadLinesAsync(RecentsFile);
-                    foreach (string s in lines)
-                    {
-                        try
-                        {
-                            var item = await StorageFolder.GetFolderFromPathAsync(s);
-                            ItemName = item.DisplayName;
-                            ItemPath = item.Path;
-                            ItemFolderImgVis = Visibility.Visible;
-                            ItemEmptyImgVis = Visibility.Collapsed;
-                            ItemFileIconVis = Visibility.Collapsed;
-                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
-                            {
-                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                            }
-
-                        }
-                        catch (System.IO.FileNotFoundException)
-                        {
-                            IList<string> modifyLines = new List<string>();
-                            modifyLines = lines;
-                            modifyLines.Remove(s);
-                            await FileIO.WriteLinesAsync(RecentsFile, modifyLines);
-                            PopulateRecentsList();
-                        }
-                        catch (UnauthorizedAccessException)
-                        {
-                            Empty.Visibility = Visibility.Visible;
-                        }
-                        catch (System.ArgumentException)
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(s);
-                            ItemName = item.DisplayName;
-                            ItemPath = item.Path;
-                            ItemImage = new BitmapImage();
-                            var thumbnail = await item.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-                            if (thumbnail == null)
-                            {
-                                ItemEmptyImgVis = Visibility.Visible;
-                            }
-                            else
-                            {
-                                await ItemImage.SetSourceAsync(thumbnail.CloneStream());
-                                ItemEmptyImgVis = Visibility.Collapsed;
-                            }
-                            ItemFolderImgVis = Visibility.Collapsed;
-                            ItemFileIconVis = Visibility.Visible;
-                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
-                            {
-                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                            }
-                        }
-                    }
-                }
-                catch (System.IO.FileNotFoundException)
-                {
-                    if (ItemPath != null)
-                    {
-                        RemoveDeletedItemFromList(ItemPath, lines);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
-                    }
-                }
-            }
             else
             {
+                Empty.Visibility = Visibility.Collapsed;
+            }
+            foreach (Windows.Storage.AccessCache.AccessListEntry entry in mostRecentlyUsed.Entries)
+            {
+                string mruToken = entry.Token;
                 try
                 {
-                    Empty.Visibility = Visibility.Collapsed;
-
-                    foreach (string s in lines)
+                    Windows.Storage.IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
+                    if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        try
+                        ItemName = item.Name;
+                        ItemPath = item.Path;
+                        ItemFolderImgVis = Visibility.Visible;
+                        ItemEmptyImgVis = Visibility.Collapsed;
+                        ItemFileIconVis = Visibility.Collapsed;
+                        recentItemsCollection.Add(new RecentItem() { name = ItemName, path = ItemPath, EmptyImgVis = ItemEmptyImgVis, FolderImg = ItemFolderImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                    }
+                    else if (item.IsOfType(StorageItemTypes.File))
+                    {
+                        ItemName = item.Name;
+                        ItemPath = item.Path;
+                        ItemImage = new BitmapImage();
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(ItemPath);
+                        var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                        if (thumbnail == null)
                         {
-                            ItemPath = s;
-                            var item = await StorageFolder.GetFolderFromPathAsync(s);
-                            ItemName = item.DisplayName;
-                            ItemPath = item.Path;
-                            ItemFolderImgVis = Visibility.Visible;
+                            ItemEmptyImgVis = Visibility.Visible;
+                        }
+                        else
+                        {
+                            await ItemImage.SetSourceAsync(thumbnail.CloneStream());
                             ItemEmptyImgVis = Visibility.Collapsed;
-                            ItemFileIconVis = Visibility.Collapsed;
-                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
-                            {
-                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                            }
-
                         }
-                        catch (UnauthorizedAccessException)
-                        {
-                            Empty.Visibility = Visibility.Visible;
-                        }
-                        catch (System.ArgumentException)
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(s);
-                            ItemName = item.DisplayName;
-                            ItemPath = item.Path;
-                            ItemImage = new BitmapImage();
-                            var thumbnail = await item.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-                            if (thumbnail == null)
-                            {
-                                ItemEmptyImgVis = Visibility.Visible;
-                            }
-                            else
-                            {
-                                await ItemImage.SetSourceAsync(thumbnail.CloneStream());
-                                ItemEmptyImgVis = Visibility.Collapsed;
-                            }
-                            ItemFolderImgVis = Visibility.Collapsed;
-                            ItemFileIconVis = Visibility.Visible;
-                            if (!recentItemsCollection.Contains(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis }))
-                            {
-                                recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                            }
-                        }
+                        ItemFolderImgVis = Visibility.Collapsed;
+                        ItemFileIconVis = Visibility.Visible;
+                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
                     }
                 }
                 catch (System.IO.FileNotFoundException)
                 {
-                    if(ItemPath != null)
-                    {
-                        RemoveDeletedItemFromList(ItemPath, lines);
-                    }
-                    else
-                    {
-                        Debug.WriteLine("Attempted to delete redundant RecentItem from file when ItemPath was never set.");
-                    }
+                    mostRecentlyUsed.Remove(mruToken);
                 }
-                
             }
-        }
-
-        private async void RemoveDeletedItemFromList(string s, IList<string> lines)
-        {
-            IList<string> modifyLines = new List<string>();
-            modifyLines = lines;
-            modifyLines.Remove(s);
-            await FileIO.WriteLinesAsync(RecentsFile, modifyLines);
-            PopulateRecentsList();
         }
 
         private async void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
@@ -372,7 +252,7 @@ namespace Files
                 var file = (await StorageFile.GetFileFromPathAsync(path));
                 if (file.FileType == "Application")
                 {
-                    await Interaction.LaunchExe(path);
+                    await instanceInteraction.LaunchExe(path);
 
                 }
                 else
@@ -384,9 +264,35 @@ namespace Files
                     await Launcher.LaunchFileAsync(file, options);
                 }
             }
+            catch (UnauthorizedAccessException)
+            {
+                await GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+            }
             catch (System.ArgumentException)
             {
-                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
+                {
+                    GetCurrentSelectedTabInstance<ProHome>().drivesList.SelectedIndex = 0;
+                    GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                }
+                else
+                {
+                    foreach(ListViewItem drive in GetCurrentSelectedTabInstance<ProHome>().drivesList.Items)
+                    {
+                        if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
+                        {
+                            GetCurrentSelectedTabInstance<ProHome>().drivesList.SelectedItem = null;
+                            drive.IsSelected = true;
+                            GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (COMException)
+            {
+                MessageDialog dialog = new MessageDialog("Please insert the necessary drive to access this item.", "Drive Unplugged");
+                await dialog.ShowAsync();
             }
         }
 
@@ -395,13 +301,23 @@ namespace Files
 
         }
 
-        private async void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             recentItemsCollection.Clear();
             RecentsView.ItemsSource = null;
-            await RecentsFile.DeleteAsync();
-            MainPage.accessibleContentFrame.Navigate(typeof(YourHome), null, new Windows.UI.Xaml.Media.Animation.SuppressNavigationTransitionInfo());
+            var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+            mru.Clear();
+            Empty.Visibility = Visibility.Visible;
+        }
 
+        private void DropShadowPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            (sender as DropShadowPanel).ShadowOpacity = 0.025;
+        }
+
+        private void DropShadowPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            (sender as DropShadowPanel).ShadowOpacity = 0.25;
         }
     }
 

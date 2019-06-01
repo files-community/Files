@@ -8,15 +8,15 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid Padding="24,24,24,0">
+    <Grid Padding="24,24,0,0">
        
         <ScrollViewer>
             <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <TextBlock x:Name="Header" Text="About Files" Margin="0,0,0,5" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                <TextBlock Margin="0,0,0,10" FontFamily="Segoe UI" FontSize="24" Text="Product Information"/>
-                <TextBlock FontSize="18" Text="Edition: Files Pre-Release"/>
-                <TextBlock FontSize="18" Text="Version: 0.4.9"/>
-                <ListView  IsItemClickEnabled="True" Margin="0,35,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Left" Width="875">
+                <TextBlock x:Name="Header" Text="Files UWP" Margin="0,0,0,5" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                <TextBlock Margin="0,0,0,5" FontFamily="Segoe UI" FontSize="20" Text="Product Information"/>
+                <TextBlock FontSize="14" Text="Edition: Pre-Release"/>
+                <TextBlock FontSize="14" Text="Version: 0.5.0"/>
+                <ListView  IsItemClickEnabled="True" Margin="0,24,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Left" Width="875">
                     <ListViewItem IsEnabled="True" Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
                         <StackPanel  Orientation="Horizontal">
                             <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>

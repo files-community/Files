@@ -1,88 +1,62 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.Linq;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI;
-using Windows.UI.Core;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 using Files.Filesystem;
 using Files.Navigation;
 using Files.Interacts;
-using Windows.System;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Popups;
-using System.IO;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.ApplicationModel.DataTransfer.DragDrop.Core;
-using System.Collections.Generic;
+using System.Diagnostics;
+using Windows.UI.Core;
 
 namespace Files
 {
-
     public sealed partial class GenericFileBrowser : Page
     {
+        public TextBlock emptyTextGFB;
         public TextBlock textBlock;
-        public static DataGrid data;
-        public static MenuFlyout context;
-        public static MenuFlyout emptySpaceContext;
-        public static MenuFlyout HeaderContextMenu;
-        public static Page GFBPageName;
-        public static ContentDialog AddItemBox;
-        public static ContentDialog NameBox;
-        public static TextBox inputFromRename;
-        public static string inputForRename;
-        public static Flyout CopiedFlyout;
-        public static Grid grid;
-
+        public DataGrid data;
+        public MenuFlyout context;
+        public MenuFlyout emptySpaceContext;
+        public MenuFlyout HeaderContextMenu;
+        public Page GFBPageName;
+        public ContentDialog AddItemBox;
+        public ContentDialog NameBox;
+        public TextBox inputFromRename;
+        public string inputForRename;
+        public Flyout CopiedFlyout;
+        public Grid grid;
+        public ProgressBar progressBar;
+        public ItemViewModel<GenericFileBrowser> instanceViewModel;
+        public Interaction<GenericFileBrowser> instanceInteraction;
+        public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
         public GenericFileBrowser()
         {
             this.InitializeComponent();
             GFBPageName = GenericItemView;
-            App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-            App.ViewModel.PVIS.isVisible = Visibility.Collapsed;
+            emptyTextGFB = EmptyText;
+            progressBar = progBar;
+            progressBar.Visibility = Visibility.Collapsed;
             data = AllView;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
-            Interaction.page = this;
-            OpenItem.Click += Interaction.OpenItem_Click;
-            ShareItem.Click += Interaction.ShareItem_Click;
-            DeleteItem.Click += Interaction.DeleteItem_Click;
-            RenameItem.Click += Interaction.RenameItem_Click;
-            CutItem.Click += Interaction.CutItem_Click;
-            CopyItem.Click += Interaction.CopyItem_ClickAsync;
-            AllView.RightTapped += Interaction.AllView_RightTapped;
-            Back.Click += NavigationActions.Back_Click;
-            Forward.Click += NavigationActions.Forward_Click;
-            Refresh.Click += NavigationActions.Refresh_Click;
-            AddItem.Click += AddItem_ClickAsync;
-            AllView.DoubleTapped += Interaction.List_ItemClick;
-            Clipboard.ContentChanged += Clipboard_ContentChanged;
-            AddItemBox = AddDialog;
-            NameBox = NameDialog;
-            inputFromRename = RenameInput;
-            emptySpaceContext = EmptySpaceFlyout;
-            RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-            PasteEmptySpace.Click += Interaction.PasteItem_ClickAsync;
-            CopiedFlyout = CopiedPathFlyout;
             grid = RootGrid;
-            GetPath.Click += Interaction.GetPath_Click;
-            PathBarTip.IsOpen = true;
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
+            RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
+            
         }
 
-        
-
-        private async void AddItem_ClickAsync(object sender, RoutedEventArgs e)
+        private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddDialog.ShowAsync();
+        }
+
+        private void AddItem_Click(object sender, RoutedEventArgs e)
+        {
+            //await AddDialog.ShowAsync();
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -92,16 +66,16 @@ namespace Files
                 DataPackageView packageView = Clipboard.GetContent();
                 if (packageView.Contains(StandardDataFormats.StorageItems))
                 {
-                    Interacts.Interaction.PS.isEnabled = true;
+                    App.PS.isEnabled = true;
                 }
                 else
                 {
-                    Interacts.Interaction.PS.isEnabled = false;
+                    App.PS.isEnabled = false;
                 }
             }
             catch (Exception)
             {
-                Interacts.Interaction.PS.isEnabled = false;
+                App.PS.isEnabled = false;
             }
 
         }
@@ -111,125 +85,87 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            instanceViewModel = new ItemViewModel<GenericFileBrowser>();
+            instanceInteraction = new Interaction<GenericFileBrowser>();
+            PasteEmptySpace.Click += instanceInteraction.PasteItem_ClickAsync;
+            data.ItemsSource = instanceViewModel.FilesAndFolders;
+            OpenItem.Click += instanceInteraction.OpenItem_Click;
+            ShareItem.Click += instanceInteraction.ShareItem_Click;
+            DeleteItem.Click += instanceInteraction.DeleteItem_Click;
+            RenameItem.Click += instanceInteraction.RenameItem_Click;
+            CutItem.Click += instanceInteraction.CutItem_Click;
+            CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
+            SidebarPinItem.Click += instanceInteraction.PinItem_Click;
+            AllView.RightTapped += instanceInteraction.AllView_RightTapped;
+            AllView.DoubleTapped += instanceInteraction.List_ItemClick;
+
+            var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+            CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
+            CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
+            CurrentInstance.RefreshButton.IsEnabled = true;
+            Clipboard_ContentChanged(null, null);
+            CurrentInstance.AlwaysPresentCommands.isEnabled = true;
             var parameters = (string)eventArgs.Parameter;
-            App.ViewModel.CancelLoadAndClearFiles();
-            App.ViewModel.Universal.path = parameters;
-            App.ViewModel.AddItemsToCollectionAsync(App.ViewModel.Universal.path, GenericItemView);
+            instanceViewModel.CancelLoadAndClearFiles();
+            instanceViewModel.Universal.path = parameters;
+            CurrentInstance.AddItemButton.Click += AddItem_Click;
+
+            TextState.isVisible = Visibility.Collapsed;
+
+            instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path, this);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
-                App.PathText.Text = "Desktop";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DesktopIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "Desktop";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
-                App.PathText.Text = "Documents";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DocumentsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "Documents";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
             {
-                App.PathText.Text = "Downloads";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "DownloadsIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "Downloads";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             {
-                App.PathText.Text = "Pictures";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "PicturesIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "Pictures";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
             {
-                App.PathText.Text = "Music";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "MusicIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "Music";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
             {
-                App.PathText.Text = "OneDrive";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "OneD_IC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "OneDrive";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
             {
-                App.PathText.Text = "Videos";
-                foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                {
-                    if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Name.ToString() == "VideosIC")
-                    {
-                        MainPage.Select.itemSelected = NavItemChoice;
-                        break;
-                    }
-                }
+                CurrentInstance.PathText.Text = "Videos";
             }
             else
             {
-                //App.ViewModel.Universal.path = parameters;
-                App.PathText.Text = parameters;
-                if (parameters.Contains("C:\\") || parameters.Contains("c:\\"))
-                {
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString() == "LDPage")
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                }
-                else
-                {
-                    foreach (Microsoft.UI.Xaml.Controls.NavigationViewItemBase NavItemChoice in MainPage.nv.MenuItems)
-                    {
-                        if (NavItemChoice is Microsoft.UI.Xaml.Controls.NavigationViewItem && NavItemChoice.Tag.ToString().Contains(parameters.Split("\\")[0]))
-                        {
-                            MainPage.Select.itemSelected = NavItemChoice;
-                            break;
-                        }
-                    }
-                }
+                CurrentInstance.PathText.Text = parameters;
             }
 
+            // Reset DataGrid Rows that may be in "cut" command mode
+            instanceInteraction.dataGridRows.Clear();
+            Interaction<GenericFileBrowser>.FindChildren<DataGridRow>(instanceInteraction.dataGridRows, (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).GFBPageName.Content);
+            foreach (DataGridRow dataGridRow in instanceInteraction.dataGridRows)
+            {
+                if (data.Columns[0].GetCellContent(dataGridRow).Opacity < 1)
+                {
+                    data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
+                }
+            }
         }
 
-
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            if(instanceViewModel._fileQueryResult != null)
+            {
+                instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+            }
+        }
 
 
         private void AllView_DragOver(object sender, DragEventArgs e)
@@ -246,11 +182,11 @@ namespace Files
                     {
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            Interaction.CloneDirectoryAsync((item as StorageFolder).Path, App.ViewModel.Universal.path, (item as StorageFolder).DisplayName);
+                            instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, instanceViewModel.Universal.path, (item as StorageFolder).DisplayName);
                         }
                         else
                         {
-                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.ViewModel.Universal.path));
+                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(instanceViewModel.Universal.path));
                         }
                     }
             }
@@ -258,13 +194,13 @@ namespace Files
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            App.ViewModel.PVIS.isVisible = Visibility.Collapsed;
+            this.progressBar.Visibility = Visibility.Collapsed;
         }
 
         private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
             var newCellText = (data.SelectedItem as ListedItem)?.FileName;
-            var selectedItem = App.ViewModel.FilesAndFolders[e.Row.GetIndex()];
+            var selectedItem = instanceViewModel.FilesAndFolders[e.Row.GetIndex()];
             if(selectedItem.FileType == "Folder")
             {
                 StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
@@ -296,17 +232,30 @@ namespace Files
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            AddDialogFrame.Navigate(typeof(AddItem), new SuppressNavigationTransitionInfo());
+            //AddDialogFrame.Navigate(typeof(AddItem), new SuppressNavigationTransitionInfo());
         }
 
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            data.SelectedItems.Clear();
+            data.SelectedItem = null;
+            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
+            if(e.AddedItems.Count > 0)
+            {
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
+
+            }
+            else if(data.SelectedItems.Count == 0)
+            {
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+            }
         }
 
         private void NameDialog_Loaded(object sender, RoutedEventArgs e)
@@ -324,163 +273,6 @@ namespace Files
 
         }
 
-        private async void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Enter)
-            {
-                var PathBox = (sender as TextBox);
-                var CurrentInput = PathBox.Text;
-                if (CurrentInput != App.ViewModel.Universal.path)
-                {
-                    App.ViewModel.CancelLoadAndClearFiles();
-
-                    if (CurrentInput == "Home" || CurrentInput == "home")
-                    {
-                        MainPage.accessibleContentFrame.Navigate(typeof(YourHome));
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Recents";
-                    }
-                    else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DesktopPath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Desktop";
-                        App.PathText.Text = "Desktop";
-                    }
-                    else if (CurrentInput == "Documents" || CurrentInput == "documents")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DocumentsPath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Documents";
-                        App.PathText.Text = "Documents";
-
-                    }
-                    else if (CurrentInput == "Downloads" || CurrentInput == "downloads")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.DownloadsPath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Downloads";
-                        App.PathText.Text = "Downloads";
-
-                    }
-                    else if (CurrentInput == "Pictures" || CurrentInput == "pictures")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(PhotoAlbum), MainPage.PicturesPath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Pictures";
-                        App.PathText.Text = "Pictures";
-                    }
-                    else if (CurrentInput == "Music" || CurrentInput == "music")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.MusicPath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Music";
-                        App.PathText.Text = "Music";
-
-                    }
-                    else if (CurrentInput == "Videos" || CurrentInput == "videos")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.VideosPath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search Videos";
-                        App.PathText.Text = "Videos";
-
-                    }
-                    else if (CurrentInput == "OneDrive" || CurrentInput == "Onedrive" || CurrentInput == "onedrive")
-                    {
-                        App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                        MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MainPage.OneDrivePath);
-                        MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search OneDrive";
-                        App.PathText.Text = "OneDrive";
-
-                    }
-                    else
-                    {
-                        if (CurrentInput.Contains("."))
-                        {
-                            if (CurrentInput.Contains(".exe") || CurrentInput.Contains(".EXE"))
-                            {
-                                if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
-                                {
-                                    await Interaction.LaunchExe(CurrentInput);
-                                    PathBox.Text = App.ViewModel.Universal.path;
-                                }
-                                else
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }    
-                            }
-                            else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
-                            {
-                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                                MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search";
-                            }
-                            else
-                            {
-                                try
-                                {
-                                    await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                    StorageFile file = await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                    var options = new LauncherOptions
-                                    {
-                                        DisplayApplicationPicker = false
-
-                                    };
-                                    await Launcher.LaunchFileAsync(file, options);
-                                    PathBox.Text = App.ViewModel.Universal.path;
-                                }
-                                catch (ArgumentException)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                                catch (FileNotFoundException)
-                                {
-                                    MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                    await dialog.ShowAsync();
-                                }
-                            }
-                        }
-                        else
-                        {
-                            try
-                            {
-                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                App.ViewModel.TextState.isVisible = Visibility.Collapsed;
-                                MainPage.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                                MainPage.accessibleAutoSuggestBox.PlaceholderText = "Search";
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                            catch (FileNotFoundException)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                            
-                        }
-
-                    }
-                }
-            }
-            
-        }
-
-        private void GenericItemView_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            GFBPageName.ContextFlyout.ShowAt(GFBPageName);
-        }
-
-        private void AllView_ContextRequested(UIElement sender, ContextRequestedEventArgs args)
-        {
-            
-        }
-
         private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)
         {
             args.DragUI.SetContentFromDataPackage();
@@ -489,6 +281,19 @@ namespace Files
         private void AllView_DragLeave(object sender, DragEventArgs e)
         {
             
+        }
+
+        private void RightClickContextMenu_Opened(object sender, object e)
+        {
+            var selectedDataItem = instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
+            if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
+            {
+                SidebarPinItem.IsEnabled = false;
+            }
+            else if (selectedDataItem.FileType == "Folder")
+            {
+                SidebarPinItem.IsEnabled = true;
+            }
         }
     }
 

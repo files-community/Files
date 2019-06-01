@@ -7,7 +7,8 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:list="using:Locations"
     xmlns:local="using:Files"
-    mc:Ignorable="d" NavigationCacheMode="Disabled">
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    mc:Ignorable="d" NavigationCacheMode="Required">
     <Page.Resources>
         <RevealBackgroundBrush x:Key="CardHoverBackground" TargetTheme="Dark" />
         <Style x:Key="CardStyle" TargetType="Button">
@@ -379,41 +380,92 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="FluentButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}"/>
+            <Setter Property="Padding" Value="{StaticResource ButtonPadding}"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="-3"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                        </VisualState.Setters>
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" CornerRadius="{TemplateBinding CornerRadius}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Page.Resources>
     <ScrollViewer>
-    <Grid Padding="24,35,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Padding="24,24,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="55*"/>
         </Grid.RowDefinitions>
-        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="32" FontWeight="Bold" Text="Locations" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
-        <controls:AdaptiveGridView IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="True" ItemHeight="210" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
+        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="28" FontWeight="Bold" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Stretch" />
+        <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0,0,0,0" Padding="0,0,0,0">
-
-                        <Grid Margin="2">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="85*"/>
-                                <RowDefinition Height="15*"/>
-                            </Grid.RowDefinitions>
-
-
-                            <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="5.00" ShadowOpacity="0" Padding="0,0,-4,0" BlurRadius="10" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,0" VerticalAlignment="Stretch">
-                                <Grid >
-                                    <Button Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource ButtonRevealStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" CornerRadius="5">
-                                        <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="58" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Button>
-                                </Grid>
-                            </controls:DropShadowPanel>
-
-
-
-                            <TextBlock Margin="0,5,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontWeight="Bold" FontSize="14" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="1" />
-                        </Grid>
+                        <Grid Margin="0,0,0,0" Padding="0,0,0,0">
+                            <Grid Margin="2">
+                                <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerReleased="DropShadowPanel_PointerReleased" PointerPressed="DropShadowPanel_PointerPressed" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="2.50" ShadowOpacity="0.05" Padding="0,0,-4,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,5" VerticalAlignment="Stretch">
+                                    <Grid>
+                                        <Button Windows10version1809:CornerRadius="5" Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" Style="{StaticResource FluentButtonStyle}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <StackPanel Spacing="10" Orientation="Vertical">
+                                                <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <TextBlock Margin="0,0,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                            </StackPanel>
+                                        </Button>
+                                    </Grid>
+                                </controls:DropShadowPanel>
+                            </Grid>
                     </Grid>
                 </DataTemplate>
 
@@ -423,26 +475,26 @@
 
             <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <TextBlock Margin="0,24,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="30" Text="Recent Items"/>
-                    <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="20"/>
-                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" MinHeight="400" HorizontalAlignment="Stretch"  Padding="0,5,0,0" >
+                    <TextBlock Margin="0,14,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="28" Text="Recent Items"/>
+                    <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="18"/>
+                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,5,0,0" VerticalAlignment="Top" >
                         <ListView.ContextFlyout>
                             <MenuFlyout>
-                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
                             </MenuFlyout>
                         </ListView.ContextFlyout>    
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Padding="10" VerticalAlignment="Center">
+                                <Grid CornerRadius="5" Padding="5" VerticalAlignment="Center">
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
                                         <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
-                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="30" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="30" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                            <Image Visibility="{Binding FileIconVis}" Height="30" Width="30" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                            <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
                                         </Grid>
                                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
                                             <TextBlock Width="400" TextWrapping="NoWrap" Text="{Binding name}"/>
-                                            <TextBlock Margin="100,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
+                                            <TextBlock Margin="50,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </Grid>

@@ -9,19 +9,24 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Page.Resources>
-        <AcrylicBrush TintOpacity="80" x:Key="SecondaryPaneBrush" FallbackColor="LightGray" BackgroundSource="HostBackdrop" />
-        
-    </Page.Resources>
-
     <Grid>
-        <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="Transparent" Name="DragArea" HorizontalAlignment="Stretch" Height="34" VerticalAlignment="Top"  Margin="0,0,200,0" Canvas.ZIndex="5"/>
-
-        <UILib:NavigationView IsSettingsVisible="False" BackRequested="SettingsPane_BackRequested" Name="SettingsPane" IsBackEnabled="True" ItemInvoked="NavigationView_ItemInvoked" PaneTitle="Settings" PaneDisplayMode="Top">
+        <UILib:NavigationView IsSettingsVisible="False" Name="SettingsPane" IsBackButtonVisible="Collapsed" ItemInvoked="NavigationView_ItemInvoked" PaneDisplayMode="Top">
             <UILib:NavigationView.MenuItems>
-                <UILib:NavigationViewItem Content="Personalization"/>
-                <UILib:NavigationViewItem Content="Preferences"/>
-                <UILib:NavigationViewItem Content="About"/>
+                <UILib:NavigationViewItem IsSelected="True" Content="Personalization">
+                    <UILib:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE790;"/>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
+                <UILib:NavigationViewItem Content="Preferences">
+                    <UILib:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE713;"/>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
+                <UILib:NavigationViewItem Content="About">
+                    <UILib:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE946;"/>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
             </UILib:NavigationView.MenuItems>
             <Frame Name="SettingsContentFrame"/>
         </UILib:NavigationView>

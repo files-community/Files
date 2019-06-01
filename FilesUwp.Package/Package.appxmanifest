@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap mp rescap desktop">
-  <Identity Name="85bc74fc-1b61-4232-97b5-1ed702381499" Publisher="CN=lukeb" Version="0.4.9.0" />
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" IgnorableNamespaces="uap mp rescap desktop4 desktop">
+  <Identity Name="2763LukeBlevins.FilesUWP" Publisher="CN=37E01253-E594-4D6C-B7FA-1EDA1D6F65BF" Version="0.5.0.0" />
   <Properties>
-    <DisplayName>Files</DisplayName>
+    <DisplayName>Files UWP</DisplayName>
     <PublisherDisplayName>Luke Blevins</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -14,19 +14,18 @@
     <Resource Language="x-generate" />
   </Resources>
   <Applications>
-    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$">
-      <uap:VisualElements DisplayName="Files" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png"  Square44x44Logo="Assets\Square44x44Logo.png">
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" desktop4:SupportsMultipleInstances="true">
+      <uap:VisualElements DisplayName="Files UWP" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png"  Square44x44Logo="Assets\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="Launcher/Launcher.exe" />
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="ExecutableLauncher/ExecutableLauncher.exe" />
       </Extensions>
     </Application>
   </Applications>
   <Capabilities>
-    <Capability Name="internetClient" />
     <uap:Capability Name="removableStorage" />
     <rescap:Capability Name="runFullTrust" />
     <rescap:Capability Name="broadFileSystemAccess" />
