@@ -253,14 +253,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <None Include="Files_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.17763.0">
-=======
     <SDKReference Include="WindowsDesktop, Version=10.0.18362.0">
->>>>>>> newui
       <Name>Windows Desktop Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
