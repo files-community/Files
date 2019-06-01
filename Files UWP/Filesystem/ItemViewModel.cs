@@ -48,9 +48,11 @@ namespace Files.Filesystem
 
         private const int _step = 250;
 
+        private ProHome tabInstance;
+
         public ItemViewModel()
         {
-            
+            tabInstance = GetCurrentSelectedTabInstance<ProHome>();
             _filesAndFolders = new ObservableCollection<ListedItem>();
             _classicFileList = new ObservableCollection<ListedItem>();
             _classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
@@ -60,75 +62,75 @@ namespace Files.Filesystem
             ClassicFolderList = new ReadOnlyObservableCollection<Classic_ListedFolderItem>(_classicFolderList);
             if(typeof(PageType) == typeof(GenericFileBrowser))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
             }
             else if(typeof(PageType) == typeof(PhotoAlbum))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
             }
             else if(typeof(PageType) == typeof(AddItem))
             {
-                if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+                if((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
                 }
-                else if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                else if((tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
             }
 
-            GetCurrentSelectedTabInstance<ProHome>().HomeItems.PropertyChanged += HomeItems_PropertyChanged;
-            GetCurrentSelectedTabInstance<ProHome>().ShareItems.PropertyChanged += ShareItems_PropertyChanged;
-            GetCurrentSelectedTabInstance<ProHome>().LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
-            GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
+            tabInstance.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
+            tabInstance.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
+            tabInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
+            tabInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
         }
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled == true)
+            if(tabInstance.AlwaysPresentCommands.isEnabled == true)
             {
-                GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
+                tabInstance.AlwaysPresentCommands.isEnabled = true;
             }
             else
             {
-                GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = false;
+                tabInstance.AlwaysPresentCommands.isEnabled = false;
             }
         }
 
         private void LayoutItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled == true)
+            if (tabInstance.LayoutItems.isEnabled == true)
             {
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                tabInstance.LayoutItems.isEnabled = true;
             }
             else
             {
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
+                tabInstance.LayoutItems.isEnabled = false;
             }
         }
 
         private void ShareItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled == true)
+            if (tabInstance.ShareItems.isEnabled == true)
             {
-                GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
+                tabInstance.ShareItems.isEnabled = true;
             }
             else
             {
-                GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+                tabInstance.ShareItems.isEnabled = false;
             }
         }
 
         private void HomeItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled == true)
+            if (tabInstance.HomeItems.isEnabled == true)
             {
-                GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
+                tabInstance.HomeItems.isEnabled = true;
             }
             else
             {
-                GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
+                tabInstance.HomeItems.isEnabled = false;
             }
 
         }
@@ -136,15 +138,15 @@ namespace Files.Filesystem
         public void AddFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Add(item);
-            if ((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null || (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            if ((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
             {
                 if (typeof(PageType) == typeof(GenericFileBrowser))
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
                 }
                 else if (typeof(PageType) == typeof(PhotoAlbum))
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
             }
 
@@ -155,15 +157,15 @@ namespace Files.Filesystem
             _filesAndFolders.Remove(item);
             if (_filesAndFolders.Count == 0)
             {
-                if ((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null || (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                if ((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
                     if (typeof(PageType) == typeof(GenericFileBrowser))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Visible;
+                        (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Visible;
                     }
                     else if (typeof(PageType) == typeof(PhotoAlbum))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Visible;
+                        (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Visible;
                     }
                 }
             }
@@ -200,7 +202,7 @@ namespace Files.Filesystem
 
         public async void DisplayConsentDialog()
         {
-            await GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+            await tabInstance.permissionBox.ShowAsync();
         }
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
@@ -212,14 +214,14 @@ namespace Files.Filesystem
 
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //GetCurrentSelectedTabInstance<ProHome>().TextState.isVisible = Visibility.Collapsed;
+            //tabInstance.TextState.isVisible = Visibility.Collapsed;
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
+                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
             }
             else if (typeof(PageType) == typeof(PhotoAlbum))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
             }
 
             _filesAndFolders.Clear();
@@ -230,11 +232,11 @@ namespace Files.Filesystem
 
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
+                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
             }
             else if (typeof(PageType) == typeof(PhotoAlbum))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
             }
 
             switch (Universal.path)
@@ -268,8 +270,8 @@ namespace Files.Filesystem
 
                 //History.AddToHistory(Universal.path);
 
-                GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
-                GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
+                tabInstance.BackButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoBack;
+                tabInstance.ForwardButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -354,11 +356,11 @@ namespace Files.Filesystem
                 {
                     if (typeof(PageType) == typeof(GenericFileBrowser))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
+                        (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
                     }
                     else if (typeof(PageType) == typeof(PhotoAlbum))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
+                        (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
                     }
                 }
                 stopwatch.Stop();
@@ -397,11 +399,11 @@ namespace Files.Filesystem
 
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
+                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
             }
             else if (typeof(PageType) == typeof(PhotoAlbum))
             {
-                (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -444,13 +446,13 @@ namespace Files.Filesystem
                     FileSize = null,
                     RowIndex = _filesAndFolders.Count
                 });
-                if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+                if((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
                 }
-                else if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                else if((tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
             }
             else if (typeof(PageType) == typeof(ClassicMode))
@@ -556,11 +558,11 @@ namespace Files.Filesystem
 
                 if(typeof(PageType) == typeof(GenericFileBrowser))
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
                 }
                 else if(typeof(PageType) == typeof(PhotoAlbum))
                 {
-                    (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
+                    (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
             }
             else
@@ -595,15 +597,15 @@ namespace Files.Filesystem
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                if((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null || (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                if((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
                     if (typeof(PageType) == typeof(GenericFileBrowser))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
+                        (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
                     }
                     else if (typeof(PageType) == typeof(PhotoAlbum))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
+                        (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
                     }
                 }
             });
@@ -661,15 +663,15 @@ namespace Files.Filesystem
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                if ((GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null || (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+                if ((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
                     if (typeof(PageType) == typeof(GenericFileBrowser))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
+                        (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
                     }
                     else if (typeof(PageType) == typeof(PhotoAlbum))
                     {
-                        (GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
+                        (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
                     }
                 }
             });
