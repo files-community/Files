@@ -530,10 +530,10 @@
         </Grid.RowDefinitions>
         <Windows10version1903:Grid.Resources>
             <Windows10version1903:ThemeShadow x:Name="ribbonShadow"/>
-         </Windows10version1903:Grid.Resources>
+        </Windows10version1903:Grid.Resources>
         <Grid RowSpan="2" Canvas.ZIndex="2" Name="RibbonShadowSurface"/>
         <Grid Margin="0,-1,0,0" Canvas.ZIndex="2" Windows10version1903:Shadow="{StaticResource ribbonShadow}" x:Name="Ribbon" Grid.Row="0">
-                <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
+            <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
                 <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                     <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -605,6 +605,73 @@
                             </CommandBar.Content>
                         </CommandBar>
                     </Custom:TabViewItem>
+                    <Custom:TabViewItem Visibility="Collapsed" Name="SearchTools" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Search">
+                        <Custom:TabViewItem.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFD9D7D2" Offset="0"/>
+                                <GradientStop Color="Transparent" Offset="1.25"/>
+                            </LinearGradientBrush>
+                        </Custom:TabViewItem.Background>
+                        <StackPanel Padding="15,5" Orientation="Horizontal">
+                            <StackPanel Spacing="2.5" Orientation="Vertical">
+                                <StackPanel Spacing="5" Orientation="Horizontal">
+                                    <RadioButton Content="Current folder"/>
+                                    <RadioButton Content="All subfolders"/>
+                                </StackPanel>
+                                <TextBlock TextAlignment="Center" Text="Search within"/>
+                            </StackPanel>
+                            <AppBarSeparator/>
+                            <StackPanel Spacing="2.5" Orientation="Vertical">
+                                <StackPanel Spacing="5" Orientation="Horizontal">
+                                    <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Date modified">
+                                        <ComboBox.Items>
+                                            <ComboBoxItem Content="Today"/>
+                                            <ComboBoxItem Content="Yesterday"/>
+                                            <ComboBoxItem Content="This week"/>
+                                            <ComboBoxItem Content="Last week"/>
+                                            <ComboBoxItem Content="This month"/>
+                                            <ComboBoxItem Content="Last month"/>
+                                            <ComboBoxItem Content="This year"/>
+                                            <ComboBoxItem Content="Last year"/>
+                                        </ComboBox.Items>
+                                    </ComboBox>
+                                    <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Type">
+                                        <ComboBox.Items>
+                                            <ComboBoxItem Content="Document"/>
+                                            <ComboBoxItem Content="Folder"/>
+                                            <ComboBoxItem Content="Movie"/>
+                                            <ComboBoxItem Content="Music"/>
+                                            <ComboBoxItem Content="Note"/>
+                                            <ComboBoxItem Content="Picture"/>
+                                            <ComboBoxItem Content="Video"/>
+                                            <ComboBoxItem Content="Custom"/>
+                                        </ComboBox.Items>
+                                    </ComboBox>
+                                    <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Size">
+                                        <ComboBox.Items>
+                                            <ComboBoxItem Content="Empty"/>
+                                            <ComboBoxItem Content="Tiny (0 - 16 KB)"/>
+                                            <ComboBoxItem Content="Small (16 KB - 1 MB)"/>
+                                            <ComboBoxItem Content="Medium (1 - 128 MB)"/>
+                                            <ComboBoxItem Content="Large (128 MB - 1 GB)"/>
+                                            <ComboBoxItem Content="Huge (1 - 4 GB)"/>
+                                            <ComboBoxItem Content="Gigantic (>4 GB)"/>
+                                        </ComboBox.Items>
+                                    </ComboBox>
+                                </StackPanel>
+                                <TextBlock TextAlignment="Center" Text="Filter"/>
+                            </StackPanel>
+                            <AppBarSeparator/>
+                            <Button BorderThickness="1" Background="Transparent" Style="{ThemeResource ButtonRevealStyle}" Width="125">
+                                <Button.Content>
+                                    <StackPanel Orientation="Vertical">
+                                        <FontIcon Glyph="&#xE8BB;"/>
+                                        <TextBlock TextWrapping="WrapWholeWords" Text="Cancel search"/>
+                                    </StackPanel>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Custom:TabViewItem>
                     <Custom:TabView.Resources>
                         <uilib:TeachingTip Loaded="RibbonTip_Loaded" Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
                             <uilib:TeachingTip.IconSource>
@@ -645,30 +712,33 @@
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
                     </StackPanel>
-                    <TextBox Margin="5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="5" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Navigate to a path...">
+                    <TextBox Margin="5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Navigate to a path...">
 
                     </TextBox>
 
                     <StackPanel Margin="0,5,5,5" Grid.Column="2" Orientation="Horizontal">
-                        <TextBox Name="SearchBox" Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="5,0,0,5" BorderThickness="1" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260">
+                        <TextBox BorderBrush="DarkGray" Name="SearchBox" Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="2,0,0,2" BorderThickness="1" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260">
                             <TextBox.KeyboardAccelerators>
                                 <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="F"/>
                             </TextBox.KeyboardAccelerators>
                         </TextBox>
-                        <Button BorderBrush="{StaticResource SystemAccentColor}" Width="35" BorderThickness="1" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,5,5,0" Background="{StaticResource SystemAccentColor}">
+                        <Button BorderBrush="{StaticResource SystemAccentColor}" Width="35" BorderThickness="1" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,2,2,0" Background="{StaticResource SystemAccentColor}" Click="Button_Click">
                             <FontIcon FontSize="12" Foreground="White" Glyph="&#xEBE7;"/>
                         </Button>
                     </StackPanel>
                 </Grid>
             </StackPanel>
         </Grid>
-        <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" >
+        <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
-                <ScrollViewer>
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <StackPanel>
                             <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
                             <ListView ItemContainerStyle="{StaticResource FluentListViewItemContainerStyle}" SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
+                                <ListView.Resources>
+                                    <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                                </ListView.Resources>
                                 <ListViewItem Tag="Favorites">
                                     <ListViewItem.Content>
                                         <StackPanel Spacing="15" Orientation="Horizontal">
@@ -728,6 +798,9 @@
                             </ListView>
                             <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
                             <ListView ItemContainerStyle="{StaticResource FluentListViewItemContainerStyle}"  SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                                <ListView.Resources>
+                                    <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                                </ListView.Resources>
                                 <ListViewItem Tag="LocalDisk">
                                     <ListViewItem.Content>
                                         <StackPanel Spacing="15" Orientation="Horizontal">
@@ -753,7 +826,7 @@
             <Frame Navigating="ItemDisplayFrame_Navigating" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
-        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
+        <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
@@ -761,13 +834,13 @@
                 <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
+        <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
             <Frame Width="450" Name="AddDialogFrame"/>
         </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="5" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
+        <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
@@ -775,14 +848,14 @@
                 <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="5" Name="PropertiesDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary" SecondaryButtonText="Apply">
+        <ContentDialog Windows10version1809:CornerRadius="4" Name="PropertiesDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary" SecondaryButtonText="Apply">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
             <Frame Width="400" Height="450" Name="propertiesFrame" />
         </ContentDialog>
 
-        <ContentDialog Windows10version1809:CornerRadius="5" Title="Pick an Item Layout" Name="LayoutDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
+        <ContentDialog Windows10version1809:CornerRadius="4" Title="Pick an Item Layout" Name="LayoutDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>

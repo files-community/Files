@@ -1,0 +1,102 @@
+﻿<Page
+    x:Class="Files.Search"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="75*"/>
+            <ColumnDefinition Width="25*"/>
+        </Grid.ColumnDefinitions>
+        <ListView IsItemClickEnabled="True">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid CornerRadius="5" Padding="5" VerticalAlignment="Center">
+                        <Grid.ContextFlyout>
+                            <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem Text="Open With..." Name="OpenItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE7AC;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE72D;"/>
+                                        </MenuFlyoutItem.Icon>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE74D;"/>
+                                        </MenuFlyoutItem.Icon>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="Delete"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8AC;"/>
+                                        </MenuFlyoutItem.Icon>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Key="F2"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8C6;"/>
+                                        </MenuFlyoutItem.Icon>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="X"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8C8;"/>
+                                        </MenuFlyoutItem.Icon>
+                                        <MenuFlyoutItem.KeyboardAccelerators>
+                                            <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                                        </MenuFlyoutItem.KeyboardAccelerators>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem Text="Pin to sidebar" Name="SidebarPinItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <SymbolIcon Symbol="Pin"/>
+                                        </MenuFlyoutItem.Icon>
+
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE946;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout.Items>
+
+                            </MenuFlyout>
+                        </Grid.ContextFlyout>
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                            <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
+                                <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                            </Grid>
+                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                                <TextBlock Width="400" TextWrapping="NoWrap" Text="{Binding name}"/>
+                                <TextBlock Margin="50,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>

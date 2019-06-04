@@ -19,8 +19,7 @@
 
     <Page.Resources>
         <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">
-            <Setter Property="CornerRadius" Value="5" />
-            <Setter Property="Background" Value="{ThemeResource FlyoutBackgroundThemeBrush}" />
+            <Setter Property="CornerRadius" Value="4" />
         </Style>
 
         <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">

@@ -75,7 +75,7 @@
                 </Setter>
             </Style>
             <ControlTemplate x:Key="TabViewTemplate1" TargetType="Custom:TabView">
-                <Grid Background="{ThemeResource SystemControlChromeHighAcrylicWindowMediumBrush}" x:Name="TabViewContainer">
+                <Grid Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" x:Name="TabViewContainer">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Custom:TabView.ConstrainColumn="True" Custom:TabView.IgnoreColumn="True" Width="Auto"/>

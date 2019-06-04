@@ -912,32 +912,15 @@ namespace Files
         //AppWindow propertiesWindow;
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-
-                //if (ApiInformation.IsTypePresent("Windows.UI.WindowManagement.AppWindow"))
-                //{
-                //    propertiesWindow = await AppWindow.TryCreateAsync();
-                //    Frame propertiesWindowContent = new Frame();
-                //    propertiesWindowContent.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
-                //    ElementCompositionPreview.SetAppWindowContent(propertiesWindow, propertiesWindowContent);
-                //    propertiesWindow.Title = "Properties";
-                //    await propertiesWindow.TryShowAsync();
-
-                //}
-                //else
-                //{
-
-                //}
-
-                
+                propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                propertiesFrame.Navigate(typeof(Properties), ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
+                propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
             }
-
+            await PropertiesDialog.ShowAsync();
         }
 
         public void PropertiesWindow_CancelButton_Click(object sender, RoutedEventArgs e)
@@ -973,6 +956,12 @@ namespace Files
         private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             SearchBox.Focus(FocusState.Programmatic);
+        }
+
+        // Initiate search from term
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //this.accessibleContentFrame
         }
     }
     public class NavigationActions
