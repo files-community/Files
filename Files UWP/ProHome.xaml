@@ -539,7 +539,7 @@
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                    <AppBarButton Label="Open new window" Icon="NewWindow"/>
+                                    <AppBarButton Name="NewWindowButton" Click="NewWindowButton_Click" Label="Open new window" Icon="NewWindow"/>
                                     <AppBarButton Name="SettingsButton" Click="SettingsButton_Click" Label="Settings" Icon="Setting"/>
                                 </CommandBar>
                             </CommandBar.Content>

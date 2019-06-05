@@ -125,6 +125,23 @@ namespace Files
             }
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            // Window management
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+            {
+                rootFrame = new Frame();
+                Window.Current.Content = rootFrame;
+            }
+
+            // Open the page that we created to handle activation for results.
+            rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+
+            // Ensure the current window is active.
+            Window.Current.Activate();
+        }
+
         private void TryEnablePrelaunch()
         {
             Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);

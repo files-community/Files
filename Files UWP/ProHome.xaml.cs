@@ -963,6 +963,16 @@ namespace Files
         {
             //this.accessibleContentFrame
         }
+
+        private async void NewWindowButton_Click(object sender, RoutedEventArgs e)
+        {
+            var filesUWPUri = new Uri("files-uwp:");
+            var options = new LauncherOptions()
+            {
+                DisplayApplicationPicker = false
+            };
+            await Launcher.LaunchUriAsync(filesUWPUri);
+        }
     }
     public class NavigationActions
     {

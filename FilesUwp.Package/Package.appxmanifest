@@ -22,6 +22,9 @@
       </uap:VisualElements>
       <Extensions>
         <desktop:Extension Category="windows.fullTrustProcess" Executable="ExecutableLauncher/ExecutableLauncher.exe" />
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol ReturnResults="none" Name="files-uwp"/>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
