@@ -1080,5 +1080,18 @@ namespace Files.Interacts
                 (type as PhotoAlbum).gv.SelectAll();
             }
         }
+
+        public void ClearAllItems()
+        {
+            if (typeof(PageType) == typeof(GenericFileBrowser))
+            {
+                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Clear();
+            }
+            else if (typeof(PageType) == typeof(PhotoAlbum))
+            {
+                (type as PhotoAlbum).gv.SelectedItems.Clear();
+            }
+        }
     }
 }

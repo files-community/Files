@@ -902,7 +902,14 @@ namespace Files
 
         private void ClearAllButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.ClearAllItems();
+            }
+            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.ClearAllItems();
+            }
         }
 
         private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
