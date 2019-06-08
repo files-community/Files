@@ -89,11 +89,6 @@ namespace Files
             BackButton.Click += NavigationActions.Back_Click;
             ForwardButton.Click += NavigationActions.Forward_Click;
             RefreshButton.Click += NavigationActions.Refresh_Click;
-            if(ribbonShadow != null)
-            {
-                ribbonShadow.Receivers.Add(RibbonShadowSurface);
-                Ribbon.Translation += new System.Numerics.Vector3(0, 0, 4);
-            }
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             if(localSettings.Values["customLocationsSetting"] != null)

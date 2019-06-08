@@ -528,11 +528,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Windows10version1903:Grid.Resources>
-            <Windows10version1903:ThemeShadow x:Name="ribbonShadow"/>
-        </Windows10version1903:Grid.Resources>
-        <Grid RowSpan="2" Canvas.ZIndex="2" Name="RibbonShadowSurface"/>
-        <Grid Margin="0,-1,0,0" Canvas.ZIndex="2" Windows10version1903:Shadow="{StaticResource ribbonShadow}" x:Name="Ribbon" Grid.Row="0">
+
+        <Grid Margin="0,0,0,0" Canvas.ZIndex="2" x:Name="Ribbon" Grid.Row="0">
             <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
                 <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                     <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
@@ -712,7 +709,7 @@
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
                     </StackPanel>
-                    <TextBox Margin="5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Navigate to a path...">
+                    <TextBox Margin="5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Enter a path">
 
                     </TextBox>
 
