@@ -529,7 +529,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Margin="0,0,0,0" Canvas.ZIndex="2" x:Name="Ribbon" Grid.Row="0">
+        <Grid Margin="0,-1,0,0" Canvas.ZIndex="2" x:Name="Ribbon" Grid.Row="0">
             <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
                 <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                     <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">

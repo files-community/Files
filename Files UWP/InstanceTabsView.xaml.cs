@@ -62,8 +62,7 @@ namespace Files
 
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
-            //LeftPaddingColumn.Width = new GridLength((TabStrip.Items.Count * 150) + 32);
-            //RightPaddingColumn.Width = new GridLength(sender.SystemOverlayRightInset);
+
         }
         
         public void AddNewTab(Type t, string path)
