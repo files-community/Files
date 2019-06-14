@@ -922,7 +922,7 @@ namespace Files
             {
                 propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
             }
-            await PropertiesDialog.ShowAsync();
+            await PropertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 
         public void PropertiesWindow_CancelButton_Click(object sender, RoutedEventArgs e)

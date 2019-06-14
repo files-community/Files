@@ -356,10 +356,12 @@ namespace Files.Filesystem
                 {
                     if (typeof(PageType) == typeof(GenericFileBrowser))
                     {
+                        if (_cancellationTokenSource.IsCancellationRequested) { return; }
                         (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
                     }
                     else if (typeof(PageType) == typeof(PhotoAlbum))
                     {
+                        if (_cancellationTokenSource.IsCancellationRequested) { return; }
                         (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
                     }
                 }
@@ -399,10 +401,12 @@ namespace Files.Filesystem
 
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
+                if (_cancellationTokenSource.IsCancellationRequested) { return; }
                 (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
             }
             else if (typeof(PageType) == typeof(PhotoAlbum))
             {
+                if (_cancellationTokenSource.IsCancellationRequested) { return; }
                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
             }
         }

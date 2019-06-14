@@ -50,7 +50,7 @@
         </StackPanel>
         
         <StackPanel Spacing="5" Padding="0,10" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="OK" Foreground="White" Background="#FF0078D7" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Button Content="OK" Foreground="White" Background="#FF0078D7" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
             <Button Content="Apply" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             <Button Content="Cancel" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </StackPanel>
