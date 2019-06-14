@@ -845,7 +845,7 @@
                 <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
             </Grid>
         </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="4" Name="PropertiesDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary" SecondaryButtonText="Apply">
+        <ContentDialog Windows10version1809:CornerRadius="4" Name="PropertiesDialog" Grid.RowSpan="4" Title="Properties" >
             <Windows10version1903:ContentDialog.Shadow>
                 <Windows10version1903:ThemeShadow/>
             </Windows10version1903:ContentDialog.Shadow>
