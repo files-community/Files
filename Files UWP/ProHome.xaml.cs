@@ -8,15 +8,12 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Popups;
-using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
@@ -114,7 +111,7 @@ namespace Files
         public async void PopulatePinnedSidebarItems()
         {
             StorageFile ListFile;
-            StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
             try
             {
                 ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");

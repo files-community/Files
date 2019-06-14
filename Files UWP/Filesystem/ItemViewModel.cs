@@ -207,6 +207,8 @@ namespace Files.Filesystem
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)
         {
+            ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
+
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabHeader(new DirectoryInfo(path).Name);
@@ -367,7 +369,7 @@ namespace Files.Filesystem
                 }
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-
+                ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = true;
             }
             catch (UnauthorizedAccessException e)
             {
