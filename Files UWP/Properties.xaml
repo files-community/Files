@@ -9,7 +9,7 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     x:Class="Files.Properties"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="400" Height="500">
     <Page.Resources>
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemChromeLowColor}"/>
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemChromeLowColor}"/>
@@ -290,61 +290,46 @@
     </Page.Resources>
 
     <Grid>
-        <Custom:TabView SelectedIndex="0" Template="{StaticResource TabViewTemplate1}" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" CanCloseTabs="False" TabWidthBehavior="Actual">
-            <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}" Header="Info">
-                <Custom:TabViewItem.Icon>
-                    <FontIcon Glyph="&#xE946;"/>
-                </Custom:TabViewItem.Icon>
-
-                <Grid>
-                    <StackPanel Spacing="10" Orientation="Vertical">
-                        <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
-                            <Image Width="45" Height="45" Name="itemIcon"/>
-                            <TextBox Height="28" Name="itemFileName" Width="300" PlaceholderText="Item Name"/>
-                        </StackPanel>
-                        <MenuFlyoutSeparator/>
-                        <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
-                            <TextBlock Text="Item type:"/>
-                            <TextBlock Name="itemType" />
-                        </StackPanel>
-                        <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
-                            <TextBlock Text="Path:"/>
-                            <TextBlock Name="itemPath" />
-                        </StackPanel>
-                        <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
-                            <TextBlock Text="Item size:"/>
-                            <TextBlock Name="itemSize" />
-                        </StackPanel>
-                        <MenuFlyoutSeparator/>
-                        <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
-                            <TextBlock Text="Created:"/>
-                            <TextBlock Name="itemCreatedTimestamp" />
-                        </StackPanel>
-                        <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
-                            <TextBlock Text="Modified:"/>
-                            <TextBlock Name="itemModifiedTimestamp" />
-                        </StackPanel>
-                    </StackPanel>
-                </Grid>
-
-            </Custom:TabViewItem>
-            <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}" Visibility="Collapsed" Header="Extra Details">
-                <Custom:TabViewItem.Icon>
-                    <FontIcon Glyph="&#xEA37;"/>
-                </Custom:TabViewItem.Icon>
-            </Custom:TabViewItem>
-            <Custom:TabViewItem BorderThickness="0" Template="{StaticResource TabViewItemFluentTemplate}" Visibility="Collapsed" Header="Security">
-                <Custom:TabViewItem.Icon>
-                    <FontIcon Glyph="&#xE8A6;"/>
-                </Custom:TabViewItem.Icon>
-            </Custom:TabViewItem>
-        </Custom:TabView>
-            
-        <StackPanel HorizontalAlignment="Center" Spacing="5" Padding="10" Orientation="Horizontal" VerticalAlignment="Bottom">
-            <Button Foreground="White" Background="#0078d4" Windows10version1809:CornerRadius="2" Width="120" Content="OK" HorizontalAlignment="Stretch" />
-            <Button Windows10version1809:CornerRadius="2" Width="120" Content="Apply" HorizontalAlignment="Stretch" />
-            <Button x:Name="CancelButton" Windows10version1809:CornerRadius="2" Width="120" Content="Cancel" HorizontalAlignment="Stretch" />
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <StackPanel Spacing="10" Orientation="Vertical" Grid.RowSpan="2">
+            <Grid Margin="0,0,0,-10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Image Margin="15,15" Grid.Column="0" Width="45" Height="45" Name="itemIcon" />
+                <TextBox  CornerRadius="2" BorderThickness="1" Padding="10,4" Name="itemFileName" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,15,0" />
+            </Grid>
+            <MenuFlyoutSeparator/>
+            <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
+                <TextBlock Text="Item type:"/>
+                <TextBlock Name="itemType" />
+            </StackPanel>
+            <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
+                <TextBlock Text="Path:"/>
+                <TextBlock Name="itemPath" />
+            </StackPanel>
+            <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
+                <TextBlock Text="Item size:"/>
+                <TextBlock Name="itemSize" />
+            </StackPanel>
+            <MenuFlyoutSeparator/>
+            <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
+                <TextBlock Text="Created:"/>
+                <TextBlock Name="itemCreatedTimestamp" />
+            </StackPanel>
+            <StackPanel Padding="10" Spacing="24" Orientation="Horizontal">
+                <TextBlock Text="Modified:"/>
+                <TextBlock Name="itemModifiedTimestamp" />
+            </StackPanel>
+        </StackPanel>
+        <StackPanel Spacing="5" Padding="10" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
+            <Button Content="OK" Foreground="White" Background="#FF0078D7" CornerRadius="2" Width="123" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Button Content="Apply" CornerRadius="2" Width="123" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Button Content="Cancel" CornerRadius="2" Width="123" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
         </StackPanel>
     </Grid>
 </Page>
