@@ -519,14 +519,19 @@ namespace Files
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-            ItemViewModel<GenericFileBrowser> instance = null;
+            if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel.CancelLoadAndClearFiles();
+            }
+            else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            {
+                (accessibleContentFrame.Content as PhotoAlbum).instanceViewModel.CancelLoadAndClearFiles();
+            }
 
             if (clickedItem.Tag.ToString() == "Favorites")
             {
                 ItemDisplayFrame.Navigate(typeof(YourHome));
                 PathText.Text = "Favorites";
-                ItemViewModel<YourHome> homeInstance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
-                homeInstance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -540,7 +545,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
                 PathText.Text = "Desktop";
-                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -554,7 +558,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
                 PathText.Text = "Downloads";
-                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -568,7 +571,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
                 PathText.Text = "Documents";
-                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -582,7 +584,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
                 PathText.Text = "Pictures";
-                ItemViewModel<PhotoAlbum> PAInstance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -596,7 +597,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
                 PathText.Text = "Music";
-                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -610,7 +610,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
                 PathText.Text = "Videos";
-                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -624,7 +623,6 @@ namespace Files
             {
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag);
                 PathText.Text = clickedItem.Tag.ToString();
-                instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -642,6 +640,7 @@ namespace Files
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
@@ -673,7 +672,6 @@ namespace Files
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(YourHome))
             {
-                var instance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
@@ -706,6 +704,7 @@ namespace Files
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 var instance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
+                instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
@@ -843,12 +842,10 @@ namespace Files
         {
             if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                //addItemPageInstance = new AddItem(accessibleContentFrame.Content as GenericFileBrowser, null);
                 AddDialogFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as GenericFileBrowser, new SuppressNavigationTransitionInfo());
             }
             else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                //addItemPageInstance = new AddItem(null, accessibleContentFrame.Content as PhotoAlbum);
                 AddDialogFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as PhotoAlbum, new SuppressNavigationTransitionInfo());
             }
             await AddItemBox.ShowAsync();
@@ -1001,6 +998,7 @@ namespace Files
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
             Frame instanceContentFrame = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+
             if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
