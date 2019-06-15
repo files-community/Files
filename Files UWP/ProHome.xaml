@@ -658,9 +658,9 @@
                     <Grid>
                         <StackPanel>
                             <StackPanel.Resources>
-                                <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="LightGray"/>
-                                <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="LightGray"/>
-                                <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="LightGray"/>
+                                <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="{ThemeResource SystemRevealListMediumColor}"/>
+                                <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SystemRevealListMediumColor}"/>
+                                <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="{ThemeResource SystemRevealListMediumColor}"/>
                             </StackPanel.Resources>
                             <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
                             <ListView SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
