@@ -948,10 +948,13 @@ namespace Files.Interacts
                     }
                 }
             }
-            IEnumerable<IStorageItem> EnumerableOfItems = items;
-            dataPackage.SetStorageItems(EnumerableOfItems);
-            Clipboard.SetContent(dataPackage);
-            Clipboard.Flush();
+            if (items?.Count > 0)
+            {
+                IEnumerable<IStorageItem> EnumerableOfItems = items;
+                dataPackage.SetStorageItems(EnumerableOfItems);
+                Clipboard.SetContent(dataPackage);
+                Clipboard.Flush();
+            }
 
         }
 
