@@ -22,37 +22,37 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="15,15" Grid.Column="0" Width="45" Height="45" Name="itemIcon" />
-                <TextBox  CornerRadius="2" BorderThickness="1" Padding="10,4" Name="itemFileName" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,15,0" />
+                <Image Margin="15,15" Grid.Column="0" Width="45" Height="45" Name="itemIcon" Source="{x:Bind Item.FileImg,Mode=OneWay}" />
+                <TextBox  CornerRadius="2" BorderThickness="1" Padding="10,4" Name="itemFileName" Text="{x:Bind Item.FileName,Mode=OneWay}" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,15,0" />
             </Grid>
             <MenuFlyoutSeparator HorizontalAlignment="Stretch" Margin="-10,0,-10,0"/>
             <StackPanel Padding="0,10" Spacing="24" Orientation="Horizontal">
                 <TextBlock Text="Item type:"/>
-                <TextBlock Name="itemType" />
+                <TextBlock Name="itemType" Text="{x:Bind Item.FileType,Mode=OneWay}" />
             </StackPanel>
             <StackPanel Padding="0,10" Spacing="24" Orientation="Horizontal">
                 <TextBlock Text="Path:"/>
-                <TextBlock Name="itemPath" />
+                <TextBlock Name="itemPath" Text="{x:Bind Item.FilePath,Mode=OneWay}" />
             </StackPanel>
             <StackPanel Padding="0,10" Spacing="24" Orientation="Horizontal">
                 <TextBlock Text="Item size:"/>
-                <TextBlock Name="itemSize" />
+                <TextBlock Name="itemSize" Text="{x:Bind Item.FileSize,Mode=OneWay}" />
             </StackPanel>
             <MenuFlyoutSeparator Margin="-10,0,-10,0"/>
             <StackPanel Padding="0,10" Spacing="24" Orientation="Horizontal">
                 <TextBlock Text="Created:"/>
-                <TextBlock Name="itemCreatedTimestamp" />
+                <TextBlock Name="itemCreatedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneWay}" />
             </StackPanel>
             <StackPanel Padding="0,10" Spacing="24" Orientation="Horizontal">
                 <TextBlock Text="Modified:"/>
-                <TextBlock Name="itemModifiedTimestamp" />
+                <TextBlock Name="itemModifiedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneWay}"/>
             </StackPanel>
         </StackPanel>
         
         <StackPanel Spacing="5" Padding="0,10" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
             <Button Content="OK" Foreground="White" Background="#FF0078D7" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
-            <Button Content="Apply" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <Button Content="Cancel" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+            <Button Content="Apply" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
+            <Button Content="Cancel" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
         </StackPanel>
     </Grid>
 </Page>
