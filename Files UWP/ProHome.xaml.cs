@@ -910,7 +910,6 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                propertiesFrame.Tag = PropertiesDialog;
                 propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
