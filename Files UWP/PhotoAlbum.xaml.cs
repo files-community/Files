@@ -203,11 +203,10 @@ namespace Files
             instanceInteraction.CopyItem_ClickAsync(null, null);
         }
 
-        private async void PropertiesItem_Click(object sender, RoutedEventArgs e)
+        private void PropertiesItem_Click(object sender, RoutedEventArgs e)
         {
-            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), (this.gv.SelectedItem as ListedItem).FilePath, new SuppressNavigationTransitionInfo());
-            await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
-            
+            var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+            CurrentInstance.ShowPropertiesButton_Click(null, null);
         }
 
         private void RefreshGrid_Click(object sender, RoutedEventArgs e)

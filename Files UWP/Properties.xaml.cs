@@ -34,7 +34,7 @@ namespace Files
             var result = e.Parameter as IEnumerable;
             IList<ListedItem> listedItems = result.OfType<ListedItem>().ToList();
             Item = listedItems[0];
-           PropertiesDialog = Frame.Tag as ContentDialog;
+            PropertiesDialog = Frame.Tag as ContentDialog;
             base.OnNavigatedTo(e);
         }
         private void OK_Button_Click(object sender, RoutedEventArgs e)

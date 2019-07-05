@@ -905,7 +905,7 @@ namespace Files
         {
             inputForRename = null;
         }
-        //AppWindow propertiesWindow;
+
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
@@ -915,6 +915,7 @@ namespace Files
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
+                propertiesFrame.Tag = PropertiesDialog;
                 propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             await PropertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
@@ -922,7 +923,7 @@ namespace Files
 
         public void PropertiesWindow_CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            //propertiesWindow.RequestSize(new Windows.Foundation.Size(200, 450));
+
         }
 
         private void RibbonTip_Loaded(object sender, RoutedEventArgs e)

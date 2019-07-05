@@ -100,6 +100,7 @@ namespace Files
             AllView.DoubleTapped += instanceInteraction.List_ItemClick;
 
             var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+            PropertiesItem.Click += CurrentInstance.ShowPropertiesButton_Click;
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;

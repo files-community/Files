@@ -395,10 +395,9 @@
                             <KeyboardAccelerator Modifiers="Control" Key="V"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
-                    <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem Click="PropertiesItemGrid_Click" Text="Properties" Name="PropertiesItemGrid">
+                    <MenuFlyoutItem IsEnabled="False" Text="Open in PowerShell...">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE946;"/>
+                            <FontIcon Glyph="&#xE756;"/>
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyout.Items>
