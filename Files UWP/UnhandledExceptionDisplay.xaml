@@ -26,8 +26,8 @@
                 <TextBlock IsTextSelectionEnabled="True" Padding="24,0,0,0" TextWrapping="Wrap" FontSize="18" Name="ErrorInfo"/>
                 <TextBlock FontSize="24" Text="What now?" FontWeight="SemiBold"/>
                 <StackPanel Spacing="24" Orientation="Horizontal">
-                    <Button Width="200" Content="Close App to Try Again" HorizontalAlignment="Left" Click="Button_Click"/>
-                    <Button Width="200" Content="Report Issue to Developer" Click="Button_Click_1"/>
+                    <Button Width="200" Content="Close App to Try Again" CornerRadius="2" HorizontalAlignment="Left" Click="Button_Click"/>
+                    <Button Width="200" Content="Report Issue to Developer" CornerRadius="2" Click="Button_Click_1"/>
                 </StackPanel>
             </StackPanel>
 
