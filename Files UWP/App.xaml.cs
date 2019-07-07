@@ -16,13 +16,18 @@ using Windows.UI.Xaml.Navigation;
 namespace Files
 {
     sealed partial class App : Application
-    {       
+    {
         public App()
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
+            if (localSettings.Values["theme"] == null)
+            {
+                localSettings.Values["theme"] = "Default";
+            }
 
             if (localSettings.Values["theme"] != null)
             {
@@ -53,21 +58,17 @@ namespace Files
                     }
                 }
             }
-            else
-            {
-                localSettings.Values["theme"] = "Default";
-            }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
 
-            
+
 
         }
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
-            e.Handled = true;  
+            e.Handled = true;
             Frame rootFrame = Window.Current.Content as Frame;
             rootFrame.Navigate(typeof(UnhandledExceptionDisplay), e.Exception);
         }
@@ -111,17 +112,17 @@ namespace Files
 
                 if (rootFrame.Content == null)
                 {
-                    
-                        // When the navigation stack isn't restored navigate to the first page,
-                        // configuring the new page by passing required information as a navigation
-                        // parameter
-                        rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
-                    
-                    
+
+                    // When the navigation stack isn't restored navigate to the first page,
+                    // configuring the new page by passing required information as a navigation
+                    // parameter
+                    rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
+
+
                 }
                 // Ensure the current window is active
                 Window.Current.Activate();
-                
+
             }
         }
 
