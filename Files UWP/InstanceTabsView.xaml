@@ -65,9 +65,9 @@
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <RepeatButton x:Name="ScrollBackButton" Background="Transparent" BorderThickness="1" Content="&#xE76B;" Delay="50" FontFamily="Segoe MDL2 Assets" Interval="100" Style="{StaticResource RepeatButtonRevealStyle}" VerticalAlignment="Stretch" Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue=Collapsed}"/>
+                                    <RepeatButton x:Name="ScrollBackButton" Background="Transparent" BorderThickness="1" Content="&#xE76B;" Delay="50" FontFamily="Segoe MDL2 Assets" Interval="100" Style="{StaticResource RepeatButtonRevealStyle}" VerticalAlignment="Stretch" Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue=Collapsed}" Height="31"/>
                                     <ScrollContentPresenter x:Name="ScrollContentPresenter" Grid.Column="1" Margin="{TemplateBinding Padding}" TabFocusNavigation="Once"/>
-                                    <RepeatButton x:Name="ScrollForwardButton" Background="Transparent" BorderThickness="1" Content="&#xE76C;" Grid.Column="2" Delay="50" FontFamily="Segoe MDL2 Assets" Interval="100" Style="{StaticResource RepeatButtonRevealStyle}" VerticalAlignment="Stretch" Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue=Collapsed}"/>
+                                    <RepeatButton x:Name="ScrollForwardButton" Background="Transparent" BorderThickness="1" Content="&#xE76C;" Grid.Column="2" Delay="50" FontFamily="Segoe MDL2 Assets" Interval="100" Style="{StaticResource RepeatButtonRevealStyle}" VerticalAlignment="Stretch" Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue=Collapsed}" Height="31"/>
                                 </Grid>
                             </Border>
                         </ControlTemplate>
@@ -115,7 +115,7 @@
                 <Grid Background="Transparent"/>
             </Custom:TabView.TabEndHeader>
             <Custom:TabView.TabActionHeader>
-                <Button BorderThickness="1" x:Name="NewTabButton" Canvas.ZIndex="2" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Height="32" Width="32" Click="NewTabButton_Click">
+                <Button BorderThickness="1" x:Name="NewTabButton" Canvas.ZIndex="2" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Height="31" Width="32" Click="NewTabButton_Click">
                     <Button.Content>
                         <FontIcon FontSize="12" Glyph="&#xE710;"/>
                     </Button.Content>
