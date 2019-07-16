@@ -24,7 +24,7 @@
     <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxPackageDir>C:\Users\Luke\Documents\Packages\</AppxPackageDir>
-    <PackageCertificateThumbprint>EDB926CA7770B2992722830C048F36DD5077691C</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>54A40DE81C61BD87FE34D0B18BAE38926F2D7292</PackageCertificateThumbprint>
     <AppxBundle>Never</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
@@ -166,6 +166,7 @@
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />
     <Content Include="Assets\logo.bmp" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
