@@ -452,7 +452,7 @@
     <Grid Padding="0,0,0,0">
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
-                <!--VisualState to be triggered when window width is between 0 - 1080 effective pixels.-->
+                <!--VisualState to be triggered when window width is between 0 - 800 effective pixels.-->
                 <VisualState>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />

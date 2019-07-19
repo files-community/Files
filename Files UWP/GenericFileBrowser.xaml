@@ -151,34 +151,32 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="Transparent" Name="RootGrid">
+    <Grid Background="Transparent" x:Name="RootGrid">
         <Grid.ContextFlyout>
             <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                <MenuFlyout.Items>
-                    <MenuFlyoutItem Text="Refresh" Name="RefreshEmptySpace">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE72C;"/>
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem Text="Paste" Name="PasteEmptySpace" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77F;"/>
-                        </MenuFlyoutItem.Icon>
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Control" Key="V"/>
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem IsEnabled="False" Text="Open in PowerShell...">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE756;"/>
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                </MenuFlyout.Items>
+                <MenuFlyoutItem Text="Refresh" x:Name="RefreshEmptySpace">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE72C;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="Paste" x:Name="PasteEmptySpace" IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE77F;"/>
+                    </MenuFlyoutItem.Icon>
+                    <MenuFlyoutItem.KeyboardAccelerators>
+                        <KeyboardAccelerator Modifiers="Control" Key="V"/>
+                    </MenuFlyoutItem.KeyboardAccelerators>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem IsEnabled="False" Text="Open in PowerShell...">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE756;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyout>
         </Grid.ContextFlyout>
-        <ProgressBar Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
-        <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
-        <controls:DataGrid ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" HorizontalAlignment="Stretch">
+        <ProgressBar x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
+        <TextBlock Visibility="{x:Bind Mode=TwoWay, Path=TextState.isVisible, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
+        <controls:DataGrid ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" HorizontalAlignment="Left">
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent"/>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent"/>
@@ -188,12 +186,12 @@
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
                             <MenuFlyout  x:Name="HeaderRightClickMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                <MenuFlyoutItem Text="Edit Columns" Name="EditColumn">
+                                <MenuFlyoutItem Text="Edit Columns" x:Name="EditColumn">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE70F;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem Text="Size All Columns to Fit" Name="FitColumns">
+                                <MenuFlyoutItem Text="Size All Columns to Fit" x:Name="FitColumns">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE9A6;"/>
                                     </MenuFlyoutItem.Icon>
@@ -209,72 +207,70 @@
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
                             <MenuFlyout Opened="RightClickContextMenu_Opened" x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                <MenuFlyout.Items>
-                                    <MenuFlyoutItem Text="Open With..." Name="OpenItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE7AC;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Open With..." x:Name="OpenItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE7AC;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
 
-                                    <MenuFlyoutItem Text="Share" Name="ShareItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE72D;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Modifiers="Control" Key="S"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Share" x:Name="ShareItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
 
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE74D;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Key="Delete"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Rename" Name="RenameItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8AC;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Key="F2"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Cut" Name="CutItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C6;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Modifiers="Control" Key="X"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Copy" Name="CopyItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C8;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Modifiers="Control" Key="C"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Delete" x:Name="DeleteItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE74D;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="Delete"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Rename" x:Name="RenameItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8AC;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Key="F2"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Cut" x:Name="CutItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C6;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control" Key="X"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Copy" x:Name="CopyItem" >
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                                    </MenuFlyoutItem.KeyboardAccelerators>
+                                </MenuFlyoutItem>
 
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Pin to sidebar" Name="SidebarPinItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <SymbolIcon Symbol="Pin"/>
-                                        </MenuFlyoutItem.Icon>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem Text="Pin to sidebar" x:Name="SidebarPinItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <SymbolIcon Symbol="Pin"/>
+                                    </MenuFlyoutItem.Icon>
 
-                                    </MenuFlyoutItem>
+                                </MenuFlyoutItem>
 
-                                    <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE946;"/>
-                                        </MenuFlyoutItem.Icon>
+                                <MenuFlyoutItem Text="Properties" x:Name="PropertiesItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE946;"/>
+                                    </MenuFlyoutItem.Icon>
 
-                                    </MenuFlyoutItem>
-                                </MenuFlyout.Items>
+                                </MenuFlyoutItem>
 
                             </MenuFlyout>
                         </Setter.Value>
@@ -294,8 +290,8 @@
                 <controls:DataGridTemplateColumn IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid Name="Icon" Margin="0, 0, 0, 0">
-                                <Rectangle Visibility="Collapsed" Name="CutIndicator" Opacity="0.1" Fill="LightGray"/>
+                            <Grid x:Name="Icon" Margin="0, 0, 0, 0">
+                                <Rectangle Visibility="Collapsed" x:Name="CutIndicator" Opacity="0.1" Fill="LightGray"/>
                                 <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
                                 <FontIcon Visibility="{Binding EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
                                 <Image Visibility="{Binding FileIconVis}" Height="20" Width="20" Source="{Binding FileImg}" Stretch="UniformToFill" />
@@ -306,10 +302,10 @@
                 <controls:DataGridTextColumn IsReadOnly="True" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
                 <controls:DataGridTextColumn IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
                 <controls:DataGridTextColumn IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
-                <controls:DataGridTextColumn IsReadOnly="True" Header="Size" Width="*" Binding="{Binding FileSize}" Tag="Size"/>
+                <controls:DataGridTextColumn x:Name="sizeColumn" IsReadOnly="True" Header="Size" Width="Auto" MinWidth="100" Binding="{Binding FileSize}" Tag="Size"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-        
+
     </Grid>
 </Page>

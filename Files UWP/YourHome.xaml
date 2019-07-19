@@ -517,7 +517,7 @@
                             <Grid Margin="2">
                                 <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerReleased="DropShadowPanel_PointerReleased" PointerPressed="DropShadowPanel_PointerPressed" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="2.50" ShadowOpacity="0.05" Padding="0,0,-4,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,5" VerticalAlignment="Stretch">
                                     <Grid>
-                                        <Button Windows10version1809:CornerRadius="4" Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Button BorderThickness="1" Style="{ThemeResource ButtonRevealStyle}" Windows10version1809:CornerRadius="4" Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <StackPanel Spacing="10" Orientation="Vertical">
                                                 <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 <TextBlock Margin="0,0,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
