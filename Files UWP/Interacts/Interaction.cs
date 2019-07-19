@@ -916,9 +916,9 @@ namespace Files.Interacts
                     // First, reset DataGrid Rows that may be in "cut" command mode
                     foreach (DataGridRow row in dataGridRows)
                     {
-                        if (row.Opacity < 1)
+                        if ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.Columns[0].GetCellContent(row).Opacity < 1)
                         {
-                            row.Opacity = 1;
+                            (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.Columns[0].GetCellContent(row).Opacity = 1;
                         }
                     }
 
