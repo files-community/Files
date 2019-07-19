@@ -656,23 +656,52 @@ namespace Files.Interacts
                     {
                         selectedItems.Add(selectedItem);
                     }
+
+                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Maximum = selectedItems.Count;
+                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Value = 0;
+                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
+
+                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBox.Visibility = Visibility.Collapsed;
+                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
                     foreach (ListedItem storItem in selectedItems)
                     {
-                        if (storItem.FileType != "Folder")
+                        (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxTextInfo.Text = "Removing item (" + ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Value + 1) + "/" + selectedItems.Count + ")";
+                        try
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
+                            if (storItem.FileType != "Folder")
+                            {
+                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
 
+                            }
+                            else
+                            {
+                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+
+                            }
                         }
-                        else
+                        catch (FileLoadException)
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
+                            // try again
+                            if (storItem.FileType != "Folder")
+                            {
+                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
 
+                            }
+                            else
+                            {
+                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+
+                            }
                         }
+                        
                         (type as GenericFileBrowser).instanceViewModel.RemoveFileOrFolder(storItem);
+                        (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Value++;
                     }
-                    Debug.WriteLine("Ended for loop");
+                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBox.Visibility = Visibility.Collapsed;
                     CurrentInstance.FS.isEnabled = false;
                 }
                 else if (typeof(PageType) == typeof(PhotoAlbum))

@@ -11,6 +11,8 @@ using Files.Navigation;
 using Files.Interacts;
 using System.Diagnostics;
 using Windows.UI.Core;
+using System.Text.RegularExpressions;
+using System.IO;
 
 namespace Files
 {
@@ -32,6 +34,10 @@ namespace Files
         public ProgressBar progressBar;
         public ItemViewModel<GenericFileBrowser> instanceViewModel;
         public Interaction<GenericFileBrowser> instanceInteraction;
+        public Grid deleteProgressBox;
+        public ProgressBar deleteProgressBoxIndicator;
+        public TextBlock deleteProgressBoxTitle;
+        public TextBlock deleteProgressBoxTextInfo;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
         public GenericFileBrowser()
@@ -47,7 +53,10 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-            
+            deleteProgressBox = DeleteProgressDialog;
+            deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
+            deleteProgressBoxTitle = title;
+            deleteProgressBoxTextInfo = deleteInfoCurrentText;
         }
 
         private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
@@ -104,11 +113,21 @@ namespace Files
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
+            var parameters = (string)eventArgs.Parameter;
+            instanceViewModel.Universal.path = parameters;
+
+            if (instanceViewModel.Universal.path == Path.GetPathRoot(instanceViewModel.Universal.path))
+            {
+                CurrentInstance.UpButton.IsEnabled = false;
+            }
+            else
+            {
+                CurrentInstance.UpButton.IsEnabled = true;
+            }
+
             Clipboard_ContentChanged(null, null);
             CurrentInstance.AlwaysPresentCommands.isEnabled = true;
-            var parameters = (string)eventArgs.Parameter;
             instanceViewModel.CancelLoadAndClearFiles();
-            instanceViewModel.Universal.path = parameters;
             CurrentInstance.AddItemButton.Click += AddItem_Click;
 
             TextState.isVisible = Visibility.Collapsed;
@@ -144,7 +163,15 @@ namespace Files
             }
             else
             {
-                CurrentInstance.PathText.Text = parameters;
+                if(parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
+                {
+                    CurrentInstance.PathText.Text = @"Local Disk (C:\)";
+                }
+                else
+                {
+                    CurrentInstance.PathText.Text = parameters;
+
+                }
             }
 
             // Reset DataGrid Rows that may be in "cut" command mode
@@ -295,6 +322,11 @@ namespace Files
             {
                 SidebarPinItem.IsEnabled = true;
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteProgressDialog.Visibility = Visibility.Collapsed;
         }
     }
 

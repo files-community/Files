@@ -267,7 +267,7 @@
                                         </MenuFlyoutItem.Icon>
 
                                     </MenuFlyoutItem>
-                                    
+
                                     <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE946;"/>
@@ -310,6 +310,25 @@
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 
-
+        <Grid x:Name="DeleteProgressDialog" Visibility="Collapsed"  Canvas.ZIndex="5" Width="500" Height="250" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <controls:DropShadowPanel HorizontalContentAlignment="Stretch">
+                <Grid Padding="14" CornerRadius="4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Spacing="14" Orientation="Vertical"  Grid.RowSpan="1">
+                        <TextBlock Name="title" FontSize="22" FontWeight="Bold" FontFamily="Segoe UI"/>
+                        <Grid>
+                            <StackPanel Spacing="10" Orientation="Vertical">
+                                <TextBlock Name="deleteInfoCurrentText" FontSize="14"/>
+                                <ProgressBar x:Name="deleteInfoCurrentIndicator" Height="8"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                    <Button CornerRadius="2" Content="Hide" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1" Width="200" Click="Button_Click"/>
+                </Grid>
+            </controls:DropShadowPanel>
+        </Grid>
     </Grid>
 </Page>

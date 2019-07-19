@@ -450,6 +450,29 @@
     </Page.Resources>
 
     <Grid Padding="0,0,0,0">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <!--VisualState to be triggered when window width is between 0 - 1080 effective pixels.-->
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchReigon.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+                <!--VisualState to be triggered when window width is >=800 effective pixels.-->
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SearchReigon.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -607,7 +630,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition MinWidth="24" Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
                         <AppBarButton Icon="Back" LabelPosition="Collapsed" x:Name="Back">
@@ -621,6 +644,12 @@
                             <AppBarButton.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Right"/>
                                 <KeyboardAccelerator Key="XButton2"/>
+                            </AppBarButton.KeyboardAccelerators>
+                        </AppBarButton>
+                        
+                        <AppBarButton Visibility="Collapsed" Icon="Up" LabelPosition="Collapsed" x:Name="Up">
+                            <AppBarButton.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Menu" Key="Up"/>
                             </AppBarButton.KeyboardAccelerators>
                         </AppBarButton>
 
@@ -639,7 +668,7 @@
 
                     </TextBox>
 
-                    <StackPanel Margin="0,5,5,5" Grid.Column="2" Orientation="Horizontal">
+                    <StackPanel x:Name="SearchReigon" Margin="0,5,5,5" Grid.Column="2" Orientation="Horizontal">
                         <TextBox BorderBrush="DarkGray" Name="SearchBox" Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="2,0,0,2" BorderThickness="1" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260">
                             <TextBox.KeyboardAccelerators>
                                 <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="F"/>
@@ -751,7 +780,7 @@
                 </ScrollViewer>
             </SplitView.Pane>
 
-            <Frame Navigating="ItemDisplayFrame_Navigating" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
+            <Frame Navigated="ItemDisplayFrame_Navigated" Navigating="ItemDisplayFrame_Navigating" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
         <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">

@@ -21,7 +21,7 @@ namespace Files.SettingsPages
             var trulyclicked = Interaction<About>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
             if (trulyclicked.Name == "FeedbackForm")
             {
-                await Launcher.LaunchUriAsync(new Uri(@"https://github.com/duke7553/files-uwp/issues/new"));
+                await Launcher.LaunchUriAsync(new Uri(@"https://github.com/duke7553/files-uwp/issues/new/choose"));
             }
         }
     }

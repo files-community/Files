@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using System.Windows.Input;
 using Microsoft.Xaml.Interactions.Core;
 using Microsoft.Xaml.Interactivity;
+using System.Text.RegularExpressions;
 
 namespace Files
 {
@@ -64,9 +65,20 @@ namespace Files
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
+            var parameters = eventArgs.Parameter.ToString();
+            instanceViewModel.Universal.path = parameters;
+
+            if (instanceViewModel.Universal.path == Path.GetPathRoot(instanceViewModel.Universal.path))
+            {
+                CurrentInstance.UpButton.IsEnabled = false;
+            }
+            else
+            {
+                CurrentInstance.UpButton.IsEnabled = true;
+            }
+
             ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
             SidebarPinItem.Click += instanceInteraction.PinItem_Click;
-            var parameters = eventArgs.Parameter.ToString();
 
             TextState.isVisible = Visibility.Collapsed;
             
@@ -103,7 +115,16 @@ namespace Files
             }
             else
             {
-               CurrentInstance.PathText.Text = parameters;
+                if (parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
+                {
+                    CurrentInstance.PathText.Text = @"Local Disk (C:\)";
+                }
+                else
+                {
+                    CurrentInstance.PathText.Text = parameters;
+
+                }
+
             }
 
             if (Clipboard.GetContent().Contains(StandardDataFormats.StorageItems))
