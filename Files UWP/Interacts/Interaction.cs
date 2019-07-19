@@ -899,6 +899,7 @@ namespace Files.Interacts
 
 
         public List<DataGridRow> dataGridRows = new List<DataGridRow>();
+        public List<GridViewItem> gridViewItems = new List<GridViewItem>();
         public async void CutItem_Click(object sender, RoutedEventArgs e)
         {
             DataPackage dataPackage = new DataPackage();
@@ -928,11 +929,10 @@ namespace Files.Interacts
                         {
                             if(dataGridRow.GetIndex() == StorItem.RowIndex)
                             {
-                                Debug.WriteLine(dataGridRow.GetIndex());
                                 (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
                             }
                         }
-                        var RowPressed = FindParent<DataGridRow>((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data as DependencyObject);
+
                         App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {
@@ -950,11 +950,37 @@ namespace Files.Interacts
             else if (typeof(PageType) == typeof(PhotoAlbum))
             {
                 var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
-
                 if ((CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems.Count != 0)
                 {
+
+                    gridViewItems.Clear();
+                    FindChildren<GridViewItem>(gridViewItems, (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).PAPageName.Content);
+
+                    // First, reset GridView items that may be in "cut" command mode
+                    foreach (GridViewItem gridViewItem in gridViewItems)
+                    {
+                        List<Grid> itemContentGrids = new List<Grid>();
+                        FindChildren<Grid>(itemContentGrids, (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ContainerFromItem(gridViewItem.Content));
+                        var imageOfItem = itemContentGrids.Find(x => x.Tag.ToString() == "ItemImage");
+                        if (imageOfItem.Opacity < 1)
+                        {
+                            imageOfItem.Opacity = 1;
+                        }
+                    }
+
                     foreach (ListedItem StorItem in (type as PhotoAlbum).gv.SelectedItems)
                     {
+                        foreach (GridViewItem itemToDimForCut in gridViewItems)
+                        {
+                            if ( (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.Items.IndexOf(itemToDimForCut.Content) == StorItem.RowIndex)
+                            {
+                                List<Grid> itemContentGrids = new List<Grid>();
+                                FindChildren<Grid>(itemContentGrids, (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ContainerFromItem(itemToDimForCut.Content));
+                                var imageOfItem = itemContentGrids.Find(x => x.Tag.ToString() == "ItemImage");
+                                imageOfItem.Opacity = 0.4;
+                            }
+                        }
+
                         App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {

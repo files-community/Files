@@ -482,7 +482,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
                     <StackPanel IsRightTapEnabled="True" RightTapped="StackPanel_RightTapped" Width="150" Height="150" Tag="{x:Bind RowIndex}" Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid Width="150" Height="100">
+                        <Grid Tag="ItemImage" Width="150" Height="100">
                             <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="Picture" Visibility="{x:Bind FileIconVis}">
                                 <Image Stretch="Uniform" Source="{x:Bind FileImg}"/>
                             </Grid>
