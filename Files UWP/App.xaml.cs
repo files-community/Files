@@ -1,6 +1,7 @@
 ﻿using Files.Interacts;
 using Files.Navigation;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
 using Windows.ApplicationModel;
@@ -74,6 +75,9 @@ namespace Files
         }
 
         public static PasteState PS { get; set; } = new PasteState();
+
+        public static List<string> pathsToDeleteAfterPaste = new List<string>();
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.

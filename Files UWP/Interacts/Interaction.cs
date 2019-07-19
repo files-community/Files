@@ -897,22 +897,30 @@ namespace Files.Interacts
             }
         }
 
-        List<string> pathsToDeleteAfterPaste = new List<string>();
 
         public List<DataGridRow> dataGridRows = new List<DataGridRow>();
         public async void CutItem_Click(object sender, RoutedEventArgs e)
         {
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Move;
-            pathsToDeleteAfterPaste.Clear();
+            App.pathsToDeleteAfterPaste.Clear();
             List<IStorageItem> items = new List<IStorageItem>();
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
                 if ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Count != 0)
                 {
+                    dataGridRows.Clear();
                     FindChildren<DataGridRow>(dataGridRows, (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).GFBPageName.Content);
                     
+                    // First, reset DataGrid Rows that may be in "cut" command mode
+                    foreach (DataGridRow row in dataGridRows)
+                    {
+                        if (row.Opacity < 1)
+                        {
+                            row.Opacity = 1;
+                        }
+                    }
 
                     foreach (ListedItem StorItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                     {
@@ -925,7 +933,7 @@ namespace Files.Interacts
                             }
                         }
                         var RowPressed = FindParent<DataGridRow>((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data as DependencyObject);
-                        pathsToDeleteAfterPaste.Add(StorItem.FilePath);
+                        App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
@@ -947,7 +955,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem StorItem in (type as PhotoAlbum).gv.SelectedItems)
                     {
-                        pathsToDeleteAfterPaste.Add(StorItem.FilePath);
+                        App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
@@ -1056,7 +1064,7 @@ namespace Files.Interacts
 
             if (packageView.RequestedOperation == DataPackageOperation.Move)
             {
-                foreach (string path in pathsToDeleteAfterPaste)
+                foreach (string path in App.pathsToDeleteAfterPaste)
                 {
                     if (path.Contains("."))
                     {
@@ -1070,7 +1078,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            NavigationActions.Refresh_Click(null, null);
+
         }
 
         public async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName)
