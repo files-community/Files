@@ -34,10 +34,7 @@ namespace Files
         public ProgressBar progressBar;
         public ItemViewModel<GenericFileBrowser> instanceViewModel;
         public Interaction<GenericFileBrowser> instanceInteraction;
-        public Grid deleteProgressBox;
-        public ProgressBar deleteProgressBoxIndicator;
-        public TextBlock deleteProgressBoxTitle;
-        public TextBlock deleteProgressBoxTextInfo;
+
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
         public GenericFileBrowser()
@@ -53,10 +50,7 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-            deleteProgressBox = DeleteProgressDialog;
-            deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
-            deleteProgressBoxTitle = title;
-            deleteProgressBoxTextInfo = deleteInfoCurrentText;
+
         }
 
         private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
@@ -324,10 +318,6 @@ namespace Files
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DeleteProgressDialog.Visibility = Visibility.Collapsed;
-        }
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

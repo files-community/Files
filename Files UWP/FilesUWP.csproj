@@ -111,6 +111,21 @@
     <Compile Include="ClassicMode.xaml.cs">
       <DependentUpon>ClassicMode.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AddItemDialog.xaml.cs">
+      <DependentUpon>AddItemDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ConsentDialog.xaml.cs">
+      <DependentUpon>ConsentDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\LayoutDialog.xaml.cs">
+      <DependentUpon>LayoutDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\PropertiesDialog.xaml.cs">
+      <DependentUpon>PropertiesDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\RenameDialog.xaml.cs">
+      <DependentUpon>RenameDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Filesystem\Classic_ListedFolderItem.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
@@ -179,6 +194,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ClassicMode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AddItemDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConsentDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\LayoutDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\PropertiesDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\RenameDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

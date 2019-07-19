@@ -37,19 +37,5 @@ namespace Files
             PropertiesDialog = Frame.Tag as ContentDialog;
             base.OnNavigatedTo(e);
         }
-        private void OK_Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void Apply_Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            PropertiesDialog?.Hide();
-        }
     }
 }

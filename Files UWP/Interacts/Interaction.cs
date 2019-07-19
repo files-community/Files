@@ -22,6 +22,7 @@ using Windows.Foundation;
 using Windows.UI.Xaml.Controls.Primitives;
 using System.IO;
 using System.Reflection;
+using Files.Dialogs;
 
 namespace Files.Interacts
 {
@@ -652,20 +653,20 @@ namespace Files.Interacts
                 {
                     var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
                     List<ListedItem> selectedItems = new List<ListedItem>();
-                    foreach(ListedItem selectedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
+                    foreach (ListedItem selectedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                     {
                         selectedItems.Add(selectedItem);
                     }
 
-                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Maximum = selectedItems.Count;
-                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Value = 0;
-                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
+                    CurrentInstance.deleteProgressBoxIndicator.Maximum = selectedItems.Count;
+                    CurrentInstance.deleteProgressBoxIndicator.Value = 0;
+                    CurrentInstance.deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
 
-                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBox.Visibility = Visibility.Collapsed;
-                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
+                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
+                    CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
                     foreach (ListedItem storItem in selectedItems)
                     {
-                        (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxTextInfo.Text = "Removing item (" + ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Value + 1) + "/" + selectedItems.Count + ")";
+                        CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (" + (CurrentInstance.deleteProgressBoxIndicator.Value + 1) + "/" + selectedItems.Count + ")";
                         try
                         {
                             if (storItem.FileType != "Folder")
@@ -697,11 +698,11 @@ namespace Files.Interacts
 
                             }
                         }
-                        
+
                         (type as GenericFileBrowser).instanceViewModel.RemoveFileOrFolder(storItem);
-                        (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBoxIndicator.Value++;
+                        CurrentInstance.deleteProgressBoxIndicator.Value++;
                     }
-                    (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).deleteProgressBox.Visibility = Visibility.Collapsed;
+                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Collapsed;
                     CurrentInstance.FS.isEnabled = false;
                 }
                 else if (typeof(PageType) == typeof(PhotoAlbum))
@@ -712,31 +713,64 @@ namespace Files.Interacts
                     {
                         selectedItems.Add(selectedItem);
                     }
+
+                    CurrentInstance.deleteProgressBoxIndicator.Maximum = selectedItems.Count;
+                    CurrentInstance.deleteProgressBoxIndicator.Value = 0;
+                    CurrentInstance.deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
+
+                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
+                    CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
+
                     foreach (ListedItem storItem in selectedItems)
                     {
-                        if (storItem.FileType != "Folder")
+                        CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (" + (CurrentInstance.deleteProgressBoxIndicator.Value + 1) + "/" + selectedItems.Count + ")";
+                        try
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
+                            if (storItem.FileType != "Folder")
+                            {
+                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
 
+                            }
+                            else
+                            {
+                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+
+                            }
                         }
-                        else
+                        catch (FileLoadException)
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
+                            // try again
+                            if (storItem.FileType != "Folder")
+                            {
+                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
 
+                            }
+                            else
+                            {
+                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+
+                            }
                         }
+
                         (type as PhotoAlbum).instanceViewModel.RemoveFileOrFolder(storItem);
+                        CurrentInstance.deleteProgressBoxIndicator.Value++;
                     }
-                    Debug.WriteLine("Ended for loop");
+                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Collapsed;
                     CurrentInstance.FS.isEnabled = false;
                 }
-                
             }
             catch (UnauthorizedAccessException)
             {
                 MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
                 await AccessDeniedDialog.ShowAsync();
+            }
+            catch (FileNotFoundException)
+            {
+                Debug.WriteLine("Attention: Tried to delete an item that could be found");
             }
         }
 
@@ -746,14 +780,15 @@ namespace Files.Interacts
             if (typeof(PageType) == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                RenameDialog renameDialog = new RenameDialog();
+                renameDialog.inputBox.Text = "";
 
-                CurrentInstance.inputFromRename.Text = "";
                 try
                 {
                     var ItemSelected = (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
                     var RowData = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[ItemSelected];
-                    await CurrentInstance.NameBox.ShowAsync();
-                    var input = CurrentInstance.inputForRename;
+                    await renameDialog.ShowAsync();
+                    var input = renameDialog.storedRenameInput;
                     if (input != null)
                     {
                         if (RowData.FileType == "Folder")
@@ -804,12 +839,15 @@ namespace Files.Interacts
             else if (typeof(PageType) == typeof(PhotoAlbum))
             {
                 var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                RenameDialog renameDialog = new RenameDialog();
+                renameDialog.inputBox.Text = "";
+
                 try
                 {
                     var ItemSelected = (type as PhotoAlbum).gv.SelectedIndex;
                     var BoxData = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[ItemSelected];
-                    await CurrentInstance.NameBox.ShowAsync();
-                    var input = CurrentInstance.inputForRename;
+                    await renameDialog.ShowAsync();
+                    var input = renameDialog.storedRenameInput;
                     if (input != null)
                     {
                         if (BoxData.FileType == "Folder")

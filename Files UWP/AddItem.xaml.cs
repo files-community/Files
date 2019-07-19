@@ -4,10 +4,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System;
 using Files.Filesystem;
-using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Dialogs;
 
 namespace Files
 {
@@ -66,7 +65,7 @@ namespace Files
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var TabInstance = GetCurrentSelectedTabInstance<ProHome>();
-            TabInstance.AddItemBox.Hide();
+            TabInstance.addItemDialog.Hide();
             string currentPath = null;
             if (TabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
@@ -77,33 +76,49 @@ namespace Files
                 currentPath = (TabInstance.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel.Universal.path;
             }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
+            RenameDialog renameDialog = new RenameDialog();
             if ((e.ClickedItem as AddListItem).Header == "Folder")
             {
-                await TabInstance.NameBox.ShowAsync();
-                var userInput = TabInstance.inputForRename;
-                if (userInput != null)
+                await renameDialog.ShowAsync();
+                var userInput = renameDialog.storedRenameInput;
+                if (userInput != "")
                 {
                     var folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
                     instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId){ FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (instanceViewModel.Universal.path + "\\" + userInput) });
                 }
+                else
+                {
+                    var folder = await folderToCreateItem.CreateFolderAsync("New Folder", CreationCollisionOption.GenerateUniqueName);
+                    instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (instanceViewModel.Universal.path + "\\" + userInput) });
+                }
             }
             else if ((e.ClickedItem as AddListItem).Header == "Text Document")
             {
-                await TabInstance.NameBox.ShowAsync();
-                var userInput = TabInstance.inputForRename;
-                if (userInput != null)
+                await renameDialog.ShowAsync();
+                var userInput = renameDialog.storedRenameInput;
+                if (userInput != "")
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
+                    instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (instanceViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
+                }
+                else
+                {
+                    var folder = await folderToCreateItem.CreateFileAsync("New Text Document" + ".txt", CreationCollisionOption.GenerateUniqueName);
                     instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (instanceViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
                 }
             }
             else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
             {
-                await GetCurrentSelectedTabInstance<ProHome>().NameBox.ShowAsync();
-                var userInput = GetCurrentSelectedTabInstance<ProHome>().inputForRename;
-                if (userInput != null)
+                await renameDialog.ShowAsync();
+                var userInput = renameDialog.storedRenameInput;
+                if (userInput != "")
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
+                    instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "BMP File", FileImg = null, FilePath = (instanceViewModel.Universal.path + "\\" + userInput + ".bmp"), DotFileExtension = ".bmp" });
+                }
+                else
+                {
+                    var folder = await folderToCreateItem.CreateFileAsync("New Bitmap Image" + ".bmp", CreationCollisionOption.GenerateUniqueName);
                     instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "BMP File", FileImg = null, FilePath = (instanceViewModel.Universal.path + "\\" + userInput + ".bmp"), DotFileExtension = ".bmp" });
                 }
             }

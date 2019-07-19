@@ -6,73 +6,63 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     x:Class="Files.Properties"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="400" Height="450">
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <StackPanel >
+        <StackPanel>
             <Grid Margin="0,0,0,-10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="15,15" Grid.Column="0" Width="45" Height="45" Name="itemIcon" Source="{x:Bind Item.FileImg,Mode=OneWay}" />
-                <TextBox  CornerRadius="2" BorderThickness="1" Padding="10,4" Name="itemFileName" Text="{x:Bind Item.FileName,Mode=OneWay}" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="0,0,15,0" />
+                <Image Margin="15,15" Grid.Column="0" Width="45" Height="45" Name="itemIcon" Source="{x:Bind Item.FileImg,Mode=OneTime}" />
+                <TextBox CornerRadius="2" BorderThickness="1" Padding="10,4" Name="itemFileName" Text="{x:Bind Item.FileName,Mode=OneTime}" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="15,0,15,0" />
             </Grid>
-            <MenuFlyoutSeparator HorizontalAlignment="Stretch" Margin="-10,0,-10,0"/>
+            <MenuFlyoutSeparator HorizontalAlignment="Stretch" Margin="-10,0"/>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Item type:"/>
-                <TextBlock Grid.Column="1" Name="itemType" Text="{x:Bind Item.FileType,Mode=OneWay}" />
+                <TextBlock Grid.Column="1" Name="itemType" Text="{x:Bind Item.FileType,Mode=OneTime}" />
             </Grid>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Path:"/>
-                <TextBlock Grid.Column="2" Name="itemPath" Text="{x:Bind Item.FilePath,Mode=OneWay}" TextWrapping="Wrap" />
+                <TextBlock Grid.Column="2" Name="itemPath" Text="{x:Bind Item.FilePath,Mode=OneTime}" TextWrapping="Wrap" />
             </Grid>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Item size:"/>
-                <TextBlock Grid.Column="3" Name="itemSize" Text="{x:Bind Item.FileSize,Mode=OneWay}" />
+                <TextBlock Text="Size:"/>
+                <TextBlock Grid.Column="3" Name="itemSize" Text="{x:Bind Item.FileSize,Mode=OneTime}" />
             </Grid>
-            <MenuFlyoutSeparator Margin="-10,0,-10,0"/>
+            <MenuFlyoutSeparator Margin="-10,0"/>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Created:"/>
-                <TextBlock Grid.Column="4" Name="itemCreatedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneWay}" />
+                <TextBlock Grid.Column="4" Name="itemCreatedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneTime}" />
             </Grid>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Modified:"/>
-                <TextBlock Grid.Column="5" Name="itemModifiedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneWay}"/>
+                <TextBlock Grid.Column="5" Name="itemModifiedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneTime}"/>
             </Grid>
         </StackPanel>
         
-        <StackPanel Spacing="5" Padding="0,10" Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="OK" Foreground="White" Background="#FF0078D7" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
-            <Button Content="Apply" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
-            <Button Content="Cancel" CornerRadius="2" Width="128" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Click="Button_Click"/>
-        </StackPanel>
     </Grid>
 </Page>

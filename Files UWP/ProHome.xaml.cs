@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Dialogs;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.Navigation;
 using Microsoft.UI.Xaml.Controls;
@@ -8,7 +9,6 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -26,8 +26,6 @@ namespace Files
     /// </summary>
     public sealed partial class ProHome : Page
     {
-        public ContentDialog permissionBox;
-        public ContentDialog propertiesBox;
         public ListView locationsList;
         public ListView drivesList;
         public Frame accessibleContentFrame;
@@ -38,11 +36,7 @@ namespace Files
         public Button accessiblePasteButton;
         public Button RefreshButton;
         public Button AddItemButton;
-        public ContentDialog AddItemBox;
-        public ContentDialog NameBox;
-        public TextBox inputFromRename;
         public TextBox PathBox;
-        public string inputForRename;
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -51,7 +45,10 @@ namespace Files
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         public TeachingTip RibbonTeachingTip;
-
+        public Grid deleteProgressBox;
+        public ProgressBar deleteProgressBoxIndicator;
+        public TextBlock deleteProgressBoxTitle;
+        public TextBlock deleteProgressBoxTextInfo;
         public BackState BS { get; set; } = new BackState();
         public ForwardState FS { get; set; } = new ForwardState();
         public DisplayedPathText PathText { get; set; } = new DisplayedPathText();
@@ -59,20 +56,19 @@ namespace Files
         public Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
         public Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
         public Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
-        public Interacts.AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new Interacts.AlwaysPresentCommandsState();
+        public AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new AlwaysPresentCommandsState();
+
+        public AddItemDialog addItemDialog = new AddItemDialog();
+        public LayoutDialog layoutDialog = new LayoutDialog();
+        public PropertiesDialog propertiesDialog = new PropertiesDialog();
+        public ConsentDialog consentDialog = new ConsentDialog();
 
         public ProHome()
         {
             this.InitializeComponent();
-            permissionBox = PermissionDialog;
             locationsList = LocationsList;
             drivesList = DrivesList;
             accessibleContentFrame = ItemDisplayFrame;
-            accessiblePropertiesFrame = propertiesFrame;
-            AddItemBox = AddDialog;
-            NameBox = NameDialog;
-            propertiesBox = PropertiesDialog;
-            inputFromRename = RenameInput;
             BackButton = Back;
             UpButton = Up;
             ForwardButton = Forward;
@@ -104,11 +100,11 @@ namespace Files
                     VideosPath = localSettings.Values["VideosLocation"].ToString();
                 }
             }
-            
-
+            deleteProgressBox = DeleteProgressFakeDialog;
+            deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
+            deleteProgressBoxTitle = title;
+            deleteProgressBoxTextInfo = deleteInfoCurrentText;
         }
-
-
 
         List<string> LinesToRemoveFromFile = new List<string>();
 
@@ -319,11 +315,6 @@ namespace Files
                     return;
                 }
             }
-        }
-
-        private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            inputForRename = inputFromRename.Text;
         }
 
         private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
@@ -738,11 +729,6 @@ namespace Files
                 
         }
 
-        private async void PermissionDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
-
-        }
 
         private void LocationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -843,13 +829,13 @@ namespace Files
         {
             if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                AddDialogFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as GenericFileBrowser, new SuppressNavigationTransitionInfo());
+                addItemDialog.addDialogContentFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as GenericFileBrowser, new SuppressNavigationTransitionInfo());
             }
             else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                AddDialogFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as PhotoAlbum, new SuppressNavigationTransitionInfo());
+                addItemDialog.addDialogContentFrame.Navigate(typeof(AddItem), accessibleContentFrame.Content as PhotoAlbum, new SuppressNavigationTransitionInfo());
             }
-            await AddItemBox.ShowAsync();
+            await addItemDialog.ShowAsync();
         }
 
         private void OpenWithButton_Click(object sender, RoutedEventArgs e)
@@ -878,7 +864,7 @@ namespace Files
 
         private async void LayoutButton_Click(object sender, RoutedEventArgs e)
         {
-            await LayoutDialog.ShowAsync();
+            await layoutDialog.ShowAsync();
         }
 
         private void SelectAllButton_Click(object sender, RoutedEventArgs e)
@@ -905,29 +891,20 @@ namespace Files
             }
         }
 
-        private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            inputForRename = null;
-        }
 
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                propertiesFrame.Tag = PropertiesDialog;
-                propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                propertiesFrame.Tag = PropertiesDialog;
-                propertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
             }
-            await PropertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
-        }
-
-        public void PropertiesWindow_CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-
+            await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 
         private void RibbonTip_Loaded(object sender, RoutedEventArgs e)
@@ -982,6 +959,11 @@ namespace Files
             {
                 UpButton.IsEnabled = false;
             }
+        }
+
+        private void HideFakeDialogButton_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteProgressFakeDialog.Visibility = Visibility.Collapsed;
         }
     }
     public class NavigationActions

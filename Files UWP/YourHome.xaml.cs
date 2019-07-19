@@ -266,7 +266,7 @@ namespace Files
             }
             catch (UnauthorizedAccessException)
             {
-                await GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                await GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
             }
             catch (System.ArgumentException)
             {

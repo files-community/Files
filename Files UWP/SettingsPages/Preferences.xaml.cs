@@ -130,7 +130,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -156,7 +156,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -181,7 +181,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -206,7 +206,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -231,7 +231,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)
@@ -256,7 +256,7 @@ namespace Files.SettingsPages
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().permissionBox.ShowAsync();
+                    await ItemViewModel<Preferences>.GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
                     return;
                 }
                 catch (ArgumentException)

@@ -10,11 +10,8 @@
 
     <Grid>
         <StackPanel Spacing="25" Orientation="Vertical">
-            <Grid Name="HeaderArea">
-                <StackPanel>
-                    <TextBlock Name="Heading" Text="Create New Item" FontSize="36" FontWeight="Bold"/>
-                    <TextBlock Name="Description" Text="Choose a type below for this new item."/>
-                </StackPanel>
+            <Grid Name="SubtitleArea">
+                <TextBlock Name="Description" Text="Choose a type below for this new item."/>
             </Grid>
             <Grid Name="SelectionListContent" HorizontalAlignment="Stretch">
                 <StackPanel>

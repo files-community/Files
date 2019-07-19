@@ -202,7 +202,7 @@ namespace Files.Filesystem
 
         public async void DisplayConsentDialog()
         {
-            await tabInstance.permissionBox.ShowAsync();
+            await tabInstance.consentDialog.ShowAsync();
         }
 
         public async void AddItemsToCollectionAsync(string path, Page currentPage)

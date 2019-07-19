@@ -243,7 +243,7 @@ namespace Files
         private async void PropertiesItemGrid_Click(object sender, RoutedEventArgs e)
         {
             ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text, new SuppressNavigationTransitionInfo());
-            await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesBox.ShowAsync();
+            await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesDialog.ShowAsync();
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)

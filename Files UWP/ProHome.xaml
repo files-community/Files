@@ -481,7 +481,7 @@
         <Grid Margin="0,-1,0,0" Canvas.ZIndex="2" x:Name="Ribbon" Grid.Row="0">
             <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
                 <Custom:TabView TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
-                    <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
+                    <Custom:TabViewItem Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File">
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -783,48 +783,26 @@
             <Frame Navigated="ItemDisplayFrame_Navigated" Navigating="ItemDisplayFrame_Navigating" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Name="ItemDisplayFrame"/>
 
         </SplitView>
-        <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" DefaultButton="Primary" PrimaryButtonClick="PermissionDialog_PrimaryButtonClick" PrimaryButtonText="Grant Permission" Name="PermissionDialog" Title="Welcome to Files UWP">
-            <Windows10version1903:ContentDialog.Shadow>
-                <Windows10version1903:ThemeShadow/>
-            </Windows10version1903:ContentDialog.Shadow>
-            <Grid>
-                <TextBlock TextWrapping="WrapWholeWords" Text="To get started, we need you to grant us permission to show you your files. This will open a Settings page where you can grant us permission. Files will close in the process, so don't be afraid to come back! "/>
-            </Grid>
-        </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" BorderThickness="0" Name="AddDialog" PrimaryButtonText="Cancel">
-            <Windows10version1903:ContentDialog.Shadow>
-                <Windows10version1903:ThemeShadow/>
-            </Windows10version1903:ContentDialog.Shadow>
-            <Frame Width="450" Name="AddDialogFrame"/>
-        </ContentDialog>
-        <ContentDialog Windows10version1809:CornerRadius="4" Grid.RowSpan="4" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" DefaultButton="Primary" Title="Name this item" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
-            <Windows10version1903:ContentDialog.Shadow>
-                <Windows10version1903:ThemeShadow/>
-            </Windows10version1903:ContentDialog.Shadow>
-            <Grid>
-                <TextBox Padding="8" Name="RenameInput" PlaceholderText="Enter an item name without the file extension" Width="300"/>
-            </Grid>
-        </ContentDialog>
-        <ContentDialog Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Windows10version1809:CornerRadius="4" Name="PropertiesDialog" Grid.RowSpan="4" Title="Properties" >
-            <Windows10version1903:ContentDialog.Shadow>
-                <Windows10version1903:ThemeShadow/>
-            </Windows10version1903:ContentDialog.Shadow>
-            <Frame Width="400" Height="450" Name="propertiesFrame" />
-        </ContentDialog>
-
-        <ContentDialog Windows10version1809:CornerRadius="4" Title="Pick an Item Layout" Name="LayoutDialog" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
-            <Windows10version1903:ContentDialog.Shadow>
-                <Windows10version1903:ThemeShadow/>
-            </Windows10version1903:ContentDialog.Shadow>
-            <Grid Width="450">
-                <StackPanel Spacing="25" Orientation="Vertical">
-                    <StackPanel>
-                        <RadioButton Content="Details - Displays a sortable DataGrid containing item details"/>
-                        <RadioButton Content="Icons - Displays all items as larger icons with less information"/>
+        
+        <Grid Grid.RowSpan="3" x:Name="DeleteProgressFakeDialog" Visibility="Collapsed" Canvas.ZIndex="5" Width="500" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Custom:DropShadowPanel HorizontalContentAlignment="Stretch">
+                <Grid Padding="14" CornerRadius="4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Spacing="14" Orientation="Vertical"  Grid.RowSpan="1">
+                        <TextBlock Name="title" FontSize="20" FontFamily="Segoe UI"/>
+                        <Grid>
+                            <StackPanel Spacing="15" Orientation="Vertical">
+                                <TextBlock Name="deleteInfoCurrentText" FontSize="14"/>
+                                <ProgressBar x:Name="deleteInfoCurrentIndicator" Height="8"/>
+                            </StackPanel>
+                        </Grid>
                     </StackPanel>
-                    <CheckBox Content="Always use this layout for the current directory"/>
-                </StackPanel>
-            </Grid>
-        </ContentDialog>
+                    <Button x:Name="HideFakeDialogButton" CornerRadius="2" Content="Hide" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1" Width="200" Click="HideFakeDialogButton_Click"/>
+                </Grid>
+            </Custom:DropShadowPanel>
+        </Grid>
     </Grid>
 </Page>
