@@ -661,8 +661,10 @@ namespace Files.Interacts
                     CurrentInstance.deleteProgressBoxIndicator.Maximum = selectedItems.Count;
                     CurrentInstance.deleteProgressBoxIndicator.Value = 0;
                     CurrentInstance.deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
-
-                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
+                    if(selectedItems.Count > 5)
+                    {
+                        CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
+                    }
                     CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
                     foreach (ListedItem storItem in selectedItems)
                     {
@@ -718,7 +720,10 @@ namespace Files.Interacts
                     CurrentInstance.deleteProgressBoxIndicator.Value = 0;
                     CurrentInstance.deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
 
-                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
+                    if (selectedItems.Count > 5)
+                    {
+                        CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
+                    }
                     CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
 
                     foreach (ListedItem storItem in selectedItems)
