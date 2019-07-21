@@ -450,6 +450,82 @@
     </Page.Resources>
 
     <Grid Padding="0,0,0,0">
+        <Grid.Resources>
+            <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="Height" Value="{ThemeResource NavigationBackButtonHeight}" />
+                <Setter Property="Width" Value="{ThemeResource NavigationBackButtonWidth}" />
+                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                <Setter Property="VerticalContentAlignment" Value="Center" />
+                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid"
+              Background="{TemplateBinding Background}">
+
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal" />
+
+                                        <VisualState x:Name="PointerOver">
+
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Pressed">
+
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                        <VisualState x:Name="Disabled">
+
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseMediumLowBrush}" />
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+
+                                    </VisualStateGroup>
+
+                                </VisualStateManager.VisualStateGroups>
+                                <FontIcon
+                x:Name="Content"
+                FontSize="{TemplateBinding FontSize}"
+                FontFamily="{TemplateBinding FontFamily}"
+                Glyph="{TemplateBinding Content}"
+                MirroredWhenRightToLeft="True"
+                Foreground="{TemplateBinding Foreground}"
+                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                AutomationProperties.AccessibilityView="Raw" />
+
+                            </Grid>
+
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
                 <!--VisualState to be triggered when window width is between 0 - 800 effective pixels.-->
@@ -633,36 +709,40 @@
                         <ColumnDefinition MinWidth="24" Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <AppBarButton Icon="Back" LabelPosition="Collapsed" x:Name="Back">
-                            <AppBarButton.KeyboardAccelerators>
+                        <Button  Style="{StaticResource NavigationBackButtonNormalStyle}"  x:Name="Back">
+                            <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
                                 <KeyboardAccelerator Key="XButton1"/>
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
+                            </Button.KeyboardAccelerators>
+                        </Button>
 
-                        <AppBarButton Icon="Forward" LabelPosition="Collapsed" x:Name="Forward">
-                            <AppBarButton.KeyboardAccelerators>
+                        <Button Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Forward">
+                            <Button.Content>
+                                &#xE72A;
+                            </Button.Content>
+                            <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Right"/>
                                 <KeyboardAccelerator Key="XButton2"/>
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
-                        
-                        <AppBarButton Visibility="Collapsed" Icon="Up" LabelPosition="Collapsed" x:Name="Up">
-                            <AppBarButton.KeyboardAccelerators>
-                                <KeyboardAccelerator Modifiers="Menu" Key="Up"/>
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
+                            </Button.KeyboardAccelerators>
+                        </Button>
 
-                        <AppBarButton LabelPosition="Collapsed" Label="Refresh" x:Name="Refresh" >
-                            <AppBarButton.ContentTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets"  FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </DataTemplate>
-                            </AppBarButton.ContentTemplate>
-                            <AppBarButton.KeyboardAccelerators>
+                        <Button Visibility="Collapsed" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Up">
+                            <Button.Content>
+                                &#xE74A;
+                            </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Menu" Key="Up"/>
+                            </Button.KeyboardAccelerators>
+                        </Button>
+
+                        <Button Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Refresh" >
+                            <Button.Content>
+                                &#xE72C;
+                            </Button.Content>
+                            <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="F5"/>
-                            </AppBarButton.KeyboardAccelerators>
-                        </AppBarButton>
+                            </Button.KeyboardAccelerators>
+                        </Button>
                     </StackPanel>
                     <TextBox Margin="5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2" Grid.Column="1" KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Enter a path">
 
