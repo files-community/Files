@@ -1480,8 +1480,18 @@ namespace Files
             {
                 var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 instance.CancelLoadAndClearFiles();
-                var parentDirectoryOfPath = instance.Universal.path.Remove(instance.Universal.path.LastIndexOf("\\"));
- 
+                string parentDirectoryOfPath = null;
+                // Check that there isn't a slash at the end
+                if((instance.Universal.path.Count() - 1) - instance.Universal.path.LastIndexOf("\\") > 0)
+                {
+                    parentDirectoryOfPath = instance.Universal.path.Remove(instance.Universal.path.LastIndexOf("\\"));
+                }
+                else  // Slash found at end
+                {
+                    var currentPathWithoutEndingSlash = instance.Universal.path.Remove(instance.Universal.path.LastIndexOf("\\"));
+                    parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
+                }
+
                 var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
                 if (parentDirectoryOfPath == ProHome.DesktopPath)
                 {
@@ -1547,7 +1557,17 @@ namespace Files
             {
                 var instance = (instanceContentFrame.Content as PhotoAlbum).instanceViewModel;
                 instance.CancelLoadAndClearFiles();
-                var parentDirectoryOfPath = instance.Universal.path.Remove(instance.Universal.path.LastIndexOf("\\"));
+                string parentDirectoryOfPath = null;
+                // Check that there isn't a slash at the end
+                if ((instance.Universal.path.Count() - 1) - instance.Universal.path.LastIndexOf("\\") > 0)
+                {
+                    parentDirectoryOfPath = instance.Universal.path.Remove(instance.Universal.path.LastIndexOf("\\"));
+                }
+                else  // Slash found at end
+                {
+                    var currentPathWithoutEndingSlash = instance.Universal.path.Remove(instance.Universal.path.LastIndexOf("\\"));
+                    parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
+                }
 
                 var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
                 if (parentDirectoryOfPath == ProHome.DesktopPath)

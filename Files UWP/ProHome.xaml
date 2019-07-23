@@ -726,7 +726,7 @@
                             </Button.KeyboardAccelerators>
                         </Button>
 
-                        <Button Visibility="Collapsed" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Up">
+                        <Button Visibility="Visible" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Up">
                             <Button.Content>
                                 &#xE74A;
                             </Button.Content>
