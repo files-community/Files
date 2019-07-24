@@ -18,6 +18,7 @@ using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -84,6 +85,78 @@ namespace Files.Filesystem
             tabInstance.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
             tabInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
             tabInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
+
+            Universal.PropertyChanged += Universal_PropertyChanged;
+        }
+
+        /*
+         * Ensure that the path bar gets updated for user interaction
+         * whenever the path changes. We will get the individual directories from
+         * the updated, most-current path and add them to the UI.
+         */
+
+        private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            // Clear the path UI
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Clear();
+            Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
+            FontWeight weight = new FontWeight()
+            {
+                Weight = FontWeights.SemiBold.Weight
+            };
+            List<string> pathComponents = new List<string>();
+            if (e.PropertyName == "path")
+            {
+                // If path is a library, simplify it
+
+                // If path is found to not be a library
+                pathComponents =  Universal.path.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                int index = 0;
+                foreach(string s in pathComponents)
+                {
+                    string componentLabel = null;
+                    string tag = "";
+                    if (s.Contains(":"))
+                    {
+                        if (s == @"C:" || s == @"c:")
+                        {
+                            componentLabel = @"Local Disk (C:\)";
+                        }
+                        else
+                        {
+                            componentLabel = @"Drive (" + s + @"\)";
+                        }
+                        tag = s + @"\";
+
+                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(new Microsoft.UI.Xaml.Controls.TabViewItem()
+                        {
+                            Header = componentLabel + " >",
+                            Tag = tag,
+                            CornerRadius = new CornerRadius(0),
+                            Style = tabStyleFixed,
+                            FontWeight = weight
+                        });
+                    }
+                    else
+                    {
+                        componentLabel = s;
+                        foreach (string part in pathComponents.GetRange(0, index + 1))
+                        {
+                            tag = tag + part + @"\";
+                        }
+
+                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(new Microsoft.UI.Xaml.Controls.TabViewItem()
+                        {
+                            Header = componentLabel + " >",
+                            Tag = tag,
+                            CornerRadius = new CornerRadius(0),
+                            Style = tabStyleFixed,
+                            FontWeight = weight
+                        });
+                    }
+                    index++;
+                }
+            }
         }
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

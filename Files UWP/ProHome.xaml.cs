@@ -62,7 +62,7 @@ namespace Files
         public LayoutDialog layoutDialog = new LayoutDialog();
         public PropertiesDialog propertiesDialog = new PropertiesDialog();
         public ConsentDialog consentDialog = new ConsentDialog();
-
+        public TabView accessiblePathTabView;
         public ProHome()
         {
             this.InitializeComponent();
@@ -79,6 +79,7 @@ namespace Files
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
             RibbonTeachingTip = RibbonTip;
+            accessiblePathTabView = PathViewInteract;
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             PopulatePinnedSidebarItems();
             PopulateNavViewWithExternalDrives();
@@ -338,7 +339,13 @@ namespace Files
                     var contentInstance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
                     CheckPathInput<YourHome>(contentInstance, CurrentInput);
                 }
-
+                VisiblePath.Visibility = Visibility.Collapsed;
+                ClickablePath.Visibility = Visibility.Visible;
+            }
+            else if(e.Key == VirtualKey.Escape)
+            {
+                VisiblePath.Visibility = Visibility.Collapsed;
+                ClickablePath.Visibility = Visibility.Visible;
             }
         }
 
@@ -964,6 +971,23 @@ namespace Files
         private void HideFakeDialogButton_Click(object sender, RoutedEventArgs e)
         {
             DeleteProgressFakeDialog.Visibility = Visibility.Collapsed;
+        }
+
+        private void ManualPathEntryClickArea_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            VisiblePath.Visibility = Visibility.Visible;
+            ClickablePath.Visibility = Visibility.Collapsed;
+        }
+
+        private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
+        {
+            VisiblePath.Visibility = Visibility.Collapsed;
+            ClickablePath.Visibility = Visibility.Visible;
+        }
+
+        private void ClickablePathView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            PathViewInteract.SelectedIndex = -1;
         }
     }
     public class NavigationActions
