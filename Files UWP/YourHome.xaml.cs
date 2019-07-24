@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.IO;
 using Windows.UI.Popups;
+using Windows.UI.Text;
 
 namespace Files
 {
@@ -53,6 +54,8 @@ namespace Files
                     VideosPath = localSettings.Values["VideosLocation"].ToString();
                 }
             }
+
+              
         }
 
         public T GetCurrentSelectedTabInstance<T>()
@@ -86,6 +89,25 @@ namespace Files
             GetCurrentSelectedTabInstance<ProHome>().accessiblePasteButton.IsEnabled = false;
             GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = false;
             GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
+
+            // Clear the path UI and replace with Favorites
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Clear();
+            Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
+            FontWeight weight = new FontWeight()
+            {
+                Weight = FontWeights.SemiBold.Weight
+            };
+            string componentLabel = "Favorites";
+            string tag = "Favorites";
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(new Microsoft.UI.Xaml.Controls.TabViewItem()
+            {
+                Header = componentLabel + " >",
+                Tag = tag,
+                CornerRadius = new CornerRadius(0),
+                Style = tabStyleFixed,
+                FontWeight = weight
+            });
+
         }
 
         private void CardPressed(object sender, ItemClickEventArgs e)
