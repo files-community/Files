@@ -135,7 +135,7 @@ namespace Files.Filesystem
                             CornerRadius = new CornerRadius(0),
                             Style = tabStyleFixed,
                             FontWeight = weight,
-                            FontSize = 13
+                            FontSize = 14
                         };
                         item.Tapped += Item_Tapped;
                         GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
@@ -155,7 +155,7 @@ namespace Files.Filesystem
                             CornerRadius = new CornerRadius(0),
                             Style = tabStyleFixed,
                             FontWeight = weight,
-                            FontSize = 13
+                            FontSize = 14
                         };
                         item.Tapped += Item_Tapped;
                         GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);

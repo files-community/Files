@@ -106,7 +106,7 @@ namespace Files
                 CornerRadius = new CornerRadius(0),
                 Style = tabStyleFixed,
                 FontWeight = weight,
-                FontSize = 13
+                FontSize = 14
             };
             GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
 
