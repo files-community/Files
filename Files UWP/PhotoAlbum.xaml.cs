@@ -81,7 +81,8 @@ namespace Files
             SidebarPinItem.Click += instanceInteraction.PinItem_Click;
 
             TextState.isVisible = Visibility.Collapsed;
-            
+            instanceViewModel.CancelLoadAndClearFiles();
+
             instanceViewModel.AddItemsToCollectionAsync(parameters, this);
             FileList.DoubleTapped += instanceInteraction.List_ItemClick;
 

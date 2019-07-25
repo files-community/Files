@@ -168,6 +168,7 @@ namespace Files.Filesystem
 
         private void Item_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            CancelLoadAndClearFiles();
             var itemTappedTag = (sender as Microsoft.UI.Xaml.Controls.TabViewItem).Tag.ToString();
             ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedTag, new SuppressNavigationTransitionInfo());
         }

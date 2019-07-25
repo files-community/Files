@@ -58,28 +58,28 @@
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
-    <AppxBundle>Never</AppxBundle>
+    <AppxBundle>Always</AppxBundle>
   </PropertyGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
