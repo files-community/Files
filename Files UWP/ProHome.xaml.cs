@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Interacts;
 using Files.Navigation;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -99,14 +99,15 @@ namespace Files
             };
             string componentLabel = "Favorites";
             string tag = "Favorites";
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(new Microsoft.UI.Xaml.Controls.TabViewItem()
+            Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
             {
                 Header = componentLabel + " >",
                 Tag = tag,
                 CornerRadius = new CornerRadius(0),
                 Style = tabStyleFixed,
                 FontWeight = weight
-            });
+            };
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
 
         }
 

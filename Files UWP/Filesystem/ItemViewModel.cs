@@ -128,14 +128,16 @@ namespace Files.Filesystem
                         }
                         tag = s + @"\";
 
-                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(new Microsoft.UI.Xaml.Controls.TabViewItem()
+                        Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
                         {
                             Header = componentLabel + " >",
                             Tag = tag,
                             CornerRadius = new CornerRadius(0),
                             Style = tabStyleFixed,
                             FontWeight = weight
-                        });
+                        };
+                        item.Tapped += Item_Tapped;
+                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
                     }
                     else
                     {
@@ -145,18 +147,27 @@ namespace Files.Filesystem
                             tag = tag + part + @"\";
                         }
 
-                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(new Microsoft.UI.Xaml.Controls.TabViewItem()
+                        Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
                         {
                             Header = componentLabel + " >",
                             Tag = tag,
                             CornerRadius = new CornerRadius(0),
                             Style = tabStyleFixed,
                             FontWeight = weight
-                        });
+                        };
+                        item.Tapped += Item_Tapped;
+                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
+
                     }
                     index++;
                 }
             }
+        }
+
+        private void Item_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            var itemTappedTag = (sender as Microsoft.UI.Xaml.Controls.TabViewItem).Tag.ToString();
+            ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedTag, new SuppressNavigationTransitionInfo());
         }
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
