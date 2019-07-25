@@ -785,7 +785,7 @@
                     </StackPanel>
                     <Grid Padding="5" Grid.Column="1">
                         <TextBox LostFocus="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Enter a path"/>
-                        <Grid Padding="4,1,1,1" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
+                        <Grid Padding="2.5,1,1,1" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
                             <uilib:TabView HorizontalContentAlignment="Stretch" x:Name="PathViewInteract" SelectionChanged="ClickablePathView_SelectionChanged" VerticalContentAlignment="Stretch" CanDragDropTabs="False" CornerRadius="0" Padding="-10,-10,0,0" Style="{StaticResource PathTabViewStyle}" TabWidthMode="SizeToContent" IsAddButtonVisible="False" CanCloseTabs="False" VerticalAlignment="Stretch">
                                 <uilib:TabView.Resources>
                                     <!--<x:Double x:Key="TabViewItemHeaderPadding">0</x:Double>-->
@@ -975,7 +975,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Control.IsTemplateFocusTarget="True"
-                            Padding="2.5,5"
+                            Padding="3.5,4,5,5.5"
                             CornerRadius="{ThemeResource TabViewItemCornerRadius}"
                             FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
 
