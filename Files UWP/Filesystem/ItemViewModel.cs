@@ -130,11 +130,12 @@ namespace Files.Filesystem
 
                         Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
                         {
-                            Header = componentLabel + " >",
+                            Header = componentLabel + " ›",
                             Tag = tag,
                             CornerRadius = new CornerRadius(0),
                             Style = tabStyleFixed,
-                            FontWeight = weight
+                            FontWeight = weight,
+                            FontSize = 13
                         };
                         item.Tapped += Item_Tapped;
                         GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
@@ -149,11 +150,12 @@ namespace Files.Filesystem
 
                         Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
                         {
-                            Header = componentLabel + " >",
+                            Header = componentLabel + " ›",
                             Tag = tag,
                             CornerRadius = new CornerRadius(0),
                             Style = tabStyleFixed,
-                            FontWeight = weight
+                            FontWeight = weight,
+                            FontSize = 13
                         };
                         item.Tapped += Item_Tapped;
                         GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);

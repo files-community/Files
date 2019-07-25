@@ -101,11 +101,12 @@ namespace Files
             string tag = "Favorites";
             Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
             {
-                Header = componentLabel + " >",
+                Header = componentLabel + " ›",
                 Tag = tag,
                 CornerRadius = new CornerRadius(0),
                 Style = tabStyleFixed,
-                FontWeight = weight
+                FontWeight = weight,
+                FontSize = 13
             };
             GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
 
