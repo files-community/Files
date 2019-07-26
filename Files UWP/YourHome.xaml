@@ -547,6 +547,19 @@
                             <DataTemplate>
                                 <Grid CornerRadius="5" Padding="5" VerticalAlignment="Center">
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                                        <Button FontSize="18" 
+                                                Content="🚫"
+                                                ToolTipService.ToolTip="Remove from recent list"
+                                                FontFamily="Segoe UI Emgoi"
+                                                Style="{ThemeResource ButtonRevealStyle}"
+                                                Background="Transparent"
+                                                Margin="4"
+                                                VerticalAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                Width="auto"
+                                                Height="auto"
+                                                x:Name="Button_RemoveRecentItem"
+                                                Click="Button_RemoveRecentItem_Click"/>
                                         <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
                                             <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
                                             <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>

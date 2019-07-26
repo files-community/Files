@@ -324,6 +324,21 @@ namespace Files
         {
 
         }
+        private void Button_RemoveRecentItem_Click(object sender, RoutedEventArgs e)
+        {
+            //Get the sender frameworkelement
+            var fe = sender as Button;
+            if (fe != null)
+            {
+                //Grab it's datacontext ViewModel and remove it from the list.
+                var vm = fe.DataContext as RecentItem;
+                if (vm != null)
+                {
+                    recentItemsCollection.Remove(vm);
+                }
+            }
+        }
+
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
