@@ -324,7 +324,7 @@ namespace Files
         {
 
         }
-        private void Button_RemoveRecentItem_Click(object sender, RoutedEventArgs e)
+        private async void Button_RemoveRecentItem_Click(object sender, RoutedEventArgs e)
         {
             //Get the sender frameworkelement
             var fe = sender as Button;
@@ -334,7 +334,22 @@ namespace Files
                 var vm = fe.DataContext as RecentItem;
                 if (vm != null)
                 {
+                    //remove it from the visible collection
                     recentItemsCollection.Remove(vm);
+
+                    //Now clear it also from the recent list cache permanently.  
+                    //No token stored in the viewmodel, so need to find it the old fashioned way.
+                    var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                    
+                    foreach (var element in mru.Entries)
+                    {
+                        var f = await mru.GetItemAsync(element.Token);
+                        if (f.Path.Equals(vm.path))
+                        {
+                            mru.Remove(element.Token);
+                            break;
+                        }
+                    }
                 }
             }
         }
