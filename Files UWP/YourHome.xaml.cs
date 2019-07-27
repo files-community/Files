@@ -16,6 +16,9 @@ using System.Runtime.InteropServices;
 using System.IO;
 using Windows.UI.Popups;
 using Windows.UI.Text;
+using System.Threading.Tasks;
+using Windows.UI;
+using System.Windows.Input;
 
 namespace Files
 {
@@ -324,35 +327,108 @@ namespace Files
         {
 
         }
-        private async void Button_RemoveRecentItem_Click(object sender, RoutedEventArgs e)
+
+        private async void mfi_RemoveOneItem_Click(object sender, RoutedEventArgs e)
         {
             //Get the sender frameworkelement
-            var fe = sender as Button;
+            var fe = sender as MenuFlyoutItem;
+
             if (fe != null)
             {
                 //Grab it's datacontext ViewModel and remove it from the list.
                 var vm = fe.DataContext as RecentItem;
+            
                 if (vm != null)
                 {
-                    //remove it from the visible collection
-                    recentItemsCollection.Remove(vm);
-
-                    //Now clear it also from the recent list cache permanently.  
-                    //No token stored in the viewmodel, so need to find it the old fashioned way.
-                    var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-                    
-                    foreach (var element in mru.Entries)
+                    if (await ShowDialog("Remove File or Folder from recents", "Do you wish to remove " + vm.name + " from recent list?", "Yes", "No"))
                     {
-                        var f = await mru.GetItemAsync(element.Token);
-                        if (f.Path.Equals(vm.path))
+                        //remove it from the visible collection
+                        recentItemsCollection.Remove(vm);
+
+                        //Now clear it also from the recent list cache permanently.  
+                        //No token stored in the viewmodel, so need to find it the old fashioned way.
+                        var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+
+                        foreach (var element in mru.Entries)
                         {
-                            mru.Remove(element.Token);
-                            break;
+                            var f = await mru.GetItemAsync(element.Token);
+                            if (f.Path.Equals(vm.path))
+                            {
+                                mru.Remove(element.Token);
+                                break;
+                            }
                         }
                     }
                 }
             }
         }
+
+        /// <summary>
+        /// Standard dialog, to keep consistency.
+        /// Long term, better to put this into base viewmodel class, along with MVVM stuff (NotifyProperyCHanged, etc) and inherrit it.
+        /// Note that the Secondarytext can be un-assigned, then the econdary button won't be presented.
+        /// Result is true if the user presses primary text button
+        /// </summary>
+        /// <param name="title">
+        /// The title of the message dialog
+        /// </param>
+        /// <param name="message">
+        /// THe main body message displayed within the dialog
+        /// </param>
+        /// <param name="primaryText">
+        /// Text to be displayed on the primary button (which returns true when pressed).
+        /// If not set, defaults to 'OK'
+        /// </param>
+        /// <param name="secondaryText">
+        /// The (optional) secondary button text.
+        /// If not set, it won't be presented to the user at all.
+        /// </param>
+        public async Task<bool> ShowDialog(string title, string message, string primaryText = "OK", string secondaryText = null)
+        {
+            bool result = false;
+
+            try
+            {
+                var rootFrame = Window.Current.Content as Frame;
+
+                if (rootFrame != null)
+                {
+                    var d = new ContentDialog();
+
+                    d.Title = title;
+                    d.Content = message;
+                    d.PrimaryButtonText = primaryText;
+
+                    Windows.UI.Xaml.Media.AcrylicBrush myBrush = new Windows.UI.Xaml.Media.AcrylicBrush();
+                    myBrush.BackgroundSource = Windows.UI.Xaml.Media.AcrylicBackgroundSource.Backdrop;
+                    myBrush.TintColor = Colors.Transparent;
+                    myBrush.FallbackColor = Colors.Gray;
+                    myBrush.TintOpacity = 0.6;
+                    d.Background = myBrush;
+
+                    if (!string.IsNullOrEmpty(secondaryText))
+                    {
+                        d.SecondaryButtonText = secondaryText;
+                    }
+                    var dr = await d.ShowAsync();
+
+                    result = (dr == ContentDialogResult.Primary);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+
+            }
+
+            return result;
+
+        }
+
+
 
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
