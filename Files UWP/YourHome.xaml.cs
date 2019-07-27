@@ -265,6 +265,10 @@ namespace Files
                 {
                     mostRecentlyUsed.Remove(mruToken);
                 }
+                catch (UnauthorizedAccessException)
+                {
+                    // Skip item until consent is provided
+                }
             }
         }
 
