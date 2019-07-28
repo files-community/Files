@@ -384,7 +384,7 @@
             </Setter>
         </Style>
         <Style x:Key="FluentButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/>
+            <Setter Property="Background" Value="{ThemeResource ButtonRevealBackground}"/> 
             <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
             <Setter Property="BorderBrush" Value="{ThemeResource ButtonRevealBorderBrush}"/>
             <Setter Property="BorderThickness" Value="{ThemeResource ButtonRevealBorderThemeThickness}"/>
@@ -537,15 +537,20 @@
                 <StackPanel>
                     <TextBlock Margin="0,14,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="28" Text="Recent Items" HorizontalAlignment="Left"/>
                     <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="18"/>
-                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,5,0,0" VerticalAlignment="Top" >
-                        <ListView.ContextFlyout>
-                            <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
-                            </MenuFlyout>
-                        </ListView.ContextFlyout>    
+                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,5,0,0" VerticalAlignment="Top">
+         
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid CornerRadius="5" Padding="5" VerticalAlignment="Center">
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
+                                            <MenuFlyoutItem Click="mfi_RemoveOneItem_Click"  
+                                                Icon="Cancel" 
+                                                Text="Remove this item" 
+                                                x:Name="mfi_RemoveOneItem"/>
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
                                     <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
                                         <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
                                             <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
