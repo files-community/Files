@@ -21,7 +21,7 @@
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
       <Extensions>
-        <desktop:Extension Category="windows.fullTrustProcess" Executable="ExecutableLauncher/ExecutableLauncher.exe" />
+        <desktop:Extension Category="windows.fullTrustProcess" Executable="ProcessLauncher\ProcessLauncher.exe" />
         <uap:Extension Category="windows.protocol">
           <uap:Protocol ReturnResults="none" Name="files-uwp"/>
         </uap:Extension>

@@ -87,14 +87,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExecutableLauncher\ExecutableLauncher.csproj">
-      <DesktopBridgeSelfContained>False</DesktopBridgeSelfContained>
-      <DesktopBridgeIdentifier>
-      </DesktopBridgeIdentifier>
-      <Properties>SelfContained=%(DesktopBridgeSelfContained);RuntimeIdentifier=%(DesktopBridgeIdentifier)</Properties>
-      <SkipGetTargetFrameworkProperties>True</SkipGetTargetFrameworkProperties>
-    </ProjectReference>
     <ProjectReference Include="..\Files UWP\FilesUWP.csproj" />
+    <ProjectReference Include="..\ProcessLauncher\ProcessLauncher.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\LargeTile.scale-100.png" />
