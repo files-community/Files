@@ -45,10 +45,6 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-        public static string AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Roaming";
-        public static string LocalAppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local";
-        public static string TempPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\AppData\Local\Temp";
-        public static string ProgramFilesPath = @"C:\Program Files";
         public TeachingTip RibbonTeachingTip;
         public Grid deleteProgressBox;
         public ProgressBar deleteProgressBoxIndicator;
@@ -408,30 +404,6 @@ namespace Files
                 {
                     this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
                     PathText.Text = "OneDrive";
-                    LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput == "%appdata%")
-                {
-                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), AppDataPath);
-                    PathText.Text = AppDataPath;
-                    LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput == "%localappdata%")
-                {
-                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), LocalAppDataPath);
-                    PathText.Text = LocalAppDataPath;
-                    LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput == "%temp%")
-                {
-                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), TempPath);
-                    PathText.Text = TempPath;
-                    LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput == "%programfiles%")
-                {
-                    this.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), ProgramFilesPath);
-                    PathText.Text = ProgramFilesPath;
                     LayoutItems.isEnabled = true;
                 }
                 else
