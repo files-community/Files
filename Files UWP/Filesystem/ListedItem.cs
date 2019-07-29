@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Enums;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -38,11 +39,13 @@ namespace Files.Filesystem
 
         public static string GetFriendlyDate(DateTimeOffset d)
         {
+            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             var elapsed = DateTimeOffset.Now - d;
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values["datetimeformat"].ToString()) == TimeStyle.Application ? "D" : "g";
 
             if (elapsed.TotalDays > 7)
             {
-                return d.ToString("D");
+                return d.ToString(returnformat);
             }
             else if (elapsed.TotalDays > 1)
             {

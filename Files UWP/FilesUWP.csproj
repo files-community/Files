@@ -126,6 +126,8 @@
     <Compile Include="Dialogs\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\ThemeStyle.cs" />
+    <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Filesystem\Classic_ListedFolderItem.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />

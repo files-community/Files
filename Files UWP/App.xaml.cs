@@ -30,6 +30,11 @@ namespace Files
                 localSettings.Values["theme"] = "Default";
             }
 
+            if (localSettings.Values["datetimeformat"] == null)
+            {
+                localSettings.Values["datetimeformat"] = "Application";
+            }
+
             if (localSettings.Values["theme"] != null)
             {
                 if (localSettings.Values["theme"].ToString() == "Light")
