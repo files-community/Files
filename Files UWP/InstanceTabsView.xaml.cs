@@ -124,6 +124,21 @@ namespace Files
                 CoreApplication.Exit();
             }
         }
+
+        private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(TabStrip.SelectedItem == null)
+            {
+                if(e.RemovedItems.Count > 0)
+                {
+                    var itemToReselect = e.RemovedItems[0];
+                    if (TabStrip.Items.Contains(itemToReselect))
+                    {
+                        TabStrip.SelectedItem = itemToReselect;
+                    }
+                }
+            }
+        }
     }
 
     public class InstanceTabItem

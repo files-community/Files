@@ -106,7 +106,7 @@
     </Page.Resources>
 
     <Grid Name="rootGrid" Background="Transparent">
-        <Custom:TabView TabClosing="TabStrip_TabClosing" Template="{StaticResource TabViewTemplate1}" Grid.ColumnSpan="3" CanReorderItems="False" Name="TabStrip" IsCloseButtonOverlay="False" Background="Transparent" SelectedTabWidth="200" CanCloseTabs="True">
+        <Custom:TabView SelectionChanged="TabStrip_SelectionChanged" TabClosing="TabStrip_TabClosing" Template="{StaticResource TabViewTemplate1}" Grid.ColumnSpan="3" CanReorderItems="False" Name="TabStrip" IsCloseButtonOverlay="False" Background="Transparent" SelectedTabWidth="200" CanCloseTabs="True">
             <Custom:TabView.Resources>
                 <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
                 <StaticResource x:Key="TabViewSelectionIndicatorForeground" ResourceKey="SystemControlTransparentBrush" />
