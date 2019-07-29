@@ -1,60 +1,64 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using Files.Enums;
+using Microsoft.Toolkit.Uwp.UI.Animations;
+using System;
+using System.ComponentModel;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
 namespace Files.SettingsPages
 {
-    
     public sealed partial class Personalization : Page
     {
-
-
         public Personalization()
         {
-            this.InitializeComponent();
+            InitializeComponent();
+
+            //Load Theme Style
+            var _themeval = Enum.GetValues(typeof(ThemeStyle)).Cast<ThemeStyle>();
+            ThemeChooser.ItemsSource = _themeval.ToList();
+
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             if (localSettings.Values["theme"] != null)
             {
-                if (localSettings.Values["theme"].ToString() == "Light")
+                ThemeStyle _selectedTheme = localSettings.Values["theme"].ToString().Equals("Default") ? ThemeStyle.System : Enum.Parse<ThemeStyle>(localSettings.Values["theme"].ToString());
+                ThemeChooser.SelectedIndex = _themeval.ToList().IndexOf(_selectedTheme);
+                ThemeChooser.Loaded += (s, e) =>
                 {
-                    ThemeChooser.SelectedIndex = 1;
-                }
-                else if (localSettings.Values["theme"].ToString() == "Dark")
+                    ThemeChooser.SelectionChanged += async (s1, e1) =>
+                    {
+                        localSettings.Values["theme"] = e1.AddedItems[0].Equals("System") ? "Default" : e1.AddedItems[0].ToString();
+                        await RestartReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
+                        await RestartReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
+                    };
+                };
+            }
+
+            //Load App Time Style
+            var _dateformatval = Enum.GetValues(typeof(TimeStyle)).Cast<TimeStyle>();
+            DateFormatChooser.ItemsSource = _dateformatval.ToList();
+
+            if (localSettings.Values["datetimeformat"] != null)
+            {
+                TimeStyle _selectedFormat = Enum.Parse<TimeStyle>(localSettings.Values["datetimeformat"].ToString());
+                DateFormatChooser.SelectedIndex = _dateformatval.ToList().IndexOf(_selectedFormat);
+                DateFormatChooser.Loaded += (s, e) =>
                 {
-                    ThemeChooser.SelectedIndex = 2;
-                }
-                else
-                {
-                    ThemeChooser.SelectedIndex = 0;
-                }
+                    DateFormatChooser.SelectionChanged += async (s1, e1) =>
+                    {
+                        localSettings.Values["datetimeformat"] = e1.AddedItems[0].ToString();
+                        TimeFormatReminder.Visibility = Visibility.Visible;
+                        await TimeFormatReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
+                        await TimeFormatReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
+                    };
+                };
             }
         }
 
         private static ThemeValueClass tv = new ThemeValueClass();
         public static ThemeValueClass TV { get { return tv; } }
 
-        private void ThemeChooser_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (((ComboBoxItem) e.AddedItems[0]).Content.Equals("Light"))
-            {
-                localSettings.Values["theme"] = "Light";
-                Debug.WriteLine("Light Mode Enabled");
-            }
-            else if (((ComboBoxItem)e.AddedItems[0]).Content.Equals("Dark"))
-            {
-                localSettings.Values["theme"] = "Dark";
-                Debug.WriteLine("Dark Mode Enabled");
-            }
-            else
-            {
-                localSettings.Values["theme"] = "Default";
-                Debug.WriteLine("Default Mode Enabled");
-            }
-            RestartReminder.Visibility = Visibility.Visible;
-        }
     }
 
     public class ThemeValueClass : INotifyPropertyChanged
