@@ -13,12 +13,16 @@ namespace ProcessLauncher
         static void Main(string[] args)
         {
             var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
+            var dir = (string)ApplicationData.Current.LocalSettings.Values["StartDir"];
             Process process = new Process();
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.CreateNoWindow = true;
             process.StartInfo.FileName = executable;
-            process.Start();
-
+            if(dir != "")
+            {
+                process.StartInfo.WorkingDirectory = dir;
+            }
+            process.Start();            
         }
     }
 }

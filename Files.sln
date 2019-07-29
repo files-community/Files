@@ -7,8 +7,6 @@ Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "FilesUwp.Package", "FilesUw
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesUWP", "Files UWP\FilesUWP.csproj", "{64C30C4E-A69A-411C-9F78-776E7AAD583C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LegacyComponents", "LegacyComponents", "{8F1455F8-4C5D-4E77-8655-E214CA54035C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProcessLauncher", "ProcessLauncher\ProcessLauncher.csproj", "{533F9E86-EE0A-4FCB-B70C-F29532C1B787}"
 EndProject
 Global
@@ -92,9 +90,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{533F9E86-EE0A-4FCB-B70C-F29532C1B787} = {8F1455F8-4C5D-4E77-8655-E214CA54035C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E62043C-A7A1-4982-9EC9-4CDB2939B776}

@@ -50,7 +50,6 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-
         }
 
         private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
@@ -101,7 +100,7 @@ namespace Files
             SidebarPinItem.Click += instanceInteraction.PinItem_Click;
             AllView.RightTapped += instanceInteraction.AllView_RightTapped;
             AllView.DoubleTapped += instanceInteraction.List_ItemClick;
-
+            OpenTerminal.Click += instanceInteraction.OpenDirectoryInTerminal;
             var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
             PropertiesItem.Click += CurrentInstance.ShowPropertiesButton_Click;
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;

@@ -247,6 +247,22 @@ namespace Files.Interacts
 
         }
 
+        public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
+        {
+
+            ApplicationData.Current.LocalSettings.Values["Application"] = "wt.exe";
+            if(typeof(PageType) == typeof(GenericFileBrowser))
+            {
+                ApplicationData.Current.LocalSettings.Values["StartDir"] = (type as GenericFileBrowser).instanceViewModel.Universal.path;
+            }
+            else if(typeof(PageType) == typeof(PhotoAlbum))
+            {
+                ApplicationData.Current.LocalSettings.Values["StartDir"] = (type as PhotoAlbum).instanceViewModel.Universal.path;
+            }
+
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
         public async void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (typeof(PageType) == typeof(GenericFileBrowser))

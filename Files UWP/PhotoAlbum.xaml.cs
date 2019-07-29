@@ -65,6 +65,7 @@ namespace Files
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
+            OpenTerminal.Click += instanceInteraction.OpenDirectoryInTerminal;
             var parameters = eventArgs.Parameter.ToString();
             instanceViewModel.Universal.path = parameters;
 
