@@ -13,6 +13,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 
 namespace Files
 {
@@ -23,6 +26,9 @@ namespace Files
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
+
+            AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
             if (localSettings.Values["theme"] == null)
@@ -67,9 +73,6 @@ namespace Files
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
-
-
-
         }
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
