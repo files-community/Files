@@ -167,7 +167,7 @@
                         <KeyboardAccelerator Modifiers="Control" Key="V"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Name="OpenTerminal" IsEnabled="False" Text="Open in Terminal...">
+                <MenuFlyoutItem x:Name="OpenTerminal" IsEnabled="True" Text="Open in Terminal...">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE756;"/>
                     </MenuFlyoutItem.Icon>

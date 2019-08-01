@@ -82,8 +82,6 @@ namespace Files
 
         }
 
-
-        
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);

@@ -250,14 +250,14 @@ namespace Files.Interacts
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
 
-            ApplicationData.Current.LocalSettings.Values["Application"] = "wt.exe";
+            ApplicationData.Current.LocalSettings.Values["Application"] = "cmd.exe";
             if(typeof(PageType) == typeof(GenericFileBrowser))
             {
-                ApplicationData.Current.LocalSettings.Values["StartDir"] = (type as GenericFileBrowser).instanceViewModel.Universal.path;
+                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d "+ (type as GenericFileBrowser).instanceViewModel.Universal.path + "&& title Command Prompt" + "\""; 
             }
             else if(typeof(PageType) == typeof(PhotoAlbum))
             {
-                ApplicationData.Current.LocalSettings.Values["StartDir"] = (type as PhotoAlbum).instanceViewModel.Universal.path;
+                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d " + (type as PhotoAlbum).instanceViewModel.Universal.path + "&& title Command Prompt" + "\"";
             }
 
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
