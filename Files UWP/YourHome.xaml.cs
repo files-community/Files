@@ -344,7 +344,7 @@ namespace Files
             
                 if (vm != null)
                 {
-                    if (await ShowDialog("Remove File or Folder from recents", "Do you wish to remove " + vm.name + " from recent list?", "Yes", "No"))
+                    if (await ShowDialog("Remove item from Recents List", "Do you wish to remove " + vm.name + " from the list?", "Yes", "No"))
                     {
                         //remove it from the visible collection
                         recentItemsCollection.Remove(vm);
@@ -370,7 +370,7 @@ namespace Files
         /// <summary>
         /// Standard dialog, to keep consistency.
         /// Long term, better to put this into base viewmodel class, along with MVVM stuff (NotifyProperyCHanged, etc) and inherrit it.
-        /// Note that the Secondarytext can be un-assigned, then the econdary button won't be presented.
+        /// Note that the Secondarytext can be un-assigned, then the secondary button won't be presented.
         /// Result is true if the user presses primary text button
         /// </summary>
         /// <param name="title">
@@ -403,13 +403,6 @@ namespace Files
                     d.Content = message;
                     d.PrimaryButtonText = primaryText;
 
-                    Windows.UI.Xaml.Media.AcrylicBrush myBrush = new Windows.UI.Xaml.Media.AcrylicBrush();
-                    myBrush.BackgroundSource = Windows.UI.Xaml.Media.AcrylicBackgroundSource.Backdrop;
-                    myBrush.TintColor = Colors.Transparent;
-                    myBrush.FallbackColor = Colors.Gray;
-                    myBrush.TintOpacity = 0.6;
-                    d.Background = myBrush;
-
                     if (!string.IsNullOrEmpty(secondaryText))
                     {
                         d.SecondaryButtonText = secondaryText;
@@ -419,7 +412,7 @@ namespace Files
                     result = (dr == ContentDialogResult.Primary);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
             }

@@ -502,72 +502,62 @@
 
     </Page.Resources>
     <ScrollViewer>
-    <Grid Padding="24,24,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="55*"/>
-        </Grid.RowDefinitions>
-        <TextBlock Padding="0,0,0,5" FontFamily="Segoe UI" FontSize="28" FontWeight="Bold" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
-        <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="5,2,5,10" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
-            <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate>
-                        <Grid Margin="0,0,0,0" Padding="0,0,0,0">
-                            <Grid Margin="2">
-                                <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerReleased="DropShadowPanel_PointerReleased" PointerPressed="DropShadowPanel_PointerPressed" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="2.50" ShadowOpacity="0.05" Padding="0,0,-4,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,5" VerticalAlignment="Stretch">
-                                    <Grid>
-                                        <Button BorderThickness="1" Style="{ThemeResource ButtonRevealStyle}" Windows10version1809:CornerRadius="4" Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <StackPanel Spacing="10" Orientation="Vertical">
-                                                <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                <TextBlock Margin="0,0,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
-                                            </StackPanel>
-                                        </Button>
-                                    </Grid>
-                                </controls:DropShadowPanel>
-                            </Grid>
-                    </Grid>
-                </DataTemplate>
-
-            </controls:AdaptiveGridView.ItemTemplate>
-
-        </controls:AdaptiveGridView>
-
-            <Grid VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Stretch">
-                <StackPanel>
-                    <TextBlock Margin="0,14,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="28" Text="Recent Items" HorizontalAlignment="Left"/>
-                    <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,50,0,0" Text="No recent items" HorizontalAlignment="Center" FontSize="18"/>
-                    <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,5,0,0" VerticalAlignment="Top">
-         
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid CornerRadius="5" Padding="5" VerticalAlignment="Center">
-                                    <Grid.ContextFlyout>
-                                        <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                            <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
-                                            <MenuFlyoutItem Click="mfi_RemoveOneItem_Click"  
-                                                Icon="Cancel" 
-                                                Text="Remove this item" 
-                                                x:Name="mfi_RemoveOneItem"/>
-                                        </MenuFlyout>
-                                    </Grid.ContextFlyout>
-                                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
-                                        <Grid VerticalAlignment="Center" Margin="0, 0, 0, 0">
-                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                            <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
+        <Grid Padding="24,10,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <StackPanel Spacing="10" Orientation="Vertical">
+                <TextBlock Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
+                <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
+                    <controls:AdaptiveGridView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="0,0,0,0" Padding="0,0,0,0">
+                                <Grid Margin="2">
+                                    <controls:DropShadowPanel Style="{StaticResource DropShadowPanelStyle1}" PointerReleased="DropShadowPanel_PointerReleased" PointerPressed="DropShadowPanel_PointerPressed" PointerEntered="DropShadowPanel_PointerEntered" PointerExited="DropShadowPanel_PointerExited" OffsetX="0" OffsetY="2.50" ShadowOpacity="0.05" Padding="0,0,-4,0" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,0,5" VerticalAlignment="Stretch">
+                                        <Grid>
+                                            <Button BorderThickness="1" Style="{ThemeResource ButtonRevealStyle}" Windows10version1809:CornerRadius="4" Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <StackPanel Spacing="10" Orientation="Vertical">
+                                                    <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <TextBlock Margin="0,0,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                                </StackPanel>
+                                            </Button>
                                         </Grid>
-                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
-                                            <TextBlock Width="400" TextWrapping="NoWrap" Text="{Binding name}"/>
-                                            <TextBlock Margin="50,0,0,0" TextWrapping="NoWrap" Text="{Binding path}"/>
-                                        </StackPanel>
-                                    </StackPanel>
+                                    </controls:DropShadowPanel>
                                 </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackPanel>
-            </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </controls:AdaptiveGridView.ItemTemplate>
+                </controls:AdaptiveGridView>
+
+                <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="22" Text="Recent Items" HorizontalAlignment="Left"/>
+                <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
+                <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Top" Margin="0,-10,0,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ToolTipService.ToolTip="{Binding path}" Padding="2.5" VerticalAlignment="Center">
+                                <Grid.ContextFlyout>
+                                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                                        <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
+                                        <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Delete" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
+                                    </MenuFlyout>
+                                </Grid.ContextFlyout>
+                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                                    <Grid VerticalAlignment="Stretch" Margin="0, 0, 0, 0">
+                                        <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                        <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                        <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                    </Grid>
+                                    <Grid ColumnSpacing="24">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="400"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Width="400" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
+                                        <TextBlock Grid.Column="1" Margin="0,0,0,0" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 </Page>
