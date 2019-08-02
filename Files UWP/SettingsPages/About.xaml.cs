@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Interacts;
 using Files.Filesystem;
+using Windows.ApplicationModel;
 
 namespace Files.SettingsPages
 {
@@ -13,6 +14,8 @@ namespace Files.SettingsPages
         public About()
         {
             this.InitializeComponent();
+
+            VersionNumber.Text = string.Format("Version: {0}.{1}.{2}.{3}", Package.Current.Id.Version.Major, Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
         }
 
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
