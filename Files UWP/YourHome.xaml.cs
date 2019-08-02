@@ -359,6 +359,10 @@ namespace Files
                             if (f.Path.Equals(vm.path))
                             {
                                 mru.Remove(element.Token);
+                                if(mru.Entries.Count == 0)
+                                {
+                                    Empty.Visibility = Visibility.Visible;
+                                }
                                 break;
                             }
                         }
