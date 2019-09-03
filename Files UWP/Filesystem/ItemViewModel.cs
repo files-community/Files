@@ -1,7 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Interacts;
 using Files.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -98,8 +98,8 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Clear();
-            Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Clear();
+            // Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
                 Weight = FontWeights.SemiBold.Weight
@@ -133,12 +133,12 @@ namespace Files.Filesystem
                             Header = componentLabel + " ›",
                             Tag = tag,
                             CornerRadius = new CornerRadius(0),
-                            Style = tabStyleFixed,
+                            //Style = tabStyleFixed,
                             FontWeight = weight,
                             FontSize = 14
                         };
                         item.Tapped += Item_Tapped;
-                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
+                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Add(item);
                     }
                     else
                     {
@@ -153,12 +153,12 @@ namespace Files.Filesystem
                             Header = componentLabel + " ›",
                             Tag = tag,
                             CornerRadius = new CornerRadius(0),
-                            Style = tabStyleFixed,
+                            //Style = tabStyleFixed,
                             FontWeight = weight,
                             FontSize = 14
                         };
                         item.Tapped += Item_Tapped;
-                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
+                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Add(item);
 
                     }
                     index++;
@@ -298,7 +298,7 @@ namespace Files.Filesystem
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabHeader(new DirectoryInfo(path).Name);
+            instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
 
             _cancellationTokenSource = new CancellationTokenSource();

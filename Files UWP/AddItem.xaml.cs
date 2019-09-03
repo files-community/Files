@@ -4,9 +4,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using System;
 using Files.Filesystem;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Xaml.Navigation;
 using Files.Dialogs;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files
 {

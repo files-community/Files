@@ -65,7 +65,7 @@ namespace Files
         {
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            var selectedTabContent = ((instanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
+            var selectedTabContent = ((instanceTabsView.tabView.SelectedItem as Microsoft.UI.Xaml.Controls.TabViewItem).Content as Grid);
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
@@ -85,7 +85,7 @@ namespace Files
             PopulateRecentsList();
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabHeader("Favorites");
+            instanceTabsView.SetSelectedTabInfo("Favorites", null);
             GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
             GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
             GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
@@ -94,8 +94,8 @@ namespace Files
             GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
 
             // Clear the path UI and replace with Favorites
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Clear();
-            Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Clear();
+            //Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
                 Weight = FontWeights.SemiBold.Weight
@@ -107,11 +107,11 @@ namespace Files
                 Header = componentLabel + " ›",
                 Tag = tag,
                 CornerRadius = new CornerRadius(0),
-                Style = tabStyleFixed,
+                //Style = tabStyleFixed,
                 FontWeight = weight,
                 FontSize = 14
             };
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Items.Add(item);
+            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Add(item);
 
         }
 
