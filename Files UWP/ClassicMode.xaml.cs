@@ -27,7 +27,7 @@ namespace Files
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
             ClassicView = ClassicModePage;
-            instanceViewModel.AddItemsToCollectionAsync(@"C:\", ClassicView);
+            instanceViewModel.AddItemsToCollectionAsync(@"C:\");
         }
 
         

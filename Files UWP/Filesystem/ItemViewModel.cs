@@ -14,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.BulkAccess;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
@@ -98,7 +99,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Clear();
+            GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Clear();
             // Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -128,17 +129,12 @@ namespace Files.Filesystem
                         }
                         tag = s + @"\";
 
-                        Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
+                        PathBoxItem item = new PathBoxItem()
                         {
-                            Header = componentLabel + " ›",
-                            Tag = tag,
-                            CornerRadius = new CornerRadius(0),
-                            //Style = tabStyleFixed,
-                            FontWeight = weight,
-                            FontSize = 14
+                            Title = componentLabel,
+                            Path = tag,
                         };
-                        item.Tapped += Item_Tapped;
-                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Add(item);
+                        GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Add(item);
                     }
                     else
                     {
@@ -148,29 +144,17 @@ namespace Files.Filesystem
                             tag = tag + part + @"\";
                         }
 
-                        Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
+                        PathBoxItem item = new PathBoxItem()
                         {
-                            Header = componentLabel + " ›",
-                            Tag = tag,
-                            CornerRadius = new CornerRadius(0),
-                            //Style = tabStyleFixed,
-                            FontWeight = weight,
-                            FontSize = 14
+                            Title = componentLabel,
+                            Path = tag,
                         };
-                        item.Tapped += Item_Tapped;
-                        GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Add(item);
+                        GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Add(item);
 
                     }
                     index++;
                 }
             }
-        }
-
-        private void Item_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            CancelLoadAndClearFiles();
-            var itemTappedTag = (sender as Microsoft.UI.Xaml.Controls.TabViewItem).Tag.ToString();
-            ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedTag, new SuppressNavigationTransitionInfo());
         }
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -292,7 +276,7 @@ namespace Files.Filesystem
             await tabInstance.consentDialog.ShowAsync();
         }
 
-        public async void AddItemsToCollectionAsync(string path, Page currentPage)
+        public async void AddItemsToCollectionAsync(string path)
         {
             ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
 
@@ -357,8 +341,6 @@ namespace Files.Filesystem
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
 
-                //History.AddToHistory(Universal.path);
-
                 tabInstance.BackButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoBack;
                 tabInstance.ForwardButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoForward;
 
@@ -370,12 +352,12 @@ namespace Files.Filesystem
 
                         if (typeof(PageType) == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ReturnOnlyIfCached);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
                         else if (typeof(PageType) == typeof(PhotoAlbum))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ReturnOnlyIfCached);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
                         _options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
@@ -386,28 +368,17 @@ namespace Files.Filesystem
 
                         if (typeof(PageType) == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ReturnOnlyIfCached);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
                         else if (typeof(PageType) == typeof(PhotoAlbum))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ReturnOnlyIfCached);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
 
                         _options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
                         break;
-                }
-
-                SortEntry sort = new SortEntry()
-                {
-                    PropertyName = "System.FileName",
-                    AscendingOrder = true
-                };
-                _options.SortOrder.Add(sort);
-                if (!_rootFolder.AreQueryOptionsSupported(_options))
-                {
-                    _options.SortOrder.Clear();
                 }
 
                 uint index = 0;
@@ -584,7 +555,7 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                    var itemThumbnailImg = await file.GetScaledImageAsThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
@@ -609,7 +580,7 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ResizeThumbnail);
+                    var itemThumbnailImg = await file.GetScaledImageAsThumbnailAsync(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ReturnOnlyIfCached);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;

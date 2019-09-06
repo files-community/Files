@@ -94,24 +94,17 @@ namespace Files
             GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
 
             // Clear the path UI and replace with Favorites
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Clear();
+            GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Clear();
             //Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
-            FontWeight weight = new FontWeight()
-            {
-                Weight = FontWeights.SemiBold.Weight
-            };
+
             string componentLabel = "Favorites";
             string tag = "Favorites";
-            Microsoft.UI.Xaml.Controls.TabViewItem item = new Microsoft.UI.Xaml.Controls.TabViewItem()
+            PathBoxItem item = new PathBoxItem()
             {
-                Header = componentLabel + " ›",
-                Tag = tag,
-                CornerRadius = new CornerRadius(0),
-                //Style = tabStyleFixed,
-                FontWeight = weight,
-                FontSize = 14
+                Title = componentLabel,
+                Path = tag,
             };
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.TabItems.Add(item);
+            GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Add(item);
 
         }
 

@@ -123,7 +123,7 @@ namespace Files
 
             TextState.isVisible = Visibility.Collapsed;
 
-            instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path, this);
+            instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
                 CurrentInstance.PathText.Text = "Desktop";

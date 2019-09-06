@@ -84,7 +84,7 @@ namespace Files
             TextState.isVisible = Visibility.Collapsed;
             instanceViewModel.CancelLoadAndClearFiles();
 
-            instanceViewModel.AddItemsToCollectionAsync(parameters, this);
+            instanceViewModel.AddItemsToCollectionAsync(parameters);
             FileList.DoubleTapped += instanceInteraction.List_ItemClick;
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))

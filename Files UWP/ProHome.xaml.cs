@@ -63,7 +63,9 @@ namespace Files
         public LayoutDialog layoutDialog = new LayoutDialog();
         public PropertiesDialog propertiesDialog = new PropertiesDialog();
         public ConsentDialog consentDialog = new ConsentDialog();
-        public TabView accessiblePathTabView;
+        public ListView accessiblePathListView;
+        public ObservableCollection<PathBoxItem> pathBoxItems = new ObservableCollection<PathBoxItem>();
+
         public ProHome()
         {
             this.InitializeComponent();
@@ -80,7 +82,8 @@ namespace Files
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
             RibbonTeachingTip = RibbonTip;
-            accessiblePathTabView = PathViewInteract;
+            accessiblePathListView = PathViewInteract;
+            accessiblePathListView.ItemsSource = pathBoxItems;
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             PopulatePinnedSidebarItems();
             PopulateNavViewWithExternalDrives();
@@ -974,12 +977,6 @@ namespace Files
             DeleteProgressFakeDialog.Visibility = Visibility.Collapsed;
         }
 
-        private void ManualPathEntryClickArea_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            VisiblePath.Visibility = Visibility.Visible;
-            ClickablePath.Visibility = Visibility.Collapsed;
-        }
-
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
             VisiblePath.Visibility = Visibility.Collapsed;
@@ -989,6 +986,28 @@ namespace Files
         private void ClickablePathView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PathViewInteract.SelectedIndex = -1;
+        }
+
+        private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
+            if (itemTappedPath == "Favorites") { return; }
+            if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            {
+                (accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel.CancelLoadAndClearFiles();
+            }
+            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            {
+                (accessibleContentFrame.Content as PhotoAlbum).instanceViewModel.CancelLoadAndClearFiles();
+            }
+            
+            ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
+        }
+
+        private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
+        {
+            VisiblePath.Visibility = Visibility.Visible;
+            ClickablePath.Visibility = Visibility.Collapsed;
         }
     }
     public class NavigationActions
@@ -1001,13 +1020,13 @@ namespace Files
                 {
                     var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
                     ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
-                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path, (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).GFBPageName);
+                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
                 }
                 else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
                     var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
                     ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
-                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path, (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).PAPageName);
+                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
                 }
 
             });
@@ -1655,5 +1674,11 @@ namespace Files
                 instanceContentFrame.Navigate(typeof(PhotoAlbum), parentDirectoryOfPath, new SuppressNavigationTransitionInfo());
             }
         }
+    }
+
+    public class PathBoxItem
+    {
+        public string Title { get; set; }
+        public string Path { get; set; }
     }
 }

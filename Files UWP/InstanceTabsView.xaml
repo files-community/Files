@@ -15,96 +15,6 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:primitiveContract7Present="using:Microsoft.UI.Xaml.Controls.Primitives?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)">
     <Page.Resources>
-        <!--<ResourceDictionary>-->
-            <!--<ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="White" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="White" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="White" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="White" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="White" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="White" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            --><!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. --><!--
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
-            <StaticResource x:Key="TabViewItemHeaderRevealBorderBrush" ResourceKey="ButtonRevealStyle"/>
-            <converters:DoubleToVisibilityConverter x:Key="GreaterThanToleranceVisibilityConverter" GreaterThan="65.0"/>
-            <Style x:Key="TabViewScrollViewer" TargetType="ScrollViewer">
-                <Setter Property="HorizontalScrollMode" Value="Auto"/>
-                <Setter Property="VerticalScrollMode" Value="Auto"/>
-                <Setter Property="IsHorizontalRailEnabled" Value="True"/>
-                <Setter Property="IsVerticalRailEnabled" Value="True"/>
-                <Setter Property="IsTabStop" Value="False"/>
-                <Setter Property="ZoomMode" Value="Disabled"/>
-                <Setter Property="HorizontalContentAlignment" Value="Left"/>
-                <Setter Property="VerticalContentAlignment" Value="Top"/>
-                <Setter Property="VerticalScrollBarVisibility" Value="Visible"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="BorderThickness" Value="1,0,0,0"/>
-                <Setter Property="BorderBrush" Value="{ThemeResource TabViewItemHeaderRevealBorderBrush}"/>
-                <Setter Property="Background" Value="Transparent"/>
-                <Setter Property="UseSystemFocusVisuals" Value="True"/>
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ScrollViewer">
-                            <Border x:Name="Root" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                                <Grid Background="{TemplateBinding Background}">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <RepeatButton x:Name="ScrollBackButton" Background="Transparent" BorderThickness="1" Content="&#xE76B;" Delay="50" FontFamily="Segoe MDL2 Assets" Interval="100" Style="{StaticResource RepeatButtonRevealStyle}" VerticalAlignment="Stretch" Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue=Collapsed}" Height="31"/>
-                                    <ScrollContentPresenter x:Name="ScrollContentPresenter" Grid.Column="1" Margin="{TemplateBinding Padding}" TabFocusNavigation="Once"/>
-                                    <RepeatButton x:Name="ScrollForwardButton" Background="Transparent" BorderThickness="1" Content="&#xE76C;" Grid.Column="2" Delay="50" FontFamily="Segoe MDL2 Assets" Interval="100" Style="{StaticResource RepeatButtonRevealStyle}" VerticalAlignment="Stretch" Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, FallbackValue=Collapsed, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue=Collapsed}" Height="31"/>
-                                </Grid>
-                            </Border>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
-            <ControlTemplate x:Key="TabViewTemplate1" TargetType="Custom:TabView">
-                <Grid Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" x:Name="TabViewContainer">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Custom:TabView.ConstrainColumn="True" Custom:TabView.IgnoreColumn="True" Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Custom:TabView.IgnoreColumn="True" Width="*"/>
-                        <ColumnDefinition Width="175"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition MinHeight="5" Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <ContentPresenter ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.ColumnSpan="6" Grid.Row="0"/>
-                    <ContentPresenter ContentTemplate="{TemplateBinding TabStartHeaderTemplate}" Content="{TemplateBinding TabStartHeader}" Grid.Column="0" Grid.Row="1"/>
-                    <ScrollViewer Padding="5,0,0,0" x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" Grid.Column="1" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" Grid.Row="1" Style="{StaticResource TabViewScrollViewer}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                        <ItemsPresenter Canvas.ZIndex="2" x:Name="TabsItemsPresenter" Padding="{TemplateBinding Padding}"/>
-                    </ScrollViewer>
-                    <ContentPresenter ContentTemplate="{TemplateBinding TabActionHeaderTemplate}" Content="{TemplateBinding TabActionHeader}" Grid.Column="3" HorizontalAlignment="Left" Grid.Row="1"/>
-                    <Grid Background="Transparent" Name="DragArea" Loaded="DragArea_Loaded" Grid.Column="4" Grid.Row="1"/>
-                    <ContentPresenter ContentTemplate="{TemplateBinding TabEndHeaderTemplate}" Content="{TemplateBinding TabEndHeader}" Grid.Column="5" Grid.Row="1"/>
-                    <ContentPresenter x:Name="TabContentPresenter" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.ColumnSpan="6" Grid.Row="2"/>
-                    <ContentPresenter ContentTemplate="{TemplateBinding FooterTemplate}" Content="{TemplateBinding Footer}" Grid.ColumnSpan="6" Grid.Row="3"/>
-                </Grid>
-            </ControlTemplate>
-        </ResourceDictionary>-->
         <Style x:Name="TabViewButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}"/>
             <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
@@ -198,8 +108,30 @@
     </Page.Resources>
 
     <Grid Name="rootGrid" Background="Transparent">
-        <uilib:TabView AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" CanDragTabs="False" AllowDropTabs="False" Grid.ColumnSpan="3" CanReorderTabs="True" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
+        <uilib:TabView Background="{StaticResource SystemControlAcrylicWindowBrush}" AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" CanDragTabs="False" AllowDropTabs="False" Grid.ColumnSpan="3" CanReorderTabs="True" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
             <uilib:TabView.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Default">
+                            <StaticResource x:Key="TabViewItemHeaderBackgroundSelected"      ResourceKey="SystemControlBackgroundAltHighBrush" />
+                            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver"   ResourceKey="SystemAltMediumLowColor" />
+                            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed"       ResourceKey="SystemAltMediumColor" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="TabViewItemHeaderBackgroundSelected"      ResourceKey="SystemControlBackgroundAltHighBrush" />
+                            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver"   ResourceKey="SystemAltMediumLowColor" />
+                            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed"       ResourceKey="SystemAltMediumColor" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#191919" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
                 <!--<x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
                 <StaticResource x:Key="TabViewSelectionIndicatorForeground" ResourceKey="SystemControlTransparentBrush" />-->
             </uilib:TabView.Resources>
