@@ -208,6 +208,7 @@ namespace Files
                 {
                     ListFileLines.Remove(path);
                 }
+
                 await FileIO.WriteLinesAsync(ListFile, ListFileLines);
                 ListFileLines = await FileIO.ReadLinesAsync(ListFile);
 

@@ -96,7 +96,12 @@
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter x:Name="LeftContentPresenter" ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" Content="{TemplateBinding TabStripHeader}" Grid.Column="0"/>
                                 <primitiveContract7Present:TabViewListView x:Name="TabListView" AllowDrop="{TemplateBinding AllowDropTabs}" CanReorderItems="{TemplateBinding CanReorderTabs}" Grid.Column="1" CanDragItems="{TemplateBinding CanDragTabs}" ItemTemplate="{TemplateBinding TabItemTemplate}" ItemsSource="{TemplateBinding TabItemsSource}" ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"/>
-                                <Button x:Name="AddButton" Command="{TemplateBinding AddTabButtonCommand}" CommandParameter="{TemplateBinding AddTabButtonCommandParameter}" Content="&#xE710;" Grid.Column="2" Style="{StaticResource TabViewButtonStyle}" Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                                <Button x:Name="AddButton" Command="{TemplateBinding AddTabButtonCommand}" CommandParameter="{TemplateBinding AddTabButtonCommandParameter}" Content="&#xE710;" Grid.Column="2" Style="{StaticResource TabViewButtonStyle}" Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Button.KeyboardAccelerators>
+                                        <KeyboardAccelerator Modifiers="Control" Key="T"/>
+                                    </Button.KeyboardAccelerators>
+                                </Button>
+                                
                                 <Grid Background="Transparent" Name="DragArea" Loaded="DragArea_Loaded" Grid.Column="3"/>
 
                             </Grid>
