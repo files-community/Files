@@ -96,10 +96,11 @@
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter x:Name="LeftContentPresenter" ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" Content="{TemplateBinding TabStripHeader}" Grid.Column="0"/>
                                 <primitiveContract7Present:TabViewListView x:Name="TabListView" AllowDrop="{TemplateBinding AllowDropTabs}" CanReorderItems="{TemplateBinding CanReorderTabs}" Grid.Column="1" CanDragItems="{TemplateBinding CanDragTabs}" ItemTemplate="{TemplateBinding TabItemTemplate}" ItemsSource="{TemplateBinding TabItemsSource}" ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"/>
-                                <Button x:Name="AddButton" Command="{TemplateBinding AddTabButtonCommand}" CommandParameter="{TemplateBinding AddTabButtonCommandParameter}" Content="&#xE710;" Grid.Column="2" Style="{StaticResource TabViewButtonStyle}" Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                <Button x:Name="AddButton" Command="{TemplateBinding AddTabButtonCommand}" CommandParameter="{TemplateBinding AddTabButtonCommandParameter}" Content="&#xE710;" Grid.Column="2" Style="{StaticResource TabViewButtonStyle}" Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                                 <Grid Background="Transparent" Name="DragArea" Loaded="DragArea_Loaded" Grid.Column="3"/>
+
                             </Grid>
-                            <ContentPresenter x:Name="TabContentPresenter" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Row="1"/>
+                            <!--<ContentPresenter x:Name="TabContentPresenter" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Row="1"/>-->
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
@@ -107,8 +108,18 @@
         </Style>
     </Page.Resources>
 
-    <Grid Name="rootGrid" Background="Transparent">
-        <uilib:TabView Background="{StaticResource SystemControlAcrylicWindowBrush}" AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" CanDragTabs="False" AllowDropTabs="False" Grid.ColumnSpan="3" CanReorderTabs="True" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
+    <Grid Background="{StaticResource SystemControlAcrylicWindowBrush}"  Name="rootGrid" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="175"/>
+        </Grid.ColumnDefinitions>
+        <ContentPresenter Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" Content="{x:Bind ((uilib:TabViewItem)(local:InstanceTabsView).TabStrip.SelectedItem).Content, Mode=OneWay}"/>
+
+        <uilib:TabView Background="Transparent" Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" CanDragTabs="False" AllowDropTabs="False" CanReorderTabs="True" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
             <uilib:TabView.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>

@@ -19,7 +19,6 @@ namespace Files
     public sealed partial class InstanceTabsView : Page
     {
         public TabView tabView;
-        public List<Type> types = new List<Type>();
         public InstanceTabsView()
         {
             this.InitializeComponent();
@@ -236,6 +235,7 @@ namespace Files
                     }
                 }
             }
+
         }
 
         private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
@@ -258,13 +258,4 @@ namespace Files
         }
     }
 
-    public class InstanceTabItem
-    {
-        public string HeaderText { get; set; }
-        public string SourcePage { get; set; }
-        public int index { get; set; }
-        public Frame TabContent { get; set; }
-
-
-    }
 }
