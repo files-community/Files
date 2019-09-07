@@ -119,7 +119,7 @@
         </Grid.ColumnDefinitions>
         <ContentPresenter Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" Content="{x:Bind ((uilib:TabViewItem)(local:InstanceTabsView).TabStrip.SelectedItem).Content, Mode=OneWay}"/>
 
-        <uilib:TabView Background="Transparent" Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" CanDragTabs="False" AllowDropTabs="False" CanReorderTabs="True" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
+        <uilib:TabView Background="Transparent" Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
             <uilib:TabView.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
