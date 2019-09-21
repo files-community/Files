@@ -18,7 +18,7 @@ namespace Files
     /// </summary>
     public sealed partial class InstanceTabsView : Page
     {
-        public TabView tabView;
+        public static TabView tabView;
         public InstanceTabsView()
         {
             this.InitializeComponent();
@@ -242,12 +242,12 @@ namespace Files
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                CoreApplication.Exit();
+                Application.Current.Exit();
             }
             else if(TabStrip.TabItems.Count > 1)
             {
-                int selectedTabIndex = TabStrip.TabItems.IndexOf(TabStrip.SelectedItem as TabViewItem);
-                TabStrip.TabItems.RemoveAt(selectedTabIndex);
+                int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
+                TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
             
         }

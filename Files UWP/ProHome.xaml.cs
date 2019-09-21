@@ -65,6 +65,8 @@ namespace Files
         public ConsentDialog consentDialog = new ConsentDialog();
         public ListView accessiblePathListView;
         public ObservableCollection<PathBoxItem> pathBoxItems = new ObservableCollection<PathBoxItem>();
+        public ItemViewModel instanceViewModel;
+        public Interaction instanceInteraction;
 
         public ProHome()
         {
@@ -331,18 +333,18 @@ namespace Files
                 var CurrentInput = PathBox.Text;
                 if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    var contentInstance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                    CheckPathInput<GenericFileBrowser>(contentInstance, CurrentInput);
+                    var contentInstance = instanceViewModel;
+                    CheckPathInput(contentInstance, CurrentInput);
                 }
                 else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
-                    var contentInstance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
-                    CheckPathInput<PhotoAlbum>(contentInstance, CurrentInput);
+                    var contentInstance = instanceViewModel;
+                    CheckPathInput(contentInstance, CurrentInput);
                 }
                 else if (accessibleContentFrame.SourcePageType == typeof(YourHome))
                 {
-                    var contentInstance = (this.accessibleContentFrame.Content as YourHome).instanceViewModel;
-                    CheckPathInput<YourHome>(contentInstance, CurrentInput);
+                    var contentInstance = instanceViewModel;
+                    CheckPathInput(contentInstance, CurrentInput);
                 }
                 VisiblePath.Visibility = Visibility.Collapsed;
                 ClickablePath.Visibility = Visibility.Visible;
@@ -354,7 +356,7 @@ namespace Files
             }
         }
 
-        public async void CheckPathInput<T>(ItemViewModel<T> instance, string CurrentInput) where T : class
+        public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
         {
             if (CurrentInput != instance.Universal.path)
             {
@@ -420,11 +422,11 @@ namespace Files
                             {
                                 if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                                 {
-                                    await (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.LaunchExe(CurrentInput);
+                                    await Interaction.LaunchExe(CurrentInput);
                                 }
                                 else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                                 {
-                                    await (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.LaunchExe(CurrentInput);
+                                    await Interaction.LaunchExe(CurrentInput);
                                 }
 
                                 PathBox.Text = instance.Universal.path;
@@ -522,15 +524,8 @@ namespace Files
 
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-            if (accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                (accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel.CancelLoadAndClearFiles();
-            }
-            else if (accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                (accessibleContentFrame.Content as PhotoAlbum).instanceViewModel.CancelLoadAndClearFiles();
-            }
+            ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+            instanceViewModel.CancelLoadAndClearFiles();
 
             if (clickedItem.Tag.ToString() == "Favorites")
             {
@@ -643,7 +638,7 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var instance = (this.accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                var instance = instanceViewModel;
                 instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -653,7 +648,7 @@ namespace Files
                     LayoutItems.isEnabled = false;
                 }
 
-                ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+                ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
 
                 if (clickedItem.Tag.ToString() == "LocalDisk")
                 {
@@ -684,7 +679,7 @@ namespace Files
                     LayoutItems.isEnabled = false;
                 }
 
-                ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+                ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
 
                 if (clickedItem.Tag.ToString() == "LocalDisk")
                 {
@@ -707,7 +702,7 @@ namespace Files
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                var instance = (this.accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
+                var instance = instanceViewModel;
                 instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -717,7 +712,7 @@ namespace Files
                     LayoutItems.isEnabled = false;
                 }
 
-                ListViewItem clickedItem = Interaction<ProHome>.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+                ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
 
                 if (clickedItem.Tag.ToString() == "LocalDisk")
                 {
@@ -769,11 +764,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.CutItem_Click(null, null);
+                instanceInteraction.CutItem_Click(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.CutItem_Click(null, null);
+                instanceInteraction.CutItem_Click(null, null);
             }
         }
 
@@ -781,11 +776,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.CopyItem_ClickAsync(null, null);
+                instanceInteraction.CopyItem_ClickAsync(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.CopyItem_ClickAsync(null, null);
+                instanceInteraction.CopyItem_ClickAsync(null, null);
             }
         }
 
@@ -793,11 +788,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.PasteItem_ClickAsync(null, null);
+                instanceInteraction.PasteItem_ClickAsync(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.PasteItem_ClickAsync(null, null);
+                instanceInteraction.PasteItem_ClickAsync(null, null);
             }
         }
 
@@ -805,11 +800,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.GetPath_Click(null, null);
+                instanceInteraction.GetPath_Click(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.GetPath_Click(null, null);
+                instanceInteraction.GetPath_Click(null, null);
             }
         }
 
@@ -817,11 +812,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.DeleteItem_Click(null, null);
+                instanceInteraction.DeleteItem_Click(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.DeleteItem_Click(null, null);
+                instanceInteraction.DeleteItem_Click(null, null);
             }
         }
 
@@ -829,11 +824,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.RenameItem_Click(null, null);
+                instanceInteraction.RenameItem_Click(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.RenameItem_Click(null, null);
+                instanceInteraction.RenameItem_Click(null, null);
             }
         }
 
@@ -854,11 +849,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.OpenItem_Click(null, null);
+                instanceInteraction.OpenItem_Click(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.OpenItem_Click(null, null);
+                instanceInteraction.OpenItem_Click(null, null);
             }
         }
 
@@ -866,11 +861,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.ShareItem_Click(null, null);
+                instanceInteraction.ShareItem_Click(null, null);
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.ShareItem_Click(null, null);
+                instanceInteraction.ShareItem_Click(null, null);
             }
         }
 
@@ -883,11 +878,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.SelectAllItems();
+                instanceInteraction.SelectAllItems();
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.SelectAllItems();
+                instanceInteraction.SelectAllItems();
             }
         }
 
@@ -895,11 +890,11 @@ namespace Files
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                (this.accessibleContentFrame.Content as GenericFileBrowser).instanceInteraction.ClearAllItems();
+                instanceInteraction.ClearAllItems();
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (this.accessibleContentFrame.Content as PhotoAlbum).instanceInteraction.ClearAllItems();
+                instanceInteraction.ClearAllItems();
             }
         }
 
@@ -909,12 +904,12 @@ namespace Files
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
@@ -971,6 +966,17 @@ namespace Files
             {
                 UpButton.IsEnabled = false;
             }
+
+            if(instanceViewModel == null && instanceInteraction == null)
+            {
+                instanceViewModel = new ItemViewModel();
+                instanceInteraction = new Interaction();
+            }
+            else if(instanceViewModel != null && instanceInteraction != null)
+            {
+                instanceViewModel.CancelLoadAndClearFiles();
+            }
+
         }
 
         private void HideFakeDialogButton_Click(object sender, RoutedEventArgs e)
@@ -993,16 +999,16 @@ namespace Files
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
             if (itemTappedPath == "Favorites") { return; }
-            if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
-                (accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel.CancelLoadAndClearFiles();
+                instanceViewModel.CancelLoadAndClearFiles();
             }
-            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
             {
-                (accessibleContentFrame.Content as PhotoAlbum).instanceViewModel.CancelLoadAndClearFiles();
+                instanceViewModel.CancelLoadAndClearFiles();
             }
             
-            ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
+            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
@@ -1017,31 +1023,20 @@ namespace Files
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
-                {
-                    var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).instanceViewModel;
-                    ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
-                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
-                }
-                else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
-                {
-                    var ContentOwnedViewModelInstance = (ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).instanceViewModel;
-                    ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
-                    ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
-                }
-
+                var ContentOwnedViewModelInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
+                ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
+                ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
             });
         }
 
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            Frame instanceContentFrame = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            Frame instanceContentFrame = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
 
-            if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
-                var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
-                instance.CancelLoadAndClearFiles();
+                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
                 if (instanceContentFrame.CanGoBack)
                 {
                     var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
@@ -1050,12 +1045,12 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
 
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1115,11 +1110,10 @@ namespace Files
                     instanceContentFrame.GoBack();
                 }
             }
-            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
             {
-                var instance = (instanceContentFrame.Content as PhotoAlbum).instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
-                instance.CancelLoadAndClearFiles();
+                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
                 if (instanceContentFrame.CanGoBack)
                 {
                     var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
@@ -1128,12 +1122,12 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
 
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1193,11 +1187,10 @@ namespace Files
                     instanceContentFrame.GoBack();
                 }
             }
-            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
+            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
             {
-                var instance = (instanceContentFrame.Content as YourHome).instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as YourHome);
-                instance.CancelLoadAndClearFiles();
+                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoBack)
                 {
@@ -1206,12 +1199,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1277,12 +1270,11 @@ namespace Files
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            Frame instanceContentFrame = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
-            if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            Frame instanceContentFrame = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
-                var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
-                instance.CancelLoadAndClearFiles();
+                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1291,12 +1283,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1357,9 +1349,9 @@ namespace Files
                     instanceContentFrame.GoForward();
                 }
             }
-            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
             {
-                var instance = (instanceContentFrame.Content as PhotoAlbum).instanceViewModel;
+                var instance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
                 instance.CancelLoadAndClearFiles();
 
@@ -1370,12 +1362,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1436,11 +1428,10 @@ namespace Files
                     instanceContentFrame.GoForward();
                 }
             }
-            else if ((ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
+            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
             {
-                var instance = (instanceContentFrame.Content as YourHome).instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as YourHome);
-                instance.CancelLoadAndClearFiles();
+                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1449,12 +1440,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
+                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1519,11 +1510,11 @@ namespace Files
 
         public static void Up_Click(object sender, RoutedEventArgs e)
         {
-            Frame instanceContentFrame = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            Frame instanceContentFrame = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
 
             if ((instanceContentFrame.Content as GenericFileBrowser) != null)
             {
-                var instance = (instanceContentFrame.Content as GenericFileBrowser).instanceViewModel;
+                var instance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
                 instance.CancelLoadAndClearFiles();
                 string parentDirectoryOfPath = null;
                 // Check that there isn't a slash at the end
@@ -1537,7 +1528,7 @@ namespace Files
                     parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
                 }
 
-                var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 if (parentDirectoryOfPath == ProHome.DesktopPath)
                 {
                     CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1600,7 +1591,7 @@ namespace Files
             }
             else if ((instanceContentFrame.Content as PhotoAlbum) != null)
             {
-                var instance = (instanceContentFrame.Content as PhotoAlbum).instanceViewModel;
+                var instance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
                 instance.CancelLoadAndClearFiles();
                 string parentDirectoryOfPath = null;
                 // Check that there isn't a slash at the end
@@ -1614,7 +1605,7 @@ namespace Files
                     parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
                 }
 
-                var CurrentTabInstance = ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 if (parentDirectoryOfPath == ProHome.DesktopPath)
                 {
                     CurrentTabInstance.locationsList.SelectedIndex = 1;

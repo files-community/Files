@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using Windows.UI.Xaml.Media;
 
 namespace Files
 {
@@ -24,6 +25,7 @@ namespace Files
         public App()
         {
             this.InitializeComponent();
+            exceptionDialog = new Dialogs.ExceptionDialog();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
 
@@ -46,12 +48,12 @@ namespace Files
                 if (localSettings.Values["theme"].ToString() == "Light")
                 {
                     SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                    Debug.WriteLine("Theme Requested as Light");
+                    //Debug.WriteLine("Theme Requested as Light");
                 }
                 else if (localSettings.Values["theme"].ToString() == "Dark")
                 {
                     SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                    Debug.WriteLine("Theme Requested as Dark");
+                    //Debug.WriteLine("Theme Requested as Dark");
                 }
                 else
                 {
@@ -60,30 +62,38 @@ namespace Files
                     if (color == Colors.White)
                     {
                         SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                        Debug.WriteLine("Theme Requested as Default (Light)");
+                       // Debug.WriteLine("Theme Requested as Default (Light)");
 
                     }
                     else
                     {
                         SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                        Debug.WriteLine("Theme Requested as Default (Dark)");
+                        //Debug.WriteLine("Theme Requested as Default (Dark)");
                     }
                 }
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
-            Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
+            //Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
         }
 
-        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
+        public static string exceptionStackTrace { get; set; }
+        public Dialogs.ExceptionDialog exceptionDialog;
+
+        private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(UnhandledExceptionDisplay), e.Exception);
+            if(exceptionDialog.Visibility == Visibility.Visible)
+                exceptionDialog.Hide();
+
+            exceptionInfo = e;
+            exceptionStackTrace = e.Exception.StackTrace;
+            await exceptionDialog.ShowAsync();
+
         }
 
         public static PasteState PS { get; set; } = new PasteState();
-
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
         /// <summary>

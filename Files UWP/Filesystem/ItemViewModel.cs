@@ -1,6 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Interacts;
 using Files.Navigation;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.BulkAccess;
 using Windows.Storage.FileProperties;
@@ -22,55 +24,43 @@ using Windows.UI.Popups;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
 namespace Files.Filesystem
 {
-    public class ItemViewModel<PageType> where PageType : class
+    public class ItemViewModel
     {
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
-        public ReadOnlyObservableCollection<Classic_ListedFolderItem> ClassicFolderList { get; }
-        public ReadOnlyObservableCollection<ListedItem> ClassicFileList { get; }
+        public CollectionViewSource viewSource;
         public UniversalPath Universal { get; } = new UniversalPath();
-
         private ObservableCollection<ListedItem> _filesAndFolders;
-        private ObservableCollection<ListedItem> _classicFileList;
-        private ObservableCollection<Classic_ListedFolderItem> _classicFolderList;
-
         private StorageFolderQueryResult _folderQueryResult;
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
         private StorageFolder _rootFolder;
         private QueryOptions _options;
-
         private volatile bool _filesRefreshing;
-        //private volatile bool _foldersRefreshing;
-
         private const int _step = 250;
-
         private ProHome tabInstance;
 
         public ItemViewModel()
         {
             tabInstance = GetCurrentSelectedTabInstance<ProHome>();
             _filesAndFolders = new ObservableCollection<ListedItem>();
-            _classicFileList = new ObservableCollection<ListedItem>();
-            _classicFolderList = new ObservableCollection<Classic_ListedFolderItem>();
 
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
-            ClassicFileList = new ReadOnlyObservableCollection<ListedItem>(_classicFileList);
-            ClassicFolderList = new ReadOnlyObservableCollection<Classic_ListedFolderItem>(_classicFolderList);
-            if(typeof(PageType) == typeof(GenericFileBrowser))
+            if(tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
             }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
+            else if(tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
             }
-            else if(typeof(PageType) == typeof(AddItem))
+            else if(tabInstance.accessibleContentFrame.SourcePageType == typeof(AddItem))
             {
                 if((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
                 {
@@ -211,11 +201,11 @@ namespace Files.Filesystem
             _filesAndFolders.Add(item);
             if ((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
             {
-                if (typeof(PageType) == typeof(GenericFileBrowser))
+                if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
                     (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
                 }
-                else if (typeof(PageType) == typeof(PhotoAlbum))
+                else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
                     (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
@@ -230,11 +220,11 @@ namespace Files.Filesystem
             {
                 if ((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
-                    if (typeof(PageType) == typeof(GenericFileBrowser))
+                    if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                     {
                         (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Visible;
                     }
-                    else if (typeof(PageType) == typeof(PhotoAlbum))
+                    else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                     {
                         (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Visible;
                     }
@@ -260,7 +250,7 @@ namespace Files.Filesystem
         {
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            var selectedTabContent = ((instanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
+            var selectedTabContent = ((InstanceTabsView.tabView.SelectedItem as TabViewItem).Content as Grid);
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
@@ -278,21 +268,19 @@ namespace Files.Filesystem
 
         public async void AddItemsToCollectionAsync(string path)
         {
-            ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
+            GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
-
             _cancellationTokenSource = new CancellationTokenSource();
 
-            //tabInstance.TextState.isVisible = Visibility.Collapsed;
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
             }
@@ -303,11 +291,11 @@ namespace Files.Filesystem
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
             }
@@ -350,14 +338,14 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (typeof(PageType) == typeof(GenericFileBrowser))
+                        if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ReturnOnlyIfCached);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
-                        else if (typeof(PageType) == typeof(PhotoAlbum))
+                        else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ReturnOnlyIfCached);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 275, ThumbnailOptions.UseCurrentScale);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
                         _options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
@@ -366,14 +354,14 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (typeof(PageType) == typeof(GenericFileBrowser))
+                        if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ReturnOnlyIfCached);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
-                        else if (typeof(PageType) == typeof(PhotoAlbum))
+                        else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ReturnOnlyIfCached);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 275, ThumbnailOptions.UseCurrentScale);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
 
@@ -414,12 +402,12 @@ namespace Files.Filesystem
                 }
                 if (numFiles + numFolders == 0)
                 {
-                    if (typeof(PageType) == typeof(GenericFileBrowser))
+                    if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                     {
                         if (_cancellationTokenSource.IsCancellationRequested) { return; }
                         (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
                     }
-                    else if (typeof(PageType) == typeof(PhotoAlbum))
+                    else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                     {
                         if (_cancellationTokenSource.IsCancellationRequested) { return; }
                         (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
@@ -427,7 +415,7 @@ namespace Files.Filesystem
                 }
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                ItemViewModel<ProHome>.GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = true;
+                GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = true;
             }
             catch (UnauthorizedAccessException e)
             {
@@ -459,31 +447,15 @@ namespace Files.Filesystem
                 return;
             }
 
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 if (_cancellationTokenSource.IsCancellationRequested) { return; }
                 (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 if (_cancellationTokenSource.IsCancellationRequested) { return; }
                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        public async void FillTreeNode(object item, TreeView EntireControl)
-        {
-            var pathToFillFrom = (item as Classic_ListedFolderItem)?.FilePath;
-            StorageFolder folderFromPath = await StorageFolder.GetFolderFromPathAsync(pathToFillFrom);
-            IReadOnlyList<StorageFolder> SubFolderList = await folderFromPath.GetFoldersAsync();
-            foreach (StorageFolder fol in SubFolderList)
-            {
-                var name = fol.Name;
-                var date = fol.DateCreated.LocalDateTime.ToString(CultureInfo.InvariantCulture);
-                var ext = fol.DisplayType;
-                var path = fol.Path;
-                (item as Classic_ListedFolderItem)?.Children.Add(new Classic_ListedFolderItem() { FileName = name, FilePath = path, FileDate = date, FileExtension = ext });
-
             }
         }
 
@@ -493,7 +465,7 @@ namespace Files.Filesystem
 
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((typeof(PageType) == typeof(GenericFileBrowser)) || (typeof(PageType) == typeof(PhotoAlbum)))
+            if ((tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 if (token.IsCancellationRequested) { return; }
 
@@ -519,18 +491,6 @@ namespace Files.Filesystem
                     (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
                 }
             }
-            else if (typeof(PageType) == typeof(ClassicMode))
-            {
-                if (token.IsCancellationRequested) { return; }
-
-                _classicFolderList.Add(new Classic_ListedFolderItem()
-                {
-                    FileName = folder.Name,
-                    FileDate = ListedItem.GetFriendlyDate(basicProperties.DateModified),
-                    FileExtension = "Folder",
-                    FilePath = folder.Path
-                });
-            }
         }
 
         private async Task AddFile(StorageFile file, CancellationToken token)
@@ -551,16 +511,16 @@ namespace Files.Filesystem
             Visibility itemThumbnailImgVis;
             Visibility itemEmptyImgVis;
 
-            if (!(typeof(PageType) == typeof(PhotoAlbum)))
+            if (!(tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetScaledImageAsThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
                         itemThumbnailImgVis = Visibility.Visible;
-                        await icon.SetSourceAsync(itemThumbnailImg.CloneStream());
+                        await icon.SetSourceAsync(itemThumbnailImg);
                     }
                     else
                     {
@@ -580,12 +540,12 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetScaledImageAsThumbnailAsync(ThumbnailMode.PicturesView, 275, ThumbnailOptions.ReturnOnlyIfCached);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 275, ThumbnailOptions.ReturnOnlyIfCached);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
                         itemThumbnailImgVis = Visibility.Visible;
-                        await icon.SetSourceAsync(itemThumbnailImg.CloneStream());
+                        await icon.SetSourceAsync(itemThumbnailImg);
                     }
                     else
                     {
@@ -601,48 +561,30 @@ namespace Files.Filesystem
                 }
             }
 
-            if (!(typeof(PageType) == typeof(ClassicMode)))
+            if (token.IsCancellationRequested) { return; }
+
+            _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
             {
-                if (token.IsCancellationRequested) { return; }
+                DotFileExtension = itemFileExtension,
+                EmptyImgVis = itemEmptyImgVis,
+                FileImg = icon,
+                FileIconVis = itemThumbnailImgVis,
+                FolderImg = itemFolderImgVis,
+                FileName = itemName,
+                FileDateReal = itemDate,
+                FileType = itemType,
+                FilePath = itemPath,
+                FileSize = itemSize,
+                RowIndex = _filesAndFolders.Count
+            });
 
-                _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
-                {
-                    DotFileExtension = itemFileExtension,
-                    EmptyImgVis = itemEmptyImgVis,
-                    FileImg = icon,
-                    FileIconVis = itemThumbnailImgVis,
-                    FolderImg = itemFolderImgVis,
-                    FileName = itemName,
-                    FileDateReal = itemDate,
-                    FileType = itemType,
-                    FilePath = itemPath,
-                    FileSize = itemSize,
-                    RowIndex = _filesAndFolders.Count
-                });
-
-                if(typeof(PageType) == typeof(GenericFileBrowser))
-                {
-                    (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                }
-                else if(typeof(PageType) == typeof(PhotoAlbum))
-                {
-                    (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                }
+            if(tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            {
+                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
             }
-            else
+            else if(tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                if (token.IsCancellationRequested) { return; }
-
-                _classicFileList.Add(new ListedItem(file.FolderRelativeId)
-                {
-                    FileImg = icon,
-                    FileIconVis = itemThumbnailImgVis,
-                    FolderImg = itemFolderImgVis,
-                    FileName = itemName,
-                    FileDateReal = itemDate,
-                    FileType = itemType,
-                    FilePath = itemPath
-                });
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -663,11 +605,11 @@ namespace Files.Filesystem
             {
                 if((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
-                    if (typeof(PageType) == typeof(GenericFileBrowser))
+                    if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                     {
                         (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
                     }
-                    else if (typeof(PageType) == typeof(PhotoAlbum))
+                    else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                     {
                         (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
                     }
@@ -729,11 +671,11 @@ namespace Files.Filesystem
             {
                 if ((tabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (tabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
                 {
-                    if (typeof(PageType) == typeof(GenericFileBrowser))
+                    if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                     {
                         (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
                     }
-                    else if (typeof(PageType) == typeof(PhotoAlbum))
+                    else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                     {
                         (tabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
                     }

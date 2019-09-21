@@ -32,8 +32,8 @@ namespace Files
         public Flyout CopiedFlyout;
         public Grid grid;
         public ProgressBar progressBar;
-        public ItemViewModel<GenericFileBrowser> instanceViewModel;
-        public Interaction<GenericFileBrowser> instanceInteraction;
+        ItemViewModel viewModelInstance;
+        ProHome tabInstance;
 
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
@@ -50,10 +50,20 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-        }
-
-        private void SelectAllAcceleratorDG_Invoked(Windows.UI.Xaml.Input.KeyboardAccelerator sender, Windows.UI.Xaml.Input.KeyboardAcceleratorInvokedEventArgs args)
-        {
+            tabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+            viewModelInstance = tabInstance.instanceViewModel;
+            PasteEmptySpace.Click += tabInstance.instanceInteraction.PasteItem_ClickAsync;
+            OpenItem.Click += tabInstance.instanceInteraction.OpenItem_Click;
+            ShareItem.Click += tabInstance.instanceInteraction.ShareItem_Click;
+            DeleteItem.Click += tabInstance.instanceInteraction.DeleteItem_Click;
+            RenameItem.Click += tabInstance.instanceInteraction.RenameItem_Click;
+            CutItem.Click += tabInstance.instanceInteraction.CutItem_Click;
+            CopyItem.Click += tabInstance.instanceInteraction.CopyItem_ClickAsync;
+            SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
+            AllView.RightTapped += tabInstance.instanceInteraction.AllView_RightTapped;
+            AllView.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
+            OpenTerminal.Click += tabInstance.instanceInteraction.OpenDirectoryInTerminal;
+            PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
@@ -85,105 +95,93 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            instanceViewModel = new ItemViewModel<GenericFileBrowser>();
-            instanceInteraction = new Interaction<GenericFileBrowser>();
-            PasteEmptySpace.Click += instanceInteraction.PasteItem_ClickAsync;
-            data.ItemsSource = instanceViewModel.FilesAndFolders;
-            OpenItem.Click += instanceInteraction.OpenItem_Click;
-            ShareItem.Click += instanceInteraction.ShareItem_Click;
-            DeleteItem.Click += instanceInteraction.DeleteItem_Click;
-            RenameItem.Click += instanceInteraction.RenameItem_Click;
-            CutItem.Click += instanceInteraction.CutItem_Click;
-            CopyItem.Click += instanceInteraction.CopyItem_ClickAsync;
-            SidebarPinItem.Click += instanceInteraction.PinItem_Click;
-            AllView.RightTapped += instanceInteraction.AllView_RightTapped;
-            AllView.DoubleTapped += instanceInteraction.List_ItemClick;
-            OpenTerminal.Click += instanceInteraction.OpenDirectoryInTerminal;
-            var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
-            PropertiesItem.Click += CurrentInstance.ShowPropertiesButton_Click;
-            CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
-            CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
-            CurrentInstance.RefreshButton.IsEnabled = true;
+            
+            tabInstance.BackButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoBack;
+            tabInstance.ForwardButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoForward;
+            tabInstance.RefreshButton.IsEnabled = true;
             var parameters = (string)eventArgs.Parameter;
-            instanceViewModel.Universal.path = parameters;
+            tabInstance.instanceViewModel.Universal.path = parameters;
 
-            if (instanceViewModel.Universal.path == Path.GetPathRoot(instanceViewModel.Universal.path))
+            if (tabInstance.instanceViewModel.Universal.path == Path.GetPathRoot(tabInstance.instanceViewModel.Universal.path))
             {
-                CurrentInstance.UpButton.IsEnabled = false;
+                tabInstance.UpButton.IsEnabled = false;
             }
             else
             {
-                CurrentInstance.UpButton.IsEnabled = true;
+                tabInstance.UpButton.IsEnabled = true;
             }
 
             Clipboard_ContentChanged(null, null);
-            CurrentInstance.AlwaysPresentCommands.isEnabled = true;
-            instanceViewModel.CancelLoadAndClearFiles();
-            CurrentInstance.AddItemButton.Click += AddItem_Click;
+            tabInstance.AlwaysPresentCommands.isEnabled = true;
+            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
+            tabInstance.AddItemButton.Click += AddItem_Click;
 
             TextState.isVisible = Visibility.Collapsed;
 
-            instanceViewModel.AddItemsToCollectionAsync(instanceViewModel.Universal.path);
+            tabInstance.instanceViewModel.AddItemsToCollectionAsync(tabInstance.instanceViewModel.Universal.path);
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
-                CurrentInstance.PathText.Text = "Desktop";
+                tabInstance.PathText.Text = "Desktop";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)))
             {
-                CurrentInstance.PathText.Text = "Documents";
+                tabInstance.PathText.Text = "Documents";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
             {
-                CurrentInstance.PathText.Text = "Downloads";
+                tabInstance.PathText.Text = "Downloads";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures)))
             {
-                CurrentInstance.PathText.Text = "Pictures";
+                tabInstance.PathText.Text = "Pictures";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic)))
             {
-                CurrentInstance.PathText.Text = "Music";
+                tabInstance.PathText.Text = "Music";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
             {
-                CurrentInstance.PathText.Text = "OneDrive";
+                tabInstance.PathText.Text = "OneDrive";
             }
             else if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos)))
             {
-                CurrentInstance.PathText.Text = "Videos";
+                tabInstance.PathText.Text = "Videos";
             }
             else
             {
-                if(parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
+                if (parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
                 {
-                    CurrentInstance.PathText.Text = @"Local Disk (C:\)";
+                    tabInstance.PathText.Text = @"Local Disk (C:\)";
                 }
                 else
                 {
-                    CurrentInstance.PathText.Text = parameters;
+                    tabInstance.PathText.Text = parameters;
 
                 }
             }
 
             // Reset DataGrid Rows that may be in "cut" command mode
-            instanceInteraction.dataGridRows.Clear();
-            Interaction<GenericFileBrowser>.FindChildren<DataGridRow>(instanceInteraction.dataGridRows, (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).GFBPageName.Content);
-            foreach (DataGridRow dataGridRow in instanceInteraction.dataGridRows)
+            tabInstance.instanceInteraction.dataGridRows.Clear();
+            Interaction.FindChildren<DataGridRow>(tabInstance.instanceInteraction.dataGridRows, (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).GFBPageName.Content);
+            foreach (DataGridRow dataGridRow in tabInstance.instanceInteraction.dataGridRows)
             {
                 if (data.Columns[0].GetCellContent(dataGridRow).Opacity < 1)
                 {
                     data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                 }
             }
+            
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            if(instanceViewModel._fileQueryResult != null)
+            if(tabInstance.instanceViewModel._fileQueryResult != null)
             {
-                instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+                tabInstance.instanceViewModel._fileQueryResult.ContentsChanged -= tabInstance.instanceViewModel.FileContentsChanged;
             }
+
+            //this.Bindings.StopTracking();
         }
 
 
@@ -201,11 +199,11 @@ namespace Files
                     {
                         if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, instanceViewModel.Universal.path, (item as StorageFolder).DisplayName);
+                            tabInstance.instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, tabInstance.instanceViewModel.Universal.path, (item as StorageFolder).DisplayName);
                         }
                         else
                         {
-                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(instanceViewModel.Universal.path));
+                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(tabInstance.instanceViewModel.Universal.path));
                         }
                     }
             }
@@ -219,7 +217,7 @@ namespace Files
         private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
             var newCellText = (data.SelectedItem as ListedItem)?.FileName;
-            var selectedItem = instanceViewModel.FilesAndFolders[e.Row.GetIndex()];
+            var selectedItem = tabInstance.instanceViewModel.FilesAndFolders[e.Row.GetIndex()];
             if(selectedItem.FileType == "Folder")
             {
                 StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
@@ -257,8 +255,8 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             data.SelectedItem = null;
-            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
-            ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+            tabInstance.HomeItems.isEnabled = false;
+            tabInstance.ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -266,14 +264,14 @@ namespace Files
             AllView.CommitEdit();
             if(e.AddedItems.Count > 0)
             {
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
+                tabInstance.HomeItems.isEnabled = true;
+                tabInstance.ShareItems.isEnabled = true;
 
             }
             else if(data.SelectedItems.Count == 0)
             {
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+                tabInstance.HomeItems.isEnabled = false;
+                tabInstance.ShareItems.isEnabled = false;
             }
         }
 
@@ -304,7 +302,7 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
+            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
             if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
             {
                 SidebarPinItem.IsEnabled = false;

@@ -26,32 +26,24 @@ using Files.Dialogs;
 
 namespace Files.Interacts
 {
-    public class Interaction<PageType> where PageType : class
+    public class Interaction
     {
-        public PageType type;
+        private ProHome tabInstance;
         public Interaction()
         {
-            if(typeof(PageType) == typeof(GenericFileBrowser))
-            {
-                type = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PageType;
-            }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
-            {
-                type = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PageType;
-            }
+            tabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
         }
 
         public async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
         {
             try
             {
-                if (typeof(PageType) == typeof(GenericFileBrowser))
+                if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
-                    var index = (type as GenericFileBrowser).data.SelectedIndex;
+                    var index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
                     if (index > -1)
                     {
-                        var clickedOnItem = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[index];
+                        var clickedOnItem = tabInstance.instanceViewModel.FilesAndFolders[index];
                         // Access MRU List
                         var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -60,70 +52,69 @@ namespace Files.Interacts
                             // Add location to MRU List
                             mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
 
-                            var TabInstance = CurrentInstance;
-                            (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
-                            TabInstance.PathText.Text = clickedOnItem.FilePath;
-                            if (typeof(PageType) == typeof(GenericFileBrowser))
+                            tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
+                            tabInstance.PathText.Text = clickedOnItem.FilePath;
+                            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                             {
-                                (TabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
+                                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
                             }
-                            else if (typeof(PageType) == typeof(PhotoAlbum))
+                            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                             {
-                                (TabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
+                                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
                             }
-                            TabInstance.FS.isEnabled = false;
-                            (type as GenericFileBrowser).instanceViewModel.CancelLoadAndClearFiles();
+                            tabInstance.FS.isEnabled = false;
+                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
-                                TabInstance.PathText.Text = "Desktop";
-                                TabInstance.locationsList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Desktop";
+                                tabInstance.locationsList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
 
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                             {
-                                TabInstance.PathText.Text = "Documents";
-                                TabInstance.locationsList.SelectedIndex = 3;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Documents";
+                                tabInstance.locationsList.SelectedIndex = 3;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                             {
-                                TabInstance.PathText.Text = "Downloads";
-                                TabInstance.locationsList.SelectedIndex = 2;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Downloads";
+                                tabInstance.locationsList.SelectedIndex = 2;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                             {
-                                TabInstance.locationsList.SelectedIndex = 4;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                                TabInstance.PathText.Text = "Pictures";
+                                tabInstance.locationsList.SelectedIndex = 4;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Pictures";
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                             {
-                                TabInstance.PathText.Text = "Music";
-                                TabInstance.locationsList.SelectedIndex = 5;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Music";
+                                tabInstance.locationsList.SelectedIndex = 5;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                             {
-                                TabInstance.PathText.Text = "OneDrive";
-                                TabInstance.drivesList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "OneDrive";
+                                tabInstance.drivesList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                             {
-                                TabInstance.PathText.Text = "Videos";
-                                TabInstance.locationsList.SelectedIndex = 6;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Videos";
+                                tabInstance.locationsList.SelectedIndex = 6;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                             }
                             else
                             {
                                 if (clickedOnItem.FilePath.Split(@"\")[0].Contains("C:"))
                                 {
-                                    TabInstance.drivesList.SelectedIndex = 0;
+                                    tabInstance.drivesList.SelectedIndex = 0;
                                 }
-                                (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), (type as GenericFileBrowser).instanceViewModel.Universal.path, new SuppressNavigationTransitionInfo());
+                                tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), tabInstance.instanceViewModel.Universal.path, new SuppressNavigationTransitionInfo());
                             }
                         }
                         else if (clickedOnItem.FileType == "Application")
@@ -146,13 +137,13 @@ namespace Files.Interacts
                         }
                     }
                 }
-                else if (typeof(PageType) == typeof(PhotoAlbum))
+                else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
-                    var index = (type as PhotoAlbum).gv.SelectedIndex;
-                    var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                    var index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                     if (index > -1)
                     {
-                        var clickedOnItem = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[index];
+                        var clickedOnItem = tabInstance.instanceViewModel.FilesAndFolders[index];
                         // Access MRU List
                         var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -162,57 +153,57 @@ namespace Files.Interacts
                             mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
 
                             var TabInstance = CurrentInstance;
-                            (type as PhotoAlbum).instanceViewModel.Universal.path = clickedOnItem.FilePath;
-                            TabInstance.PathText.Text = clickedOnItem.FilePath;
-                            TabInstance.FS.isEnabled = false;
-                            (type as PhotoAlbum).instanceViewModel.CancelLoadAndClearFiles();
+                            tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
+                            tabInstance.PathText.Text = clickedOnItem.FilePath;
+                            tabInstance.FS.isEnabled = false;
+                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
-                                TabInstance.PathText.Text = "Desktop";
-                                TabInstance.locationsList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Desktop";
+                                tabInstance.locationsList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                             {
-                                TabInstance.PathText.Text = "Documents";
-                                TabInstance.locationsList.SelectedIndex = 3;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Documents";
+                                tabInstance.locationsList.SelectedIndex = 3;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                             {
-                                TabInstance.PathText.Text = "Downloads";
-                                TabInstance.locationsList.SelectedIndex = 2;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Downloads";
+                                tabInstance.locationsList.SelectedIndex = 2;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                             {
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                                TabInstance.locationsList.SelectedIndex = 4;
-                                TabInstance.PathText.Text = "Pictures";
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.locationsList.SelectedIndex = 4;
+                                tabInstance.PathText.Text = "Pictures";
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                             {
-                                TabInstance.PathText.Text = "Music";
-                                TabInstance.locationsList.SelectedIndex = 5;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Music";
+                                tabInstance.locationsList.SelectedIndex = 5;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                             {
-                                TabInstance.PathText.Text = "OneDrive";
-                                TabInstance.drivesList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "OneDrive";
+                                tabInstance.drivesList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                             {
-                                TabInstance.PathText.Text = "Videos";
-                                TabInstance.drivesList.SelectedIndex = 6;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Videos";
+                                tabInstance.drivesList.SelectedIndex = 6;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                             }
                             else
                             {
-                                TabInstance.drivesList.SelectedIndex = 0;
-                                TabInstance.PathText.Text = clickedOnItem.FilePath;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), clickedOnItem.FilePath, new SuppressNavigationTransitionInfo());
+                                tabInstance.drivesList.SelectedIndex = 0;
+                                tabInstance.PathText.Text = clickedOnItem.FilePath;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), clickedOnItem.FilePath, new SuppressNavigationTransitionInfo());
                             }
                         }
                         else if (clickedOnItem.FileType == "Application")
@@ -251,13 +242,13 @@ namespace Files.Interacts
         {
 
             ApplicationData.Current.LocalSettings.Values["Application"] = "cmd.exe";
-            if(typeof(PageType) == typeof(GenericFileBrowser))
+            if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d "+ (type as GenericFileBrowser).instanceViewModel.Universal.path + "&& title Command Prompt" + "\""; 
+                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d "+ tabInstance.instanceViewModel.Universal.path + "&& title Command Prompt" + "\""; 
             }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
+            else if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d " + (type as PhotoAlbum).instanceViewModel.Universal.path + "&& title Command Prompt" + "\"";
+                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d " + tabInstance.instanceViewModel.Universal.path + "&& title Command Prompt" + "\"";
             }
 
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
@@ -265,9 +256,9 @@ namespace Files.Interacts
 
         public async void PinItem_Click(object sender, RoutedEventArgs e)
         {
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var selectedDataItem = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[(type as GenericFileBrowser).AllView.SelectedIndex];
+                var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[(tabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedIndex];
                 StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
 
                 try
@@ -285,9 +276,9 @@ namespace Files.Interacts
                     await FileIO.WriteLinesAsync(createdListFile, items);
                 } 
             }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
+            else if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                var selectedDataItem = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[(type as PhotoAlbum).gv.SelectedIndex];
+                var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[(tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex];
                 StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
 
                 try
@@ -305,7 +296,7 @@ namespace Files.Interacts
                     await FileIO.WriteLinesAsync(createdListFile, items);
                 }
             }
-            var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+            var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
             CurrentInstance.PopulatePinnedSidebarItems();
         }
 
@@ -313,15 +304,15 @@ namespace Files.Interacts
         {
             Clipboard.Clear();
             DataPackage data = new DataPackage();
-            if(typeof(PageType) == typeof(GenericFileBrowser))
+            if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                data.SetText((type as GenericFileBrowser).instanceViewModel.Universal.path);
+                data.SetText(tabInstance.instanceViewModel.Universal.path);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
             }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
+            else if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                data.SetText((type as PhotoAlbum).instanceViewModel.Universal.path);
+                data.SetText(tabInstance.instanceViewModel.Universal.path);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
             }
@@ -329,7 +320,7 @@ namespace Files.Interacts
 
         }
 
-        public async Task LaunchExe(string ApplicationPath)
+        public static async Task LaunchExe(string ApplicationPath)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
@@ -356,7 +347,7 @@ namespace Files.Interacts
             {
                 var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
                 // Check if RightTapped row is currently selected
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 foreach (ListedItem listedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                 {
                     if (RowPressed.GetIndex() == listedItem.RowIndex)
@@ -407,13 +398,13 @@ namespace Files.Interacts
         {
             try
             {
-                if (typeof(PageType) == typeof(GenericFileBrowser))
+                if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
-                    var index = (type as GenericFileBrowser).data.SelectedIndex;
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    var index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
                     if (index > -1)
                     {
-                        var clickedOnItem = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[index];
+                        var clickedOnItem = tabInstance.instanceViewModel.FilesAndFolders[index];
                         // Access MRU List
                         var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -423,69 +414,69 @@ namespace Files.Interacts
                             mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
 
                             var TabInstance = CurrentInstance;
-                            (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
-                            TabInstance.PathText.Text = clickedOnItem.FilePath;
-                            if (typeof(PageType) == typeof(GenericFileBrowser))
+                            tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
+                            tabInstance.PathText.Text = clickedOnItem.FilePath;
+                            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                             {
-                                (TabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
+                                (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
                             }
-                            else if (typeof(PageType) == typeof(PhotoAlbum))
+                            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                             {
-                                (TabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
+                                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
                             }
-                            TabInstance.FS.isEnabled = false;
-                            (type as GenericFileBrowser).instanceViewModel.CancelLoadAndClearFiles();
+                            tabInstance.FS.isEnabled = false;
+                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
-                                TabInstance.PathText.Text = "Desktop";
-                                TabInstance.locationsList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Desktop";
+                                tabInstance.locationsList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
 
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                             {
-                                TabInstance.PathText.Text = "Documents";
-                                TabInstance.locationsList.SelectedIndex = 3;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Documents";
+                                tabInstance.locationsList.SelectedIndex = 3;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                             {
-                                TabInstance.PathText.Text = "Downloads";
-                                TabInstance.locationsList.SelectedIndex = 2;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Downloads";
+                                tabInstance.locationsList.SelectedIndex = 2;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                             {
-                                TabInstance.locationsList.SelectedIndex = 4;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                                TabInstance.PathText.Text = "Pictures";
+                                tabInstance.locationsList.SelectedIndex = 4;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Pictures";
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                             {
-                                TabInstance.PathText.Text = "Music";
-                                TabInstance.locationsList.SelectedIndex = 5;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Music";
+                                tabInstance.locationsList.SelectedIndex = 5;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                             {
-                                TabInstance.PathText.Text = "OneDrive";
-                                TabInstance.drivesList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "OneDrive";
+                                tabInstance.drivesList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                             {
-                                TabInstance.PathText.Text = "Videos";
-                                TabInstance.locationsList.SelectedIndex = 6;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Videos";
+                                tabInstance.locationsList.SelectedIndex = 6;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                             }
                             else
                             {
                                 if (clickedOnItem.FilePath.Split(@"\")[0].Contains("C:"))
                                 {
-                                    TabInstance.drivesList.SelectedIndex = 0;
+                                    tabInstance.drivesList.SelectedIndex = 0;
                                 }
-                                (type as GenericFileBrowser).instanceViewModel.Universal.path = clickedOnItem.FilePath;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), (type as GenericFileBrowser).instanceViewModel.Universal.path, new SuppressNavigationTransitionInfo());
+                                tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), tabInstance.instanceViewModel.Universal.path, new SuppressNavigationTransitionInfo());
                             }
                         }
                         else if (clickedOnItem.FileType == "Application")
@@ -508,13 +499,13 @@ namespace Files.Interacts
                         }
                     }
                 }
-                else if (typeof(PageType) == typeof(PhotoAlbum))
+                else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
-                    var index = (type as PhotoAlbum).gv.SelectedIndex;
-                    var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                    var index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                     if (index > -1)
                     {
-                        var clickedOnItem = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[index];
+                        var clickedOnItem = tabInstance.instanceViewModel.FilesAndFolders[index];
                         // Access MRU List
                         var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -524,57 +515,57 @@ namespace Files.Interacts
                             mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItem.FilePath));
 
                             var TabInstance = CurrentInstance;
-                            (type as PhotoAlbum).instanceViewModel.Universal.path = clickedOnItem.FilePath;
-                            TabInstance.PathText.Text = clickedOnItem.FilePath;
-                            TabInstance.FS.isEnabled = false;
-                            (type as PhotoAlbum).instanceViewModel.CancelLoadAndClearFiles();
+                            tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
+                            tabInstance.PathText.Text = clickedOnItem.FilePath;
+                            tabInstance.FS.isEnabled = false;
+                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
-                                TabInstance.PathText.Text = "Desktop";
-                                TabInstance.locationsList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Desktop";
+                                tabInstance.locationsList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DesktopPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                             {
-                                TabInstance.PathText.Text = "Documents";
-                                TabInstance.locationsList.SelectedIndex = 3;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Documents";
+                                tabInstance.locationsList.SelectedIndex = 3;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DocumentsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                             {
-                                TabInstance.PathText.Text = "Downloads";
-                                TabInstance.locationsList.SelectedIndex = 2;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Downloads";
+                                tabInstance.locationsList.SelectedIndex = 2;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.DownloadsPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                             {
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
-                                TabInstance.locationsList.SelectedIndex = 4;
-                                TabInstance.PathText.Text = "Pictures";
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.PicturesPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.locationsList.SelectedIndex = 4;
+                                tabInstance.PathText.Text = "Pictures";
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                             {
-                                TabInstance.PathText.Text = "Music";
-                                TabInstance.locationsList.SelectedIndex = 5;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Music";
+                                tabInstance.locationsList.SelectedIndex = 5;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.MusicPath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                             {
-                                TabInstance.PathText.Text = "OneDrive";
-                                TabInstance.drivesList.SelectedIndex = 1;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "OneDrive";
+                                tabInstance.drivesList.SelectedIndex = 1;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.OneDrivePath, new SuppressNavigationTransitionInfo());
                             }
                             else if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                             {
-                                TabInstance.PathText.Text = "Videos";
-                                TabInstance.drivesList.SelectedIndex = 6;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
+                                tabInstance.PathText.Text = "Videos";
+                                tabInstance.drivesList.SelectedIndex = 6;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), YourHome.VideosPath, new SuppressNavigationTransitionInfo());
                             }
                             else
                             {
-                                TabInstance.drivesList.SelectedIndex = 0;
-                                TabInstance.PathText.Text = clickedOnItem.FilePath;
-                                TabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), clickedOnItem.FilePath, new SuppressNavigationTransitionInfo());
+                                tabInstance.drivesList.SelectedIndex = 0;
+                                tabInstance.PathText.Text = clickedOnItem.FilePath;
+                                tabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), clickedOnItem.FilePath, new SuppressNavigationTransitionInfo());
                             }
                         }
                         else if (clickedOnItem.FileType == "Application")
@@ -619,9 +610,9 @@ namespace Files.Interacts
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
-            if(typeof(PageType) == typeof(GenericFileBrowser))
+            if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
 
                 foreach (ListedItem li in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                 {
@@ -637,9 +628,9 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                foreach (ListedItem li in (type as PhotoAlbum).gv.SelectedItems)
+                foreach (ListedItem li in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
                 {
                     if (li.FileType == "Folder")
                     {
@@ -665,9 +656,9 @@ namespace Files.Interacts
         {
             try
             {
-                if (typeof(PageType) == typeof(GenericFileBrowser))
+                if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                     List<ListedItem> selectedItems = new List<ListedItem>();
                     foreach (ListedItem selectedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                     {
@@ -717,17 +708,17 @@ namespace Files.Interacts
                             }
                         }
 
-                        (type as GenericFileBrowser).instanceViewModel.RemoveFileOrFolder(storItem);
+                        tabInstance.instanceViewModel.RemoveFileOrFolder(storItem);
                         CurrentInstance.deleteProgressBoxIndicator.Value++;
                     }
                     CurrentInstance.deleteProgressBox.Visibility = Visibility.Collapsed;
                     CurrentInstance.FS.isEnabled = false;
                 }
-                else if (typeof(PageType) == typeof(PhotoAlbum))
+                else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
-                    var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                     List<ListedItem> selectedItems = new List<ListedItem>();
-                    foreach (ListedItem selectedItem in (type as PhotoAlbum).gv.SelectedItems)
+                    foreach (ListedItem selectedItem in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
                     {
                         selectedItems.Add(selectedItem);
                     }
@@ -777,7 +768,7 @@ namespace Files.Interacts
                             }
                         }
 
-                        (type as PhotoAlbum).instanceViewModel.RemoveFileOrFolder(storItem);
+                        tabInstance.instanceViewModel.RemoveFileOrFolder(storItem);
                         CurrentInstance.deleteProgressBoxIndicator.Value++;
                     }
                     CurrentInstance.deleteProgressBox.Visibility = Visibility.Collapsed;
@@ -798,16 +789,16 @@ namespace Files.Interacts
         public async void RenameItem_Click(object sender, RoutedEventArgs e)
         {
 
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 RenameDialog renameDialog = new RenameDialog();
                 renameDialog.inputBox.Text = "";
 
                 try
                 {
                     var ItemSelected = (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
-                    var RowData = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders[ItemSelected];
+                    var RowData = tabInstance.instanceViewModel.FilesAndFolders[ItemSelected];
                     await renameDialog.ShowAsync();
                     var input = renameDialog.storedRenameInput;
                     if (input != null)
@@ -816,8 +807,8 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            (type as GenericFileBrowser).instanceViewModel.RemoveFileOrFolder(RowData);
-                            (type as GenericFileBrowser).instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            tabInstance.instanceViewModel.RemoveFileOrFolder(RowData);
+                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
                                 FileDateReal = DateTimeOffset.Now,
@@ -826,15 +817,15 @@ namespace Files.Interacts
                                 FileIconVis = Visibility.Collapsed,
                                 FileType = "Folder",
                                 FileImg = null,
-                                FilePath = Path.Combine((type as GenericFileBrowser).instanceViewModel.Universal.path, input)
+                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input)
                             });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
                             await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            (type as GenericFileBrowser).instanceViewModel.RemoveFileOrFolder(RowData);
-                            (type as GenericFileBrowser).instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            tabInstance.instanceViewModel.RemoveFileOrFolder(RowData);
+                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
                                 FileDateReal = DateTimeOffset.Now,
@@ -843,7 +834,7 @@ namespace Files.Interacts
                                 FileIconVis = Visibility.Collapsed,
                                 FileType = RowData.FileType,
                                 FileImg = null,
-                                FilePath = Path.Combine((type as GenericFileBrowser).instanceViewModel.Universal.path, input + RowData.DotFileExtension),
+                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input + RowData.DotFileExtension),
                                 DotFileExtension = RowData.DotFileExtension
                             });
                         }
@@ -857,16 +848,16 @@ namespace Files.Interacts
                 }
                 CurrentInstance.FS.isEnabled = false;
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 RenameDialog renameDialog = new RenameDialog();
                 renameDialog.inputBox.Text = "";
 
                 try
                 {
-                    var ItemSelected = (type as PhotoAlbum).gv.SelectedIndex;
-                    var BoxData = (type as PhotoAlbum).instanceViewModel.FilesAndFolders[ItemSelected];
+                    var ItemSelected = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+                    var BoxData = tabInstance.instanceViewModel.FilesAndFolders[ItemSelected];
                     await renameDialog.ShowAsync();
                     var input = renameDialog.storedRenameInput;
                     if (input != null)
@@ -875,8 +866,8 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            (type as PhotoAlbum).instanceViewModel.RemoveFileOrFolder(BoxData);
-                            (type as PhotoAlbum).instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            tabInstance.instanceViewModel.RemoveFileOrFolder(BoxData);
+                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
                                 FileDateReal = DateTimeOffset.Now,
@@ -885,15 +876,15 @@ namespace Files.Interacts
                                 FileIconVis = Visibility.Collapsed,
                                 FileType = "Folder",
                                 FileImg = null,
-                                FilePath = Path.Combine((type as PhotoAlbum).instanceViewModel.Universal.path, input)
+                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input)
                             });
                         }
                         else
                         {
                             var item = await StorageFile.GetFileFromPathAsync(BoxData.FilePath);
                             await item.RenameAsync(input + BoxData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            (type as PhotoAlbum).instanceViewModel.RemoveFileOrFolder(BoxData);
-                            (type as PhotoAlbum).instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
+                            tabInstance.instanceViewModel.RemoveFileOrFolder(BoxData);
+                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
                             {
                                 FileName = input,
                                 FileDateReal = DateTimeOffset.Now,
@@ -902,7 +893,7 @@ namespace Files.Interacts
                                 FileIconVis = Visibility.Collapsed,
                                 FileType = BoxData.FileType,
                                 FileImg = null,
-                                FilePath = Path.Combine((type as PhotoAlbum).instanceViewModel.Universal.path, input + BoxData.DotFileExtension),
+                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input + BoxData.DotFileExtension),
                                 DotFileExtension = BoxData.DotFileExtension
                             });
                         }
@@ -927,9 +918,9 @@ namespace Files.Interacts
             dataPackage.RequestedOperation = DataPackageOperation.Move;
             App.pathsToDeleteAfterPaste.Clear();
             List<IStorageItem> items = new List<IStorageItem>();
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 if ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Count != 0)
                 {
                     dataGridRows.Clear();
@@ -968,9 +959,9 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 if ((CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems.Count != 0)
                 {
 
@@ -989,7 +980,7 @@ namespace Files.Interacts
                         }
                     }
 
-                    foreach (ListedItem StorItem in (type as PhotoAlbum).gv.SelectedItems)
+                    foreach (ListedItem StorItem in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
                     {
                         foreach (GridViewItem itemToDimForCut in gridViewItems)
                         {
@@ -1027,10 +1018,10 @@ namespace Files.Interacts
             DataPackage dataPackage = new DataPackage();
             dataPackage.RequestedOperation = DataPackageOperation.Copy;
             List<IStorageItem> items = new List<IStorageItem>();
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
-                CopySourcePath = (type as GenericFileBrowser).instanceViewModel.Universal.path;
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                CopySourcePath = tabInstance.instanceViewModel.Universal.path;
 
                 if ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Count != 0)
                 {
@@ -1049,13 +1040,13 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                CopySourcePath = (type as PhotoAlbum).instanceViewModel.Universal.path;
+                CopySourcePath = tabInstance.instanceViewModel.Universal.path;
 
-                if ((type as PhotoAlbum).gv.SelectedItems.Count != 0)
+                if ((tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems.Count != 0)
                 {
-                    foreach (ListedItem StorItem in (type as PhotoAlbum).gv.SelectedItems)
+                    foreach (ListedItem StorItem in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
                     {
                         if (StorItem.FileType != "Folder")
                         {
@@ -1084,15 +1075,15 @@ namespace Files.Interacts
         {
             string DestinationPath = null;
             int oldCount;
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                DestinationPath = (type as GenericFileBrowser).instanceViewModel.Universal.path;
-                oldCount = (type as GenericFileBrowser).instanceViewModel.FilesAndFolders.Count;
+                DestinationPath = tabInstance.instanceViewModel.Universal.path;
+                oldCount = tabInstance.instanceViewModel.FilesAndFolders.Count;
             }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
+            else if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                DestinationPath = (type as PhotoAlbum).instanceViewModel.Universal.path;
-                oldCount = (type as PhotoAlbum).instanceViewModel.FilesAndFolders.Count;
+                DestinationPath = tabInstance.instanceViewModel.Universal.path;
+                oldCount = tabInstance.instanceViewModel.FilesAndFolders.Count;
             }
             DataPackageView packageView = Clipboard.GetContent();
             var ItemsToPaste = await packageView.GetStorageItemsAsync();
@@ -1153,15 +1144,15 @@ namespace Files.Interacts
                 AlreadyExistsDialog.Commands.Add(new UICommand("Enter a name"));
                 await AlreadyExistsDialog.ShowAsync();
                 string newName = null;
-                if (typeof(PageType) == typeof(GenericFileBrowser))
+                if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                     await (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).NameBox.ShowAsync();
                     newName = (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).inputForRename;
                 }
-                else if (typeof(PageType) == typeof(PhotoAlbum))
+                else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
-                    var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+                    var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                     await (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).NameBox.ShowAsync();
                     newName = (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).inputForRename;
                 }
@@ -1189,9 +1180,9 @@ namespace Files.Interacts
 
         public void SelectAllItems()
         {
-            if(typeof(PageType) == typeof(GenericFileBrowser))
+            if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 foreach (ListedItem li in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.ItemsSource)
                 {
                     if (!(CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Contains(li))
@@ -1200,22 +1191,22 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if(typeof(PageType) == typeof(PhotoAlbum))
+            else if(ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (type as PhotoAlbum).gv.SelectAll();
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectAll();
             }
         }
 
         public void ClearAllItems()
         {
-            if (typeof(PageType) == typeof(GenericFileBrowser))
+            if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Clear();
             }
-            else if (typeof(PageType) == typeof(PhotoAlbum))
+            else if (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (type as PhotoAlbum).gv.SelectedItems.Clear();
+                (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems.Clear();
             }
         }
     }

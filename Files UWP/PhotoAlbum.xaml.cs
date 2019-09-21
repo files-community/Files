@@ -23,6 +23,7 @@ using System.Windows.Input;
 using Microsoft.Xaml.Interactions.Core;
 using Microsoft.Xaml.Interactivity;
 using System.Text.RegularExpressions;
+using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
@@ -40,8 +41,8 @@ namespace Files
         public TextBlock EmptyTextPA;
         public string inputForRename;
         public ProgressBar progressBar;
-        public ItemViewModel<PhotoAlbum> instanceViewModel;
-        public Interaction<PhotoAlbum> instanceInteraction;
+        ItemViewModel viewModelInstance;
+        ProHome tabInstance;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
 
@@ -54,22 +55,25 @@ namespace Files
             progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
+            tabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+            viewModelInstance = tabInstance.instanceViewModel;
+            FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
+            SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
+            OpenTerminal.Click += tabInstance.instanceInteraction.OpenDirectoryInTerminal;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            instanceViewModel = new ItemViewModel<PhotoAlbum>();
-            instanceInteraction = new Interaction<PhotoAlbum>();
-            var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+            var CurrentInstance = tabInstance;
             CurrentInstance.BackButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoBack;
             CurrentInstance.ForwardButton.IsEnabled = CurrentInstance.accessibleContentFrame.CanGoForward;
             CurrentInstance.RefreshButton.IsEnabled = true;
-            OpenTerminal.Click += instanceInteraction.OpenDirectoryInTerminal;
             var parameters = eventArgs.Parameter.ToString();
-            instanceViewModel.Universal.path = parameters;
+            tabInstance.instanceViewModel.Universal.path = parameters;
 
-            if (instanceViewModel.Universal.path == Path.GetPathRoot(instanceViewModel.Universal.path))
+            if (tabInstance.instanceViewModel.Universal.path == Path.GetPathRoot(tabInstance.instanceViewModel.Universal.path))
             {
                 CurrentInstance.UpButton.IsEnabled = false;
             }
@@ -78,14 +82,12 @@ namespace Files
                 CurrentInstance.UpButton.IsEnabled = true;
             }
 
-            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = true;
-            SidebarPinItem.Click += instanceInteraction.PinItem_Click;
+            tabInstance.AlwaysPresentCommands.isEnabled = true;
 
             TextState.isVisible = Visibility.Collapsed;
-            instanceViewModel.CancelLoadAndClearFiles();
+            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
-            instanceViewModel.AddItemsToCollectionAsync(parameters);
-            FileList.DoubleTapped += instanceInteraction.List_ItemClick;
+            tabInstance.instanceViewModel.AddItemsToCollectionAsync(parameters);
 
             if (parameters.Equals(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory)))
             {
@@ -142,9 +144,9 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            if (instanceViewModel._fileQueryResult != null)
+            if (tabInstance.instanceViewModel._fileQueryResult != null)
             {
-                instanceViewModel._fileQueryResult.ContentsChanged -= instanceViewModel.FileContentsChanged;
+                tabInstance.instanceViewModel._fileQueryResult.ContentsChanged -= tabInstance.instanceViewModel.FileContentsChanged;
             }
         }
 
@@ -173,7 +175,7 @@ namespace Files
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
 
-            var BoxPressed = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (BoxPressed == null)
             {
                 gv.SelectedItems.Clear();
@@ -198,37 +200,37 @@ namespace Files
 
         private void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.OpenItem_Click(null, null);
+            tabInstance.instanceInteraction.OpenItem_Click(null, null);
         }
 
         private void ShareItem_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.ShareItem_Click(null, null);
+            tabInstance.instanceInteraction.ShareItem_Click(null, null);
         }
 
         private void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.DeleteItem_Click(null, null);
+            tabInstance.instanceInteraction.DeleteItem_Click(null, null);
         }
 
         private void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.RenameItem_Click(null, null);
+            tabInstance.instanceInteraction.RenameItem_Click(null, null);
         }
 
         private void CutItem_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.CutItem_Click(null, null);
+            tabInstance.instanceInteraction.CutItem_Click(null, null);
         }
 
         private void CopyItem_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.CopyItem_ClickAsync(null, null);
+            tabInstance.instanceInteraction.CopyItem_ClickAsync(null, null);
         }
 
         private void PropertiesItem_Click(object sender, RoutedEventArgs e)
         {
-            var CurrentInstance = ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>();
+            var CurrentInstance = tabInstance;
             CurrentInstance.ShowPropertiesButton_Click(null, null);
         }
 
@@ -239,18 +241,18 @@ namespace Files
 
         private void PasteGrid_Click(object sender, RoutedEventArgs e)
         {
-            instanceInteraction.PasteItem_ClickAsync(null, null);
+            tabInstance.instanceInteraction.PasteItem_ClickAsync(null, null);
         }
 
         private async void PropertiesItemGrid_Click(object sender, RoutedEventArgs e)
         {
-            ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().accessiblePropertiesFrame.Navigate(typeof(Properties), ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().PathText.Text, new SuppressNavigationTransitionInfo());
-            await ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().propertiesDialog.ShowAsync();
+            tabInstance.accessiblePropertiesFrame.Navigate(typeof(Properties), tabInstance.PathText.Text, new SuppressNavigationTransitionInfo());
+            await tabInstance.propertiesDialog.ShowAsync();
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            var parentContainer = Interaction<PhotoAlbum>.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
+            var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             foreach (ListedItem listedItem in FileList.SelectedItems)
             {
                 if (FileList.IndexFromContainer(parentContainer) == listedItem.RowIndex)
@@ -268,8 +270,8 @@ namespace Files
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
                 FileList.SelectedItem = null;
-                ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
-                ItemViewModel<PhotoAlbum>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+                tabInstance.HomeItems.isEnabled = false;
+                tabInstance.ShareItems.isEnabled = false;
             }
         }
 
@@ -277,20 +279,20 @@ namespace Files
         {
             if (e.AddedItems.Count > 0)
             {
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = true;
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = true;
+                tabInstance.HomeItems.isEnabled = true;
+                tabInstance.ShareItems.isEnabled = true;
 
             }
             else if (FileList.SelectedItems.Count == 0)
             {
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().HomeItems.isEnabled = false;
-                ItemViewModel<GenericFileBrowser>.GetCurrentSelectedTabInstance<ProHome>().ShareItems.isEnabled = false;
+                tabInstance.HomeItems.isEnabled = false;
+                tabInstance.ShareItems.isEnabled = false;
             }
         }
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = instanceViewModel.FilesAndFolders[gv.SelectedIndex];
+            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[gv.SelectedIndex];
             if (selectedDataItem.FileType != "Folder" || gv.SelectedItems.Count > 1)
             {
                 SidebarPinItem.IsEnabled = false;

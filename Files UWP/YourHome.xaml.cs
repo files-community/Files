@@ -33,14 +33,10 @@ namespace Files
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-        public ItemViewModel<YourHome> instanceViewModel;
-        public Interaction<YourHome> instanceInteraction;
 
         public YourHome()
         {
             InitializeComponent();
-            instanceViewModel = new ItemViewModel<YourHome>();
-            instanceInteraction = new Interaction<YourHome>();
             GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
@@ -65,7 +61,7 @@ namespace Files
         {
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            var selectedTabContent = ((instanceTabsView.tabView.SelectedItem as Microsoft.UI.Xaml.Controls.TabViewItem).Content as Grid);
+            var selectedTabContent = ((InstanceTabsView.tabView.SelectedItem as Microsoft.UI.Xaml.Controls.TabViewItem).Content as Grid);
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
@@ -276,7 +272,7 @@ namespace Files
                 var file = (await StorageFile.GetFileFromPathAsync(path));
                 if (file.FileType == "Application")
                 {
-                    await instanceInteraction.LaunchExe(path);
+                    await Interaction.LaunchExe(path);
 
                 }
                 else
