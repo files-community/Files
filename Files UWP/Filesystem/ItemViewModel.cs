@@ -340,12 +340,12 @@ namespace Files.Filesystem
 
                         if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
                         else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 275, ThumbnailOptions.UseCurrentScale);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
                         _options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
@@ -356,12 +356,12 @@ namespace Files.Filesystem
 
                         if (tabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
                         else if (tabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 275, ThumbnailOptions.UseCurrentScale);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
                         }
 
@@ -515,11 +515,13 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
                         itemThumbnailImgVis = Visibility.Visible;
+                        icon.DecodePixelWidth = 20;
+                        icon.DecodePixelHeight = 20;
                         await icon.SetSourceAsync(itemThumbnailImg);
                     }
                     else
@@ -540,11 +542,13 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 275, ThumbnailOptions.ReturnOnlyIfCached);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
                         itemThumbnailImgVis = Visibility.Visible;
+                        icon.DecodePixelWidth = 80;
+                        icon.DecodePixelHeight = 80;
                         await icon.SetSourceAsync(itemThumbnailImg);
                     }
                     else

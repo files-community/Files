@@ -407,48 +407,48 @@
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <GridView SelectionChanged="FileList_SelectionChanged" Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch" animations:ReorderGridAnimation.Duration="300">
+        <GridView SelectionChanged="FileList_SelectionChanged" Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
                             <MenuFlyout Opened="RightClickContextMenu_Opened" x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                    <MenuFlyout.Items>
-                                        <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE7AC;"/>
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                        <MenuFlyoutItem Click="ShareItem_Click" Text="Share" Name="ShareItem">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE72D;"/>
-                                            </MenuFlyoutItem.Icon>
+                                <MenuFlyout.Items>
+                                    <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE7AC;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Click="ShareItem_Click" Text="Share" Name="ShareItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE72D;"/>
+                                        </MenuFlyoutItem.Icon>
                                         <MenuFlyoutItem.KeyboardAccelerators>
                                             <KeyboardAccelerator Modifiers="Control" Key="S"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" Name="DeleteItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE74D;"/>
-                                            </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" Name="DeleteItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE74D;"/>
+                                        </MenuFlyoutItem.Icon>
                                         <MenuFlyoutItem.KeyboardAccelerators>
                                             <KeyboardAccelerator Key="Delete"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                        <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" Name="RenameItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8AC;"/>
-                                            </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" Name="RenameItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8AC;"/>
+                                        </MenuFlyoutItem.Icon>
                                         <MenuFlyoutItem.KeyboardAccelerators>
                                             <KeyboardAccelerator Key="F2"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                        <MenuFlyoutSeparator/>
-                                        <MenuFlyoutItem Click="CutItem_Click" Text="Cut" Name="CutItem" >
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE8C6;"/>
-                                            </MenuFlyoutItem.Icon>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem Click="CutItem_Click" Text="Cut" Name="CutItem" >
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8C6;"/>
+                                        </MenuFlyoutItem.Icon>
                                         <MenuFlyoutItem.KeyboardAccelerators>
                                             <KeyboardAccelerator Modifiers="Control" Key="X"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
@@ -466,16 +466,14 @@
                                         <MenuFlyoutItem.Icon>
                                             <SymbolIcon Symbol="Pin"/>
                                         </MenuFlyoutItem.Icon>
-
                                     </MenuFlyoutItem>
                                     <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" Name="PropertiesItem">
-                                            <MenuFlyoutItem.Icon>
-                                                <FontIcon Glyph="&#xE946;"/>
-                                            </MenuFlyoutItem.Icon>
-                                        </MenuFlyoutItem>
-                                    </MenuFlyout.Items>
-
-                                </MenuFlyout>
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE946;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout.Items>
+                            </MenuFlyout>
                         </Setter.Value>
                     </Setter>
                 </Style>
