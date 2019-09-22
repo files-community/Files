@@ -22,6 +22,7 @@ namespace Files
 {
     sealed partial class App : Application
     {
+        public static ProHome selectedTabInstance { get; set; }
         public App()
         {
             this.InitializeComponent();
@@ -95,6 +96,7 @@ namespace Files
 
         public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
+
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

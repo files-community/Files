@@ -37,7 +37,7 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-            GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+            App.selectedTabInstance.PathText.Text = "Favorites";
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -82,16 +82,16 @@ namespace Files
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo("Favorites", null);
-            GetCurrentSelectedTabInstance<ProHome>().BackButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoBack;
-            GetCurrentSelectedTabInstance<ProHome>().ForwardButton.IsEnabled = GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.CanGoForward;
-            GetCurrentSelectedTabInstance<ProHome>().RefreshButton.IsEnabled = false;
-            GetCurrentSelectedTabInstance<ProHome>().accessiblePasteButton.IsEnabled = false;
-            GetCurrentSelectedTabInstance<ProHome>().AlwaysPresentCommands.isEnabled = false;
-            GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = false;
+            App.selectedTabInstance.BackButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoBack;
+            App.selectedTabInstance.ForwardButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoForward;
+            App.selectedTabInstance.RefreshButton.IsEnabled = false;
+            App.selectedTabInstance.accessiblePasteButton.IsEnabled = false;
+            App.selectedTabInstance.AlwaysPresentCommands.isEnabled = false;
+            App.selectedTabInstance.LayoutItems.isEnabled = false;
 
             // Clear the path UI and replace with Favorites
-            GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Clear();
-            //Style tabStyleFixed = GetCurrentSelectedTabInstance<ProHome>().accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
+            App.selectedTabInstance.pathBoxItems.Clear();
+            //Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
 
             string componentLabel = "Favorites";
             string tag = "Favorites";
@@ -100,7 +100,7 @@ namespace Files
                 Title = componentLabel,
                 Path = tag,
             };
-            GetCurrentSelectedTabInstance<ProHome>().pathBoxItems.Add(item);
+            App.selectedTabInstance.pathBoxItems.Add(item);
 
         }
 
@@ -110,39 +110,39 @@ namespace Files
             if (BelowCardText == "Downloads")
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
+                App.selectedTabInstance.locationsList.SelectedIndex = 2;
                 //instanceViewModel.TextState.isVisible = Visibility.Collapsed;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 3;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 4;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
 
             }
             else if (BelowCardText == "Music")
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 5;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 6;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
         }
 
@@ -162,37 +162,37 @@ namespace Files
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 2;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 2;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 3;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 3;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 4;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 4;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 5;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 5;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
                 
-                GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 6;
-                GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                GetCurrentSelectedTabInstance<ProHome>().LayoutItems.isEnabled = true;
+                App.selectedTabInstance.locationsList.SelectedIndex = 6;
+                App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                App.selectedTabInstance.LayoutItems.isEnabled = true;
             }
         }
         public static StorageFile RecentsFile;
@@ -286,24 +286,24 @@ namespace Files
             }
             catch (UnauthorizedAccessException)
             {
-                await GetCurrentSelectedTabInstance<ProHome>().consentDialog.ShowAsync();
+                await App.selectedTabInstance.consentDialog.ShowAsync();
             }
             catch (System.ArgumentException)
             {
                 if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
                 {
-                    GetCurrentSelectedTabInstance<ProHome>().drivesList.SelectedIndex = 0;
-                    GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                    App.selectedTabInstance.drivesList.SelectedIndex = 0;
+                    App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
                 }
                 else
                 {
-                    foreach(ListViewItem drive in GetCurrentSelectedTabInstance<ProHome>().drivesList.Items)
+                    foreach(ListViewItem drive in App.selectedTabInstance.drivesList.Items)
                     {
                         if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
-                            GetCurrentSelectedTabInstance<ProHome>().drivesList.SelectedItem = null;
+                            App.selectedTabInstance.drivesList.SelectedItem = null;
                             drive.IsSelected = true;
-                            GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                            App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
                             return;
                         }
                     }

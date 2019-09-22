@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml.Controls;
+﻿using Files.Filesystem;
+using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -234,6 +235,10 @@ namespace Files
                         TabStrip.SelectedItem = itemToReselect;
                     }
                 }
+            }
+            else
+            {
+                App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
             }
 
         }

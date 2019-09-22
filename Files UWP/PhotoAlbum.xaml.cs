@@ -55,7 +55,7 @@ namespace Files
             progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
-            tabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+            tabInstance = App.selectedTabInstance;
             viewModelInstance = tabInstance.instanceViewModel;
             FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;

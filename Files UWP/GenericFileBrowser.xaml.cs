@@ -50,7 +50,7 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
-            tabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+            tabInstance = App.selectedTabInstance;
             viewModelInstance = tabInstance.instanceViewModel;
             PasteEmptySpace.Click += tabInstance.instanceInteraction.PasteItem_ClickAsync;
             OpenItem.Click += tabInstance.instanceInteraction.OpenItem_Click;

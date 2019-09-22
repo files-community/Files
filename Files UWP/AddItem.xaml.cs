@@ -56,7 +56,7 @@ namespace Files
         }
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var TabInstance = GetCurrentSelectedTabInstance<ProHome>();
+            var TabInstance = App.selectedTabInstance;
             TabInstance.addItemDialog.Hide();
             string currentPath = null;
             if (TabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))

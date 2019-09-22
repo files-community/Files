@@ -904,12 +904,12 @@ namespace Files
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
             }
             await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
@@ -999,16 +999,16 @@ namespace Files
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
             if (itemTappedPath == "Favorites") { return; }
-            if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 instanceViewModel.CancelLoadAndClearFiles();
             }
-            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            else if ((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
             {
                 instanceViewModel.CancelLoadAndClearFiles();
             }
             
-            ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
+            App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
@@ -1023,7 +1023,7 @@ namespace Files
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var ContentOwnedViewModelInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
+                var ContentOwnedViewModelInstance = App.selectedTabInstance.instanceViewModel;
                 ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
                 ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
             });
@@ -1031,12 +1031,12 @@ namespace Files
 
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            Frame instanceContentFrame = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            Frame instanceContentFrame = App.selectedTabInstance.accessibleContentFrame;
 
-            if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
+                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
                 if (instanceContentFrame.CanGoBack)
                 {
                     var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
@@ -1045,12 +1045,12 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
 
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        App.selectedTabInstance.locationsList.SelectedIndex = 0;
+                        App.selectedTabInstance.PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = App.selectedTabInstance;
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1110,10 +1110,10 @@ namespace Files
                     instanceContentFrame.GoBack();
                 }
             }
-            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            else if ((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
+                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
                 if (instanceContentFrame.CanGoBack)
                 {
                     var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
@@ -1122,12 +1122,12 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
 
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        App.selectedTabInstance.locationsList.SelectedIndex = 0;
+                        App.selectedTabInstance.PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = App.selectedTabInstance;
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1187,10 +1187,10 @@ namespace Files
                     instanceContentFrame.GoBack();
                 }
             }
-            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
+            else if ((App.selectedTabInstance.accessibleContentFrame.Content as YourHome) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as YourHome);
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
+                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoBack)
                 {
@@ -1199,12 +1199,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        App.selectedTabInstance.locationsList.SelectedIndex = 0;
+                        App.selectedTabInstance.PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = App.selectedTabInstance;
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1270,11 +1270,11 @@ namespace Files
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            Frame instanceContentFrame = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
-            if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as GenericFileBrowser) != null)
+            Frame instanceContentFrame = App.selectedTabInstance.accessibleContentFrame;
+            if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
+                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1283,12 +1283,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        App.selectedTabInstance.locationsList.SelectedIndex = 0;
+                        App.selectedTabInstance.PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = App.selectedTabInstance;
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1349,9 +1349,9 @@ namespace Files
                     instanceContentFrame.GoForward();
                 }
             }
-            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as PhotoAlbum) != null)
+            else if ((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
             {
-                var instance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
+                var instance = App.selectedTabInstance.instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
                 instance.CancelLoadAndClearFiles();
 
@@ -1362,12 +1362,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        App.selectedTabInstance.locationsList.SelectedIndex = 0;
+                        App.selectedTabInstance.PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = App.selectedTabInstance;
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1428,10 +1428,10 @@ namespace Files
                     instanceContentFrame.GoForward();
                 }
             }
-            else if ((ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame.Content as YourHome) != null)
+            else if ((App.selectedTabInstance.accessibleContentFrame.Content as YourHome) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as YourHome);
-                ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel.CancelLoadAndClearFiles();
+                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1440,12 +1440,12 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().locationsList.SelectedIndex = 0;
-                        ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().PathText.Text = "Favorites";
+                        App.selectedTabInstance.locationsList.SelectedIndex = 0;
+                        App.selectedTabInstance.PathText.Text = "Favorites";
                     }
                     else
                     {
-                        var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                        var CurrentTabInstance = App.selectedTabInstance;
                         if (Parameter.ToString() == ProHome.DesktopPath)
                         {
                             CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1510,11 +1510,11 @@ namespace Files
 
         public static void Up_Click(object sender, RoutedEventArgs e)
         {
-            Frame instanceContentFrame = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().accessibleContentFrame;
+            Frame instanceContentFrame = App.selectedTabInstance.accessibleContentFrame;
 
             if ((instanceContentFrame.Content as GenericFileBrowser) != null)
             {
-                var instance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
+                var instance = App.selectedTabInstance.instanceViewModel;
                 instance.CancelLoadAndClearFiles();
                 string parentDirectoryOfPath = null;
                 // Check that there isn't a slash at the end
@@ -1528,7 +1528,7 @@ namespace Files
                     parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
                 }
 
-                var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentTabInstance = App.selectedTabInstance;
                 if (parentDirectoryOfPath == ProHome.DesktopPath)
                 {
                     CurrentTabInstance.locationsList.SelectedIndex = 1;
@@ -1591,7 +1591,7 @@ namespace Files
             }
             else if ((instanceContentFrame.Content as PhotoAlbum) != null)
             {
-                var instance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().instanceViewModel;
+                var instance = App.selectedTabInstance.instanceViewModel;
                 instance.CancelLoadAndClearFiles();
                 string parentDirectoryOfPath = null;
                 // Check that there isn't a slash at the end
@@ -1605,7 +1605,7 @@ namespace Files
                     parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
                 }
 
-                var CurrentTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                var CurrentTabInstance = App.selectedTabInstance;
                 if (parentDirectoryOfPath == ProHome.DesktopPath)
                 {
                     CurrentTabInstance.locationsList.SelectedIndex = 1;
