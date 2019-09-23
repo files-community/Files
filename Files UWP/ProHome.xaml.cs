@@ -360,7 +360,6 @@ namespace Files
         {
             if (CurrentInput != instance.Universal.path)
             {
-                instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
 
@@ -525,7 +524,6 @@ namespace Files
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
             ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-            instanceViewModel.CancelLoadAndClearFiles();
 
             if (clickedItem.Tag.ToString() == "Favorites")
             {
@@ -639,7 +637,6 @@ namespace Files
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var instance = instanceViewModel;
-                instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
@@ -703,7 +700,6 @@ namespace Files
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 var instance = instanceViewModel;
-                instance.CancelLoadAndClearFiles();
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (LocationsList.SelectedItem != null)
@@ -972,11 +968,6 @@ namespace Files
                 instanceViewModel = new ItemViewModel();
                 instanceInteraction = new Interaction();
             }
-            else if(instanceViewModel != null && instanceInteraction != null)
-            {
-                instanceViewModel.CancelLoadAndClearFiles();
-            }
-
         }
 
         private void HideFakeDialogButton_Click(object sender, RoutedEventArgs e)
@@ -999,14 +990,6 @@ namespace Files
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
             if (itemTappedPath == "Favorites") { return; }
-            if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
-            {
-                instanceViewModel.CancelLoadAndClearFiles();
-            }
-            else if ((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-            {
-                instanceViewModel.CancelLoadAndClearFiles();
-            }
             
             App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }
@@ -1024,7 +1007,6 @@ namespace Files
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = App.selectedTabInstance.instanceViewModel;
-                ContentOwnedViewModelInstance.CancelLoadAndClearFiles();
                 ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
             });
         }
@@ -1036,7 +1018,6 @@ namespace Files
             if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
-                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
                 if (instanceContentFrame.CanGoBack)
                 {
                     var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
@@ -1113,7 +1094,6 @@ namespace Files
             else if ((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
-                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
                 if (instanceContentFrame.CanGoBack)
                 {
                     var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
@@ -1190,7 +1170,6 @@ namespace Files
             else if ((App.selectedTabInstance.accessibleContentFrame.Content as YourHome) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as YourHome);
-                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoBack)
                 {
@@ -1274,7 +1253,6 @@ namespace Files
             if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
-                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1353,7 +1331,6 @@ namespace Files
             {
                 var instance = App.selectedTabInstance.instanceViewModel;
                 var instanceContent = (instanceContentFrame.Content as PhotoAlbum);
-                instance.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1431,7 +1408,6 @@ namespace Files
             else if ((App.selectedTabInstance.accessibleContentFrame.Content as YourHome) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as YourHome);
-                App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
                 if (instanceContentFrame.CanGoForward)
                 {
@@ -1515,7 +1491,6 @@ namespace Files
             if ((instanceContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instance = App.selectedTabInstance.instanceViewModel;
-                instance.CancelLoadAndClearFiles();
                 string parentDirectoryOfPath = null;
                 // Check that there isn't a slash at the end
                 if((instance.Universal.path.Count() - 1) - instance.Universal.path.LastIndexOf("\\") > 0)
@@ -1592,7 +1567,6 @@ namespace Files
             else if ((instanceContentFrame.Content as PhotoAlbum) != null)
             {
                 var instance = App.selectedTabInstance.instanceViewModel;
-                instance.CancelLoadAndClearFiles();
                 string parentDirectoryOfPath = null;
                 // Check that there isn't a slash at the end
                 if ((instance.Universal.path.Count() - 1) - instance.Universal.path.LastIndexOf("\\") > 0)

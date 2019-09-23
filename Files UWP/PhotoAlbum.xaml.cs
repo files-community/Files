@@ -85,7 +85,6 @@ namespace Files
             tabInstance.AlwaysPresentCommands.isEnabled = true;
 
             TextState.isVisible = Visibility.Collapsed;
-            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
 
             tabInstance.instanceViewModel.AddItemsToCollectionAsync(parameters);
 

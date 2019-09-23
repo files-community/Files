@@ -113,7 +113,6 @@ namespace Files
 
             Clipboard_ContentChanged(null, null);
             tabInstance.AlwaysPresentCommands.isEnabled = true;
-            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
             tabInstance.AddItemButton.Click += AddItem_Click;
 
             TextState.isVisible = Visibility.Collapsed;

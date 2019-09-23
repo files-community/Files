@@ -284,9 +284,8 @@ namespace Files.Filesystem
                 (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
             }
 
-            _filesAndFolders.Clear();
             Universal.path = path;
-
+            _filesAndFolders.Clear();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
@@ -498,7 +497,11 @@ namespace Files.Filesystem
 
             if ((App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
-
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    isLoadingItems = false;
+                    return;
+                }
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     FileName = folder.Name,
@@ -592,7 +595,11 @@ namespace Files.Filesystem
 
                 }
             }
-
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                isLoadingItems = false;
+                return;
+            }
             _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
             {
                 DotFileExtension = itemFileExtension,
@@ -655,8 +662,6 @@ namespace Files.Filesystem
             var folderCount = await _folderQueryResult.GetItemCountAsync();
             var files = await _fileQueryResult.GetFilesAsync();
             var folders = await _folderQueryResult.GetFoldersAsync();
-
-            var cancellationTokenSourceCopy = _cancellationTokenSource;
 
             // modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
 

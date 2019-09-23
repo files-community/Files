@@ -63,7 +63,6 @@ namespace Files.Interacts
                                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
                             }
                             tabInstance.FS.isEnabled = false;
-                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
                                 tabInstance.PathText.Text = "Desktop";
@@ -156,7 +155,6 @@ namespace Files.Interacts
                             tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
                             tabInstance.PathText.Text = clickedOnItem.FilePath;
                             tabInstance.FS.isEnabled = false;
-                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
                                 tabInstance.PathText.Text = "Desktop";
@@ -425,7 +423,6 @@ namespace Files.Interacts
                                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
                             }
                             tabInstance.FS.isEnabled = false;
-                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
                                 tabInstance.PathText.Text = "Desktop";
@@ -518,7 +515,6 @@ namespace Files.Interacts
                             tabInstance.instanceViewModel.Universal.path = clickedOnItem.FilePath;
                             tabInstance.PathText.Text = clickedOnItem.FilePath;
                             tabInstance.FS.isEnabled = false;
-                            tabInstance.instanceViewModel.CancelLoadAndClearFiles();
                             if (clickedOnItem.FilePath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                             {
                                 tabInstance.PathText.Text = "Desktop";
