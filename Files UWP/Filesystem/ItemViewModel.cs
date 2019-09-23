@@ -244,6 +244,10 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
+            App.selectedTabInstance.BackButton.IsEnabled = true;
+            App.selectedTabInstance.ForwardButton.IsEnabled = true;
+            App.selectedTabInstance.UpButton.IsEnabled = true;
+
         }
 
         public static T GetCurrentSelectedTabInstance<T>()

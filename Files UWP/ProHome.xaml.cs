@@ -1013,8 +1013,9 @@ namespace Files
 
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
+            App.selectedTabInstance.BackButton.IsEnabled = false;
             Frame instanceContentFrame = App.selectedTabInstance.accessibleContentFrame;
-
+            App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
             if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instanceContent = (instanceContentFrame.Content as GenericFileBrowser);
@@ -1249,6 +1250,8 @@ namespace Files
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
+            App.selectedTabInstance.ForwardButton.IsEnabled = false;
+            App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
             Frame instanceContentFrame = App.selectedTabInstance.accessibleContentFrame;
             if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
             {
@@ -1486,8 +1489,9 @@ namespace Files
 
         public static void Up_Click(object sender, RoutedEventArgs e)
         {
+            App.selectedTabInstance.UpButton.IsEnabled = false;
             Frame instanceContentFrame = App.selectedTabInstance.accessibleContentFrame;
-
+            App.selectedTabInstance.instanceViewModel.CancelLoadAndClearFiles();
             if ((instanceContentFrame.Content as GenericFileBrowser) != null)
             {
                 var instance = App.selectedTabInstance.instanceViewModel;
