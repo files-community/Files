@@ -316,11 +316,6 @@ namespace Files
             }
         }
 
-        private void RecentsView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-        {
-
-        }
-
         private async void mfi_RemoveOneItem_Click(object sender, RoutedEventArgs e)
         {
             //Get the sender frameworkelement
@@ -438,6 +433,12 @@ namespace Files
         private void DropShadowPanel_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             (sender as DropShadowPanel).ShadowOpacity = 0.25;
+        }
+
+        private void RecentsView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+           
+
         }
     }
 

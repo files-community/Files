@@ -531,11 +531,11 @@
                 <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Top" Margin="0,-10,0,0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid ToolTipService.ToolTip="{Binding path}" Padding="2.5" VerticalAlignment="Center">
+                            <Grid ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <Grid.ContextFlyout>
                                     <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                        <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Clear" Text="Clear all items"/>
-                                        <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Delete" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
+                                        <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
+                                        <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
                                     </MenuFlyout>
                                 </Grid.ContextFlyout>
                                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
@@ -544,18 +544,26 @@
                                         <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
                                         <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
                                     </Grid>
-                                    <Grid ColumnSpacing="24">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="400"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Width="400" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
-                                        <TextBlock Grid.Column="1" Margin="0,0,0,0" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
+                                    <Grid RowSpacing="2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
+                                        <TextBlock Foreground="DimGray" FontSize="10" Grid.Row="1" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
                                     </Grid>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Style.Setters>
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            </Style.Setters>
+                        </Style>
+                    </ListView.ItemContainerStyle>
                 </ListView>
             </StackPanel>
         </Grid>
