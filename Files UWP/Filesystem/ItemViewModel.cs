@@ -76,6 +76,8 @@ namespace Files.Filesystem
             App.selectedTabInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
             App.selectedTabInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
 
+            _cancellationTokenSource = new CancellationTokenSource();
+
             Universal.PropertyChanged += Universal_PropertyChanged;
         }
 
@@ -233,13 +235,12 @@ namespace Files.Filesystem
 
         public void CancelLoadAndClearFiles()
         {
-            if (_cancellationTokenSource == null) { return; }
+            if (isLoadingItems == false) { return; }
 
             _cancellationTokenSource.Cancel();
             _filesAndFolders.Clear();
-
             //_folderQueryResult.ContentsChanged -= FolderContentsChanged;
-            if(_fileQueryResult != null)
+            if (_fileQueryResult != null)
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
@@ -264,7 +265,7 @@ namespace Files.Filesystem
         {
             await App.selectedTabInstance.consentDialog.ShowAsync();
         }
-
+        bool isLoadingItems = false;
         public async void AddItemsToCollectionAsync(string path)
         {
             App.selectedTabInstance.RefreshButton.IsEnabled = false;
@@ -273,8 +274,7 @@ namespace Files.Filesystem
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
-            _cancellationTokenSource = new CancellationTokenSource();
-
+            isLoadingItems = true;
             if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
@@ -377,8 +377,13 @@ namespace Files.Filesystem
                 {
                     foreach (StorageFolder folder in storageFolders)
                     {
-                        if (_cancellationTokenSource.IsCancellationRequested) { return; }
-                        await AddFolder(folder, _cancellationTokenSource.Token);
+                        if (_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            _cancellationTokenSource = new CancellationTokenSource();
+                            isLoadingItems = false;
+                            return;
+                        }
+                        await AddFolder(folder);
                     }
                     index += _step;
                     storageFolders = await _folderQueryResult.GetFoldersAsync(index, _step);
@@ -393,8 +398,13 @@ namespace Files.Filesystem
                 {
                     foreach (StorageFile file in storageFiles)
                     {
-                        if (_cancellationTokenSource.IsCancellationRequested) { return; }
-                        await AddFile(file, _cancellationTokenSource.Token);
+                        if (_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            _cancellationTokenSource = new CancellationTokenSource();
+                            isLoadingItems = false;
+                            return;
+                        }
+                        await AddFile(file);
                     }
                     index += _step;
                     storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
@@ -403,12 +413,22 @@ namespace Files.Filesystem
                 {
                     if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                     {
-                        if (_cancellationTokenSource.IsCancellationRequested) { return; }
+                        if (_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            _cancellationTokenSource = new CancellationTokenSource();
+                            isLoadingItems = false;
+                            return;
+                        }
                         (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
                     }
                     else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                     {
-                        if (_cancellationTokenSource.IsCancellationRequested) { return; }
+                        if (_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            _cancellationTokenSource = new CancellationTokenSource();
+                            isLoadingItems = false;
+                            return;
+                        }
                         (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
                     }
                 }
@@ -426,6 +446,7 @@ namespace Files.Filesystem
                 {
                     MessageDialog unsupportedDevice = new MessageDialog("This device may be unsupported. Please file an issue report containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
                     await unsupportedDevice.ShowAsync();
+                    isLoadingItems = false;
                     return;
                 }
             }
@@ -435,6 +456,7 @@ namespace Files.Filesystem
                 MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
                 await driveGone.ShowAsync();
                 rootContentFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                isLoadingItems = false;
                 return;
             }
             catch (FileNotFoundException)
@@ -443,30 +465,39 @@ namespace Files.Filesystem
                 MessageDialog folderGone = new MessageDialog("The folder you've navigated to was removed.", "Did you delete this folder?");
                 await folderGone.ShowAsync();
                 rootContentFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                isLoadingItems = false;
                 return;
             }
 
             if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                if (_cancellationTokenSource.IsCancellationRequested) { return; }
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    isLoadingItems = false;
+                    return;
+                }
                 (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
             }
             else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                if (_cancellationTokenSource.IsCancellationRequested) { return; }
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    isLoadingItems = false;
+                    return;
+                }
                 (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
             }
+            isLoadingItems = false;
         }
 
-        private async Task AddFolder(StorageFolder folder, CancellationToken token)
+        private async Task AddFolder(StorageFolder folder)
         {
-            if (token.IsCancellationRequested) { return; }
-
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
             if ((App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
-                if (token.IsCancellationRequested) { return; }
 
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
@@ -492,10 +523,8 @@ namespace Files.Filesystem
             }
         }
 
-        private async Task AddFile(StorageFile file, CancellationToken token)
+        private async Task AddFile(StorageFile file)
         {
-            if (token.IsCancellationRequested) { return; }
-
             var basicProperties = await file.GetBasicPropertiesAsync();
 
             var itemName = file.DisplayName;
@@ -563,8 +592,6 @@ namespace Files.Filesystem
 
                 }
             }
-
-            if (token.IsCancellationRequested) { return; }
 
             _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
             {
@@ -647,7 +674,7 @@ namespace Files.Filesystem
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 async () =>
                 {
-                    await AddFile(toAdd, cancellationTokenSourceCopy.Token);
+                    await AddFile(toAdd);
                 });
             }
             foreach (var folder in addedFolders)
@@ -656,7 +683,7 @@ namespace Files.Filesystem
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                 async () =>
                 {
-                    await AddFolder(toAdd, cancellationTokenSourceCopy.Token);
+                    await AddFolder(toAdd);
                 });
             }
             foreach (var item in removedFilesAndFolders)
