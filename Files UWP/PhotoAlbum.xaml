@@ -480,8 +480,12 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <StackPanel IsRightTapEnabled="True" RightTapped="StackPanel_RightTapped" Width="150" Height="150" Tag="{x:Bind RowIndex}" Orientation="Vertical" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        <Grid Tag="ItemImage" Width="150" Height="100">
+                    <Grid IsRightTapEnabled="True" RightTapped="StackPanel_RightTapped" Width="125" Height="125" Tag="{x:Bind RowIndex}" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="25"/>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="0" Tag="ItemImage" Width="125" Height="100">
                             <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="Picture" Visibility="{x:Bind FileIconVis}">
                                 <Image Stretch="Uniform" Source="{x:Bind FileImg}"/>
                             </Grid>
@@ -496,8 +500,8 @@
                                 </Grid>
                             </Grid>
                         </Grid>
-                        <TextBlock MaxWidth="150" HorizontalTextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{x:Bind FileName}" TextWrapping="Wrap"/>
-                    </StackPanel>
+                        <TextBlock Grid.Row="1" Margin="10,0" MaxHeight="25" HorizontalTextAlignment="Center" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{x:Bind FileName}" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap"/>
+                    </Grid>
 
                 </DataTemplate>
             </GridView.ItemTemplate>

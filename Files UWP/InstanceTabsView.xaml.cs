@@ -214,8 +214,8 @@ namespace Files
                 
             }
             tabIcon = fontIconSource;
-            (tabView.TabItems[tabView.SelectedIndex] as TabViewItem).Header = tabLocationHeader;
-            (tabView.TabItems[tabView.SelectedIndex] as TabViewItem).IconSource = tabIcon;
+            (tabView.SelectedItem as TabViewItem).Header = tabLocationHeader;
+            (tabView.SelectedItem as TabViewItem).IconSource = tabIcon;
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
