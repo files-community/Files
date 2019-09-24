@@ -998,6 +998,8 @@ namespace Files
         {
             VisiblePath.Visibility = Visibility.Visible;
             ClickablePath.Visibility = Visibility.Collapsed;
+            VisiblePath.Focus(FocusState.Programmatic);
+            VisiblePath.SelectionStart = VisiblePath.Text.Length;
         }
     }
     public class NavigationActions
