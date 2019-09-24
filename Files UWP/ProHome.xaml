@@ -814,11 +814,11 @@
                         </Button>
                     </StackPanel>
                     <Grid Padding="5,5,5,5.5" Grid.Column="1">
-                        <TextBox LostFocus="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="5" PlaceholderText="Enter a path"/>
-                        <Grid Background="Transparent" Padding="2.5,0,0,-1.5" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
+                        <TextBox LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="4" PlaceholderText="Enter a path"/>
+                        <Grid Background="Transparent" Padding="2.5,0,0,0" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Name="ManualPathEntryItem" Text="Enter path manually" Icon="Edit" Click="ManualPathEntryItem_Click"/>
+                                    <MenuFlyoutItem x:Name="ManualPathEntryItem" Text="Edit address" Icon="Edit" Click="ManualPathEntryItem_Click"/>
                                 </MenuFlyout>
                             </Grid.ContextFlyout>
                             <ListView Margin="0" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Auto"
@@ -828,7 +828,7 @@
                                     <DataTemplate>
                                         <Grid x:Name="ListViewItemContentGrid" Tag="{Binding Path}" Background="Transparent">
                                             <StackPanel Spacing="5" Orientation="Horizontal">
-                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="14"/>
+                                                <TextBlock Text="{Binding Title}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,4"/>
                                                 <FontIcon FontSize="8" Glyph="&#xE76C;"/>
                                             </StackPanel>
                                         </Grid>
