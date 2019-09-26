@@ -17,6 +17,11 @@
                         <FontIcon Glyph="&#xE790;"/>
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
+                <UILib:NavigationViewItem Content="Page Layouts">
+                    <UILib:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE737;"/>
+                    </UILib:NavigationViewItem.Icon>
+                </UILib:NavigationViewItem>
                 <UILib:NavigationViewItem Content="Preferences">
                     <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;"/>
@@ -30,14 +35,5 @@
             </UILib:NavigationView.MenuItems>
             <Frame Name="SettingsContentFrame"/>
         </UILib:NavigationView>
-        
-
-
-            
-        
-
-
-
-
     </Grid>
 </Page>

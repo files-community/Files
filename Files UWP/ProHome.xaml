@@ -879,11 +879,11 @@
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                 </ListView.Resources>
-                                <ListViewItem Tag="Favorites">
+                                <ListViewItem Tag="Home">
                                     <ListViewItem.Content>
                                         <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE728;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Favorites" FontSize="12"/>
+                                            <FontIcon FontSize="16" Glyph="&#xE737;" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="Home" FontSize="12"/>
                                         </StackPanel>
                                     </ListViewItem.Content>
                                 </ListViewItem>

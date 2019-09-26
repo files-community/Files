@@ -142,6 +142,7 @@
     </Compile>
     <Compile Include="Enums\ThemeStyle.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
+    <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="GenericFileBrowser.xaml.cs">
@@ -184,6 +185,9 @@
     </Compile>
     <Compile Include="SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\StartPageWidgets.xaml.cs">
+      <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
     <Compile Include="UnhandledExceptionDisplay.xaml.cs">
       <DependentUpon>UnhandledExceptionDisplay.xaml</DependentUpon>
@@ -269,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsPages\Preferences.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\StartPageWidgets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

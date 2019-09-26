@@ -56,14 +56,20 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 titleBar.BackgroundColor = Colors.Transparent;
             }
-            AddNewTab(typeof(ProHome), null);
+            AddNewTab(typeof(ProHome), "Start");
+            Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            icon.Glyph = "\xE713";
+            if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
+            {
+                App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+            }
         }
         
         public void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
             frame.Navigate(t, path);
-            string tabLocationHeader;
+            string tabLocationHeader = null;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
             if (path != null)
@@ -72,6 +78,14 @@ namespace Files
                 {
                     tabLocationHeader = "Settings";
                     fontIconSource.Glyph = "\xE713";
+                    foreach (TabViewItem item in tabView.TabItems)
+                    {
+                        if (item.Header.ToString() == "Settings")
+                        {
+                            tabView.SelectedItem = item;
+                            return;
+                        }
+                    }
                 }
                 else if (path == ProHome.DesktopPath)
                 {
@@ -108,17 +122,24 @@ namespace Files
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xE753";
                 }
+                
+                else if (path == "Start")
+                {
+                    tabLocationHeader = "Start";
+                    fontIconSource.Glyph = "\xE737";
+                }
+                else if (path == "New tab")
+                {
+                    tabLocationHeader = "New tab";
+                    fontIconSource.Glyph = "\xE737";
+                }
                 else
                 {
                     tabLocationHeader = Path.GetDirectoryName(path);
                     fontIconSource.Glyph = "\xE8B7";
                 }
-            }
-            else
-            {
-                tabLocationHeader = "Favorites";
-                fontIconSource.Glyph = "\xE728";
-            }
+            }    
+
             tabIcon = fontIconSource;
             Grid gr = new Grid();
             gr.Children.Add(frame);
@@ -146,10 +167,15 @@ namespace Files
                 tabLocationHeader = "Settings";
                 fontIconSource.Glyph = "\xE713";
             }
-            else if (currentPathForTabIcon == null && text == "Favorites")
+            else if (currentPathForTabIcon == null && text == "New tab")
             {
-                tabLocationHeader = "Favorites";
-                fontIconSource.Glyph = "\xE728";
+                tabLocationHeader = "New tab";
+                fontIconSource.Glyph = "\xE737";
+            }
+            else if (currentPathForTabIcon == null && text == "Start")
+            {
+                tabLocationHeader = "Start";
+                fontIconSource.Glyph = "\xE737";
             }
             else if (currentPathForTabIcon == ProHome.DesktopPath)
             {
@@ -238,7 +264,12 @@ namespace Files
             }
             else
             {
-                App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
+                icon.Glyph = "\xE713";
+                if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
+                {
+                    App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                }
             }
 
         }
@@ -259,7 +290,7 @@ namespace Files
 
         private void TabStrip_AddTabButtonClick(TabView sender, object args)
         {
-            AddNewTab(typeof(ProHome), null);
+            AddNewTab(typeof(ProHome), "New tab");
         }
     }
 

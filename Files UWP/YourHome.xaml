@@ -8,7 +8,7 @@
     xmlns:list="using:Locations"
     xmlns:local="using:Files"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    mc:Ignorable="d" NavigationCacheMode="Required">
+    mc:Ignorable="d">
     <Page.Resources>
         <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">
             <Setter Property="CornerRadius" Value="4" />
@@ -504,8 +504,8 @@
     <ScrollViewer>
         <Grid Padding="24,10,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10" Orientation="Vertical">
-                <TextBlock Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
-                <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
+                <TextBlock x:Name="FavoritesCardsHeader" x:Load="{x:Bind favoritesCardsVis}" Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
+                <controls:AdaptiveGridView x:Load="{x:Bind favoritesCardsVis}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,0,0,0" Padding="0,0,0,0">
@@ -525,46 +525,76 @@
                         </DataTemplate>
                     </controls:AdaptiveGridView.ItemTemplate>
                 </controls:AdaptiveGridView>
-
-                <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="22" Text="Recent Items" HorizontalAlignment="Left"/>
-                <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
-                <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Top" Margin="0,-10,0,0">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ContextFlyout>
-                                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                        <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
-                                        <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
-                                    </MenuFlyout>
-                                </Grid.ContextFlyout>
-                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
-                                    <Grid VerticalAlignment="Stretch" Margin="0, 0, 0, 0">
-                                        <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                        <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                        <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
-                                    </Grid>
-                                    <Grid RowSpacing="2">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
-                                        <TextBlock Foreground="DimGray" FontSize="10" Grid.Row="1" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Style.Setters>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                            </Style.Setters>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                <SplitView PaneBackground="Transparent" DisplayMode="Inline" PanePlacement="Right" IsPaneOpen="{x:Bind drivesListVis}">
+                    <SplitView.Content>
+                        <Grid x:Name="RecentsListGrid" x:Load="{x:Bind recentsListVis}" Grid.Column="0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Recent Items" HorizontalAlignment="Left"/>
+                                <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
+                                <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <Grid.ContextFlyout>
+                                                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                                                        <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
+                                                        <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                                                    </MenuFlyout>
+                                                </Grid.ContextFlyout>
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                                                    <Grid VerticalAlignment="Stretch" Margin="0, 0, 0, 0">
+                                                        <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                                        <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                                        <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                                    </Grid>
+                                                    <Grid RowSpacing="2">
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition/>
+                                                        </Grid.RowDefinitions>
+                                                        <TextBlock Grid.Row="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
+                                                        <TextBlock Foreground="DimGray" FontSize="10" Grid.Row="1" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
+                                                    </Grid>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="ListViewItem">
+                                            <Style.Setters>
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                                            </Style.Setters>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
+                                </ListView>
+                            </StackPanel>
+                        </Grid>
+                    </SplitView.Content>
+                    <SplitView.Pane>
+                        <Grid x:Name="DrivesListGrid" x:Load="{x:Bind drivesListVis}" Grid.Column="1">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Drives" HorizontalAlignment="Stretch" VerticalAlignment="Top"/>
+                                <ListView IsItemClickEnabled="True" ItemsSource="{x:Bind local:App.foundDrives}" Name="DriveDetailsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Top" Margin="0,0,0,0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Padding="5,10" Tag="{Binding tag}">
+                                                <StackPanel Spacing="10" Orientation="Horizontal">
+                                                    <FontIcon FontSize="36" Glyph="{Binding glyph}"/>
+                                                    <StackPanel Spacing="2" Orientation="Vertical">
+                                                        <TextBlock x:Name="DriveName" Text="{Binding driveText}"/>
+                                                        <ProgressBar Width="175" Visibility="{Binding progressBarVisibility}" Maximum="{Binding maxSpace}" Value="{Binding spaceUsed}"/>
+                                                        <TextBlock Visibility="{Binding progressBarVisibility}" Text="{Binding spaceText}"/>
+                                                    </StackPanel>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackPanel>
+                        </Grid>
+                    </SplitView.Pane>
+                </SplitView>
             </StackPanel>
         </Grid>
     </ScrollViewer>

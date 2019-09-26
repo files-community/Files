@@ -1,0 +1,34 @@
+﻿<Page
+    x:Class="Files.SettingsPages.StartPageWidgets"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="24"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Spacing="14" Grid.Row="1" Orientation="Vertical">
+            <StackPanel Spacing="0" Padding="24,0"  Orientation="Vertical">
+                <TextBlock Margin="0,0" FontSize="20" Text="Start Page Layout"/>
+                <TextBlock Text="Choose how much information is displayed on the Start Page"/>
+                <CheckBox Checked="FavoritesCheck_Checked" Unchecked="FavoritesCheck_Unchecked" x:Name="FavoritesCheck" Content="Favorites Cards"/>
+                <CheckBox Checked="RecentsCheck_Checked" Unchecked="RecentsCheck_Unchecked" x:Name="RecentsCheck" Content="Recent Items"/>
+                <CheckBox Checked="DrivesCheck_Checked" Unchecked="DrivesCheck_Unchecked" x:Name="DrivesCheck" Content="Drive Information"/>
+            </StackPanel>
+            <StackPanel Spacing="0" Padding="24,0" Orientation="Vertical">
+                <TextBlock Margin="0,0" FontSize="20" Text="New Tab Page Layout"/>
+                <TextBlock Text="Choose how much information is displayed on the New Tab Page"/>
+                <CheckBox Checked="FavoritesCheckNewTab_Checked" Unchecked="FavoritesCheckNewTab_Unchecked" x:Name="FavoritesCheckNewTab" Content="Favorites Cards"/>
+                <CheckBox Checked="RecentsCheckNewTab_Checked" Unchecked="RecentsCheckNewTab_Unchecked" x:Name="RecentsCheckNewTab" Content="Recent Items"/>
+                <CheckBox Checked="DrivesCheckNewTab_Checked" Unchecked="DrivesCheckNewTab_Unchecked" x:Name="DrivesCheckNewTab" Content="Drive Information"/>
+            </StackPanel>
+        </StackPanel>
+        
+    </Grid>
+</Page>
