@@ -103,8 +103,14 @@ namespace Files
             App.selectedTabInstance.pathBoxItems.Add(item);
 
 
+            //SetPageContentVisibility(parameters);
+            
+        }
+
+        private void SetPageContentVisibility(string parameters)
+        {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if(parameters == "Start")
+            if (parameters == "Start")
             {
                 App.selectedTabInstance.PathText.Text = "Start";
                 if (localSettings.Values["FavoritesDisplayed_Start"] != null || localSettings.Values["RecentsDisplayed_Start"] != null || localSettings.Values["DrivesDisplayed_Start"] != null)
@@ -140,7 +146,7 @@ namespace Files
                     }
                 }
             }
-            else if(parameters == "New tab")
+            else if (parameters == "New tab")
             {
                 App.selectedTabInstance.PathText.Text = "New tab";
                 if (localSettings.Values["FavoritesDisplayed_NewTab"] != null || localSettings.Values["RecentsDisplayed_NewTab"] != null || localSettings.Values["DrivesDisplayed_NewTab"] != null)
@@ -176,7 +182,6 @@ namespace Files
                     }
                 }
             }
-            
         }
 
         public bool favoritesCardsVis { get; set; } = true;

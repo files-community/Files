@@ -17,7 +17,7 @@
                         <FontIcon Glyph="&#xE790;"/>
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
-                <UILib:NavigationViewItem Content="Page Layouts">
+                <UILib:NavigationViewItem Visibility="Collapsed" Content="Page Layouts">
                     <UILib:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE737;"/>
                     </UILib:NavigationViewItem.Icon>
