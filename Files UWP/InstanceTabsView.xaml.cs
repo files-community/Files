@@ -35,7 +35,7 @@ namespace Files
                 titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
                 titleBar.ButtonForegroundColor = Colors.White;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
+                //titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
             }
             else if (App.Current.RequestedTheme == ApplicationTheme.Light)
             {
@@ -48,13 +48,13 @@ namespace Files
             {
                 titleBar.ButtonForegroundColor = Colors.White;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
+                //titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
             }
             else if (this.RequestedTheme == ElementTheme.Light)
             {
                 titleBar.ButtonForegroundColor = Colors.Black;
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-                titleBar.BackgroundColor = Colors.Transparent;
+                //titleBar.BackgroundColor = Colors.Transparent;
             }
             AddNewTab(typeof(ProHome), "Start");
             Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();

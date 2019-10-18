@@ -814,8 +814,8 @@
                         </Button>
                     </StackPanel>
                     <Grid Padding="5,5,5,5.5" Grid.Column="1">
-                        <TextBox LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="4" PlaceholderText="Enter a path"/>
-                        <Grid Background="Transparent" Padding="2.5,0,0,0" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="DarkGray" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
+                        <TextBox LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="4" PlaceholderText="Enter a path"/>
+                        <Grid Background="Transparent" Padding="2.5,0,0,0" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
                                     <MenuFlyoutItem x:Name="ManualPathEntryItem" Text="Edit address" Icon="Edit" Click="ManualPathEntryItem_Click"/>
@@ -852,7 +852,7 @@
                     </Grid>
 
                     <StackPanel x:Name="SearchReigon" Margin="0,5,5,5" Grid.Column="2" Orientation="Horizontal">
-                        <TextBox BorderBrush="DarkGray" Name="SearchBox" Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="2,0,0,2" BorderThickness="1" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260">
+                        <TextBox BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Name="SearchBox" Style="{StaticResource TextBoxStyleForPathBar}" Padding="5" Windows10version1809:CornerRadius="2,0,0,2" BorderThickness="1" VerticalAlignment="Stretch"  PlaceholderText="Search" Width="260">
                             <TextBox.KeyboardAccelerators>
                                 <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="F"/>
                             </TextBox.KeyboardAccelerators>
