@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -80,7 +81,7 @@ namespace Files
             RefreshButton = Refresh;
             AddItemButton = addItemButton;
             PathBox = VisiblePath;
-            PathText.Text = "Favorites";
+            PathText.Text = "New tab";
             accessiblePasteButton = PasteButton;
             LocationsList.SelectedIndex = 0;
             RibbonTeachingTip = RibbonTip;
@@ -217,7 +218,7 @@ namespace Files
                 // Remove unpinned items from sidebar
                 foreach (ListViewItem location in LocationsList.Items)
                 {
-                    if (!(location.Tag.ToString() == "Favorites" || location.Tag.ToString() == "Desktop" || location.Tag.ToString() == "Documents" || location.Tag.ToString() == "Downloads" || location.Tag.ToString() == "Pictures" || location.Tag.ToString() == "Music" || location.Tag.ToString() == "Videos"))
+                    if (!(location.Tag.ToString() == "Home" || location.Tag.ToString() == "Desktop" || location.Tag.ToString() == "Documents" || location.Tag.ToString() == "Downloads" || location.Tag.ToString() == "Pictures" || location.Tag.ToString() == "Music" || location.Tag.ToString() == "Videos"))
                     {
 
                         if (!ListFileLines.Contains(location.Tag.ToString()))
@@ -225,8 +226,8 @@ namespace Files
                             if(LocationsList.SelectedItem == location)
                             {
                                 LocationsList.SelectedIndex = 0;
-                                accessibleContentFrame.Navigate(typeof(YourHome));
-                                PathText.Text = "Favorites";
+                                accessibleContentFrame.Navigate(typeof(YourHome), "New tab");
+                                PathText.Text = "New tab";
                                 LayoutItems.isEnabled = false;
                             }
                             LocationsList.Items.Remove(location);
@@ -244,69 +245,58 @@ namespace Files
             rightClickedItem = sender as ListViewItem;
         }
 
-        public async void PopulateNavViewWithExternalDrives()
+        public void PopulateNavViewWithExternalDrives()
         {
-            var knownRemDevices = new ObservableCollection<string>();
-            foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
+            DrivesList.Items.Clear();
+            foreach(var drive in App.foundDrives)
             {
-                var path = f.Path;
-                knownRemDevices.Add(path);
+                FontFamily fontFamily = new FontFamily("Segoe MDL2 Assets");
+                FontIcon fontIcon = new FontIcon()
+                {
+                    FontSize = 16,
+                    FontFamily = fontFamily,
+                    Glyph = drive.glyph
+                };
+
+                TextBlock text = new TextBlock()
+                {
+                    Text = drive.driveText,
+                    FontSize = 12
+                };
+
+                StackPanel stackPanel = new StackPanel()
+                {
+                    Spacing = 15,
+                    Orientation = Orientation.Horizontal
+                };
+
+                stackPanel.Children.Add(fontIcon);
+                stackPanel.Children.Add(text);
+                DrivesList.Items.Add(new ListViewItem()
+                {
+                    Content = stackPanel,
+                    Tag = drive.tag
+                });
             }
 
-            var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList();
-
-            if (!driveLetters.Any()) return;
-
-            driveLetters.ToList().ForEach(roots =>
+            ListViewItem oneDriveItem = new ListViewItem();
+            oneDriveItem.Tag = "OneDrive";
+            StackPanel sp = new StackPanel()
             {
-                try
-                {
-                    if (roots.Name == @"C:\") return;
-                    var content = string.Empty;
-                    string icon;
-                    if (knownRemDevices.Contains(roots.Name))
-                    {
-                        content = $"Removable Drive ({roots.Name})";
-                        icon = "\uE88E";
-                    }
-                    else
-                    {
-                        content = $"Local Disk ({roots.Name})";
-                        icon = "\uEDA2";
-                    }
-                    FontFamily fontFamily = new FontFamily("Segoe MDL2 Assets");
-                    FontIcon fontIcon = new FontIcon()
-                    {
-                        FontSize = 16,
-                        FontFamily = fontFamily,
-                        Glyph = icon
-                    };
+                Spacing = 15,
+                Orientation = Orientation.Horizontal
 
-                    TextBlock text = new TextBlock()
-                    {
-                        Text = content,
-                        FontSize = 12
-                    };
-
-                    StackPanel stackPanel = new StackPanel()
-                    {
-                        Spacing = 15,
-                        Orientation = Orientation.Horizontal
-                    };
-
-                    stackPanel.Children.Add(fontIcon);
-                    stackPanel.Children.Add(text);
-                    DrivesList.Items.Add(new ListViewItem()
-                    {
-                        Content = stackPanel,
-                        Tag = roots.Name
-                    });
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-            });
+            };
+            FontIcon fi = new FontIcon();
+            fi.Glyph = "\uE753";
+            fi.FontSize = 16;
+            sp.Children.Add(fi);
+            TextBlock textBlock = new TextBlock();
+            textBlock.FontSize = 12;
+            textBlock.Text = "OneDrive";
+            sp.Children.Add(textBlock);
+            oneDriveItem.Content = sp;
+            DrivesList.Items.Add(oneDriveItem);
         }
 
         private async void FlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -363,10 +353,16 @@ namespace Files
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
 
-                if (CurrentInput == "Favorites" || CurrentInput == "favorites")
+                if (CurrentInput == "Favorites" || CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput == "favorites" || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    this.accessibleContentFrame.Navigate(typeof(YourHome));
-                    PathText.Text = "Favorites";
+                    this.accessibleContentFrame.Navigate(typeof(YourHome), "New tab");
+                    PathText.Text = "New tab";
+                    LayoutItems.isEnabled = false;
+                }
+                else if (CurrentInput.Equals("Start", StringComparison.OrdinalIgnoreCase))
+                {
+                    this.accessibleContentFrame.Navigate(typeof(YourHome), "Start");
+                    PathText.Text = "Start";
                     LayoutItems.isEnabled = false;
                 }
                 else if (CurrentInput == "Desktop" || CurrentInput == "desktop")
@@ -525,10 +521,10 @@ namespace Files
         {
             ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
 
-            if (clickedItem.Tag.ToString() == "Favorites")
+            if (clickedItem.Tag.ToString() == "Home")
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome));
-                PathText.Text = "Favorites";
+                ItemDisplayFrame.Navigate(typeof(YourHome), "New tab");
+                PathText.Text = "New tab";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -732,6 +728,13 @@ namespace Files
                 
         }
 
+        string NavParams = null;
+
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            NavParams = eventArgs.Parameter.ToString();
+        }
 
         private void LocationsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -926,7 +929,7 @@ namespace Files
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            accessibleContentFrame.Navigate(typeof(YourHome), null, new SuppressNavigationTransitionInfo());
+            accessibleContentFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
             this.Loaded -= Page_Loaded;
         }
 
@@ -958,7 +961,7 @@ namespace Files
 
         private void ItemDisplayFrame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            if (accessibleContentFrame.SourcePageType.Equals(typeof(YourHome)))
+            if (accessibleContentFrame.CurrentSourcePageType.Equals(typeof(YourHome)))
             {
                 UpButton.IsEnabled = false;
             }
@@ -989,7 +992,7 @@ namespace Files
         private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
-            if (itemTappedPath == "Favorites") { return; }
+            if (itemTappedPath == "Start" || itemTappedPath == "New tab") { return; }
             
             App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }
@@ -1028,9 +1031,8 @@ namespace Files
 
                     if (previousSourcePageType == typeof(YourHome))
                     {
-
                         App.selectedTabInstance.locationsList.SelectedIndex = 0;
-                        App.selectedTabInstance.PathText.Text = "Favorites";
+                        App.selectedTabInstance.PathText.Text = "New tab";
                     }
                     else
                     {
@@ -1067,7 +1069,7 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
@@ -1106,7 +1108,7 @@ namespace Files
                     {
 
                         App.selectedTabInstance.locationsList.SelectedIndex = 0;
-                        App.selectedTabInstance.PathText.Text = "Favorites";
+                        App.selectedTabInstance.PathText.Text = "New tab";
                     }
                     else
                     {
@@ -1143,7 +1145,7 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
@@ -1182,7 +1184,7 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
                         App.selectedTabInstance.locationsList.SelectedIndex = 0;
-                        App.selectedTabInstance.PathText.Text = "Favorites";
+                        App.selectedTabInstance.PathText.Text = "New tab";
                     }
                     else
                     {
@@ -1219,7 +1221,7 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
@@ -1267,7 +1269,7 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
                         App.selectedTabInstance.locationsList.SelectedIndex = 0;
-                        App.selectedTabInstance.PathText.Text = "Favorites";
+                        App.selectedTabInstance.PathText.Text = "New tab";
                     }
                     else
                     {
@@ -1304,7 +1306,7 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
@@ -1345,7 +1347,7 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
                         App.selectedTabInstance.locationsList.SelectedIndex = 0;
-                        App.selectedTabInstance.PathText.Text = "Favorites";
+                        App.selectedTabInstance.PathText.Text = "New tab";
                     }
                     else
                     {
@@ -1382,7 +1384,7 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
@@ -1422,7 +1424,7 @@ namespace Files
                     if (previousSourcePageType == typeof(YourHome))
                     {
                         App.selectedTabInstance.locationsList.SelectedIndex = 0;
-                        App.selectedTabInstance.PathText.Text = "Favorites";
+                        App.selectedTabInstance.PathText.Text = "New tab";
                     }
                     else
                     {
@@ -1459,7 +1461,7 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedIndex = 1;
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
@@ -1542,7 +1544,7 @@ namespace Files
                 }
                 else if (parentDirectoryOfPath == ProHome.OneDrivePath)
                 {
-                    CurrentTabInstance.drivesList.SelectedIndex = 1;
+                    CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                     CurrentTabInstance.PathText.Text = "OneDrive";
                 }
                 else
@@ -1618,7 +1620,7 @@ namespace Files
                 }
                 else if (parentDirectoryOfPath == ProHome.OneDrivePath)
                 {
-                    CurrentTabInstance.drivesList.SelectedIndex = 1;
+                    CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
                     CurrentTabInstance.PathText.Text = "OneDrive";
                 }
                 else

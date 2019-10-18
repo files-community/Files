@@ -64,6 +64,10 @@ namespace Files
             {
                 SettingsContentFrame.Navigate(typeof(About));
             }
+            else if (item.ToString() == "Page Layouts")
+            {
+                SettingsContentFrame.Navigate(typeof(StartPageWidgets));
+            }
 
         }
 

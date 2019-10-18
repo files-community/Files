@@ -101,7 +101,7 @@
                                         <KeyboardAccelerator Modifiers="Control" Key="T"/>
                                     </Button.KeyboardAccelerators>
                                 </Button>
-                                
+
                                 <Grid Background="Transparent" Name="DragArea" Loaded="DragArea_Loaded" Grid.Column="3"/>
 
                             </Grid>
@@ -113,7 +113,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="{StaticResource SystemControlAcrylicWindowBrush}"  Name="rootGrid" >
+    <Grid Background="Transparent" Name="rootGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -124,34 +124,9 @@
         </Grid.ColumnDefinitions>
         <ContentPresenter Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" Content="{x:Bind ((uilib:TabViewItem)(local:InstanceTabsView).TabStrip.SelectedItem).Content, Mode=OneWay}"/>
 
-        <uilib:TabView Background="Transparent" Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick" Style="{StaticResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
-            <uilib:TabView.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Default">
-                            <StaticResource x:Key="TabViewItemHeaderBackgroundSelected"      ResourceKey="SystemControlBackgroundAltHighBrush" />
-                            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver"   ResourceKey="SystemAltMediumLowColor" />
-                            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed"       ResourceKey="SystemAltMediumColor" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Light">
-                            <StaticResource x:Key="TabViewItemHeaderBackgroundSelected"      ResourceKey="SystemControlBackgroundAltHighBrush" />
-                            <StaticResource x:Key="TabViewItemHeaderBackgroundPointerOver"   ResourceKey="SystemAltMediumLowColor" />
-                            <StaticResource x:Key="TabViewItemHeaderBackgroundPressed"       ResourceKey="SystemAltMediumColor" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-                <!--<x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
-                <StaticResource x:Key="TabViewSelectionIndicatorForeground" ResourceKey="SystemControlTransparentBrush" />-->
-            </uilib:TabView.Resources>
+        <uilib:TabView Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick"  Style="{ThemeResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
+            
         </uilib:TabView>
-
+        <Grid Grid.Column="1" Background="{ThemeResource TabViewBackground}"/>
     </Grid>
 </Page>

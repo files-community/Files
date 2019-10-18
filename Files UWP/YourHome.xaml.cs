@@ -37,7 +37,6 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-            App.selectedTabInstance.PathText.Text = "Favorites";
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
@@ -75,13 +74,14 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
             recentItemsCollection.Clear();
             PopulateRecentsList();
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabInfo("Favorites", null);
+            instanceTabsView.SetSelectedTabInfo(parameters, null);
             App.selectedTabInstance.BackButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoBack;
             App.selectedTabInstance.ForwardButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoForward;
             App.selectedTabInstance.RefreshButton.IsEnabled = false;
@@ -93,8 +93,8 @@ namespace Files
             App.selectedTabInstance.pathBoxItems.Clear();
             //Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
 
-            string componentLabel = "Favorites";
-            string tag = "Favorites";
+            string componentLabel = parameters;
+            string tag = parameters;
             PathBoxItem item = new PathBoxItem()
             {
                 Title = componentLabel,
@@ -102,7 +102,91 @@ namespace Files
             };
             App.selectedTabInstance.pathBoxItems.Add(item);
 
+
+            //SetPageContentVisibility(parameters);
+            
         }
+
+        private void SetPageContentVisibility(string parameters)
+        {
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            if (parameters == "Start")
+            {
+                App.selectedTabInstance.PathText.Text = "Start";
+                if (localSettings.Values["FavoritesDisplayed_Start"] != null || localSettings.Values["RecentsDisplayed_Start"] != null || localSettings.Values["DrivesDisplayed_Start"] != null)
+                {
+                    switch ((bool)localSettings.Values["FavoritesDisplayed_Start"])
+                    {
+                        case true:
+                            favoritesCardsVis = true;
+                            break;
+                        case false:
+                            favoritesCardsVis = false;
+                            break;
+                    }
+
+                    switch ((bool)localSettings.Values["RecentsDisplayed_Start"])
+                    {
+                        case true:
+                            recentsListVis = true;
+                            break;
+                        case false:
+                            recentsListVis = false;
+                            break;
+                    }
+
+                    switch ((bool)localSettings.Values["DrivesDisplayed_Start"])
+                    {
+                        case true:
+                            drivesListVis = true;
+                            break;
+                        case false:
+                            drivesListVis = false;
+                            break;
+                    }
+                }
+            }
+            else if (parameters == "New tab")
+            {
+                App.selectedTabInstance.PathText.Text = "New tab";
+                if (localSettings.Values["FavoritesDisplayed_NewTab"] != null || localSettings.Values["RecentsDisplayed_NewTab"] != null || localSettings.Values["DrivesDisplayed_NewTab"] != null)
+                {
+                    switch ((bool)localSettings.Values["FavoritesDisplayed_NewTab"])
+                    {
+                        case true:
+                            favoritesCardsVis = true;
+                            break;
+                        case false:
+                            favoritesCardsVis = false;
+                            break;
+                    }
+
+                    switch ((bool)localSettings.Values["RecentsDisplayed_NewTab"])
+                    {
+                        case true:
+                            recentsListVis = true;
+                            break;
+                        case false:
+                            recentsListVis = false;
+                            break;
+                    }
+
+                    switch ((bool)localSettings.Values["DrivesDisplayed_NewTab"])
+                    {
+                        case true:
+                            drivesListVis = true;
+                            break;
+                        case false:
+                            drivesListVis = false;
+                            break;
+                    }
+                }
+            }
+        }
+
+        public bool favoritesCardsVis { get; set; } = true;
+        public bool recentsListVis { get; set; } = true;
+        public bool drivesListVis { get; set; } = false;
 
         private void CardPressed(object sender, ItemClickEventArgs e)
         {
@@ -413,9 +497,6 @@ namespace Files
 
         }
 
-
-
-
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
             recentItemsCollection.Clear();
@@ -475,7 +556,5 @@ namespace Files
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
-
-
     }
 }

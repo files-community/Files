@@ -17,6 +17,12 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Windows.UI.Xaml.Media;
+using Files.Filesystem;
+using System.IO;
+using System.Linq;
+using System.Collections.ObjectModel;
+using Windows.Devices.Enumeration;
+using System.Text.RegularExpressions;
 
 namespace Files
 {
@@ -76,6 +82,120 @@ namespace Files
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
             //Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
+
+            if (localSettings.Values["FavoritesDisplayed_Start"] == null)
+            {
+                localSettings.Values["FavoritesDisplayed_Start"] = true;
+            }
+
+            if (localSettings.Values["RecentsDisplayed_Start"] == null)
+            {
+                localSettings.Values["RecentsDisplayed_Start"] = true;
+            }
+
+            if (localSettings.Values["DrivesDisplayed_Start"] == null)
+            {
+                localSettings.Values["DrivesDisplayed_Start"] = false;
+            }
+
+            if (localSettings.Values["FavoritesDisplayed_NewTab"] == null)
+            {
+                localSettings.Values["FavoritesDisplayed_NewTab"] = true;
+            }
+
+            if (localSettings.Values["RecentsDisplayed_NewTab"] == null)
+            {
+                localSettings.Values["RecentsDisplayed_NewTab"] = true;
+            }
+
+            if (localSettings.Values["DrivesDisplayed_NewTab"] == null)
+            {
+                localSettings.Values["DrivesDisplayed_NewTab"] = false;
+            }
+
+            FindDrives();
+            //DeviceWatcher watcher = DeviceInformation.CreateWatcher();
+            //watcher.Added += (sender, info) => FindDrives();
+            //watcher.Removed += (sender, info) => FindDrives();
+            //watcher.Start();
+        }
+
+        private async void FindDrives()
+        {
+            foundDrives.Clear();
+            var knownRemDevices = new ObservableCollection<string>();
+            foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
+            {
+                var path = f.Path;
+                knownRemDevices.Add(path);
+            }
+
+            var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
+
+            if (!driveLetters.Any()) return;
+
+            driveLetters.ForEach(async roots =>
+            {
+                try
+                {
+                    //if (roots.Name == @"C:\") return;
+                    var content = string.Empty;
+                    string icon;
+                    if (knownRemDevices.Contains(roots.Name))
+                    {
+                        content = $"Removable Drive ({roots.Name})";
+                        icon = "\uE88E";
+                    }
+                    else
+                    {
+                        content = $"Local Disk ({roots.Name})";
+                        icon = "\uEDA2";
+                    }
+                    StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
+                    var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+                    
+                    ulong totalSpaceProg = 0;
+                    ulong freeSpaceProg = 0;
+                    string free_space_text = "Unknown";
+                    string total_space_text = "Unknown";
+                    Visibility capacityBarVis = Visibility.Visible;
+                    try
+                    {
+                        var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
+                        freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+                        sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
+                        totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+
+                        free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
+                        total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
+                    }
+                    catch (UnauthorizedAccessException)
+                    {
+                        capacityBarVis = Visibility.Collapsed;
+                    }
+                    catch (NullReferenceException)
+                    {
+                        capacityBarVis = Visibility.Collapsed;
+                    }
+
+                    foundDrives.Add(new DriveItem()
+                    {
+                        driveText = content,
+                        glyph = icon,
+                        maxSpace = totalSpaceProg,
+                        spaceUsed = totalSpaceProg - freeSpaceProg,
+                        tag = roots.Name,
+                        progressBarVisibility = capacityBarVis,
+                        spaceText = free_space_text + " free of " + total_space_text,
+                    });
+                }
+                catch (UnauthorizedAccessException e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+            });
         }
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
@@ -96,7 +216,7 @@ namespace Files
 
         public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
-
+        public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

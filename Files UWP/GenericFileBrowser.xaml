@@ -180,6 +180,7 @@
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent"/>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent"/>
+                <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="ApplicationPageBackgroundThemeBrush"/>
             </controls:DataGrid.Resources>
             <controls:DataGrid.ColumnHeaderStyle>
                 <Style TargetType="controlsprimitives:DataGridColumnHeader">

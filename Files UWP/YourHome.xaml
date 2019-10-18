@@ -499,12 +499,80 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="ListViewItemContainerStyle1" TargetType="ListViewItem">
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="Background" Value="{ThemeResource ListViewItemBackground}"/>
+            <Setter Property="Foreground" Value="{ThemeResource ListViewItemForeground}"/>
+            <Setter Property="TabNavigation" Value="Local"/>
+            <Setter Property="IsHoldingEnabled" Value="True"/>
+            <Setter Property="Padding" Value="12,0,12,0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+            <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource ListViewItemMinHeight}"/>
+            <Setter Property="AllowDrop" Value="False"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="FocusVisualMargin" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <ListViewItemPresenter x:Name="Root" CheckBrush="{ThemeResource ListViewItemCheckBrush}" ContentMargin="{TemplateBinding Padding}" CheckBoxBrush="{ThemeResource ListViewItemCheckBoxBrush}" ContentTransitions="{TemplateBinding ContentTransitions}" CheckMode="{ThemeResource ListViewItemCheckMode}" DragOpacity="{ThemeResource ListViewItemDragThemeOpacity}" DisabledOpacity="{ThemeResource ListViewItemDisabledThemeOpacity}" DragBackground="{ThemeResource ListViewItemDragBackground}" DragForeground="{ThemeResource ListViewItemDragForeground}" FocusBorderBrush="{ThemeResource ListViewItemFocusBorderBrush}" FocusVisualMargin="{TemplateBinding FocusVisualMargin}" FocusSecondaryBorderBrush="{ThemeResource ListViewItemFocusSecondaryBorderBrush}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Control.IsTemplateFocusTarget="True" PressedBackground="{ThemeResource ListViewItemBackgroundPressed}" PlaceholderBackground="{ThemeResource ListViewItemPlaceholderBackground}" PointerOverForeground="{ThemeResource ListViewItemForegroundPointerOver}" PointerOverBackground="{ThemeResource ListViewItemBackgroundPointerOver}" RevealBorderThickness="{ThemeResource ListViewItemRevealBorderThemeThickness}" ReorderHintOffset="{ThemeResource ListViewItemReorderHintThemeOffset}" RevealBorderBrush="{ThemeResource ListViewItemRevealBorderBrush}" RevealBackground="{ThemeResource ListViewItemRevealBackground}" SelectedForeground="{ThemeResource ListViewItemForegroundSelected}" SelectionCheckMarkVisualEnabled="{ThemeResource ListViewItemSelectionCheckMarkVisualEnabled}" SelectedBackground="{ThemeResource ListViewItemBackgroundSelected}" SelectedPressedBackground="{ThemeResource ListViewItemBackgroundSelectedPressed}" SelectedPointerOverBackground="{ThemeResource ListViewItemBackgroundSelectedPointerOver}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Selected"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPointerOver}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="PointerOver"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPointerOver}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverPressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
+                                            <Setter Target="Root.RevealBorderBrush" Value="{ThemeResource ListViewItemRevealBorderBrushPressed}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.RevealBorderThickness" Value="0"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </ListViewItemPresenter>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </Page.Resources>
     <ScrollViewer>
         <Grid Padding="24,10,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10" Orientation="Vertical">
-                <TextBlock Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="22" FontWeight="Bold" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
+                <TextBlock x:Name="FavoritesCardsHeader" Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
                 <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
@@ -526,45 +594,38 @@
                     </controls:AdaptiveGridView.ItemTemplate>
                 </controls:AdaptiveGridView>
 
-                <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontWeight="Bold" FontSize="22" Text="Recent Items" HorizontalAlignment="Left"/>
-                <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
-                <ListView IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Top" Margin="0,-10,0,0">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <Grid.ContextFlyout>
-                                    <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                        <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
-                                        <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
-                                    </MenuFlyout>
-                                </Grid.ContextFlyout>
-                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
-                                    <Grid VerticalAlignment="Stretch" Margin="0, 0, 0, 0">
-                                        <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                        <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                        <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                <Grid x:Name="RecentsListGrid" Grid.Column="0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Recent Items" HorizontalAlignment="Left"/>
+                        <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
+                        <ListView ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid ColumnSpacing="14" ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                        <Grid.ContextFlyout>
+                                            <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                                                <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
+                                                <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                                            </MenuFlyout>
+                                        </Grid.ContextFlyout>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0" VerticalAlignment="Stretch" Margin="0, 0, 0, 0">
+                                            <FontIcon Visibility="{Binding FolderImg}" FontSize="24" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                            <FontIcon Visibility="{Binding EmptyImgVis}" FontSize="24" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                            <Image Visibility="{Binding FileIconVis}" Height="24" Width="24" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                        </Grid>
+                                        <TextBlock Grid.Column="1" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
+                                        <TextBlock Foreground="DimGray" FontSize="10" Grid.Column="2" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
                                     </Grid>
-                                    <Grid RowSpacing="2">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition/>
-                                            <RowDefinition/>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Grid.Row="0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding name}" VerticalAlignment="Center"/>
-                                        <TextBlock Foreground="DimGray" FontSize="10" Grid.Row="1" Margin="0,0,0,0" TextTrimming="CharacterEllipsis" TextWrapping="NoWrap" Text="{Binding path}" VerticalAlignment="Center"/>
-                                    </Grid>
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <Style.Setters>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                            </Style.Setters>
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                </ListView>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
             </StackPanel>
         </Grid>
     </ScrollViewer>
