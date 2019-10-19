@@ -11,6 +11,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -20,6 +21,7 @@ namespace Files
     public sealed partial class InstanceTabsView : Page
     {
         public static TabView tabView;
+        public string navArgs;
         public InstanceTabsView()
         {
             this.InitializeComponent();
@@ -56,7 +58,22 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 //titleBar.BackgroundColor = Colors.Transparent;
             }
-            AddNewTab(typeof(ProHome), "Start");
+            
+        }
+        
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            navArgs = eventArgs.Parameter?.ToString();
+
+            if (string.IsNullOrEmpty(navArgs))
+            {
+                AddNewTab(typeof(ProHome), "Start");
+            }
+            else
+            {
+                AddNewTab(typeof(ProHome), navArgs);
+            }
+
             Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
             icon.Glyph = "\xE713";
             if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
@@ -64,11 +81,11 @@ namespace Files
                 App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
             }
         }
-        
+
         public void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
-            frame.Navigate(t, path);
+            //frame.Navigate(t, path);
             string tabLocationHeader = null;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
@@ -154,6 +171,10 @@ namespace Files
             };
             tabView.TabItems.Add(tvi);
             TabStrip.SelectedItem = TabStrip.TabItems[TabStrip.TabItems.Count - 1];
+            if(tabView.SelectedItem == tvi)
+            {
+                (((tabView.SelectedItem as TabViewItem).Content as Grid).Children[0] as Frame).Navigate(t, path);
+            }
         }
 
         public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
@@ -249,7 +270,7 @@ namespace Files
             Window.Current.SetTitleBar(sender as Grid);
         }
 
-        private void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(TabStrip.SelectedItem == null)
             {

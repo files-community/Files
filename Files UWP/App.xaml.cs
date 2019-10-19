@@ -280,7 +280,24 @@ namespace Files
                 Window.Current.Content = rootFrame;
             }
 
-            // Open the page that we created to handle activation for results.
+            if (args.Kind == ActivationKind.Protocol)
+            {
+                var eventArgs = args as ProtocolActivatedEventArgs;
+
+                if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+                {
+                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
+                    rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
+                }
+                // Ensure the current window is active.
+                Window.Current.Activate();
+                return;
+            }
+
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.

@@ -60,7 +60,8 @@ namespace Files
             FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
             OpenTerminal.Click += tabInstance.instanceInteraction.OpenDirectoryInTerminal;
-
+            OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
+            OpenInNewTab.Click += tabInstance.instanceInteraction.OpenDirectoryInNewTab_Click;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -294,11 +295,15 @@ namespace Files
             var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[gv.SelectedIndex];
             if (selectedDataItem.FileType != "Folder" || gv.SelectedItems.Count > 1)
             {
-                SidebarPinItem.IsEnabled = false;
+                SidebarPinItem.Visibility = Visibility.Collapsed;
+                OpenInNewTab.Visibility = Visibility.Collapsed;
+                OpenInNewWindowItem.Visibility = Visibility.Collapsed;
             }
             else if (selectedDataItem.FileType == "Folder")
             {
-                SidebarPinItem.IsEnabled = true;
+                SidebarPinItem.Visibility = Visibility.Visible;
+                OpenInNewTab.Visibility = Visibility.Visible;
+                OpenInNewWindowItem.Visibility = Visibility.Visible;
             }
         }
     }

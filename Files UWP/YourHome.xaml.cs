@@ -82,6 +82,7 @@ namespace Files
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(parameters, null);
+            instanceTabsView.TabStrip_SelectionChanged(null, null);
             App.selectedTabInstance.BackButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoBack;
             App.selectedTabInstance.ForwardButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoForward;
             App.selectedTabInstance.RefreshButton.IsEnabled = false;
@@ -354,7 +355,7 @@ namespace Files
             try
             {
                 var file = (await StorageFile.GetFileFromPathAsync(path));
-                if (file.FileType == "Application")
+                if (file.DisplayType == "Application")
                 {
                     await Interaction.LaunchExe(path);
 

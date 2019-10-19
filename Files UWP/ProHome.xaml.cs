@@ -929,7 +929,56 @@ namespace Files
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            accessibleContentFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+
+
+            if (NavParams == "Start" || NavParams == "New tab")
+            {
+                ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 0;
+            }
+            else if (NavParams == "Desktop")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 1;
+            }
+            else if (NavParams == "Downloads")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 2;
+            }
+            else if (NavParams == "Documents")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 3;
+            }
+            else if (NavParams == "Pictures" || NavParams == PicturesPath)
+            {
+                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 4;
+            }
+            else if (NavParams == "Music")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 5;
+            }
+            else if (NavParams == "Videos")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath, new SuppressNavigationTransitionInfo());
+                locationsList.SelectedIndex = 6;
+            }
+            else
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
+                if (NavParams.Contains("C:", StringComparison.OrdinalIgnoreCase))
+                {
+                    drivesList.SelectedIndex = 0;
+                }
+                else
+                {
+                    drivesList.SelectedItem = null;
+                }
+            }
+            //accessibleContentFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
             this.Loaded -= Page_Loaded;
         }
 
@@ -968,6 +1017,9 @@ namespace Files
 
             if(instanceViewModel == null && instanceInteraction == null)
             {
+                Frame rootFrame = Window.Current.Content as Frame;
+                var instanceTabsView = rootFrame.Content as InstanceTabsView;
+                instanceTabsView.TabStrip_SelectionChanged(null, null);
                 instanceViewModel = new ItemViewModel();
                 instanceInteraction = new Interaction();
             }

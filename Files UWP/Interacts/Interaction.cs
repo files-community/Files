@@ -29,9 +29,12 @@ namespace Files.Interacts
     public class Interaction
     {
         private ProHome tabInstance;
+        InstanceTabsView instanceTabsView;
         public Interaction()
         {
             tabInstance = App.selectedTabInstance;
+            Frame rootFrame = Window.Current.Content as Frame;
+            instanceTabsView = rootFrame.Content as InstanceTabsView;
         }
 
         public async void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -234,6 +237,41 @@ namespace Files.Interacts
             }
             
 
+        }
+
+        public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentSourceType = App.selectedTabInstance.accessibleContentFrame.CurrentSourcePageType;
+            int index = -1;
+            if (CurrentSourceType == typeof(GenericFileBrowser))
+            {
+                index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
+            }
+            else if (CurrentSourceType == typeof(PhotoAlbum))
+            {
+                index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+            }
+            var selectedItemPath = tabInstance.instanceViewModel.FilesAndFolders[index].FilePath;
+            var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
+
+            await Launcher.LaunchUriAsync(folderUri);
+        }
+
+        public void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
+        {
+            var CurrentSourceType = App.selectedTabInstance.accessibleContentFrame.CurrentSourcePageType;
+            int index = -1;
+            if(CurrentSourceType == typeof(GenericFileBrowser))
+            {
+                index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
+            }
+            else if(CurrentSourceType == typeof(PhotoAlbum))
+            {
+                index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+            }
+            var selectedItemPath = tabInstance.instanceViewModel.FilesAndFolders[index].FilePath;
+
+            instanceTabsView.AddNewTab(typeof(ProHome), selectedItemPath);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
