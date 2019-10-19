@@ -355,7 +355,7 @@ namespace Files
             try
             {
                 var file = (await StorageFile.GetFileFromPathAsync(path));
-                if (file.FileType == "Application")
+                if (file.DisplayType == "Application")
                 {
                     await Interaction.LaunchExe(path);
 
