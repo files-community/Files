@@ -50,7 +50,15 @@ namespace Files
             grid = RootGrid;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             RefreshEmptySpace.Click += NavigationActions.Refresh_Click;
+            Frame rootFrame = Window.Current.Content as Frame;
+            InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.TabStrip_SelectionChanged(null, null);
             tabInstance = App.selectedTabInstance;
+            if (tabInstance.instanceViewModel == null && tabInstance.instanceInteraction == null)
+            {
+                tabInstance.instanceViewModel = new ItemViewModel();
+                tabInstance.instanceInteraction = new Interaction();
+            }
             viewModelInstance = tabInstance.instanceViewModel;
             PasteEmptySpace.Click += tabInstance.instanceInteraction.PasteItem_ClickAsync;
             OpenItem.Click += tabInstance.instanceInteraction.OpenItem_Click;
@@ -60,10 +68,12 @@ namespace Files
             CutItem.Click += tabInstance.instanceInteraction.CutItem_Click;
             CopyItem.Click += tabInstance.instanceInteraction.CopyItem_ClickAsync;
             SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
+            OpenInNewTab.Click += tabInstance.instanceInteraction.OpenDirectoryInNewTab_Click;
             AllView.RightTapped += tabInstance.instanceInteraction.AllView_RightTapped;
             AllView.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             OpenTerminal.Click += tabInstance.instanceInteraction.OpenDirectoryInTerminal;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
+            OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
@@ -304,11 +314,15 @@ namespace Files
             var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
             if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
             {
-                SidebarPinItem.IsEnabled = false;
+                SidebarPinItem.Visibility = Visibility.Collapsed;
+                OpenInNewTab.Visibility = Visibility.Collapsed;
+                OpenInNewWindowItem.Visibility = Visibility.Collapsed;
             }
             else if (selectedDataItem.FileType == "Folder")
             {
-                SidebarPinItem.IsEnabled = true;
+                SidebarPinItem.Visibility = Visibility.Visible;
+                OpenInNewTab.Visibility = Visibility.Visible;
+                OpenInNewWindowItem.Visibility = Visibility.Visible;
             }
         }
 

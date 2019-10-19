@@ -929,7 +929,41 @@ namespace Files
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            accessibleContentFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+
+
+            if (NavParams == "Start" || NavParams == "New tab")
+            {
+                ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+            }
+            else if (NavParams == "Desktop")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath, new SuppressNavigationTransitionInfo());                
+            }
+            else if (NavParams == "Downloads")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath, new SuppressNavigationTransitionInfo());                
+            }
+            else if (NavParams == "Documents")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath, new SuppressNavigationTransitionInfo());                
+            }
+            else if (NavParams == "Pictures" || NavParams == PicturesPath)
+            {
+                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath, new SuppressNavigationTransitionInfo());                
+            }
+            else if (NavParams == "Music")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath, new SuppressNavigationTransitionInfo());                
+            }
+            else if (NavParams == "Videos")
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath, new SuppressNavigationTransitionInfo());
+            }
+            else
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
+            }
+            //accessibleContentFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
             this.Loaded -= Page_Loaded;
         }
 
@@ -968,6 +1002,9 @@ namespace Files
 
             if(instanceViewModel == null && instanceInteraction == null)
             {
+                Frame rootFrame = Window.Current.Content as Frame;
+                var instanceTabsView = rootFrame.Content as InstanceTabsView;
+                instanceTabsView.TabStrip_SelectionChanged(null, null);
                 instanceViewModel = new ItemViewModel();
                 instanceInteraction = new Interaction();
             }

@@ -419,6 +419,16 @@
                                             <FontIcon Glyph="&#xE7AC;"/>
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Open in new tab" x:Name="OpenInNewTab">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE737;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem Text="Open in new window" x:Name="OpenInNewWindowItem">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE8A7;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
                                     <MenuFlyoutItem Click="ShareItem_Click" Text="Share" Name="ShareItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE72D;"/>

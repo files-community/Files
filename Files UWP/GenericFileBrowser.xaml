@@ -208,12 +208,21 @@
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
                             <MenuFlyout Opened="RightClickContextMenu_Opened" x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                <MenuFlyoutItem Text="Open With..." x:Name="OpenItem">
+                                <MenuFlyoutItem Text="Open with..." x:Name="OpenItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE7AC;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-
+                                <MenuFlyoutItem Text="Open in new tab" x:Name="OpenInNewTab">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE737;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem Text="Open in new window" x:Name="OpenInNewWindowItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8A7;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Text="Share" x:Name="ShareItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72D;"/>
