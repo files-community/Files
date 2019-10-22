@@ -917,7 +917,7 @@ namespace Files
         {
             if (ApplicationData.Current.LocalSettings.Values["HasBeenWelcomed"] == null)
             {
-                this.RibbonTeachingTip.IsOpen = true;
+                this.RibbonTeachingTip.IsOpen = false;
                 ApplicationData.Current.LocalSettings.Values["HasBeenWelcomed"] = true;
             }
             else
