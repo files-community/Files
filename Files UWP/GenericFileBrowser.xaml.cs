@@ -72,6 +72,9 @@ namespace Files
             AllView.RightTapped += tabInstance.instanceInteraction.AllView_RightTapped;
             AllView.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             OpenTerminal.Click += tabInstance.instanceInteraction.OpenDirectoryInTerminal;
+            NewFolder.Click += tabInstance.instanceInteraction.NewFolder_Click;
+            NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
+            NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
         }

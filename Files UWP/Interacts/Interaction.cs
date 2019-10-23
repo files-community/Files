@@ -1212,6 +1212,21 @@ namespace Files.Interacts
             } 
         }
 
+        public void NewFolder_Click(object sender, RoutedEventArgs e)
+        {
+            AddItem.CreateFile(tabInstance, "Folder");
+        }
+
+        public void NewTextDocument_Click(object sender, RoutedEventArgs e)
+        {
+            AddItem.CreateFile(tabInstance, "Text Document");
+        }
+
+        public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
+        {
+            AddItem.CreateFile(tabInstance, "Bitmap Image");
+        }
+
         public void SelectAllItems()
         {
             if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))

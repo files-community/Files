@@ -54,10 +54,16 @@ namespace Files
             }
             return default;
         }
-        private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
+
+        private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var TabInstance = App.selectedTabInstance;
             TabInstance.addItemDialog.Hide();
+            CreateFile(TabInstance, (e.ClickedItem as AddListItem).Header);
+        }
+
+        public static async void CreateFile(ProHome TabInstance, String fileType)
+        {
             string currentPath = null;
             if (TabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
@@ -69,14 +75,16 @@ namespace Files
             }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();
-            if ((e.ClickedItem as AddListItem).Header == "Folder")
+
+            await renameDialog.ShowAsync();
+            var userInput = renameDialog.storedRenameInput;
+
+            if (fileType == "Folder")
             {
-                await renameDialog.ShowAsync();
-                var userInput = renameDialog.storedRenameInput;
                 if (userInput != "")
                 {
                     var folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId){ FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput) });
+                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput) });
                 }
                 else
                 {
@@ -84,10 +92,8 @@ namespace Files
                     TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput) });
                 }
             }
-            else if ((e.ClickedItem as AddListItem).Header == "Text Document")
+            else if (fileType == "Text Document")
             {
-                await renameDialog.ShowAsync();
-                var userInput = renameDialog.storedRenameInput;
                 if (userInput != "")
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
@@ -99,10 +105,8 @@ namespace Files
                     TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
                 }
             }
-            else if ((e.ClickedItem as AddListItem).Header == "Bitmap Image")
+            else if (fileType == "Bitmap Image")
             {
-                await renameDialog.ShowAsync();
-                var userInput = renameDialog.storedRenameInput;
                 if (userInput != "")
                 {
                     var folder = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);

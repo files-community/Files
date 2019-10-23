@@ -167,11 +167,34 @@
                         <KeyboardAccelerator Modifiers="Control" Key="V"/>
                     </MenuFlyoutItem.KeyboardAccelerators>
                 </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
                 <MenuFlyoutItem x:Name="OpenTerminal" IsEnabled="True" Text="Open in Terminal...">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE756;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutSubItem Text="New" x:Name="NewEmptySpace">
+                    <MenuFlyoutSubItem.Icon>
+                        <FontIcon Glyph="&#xE710;"/>
+                    </MenuFlyoutSubItem.Icon>
+                    <MenuFlyoutItem Text="Folder" x:Name="NewFolder">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE8B7;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="Bitmap Image" x:Name="NewBitmapImage">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xEB9F;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem Text="Text Document" x:Name="NewTextDocument">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE8A5;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyoutSubItem>
             </MenuFlyout>
         </Grid.ContextFlyout>
         <ProgressBar x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
