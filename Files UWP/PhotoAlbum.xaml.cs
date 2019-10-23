@@ -62,6 +62,9 @@ namespace Files
             OpenTerminal.Click += tabInstance.instanceInteraction.OpenDirectoryInTerminal;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
             OpenInNewTab.Click += tabInstance.instanceInteraction.OpenDirectoryInNewTab_Click;
+            NewFolder.Click += tabInstance.instanceInteraction.NewFolder_Click;
+            NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
+            NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
