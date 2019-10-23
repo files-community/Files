@@ -81,42 +81,42 @@ namespace Files
 
             if (fileType == "Folder")
             {
-                if (userInput != "")
+                StorageFolder folder;
+                if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    var folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput) });
+                    folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
                 }
                 else
                 {
-                    var folder = await folderToCreateItem.CreateFolderAsync("New Folder", CreationCollisionOption.GenerateUniqueName);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput) });
+                    folder = await folderToCreateItem.CreateFolderAsync("New Folder", CreationCollisionOption.GenerateUniqueName);
                 }
+                TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = folder.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = folder.Path });
             }
             else if (fileType == "Text Document")
             {
-                if (userInput != "")
+                StorageFile item;
+                if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    var folder = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
+                    item = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
                 }
                 else
                 {
-                    var folder = await folderToCreateItem.CreateFileAsync("New Text Document" + ".txt", CreationCollisionOption.GenerateUniqueName);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "Text Document", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput + ".txt"), DotFileExtension = ".txt" });
+                    item = await folderToCreateItem.CreateFileAsync("New Text Document" + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
+                TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
             }
             else if (fileType == "Bitmap Image")
             {
-                if (userInput != "")
+                StorageFile item;
+                if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    var folder = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "BMP File", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput + ".bmp"), DotFileExtension = ".bmp" });
+                    item = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
                 }
                 else
                 {
-                    var folder = await folderToCreateItem.CreateFileAsync("New Bitmap Image" + ".bmp", CreationCollisionOption.GenerateUniqueName);
-                    TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = userInput, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = "BMP File", FileImg = null, FilePath = (TabInstance.instanceViewModel.Universal.path + "\\" + userInput + ".bmp"), DotFileExtension = ".bmp" });
+                    item = await folderToCreateItem.CreateFileAsync("New Bitmap Image" + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
+                TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
             }
         }
 
