@@ -16,11 +16,12 @@ using System.IO;
 
 namespace Files
 {
-    public sealed partial class GenericFileBrowser : Page
+    public sealed partial class GenericFileBrowser : Page, INotifyPropertyChanged
     {
         public TextBlock emptyTextGFB;
         public TextBlock textBlock;
         public DataGrid data;
+        public DataGridColumn sortedColumn;
         public MenuFlyout context;
         public MenuFlyout emptySpaceContext;
         public MenuFlyout HeaderContextMenu;
@@ -34,6 +35,9 @@ namespace Files
         public ProgressBar progressBar;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
+        bool isSortedAscending;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
@@ -45,6 +49,9 @@ namespace Files
             progressBar = progBar;
             progressBar.Visibility = Visibility.Collapsed;
             data = AllView;
+            sortedColumn = nameColumn;
+            sortedColumn.SortDirection = DataGridSortDirection.Ascending;
+            isSortedAscending = true;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
             grid = RootGrid;
@@ -196,7 +203,6 @@ namespace Files
             //this.Bindings.StopTracking();
         }
 
-
         private void AllView_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
@@ -314,7 +320,7 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
+            var selectedDataItem = AllView.SelectedItem as ListedItem;
             if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
@@ -329,12 +335,78 @@ namespace Files
             }
         }
 
+        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        {
+            if (e.Column == iconColumn)
+                return;
+            if (sortedColumn == e.Column)
+                isSortedAscending = e.Column.SortDirection == DataGridSortDirection.Descending;
+            else
+            {
+                isSortedAscending = true;
+            }
+
+            NotifyPropertyChanged("IsSortedAscending");
+            NotifyPropertyChanged("IsSortedDescending");
+
+            SortBy(e.Column);
+        }
+
+        private void SortBy(DataGridColumn column)
+        {
+            var selectedItems = data.SelectedItems;
+
+            viewModelInstance.OrderFiles(column.Tag.ToString(), isSortedAscending);
+
+            // Remove arrow on previous sorted column
+            sortedColumn.SortDirection = null;
+            column.SortDirection = isSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+            sortedColumn = column;
+
+            if (selectedItems.Count == 1)
+            {
+                data.SelectedItem = selectedItems[0];
+            }
+        }
+
+        private bool IsSortedByName { get { return sortedColumn == nameColumn; } set { if (value) SortBy(nameColumn); } }
+        private bool IsSortedByDate { get { return sortedColumn == dateColumn; } set { if (value) SortBy(dateColumn); } }
+        private bool IsSortedByType { get { return sortedColumn == typeColumn; } set { if (value) SortBy(typeColumn); } }
+        private bool IsSortedBySize { get { return sortedColumn == sizeColumn; } set { if (value) SortBy(sizeColumn); } }
+        private bool IsSortedAscending
+        {
+            get
+            {
+                return isSortedAscending;
+            }
+            set
+            {
+                isSortedAscending = value;
+                if (value) SortBy(sortedColumn);
+            }
+        }
+
+        private bool IsSortedDescending
+        {
+            get
+            {
+                return !isSortedAscending;
+            }
+            set
+            {
+                isSortedAscending = !value;
+                if (value) SortBy(sortedColumn);
+            }
+        }
+
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
-
-
         public Visibility _isVisible;
         public Visibility isVisible
         {
@@ -358,6 +430,5 @@ namespace Files
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
-
     }
 }

@@ -384,13 +384,8 @@ namespace Files.Interacts
                 var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
                 // Check if RightTapped row is currently selected
                 var CurrentInstance = App.selectedTabInstance;
-                foreach (ListedItem listedItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
-                {
-                    if (RowPressed.GetIndex() == listedItem.RowIndex)
-                    {
-                        return;
-                    }
-                }
+                if ((CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems.Contains(ObjectPressed))
+                    return;
                 // The following code is only reachable when a user RightTapped an unselected row
                 dataGrid.SelectedItems.Clear();
                 dataGrid.SelectedItems.Add(ObjectPressed);
@@ -971,10 +966,15 @@ namespace Files.Interacts
 
                     foreach (ListedItem StorItem in (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems)
                     {
-                        foreach (DataGridRow dataGridRow in dataGridRows)
+                        IEnumerator allItems = (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.ItemsSource.GetEnumerator();
+                        int index = -1;
+                        while (allItems.MoveNext())
                         {
-                            if(dataGridRow.GetIndex() == StorItem.RowIndex)
+                            index++;
+                            var item = allItems.Current;
+                            if(item == StorItem)
                             {
+                                DataGridRow dataGridRow = dataGridRows[index];
                                 (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
                             }
                         }
@@ -1007,7 +1007,7 @@ namespace Files.Interacts
                     {
                         List<Grid> itemContentGrids = new List<Grid>();
                         FindChildren<Grid>(itemContentGrids, (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ContainerFromItem(gridViewItem.Content));
-                        var imageOfItem = itemContentGrids.Find(x => x.Tag.ToString() == "ItemImage");
+                        var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
                         if (imageOfItem.Opacity < 1)
                         {
                             imageOfItem.Opacity = 1;
@@ -1016,17 +1016,12 @@ namespace Files.Interacts
 
                     foreach (ListedItem StorItem in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
                     {
-                        foreach (GridViewItem itemToDimForCut in gridViewItems)
-                        {
-                            if ( (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.Items.IndexOf(itemToDimForCut.Content) == StorItem.RowIndex)
-                            {
-                                List<Grid> itemContentGrids = new List<Grid>();
-                                FindChildren<Grid>(itemContentGrids, (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ContainerFromItem(itemToDimForCut.Content));
-                                var imageOfItem = itemContentGrids.Find(x => x.Tag.ToString() == "ItemImage");
-                                imageOfItem.Opacity = 0.4;
-                            }
-                        }
-
+                        GridViewItem itemToDimForCut = (GridViewItem) (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ContainerFromItem(StorItem);
+                        List<Grid> itemContentGrids = new List<Grid>();
+                        FindChildren<Grid>(itemContentGrids, (CurrentInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ContainerFromItem(itemToDimForCut.Content));
+                        var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+                        imageOfItem.Opacity = 0.4;
+                    
                         App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {

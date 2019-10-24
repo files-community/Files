@@ -256,12 +256,9 @@ namespace Files
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            foreach (ListedItem listedItem in FileList.SelectedItems)
+            if (FileList.SelectedItems.Contains(FileList.ItemFromContainer(parentContainer)))
             {
-                if (FileList.IndexFromContainer(parentContainer) == listedItem.RowIndex)
-                {
-                    return;
-                }
+                return;
             }
             // The following code is only reachable when a user RightTapped an unselected row
             FileList.SelectedItems.Clear();
