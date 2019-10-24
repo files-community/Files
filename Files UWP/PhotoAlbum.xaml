@@ -388,6 +388,7 @@
                             <FontIcon Glyph="&#xE72C;"/>
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
+                    <MenuFlyoutSeparator/>
                     <MenuFlyoutItem Click="PasteGrid_Click" Text="Paste" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasteGrid">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE77F;"/>
@@ -512,7 +513,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <Grid IsRightTapEnabled="True" RightTapped="StackPanel_RightTapped" Width="125" Height="125" Tag="{x:Bind RowIndex}" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid IsRightTapEnabled="True" RightTapped="StackPanel_RightTapped" Width="125" Height="125" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="25"/>

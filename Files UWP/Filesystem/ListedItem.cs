@@ -18,7 +18,7 @@ namespace Files.Filesystem
         public string DotFileExtension { get; set; }
         public string FilePath { get; set; }
         public string FileSize { get; set; }
-        public int RowIndex { get; set; }
+        public ulong FileSizeBytes { get; set; }
 
         public DateTimeOffset FileDateReal
         {

@@ -250,6 +250,58 @@ namespace Files.Filesystem
 
         }
 
+        public void OrderFiles(string orderBy, bool ascending)
+        {
+            Func<ListedItem, object> orderFunc;
+            object orderByNameFunc(ListedItem item) => item.FileName;
+            switch (orderBy)
+            {
+                case "Name":
+                    orderFunc = orderByNameFunc;
+                    break;
+                case "Date":
+                    orderFunc = item => item.FileDateReal;
+                    break;
+                case "Type":
+                    orderFunc = item => item.FileType;
+                    break;
+                case "Size":
+                    orderFunc = item => item.FileSizeBytes;
+                    break;
+                default:
+                    return;
+            }
+
+            // In ascending order, show folders first, then files.
+            // So, we use != "Folder" to make the value for "Folder" = 0, and for the rest, 1.
+            Func<ListedItem, bool> folderThenFile = listedItem => listedItem.FileType != "Folder";
+            IOrderedEnumerable<ListedItem> ordered;
+            List<ListedItem> orderedList;
+
+            if (ascending)
+                ordered = _filesAndFolders.OrderBy(folderThenFile).ThenBy(orderFunc);
+            else
+            {
+                if (orderBy == "Type")
+                    ordered = _filesAndFolders.OrderBy(folderThenFile).ThenByDescending(orderFunc);
+                else
+                    ordered = _filesAndFolders.OrderByDescending(folderThenFile).ThenByDescending(orderFunc);
+            }
+
+            // Further order by name if applicable
+            if (orderBy != "Name")
+            {
+                if (ascending)
+                    ordered = ordered.ThenBy(orderByNameFunc);
+                else
+                    ordered = ordered.ThenByDescending(orderByNameFunc);
+            }
+            orderedList = ordered.ToList();
+            _filesAndFolders.Clear();
+            foreach (ListedItem i in orderedList)
+                _filesAndFolders.Add(i);
+        }
+
         public static T GetCurrentSelectedTabInstance<T>()
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -517,7 +569,7 @@ namespace Files.Filesystem
                     FilePath = folder.Path,
                     EmptyImgVis = Visibility.Collapsed,
                     FileSize = null,
-                    RowIndex = _filesAndFolders.Count
+                    FileSizeBytes = 0
                 });
                 if((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
                 {
@@ -538,6 +590,7 @@ namespace Files.Filesystem
             var itemDate = basicProperties.DateModified;
             var itemPath = file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
+            var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
             var itemFolderImgVis = Visibility.Collapsed;
             var itemFileExtension = file.FileType;
@@ -616,7 +669,7 @@ namespace Files.Filesystem
                 FileType = itemType,
                 FilePath = itemPath,
                 FileSize = itemSize,
-                RowIndex = _filesAndFolders.Count
+                FileSizeBytes = itemSizeBytes
             });
 
             if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
