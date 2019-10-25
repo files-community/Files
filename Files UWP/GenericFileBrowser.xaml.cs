@@ -27,6 +27,7 @@ namespace Files
         public Page GFBPageName;
         public ContentDialog AddItemBox;
         public ContentDialog NameBox;
+        public string previousFileName;
         public TextBox inputFromRename;
         public string inputForRename;
         public Flyout CopiedFlyout;
@@ -79,11 +80,6 @@ namespace Files
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
         }
 
-        private void AddItem_Click(object sender, RoutedEventArgs e)
-        {
-            //await AddDialog.ShowAsync();
-        }
-
         private void Clipboard_ContentChanged(object sender, object e)
         {
             try
@@ -126,7 +122,6 @@ namespace Files
 
             Clipboard_ContentChanged(null, null);
             tabInstance.AlwaysPresentCommands.isEnabled = true;
-            tabInstance.AddItemButton.Click += AddItem_Click;
 
             TextState.isVisible = Visibility.Collapsed;
 
@@ -196,7 +191,6 @@ namespace Files
             //this.Bindings.StopTracking();
         }
 
-
         private void AllView_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
@@ -226,37 +220,32 @@ namespace Files
             this.progressBar.Visibility = Visibility.Collapsed;
         }
 
-        private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
-            var newCellText = (data.SelectedItem as ListedItem)?.FileName;
-            var selectedItem = tabInstance.instanceViewModel.FilesAndFolders[e.Row.GetIndex()];
-            if(selectedItem.FileType == "Folder")
+            var textBox = e.EditingElement as TextBox;
+            var selectedItem = data.SelectedItem as ListedItem;
+            int extensionLength = selectedItem.DotFileExtension?.Length ?? 0;
+
+            previousFileName = selectedItem.FileName;
+            textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
+            textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+        }
+
+        private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Cancel)
+                return;
+
+            var selectedItem = data.SelectedItem as ListedItem;
+            string currentName = previousFileName;
+            string newName = (e.EditingElement as TextBox).Text;
+
+            bool successful = await tabInstance.instanceInteraction.RenameFileItem(selectedItem, currentName, newName);
+            if (!successful)
             {
-                StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
-                if(FolderToRename.Name != newCellText)
-                {
-                    await FolderToRename.RenameAsync(newCellText);
-                    AllView.CommitEdit();
-                }
-                else
-                {
-                    AllView.CancelEdit();
-                }
+                selectedItem.FileName = currentName;
+                ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
             }
-            else
-            {
-                StorageFile fileToRename = await StorageFile.GetFileFromPathAsync(selectedItem.FilePath);
-                if (fileToRename.Name != newCellText)
-                {
-                    await fileToRename.RenameAsync(newCellText);
-                    AllView.CommitEdit();
-                }
-                else
-                {
-                    AllView.CancelEdit();
-                }
-            }
-            //Navigation.NavigationActions.Refresh_Click(null, null);
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
@@ -328,7 +317,6 @@ namespace Files
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
             }
         }
-
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

@@ -24,6 +24,7 @@ using Microsoft.Xaml.Interactions.Core;
 using Microsoft.Xaml.Interactivity;
 using System.Text.RegularExpressions;
 using Interaction = Files.Interacts.Interaction;
+using Files.Dialogs;
 
 namespace Files
 {
@@ -307,6 +308,36 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Visible;
                 OpenInNewTab.Visibility = Visibility.Visible;
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
+            }
+        }
+
+        public async void ShowRenameDialog()
+        {
+            try
+            {
+                var selectedItem = FileList.SelectedItem as ListedItem;
+                RenameDialog renameDialog = new RenameDialog();
+                var textBox = renameDialog.inputBox;
+                int extensionLength = selectedItem.DotFileExtension?.Length ?? 0;
+
+                textBox.Text = selectedItem.FileName;
+                textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+
+                await renameDialog.ShowAsync();
+
+                string currentName = selectedItem.FileName;
+                string newName = renameDialog.storedRenameInput;
+
+                if (newName == null)
+                    return;
+
+                Debug.WriteLine(currentName);
+                Debug.WriteLine(newName);
+                await tabInstance.instanceInteraction.RenameFileItem(selectedItem, currentName, newName);
+            }
+            catch (Exception)
+            {
+
             }
         }
     }

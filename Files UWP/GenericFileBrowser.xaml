@@ -199,7 +199,7 @@
         </Grid.ContextFlyout>
         <ProgressBar x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind Mode=TwoWay, Path=TextState.isVisible, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
-        <controls:DataGrid ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" ScrollViewer.IsScrollInertiaEnabled="True"  ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" IsReadOnly="True" HorizontalAlignment="Left">
+        <controls:DataGrid ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" ScrollViewer.IsScrollInertiaEnabled="True"  ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" PreparingCellForEdit="AllView_PreparingCellForEdit" CellEditEnding="AllView_CellEditEnding" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" HorizontalAlignment="Left">
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent"/>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent"/>
@@ -254,7 +254,6 @@
                                         <KeyboardAccelerator Modifiers="Control" Key="S"/>
                                     </MenuFlyoutItem.KeyboardAccelerators>
                                 </MenuFlyoutItem>
-
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Text="Delete" x:Name="DeleteItem" >
                                     <MenuFlyoutItem.Icon>
@@ -332,7 +331,7 @@
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
-                <controls:DataGridTextColumn DisplayIndex="1" IsReadOnly="True" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
+                <controls:DataGridTextColumn DisplayIndex="1" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
                 <controls:DataGridTextColumn DisplayIndex="2" IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
                 <controls:DataGridTextColumn DisplayIndex="3" IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
                 <controls:DataGridTextColumn DisplayIndex="4" x:Name="sizeColumn" IsReadOnly="True" Header="Size" Width="Auto" MinWidth="100" Binding="{Binding FileSize}" Tag="Size"/>
