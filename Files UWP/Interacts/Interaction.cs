@@ -825,6 +825,7 @@ namespace Files.Interacts
             if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var fileBrowser = App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser;
+                fileBrowser.AllView.CurrentColumn = fileBrowser.AllView.Columns[1];
                 fileBrowser.AllView.BeginEdit();
             }
             else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
@@ -838,6 +839,7 @@ namespace Files.Interacts
         {
             if (oldName == newName)
                 return true;
+            bool isRenamedSameNameDiffCase = oldName.ToLower() == newName.ToLower();
             try
             {
                 if (newName != "")
@@ -845,7 +847,7 @@ namespace Files.Interacts
                     if (item.FileType == "Folder")
                     {
                         var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
-                        if (oldName.ToLower() == newName.ToLower())
+                        if (isRenamedSameNameDiffCase)
                             await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         else
                             await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
@@ -853,7 +855,7 @@ namespace Files.Interacts
                     else
                     {
                         var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
-                        if (oldName.ToLower() == newName.ToLower())
+                        if (isRenamedSameNameDiffCase)
                             await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         else
                             await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
