@@ -65,6 +65,8 @@ namespace Files
             NewFolder.Click += tabInstance.instanceInteraction.NewFolder_Click;
             NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
+            UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -307,6 +309,14 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Visible;
                 OpenInNewTab.Visibility = Visibility.Visible;
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
+            }
+            else if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                UnzipItem.Visibility = Visibility.Visible;
+            }
+            else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+            {
+                UnzipItem.Visibility = Visibility.Collapsed;
             }
         }
     }

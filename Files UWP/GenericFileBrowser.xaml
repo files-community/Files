@@ -231,6 +231,11 @@
                     <Setter Property="ContextFlyout">
                         <Setter.Value>
                             <MenuFlyout Opened="RightClickContextMenu_Opened" x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                                <MenuFlyoutItem Text="Extract" x:Name="UnzipItem">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xED25;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutItem Text="Open with..." x:Name="OpenItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE7AC;"/>
