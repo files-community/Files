@@ -825,13 +825,14 @@ namespace Files.Interacts
             if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var fileBrowser = App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser;
-                fileBrowser.AllView.CurrentColumn = fileBrowser.AllView.Columns[1];
+                if (fileBrowser.AllView.SelectedItem != null)
+                    fileBrowser.AllView.CurrentColumn = fileBrowser.AllView.Columns[1];
                 fileBrowser.AllView.BeginEdit();
             }
             else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 var photoAlbum = App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum;
-                photoAlbum.ShowRenameDialog();
+                photoAlbum.StartRename();
             }
         }
 
