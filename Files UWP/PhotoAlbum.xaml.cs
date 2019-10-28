@@ -2,13 +2,14 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 using Files.Filesystem;
-using Files.Interacts;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.Storage;
 using Windows.System;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Files.Navigation;
@@ -45,6 +46,34 @@ namespace Files
         ProHome tabInstance;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
+        private bool IsSortedByName { get { return viewModelInstance.DirectorySortOption == SortOption.Name; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.Name; } }
+        private bool IsSortedByDate { get { return viewModelInstance.DirectorySortOption == SortOption.DateModified; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.DateModified; } }
+        private bool IsSortedByType { get { return viewModelInstance.DirectorySortOption == SortOption.FileType; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.FileType; } }
+        private bool IsSortedBySize { get { return viewModelInstance.DirectorySortOption == SortOption.Size; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.Size; } }
+        
+        private bool IsSortedAscending
+        {
+            get
+            {
+                return viewModelInstance.DirectorySortDirection == SortDirection.Ascending;
+            }
+            set
+            {
+                viewModelInstance.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+            }
+        }
+
+        private bool IsSortedDescending
+        {
+            get
+            {
+                return !IsSortedAscending;
+            }
+            set
+            {
+                IsSortedAscending = !value;
+            }
+        }
 
         public PhotoAlbum()
         {

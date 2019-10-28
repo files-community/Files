@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -6,8 +7,8 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 using Files.Filesystem;
-using Files.Navigation;
 using Files.Interacts;
 using System.Diagnostics;
 using Windows.UI.Core;
@@ -21,7 +22,6 @@ namespace Files
         public TextBlock emptyTextGFB;
         public TextBlock textBlock;
         public DataGrid data;
-        public DataGridColumn sortedColumn;
         public MenuFlyout context;
         public MenuFlyout emptySpaceContext;
         public MenuFlyout HeaderContextMenu;
@@ -33,13 +33,73 @@ namespace Files
         public Flyout CopiedFlyout;
         public Grid grid;
         public ProgressBar progressBar;
+        private DataGridColumn _sortedColumn;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
-        bool isSortedAscending;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
+
+        public DataGridColumn SortedColumn
+        {
+            get
+            {
+                return _sortedColumn;
+            }
+            set
+            {
+                if (value == nameColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.Name;
+                else if (value == dateColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.DateModified;
+                else if (value == typeColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.FileType;
+                else if (value == sizeColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.Size;
+                else
+                    viewModelInstance.DirectorySortOption = SortOption.Name;
+
+                if (value != _sortedColumn)
+                {
+                    // Remove arrow on previous sorted column
+                    if (_sortedColumn != null)
+                        _sortedColumn.SortDirection = null;
+                    value.SortDirection = IsSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                }
+                _sortedColumn = value;
+            }
+        }
+
+        private bool IsSortedByName { get { return SortedColumn == nameColumn; } set { if (value) SortedColumn = nameColumn; } }
+        private bool IsSortedByDate { get { return SortedColumn == dateColumn; } set { if (value) SortedColumn = dateColumn; } }
+        private bool IsSortedByType { get { return SortedColumn == typeColumn; } set { if (value) SortedColumn = typeColumn; } }
+        private bool IsSortedBySize { get { return SortedColumn == sizeColumn; } set { if (value) SortedColumn = sizeColumn; } }
+
+        private bool IsSortedAscending
+        {
+            get
+            {
+                return viewModelInstance.DirectorySortDirection == SortDirection.Ascending;
+            }
+            set
+            {
+                viewModelInstance.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                _sortedColumn.SortDirection = value ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+            }
+        }
+
+        private bool IsSortedDescending
+        {
+            get
+            {
+                return !IsSortedAscending;
+            }
+            set
+            {
+                IsSortedAscending = !value;
+            }
+        }
 
         public GenericFileBrowser()
         {
@@ -49,9 +109,6 @@ namespace Files
             progressBar = progBar;
             progressBar.Visibility = Visibility.Collapsed;
             data = AllView;
-            sortedColumn = nameColumn;
-            sortedColumn.SortDirection = DataGridSortDirection.Ascending;
-            isSortedAscending = true;
             context = RightClickContextMenu;
             HeaderContextMenu = HeaderRightClickMenu;
             grid = RootGrid;
@@ -84,6 +141,22 @@ namespace Files
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
+            
+            switch (viewModelInstance.DirectorySortOption)
+            {
+                case SortOption.Name:
+                    SortedColumn = nameColumn;
+                    break;
+                case SortOption.DateModified:
+                    SortedColumn = dateColumn;
+                    break;
+                case SortOption.FileType:
+                    SortedColumn = typeColumn;
+                    break;
+                case SortOption.Size:
+                    SortedColumn = nameColumn;
+                    break;
+            }
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
@@ -339,64 +412,16 @@ namespace Files
         {
             if (e.Column == iconColumn)
                 return;
-            if (sortedColumn == e.Column)
-                isSortedAscending = e.Column.SortDirection == DataGridSortDirection.Descending;
+            if (SortedColumn == e.Column)
+                IsSortedAscending = !IsSortedAscending;
             else
             {
-                isSortedAscending = true;
+                IsSortedAscending = true;
+                SortedColumn = e.Column;
             }
 
             NotifyPropertyChanged("IsSortedAscending");
             NotifyPropertyChanged("IsSortedDescending");
-
-            SortBy(e.Column);
-        }
-
-        private void SortBy(DataGridColumn column)
-        {
-            var selectedItems = data.SelectedItems;
-
-            viewModelInstance.OrderFiles(column.Tag.ToString(), isSortedAscending);
-
-            // Remove arrow on previous sorted column
-            sortedColumn.SortDirection = null;
-            column.SortDirection = isSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
-            sortedColumn = column;
-
-            if (selectedItems.Count == 1)
-            {
-                data.SelectedItem = selectedItems[0];
-            }
-        }
-
-        private bool IsSortedByName { get { return sortedColumn == nameColumn; } set { if (value) SortBy(nameColumn); } }
-        private bool IsSortedByDate { get { return sortedColumn == dateColumn; } set { if (value) SortBy(dateColumn); } }
-        private bool IsSortedByType { get { return sortedColumn == typeColumn; } set { if (value) SortBy(typeColumn); } }
-        private bool IsSortedBySize { get { return sortedColumn == sizeColumn; } set { if (value) SortBy(sizeColumn); } }
-        private bool IsSortedAscending
-        {
-            get
-            {
-                return isSortedAscending;
-            }
-            set
-            {
-                isSortedAscending = value;
-                if (value) SortBy(sortedColumn);
-            }
-        }
-
-        private bool IsSortedDescending
-        {
-            get
-            {
-                return !isSortedAscending;
-            }
-            set
-            {
-                isSortedAscending = !value;
-                if (value) SortBy(sortedColumn);
-            }
         }
 
         private void NotifyPropertyChanged(string info)

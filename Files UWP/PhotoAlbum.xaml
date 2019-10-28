@@ -8,6 +8,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
@@ -383,6 +384,18 @@
         <Grid.ContextFlyout>
             <MenuFlyout x:Name="GridRightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                 <MenuFlyout.Items>
+                    <MenuFlyoutSubItem Text="Sort by" x:Name="SortByGrid">
+                        <MenuFlyoutSubItem.Icon>
+                            <FontIcon Glyph="&#xE8CB;"/>
+                        </MenuFlyoutSubItem.Icon>
+                        <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind IsSortedByName, Mode=TwoWay}"/>
+                        <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind IsSortedByDate, Mode=TwoWay}"/>
+                        <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind IsSortedByType, Mode=TwoWay}"/>
+                        <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind IsSortedBySize, Mode=TwoWay}"/>
+                        <MenuFlyoutSeparator/>
+                        <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind IsSortedAscending, Mode=TwoWay}"/>
+                        <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind IsSortedDescending, Mode=TwoWay}"/>
+                    </MenuFlyoutSubItem>
                     <MenuFlyoutItem Click="RefreshGrid_Click" Text="Refresh" Name="RefreshGrid">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE72C;"/>
@@ -397,6 +410,7 @@
                             <KeyboardAccelerator Modifiers="Control" Key="V"/>
                         </MenuFlyoutItem.KeyboardAccelerators>
                     </MenuFlyoutItem>
+                    <MenuFlyoutSeparator/>
                     <MenuFlyoutItem x:Name="OpenTerminal" IsEnabled="True" Text="Open in Terminal...">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE756;"/>

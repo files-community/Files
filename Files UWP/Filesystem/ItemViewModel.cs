@@ -1,5 +1,5 @@
 ﻿using ByteSizeLib;
-using Files.Interacts;
+using Files.Enums;
 using Files.Navigation;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
@@ -45,9 +45,43 @@ namespace Files.Filesystem
         private volatile bool _filesRefreshing;
         private const int _step = 250;
 
+        private SortOption _directorySortOption = SortOption.Name;
+        private SortDirection _directorySortDirection = SortDirection.Ascending;
+
+        public SortOption DirectorySortOption
+        {
+            get
+            {
+                return _directorySortOption;
+            }
+            set
+            {
+                if (value != _directorySortOption)
+                {
+                    _directorySortOption = value;
+                    OrderFiles();
+                }
+            }
+        }
+
+        public SortDirection DirectorySortDirection
+        {
+            get
+            {
+                return _directorySortDirection;
+            }
+            set
+            {
+                if (value != _directorySortDirection)
+                {
+                    _directorySortDirection = value;
+                    OrderFiles();
+                }
+            }
+        }
+
         public ItemViewModel()
         {
-            
             _filesAndFolders = new ObservableCollection<ListedItem>();
 
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
@@ -250,26 +284,27 @@ namespace Files.Filesystem
 
         }
 
-        public void OrderFiles(string orderBy, bool ascending)
+        public void OrderFiles()
         {
-            Func<ListedItem, object> orderFunc;
+            if (_filesAndFolders.Count == 0)
+                return;
+
             object orderByNameFunc(ListedItem item) => item.FileName;
-            switch (orderBy)
+            Func<ListedItem, object> orderFunc = orderByNameFunc;
+            switch (DirectorySortOption)
             {
-                case "Name":
+                case SortOption.Name:
                     orderFunc = orderByNameFunc;
                     break;
-                case "Date":
+                case SortOption.DateModified:
                     orderFunc = item => item.FileDateReal;
                     break;
-                case "Type":
+                case SortOption.FileType:
                     orderFunc = item => item.FileType;
                     break;
-                case "Size":
+                case SortOption.Size:
                     orderFunc = item => item.FileSizeBytes;
                     break;
-                default:
-                    return;
             }
 
             // In ascending order, show folders first, then files.
@@ -278,20 +313,20 @@ namespace Files.Filesystem
             IOrderedEnumerable<ListedItem> ordered;
             List<ListedItem> orderedList;
 
-            if (ascending)
+            if (DirectorySortDirection == SortDirection.Ascending)
                 ordered = _filesAndFolders.OrderBy(folderThenFile).ThenBy(orderFunc);
             else
             {
-                if (orderBy == "Type")
+                if (DirectorySortOption == SortOption.FileType)
                     ordered = _filesAndFolders.OrderBy(folderThenFile).ThenByDescending(orderFunc);
                 else
                     ordered = _filesAndFolders.OrderByDescending(folderThenFile).ThenByDescending(orderFunc);
             }
 
             // Further order by name if applicable
-            if (orderBy != "Name")
+            if (DirectorySortOption != SortOption.Name)
             {
-                if (ascending)
+                if (DirectorySortDirection == SortDirection.Ascending)
                     ordered = ordered.ThenBy(orderByNameFunc);
                 else
                     ordered = ordered.ThenByDescending(orderByNameFunc);
@@ -487,6 +522,7 @@ namespace Files.Filesystem
                         (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
                     }
                 }
+                OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
                 App.selectedTabInstance.RefreshButton.IsEnabled = true;
