@@ -43,10 +43,9 @@ namespace Files.Interacts
             {
                 if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                 {
-                    var index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
-                    if (index > -1)
+                    var clickedOnItem = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItem as ListedItem;
+                    if (clickedOnItem != null)
                     {
-                        var clickedOnItem = tabInstance.instanceViewModel.FilesAndFolders[index];
                         // Access MRU List
                         var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -141,11 +140,10 @@ namespace Files.Interacts
                 }
                 else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                 {
-                    var index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+                    var clickedOnItem = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem as ListedItem;
                     var CurrentInstance = App.selectedTabInstance;
-                    if (index > -1)
+                    if (clickedOnItem != null)
                     {
-                        var clickedOnItem = tabInstance.instanceViewModel.FilesAndFolders[index];
                         // Access MRU List
                         var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
