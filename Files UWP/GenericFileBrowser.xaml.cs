@@ -10,14 +10,12 @@ using Windows.UI.Xaml.Navigation;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
-using System.Diagnostics;
-using Windows.UI.Core;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 namespace Files
 {
-    public sealed partial class GenericFileBrowser : Page, INotifyPropertyChanged
+    public sealed partial class GenericFileBrowser : Page
     {
         public TextBlock emptyTextGFB;
         public TextBlock textBlock;
@@ -36,8 +34,6 @@ namespace Files
         private DataGridColumn _sortedColumn;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
@@ -65,39 +61,9 @@ namespace Files
                     // Remove arrow on previous sorted column
                     if (_sortedColumn != null)
                         _sortedColumn.SortDirection = null;
-                    value.SortDirection = IsSortedAscending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 }
+                value.SortDirection = viewModelInstance.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 _sortedColumn = value;
-            }
-        }
-
-        private bool IsSortedByName { get { return SortedColumn == nameColumn; } set { if (value) SortedColumn = nameColumn; } }
-        private bool IsSortedByDate { get { return SortedColumn == dateColumn; } set { if (value) SortedColumn = dateColumn; } }
-        private bool IsSortedByType { get { return SortedColumn == typeColumn; } set { if (value) SortedColumn = typeColumn; } }
-        private bool IsSortedBySize { get { return SortedColumn == sizeColumn; } set { if (value) SortedColumn = sizeColumn; } }
-
-        private bool IsSortedAscending
-        {
-            get
-            {
-                return viewModelInstance.DirectorySortDirection == SortDirection.Ascending;
-            }
-            set
-            {
-                viewModelInstance.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-                _sortedColumn.SortDirection = value ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
-            }
-        }
-
-        private bool IsSortedDescending
-        {
-            get
-            {
-                return !IsSortedAscending;
-            }
-            set
-            {
-                IsSortedAscending = !value;
             }
         }
 
@@ -154,8 +120,35 @@ namespace Files
                     SortedColumn = typeColumn;
                     break;
                 case SortOption.Size:
-                    SortedColumn = nameColumn;
+                    SortedColumn = sizeColumn;
                     break;
+            }
+            viewModelInstance.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "DirectorySortOption")
+            {
+                switch (viewModelInstance.DirectorySortOption)
+                {
+                    case SortOption.Name:
+                        SortedColumn = nameColumn;
+                        break;
+                    case SortOption.DateModified:
+                        SortedColumn = dateColumn;
+                        break;
+                    case SortOption.FileType:
+                        SortedColumn = typeColumn;
+                        break;
+                    case SortOption.Size:
+                        SortedColumn = sizeColumn;
+                        break;
+                }
+            } else if (e.PropertyName == "DirectorySortDirection")
+            {
+                // Swap arrows
+                SortedColumn = _sortedColumn;
             }
         }
 
@@ -410,23 +403,10 @@ namespace Files
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
-            if (e.Column == iconColumn)
-                return;
-            if (SortedColumn == e.Column)
-                IsSortedAscending = !IsSortedAscending;
-            else
-            {
-                IsSortedAscending = true;
+            if (e.Column == SortedColumn)
+                viewModelInstance.IsSortedAscending = !viewModelInstance.IsSortedAscending;
+            else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
-            }
-
-            NotifyPropertyChanged("IsSortedAscending");
-            NotifyPropertyChanged("IsSortedDescending");
-        }
-
-        private void NotifyPropertyChanged(string info)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
     }
 
@@ -451,9 +431,9 @@ namespace Files
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string info)
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

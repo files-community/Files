@@ -158,13 +158,13 @@
                     <MenuFlyoutSubItem.Icon>
                         <FontIcon Glyph="&#xE8CB;"/>
                     </MenuFlyoutSubItem.Icon>
-                    <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind IsSortedByName, Mode=TwoWay}"/>
-                    <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind IsSortedByDate, Mode=TwoWay}"/>
-                    <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind IsSortedByType, Mode=TwoWay}"/>
-                    <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind IsSortedBySize, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByName, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByDate, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByType, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedBySize, Mode=TwoWay}"/>
                     <MenuFlyoutSeparator/>
-                    <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind IsSortedAscending, Mode=TwoWay}"/>
-                    <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind IsSortedDescending, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedAscending, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedDescending, Mode=TwoWay}"/>
                 </MenuFlyoutSubItem>
                 <MenuFlyoutItem Text="Refresh" x:Name="RefreshEmptySpace">
                     <MenuFlyoutItem.Icon>
