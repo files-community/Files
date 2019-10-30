@@ -6,10 +6,12 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +33,7 @@ using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
 namespace Files.Filesystem
 {
-    public class ItemViewModel
+    public class ItemViewModel : INotifyPropertyChanged
     {
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public CollectionViewSource viewSource;
@@ -44,6 +46,7 @@ namespace Files.Filesystem
         private QueryOptions _options;
         private volatile bool _filesRefreshing;
         private const int _step = 250;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private SortOption _directorySortOption = SortOption.Name;
         private SortDirection _directorySortDirection = SortDirection.Ascending;
@@ -59,6 +62,11 @@ namespace Files.Filesystem
                 if (value != _directorySortOption)
                 {
                     _directorySortOption = value;
+                    NotifyPropertyChanged("DirectorySortOption");
+                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged("IsSortedBySize");
                     OrderFiles();
                 }
             }
@@ -75,8 +83,91 @@ namespace Files.Filesystem
                 if (value != _directorySortDirection)
                 {
                     _directorySortDirection = value;
+                    NotifyPropertyChanged("DirectorySortDirection");
+                    NotifyPropertyChanged("IsSortedAscending");
+                    NotifyPropertyChanged("IsSortedDescending");
                     OrderFiles();
                 }
+            }
+        }
+
+        public bool IsSortedByName
+        {
+            get => DirectorySortOption == SortOption.Name;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.Name;
+                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedByDate
+        {
+            get => DirectorySortOption == SortOption.DateModified;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.DateModified;
+                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedByType
+        {
+            get => DirectorySortOption == SortOption.FileType;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.FileType;
+                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedBySize
+        {
+            get => DirectorySortOption == SortOption.Size;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.Size;
+                    NotifyPropertyChanged("IsSortedBySize");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedAscending
+        {
+            get => DirectorySortDirection == SortDirection.Ascending;
+            set
+            {
+                DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                NotifyPropertyChanged("IsSortedAscending");
+                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged("DirectorySortDirection");
+            }
+        }
+
+        public bool IsSortedDescending
+        {
+            get => !IsSortedAscending;
+            set
+            {
+                DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+                NotifyPropertyChanged("IsSortedAscending");
+                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged("DirectorySortDirection");
             }
         }
 
@@ -812,6 +903,10 @@ namespace Files.Filesystem
 
             _filesRefreshing = false;
             Debug.WriteLine("Filesystem refresh complete");
+        }
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

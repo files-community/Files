@@ -46,35 +46,6 @@ namespace Files
         ProHome tabInstance;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
 
-        private bool IsSortedByName { get { return viewModelInstance.DirectorySortOption == SortOption.Name; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.Name; } }
-        private bool IsSortedByDate { get { return viewModelInstance.DirectorySortOption == SortOption.DateModified; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.DateModified; } }
-        private bool IsSortedByType { get { return viewModelInstance.DirectorySortOption == SortOption.FileType; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.FileType; } }
-        private bool IsSortedBySize { get { return viewModelInstance.DirectorySortOption == SortOption.Size; } set { if (value) viewModelInstance.DirectorySortOption = SortOption.Size; } }
-        
-        private bool IsSortedAscending
-        {
-            get
-            {
-                return viewModelInstance.DirectorySortDirection == SortDirection.Ascending;
-            }
-            set
-            {
-                viewModelInstance.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
-            }
-        }
-
-        private bool IsSortedDescending
-        {
-            get
-            {
-                return !IsSortedAscending;
-            }
-            set
-            {
-                IsSortedAscending = !value;
-            }
-        }
-
         public PhotoAlbum()
         {
             this.InitializeComponent();
@@ -202,7 +173,6 @@ namespace Files
             }
 
         }
-
 
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {

@@ -3,7 +3,6 @@ using Files.Filesystem;
 using Files.Interacts;
 using Files.Navigation;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -23,9 +22,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
-    /// <summary>
-    /// Code to accompany Project Mumbai layout
-    /// </summary>
     public sealed partial class ProHome : Page
     {
         public ListView locationsList;
@@ -66,8 +62,21 @@ namespace Files
         public ConsentDialog consentDialog = new ConsentDialog();
         public ListView accessiblePathListView;
         public ObservableCollection<PathBoxItem> pathBoxItems = new ObservableCollection<PathBoxItem>();
-        public ItemViewModel instanceViewModel;
+        private ItemViewModel _instanceViewModel;
         public Interaction instanceInteraction;
+
+        public ItemViewModel instanceViewModel
+        {
+            get
+            {
+                return _instanceViewModel;
+            }
+            set
+            {
+                _instanceViewModel = value;
+                Bindings.Update();
+            }
+        }
 
         public ProHome()
         {
@@ -1057,6 +1066,7 @@ namespace Files
             VisiblePath.SelectionStart = VisiblePath.Text.Length;
         }
     }
+
     public class NavigationActions
     {
         public async static void Refresh_Click(object sender, RoutedEventArgs e)

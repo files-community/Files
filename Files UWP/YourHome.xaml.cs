@@ -19,6 +19,7 @@ using Windows.UI.Text;
 using System.Threading.Tasks;
 using Windows.UI;
 using System.Windows.Input;
+using System.Runtime.CompilerServices;
 
 namespace Files
 {
@@ -553,9 +554,9 @@ namespace Files
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged(string info)
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
