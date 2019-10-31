@@ -13,6 +13,8 @@ using System.Diagnostics;
 using Windows.UI.Core;
 using System.Text.RegularExpressions;
 using System.IO;
+using Windows.System;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -329,6 +331,14 @@ namespace Files
             }
         }
 
+        private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                tabInstance.instanceInteraction.OpenItem_Click(null, null);
+                e.Handled = true;
+            }
+        }
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

@@ -309,5 +309,13 @@ namespace Files
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
             }
         }
+
+        private void FileList_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                tabInstance.instanceInteraction.OpenItem_Click(null, null);
+            }
+        }
     }
 }
