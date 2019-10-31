@@ -849,7 +849,8 @@ namespace Files.Interacts
                     {
                         var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
                         if (isRenamedSameNameDiffCase)
-                            await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                            throw new InvalidOperationException();
+                        //await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         else
                             await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
@@ -857,7 +858,8 @@ namespace Files.Interacts
                     {
                         var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
                         if (isRenamedSameNameDiffCase)
-                            await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                            throw new InvalidOperationException();
+                        //await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         else
                             await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
