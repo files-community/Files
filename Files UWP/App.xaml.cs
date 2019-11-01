@@ -422,6 +422,12 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
                 }
                 // Ensure the current window is active.
+                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                watcher.Added += DeviceAdded;
+                watcher.Removed += DeviceRemoved;
+                watcher.Updated += DeviceUpdated;
+                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                watcher.Start();
                 Window.Current.Activate();
                 return;
             }
