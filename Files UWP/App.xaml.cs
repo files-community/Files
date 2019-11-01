@@ -135,7 +135,7 @@ namespace Files
                     if (!(await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.Path).ToList().Contains(roots.Name))
                     {
                         // TODO: Display Custom Names for Local Disks as well
-                        content = $"Local Disk ({roots.Name})";
+                        content = $"Local Disk ({roots.Name.TrimEnd('\\')})";
                         icon = "\uEDA2";
 
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
