@@ -429,7 +429,7 @@
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <GridView PreviewKeyDown="FileList_KeyDown" SelectionChanged="FileList_SelectionChanged" Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch">
+        <GridView PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="ContextFlyout">

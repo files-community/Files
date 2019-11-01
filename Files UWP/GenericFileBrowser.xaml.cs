@@ -335,7 +335,7 @@ namespace Files
         {
             if (e.Key == VirtualKey.Enter)
             {
-                tabInstance.instanceInteraction.OpenItem_Click(null, null);
+                tabInstance.instanceInteraction.List_ItemClick(null, null);
                 e.Handled = true;
             }
         }
