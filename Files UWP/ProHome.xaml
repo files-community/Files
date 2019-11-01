@@ -937,10 +937,21 @@
                                 </ListViewItem>
                             </ListView>
                             <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                            <ListView ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                 </ListView.Resources>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Spacing="15" Orientation="Horizontal">
+                                            <Grid>
+                                                <FontIcon Visibility="{Binding driveGlyphVisibility}" FontSize="16" Glyph="{Binding glyph}" FontFamily="Segoe MDL2 Assets"/>
+                                                <FontIcon Visibility="{Binding cloudGlyphVisibility}" FontSize="16" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
+                                            </Grid>
+                                            <TextBlock Text="{Binding driveText}" FontSize="12"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                                 <ListViewItem Tag="LocalDisk">
                                     <ListViewItem.Content>
                                         <StackPanel Spacing="15" Orientation="Horizontal">

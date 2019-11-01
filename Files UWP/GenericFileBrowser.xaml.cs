@@ -13,6 +13,8 @@ using System.Diagnostics;
 using Windows.UI.Core;
 using System.Text.RegularExpressions;
 using System.IO;
+using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
 
 namespace Files
 {
@@ -78,6 +80,7 @@ namespace Files
             UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
+            
         }
 
         private void AddItem_Click(object sender, RoutedEventArgs e)
@@ -338,7 +341,6 @@ namespace Files
             }
             
         }
-
     }
 
     public class EmptyFolderTextState : INotifyPropertyChanged

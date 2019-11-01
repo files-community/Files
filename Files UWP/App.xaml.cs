@@ -23,12 +23,18 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using Windows.Devices.Enumeration;
 using System.Text.RegularExpressions;
+using Windows.Devices.Portable;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.Storage.Search;
 
 namespace Files
 {
     sealed partial class App : Application
     {
         public static ProHome selectedTabInstance { get; set; }
+        DeviceWatcher watcher;
         public App()
         {
             this.InitializeComponent();
@@ -113,89 +119,205 @@ namespace Files
                 localSettings.Values["DrivesDisplayed_NewTab"] = false;
             }
 
-            FindDrives();
-            //DeviceWatcher watcher = DeviceInformation.CreateWatcher();
-            //watcher.Added += (sender, info) => FindDrives();
-            //watcher.Removed += (sender, info) => FindDrives();
-            //watcher.Start();
+            //FindDrives();
+            
         }
 
-        private async void FindDrives()
+        public void PopulateDrivesListWithLocalDisks()
         {
-            foundDrives.Clear();
-            var knownRemDevices = new ObservableCollection<string>();
-            foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
-            {
-                var path = f.Path;
-                knownRemDevices.Add(path);
-            }
-
             var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
-
-            if (!driveLetters.Any()) return;
-
             driveLetters.ForEach(async roots =>
             {
                 try
                 {
-                    //if (roots.Name == @"C:\") return;
                     var content = string.Empty;
-                    string icon;
-                    if (knownRemDevices.Contains(roots.Name))
+                    string icon = null;
+                    if (!(await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.Path).ToList().Contains(roots.Name))
                     {
-                        content = $"Removable Drive ({roots.Name})";
-                        icon = "\uE88E";
-                    }
-                    else
-                    {
+                        // TODO: Display Custom Names for Local Disks as well
                         content = $"Local Disk ({roots.Name})";
                         icon = "\uEDA2";
-                    }
-                    StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
-                    var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-                    
-                    ulong totalSpaceProg = 0;
-                    ulong freeSpaceProg = 0;
-                    string free_space_text = "Unknown";
-                    string total_space_text = "Unknown";
-                    Visibility capacityBarVis = Visibility.Visible;
-                    try
-                    {
-                        var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
-                        freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
 
-                        sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
-                        totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                        async () =>
+                        {
+                            StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
+                            var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+
+                            ulong totalSpaceProg = 0;
+                            ulong freeSpaceProg = 0;
+                            string free_space_text = "Unknown";
+                            string total_space_text = "Unknown";
+                            Visibility capacityBarVis = Visibility.Visible;
+                            try
+                            {
+                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
+                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
+                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
 
 
-                        free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
-                        total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        capacityBarVis = Visibility.Collapsed;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        capacityBarVis = Visibility.Collapsed;
+                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
+                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
+                            }
+                            catch (UnauthorizedAccessException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+                            catch (NullReferenceException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+
+                            App.foundDrives.Add(new DriveItem()
+                            {
+                                driveText = content,
+                                glyph = icon,
+                                maxSpace = totalSpaceProg,
+                                spaceUsed = totalSpaceProg - freeSpaceProg,
+                                tag = roots.Name,
+                                progressBarVisibility = capacityBarVis,
+                                spaceText = free_space_text + " free of " + total_space_text,
+                            });
+                        });
                     }
 
-                    foundDrives.Add(new DriveItem()
-                    {
-                        driveText = content,
-                        glyph = icon,
-                        maxSpace = totalSpaceProg,
-                        spaceUsed = totalSpaceProg - freeSpaceProg,
-                        tag = roots.Name,
-                        progressBarVisibility = capacityBarVis,
-                        spaceText = free_space_text + " free of " + total_space_text,
-                    });
                 }
                 catch (UnauthorizedAccessException e)
                 {
                     Debug.WriteLine(e.Message);
                 }
+
             });
+
+            
+
+        }
+
+        private async void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        {
+            PopulateDrivesListWithLocalDisks();
+            DeviceAdded(sender, null);
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+            () =>
+            {
+                App.foundDrives.Add(new DriveItem()
+                {
+                    driveText = "OneDrive",
+                    tag = "OneDrive",
+                    cloudGlyphVisibility = Visibility.Visible,
+                    driveGlyphVisibility = Visibility.Collapsed
+                });
+            });
+        }
+
+        private void DeviceUpdated(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            Debug.WriteLine("Devices updated");
+        }
+
+
+        private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            var devices = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
+
+            foreach (DriveItem driveItem in foundDrives)
+            {
+                if (!driveItem.tag.Equals("OneDrive"))
+                {
+                    if (!devices.Any(x => x.Name == driveItem.tag) || devices.Equals(null))
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                        () =>
+                        {
+                            foundDrives.Remove(driveItem);
+                        });
+                        return;
+
+                    }
+                }
+                
+            }
+        }
+
+        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
+        {
+            try
+            {
+                //var device = StorageDevice.FromId(args.Id);
+                var devices = (await KnownFolders.RemovableDevices.GetFoldersAsync()).OrderBy(x => x.Path);
+                foreach(StorageFolder device in devices)
+                {
+                    var letter = device.Path;
+                    if(!foundDrives.Any(x => x.tag == letter))
+                    {
+                        //if (roots.Name == @"C:\") return;
+                        var content = device.DisplayName;
+                        string icon = null;
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                        async () =>
+                        {
+                            if (content.Contains("DVD"))
+                            {
+                                icon = "\uE958";
+                            }
+                            else
+                            {
+                                icon = "\uE88E";
+                            }
+
+                            StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(letter);
+                            var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+
+                            ulong totalSpaceProg = 0;
+                            ulong freeSpaceProg = 0;
+                            string free_space_text = "Unknown";
+                            string total_space_text = "Unknown";
+                            Visibility capacityBarVis = Visibility.Visible;
+                            try
+                            {
+                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
+                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
+                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+
+                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
+                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
+                            }
+                            catch (UnauthorizedAccessException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+                            catch (NullReferenceException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+
+                            if (!foundDrives.Any(x => x.tag == letter))
+                            {
+                                foundDrives.Add(new DriveItem()
+                                {
+                                    driveText = content,
+                                    glyph = icon,
+                                    maxSpace = totalSpaceProg,
+                                    spaceUsed = totalSpaceProg - freeSpaceProg,
+                                    tag = letter,
+                                    progressBarVisibility = capacityBarVis,
+                                    spaceText = free_space_text + " free of " + total_space_text,
+                                });
+                            }
+                        });
+                        
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+               Debug.WriteLine(e.Message);
+            }
         }
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
@@ -264,6 +386,12 @@ namespace Files
 
 
                 }
+                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                watcher.Added += DeviceAdded;
+                watcher.Removed += DeviceRemoved;
+                watcher.Updated += DeviceUpdated;
+                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                watcher.Start();
                 // Ensure the current window is active
                 Window.Current.Activate();
 
@@ -329,6 +457,7 @@ namespace Files
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            watcher.Stop();
             deferral.Complete();
         }
     }
