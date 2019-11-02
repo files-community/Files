@@ -1,28 +1,24 @@
-﻿using System;
+﻿using Files.Filesystem;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using System.ComponentModel;
-using Files.Filesystem;
-using Files.Navigation;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using System.Collections;
-using Windows.Foundation;
-using Windows.UI.Xaml.Controls.Primitives;
-using System.IO;
-using System.Reflection;
-using Files.Dialogs;
 
 namespace Files.Interacts
 {
@@ -928,6 +924,11 @@ namespace Files.Interacts
             {
                 (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems.Clear();
             }
+        }
+
+        public void PushJumpChar(char letter)
+        {
+            tabInstance.instanceViewModel.JumpString += letter;
         }
     }
 }

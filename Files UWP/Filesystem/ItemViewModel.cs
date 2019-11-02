@@ -48,6 +48,9 @@ namespace Files.Filesystem
         private const int _step = 250;
         public event PropertyChangedEventHandler PropertyChanged;
 
+        private string _jumpString = "";
+        private DispatcherTimer jumpTimer = new DispatcherTimer();
+
         private SortOption _directorySortOption = SortOption.Name;
         private SortDirection _directorySortDirection = SortDirection.Ascending;
 
@@ -171,6 +174,46 @@ namespace Files.Filesystem
             }
         }
 
+        public string JumpString
+        {
+            get
+            {
+                return _jumpString;
+            }
+            set
+            {
+                if (value != "")
+                {
+                    ListedItem jumpedToItem = null;
+                    try
+                    {
+                        jumpedToItem = _filesAndFolders.Where(f => f.FileName.Substring(0, value.Length).ToUpper() == value).First();
+                    }
+                    catch (ArgumentOutOfRangeException) { }
+                    catch (InvalidOperationException) { }
+
+                    if (jumpedToItem != null)
+                    {
+                        if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                        {
+                            (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
+                            (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
+                        }
+                        else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                        {
+                            (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem = jumpedToItem;
+                            (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.ScrollIntoView(jumpedToItem);
+                        }
+
+                    }
+
+                    // Restart the timer
+                    jumpTimer.Start();
+                }
+                _jumpString = value;
+            }
+        }
+
         public ItemViewModel()
         {
             _filesAndFolders = new ObservableCollection<ListedItem>();
@@ -204,6 +247,15 @@ namespace Files.Filesystem
             _cancellationTokenSource = new CancellationTokenSource();
 
             Universal.PropertyChanged += Universal_PropertyChanged;
+
+            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+            jumpTimer.Tick += JumpTimer_Tick;
+        }
+
+        private void JumpTimer_Tick(object sender, object e)
+        {
+            _jumpString = "";
+            jumpTimer.Stop();
         }
 
         /*
@@ -211,7 +263,6 @@ namespace Files.Filesystem
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
-
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI

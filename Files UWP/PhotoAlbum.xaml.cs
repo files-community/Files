@@ -26,6 +26,7 @@ using Microsoft.Xaml.Interactivity;
 using System.Text.RegularExpressions;
 using Interaction = Files.Interacts.Interaction;
 using Files.Dialogs;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -44,6 +45,7 @@ namespace Files
         public string inputForRename;
         public ProgressBar progressBar;
         public ListedItem renamingItem;
+        private bool isRenaming = false;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
@@ -144,6 +146,9 @@ namespace Files
             {
                 App.PS.isEnabled = false;
             }
+
+            // Add item jumping handler
+            Window.Current.CoreWindow.KeyDown += Page_KeyDown;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -153,6 +158,9 @@ namespace Files
             {
                 tabInstance.instanceViewModel._fileQueryResult.ContentsChanged -= tabInstance.instanceViewModel.FileContentsChanged;
             }
+
+            // Remove item jumping handler
+            Window.Current.CoreWindow.KeyDown -= Page_KeyDown;
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -323,6 +331,7 @@ namespace Files
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
             textBox.Select(0, renamingItem.FileName.Length - extensionLength);
+            isRenaming = true;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -332,11 +341,13 @@ namespace Files
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
                 EndRename(textBox);
+                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter)
             {
                 TextBox textBox = sender as TextBox;
                 CommitRename(textBox);
+                e.Handled = true;
             }
         }
 
@@ -375,13 +386,31 @@ namespace Files
             textBlock.Visibility = Visibility.Visible;
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
+            isRenaming = false;
         }
 
         private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
-                tabInstance.instanceInteraction.List_ItemClick(null, null);
+                if (!isRenaming)
+                {
+                    tabInstance.instanceInteraction.List_ItemClick(null, null);
+                    e.Handled = true;
+                }
+            }
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+            if (focusedElement is TextBox)
+                return;
+            if (e.VirtualKey >= VirtualKey.A && e.VirtualKey <= VirtualKey.Z)
+            {
+                char letterPressed = Convert.ToChar(e.VirtualKey);
+                gv.Focus(FocusState.Keyboard);
+                tabInstance.instanceInteraction.PushJumpChar(letterPressed);
                 e.Handled = true;
             }
         }

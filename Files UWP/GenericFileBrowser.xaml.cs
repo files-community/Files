@@ -14,6 +14,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -35,6 +36,7 @@ namespace Files
         public Grid grid;
         public ProgressBar progressBar;
         private DataGridColumn _sortedColumn;
+        private bool isEditing = false;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
 
@@ -110,7 +112,7 @@ namespace Files
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
-            
+
             switch (viewModelInstance.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -252,7 +254,9 @@ namespace Files
                     data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                 }
             }
-            
+
+            // Add item jumping handler
+            Window.Current.CoreWindow.KeyDown += Page_KeyDown;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -264,6 +268,9 @@ namespace Files
             }
 
             //this.Bindings.StopTracking();
+
+            // Remove item jumping handler
+            Window.Current.CoreWindow.KeyDown -= Page_KeyDown;
         }
 
         private void AllView_DragOver(object sender, DragEventArgs e)
@@ -304,6 +311,7 @@ namespace Files
             previousFileName = selectedItem.FileName;
             textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
             textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+            isEditing = true;
         }
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -321,6 +329,11 @@ namespace Files
                 selectedItem.FileName = currentName;
                 ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
             }
+        }
+
+        private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        {
+            isEditing = false;
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
@@ -405,12 +418,33 @@ namespace Files
         {
             if (e.Key == VirtualKey.Enter)
             {
-                tabInstance.instanceInteraction.List_ItemClick(null, null);
+                if (isEditing)
+                {
+                    AllView.CommitEdit();
+                }
+                else
+                {
+                    tabInstance.instanceInteraction.List_ItemClick(null, null);
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+            if (focusedElement is TextBox)
+                return;
+            if (e.VirtualKey >= VirtualKey.A && e.VirtualKey <= VirtualKey.Z)
+            {
+                char letterPressed = Convert.ToChar(e.VirtualKey);
+                AllView.Focus(FocusState.Keyboard);
+                tabInstance.instanceInteraction.PushJumpChar(letterPressed);
                 e.Handled = true;
             }
         }
     }
-  
+
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
         public Visibility _isVisible;
