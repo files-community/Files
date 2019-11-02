@@ -565,129 +565,60 @@ namespace Files.Interacts
             }
         }
 
-        public async void RenameItem_Click(object sender, RoutedEventArgs e)
+        public void RenameItem_Click(object sender, RoutedEventArgs e)
         {
-
             if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var CurrentInstance = App.selectedTabInstance;
-                RenameDialog renameDialog = new RenameDialog();
-                renameDialog.inputBox.Text = "";
-
-                try
-                {
-                    var ItemSelected = (CurrentInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
-                    var RowData = tabInstance.instanceViewModel.FilesAndFolders[ItemSelected];
-                    await renameDialog.ShowAsync();
-                    var input = renameDialog.storedRenameInput;
-                    if (input != null)
-                    {
-                        if (RowData.FileType == "Folder")
-                        {
-                            var item = await StorageFolder.GetFolderFromPathAsync(RowData.FilePath);
-                            await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            tabInstance.instanceViewModel.RemoveFileOrFolder(RowData);
-                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
-                            {
-                                FileName = input,
-                                FileDateReal = DateTimeOffset.Now,
-                                EmptyImgVis = Visibility.Collapsed,
-                                FolderImg = Visibility.Visible,
-                                FileIconVis = Visibility.Collapsed,
-                                FileType = "Folder",
-                                FileImg = null,
-                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input)
-                            });
-                        }
-                        else
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(RowData.FilePath);
-                            await item.RenameAsync(input + RowData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            tabInstance.instanceViewModel.RemoveFileOrFolder(RowData);
-                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
-                            {
-                                FileName = input,
-                                FileDateReal = DateTimeOffset.Now,
-                                EmptyImgVis = Visibility.Visible,
-                                FolderImg = Visibility.Collapsed,
-                                FileIconVis = Visibility.Collapsed,
-                                FileType = RowData.FileType,
-                                FileImg = null,
-                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input + RowData.DotFileExtension),
-                                DotFileExtension = RowData.DotFileExtension
-                            });
-                        }
-                    }
-
-                }
-                catch (Exception)
-                {
-                    MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
-                    await itemAlreadyExistsDialog.ShowAsync();
-                }
-                CurrentInstance.FS.isEnabled = false;
+                var fileBrowser = App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser;
+                if (fileBrowser.AllView.SelectedItem != null)
+                    fileBrowser.AllView.CurrentColumn = fileBrowser.AllView.Columns[1];
+                fileBrowser.AllView.BeginEdit();
             }
             else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                var CurrentInstance = App.selectedTabInstance;
-                RenameDialog renameDialog = new RenameDialog();
-                renameDialog.inputBox.Text = "";
-
-                try
-                {
-                    var ItemSelected = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
-                    var BoxData = tabInstance.instanceViewModel.FilesAndFolders[ItemSelected];
-                    await renameDialog.ShowAsync();
-                    var input = renameDialog.storedRenameInput;
-                    if (input != null)
-                    {
-                        if (BoxData.FileType == "Folder")
-                        {
-                            var item = await StorageFolder.GetFolderFromPathAsync(BoxData.FilePath);
-                            await item.RenameAsync(input, NameCollisionOption.FailIfExists);
-                            tabInstance.instanceViewModel.RemoveFileOrFolder(BoxData);
-                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
-                            {
-                                FileName = input,
-                                FileDateReal = DateTimeOffset.Now,
-                                EmptyImgVis = Visibility.Collapsed,
-                                FolderImg = Visibility.Visible,
-                                FileIconVis = Visibility.Collapsed,
-                                FileType = "Folder",
-                                FileImg = null,
-                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input)
-                            });
-                        }
-                        else
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(BoxData.FilePath);
-                            await item.RenameAsync(input + BoxData.DotFileExtension, NameCollisionOption.FailIfExists);
-                            tabInstance.instanceViewModel.RemoveFileOrFolder(BoxData);
-                            tabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId)
-                            {
-                                FileName = input,
-                                FileDateReal = DateTimeOffset.Now,
-                                EmptyImgVis = Visibility.Visible,
-                                FolderImg = Visibility.Collapsed,
-                                FileIconVis = Visibility.Collapsed,
-                                FileType = BoxData.FileType,
-                                FileImg = null,
-                                FilePath = Path.Combine(tabInstance.instanceViewModel.Universal.path, input + BoxData.DotFileExtension),
-                                DotFileExtension = BoxData.DotFileExtension
-                            });
-                        }
-                    }
-
-                }
-                catch (Exception)
-                {
-                    MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
-                    await itemAlreadyExistsDialog.ShowAsync();
-                }
-                CurrentInstance.FS.isEnabled = false;
+                var photoAlbum = App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum;
+                photoAlbum.StartRename();
             }
         }
 
+        public async Task<bool> RenameFileItem(ListedItem item, string oldName, string newName)
+        {
+            if (oldName == newName)
+                return true;
+            bool isRenamedSameNameDiffCase = oldName.ToLower() == newName.ToLower();
+            try
+            {
+                if (newName != "")
+                {
+                    if (item.FileType == "Folder")
+                    {
+                        var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                        if (isRenamedSameNameDiffCase)
+                            throw new InvalidOperationException();
+                        //await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        else
+                            await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                    }
+                    else
+                    {
+                        var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        if (isRenamedSameNameDiffCase)
+                            throw new InvalidOperationException();
+                        //await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        else
+                            await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
+                await itemAlreadyExistsDialog.ShowAsync();
+                return false;
+            }
+            tabInstance.FS.isEnabled = false;
+            return true;
+        }
 
         public List<DataGridRow> dataGridRows = new List<DataGridRow>();
         public List<GridViewItem> gridViewItems = new List<GridViewItem>();
