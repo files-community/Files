@@ -187,7 +187,7 @@ namespace Files.Filesystem
                     ListedItem jumpedToItem = null;
                     try
                     {
-                        jumpedToItem = _filesAndFolders.Where(f => f.FileName.Substring(0, value.Length).ToUpper() == value).First();
+                        jumpedToItem = _filesAndFolders.Where(f => f.FileName.Substring(0, value.Length).ToLower() == value).First();
                     }
                     catch (ArgumentOutOfRangeException) { }
                     catch (InvalidOperationException) { }

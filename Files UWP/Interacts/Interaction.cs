@@ -928,7 +928,7 @@ namespace Files.Interacts
 
         public void PushJumpChar(char letter)
         {
-            tabInstance.instanceViewModel.JumpString += letter;
+            tabInstance.instanceViewModel.JumpString += letter.ToString().ToLower();
         }
     }
 }

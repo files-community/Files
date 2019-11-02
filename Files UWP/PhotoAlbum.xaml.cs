@@ -148,7 +148,7 @@ namespace Files
             }
 
             // Add item jumping handler
-            Window.Current.CoreWindow.KeyDown += Page_KeyDown;
+            Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -160,7 +160,7 @@ namespace Files
             }
 
             // Remove item jumping handler
-            Window.Current.CoreWindow.KeyDown -= Page_KeyDown;
+            Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -401,18 +401,15 @@ namespace Files
             }
         }
 
-        private void Page_KeyDown(object sender, KeyEventArgs e)
+        private void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
             var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
             if (focusedElement is TextBox)
                 return;
-            if (e.VirtualKey >= VirtualKey.A && e.VirtualKey <= VirtualKey.Z)
-            {
-                char letterPressed = Convert.ToChar(e.VirtualKey);
-                gv.Focus(FocusState.Keyboard);
-                tabInstance.instanceInteraction.PushJumpChar(letterPressed);
-                e.Handled = true;
-            }
+
+            char letterPressed = Convert.ToChar(args.KeyCode);
+            gv.Focus(FocusState.Keyboard);
+            tabInstance.instanceInteraction.PushJumpChar(letterPressed);
         }
     }
 }
