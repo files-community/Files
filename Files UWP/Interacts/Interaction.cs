@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -237,19 +238,19 @@ namespace Files.Interacts
         {
             try
             {
-                IEnumerable selectedItems;
+                List<ListedItem> selectedItems;
                 int selectedItemCount;
                 Type sourcePageType = App.selectedTabInstance.accessibleContentFrame.SourcePageType;
                 if (sourcePageType == typeof(GenericFileBrowser))
                 {
                     DataGrid data =(tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data;
-                    selectedItems = data.SelectedItems;
+                    selectedItems = data.SelectedItems.Cast<ListedItem>().ToList();
                     selectedItemCount = data.SelectedItems.Count;
                 }
                 else
                 {
                     GridView gv = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv;
-                    selectedItems = gv.SelectedItems;
+                    selectedItems = gv.SelectedItems.Cast<ListedItem>().ToList();
                     selectedItemCount = gv.SelectedItems.Count;
                 }
                 foreach (ListedItem clickedOnItem in selectedItems)
