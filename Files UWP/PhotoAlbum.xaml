@@ -523,6 +523,7 @@
                             </MenuFlyout>
                         </Setter.Value>
                     </Setter>
+                    <Setter Property="FocusVisualPrimaryBrush" Value="Transparent"/>
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
