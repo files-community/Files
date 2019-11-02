@@ -13,6 +13,8 @@ using System.Diagnostics;
 using Windows.UI.Core;
 using System.Text.RegularExpressions;
 using System.IO;
+using Windows.System;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -315,6 +317,15 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Visible;
                 OpenInNewTab.Visibility = Visibility.Visible;
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
+            }
+        }
+        
+        private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                tabInstance.instanceInteraction.List_ItemClick(null, null);
+                e.Handled = true;
             }
         }
     }

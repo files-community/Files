@@ -380,5 +380,14 @@ namespace Files
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
         }
+
+        private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                tabInstance.instanceInteraction.List_ItemClick(null, null);
+                e.Handled = true;
+            }
+        }
     }
 }
