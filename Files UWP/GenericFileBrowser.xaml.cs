@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -6,13 +7,11 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 using Files.Filesystem;
-using Files.Navigation;
 using Files.Interacts;
-using System.Diagnostics;
-using Windows.UI.Core;
-using System.Text.RegularExpressions;
 using System.IO;
+using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 
@@ -35,10 +34,41 @@ namespace Files
         public Flyout CopiedFlyout;
         public Grid grid;
         public ProgressBar progressBar;
+        private DataGridColumn _sortedColumn;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
 
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
+
+        public DataGridColumn SortedColumn
+        {
+            get
+            {
+                return _sortedColumn;
+            }
+            set
+            {
+                if (value == nameColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.Name;
+                else if (value == dateColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.DateModified;
+                else if (value == typeColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.FileType;
+                else if (value == sizeColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.Size;
+                else
+                    viewModelInstance.DirectorySortOption = SortOption.Name;
+
+                if (value != _sortedColumn)
+                {
+                    // Remove arrow on previous sorted column
+                    if (_sortedColumn != null)
+                        _sortedColumn.SortDirection = null;
+                }
+                value.SortDirection = viewModelInstance.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                _sortedColumn = value;
+            }
+        }
 
         public GenericFileBrowser()
         {
@@ -80,6 +110,49 @@ namespace Files
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
+            
+            switch (viewModelInstance.DirectorySortOption)
+            {
+                case SortOption.Name:
+                    SortedColumn = nameColumn;
+                    break;
+                case SortOption.DateModified:
+                    SortedColumn = dateColumn;
+                    break;
+                case SortOption.FileType:
+                    SortedColumn = typeColumn;
+                    break;
+                case SortOption.Size:
+                    SortedColumn = sizeColumn;
+                    break;
+            }
+            viewModelInstance.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "DirectorySortOption")
+            {
+                switch (viewModelInstance.DirectorySortOption)
+                {
+                    case SortOption.Name:
+                        SortedColumn = nameColumn;
+                        break;
+                    case SortOption.DateModified:
+                        SortedColumn = dateColumn;
+                        break;
+                    case SortOption.FileType:
+                        SortedColumn = typeColumn;
+                        break;
+                    case SortOption.Size:
+                        SortedColumn = sizeColumn;
+                        break;
+                }
+            } else if (e.PropertyName == "DirectorySortDirection")
+            {
+                // Swap arrows
+                SortedColumn = _sortedColumn;
+            }
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -305,7 +378,7 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
+            var selectedDataItem = AllView.SelectedItem as ListedItem;
             if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
@@ -319,6 +392,14 @@ namespace Files
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
             }
         }
+
+        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        {
+            if (e.Column == SortedColumn)
+                viewModelInstance.IsSortedAscending = !viewModelInstance.IsSortedAscending;
+            else if (e.Column != iconColumn)
+                SortedColumn = e.Column;
+        }
         
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
@@ -329,11 +410,9 @@ namespace Files
             }
         }
     }
-
+  
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
-
-
         public Visibility _isVisible;
         public Visibility isVisible
         {
@@ -353,10 +432,9 @@ namespace Files
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string info)
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

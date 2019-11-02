@@ -2,13 +2,14 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 using Files.Filesystem;
-using Files.Interacts;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.Storage;
 using Windows.System;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Files.Navigation;
@@ -46,7 +47,6 @@ namespace Files
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
-
 
         public PhotoAlbum()
         {
@@ -176,7 +176,6 @@ namespace Files
 
         }
 
-
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
 
@@ -258,12 +257,9 @@ namespace Files
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            foreach (ListedItem listedItem in FileList.SelectedItems)
+            if (FileList.SelectedItems.Contains(FileList.ItemFromContainer(parentContainer)))
             {
-                if (FileList.IndexFromContainer(parentContainer) == listedItem.RowIndex)
-                {
-                    return;
-                }
+                return;
             }
             // The following code is only reachable when a user RightTapped an unselected row
             FileList.SelectedItems.Clear();

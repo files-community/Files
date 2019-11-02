@@ -15,8 +15,13 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="$targetentrypoint$" desktop4:SupportsMultipleInstances="true">
-      <uap:VisualElements DisplayName="Files UWP" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." BackgroundColor="transparent" Square150x150Logo="Assets\Square150x150Logo.png"  Square44x44Logo="Assets\Square44x44Logo.png">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png">
+      <uap:VisualElements DisplayName="Files UWP" Description="Meet Files, a free and open-source File Manager for Windows 10. Created from the ground up to look and feel amazing, Files is built to replace the dated Windows File Explorer." Square150x150Logo="Assets\Square150x150Logo.png"  Square44x44Logo="Assets\Square44x44Logo.png" BackgroundColor="transparent">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png" ShortName="Files UWP">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo"/>
+            <uap:ShowOn Tile="wide310x150Logo"/>
+            <uap:ShowOn Tile="square310x310Logo"/>
+          </uap:ShowNameOnTiles>
         </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" uap5:Optional="true"/>
       </uap:VisualElements>

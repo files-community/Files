@@ -154,11 +154,24 @@
     <Grid Background="Transparent" x:Name="RootGrid">
         <Grid.ContextFlyout>
             <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
+                <MenuFlyoutSubItem Text="Sort by" x:Name="SortByEmptySpace">
+                    <MenuFlyoutSubItem.Icon>
+                        <FontIcon Glyph="&#xE8CB;"/>
+                    </MenuFlyoutSubItem.Icon>
+                    <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByName, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByDate, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByType, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedBySize, Mode=TwoWay}"/>
+                    <MenuFlyoutSeparator/>
+                    <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedAscending, Mode=TwoWay}"/>
+                    <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedDescending, Mode=TwoWay}"/>
+                </MenuFlyoutSubItem>
                 <MenuFlyoutItem Text="Refresh" x:Name="RefreshEmptySpace">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE72C;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
                 <MenuFlyoutItem Text="Paste" x:Name="PasteEmptySpace" IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE77F;"/>
@@ -199,7 +212,7 @@
         </Grid.ContextFlyout>
         <ProgressBar x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind Mode=TwoWay, Path=TextState.isVisible, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
-        <controls:DataGrid ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" PreviewKeyDown="AllView_PreviewKeyDown" ScrollViewer.IsScrollInertiaEnabled="True"  ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" PreparingCellForEdit="AllView_PreparingCellForEdit" CellEditEnding="AllView_CellEditEnding" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" HorizontalAlignment="Left">
+        <controls:DataGrid ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" PreviewKeyDown="AllView_PreviewKeyDown" ScrollViewer.IsScrollInertiaEnabled="True"  ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragLeave="AllView_DragLeave" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" PreparingCellForEdit="AllView_PreparingCellForEdit" CellEditEnding="AllView_CellEditEnding" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" CanUserSortColumns="True" Sorting="AllView_Sorting" HorizontalAlignment="Left">
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent"/>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent"/>
@@ -288,22 +301,17 @@
                                         <KeyboardAccelerator Modifiers="Control" Key="C"/>
                                     </MenuFlyoutItem.KeyboardAccelerators>
                                 </MenuFlyoutItem>
-
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem Text="Pin to sidebar" x:Name="SidebarPinItem">
                                     <MenuFlyoutItem.Icon>
                                         <SymbolIcon Symbol="Pin"/>
                                     </MenuFlyoutItem.Icon>
-
                                 </MenuFlyoutItem>
-
                                 <MenuFlyoutItem Text="Properties" x:Name="PropertiesItem">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE946;"/>
                                     </MenuFlyoutItem.Icon>
-
                                 </MenuFlyoutItem>
-
                             </MenuFlyout>
                         </Setter.Value>
                     </Setter>
@@ -319,7 +327,7 @@
             </controls:DataGrid.CellStyle>
 
             <controls:DataGrid.Columns>
-                <controls:DataGridTemplateColumn DisplayIndex="0" IsReadOnly="True">
+                <controls:DataGridTemplateColumn DisplayIndex="0" x:Name="iconColumn" IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid x:Name="Icon" Margin="0, 0, 0, 0">
@@ -331,9 +339,9 @@
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>
-                <controls:DataGridTextColumn DisplayIndex="1" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
-                <controls:DataGridTextColumn DisplayIndex="2" IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
-                <controls:DataGridTextColumn DisplayIndex="3" IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
+                <controls:DataGridTextColumn DisplayIndex="1" x:Name="nameColumn" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
+                <controls:DataGridTextColumn DisplayIndex="2" x:Name="dateColumn" IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
+                <controls:DataGridTextColumn DisplayIndex="3" x:Name="typeColumn" IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
                 <controls:DataGridTextColumn DisplayIndex="4" x:Name="sizeColumn" IsReadOnly="True" Header="Size" Width="Auto" MinWidth="100" Binding="{Binding FileSize}" Tag="Size"/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
