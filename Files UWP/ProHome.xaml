@@ -691,7 +691,20 @@
                                         </AppBarButton.KeyboardAccelerators>
                                     </AppBarButton>
                                     <AppBarButton Click="ClearAllButton_Click" Name="ClearAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
-
+                                    <AppBarSeparator/>
+                                    <AppBarButton IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="Sort" Label="Sort by">
+                                        <AppBarButton.Flyout>
+                                            <MenuFlyout Placement="BottomEdgeAlignedLeft">
+                                                <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind instanceViewModel.IsSortedByName, Mode=TwoWay}"/>
+                                                <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind instanceViewModel.IsSortedByDate, Mode=TwoWay}"/>
+                                                <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind instanceViewModel.IsSortedByType, Mode=TwoWay}"/>
+                                                <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind instanceViewModel.IsSortedBySize, Mode=TwoWay}"/>
+                                                <MenuFlyoutSeparator/>
+                                                <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind instanceViewModel.IsSortedAscending, Mode=TwoWay}"/>
+                                                <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind instanceViewModel.IsSortedDescending, Mode=TwoWay}"/>
+                                            </MenuFlyout>
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>
                                 </CommandBar>
                             </CommandBar.Content>
                         </CommandBar>

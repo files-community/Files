@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
 using Windows.ApplicationModel.DataTransfer;
@@ -6,15 +7,15 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 using Files.Filesystem;
-using Files.Navigation;
 using Files.Interacts;
-using System.Diagnostics;
-using Windows.UI.Core;
-using System.Text.RegularExpressions;
 using System.IO;
 using Windows.UI.Xaml.Media;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using Windows.System;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -29,15 +30,47 @@ namespace Files
         public Page GFBPageName;
         public ContentDialog AddItemBox;
         public ContentDialog NameBox;
+        public string previousFileName;
         public TextBox inputFromRename;
         public string inputForRename;
         public Flyout CopiedFlyout;
         public Grid grid;
         public ProgressBar progressBar;
+        private DataGridColumn _sortedColumn;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
 
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
+
+        public DataGridColumn SortedColumn
+        {
+            get
+            {
+                return _sortedColumn;
+            }
+            set
+            {
+                if (value == nameColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.Name;
+                else if (value == dateColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.DateModified;
+                else if (value == typeColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.FileType;
+                else if (value == sizeColumn)
+                    viewModelInstance.DirectorySortOption = SortOption.Size;
+                else
+                    viewModelInstance.DirectorySortOption = SortOption.Name;
+
+                if (value != _sortedColumn)
+                {
+                    // Remove arrow on previous sorted column
+                    if (_sortedColumn != null)
+                        _sortedColumn.SortDirection = null;
+                }
+                value.SortDirection = viewModelInstance.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                _sortedColumn = value;
+            }
+        }
 
         public GenericFileBrowser()
         {
@@ -81,11 +114,48 @@ namespace Files
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
             
+            switch (viewModelInstance.DirectorySortOption)
+            {
+                case SortOption.Name:
+                    SortedColumn = nameColumn;
+                    break;
+                case SortOption.DateModified:
+                    SortedColumn = dateColumn;
+                    break;
+                case SortOption.FileType:
+                    SortedColumn = typeColumn;
+                    break;
+                case SortOption.Size:
+                    SortedColumn = sizeColumn;
+                    break;
+            }
+            viewModelInstance.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        private void AddItem_Click(object sender, RoutedEventArgs e)
+        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            //await AddDialog.ShowAsync();
+            if (e.PropertyName == "DirectorySortOption")
+            {
+                switch (viewModelInstance.DirectorySortOption)
+                {
+                    case SortOption.Name:
+                        SortedColumn = nameColumn;
+                        break;
+                    case SortOption.DateModified:
+                        SortedColumn = dateColumn;
+                        break;
+                    case SortOption.FileType:
+                        SortedColumn = typeColumn;
+                        break;
+                    case SortOption.Size:
+                        SortedColumn = sizeColumn;
+                        break;
+                }
+            } else if (e.PropertyName == "DirectorySortDirection")
+            {
+                // Swap arrows
+                SortedColumn = _sortedColumn;
+            }
         }
 
         private void Clipboard_ContentChanged(object sender, object e)
@@ -130,7 +200,6 @@ namespace Files
 
             Clipboard_ContentChanged(null, null);
             tabInstance.AlwaysPresentCommands.isEnabled = true;
-            tabInstance.AddItemButton.Click += AddItem_Click;
 
             TextState.isVisible = Visibility.Collapsed;
 
@@ -200,7 +269,6 @@ namespace Files
             //this.Bindings.StopTracking();
         }
 
-
         private void AllView_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
@@ -230,37 +298,32 @@ namespace Files
             this.progressBar.Visibility = Visibility.Collapsed;
         }
 
-        private async void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
-            var newCellText = (data.SelectedItem as ListedItem)?.FileName;
-            var selectedItem = tabInstance.instanceViewModel.FilesAndFolders[e.Row.GetIndex()];
-            if(selectedItem.FileType == "Folder")
+            var textBox = e.EditingElement as TextBox;
+            var selectedItem = data.SelectedItem as ListedItem;
+            int extensionLength = selectedItem.DotFileExtension?.Length ?? 0;
+
+            previousFileName = selectedItem.FileName;
+            textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
+            textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+        }
+
+        private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            if (e.EditAction == DataGridEditAction.Cancel)
+                return;
+
+            var selectedItem = data.SelectedItem as ListedItem;
+            string currentName = previousFileName;
+            string newName = (e.EditingElement as TextBox).Text;
+
+            bool successful = await tabInstance.instanceInteraction.RenameFileItem(selectedItem, currentName, newName);
+            if (!successful)
             {
-                StorageFolder FolderToRename = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
-                if(FolderToRename.Name != newCellText)
-                {
-                    await FolderToRename.RenameAsync(newCellText);
-                    AllView.CommitEdit();
-                }
-                else
-                {
-                    AllView.CancelEdit();
-                }
+                selectedItem.FileName = currentName;
+                ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
             }
-            else
-            {
-                StorageFile fileToRename = await StorageFile.GetFileFromPathAsync(selectedItem.FilePath);
-                if (fileToRename.Name != newCellText)
-                {
-                    await fileToRename.RenameAsync(newCellText);
-                    AllView.CommitEdit();
-                }
-                else
-                {
-                    AllView.CancelEdit();
-                }
-            }
-            //Navigation.NavigationActions.Refresh_Click(null, null);
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
@@ -318,7 +381,7 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[AllView.SelectedIndex];
+            var selectedDataItem = AllView.SelectedItem as ListedItem;
             if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
@@ -342,13 +405,26 @@ namespace Files
                 UnzipItem.Visibility = Visibility.Collapsed;
             }
 
+        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        {
+            if (e.Column == SortedColumn)
+                viewModelInstance.IsSortedAscending = !viewModelInstance.IsSortedAscending;
+            else if (e.Column != iconColumn)
+                SortedColumn = e.Column;
+        }
+        
+        private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                tabInstance.instanceInteraction.List_ItemClick(null, null);
+                e.Handled = true;
+            }
         }
     }
-
+  
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
-
-
         public Visibility _isVisible;
         public Visibility isVisible
         {
@@ -368,10 +444,9 @@ namespace Files
         }
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged(string info)
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
     }
 }

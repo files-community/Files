@@ -143,6 +143,7 @@
     <Compile Include="Dialogs\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\ThemeStyle.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />

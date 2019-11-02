@@ -94,6 +94,7 @@
     <ProjectReference Include="..\ProcessLauncher\ProcessLauncher.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />

@@ -1,15 +1,17 @@
 ﻿using ByteSizeLib;
-using Files.Interacts;
+using Files.Enums;
 using Files.Navigation;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,7 +33,7 @@ using TreeView = Microsoft.UI.Xaml.Controls.TreeView;
 
 namespace Files.Filesystem
 {
-    public class ItemViewModel
+    public class ItemViewModel : INotifyPropertyChanged
     {
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public CollectionViewSource viewSource;
@@ -44,10 +46,133 @@ namespace Files.Filesystem
         private QueryOptions _options;
         private volatile bool _filesRefreshing;
         private const int _step = 250;
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private SortOption _directorySortOption = SortOption.Name;
+        private SortDirection _directorySortDirection = SortDirection.Ascending;
+
+        public SortOption DirectorySortOption
+        {
+            get
+            {
+                return _directorySortOption;
+            }
+            set
+            {
+                if (value != _directorySortOption)
+                {
+                    _directorySortOption = value;
+                    NotifyPropertyChanged("DirectorySortOption");
+                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged("IsSortedBySize");
+                    OrderFiles();
+                }
+            }
+        }
+
+        public SortDirection DirectorySortDirection
+        {
+            get
+            {
+                return _directorySortDirection;
+            }
+            set
+            {
+                if (value != _directorySortDirection)
+                {
+                    _directorySortDirection = value;
+                    NotifyPropertyChanged("DirectorySortDirection");
+                    NotifyPropertyChanged("IsSortedAscending");
+                    NotifyPropertyChanged("IsSortedDescending");
+                    OrderFiles();
+                }
+            }
+        }
+
+        public bool IsSortedByName
+        {
+            get => DirectorySortOption == SortOption.Name;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.Name;
+                    NotifyPropertyChanged("IsSortedByName");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedByDate
+        {
+            get => DirectorySortOption == SortOption.DateModified;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.DateModified;
+                    NotifyPropertyChanged("IsSortedByDate");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedByType
+        {
+            get => DirectorySortOption == SortOption.FileType;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.FileType;
+                    NotifyPropertyChanged("IsSortedByType");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedBySize
+        {
+            get => DirectorySortOption == SortOption.Size;
+            set
+            {
+                if (value)
+                {
+                    DirectorySortOption = SortOption.Size;
+                    NotifyPropertyChanged("IsSortedBySize");
+                    NotifyPropertyChanged("DirectorySortOption");
+                }
+            }
+        }
+
+        public bool IsSortedAscending
+        {
+            get => DirectorySortDirection == SortDirection.Ascending;
+            set
+            {
+                DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                NotifyPropertyChanged("IsSortedAscending");
+                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged("DirectorySortDirection");
+            }
+        }
+
+        public bool IsSortedDescending
+        {
+            get => !IsSortedAscending;
+            set
+            {
+                DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+                NotifyPropertyChanged("IsSortedAscending");
+                NotifyPropertyChanged("IsSortedDescending");
+                NotifyPropertyChanged("DirectorySortDirection");
+            }
+        }
 
         public ItemViewModel()
         {
-            
             _filesAndFolders = new ObservableCollection<ListedItem>();
 
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
@@ -250,6 +375,59 @@ namespace Files.Filesystem
 
         }
 
+        public void OrderFiles()
+        {
+            if (_filesAndFolders.Count == 0)
+                return;
+
+            object orderByNameFunc(ListedItem item) => item.FileName;
+            Func<ListedItem, object> orderFunc = orderByNameFunc;
+            switch (DirectorySortOption)
+            {
+                case SortOption.Name:
+                    orderFunc = orderByNameFunc;
+                    break;
+                case SortOption.DateModified:
+                    orderFunc = item => item.FileDateReal;
+                    break;
+                case SortOption.FileType:
+                    orderFunc = item => item.FileType;
+                    break;
+                case SortOption.Size:
+                    orderFunc = item => item.FileSizeBytes;
+                    break;
+            }
+
+            // In ascending order, show folders first, then files.
+            // So, we use != "Folder" to make the value for "Folder" = 0, and for the rest, 1.
+            Func<ListedItem, bool> folderThenFile = listedItem => listedItem.FileType != "Folder";
+            IOrderedEnumerable<ListedItem> ordered;
+            List<ListedItem> orderedList;
+
+            if (DirectorySortDirection == SortDirection.Ascending)
+                ordered = _filesAndFolders.OrderBy(folderThenFile).ThenBy(orderFunc);
+            else
+            {
+                if (DirectorySortOption == SortOption.FileType)
+                    ordered = _filesAndFolders.OrderBy(folderThenFile).ThenByDescending(orderFunc);
+                else
+                    ordered = _filesAndFolders.OrderByDescending(folderThenFile).ThenByDescending(orderFunc);
+            }
+
+            // Further order by name if applicable
+            if (DirectorySortOption != SortOption.Name)
+            {
+                if (DirectorySortDirection == SortDirection.Ascending)
+                    ordered = ordered.ThenBy(orderByNameFunc);
+                else
+                    ordered = ordered.ThenByDescending(orderByNameFunc);
+            }
+            orderedList = ordered.ToList();
+            _filesAndFolders.Clear();
+            foreach (ListedItem i in orderedList)
+                _filesAndFolders.Add(i);
+        }
+
         public static T GetCurrentSelectedTabInstance<T>()
         {
             Frame rootFrame = Window.Current.Content as Frame;
@@ -435,6 +613,7 @@ namespace Files.Filesystem
                         (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
                     }
                 }
+                OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
                 App.selectedTabInstance.RefreshButton.IsEnabled = true;
@@ -517,7 +696,7 @@ namespace Files.Filesystem
                     FilePath = folder.Path,
                     EmptyImgVis = Visibility.Collapsed,
                     FileSize = null,
-                    RowIndex = _filesAndFolders.Count
+                    FileSizeBytes = 0
                 });
                 if((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
                 {
@@ -538,6 +717,7 @@ namespace Files.Filesystem
             var itemDate = basicProperties.DateModified;
             var itemPath = file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
+            var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
             var itemFolderImgVis = Visibility.Collapsed;
             var itemFileExtension = file.FileType;
@@ -616,7 +796,7 @@ namespace Files.Filesystem
                 FileType = itemType,
                 FilePath = itemPath,
                 FileSize = itemSize,
-                RowIndex = _filesAndFolders.Count
+                FileSizeBytes = itemSizeBytes
             });
 
             if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
@@ -723,6 +903,10 @@ namespace Files.Filesystem
 
             _filesRefreshing = false;
             Debug.WriteLine("Filesystem refresh complete");
+        }
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

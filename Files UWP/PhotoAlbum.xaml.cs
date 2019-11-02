@@ -2,13 +2,14 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 using Files.Filesystem;
-using Files.Interacts;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Popups;
 using System.IO;
 using Windows.Storage;
 using Windows.System;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.ApplicationModel.DataTransfer;
 using Files.Navigation;
@@ -24,6 +25,7 @@ using Microsoft.Xaml.Interactions.Core;
 using Microsoft.Xaml.Interactivity;
 using System.Text.RegularExpressions;
 using Interaction = Files.Interacts.Interaction;
+using Files.Dialogs;
 
 namespace Files
 {
@@ -41,10 +43,10 @@ namespace Files
         public TextBlock EmptyTextPA;
         public string inputForRename;
         public ProgressBar progressBar;
+        public ListedItem renamingItem;
         ItemViewModel viewModelInstance;
         ProHome tabInstance;
         public EmptyFolderTextState TextState { get; set; } = new EmptyFolderTextState();
-
 
         public PhotoAlbum()
         {
@@ -176,7 +178,6 @@ namespace Files
 
         }
 
-
         private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
 
@@ -258,12 +259,9 @@ namespace Files
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            foreach (ListedItem listedItem in FileList.SelectedItems)
+            if (FileList.SelectedItems.Contains(FileList.ItemFromContainer(parentContainer)))
             {
-                if (FileList.IndexFromContainer(parentContainer) == listedItem.RowIndex)
-                {
-                    return;
-                }
+                return;
             }
             // The following code is only reachable when a user RightTapped an unselected row
             FileList.SelectedItems.Clear();
@@ -321,6 +319,84 @@ namespace Files
                 UnzipItem.Visibility = Visibility.Collapsed;
             }
 
+        }
+
+        public void StartRename()
+        {
+            renamingItem = gv.SelectedItem as ListedItem;
+            GridViewItem gridViewItem = gv.ContainerFromItem(renamingItem) as GridViewItem;
+            StackPanel stackPanel = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel;
+            TextBlock textBlock = stackPanel.Children[0] as TextBlock;
+            TextBox textBox = stackPanel.Children[1] as TextBox;
+            int extensionLength = renamingItem.DotFileExtension?.Length ?? 0;
+
+            textBlock.Visibility = Visibility.Collapsed;
+            textBox.Visibility = Visibility.Visible;
+            textBox.Focus(FocusState.Pointer);
+            textBox.LostFocus += RenameTextBox_LostFocus;
+            textBox.KeyDown += RenameTextBox_KeyDown;
+            textBox.Select(0, renamingItem.FileName.Length - extensionLength);
+        }
+
+        private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Escape)
+            {
+                TextBox textBox = sender as TextBox;
+                textBox.LostFocus -= RenameTextBox_LostFocus;
+                EndRename(textBox);
+            }
+            else if (e.Key == VirtualKey.Enter)
+            {
+                TextBox textBox = sender as TextBox;
+                CommitRename(textBox);
+            }
+        }
+
+        private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = e.OriginalSource as TextBox;
+            CommitRename(textBox);
+        }
+
+        private async void CommitRename(TextBox textBox)
+        {
+            EndRename(textBox);
+
+            try
+            {
+                var selectedItem = renamingItem;
+                string currentName = selectedItem.FileName;
+                string newName = textBox.Text;
+
+                if (newName == null)
+                    return;
+
+                await tabInstance.instanceInteraction.RenameFileItem(selectedItem, currentName, newName);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void EndRename(TextBox textBox)
+        {
+            StackPanel parentPanel = textBox.Parent as StackPanel;
+            TextBlock textBlock = parentPanel.Children[0] as TextBlock;
+            textBox.Visibility = Visibility.Collapsed;
+            textBlock.Visibility = Visibility.Visible;
+            textBox.LostFocus -= RenameTextBox_LostFocus;
+            textBox.KeyDown += RenameTextBox_KeyDown;
+        }
+
+        private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                tabInstance.instanceInteraction.List_ItemClick(null, null);
+                e.Handled = true;
+            }
         }
     }
 }
