@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using System.IO;
 using System.Reflection;
 using Files.Dialogs;
+using System.IO.Compression;
 
 namespace Files.Interacts
 {
@@ -163,6 +164,7 @@ namespace Files.Interacts
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = null;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
@@ -896,6 +898,72 @@ namespace Files.Interacts
         public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
         {
             AddItem.CreateFile(tabInstance, "Bitmap Image");
+        }
+
+        public async void ExtractItems_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFile selectedItem = null;
+            if (tabInstance.accessibleContentFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+            {
+                var page = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser);
+                selectedItem = await StorageFile.GetFileFromPathAsync(tabInstance.instanceViewModel.FilesAndFolders[page.data.SelectedIndex].FilePath);
+
+            }
+            else if (tabInstance.accessibleContentFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+            {
+                var page = (tabInstance.accessibleContentFrame.Content as PhotoAlbum);
+                selectedItem = await StorageFile.GetFileFromPathAsync(tabInstance.instanceViewModel.FilesAndFolders[page.gv.SelectedIndex].FilePath);
+            }
+            string destinationPath = null;
+            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(tabInstance.instanceViewModel.Universal.path);
+            await extractFilesDialog.ShowAsync();
+            if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
+            {
+                var bufferItem = await selectedItem.CopyAsync(ApplicationData.Current.TemporaryFolder, selectedItem.DisplayName, NameCollisionOption.ReplaceExisting);
+                destinationPath = ApplicationData.Current.LocalSettings.Values["Extract_Destination_Path"].ToString();
+                //ZipFile.ExtractToDirectory(selectedItem.Path, destinationPath, );
+                var destFolder_InBuffer = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(selectedItem.DisplayName + "_Extracted", CreationCollisionOption.ReplaceExisting);
+                using(FileStream fs = new FileStream(bufferItem.Path, FileMode.Open))
+                {
+                    ZipArchive zipArchive = new ZipArchive(fs);
+                    int totalCount = zipArchive.Entries.Count;
+                    int index = 0;
+                    if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                    {
+                        (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
+                    }
+                    else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                    {
+                        (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
+                    }
+
+                    foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
+                    {
+                        archiveEntry.ExtractToFile(destFolder_InBuffer.Path + "\\" + archiveEntry.Name);
+                        index++;
+                        if (index == totalCount)
+                        {
+                            if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                            {
+                                (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
+                            }
+                            else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                            {
+                                (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
+                            }
+                        }
+                    }
+                    CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name);
+                    await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    Frame rootFrame = Window.Current.Content as Frame;
+                    var instanceTabsView = rootFrame.Content as InstanceTabsView;
+                    instanceTabsView.AddNewTab(typeof(ProHome), destinationPath + "\\" + selectedItem.DisplayName);
+                }
+            }
+            else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)
+            {
+                return;
+            }
         }
 
         public void SelectAllItems()

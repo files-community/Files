@@ -1,4 +1,4 @@
-﻿using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.ComponentModel;
@@ -11,6 +11,8 @@ using Files.Enums;
 using Files.Filesystem;
 using Files.Interacts;
 using System.IO;
+using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Xaml.Input;
@@ -108,6 +110,7 @@ namespace Files
             NewFolder.Click += tabInstance.instanceInteraction.NewFolder_Click;
             NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
+            UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
             
@@ -384,14 +387,23 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+
+                if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
             }
             else if (selectedDataItem.FileType == "Folder")
             {
                 SidebarPinItem.Visibility = Visibility.Visible;
                 OpenInNewTab.Visibility = Visibility.Visible;
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
+                UnzipItem.Visibility = Visibility.Collapsed;
             }
-        }
 
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {

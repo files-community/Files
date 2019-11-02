@@ -879,15 +879,15 @@
         </Grid>
         <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid>
+                <ScrollViewer Margin="0,14,0,0" VerticalScrollBarVisibility="Auto">
+                    <Grid >
                         <StackPanel>
                             <StackPanel.Resources>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="{ThemeResource SystemRevealListMediumColor}"/>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SystemRevealListMediumColor}"/>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="{ThemeResource SystemRevealListMediumColor}"/>
                             </StackPanel.Resources>
-                            <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
+                            <TextBlock Visibility="Collapsed" Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
                             <ListView SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
@@ -949,11 +949,22 @@
                                     </ListViewItem.Content>
                                 </ListViewItem>
                             </ListView>
-                            <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                            <TextBlock Margin="10,10,10,5" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
+                            <ListView AllowDrop="True" CanReorderItems="True" ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                 </ListView.Resources>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel ToolTipService.ToolTip="{Binding spaceText}" Spacing="15" Orientation="Horizontal">
+                                            <Grid>
+                                                <FontIcon Visibility="{Binding driveGlyphVisibility}" FontSize="16" Glyph="{Binding glyph}" FontFamily="Segoe MDL2 Assets"/>
+                                                <FontIcon Visibility="{Binding cloudGlyphVisibility}" FontSize="16" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
+                                            </Grid>
+                                            <TextBlock Text="{Binding driveText}" FontSize="12"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                                 <ListViewItem Tag="LocalDisk">
                                     <ListViewItem.Content>
                                         <StackPanel Spacing="15" Orientation="Horizontal">
