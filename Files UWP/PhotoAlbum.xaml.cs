@@ -303,21 +303,24 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+
+                if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                {
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
             }
             else if (selectedDataItem.FileType == "Folder")
             {
                 SidebarPinItem.Visibility = Visibility.Visible;
                 OpenInNewTab.Visibility = Visibility.Visible;
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
-            }
-            else if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
-            {
-                UnzipItem.Visibility = Visibility.Visible;
-            }
-            else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
-            {
                 UnzipItem.Visibility = Visibility.Collapsed;
             }
+
         }
     }
 }

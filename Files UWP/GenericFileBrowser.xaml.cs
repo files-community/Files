@@ -324,9 +324,10 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+
                 if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                 {
-                    UnzipItem.Visibility = Visibility.Visible;
+                    UnzipItem.Visibility = Visibility.Collapsed;
                 }
                 else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                 {
@@ -338,8 +339,9 @@ namespace Files
                 SidebarPinItem.Visibility = Visibility.Visible;
                 OpenInNewTab.Visibility = Visibility.Visible;
                 OpenInNewWindowItem.Visibility = Visibility.Visible;
+                UnzipItem.Visibility = Visibility.Collapsed;
             }
-            
+
         }
     }
 
