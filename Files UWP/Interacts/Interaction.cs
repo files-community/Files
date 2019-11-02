@@ -361,6 +361,7 @@ namespace Files.Interacts
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = null;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
