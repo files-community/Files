@@ -26,6 +26,7 @@ using Microsoft.Xaml.Interactivity;
 using System.Text.RegularExpressions;
 using Interaction = Files.Interacts.Interaction;
 using Files.Dialogs;
+using System.Linq;
 
 namespace Files
 {
@@ -295,30 +296,52 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[gv.SelectedIndex];
-            if (selectedDataItem.FileType != "Folder" || gv.SelectedItems.Count > 1)
+            var selectedDataItem = gv.SelectedItem as ListedItem;
+
+            // Search selected items for non-Folders
+            if (gv.SelectedItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
-
-                if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                if (gv.SelectedItems.Count == 1)
                 {
-                    UnzipItem.Visibility = Visibility.Collapsed;
+                    if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Collapsed;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
+                    else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Visible;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
                 }
-                else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                else if (gv.SelectedItems.Count > 1)
                 {
+                    OpenItem.Visibility = Visibility.Collapsed;
                     UnzipItem.Visibility = Visibility.Collapsed;
                 }
             }
-            else if (selectedDataItem.FileType == "Folder")
+            else     // All are Folders
             {
-                SidebarPinItem.Visibility = Visibility.Visible;
-                OpenInNewTab.Visibility = Visibility.Visible;
-                OpenInNewWindowItem.Visibility = Visibility.Visible;
-                UnzipItem.Visibility = Visibility.Collapsed;
-            }
+                OpenItem.Visibility = Visibility.Collapsed;
+                if (gv.SelectedItems.Count <= 5 && gv.SelectedItems.Count > 0)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Visible;
+                    OpenInNewWindowItem.Visibility = Visibility.Visible;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                else if (gv.SelectedItems.Count > 5)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Collapsed;
+                    OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
 
+            }
         }
 
         public void StartRename()

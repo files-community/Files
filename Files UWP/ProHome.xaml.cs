@@ -1016,7 +1016,7 @@ namespace Files
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
@@ -1092,7 +1092,7 @@ namespace Files
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
@@ -1168,7 +1168,7 @@ namespace Files
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
@@ -1253,7 +1253,7 @@ namespace Files
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
@@ -1331,7 +1331,7 @@ namespace Files
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
@@ -1408,7 +1408,7 @@ namespace Files
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
@@ -1491,7 +1491,7 @@ namespace Files
                 {
                     if (parentDirectoryOfPath.Contains("C:\\") || parentDirectoryOfPath.Contains("c:\\"))
                     {
-                        CurrentTabInstance.drivesList.SelectedIndex = 0;
+                        CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                     }
                     else
                     {
@@ -1567,7 +1567,7 @@ namespace Files
                 {
                     if (parentDirectoryOfPath.Contains("C:\\") || parentDirectoryOfPath.Contains("c:\\"))
                     {
-                        CurrentTabInstance.drivesList.SelectedIndex = 0;
+                        CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                     }
                     else
                     {

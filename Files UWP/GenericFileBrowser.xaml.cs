@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Windows.System;
 using Windows.UI.Xaml.Input;
+using System.Linq;
 
 namespace Files
 {
@@ -113,7 +114,7 @@ namespace Files
             UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
-            
+
             switch (viewModelInstance.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -151,7 +152,8 @@ namespace Files
                         SortedColumn = sizeColumn;
                         break;
                 }
-            } else if (e.PropertyName == "DirectorySortDirection")
+            }
+            else if (e.PropertyName == "DirectorySortDirection")
             {
                 // Swap arrows
                 SortedColumn = _sortedColumn;
@@ -182,7 +184,7 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            
+
             tabInstance.BackButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoBack;
             tabInstance.ForwardButton.IsEnabled = tabInstance.accessibleContentFrame.CanGoForward;
             tabInstance.RefreshButton.IsEnabled = true;
@@ -255,13 +257,13 @@ namespace Files
                     data.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                 }
             }
-            
+
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            if(tabInstance.instanceViewModel._fileQueryResult != null)
+            if (tabInstance.instanceViewModel._fileQueryResult != null)
             {
                 tabInstance.instanceViewModel._fileQueryResult.ContentsChanged -= tabInstance.instanceViewModel.FileContentsChanged;
             }
@@ -272,24 +274,24 @@ namespace Files
         private void AllView_DragOver(object sender, DragEventArgs e)
         {
             e.AcceptedOperation = DataPackageOperation.Copy;
-            
+
         }
 
         private async void AllView_DropAsync(object sender, DragEventArgs e)
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                    foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
+                foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
+                {
+                    if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            tabInstance.instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, tabInstance.instanceViewModel.Universal.path, (item as StorageFolder).DisplayName);
-                        }
-                        else
-                        {
-                            await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(tabInstance.instanceViewModel.Universal.path));
-                        }
+                        tabInstance.instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, tabInstance.instanceViewModel.Universal.path, (item as StorageFolder).DisplayName);
                     }
+                    else
+                    {
+                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(tabInstance.instanceViewModel.Universal.path));
+                    }
+                }
             }
         }
 
@@ -341,13 +343,13 @@ namespace Files
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
-            if(e.AddedItems.Count > 0)
+            if (e.AddedItems.Count > 0)
             {
                 tabInstance.HomeItems.isEnabled = true;
                 tabInstance.ShareItems.isEnabled = true;
 
             }
-            else if(data.SelectedItems.Count == 0)
+            else if (data.SelectedItems.Count == 0)
             {
                 tabInstance.HomeItems.isEnabled = false;
                 tabInstance.ShareItems.isEnabled = false;
@@ -376,35 +378,58 @@ namespace Files
 
         private void AllView_DragLeave(object sender, DragEventArgs e)
         {
-            
+
         }
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
             var selectedDataItem = AllView.SelectedItem as ListedItem;
-            if (selectedDataItem.FileType != "Folder" || AllView.SelectedItems.Count > 1)
+
+            // Search selected items for non-Folders
+            if(AllView.SelectedItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
-
-                if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                if (AllView.SelectedItems.Count == 1)
                 {
-                    UnzipItem.Visibility = Visibility.Collapsed;
+                    if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Collapsed;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
+                    else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Visible;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
                 }
-                else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                else if (AllView.SelectedItems.Count > 1)
                 {
+                    OpenItem.Visibility = Visibility.Collapsed;
                     UnzipItem.Visibility = Visibility.Collapsed;
                 }
             }
-            else if (selectedDataItem.FileType == "Folder")
+            else     // All are Folders
             {
-                SidebarPinItem.Visibility = Visibility.Visible;
-                OpenInNewTab.Visibility = Visibility.Visible;
-                OpenInNewWindowItem.Visibility = Visibility.Visible;
-                UnzipItem.Visibility = Visibility.Collapsed;
+                OpenItem.Visibility = Visibility.Collapsed;
+                if (AllView.SelectedItems.Count <= 5 && AllView.SelectedItems.Count > 0)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Visible;
+                    OpenInNewWindowItem.Visibility = Visibility.Visible;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                else if (AllView.SelectedItems.Count > 5)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Collapsed;
+                    OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                
             }
-
+        }
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
@@ -412,7 +437,7 @@ namespace Files
             else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
         }
-        
+
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
@@ -422,7 +447,7 @@ namespace Files
             }
         }
     }
-  
+
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
         public Visibility _isVisible;
