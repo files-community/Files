@@ -23,12 +23,21 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using Windows.Devices.Enumeration;
 using System.Text.RegularExpressions;
+using Windows.Devices.Portable;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.Storage.Search;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
     sealed partial class App : Application
     {
         public static ProHome selectedTabInstance { get; set; }
+        DeviceWatcher watcher;
+        public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
+
         public App()
         {
             this.InitializeComponent();
@@ -55,12 +64,10 @@ namespace Files
                 if (localSettings.Values["theme"].ToString() == "Light")
                 {
                     SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                    //Debug.WriteLine("Theme Requested as Light");
                 }
                 else if (localSettings.Values["theme"].ToString() == "Dark")
                 {
                     SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                    //Debug.WriteLine("Theme Requested as Dark");
                 }
                 else
                 {
@@ -69,19 +76,15 @@ namespace Files
                     if (color == Colors.White)
                     {
                         SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                       // Debug.WriteLine("Theme Requested as Default (Light)");
-
                     }
                     else
                     {
                         SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                        //Debug.WriteLine("Theme Requested as Default (Dark)");
                     }
                 }
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
-            //Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
 
             if (localSettings.Values["FavoritesDisplayed_Start"] == null)
             {
@@ -113,90 +116,350 @@ namespace Files
                 localSettings.Values["DrivesDisplayed_NewTab"] = false;
             }
 
-            FindDrives();
-            //DeviceWatcher watcher = DeviceInformation.CreateWatcher();
-            //watcher.Added += (sender, info) => FindDrives();
-            //watcher.Removed += (sender, info) => FindDrives();
-            //watcher.Start();
+            PopulatePinnedSidebarItems();
         }
 
-        private async void FindDrives()
+        public void PopulateDrivesListWithLocalDisks()
         {
-            foundDrives.Clear();
-            var knownRemDevices = new ObservableCollection<string>();
-            foreach (var f in await KnownFolders.RemovableDevices.GetFoldersAsync())
-            {
-                var path = f.Path;
-                knownRemDevices.Add(path);
-            }
-
             var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
-
-            if (!driveLetters.Any()) return;
-
             driveLetters.ForEach(async roots =>
             {
                 try
                 {
-                    //if (roots.Name == @"C:\") return;
                     var content = string.Empty;
-                    string icon;
-                    if (knownRemDevices.Contains(roots.Name))
+                    string icon = null;
+                    if (!(await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.Path).ToList().Contains(roots.Name))
                     {
-                        content = $"Removable Drive ({roots.Name})";
-                        icon = "\uE88E";
-                    }
-                    else
-                    {
-                        content = $"Local Disk ({roots.Name})";
+                        // TODO: Display Custom Names for Local Disks as well
+                        content = $"Local Disk ({roots.Name.TrimEnd('\\')})";
                         icon = "\uEDA2";
-                    }
-                    StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
-                    var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-                    
-                    ulong totalSpaceProg = 0;
-                    ulong freeSpaceProg = 0;
-                    string free_space_text = "Unknown";
-                    string total_space_text = "Unknown";
-                    Visibility capacityBarVis = Visibility.Visible;
-                    try
-                    {
-                        var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
-                        freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
 
-                        sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
-                        totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                        async () =>
+                        {
+                            StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
+                            var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+
+                            ulong totalSpaceProg = 0;
+                            ulong freeSpaceProg = 0;
+                            string free_space_text = "Unknown";
+                            string total_space_text = "Unknown";
+                            Visibility capacityBarVis = Visibility.Visible;
+                            try
+                            {
+                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
+                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
+                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
 
 
-                        free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
-                        total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        capacityBarVis = Visibility.Collapsed;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        capacityBarVis = Visibility.Collapsed;
+                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
+                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
+                            }
+                            catch (UnauthorizedAccessException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+                            catch (NullReferenceException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+
+                            App.foundDrives.Add(new DriveItem()
+                            {
+                                driveText = content,
+                                glyph = icon,
+                                maxSpace = totalSpaceProg,
+                                spaceUsed = totalSpaceProg - freeSpaceProg,
+                                tag = roots.Name,
+                                progressBarVisibility = capacityBarVis,
+                                spaceText = free_space_text + " free of " + total_space_text,
+                            });
+                        });
                     }
 
-                    foundDrives.Add(new DriveItem()
-                    {
-                        driveText = content,
-                        glyph = icon,
-                        maxSpace = totalSpaceProg,
-                        spaceUsed = totalSpaceProg - freeSpaceProg,
-                        tag = roots.Name,
-                        progressBarVisibility = capacityBarVis,
-                        spaceText = free_space_text + " free of " + total_space_text,
-                    });
                 }
                 catch (UnauthorizedAccessException e)
                 {
                     Debug.WriteLine(e.Message);
                 }
+
+            });
+
+            
+
+        }
+
+        private async void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        {
+            PopulateDrivesListWithLocalDisks();
+            DeviceAdded(sender, null);
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+            () =>
+            {
+                App.foundDrives.Add(new DriveItem()
+                {
+                    driveText = "OneDrive",
+                    tag = "OneDrive",
+                    cloudGlyphVisibility = Visibility.Visible,
+                    driveGlyphVisibility = Visibility.Collapsed
+                });
             });
         }
+
+        private void DeviceUpdated(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            Debug.WriteLine("Devices updated");
+        }
+
+
+        private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            var devices = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
+
+            foreach (DriveItem driveItem in foundDrives)
+            {
+                if (!driveItem.tag.Equals("OneDrive"))
+                {
+                    if (!devices.Any(x => x.Name == driveItem.tag) || devices.Equals(null))
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                        () =>
+                        {
+                            foundDrives.Remove(driveItem);
+                        });
+                        return;
+
+                    }
+                }
+                
+            }
+        }
+
+        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
+        {
+            try
+            {
+                //var device = StorageDevice.FromId(args.Id);
+                var devices = (await KnownFolders.RemovableDevices.GetFoldersAsync()).OrderBy(x => x.Path);
+                foreach(StorageFolder device in devices)
+                {
+                    var letter = device.Path;
+                    if(!foundDrives.Any(x => x.tag == letter))
+                    {
+                        //if (roots.Name == @"C:\") return;
+                        var content = device.DisplayName;
+                        string icon = null;
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
+                        async () =>
+                        {
+                            if (content.Contains("DVD"))
+                            {
+                                icon = "\uE958";
+                            }
+                            else
+                            {
+                                icon = "\uE88E";
+                            }
+
+                            StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(letter);
+                            var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+
+                            ulong totalSpaceProg = 0;
+                            ulong freeSpaceProg = 0;
+                            string free_space_text = "Unknown";
+                            string total_space_text = "Unknown";
+                            Visibility capacityBarVis = Visibility.Visible;
+                            try
+                            {
+                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
+                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
+                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
+
+
+                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
+                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
+                            }
+                            catch (UnauthorizedAccessException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+                            catch (NullReferenceException)
+                            {
+                                capacityBarVis = Visibility.Collapsed;
+                            }
+
+                            if (!foundDrives.Any(x => x.tag == letter))
+                            {
+                                foundDrives.Add(new DriveItem()
+                                {
+                                    driveText = content,
+                                    glyph = icon,
+                                    maxSpace = totalSpaceProg,
+                                    spaceUsed = totalSpaceProg - freeSpaceProg,
+                                    tag = letter,
+                                    progressBarVisibility = capacityBarVis,
+                                    spaceText = free_space_text + " free of " + total_space_text,
+                                });
+                            }
+                        });
+                        
+                    }
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+               Debug.WriteLine(e.Message);
+            }
+        }
+
+        public static List<string> LinesToRemoveFromFile = new List<string>();
+
+        public async void PopulatePinnedSidebarItems()
+        {
+
+            AddDefaultLocations();
+
+            StorageFile ListFile;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            try
+            {
+                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            }
+            catch (FileNotFoundException)
+            {
+                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+            }
+
+            if (ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string locationPath in ListFileLines)
+                {
+                    try
+                    {
+                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
+                        var name = fol.DisplayName;
+                        var content = name;
+                        var icon = "\uE8B7";
+
+                        bool isDuplicate = false;
+                        foreach (SidebarItem sbi in sideBarItems)
+                        {
+                            if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
+                            {
+                                if (sbi.Path.ToString() == locationPath)
+                                {
+                                    isDuplicate = true;
+
+                                }
+                            }
+                        }
+
+                        if (!isDuplicate)
+                        {
+                            sideBarItems.Add(new SidebarItem() { isDefaultLocation = false, Text = name, IconGlyph = icon, Path = locationPath });
+                        }
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(locationPath);
+                    }
+                    catch (System.Runtime.InteropServices.COMException e)
+                    {
+                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(locationPath);
+                    }
+                }
+
+                RemoveStaleSidebarItems();
+            }
+        }
+
+        private void AddDefaultLocations()
+        {
+            sideBarItems.Add(new SidebarItem() { Text = "Home", IconGlyph = "\uE737", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true });
+        }
+
+        public static async void RemoveStaleSidebarItems()
+        {
+            StorageFile ListFile;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            try
+            {
+                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            }
+            catch (FileNotFoundException)
+            {
+                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+            }
+
+            if (ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string path in LinesToRemoveFromFile)
+                {
+                    ListFileLines.Remove(path);
+                }
+
+                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
+                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+
+                // Remove unpinned items from sidebar
+                var sideBarItems_Copy = sideBarItems.ToList();
+                foreach (SidebarItem location in sideBarItems)
+                {
+                    if(!location.isDefaultLocation)
+                    {
+                        if (!ListFileLines.Contains(location.Path.ToString()))
+                        {
+                            sideBarItems_Copy.Remove(location);
+                        }
+                    }
+                    
+                }
+                sideBarItems.Clear();
+                foreach(SidebarItem correctItem in sideBarItems_Copy)
+                {
+                    sideBarItems.Add(correctItem);
+                }
+                LinesToRemoveFromFile.Clear();
+            }
+        }
+
+        public static SidebarItem rightClickedItem;
+
+        public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+            foreach (string path in ListFileLines)
+            {
+                if (path == App.rightClickedItem.Path.ToString())
+                {
+                    App.LinesToRemoveFromFile.Add(path);
+                    RemoveStaleSidebarItems();
+                    return;
+                }
+            }
+        }
+
+
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }
@@ -264,6 +527,12 @@ namespace Files
 
 
                 }
+                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                watcher.Added += DeviceAdded;
+                watcher.Removed += DeviceRemoved;
+                watcher.Updated += DeviceUpdated;
+                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                watcher.Start();
                 // Ensure the current window is active
                 Window.Current.Activate();
 
@@ -294,6 +563,12 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
                 }
                 // Ensure the current window is active.
+                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                watcher.Added += DeviceAdded;
+                watcher.Removed += DeviceRemoved;
+                watcher.Updated += DeviceUpdated;
+                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                watcher.Start();
                 Window.Current.Activate();
                 return;
             }
@@ -329,6 +604,7 @@ namespace Files
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            watcher.Stop();
             deferral.Complete();
         }
     }

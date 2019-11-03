@@ -1,32 +1,33 @@
-﻿using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Files.Dialogs;
 using Files.Enums;
 using Files.Filesystem;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Popups;
-using System.IO;
-using Windows.Storage;
-using Windows.System;
+using Files.Navigation;
+using Interaction = Files.Interacts.Interaction;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.ApplicationModel.DataTransfer;
-using Files.Navigation;
-using System.Diagnostics;
-using Windows.UI.Xaml.Media.Animation;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Controls.Primitives;
-using System.Windows.Input;
 using Microsoft.Xaml.Interactions.Core;
 using Microsoft.Xaml.Interactivity;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Text.RegularExpressions;
-using Interaction = Files.Interacts.Interaction;
-using Files.Dialogs;
+using System.Windows.Input;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -59,7 +60,15 @@ namespace Files
             progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
+            Frame rootFrame = Window.Current.Content as Frame;
+            InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.TabStrip_SelectionChanged(null, null);
             tabInstance = App.selectedTabInstance;
+            if (tabInstance.instanceViewModel == null && tabInstance.instanceInteraction == null)
+            {
+                tabInstance.instanceViewModel = new ItemViewModel();
+                tabInstance.instanceInteraction = new Interaction();
+            }
             viewModelInstance = tabInstance.instanceViewModel;
             FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
@@ -69,6 +78,8 @@ namespace Files
             NewFolder.Click += tabInstance.instanceInteraction.NewFolder_Click;
             NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
+            UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -301,18 +312,51 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[gv.SelectedIndex];
-            if (selectedDataItem.FileType != "Folder" || gv.SelectedItems.Count > 1)
+            var selectedDataItem = gv.SelectedItem as ListedItem;
+
+            // Search selected items for non-Folders
+            if (gv.SelectedItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+                if (gv.SelectedItems.Count == 1)
+                {
+                    if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Collapsed;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
+                    else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Visible;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else if (gv.SelectedItems.Count > 1)
+                {
+                    OpenItem.Visibility = Visibility.Collapsed;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
             }
-            else if (selectedDataItem.FileType == "Folder")
+            else     // All are Folders
             {
-                SidebarPinItem.Visibility = Visibility.Visible;
-                OpenInNewTab.Visibility = Visibility.Visible;
-                OpenInNewWindowItem.Visibility = Visibility.Visible;
+                OpenItem.Visibility = Visibility.Collapsed;
+                if (gv.SelectedItems.Count <= 5 && gv.SelectedItems.Count > 0)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Visible;
+                    OpenInNewWindowItem.Visibility = Visibility.Visible;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                else if (gv.SelectedItems.Count > 5)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Collapsed;
+                    OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+
             }
         }
 
