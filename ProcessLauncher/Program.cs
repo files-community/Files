@@ -17,7 +17,7 @@ namespace ProcessLauncher
             Process process = new Process();
             process.StartInfo.UseShellExecute = false;
             process.StartInfo.FileName = executable;
-            if(arguments != "")
+            if(!string.IsNullOrWhiteSpace(arguments))
             {
                 process.StartInfo.CreateNoWindow = false;
                 process.StartInfo.Arguments = arguments;

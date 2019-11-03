@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
@@ -16,5 +17,8 @@ namespace Files.Filesystem
         public string tag { get; set; }
         public Visibility progressBarVisibility { get; set; }
         public string spaceText { get; set; }
+        public Visibility cloudGlyphVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility driveGlyphVisibility { get; set; } = Visibility.Visible;
+
     }
 }

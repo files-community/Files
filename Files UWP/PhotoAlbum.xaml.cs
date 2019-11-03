@@ -26,6 +26,7 @@ using Microsoft.Xaml.Interactivity;
 using System.Text.RegularExpressions;
 using Interaction = Files.Interacts.Interaction;
 using Files.Dialogs;
+using System.Linq;
 
 namespace Files
 {
@@ -57,7 +58,15 @@ namespace Files
             progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
+            Frame rootFrame = Window.Current.Content as Frame;
+            InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.TabStrip_SelectionChanged(null, null);
             tabInstance = App.selectedTabInstance;
+            if (tabInstance.instanceViewModel == null && tabInstance.instanceInteraction == null)
+            {
+                tabInstance.instanceViewModel = new ItemViewModel();
+                tabInstance.instanceInteraction = new Interaction();
+            }
             viewModelInstance = tabInstance.instanceViewModel;
             FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
@@ -67,6 +76,8 @@ namespace Files
             NewFolder.Click += tabInstance.instanceInteraction.NewFolder_Click;
             NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
+            UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -293,18 +304,51 @@ namespace Files
 
         private void RightClickContextMenu_Opened(object sender, object e)
         {
-            var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[gv.SelectedIndex];
-            if (selectedDataItem.FileType != "Folder" || gv.SelectedItems.Count > 1)
+            var selectedDataItem = gv.SelectedItem as ListedItem;
+
+            // Search selected items for non-Folders
+            if (gv.SelectedItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
             {
                 SidebarPinItem.Visibility = Visibility.Collapsed;
                 OpenInNewTab.Visibility = Visibility.Collapsed;
                 OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+                if (gv.SelectedItems.Count == 1)
+                {
+                    if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Collapsed;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
+                    else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    {
+                        OpenItem.Visibility = Visibility.Visible;
+                        UnzipItem.Visibility = Visibility.Collapsed;
+                    }
+                }
+                else if (gv.SelectedItems.Count > 1)
+                {
+                    OpenItem.Visibility = Visibility.Collapsed;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
             }
-            else if (selectedDataItem.FileType == "Folder")
+            else     // All are Folders
             {
-                SidebarPinItem.Visibility = Visibility.Visible;
-                OpenInNewTab.Visibility = Visibility.Visible;
-                OpenInNewWindowItem.Visibility = Visibility.Visible;
+                OpenItem.Visibility = Visibility.Collapsed;
+                if (gv.SelectedItems.Count <= 5 && gv.SelectedItems.Count > 0)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Visible;
+                    OpenInNewWindowItem.Visibility = Visibility.Visible;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+                else if (gv.SelectedItems.Count > 5)
+                {
+                    SidebarPinItem.Visibility = Visibility.Visible;
+                    OpenInNewTab.Visibility = Visibility.Collapsed;
+                    OpenInNewWindowItem.Visibility = Visibility.Collapsed;
+                    UnzipItem.Visibility = Visibility.Collapsed;
+                }
+
             }
         }
 

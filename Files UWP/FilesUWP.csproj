@@ -131,6 +131,9 @@
     <Compile Include="Dialogs\ExceptionDialog.xaml.cs">
       <DependentUpon>ExceptionDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ExtractFilesDialog.xaml.cs">
+      <DependentUpon>ExtractFilesDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\LayoutDialog.xaml.cs">
       <DependentUpon>LayoutDialog.xaml</DependentUpon>
     </Compile>
@@ -146,6 +149,7 @@
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
+    <Compile Include="Filesystem\SidebarItem.cs" />
     <Compile Include="GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -198,6 +202,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />
     <Content Include="Assets\logo.bmp" />
@@ -222,6 +227,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ExceptionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ExtractFilesDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

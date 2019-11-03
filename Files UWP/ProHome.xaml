@@ -795,6 +795,7 @@
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
                                 <KeyboardAccelerator Key="XButton1"/>
+                                <KeyboardAccelerator Key="Back"/>
                             </Button.KeyboardAccelerators>
                         </Button>
 
@@ -879,97 +880,55 @@
         </Grid>
         <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
-                <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <Grid>
+                <ScrollViewer Margin="0,14,0,0" VerticalScrollBarVisibility="Auto">
+                    <Grid >
                         <StackPanel>
                             <StackPanel.Resources>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="{ThemeResource SystemRevealListMediumColor}"/>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPointerOver" Color="{ThemeResource SystemRevealListMediumColor}"/>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="{ThemeResource SystemRevealListMediumColor}"/>
                             </StackPanel.Resources>
-                            <TextBlock Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
+                            <TextBlock Visibility="Collapsed" Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
+                            <ListView IsRightTapEnabled="True" RightTapped="LocationsList_RightTapped" ItemsSource="{x:Bind local:App.sideBarItems}" SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" Name="LocationsList">
                                 <ListView.Resources>
-                                    <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                                    <ResourceDictionary>
+                                        <ResourceDictionary.MergedDictionaries>
+                                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                                            <ResourceDictionary>
+                                                <MenuFlyout x:Name="SideBarItemContextFlyout">
+                                                    <MenuFlyout.Items>
+                                                        <MenuFlyoutItem x:Name="UnpinItem" Text="Unpin from Sidebar"/>
+                                                    </MenuFlyout.Items>
+                                                </MenuFlyout>
+                                            </ResourceDictionary>
+                                        </ResourceDictionary.MergedDictionaries>
+                                    </ResourceDictionary>
                                 </ListView.Resources>
-                                <ListViewItem Tag="Home">
-                                    <ListViewItem.Content>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
                                         <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE737;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Home" FontSize="12"/>
+                                            <FontIcon FontSize="16" Glyph="{Binding IconGlyph}" FontFamily="Segoe MDL2 Assets"/>
+                                            <TextBlock Text="{Binding Text}" FontSize="12"/>
                                         </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="Desktop">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE8FC;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Desktop" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="Downloads">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE896;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Downloads" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="Documents">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Documents" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="Pictures">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xEB9F;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Pictures" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="Music">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xEC4F;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Music" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="Videos">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE8B2;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Videos" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
-                            <TextBlock Margin="10" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                            <TextBlock Margin="10,10,10,5" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
+                            <ListView AllowDrop="True" CanReorderItems="True" ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                 </ListView.Resources>
-                                <ListViewItem Tag="LocalDisk">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xEDA2;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="Local Disk (C:\)" FontSize="12"/>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel ToolTipService.ToolTip="{Binding spaceText}" Spacing="15" Orientation="Horizontal">
+                                            <Grid>
+                                                <FontIcon Visibility="{Binding driveGlyphVisibility}" FontSize="16" Glyph="{Binding glyph}" FontFamily="Segoe MDL2 Assets"/>
+                                                <FontIcon Visibility="{Binding cloudGlyphVisibility}" FontSize="16" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
+                                            </Grid>
+                                            <TextBlock Text="{Binding driveText}" FontSize="12"/>
                                         </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
-                                <ListViewItem Tag="OneDrive">
-                                    <ListViewItem.Content>
-                                        <StackPanel Spacing="15" Orientation="Horizontal">
-                                            <FontIcon FontSize="16" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
-                                            <TextBlock Text="OneDrive" FontSize="12"/>
-                                        </StackPanel>
-                                    </ListViewItem.Content>
-                                </ListViewItem>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </StackPanel>
                     </Grid>

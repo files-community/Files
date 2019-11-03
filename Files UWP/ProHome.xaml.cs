@@ -16,6 +16,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -97,12 +98,12 @@ namespace Files
             accessiblePathListView = PathViewInteract;
             accessiblePathListView.ItemsSource = pathBoxItems;
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            PopulatePinnedSidebarItems();
-            PopulateNavViewWithExternalDrives();
+            //PopulateNavViewWithExternalDrives();
             BackButton.Click += NavigationActions.Back_Click;
             ForwardButton.Click += NavigationActions.Forward_Click;
             RefreshButton.Click += NavigationActions.Refresh_Click;
             UpButton.Click += NavigationActions.Up_Click;
+            UnpinItem.Click += App.FlyoutItem_Click;
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             if(localSettings.Values["customLocationsSetting"] != null)
@@ -123,206 +124,6 @@ namespace Files
             deleteProgressBoxTextInfo = deleteInfoCurrentText;
         }
 
-        List<string> LinesToRemoveFromFile = new List<string>();
-
-        public async void PopulatePinnedSidebarItems()
-        {
-            StorageFile ListFile;
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            try
-            {
-                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-            }
-            catch(FileNotFoundException)
-            {
-                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-            }
-            
-            if(ListFile != null)
-            {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string s in ListFileLines)
-                {
-                    try
-                    {
-                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(s);
-                        var name = fol.DisplayName;
-                        var content = name;
-                        var icon = "\uE8B7";
-
-                        FontFamily fontFamily = new FontFamily("Segoe MDL2 Assets");
-                        FontIcon fontIcon = new FontIcon()
-                        {
-                            FontSize = 16,
-                            FontFamily = fontFamily,
-                            Glyph = icon
-                        };
-
-                        TextBlock text = new TextBlock()
-                        {
-                            Text = content,
-                            FontSize = 12
-                        };
-
-                        StackPanel stackPanel = new StackPanel()
-                        {
-                            Spacing = 15,
-                            Orientation = Orientation.Horizontal
-                        };
-
-                        stackPanel.Children.Add(fontIcon);
-                        stackPanel.Children.Add(text);
-                        MenuFlyout flyout = new MenuFlyout();
-                        MenuFlyoutItem flyoutItem = new MenuFlyoutItem()
-                        {
-                            Text = "Unpin item"
-                        };
-                        flyoutItem.Click += FlyoutItem_Click;
-                        flyout.Items.Add(flyoutItem);
-                        bool isDuplicate = false;
-                        foreach (ListViewItem lvi in LocationsList.Items)
-                        {
-                            if (lvi.Tag.ToString() == s)
-                            {
-                                isDuplicate = true;
-
-                            }
-                        }
-
-                        if (!isDuplicate)
-                        {
-                            ListViewItem newItem = new ListViewItem();
-                            newItem.Content = stackPanel;
-                            newItem.Tag = s;
-                            newItem.ContextFlyout = flyout;
-                            newItem.IsRightTapEnabled = true;
-                            newItem.RightTapped += NewItem_RightTapped;
-                            LocationsList.Items.Add(newItem);
-                        }
-                    }
-                    catch (UnauthorizedAccessException e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(s);
-                    }
-                    catch (System.Runtime.InteropServices.COMException e)
-                    {
-                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(s);
-                    }
-                }
-
-                foreach (string path in LinesToRemoveFromFile)
-                {
-                    ListFileLines.Remove(path);
-                }
-
-                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
-                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-
-                // Remove unpinned items from sidebar
-                foreach (ListViewItem location in LocationsList.Items)
-                {
-                    if (!(location.Tag.ToString() == "Home" || location.Tag.ToString() == "Desktop" || location.Tag.ToString() == "Documents" || location.Tag.ToString() == "Downloads" || location.Tag.ToString() == "Pictures" || location.Tag.ToString() == "Music" || location.Tag.ToString() == "Videos"))
-                    {
-
-                        if (!ListFileLines.Contains(location.Tag.ToString()))
-                        {
-                            if(LocationsList.SelectedItem == location)
-                            {
-                                LocationsList.SelectedIndex = 0;
-                                accessibleContentFrame.Navigate(typeof(YourHome), "New tab");
-                                PathText.Text = "New tab";
-                                LayoutItems.isEnabled = false;
-                            }
-                            LocationsList.Items.Remove(location);
-                        }
-                    }
-                }
-                LinesToRemoveFromFile.Clear();
-            }
-        }
-
-        ListViewItem rightClickedItem;
-
-        private void NewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            rightClickedItem = sender as ListViewItem;
-        }
-
-        public void PopulateNavViewWithExternalDrives()
-        {
-            DrivesList.Items.Clear();
-            foreach(var drive in App.foundDrives)
-            {
-                FontFamily fontFamily = new FontFamily("Segoe MDL2 Assets");
-                FontIcon fontIcon = new FontIcon()
-                {
-                    FontSize = 16,
-                    FontFamily = fontFamily,
-                    Glyph = drive.glyph
-                };
-
-                TextBlock text = new TextBlock()
-                {
-                    Text = drive.driveText,
-                    FontSize = 12
-                };
-
-                StackPanel stackPanel = new StackPanel()
-                {
-                    Spacing = 15,
-                    Orientation = Orientation.Horizontal
-                };
-
-                stackPanel.Children.Add(fontIcon);
-                stackPanel.Children.Add(text);
-                DrivesList.Items.Add(new ListViewItem()
-                {
-                    Content = stackPanel,
-                    Tag = drive.tag
-                });
-            }
-
-            ListViewItem oneDriveItem = new ListViewItem();
-            oneDriveItem.Tag = "OneDrive";
-            StackPanel sp = new StackPanel()
-            {
-                Spacing = 15,
-                Orientation = Orientation.Horizontal
-
-            };
-            FontIcon fi = new FontIcon();
-            fi.Glyph = "\uE753";
-            fi.FontSize = 16;
-            sp.Children.Add(fi);
-            TextBlock textBlock = new TextBlock();
-            textBlock.FontSize = 12;
-            textBlock.Text = "OneDrive";
-            sp.Children.Add(textBlock);
-            oneDriveItem.Content = sp;
-            DrivesList.Items.Add(oneDriveItem);
-        }
-
-        private async void FlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-            var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-            foreach (string s in ListFileLines)
-            {
-                if(s == rightClickedItem.Tag.ToString())
-                {
-                    LinesToRemoveFromFile.Add(s);
-                    PopulatePinnedSidebarItems();
-                    return;
-                }
-            }
-        }
 
         private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
         {
@@ -528,103 +329,106 @@ namespace Files
 
         private void LocationsList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
+            SidebarItem clickedItem = e.ClickedItem as SidebarItem;
 
-            if (clickedItem.Tag.ToString() == "Home")
+            if (clickedItem.isDefaultLocation)
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome), "New tab");
-                PathText.Text = "New tab";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                if (clickedItem.Text.ToString() == "Home")
                 {
-                    DrivesList.SelectedItem = null;
+                    ItemDisplayFrame.Navigate(typeof(YourHome), "New tab");
+                    PathText.Text = "New tab";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
                     LayoutItems.isEnabled = false;
                 }
-                LayoutItems.isEnabled = false;
-            }
-            else if (clickedItem.Tag.ToString() == "Desktop")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
-                PathText.Text = "Desktop";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                else if (clickedItem.Text.ToString() == "Desktop")
                 {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DesktopPath);
+                    PathText.Text = "Desktop";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
+                    LayoutItems.isEnabled = true;
                 }
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem.Tag.ToString() == "Downloads")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
-                PathText.Text = "Downloads";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                else if (clickedItem.Text.ToString() == "Downloads")
                 {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DownloadsPath);
+                    PathText.Text = "Downloads";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
+                    LayoutItems.isEnabled = true;
                 }
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem.Tag.ToString() == "Documents")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
-                PathText.Text = "Documents";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                else if (clickedItem.Text.ToString() == "Documents")
                 {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), DocumentsPath);
+                    PathText.Text = "Documents";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
+                    LayoutItems.isEnabled = true;
                 }
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem.Tag.ToString() == "Pictures")
-            {
-                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
-                PathText.Text = "Pictures";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                else if (clickedItem.Text.ToString() == "Pictures")
                 {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
+                    ItemDisplayFrame.Navigate(typeof(PhotoAlbum), PicturesPath);
+                    PathText.Text = "Pictures";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
+                    LayoutItems.isEnabled = true;
                 }
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem.Tag.ToString() == "Music")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
-                PathText.Text = "Music";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                else if (clickedItem.Text.ToString() == "Music")
                 {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), MusicPath);
+                    PathText.Text = "Music";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
+                    LayoutItems.isEnabled = true;
                 }
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem.Tag.ToString() == "Videos")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
-                PathText.Text = "Videos";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
+                else if (clickedItem.Text.ToString() == "Videos")
                 {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), VideosPath);
+                    PathText.Text = "Videos";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
+                    if (DrivesList.SelectedItem != null)
+                    {
+                        DrivesList.SelectedItem = null;
+                        LayoutItems.isEnabled = false;
+                    }
+                    LayoutItems.isEnabled = true;
                 }
-                LayoutItems.isEnabled = true;
             }
             else
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag);
-                PathText.Text = clickedItem.Tag.ToString();
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Path);
+                PathText.Text = clickedItem.Text;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
                 if (DrivesList.SelectedItem != null)
@@ -639,102 +443,34 @@ namespace Files
 
         private void DrivesList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            HomeItems.isEnabled = false;
+            ShareItems.isEnabled = false;
+            if (LocationsList.SelectedItem != null)
             {
-                var instance = instanceViewModel;
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (LocationsList.SelectedItem != null)
-                {
-                    LocationsList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
-
-                ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-
-                if (clickedItem.Tag.ToString() == "LocalDisk")
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
-                    PathText.Text = @"Local Disk (C:\)";
-                    LayoutItems.isEnabled = true;
-                }
-                else if (clickedItem.Tag.ToString() == "OneDrive")
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
-                    PathText.Text = "OneDrive";
-                    LayoutItems.isEnabled = true;
-                }
-                else
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
-                    PathText.Text = clickedItem.Tag.ToString();
-                    LayoutItems.isEnabled = true;
-                }
+                LocationsList.SelectedItem = null;
+                LayoutItems.isEnabled = false;
             }
-            else if (this.accessibleContentFrame.SourcePageType == typeof(YourHome))
+
+            DriveItem clickedItem = e.ClickedItem as DriveItem;
+
+            if (clickedItem.tag.ToString() == "LocalDisk")
             {
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (LocationsList.SelectedItem != null)
-                {
-                    LocationsList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
-
-                ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-
-                if (clickedItem.Tag.ToString() == "LocalDisk")
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
-                    PathText.Text = @"Local Disk (C:\)";
-                    LayoutItems.isEnabled = true;
-                }
-                else if (clickedItem.Tag.ToString() == "OneDrive")
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
-                    PathText.Text = "OneDrive";
-                    LayoutItems.isEnabled = true;
-                }
-                else
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
-                    PathText.Text = clickedItem.Tag.ToString();
-                    LayoutItems.isEnabled = true;
-                }
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
+                PathText.Text = @"Local Disk (C:\)";
+                LayoutItems.isEnabled = true;
             }
-            else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            else if (clickedItem.tag.ToString() == "OneDrive")
             {
-                var instance = instanceViewModel;
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
-                if (LocationsList.SelectedItem != null)
-                {
-                    LocationsList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
-
-                ListViewItem clickedItem = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-
-                if (clickedItem.Tag.ToString() == "LocalDisk")
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
-                    PathText.Text = @"Local Disk (C:\)";
-                    LayoutItems.isEnabled = true;
-                }
-                else if (clickedItem.Tag.ToString() == "OneDrive")
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
-                    PathText.Text = "OneDrive";
-                    LayoutItems.isEnabled = true;
-                }
-                else
-                {
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
-                    PathText.Text = clickedItem.Tag.ToString();
-                    LayoutItems.isEnabled = true;
-                }
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), OneDrivePath);
+                PathText.Text = "OneDrive";
+                LayoutItems.isEnabled = true;
             }
-                
+            else
+            {
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.tag.ToString());
+                PathText.Text = clickedItem.tag.ToString();
+                LayoutItems.isEnabled = true;
+            }  
         }
 
         string NavParams = null;
@@ -1065,6 +801,17 @@ namespace Files
             VisiblePath.Focus(FocusState.Programmatic);
             VisiblePath.SelectionStart = VisiblePath.Text.Length;
         }
+
+        private void LocationsList_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            ListView list = (ListView)sender;
+            var item = ((FrameworkElement)e.OriginalSource).DataContext as SidebarItem;
+            if (!item.isDefaultLocation)
+            {
+                SideBarItemContextFlyout.ShowAt(list, e.GetPosition(list));
+                App.rightClickedItem = item;
+            }
+        }
     }
 
     public class NavigationActions
@@ -1131,20 +878,20 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
-                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                                 {
-                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                                     {
                                         CurrentTabInstance.drivesList.SelectedItem = drive;
                                         break;
@@ -1207,20 +954,20 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
-                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                                 {
-                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                                     {
                                         CurrentTabInstance.drivesList.SelectedItem = drive;
                                         break;
@@ -1283,20 +1030,20 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
-                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                                 {
-                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                                     {
                                         CurrentTabInstance.drivesList.SelectedItem = drive;
                                         break;
@@ -1368,20 +1115,20 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
-                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                                 {
-                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                                     {
                                         CurrentTabInstance.drivesList.SelectedItem = drive;
                                         break;
@@ -1446,20 +1193,20 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
-                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                                 {
-                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                                     {
                                         CurrentTabInstance.drivesList.SelectedItem = drive;
                                         break;
@@ -1523,20 +1270,20 @@ namespace Files
                         }
                         else if (Parameter.ToString() == ProHome.OneDrivePath)
                         {
-                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                            CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                             CurrentTabInstance.PathText.Text = "OneDrive";
                         }
                         else
                         {
                             if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                             {
-                                CurrentTabInstance.drivesList.SelectedIndex = 0;
+                                CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                             }
                             else
                             {
-                                foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                                foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                                 {
-                                    if (drive.Tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
+                                    if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                                     {
                                         CurrentTabInstance.drivesList.SelectedItem = drive;
                                         break;
@@ -1606,20 +1353,20 @@ namespace Files
                 }
                 else if (parentDirectoryOfPath == ProHome.OneDrivePath)
                 {
-                    CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                    CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                     CurrentTabInstance.PathText.Text = "OneDrive";
                 }
                 else
                 {
                     if (parentDirectoryOfPath.Contains("C:\\") || parentDirectoryOfPath.Contains("c:\\"))
                     {
-                        CurrentTabInstance.drivesList.SelectedIndex = 0;
+                        CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                     }
                     else
                     {
-                        foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                        foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                         {
-                            if (drive.Tag.ToString().Contains(parentDirectoryOfPath.Split("\\")[0]))
+                            if (drive.tag.ToString().Contains(parentDirectoryOfPath.Split("\\")[0]))
                             {
                                 CurrentTabInstance.drivesList.SelectedItem = drive;
                                 break;
@@ -1682,20 +1429,20 @@ namespace Files
                 }
                 else if (parentDirectoryOfPath == ProHome.OneDrivePath)
                 {
-                    CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as ListViewItem).Tag.ToString() == "OneDrive").First();
+                    CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag.ToString() == "OneDrive").First();
                     CurrentTabInstance.PathText.Text = "OneDrive";
                 }
                 else
                 {
                     if (parentDirectoryOfPath.Contains("C:\\") || parentDirectoryOfPath.Contains("c:\\"))
                     {
-                        CurrentTabInstance.drivesList.SelectedIndex = 0;
+                        CurrentTabInstance.drivesList.SelectedItem = CurrentTabInstance.drivesList.Items.Where(x => (x as DriveItem).tag == "C:\\").First();
                     }
                     else
                     {
-                        foreach (ListViewItem drive in CurrentTabInstance.drivesList.Items)
+                        foreach (DriveItem drive in CurrentTabInstance.drivesList.Items)
                         {
-                            if (drive.Tag.ToString().Contains(parentDirectoryOfPath.Split("\\")[0]))
+                            if (drive.tag.ToString().Contains(parentDirectoryOfPath.Split("\\")[0]))
                             {
                                 CurrentTabInstance.drivesList.SelectedItem = drive;
                                 break;
