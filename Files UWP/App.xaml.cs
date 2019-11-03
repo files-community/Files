@@ -28,6 +28,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.Storage.Search;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -35,6 +36,8 @@ namespace Files
     {
         public static ProHome selectedTabInstance { get; set; }
         DeviceWatcher watcher;
+        public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
+
         public App()
         {
             this.InitializeComponent();
@@ -61,12 +64,10 @@ namespace Files
                 if (localSettings.Values["theme"].ToString() == "Light")
                 {
                     SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                    //Debug.WriteLine("Theme Requested as Light");
                 }
                 else if (localSettings.Values["theme"].ToString() == "Dark")
                 {
                     SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                    //Debug.WriteLine("Theme Requested as Dark");
                 }
                 else
                 {
@@ -75,19 +76,15 @@ namespace Files
                     if (color == Colors.White)
                     {
                         SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                       // Debug.WriteLine("Theme Requested as Default (Light)");
-
                     }
                     else
                     {
                         SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                        //Debug.WriteLine("Theme Requested as Default (Dark)");
                     }
                 }
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
-            //Debug.WriteLine("!!Requested Theme!!" + RequestedTheme.ToString());
 
             if (localSettings.Values["FavoritesDisplayed_Start"] == null)
             {
@@ -119,8 +116,7 @@ namespace Files
                 localSettings.Values["DrivesDisplayed_NewTab"] = false;
             }
 
-            //FindDrives();
-            
+            PopulatePinnedSidebarItems();
         }
 
         public void PopulateDrivesListWithLocalDisks()
@@ -319,6 +315,151 @@ namespace Files
                Debug.WriteLine(e.Message);
             }
         }
+
+        public static List<string> LinesToRemoveFromFile = new List<string>();
+
+        public async void PopulatePinnedSidebarItems()
+        {
+
+            AddDefaultLocations();
+
+            StorageFile ListFile;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            try
+            {
+                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            }
+            catch (FileNotFoundException)
+            {
+                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+            }
+
+            if (ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string locationPath in ListFileLines)
+                {
+                    try
+                    {
+                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
+                        var name = fol.DisplayName;
+                        var content = name;
+                        var icon = "\uE8B7";
+
+                        bool isDuplicate = false;
+                        foreach (SidebarItem sbi in sideBarItems)
+                        {
+                            if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
+                            {
+                                if (sbi.Path.ToString() == locationPath)
+                                {
+                                    isDuplicate = true;
+
+                                }
+                            }
+                        }
+
+                        if (!isDuplicate)
+                        {
+                            sideBarItems.Add(new SidebarItem() { isDefaultLocation = false, Text = name, IconGlyph = icon, Path = locationPath });
+                        }
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(locationPath);
+                    }
+                    catch (System.Runtime.InteropServices.COMException e)
+                    {
+                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(locationPath);
+                    }
+                }
+
+                RemoveStaleSidebarItems();
+            }
+        }
+
+        private void AddDefaultLocations()
+        {
+            sideBarItems.Add(new SidebarItem() { Text = "Home", IconGlyph = "\uE737", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true });
+            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true });
+        }
+
+        public static async void RemoveStaleSidebarItems()
+        {
+            StorageFile ListFile;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            try
+            {
+                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            }
+            catch (FileNotFoundException)
+            {
+                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
+            }
+
+            if (ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string path in LinesToRemoveFromFile)
+                {
+                    ListFileLines.Remove(path);
+                }
+
+                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
+                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+
+                // Remove unpinned items from sidebar
+                var sideBarItems_Copy = sideBarItems.ToList();
+                foreach (SidebarItem location in sideBarItems)
+                {
+                    if(!location.isDefaultLocation)
+                    {
+                        if (!ListFileLines.Contains(location.Path.ToString()))
+                        {
+                            sideBarItems_Copy.Remove(location);
+                        }
+                    }
+                    
+                }
+                sideBarItems.Clear();
+                foreach(SidebarItem correctItem in sideBarItems_Copy)
+                {
+                    sideBarItems.Add(correctItem);
+                }
+                LinesToRemoveFromFile.Clear();
+            }
+        }
+
+        public static SidebarItem rightClickedItem;
+
+        public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+            var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+            foreach (string path in ListFileLines)
+            {
+                if (path == App.rightClickedItem.Path.ToString())
+                {
+                    App.LinesToRemoveFromFile.Add(path);
+                    RemoveStaleSidebarItems();
+                    return;
+                }
+            }
+        }
+
+
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }

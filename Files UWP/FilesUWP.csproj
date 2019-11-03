@@ -149,6 +149,7 @@
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
+    <Compile Include="Filesystem\SidebarItem.cs" />
     <Compile Include="GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>

@@ -47,36 +47,49 @@ namespace Files.Interacts
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
         {
             var CurrentSourceType = App.selectedTabInstance.accessibleContentFrame.CurrentSourcePageType;
-            int index = -1;
             if (CurrentSourceType == typeof(GenericFileBrowser))
             {
-                index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
+                var items = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems;
+                foreach (ListedItem listedItem in items)
+                {
+                    var selectedItemPath = listedItem.FilePath;
+                    var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
+                    await Launcher.LaunchUriAsync(folderUri);
+                }
+
             }
             else if (CurrentSourceType == typeof(PhotoAlbum))
             {
-                index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+                var items = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems;
+                foreach (ListedItem listedItem in items)
+                {
+                    var selectedItemPath = listedItem.FilePath;
+                    var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
+                    await Launcher.LaunchUriAsync(folderUri);
+                }
             }
-            var selectedItemPath = tabInstance.instanceViewModel.FilesAndFolders[index].FilePath;
-            var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
-
-            await Launcher.LaunchUriAsync(folderUri);
         }
 
         public void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var CurrentSourceType = App.selectedTabInstance.accessibleContentFrame.CurrentSourcePageType;
-            int index = -1;
             if(CurrentSourceType == typeof(GenericFileBrowser))
             {
-                index = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedIndex;
+                var items = (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems;
+                foreach (ListedItem listedItem in items)
+                {
+                    instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
+                }
+                
             }
             else if(CurrentSourceType == typeof(PhotoAlbum))
             {
-                index = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex;
+                var items = (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems;
+                foreach (ListedItem listedItem in items)
+                {
+                    instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
+                }
             }
-            var selectedItemPath = tabInstance.instanceViewModel.FilesAndFolders[index].FilePath;
-
-            instanceTabsView.AddNewTab(typeof(ProHome), selectedItemPath);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
@@ -99,46 +112,144 @@ namespace Files.Interacts
         {
             if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
-                var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[(tabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedIndex];
                 StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+                List<string> items = new List<string>();
 
                 try
                 {
-                    List<string> items = new List<string>();
-                    items.Add(selectedDataItem.FilePath);
+                    foreach (ListedItem listedItem in (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedItems)
+                    {
+                        items.Add(listedItem.FilePath);
+                    }
                     var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
                     await FileIO.AppendLinesAsync(ListFile, items);
                 }
                 catch (FileNotFoundException)
                 {
-                    List<string> items = new List<string>();
-                    items.Add(selectedDataItem.FilePath);
+                    foreach (ListedItem listedItem in (tabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedItems)
+                    {
+                        items.Add(listedItem.FilePath);
+                    }
                     var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
                     await FileIO.WriteLinesAsync(createdListFile, items);
-                } 
+                }
+                finally
+                {
+                    foreach (string itemPath in items)
+                    {
+                        try
+                        {
+                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
+                            var name = fol.DisplayName;
+                            var content = name;
+                            var icon = "\uE8B7";
+
+                            bool isDuplicate = false;
+                            foreach (SidebarItem sbi in App.sideBarItems)
+                            {
+                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
+                                {
+                                    if (sbi.Path.ToString() == itemPath)
+                                    {
+                                        isDuplicate = true;
+
+                                    }
+                                }
+                                
+                            }
+
+                            if (!isDuplicate)
+                            {
+                                App.sideBarItems.Add(new SidebarItem() { Path = itemPath, IconGlyph = icon, isDefaultLocation = false, Text = content });
+                            }
+                        }
+                        catch (UnauthorizedAccessException ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                        catch (FileNotFoundException ex)
+                        {
+                            Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
+                            App.LinesToRemoveFromFile.Add(itemPath);
+                        }
+                        catch (System.Runtime.InteropServices.COMException ex)
+                        {
+                            Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
+                            App.LinesToRemoveFromFile.Add(itemPath);
+                        }
+                    }
+                }
             }
             else if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                var selectedDataItem = tabInstance.instanceViewModel.FilesAndFolders[(tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedIndex];
                 StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
+                List<string> items = new List<string>();
 
                 try
                 {
-                    List<string> items = new List<string>();
-                    items.Add(selectedDataItem.FilePath);
+                    foreach (ListedItem listedItem in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
+                    {
+                        items.Add(listedItem.FilePath);
+                    }
                     var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
                     await FileIO.AppendLinesAsync(ListFile, items);
                 }
                 catch (FileNotFoundException)
                 {
-                    List<string> items = new List<string>();
-                    items.Add(selectedDataItem.FilePath);
+                    foreach (ListedItem listedItem in (tabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems)
+                    {
+                        items.Add(listedItem.FilePath);
+                    }
                     var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
                     await FileIO.WriteLinesAsync(createdListFile, items);
                 }
+                finally
+                {
+                    foreach (string itemPath in items)
+                    {
+                        try
+                        {
+                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
+                            var name = fol.DisplayName;
+                            var content = name;
+                            var icon = "\uE8B7";
+
+                            bool isDuplicate = false;
+                            foreach (SidebarItem sbi in App.sideBarItems)
+                            {
+                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
+                                {
+                                    if (sbi.Path.ToString() == itemPath)
+                                    {
+                                        isDuplicate = true;
+
+                                    }
+                                }
+                            }
+
+                            if (!isDuplicate)
+                            {
+                                App.sideBarItems.Add(new SidebarItem() { Path = itemPath, IconGlyph = icon, isDefaultLocation = false, Text = content });
+                            }
+                        }
+                        catch (UnauthorizedAccessException ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                        catch (FileNotFoundException ex)
+                        {
+                            Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
+                            App.LinesToRemoveFromFile.Add(itemPath);
+                        }
+                        catch (System.Runtime.InteropServices.COMException ex)
+                        {
+                            Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
+                            App.LinesToRemoveFromFile.Add(itemPath);
+                        }
+                    }
+                }
             }
-            var CurrentInstance = App.selectedTabInstance;
-            CurrentInstance.PopulatePinnedSidebarItems();
+            App.RemoveStaleSidebarItems();
         }
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
@@ -157,8 +268,6 @@ namespace Files.Interacts
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
             }
-            // Eventually notify user via flyout            
-
         }
 
         public static async Task LaunchExe(string ApplicationPath)
@@ -167,11 +276,6 @@ namespace Files.Interacts
             ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = null;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        public async void CommandInvokedHandler(IUICommand command)
-        {
-            await Launcher.LaunchUriAsync(new Uri("ms-windows-store://home"));
         }
 
         public async void GrantAccessPermissionHandler(IUICommand command)

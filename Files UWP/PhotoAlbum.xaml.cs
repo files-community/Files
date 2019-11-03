@@ -58,6 +58,9 @@ namespace Files
             progressBar = ProgBar;
             gridContext = GridRightClickContextMenu;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
+            Frame rootFrame = Window.Current.Content as Frame;
+            InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.TabStrip_SelectionChanged(null, null);
             tabInstance = App.selectedTabInstance;
             viewModelInstance = tabInstance.instanceViewModel;
             FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
