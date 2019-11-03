@@ -795,6 +795,7 @@
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
                                 <KeyboardAccelerator Key="XButton1"/>
+                                <KeyboardAccelerator Key="Back"/>
                             </Button.KeyboardAccelerators>
                         </Button>
 
