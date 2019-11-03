@@ -202,6 +202,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />
     <Content Include="Assets\logo.bmp" />
