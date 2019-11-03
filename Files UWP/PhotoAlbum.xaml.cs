@@ -62,6 +62,11 @@ namespace Files
             InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.TabStrip_SelectionChanged(null, null);
             tabInstance = App.selectedTabInstance;
+            if (tabInstance.instanceViewModel == null && tabInstance.instanceInteraction == null)
+            {
+                tabInstance.instanceViewModel = new ItemViewModel();
+                tabInstance.instanceInteraction = new Interaction();
+            }
             viewModelInstance = tabInstance.instanceViewModel;
             FileList.DoubleTapped += tabInstance.instanceInteraction.List_ItemClick;
             SidebarPinItem.Click += tabInstance.instanceInteraction.PinItem_Click;
