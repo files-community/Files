@@ -606,6 +606,8 @@
                                             <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                                 <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
                                                 <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                                                <MenuFlyoutItem Click="OpenFileLocation_Click" Icon="Folder" Text="Open file location"/>
+
                                             </MenuFlyout>
                                         </Grid.ContextFlyout>
                                         <Grid.ColumnDefinitions>

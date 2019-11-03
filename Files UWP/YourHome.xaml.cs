@@ -508,6 +508,15 @@ namespace Files
             Empty.Visibility = Visibility.Visible;
         }
 
+        private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        {
+            var fe = sender as MenuFlyoutItem;
+            var vm = fe.DataContext as RecentItem;
+            App.selectedTabInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), vm.path);
+
+        }
+
+
         private void DropShadowPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             (sender as DropShadowPanel).ShadowOpacity = 0.025;
