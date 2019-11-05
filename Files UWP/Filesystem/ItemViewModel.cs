@@ -182,15 +182,36 @@ namespace Files.Filesystem
             }
             set
             {
+                // If current string is "a", and the next character typed is "a",
+                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+                if (_jumpString.Length == 1 && value == _jumpString + _jumpString)
+                {
+                    value = _jumpString;
+                }
                 if (value != "")
                 {
                     ListedItem jumpedToItem = null;
-                    try
+                    ListedItem previouslySelectedItem = null;
+                    var candidateItems = _filesAndFolders.Where(f => f.FileName.Length >= value.Length && f.FileName.Substring(0, value.Length).ToLower() == value);
+
+                    if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                     {
-                        jumpedToItem = _filesAndFolders.Where(f => f.FileName.Substring(0, value.Length).ToLower() == value).First();
+                        previouslySelectedItem = (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedItem as ListedItem;
                     }
-                    catch (ArgumentOutOfRangeException) { }
-                    catch (InvalidOperationException) { }
+                    else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                    {
+                        previouslySelectedItem = (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem as ListedItem;
+                    }
+
+                    // If the user is trying to cycle through items
+                    // starting with the same letter
+                    if (value.Length == 1 && previouslySelectedItem != null)
+                    {
+                        // Try to select item lexicographically bigger than the previous item
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.FileName.CompareTo(previouslySelectedItem.FileName) > 0);
+                    }
+                    if (jumpedToItem == null)
+                        jumpedToItem = candidateItems.FirstOrDefault();
 
                     if (jumpedToItem != null)
                     {
