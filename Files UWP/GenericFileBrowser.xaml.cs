@@ -113,6 +113,7 @@ namespace Files
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
             UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
             PropertiesItem.Click += tabInstance.ShowPropertiesButton_Click;
+            PropertiesFolder.Click += tabInstance.ShowFolderPropertiesButton_Click;
             OpenInNewWindowItem.Click += tabInstance.instanceInteraction.OpenInNewWindowItem_Click;
 
             switch (viewModelInstance.DirectorySortOption)

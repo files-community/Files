@@ -663,6 +663,12 @@
                                         </AppBarButton.Icon>
                                     </AppBarButton>
                                     <AppBarButton Click="OpenWithButton_Click" Name="OpenWithButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
+                                    <AppBarSeparator/>
+                                    <AppBarButton Click="ShowFolderPropertiesButton_Click" Name="ShowFolderPropertiesButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Folder Properties">
+                                        <AppBarButton.Icon>
+                                            <FontIcon Glyph="&#xE946;"/>
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
                                 </CommandBar>
                             </CommandBar.Content>
                         </CommandBar>

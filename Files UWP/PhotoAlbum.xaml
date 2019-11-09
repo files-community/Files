@@ -438,6 +438,12 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyoutSubItem>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="Properties" x:Name="PropertiesFolder">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE946;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
                 </MenuFlyout.Items>
             </MenuFlyout>
         </Grid.ContextFlyout>

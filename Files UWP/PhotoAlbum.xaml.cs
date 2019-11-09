@@ -77,7 +77,7 @@ namespace Files
             NewBitmapImage.Click += tabInstance.instanceInteraction.NewBitmapImage_Click;
             NewTextDocument.Click += tabInstance.instanceInteraction.NewTextDocument_Click;
             UnzipItem.Click += tabInstance.instanceInteraction.ExtractItems_Click;
-
+            PropertiesFolder.Click += tabInstance.ShowFolderPropertiesButton_Click;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)

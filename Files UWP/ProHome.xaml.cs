@@ -642,19 +642,26 @@ namespace Files
             }
         }
 
-
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).data.SelectedItem, new SuppressNavigationTransitionInfo());
             }
             else if (this.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
-                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItems, new SuppressNavigationTransitionInfo());
+                propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).gv.SelectedItem, new SuppressNavigationTransitionInfo());
             }
+            await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+        }
+
+        public async void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
+        {
+            propertiesDialog.accessiblePropertiesFrame.Tag = propertiesDialog;
+            propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), App.selectedTabInstance.instanceViewModel.currentFolder, new SuppressNavigationTransitionInfo());
+            
             await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 

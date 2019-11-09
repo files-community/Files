@@ -36,6 +36,7 @@ namespace Files.Filesystem
     public class ItemViewModel : INotifyPropertyChanged
     {
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
+        public ListedItem currentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
         public UniversalPath Universal { get; } = new UniversalPath();
         private ObservableCollection<ListedItem> _filesAndFolders;
@@ -43,6 +44,7 @@ namespace Files.Filesystem
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
         private StorageFolder _rootFolder;
+        private ListedItem _rootFolderItem;
         private QueryOptions _options;
         private volatile bool _filesRefreshing;
         private const int _step = 250;
@@ -508,6 +510,21 @@ namespace Files.Filesystem
             try
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
+                var rootFolderProperties = await _rootFolder.GetBasicPropertiesAsync();
+
+                _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
+                {
+                    FileName = _rootFolder.Name,
+                    FileDateReal = rootFolderProperties.DateModified,
+                    FileType = "Folder",    //TODO: Take a look at folder.DisplayType
+                    FolderImg = Visibility.Visible,
+                    FileImg = null,
+                    FileIconVis = Visibility.Collapsed,
+                    FilePath = _rootFolder.Path,
+                    EmptyImgVis = Visibility.Collapsed,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
 
                 App.selectedTabInstance.BackButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoBack;
                 App.selectedTabInstance.ForwardButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoForward;

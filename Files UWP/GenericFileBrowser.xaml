@@ -208,6 +208,12 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Properties" x:Name="PropertiesFolder">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE946;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyout>
         </Grid.ContextFlyout>
         <ProgressBar x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
