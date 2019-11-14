@@ -18,27 +18,27 @@
                         <ToggleSwitch IsEnabled="True" Toggled="ToggleSwitch_Toggled" Name="CustomLocationToggle" VerticalAlignment="Top"/>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Desktop" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="DesktopL" PlaceholderText="Custom Desktop Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
+                            <TextBox CornerRadius="2" Name="DesktopL" PlaceholderText="Set Custom Desktop Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Downloads" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="DownloadsL" PlaceholderText="Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
+                            <TextBox CornerRadius="2" Name="DownloadsL" PlaceholderText="Set Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Documents" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="DocumentsL" PlaceholderText="Custom Documents Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
+                            <TextBox CornerRadius="2" Name="DocumentsL" PlaceholderText="Set Custom Documents Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Pictures" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="PictureL" PlaceholderText="Custom Pictures Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox CornerRadius="2" Name="PictureL" PlaceholderText="Set Custom Pictures Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Music" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="MusicL" PlaceholderText="Custom Music Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox CornerRadius="2" Name="MusicL" PlaceholderText="Set Custom Music Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
                         </Grid>
                         <Grid Margin="0, 0, 0, 12.5">
                             <TextBlock Text="Videos" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="VideosL" PlaceholderText="Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                            <TextBox CornerRadius="2" Name="VideosL" PlaceholderText="Set Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
                         </Grid>
                         <StackPanel Orientation="Horizontal">
                             <Button CornerRadius="2" Content="Save Locations" Name="SaveCustomL" HorizontalAlignment="Left" Click="SaveCustomL_Click" />
