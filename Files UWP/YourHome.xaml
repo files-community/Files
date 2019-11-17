@@ -573,7 +573,7 @@
         <Grid Padding="24,10,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10" Orientation="Vertical">
                 <TextBlock x:Name="FavoritesCardsHeader" Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
-                <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="False" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
+                <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" x:Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="True" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="0,0,0,0" Padding="0,0,0,0">

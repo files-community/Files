@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Margin="0,-1,0,0" >
-        <UILib:NavigationView IsSettingsVisible="False" Name="SettingsPane" IsBackButtonVisible="Collapsed" ItemInvoked="NavigationView_ItemInvoked" PaneDisplayMode="Top">
+        <UILib:NavigationView IsSettingsVisible="False" x:Name="SettingsPane" IsBackButtonVisible="Collapsed" ItemInvoked="NavigationView_ItemInvoked" PaneDisplayMode="Top">
             <UILib:NavigationView.MenuItems>
                 <UILib:NavigationViewItem IsSelected="True" Content="Personalization">
                     <UILib:NavigationViewItem.Icon>

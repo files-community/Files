@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Storage;
@@ -236,33 +237,56 @@ namespace Files
             else
             {
                 // If path is a drive's root
-                if(Path.GetPathRoot(currentPathForTabIcon) == currentPathForTabIcon && currentPathForTabIcon == @"C:\")
+                if (NormalizePath(Path.GetPathRoot(currentPathForTabIcon)) == NormalizePath(currentPathForTabIcon))
                 {
-                    tabLocationHeader = @"Local Disk (C:\)";
-                    fontIconSource.Glyph = "\xEDA2";
-                }
-                else if (Path.GetPathRoot(currentPathForTabIcon) == currentPathForTabIcon && currentPathForTabIcon != @"C:\")
-                {
-                    tabLocationHeader = currentPathForTabIcon;
-                    if (await KnownFolders.RemovableDevices.TryGetItemAsync(currentPathForTabIcon) == null)
+                    if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
                     {
-                        fontIconSource.Glyph = "\xEDA2";
+                        var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+
+                        if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
+                        {
+                            fontIconSource.Glyph = "\xEDA2";
+                            tabLocationHeader = "Local Disk (" + NormalizePath(currentPathForTabIcon) + ")";
+                        }
+                        else
+                        {
+                            fontIconSource.Glyph = "\xE88E";
+                            tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(currentPathForTabIcon)).DisplayName;
+                        }
                     }
                     else
                     {
-                        fontIconSource.Glyph = "\xE88E";
+                        fontIconSource.Glyph = "\xE74E";
+                        tabLocationHeader = "Floppy Disk (" + NormalizePath(currentPathForTabIcon) + ")";
                     }
                 }
                 else
                 {
-                    tabLocationHeader = currentPathForTabIcon.Split("\\", StringSplitOptions.RemoveEmptyEntries)[currentPathForTabIcon.Split("\\", StringSplitOptions.RemoveEmptyEntries).Length - 1];
                     fontIconSource.Glyph = "\xE8B7";
+                    tabLocationHeader = currentPathForTabIcon.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
                 }
-                
+
             }
             tabIcon = fontIconSource;
             (tabView.SelectedItem as TabViewItem).Header = tabLocationHeader;
             (tabView.SelectedItem as TabViewItem).IconSource = tabIcon;
+        }
+
+        public static string NormalizePath(string path)
+        {
+            if (path.Contains('\\'))
+            {
+                return Path.GetFullPath(new Uri(path).LocalPath)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .ToUpperInvariant();
+            }
+            else
+            {
+                return Path.GetFullPath(path)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .ToUpperInvariant();
+            }
+            
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)

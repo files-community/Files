@@ -372,7 +372,7 @@ namespace Files
             }
             catch (UnauthorizedAccessException)
             {
-                await App.selectedTabInstance.consentDialog.ShowAsync();
+                await App.consentDialog.ShowAsync();
             }
             catch (System.ArgumentException)
             {

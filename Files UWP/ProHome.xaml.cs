@@ -60,7 +60,6 @@ namespace Files
         public AddItemDialog addItemDialog = new AddItemDialog();
         public LayoutDialog layoutDialog = new LayoutDialog();
         public PropertiesDialog propertiesDialog = new PropertiesDialog();
-        public ConsentDialog consentDialog = new ConsentDialog();
         public ListView accessiblePathListView;
         public ObservableCollection<PathBoxItem> pathBoxItems = new ObservableCollection<PathBoxItem>();
         private ItemViewModel _instanceViewModel;

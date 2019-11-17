@@ -128,11 +128,6 @@ namespace Files.SettingsPages
                     localSettings.Values["DesktopLocation"] = DesktopL.Text;
                     DesktopL.BorderBrush = new SolidColorBrush(Colors.Black);
                 }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.selectedTabInstance.consentDialog.ShowAsync();
-                    return;
-                }
                 catch (ArgumentException)
                 {
                     DesktopL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
@@ -154,11 +149,6 @@ namespace Files.SettingsPages
                     DownloadsL.BorderBrush = new SolidColorBrush(Colors.Black);
 
                 }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.selectedTabInstance.consentDialog.ShowAsync();
-                    return;
-                }
                 catch (ArgumentException)
                 {
                     DownloadsL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
@@ -178,11 +168,6 @@ namespace Files.SettingsPages
                     newLocationSetting = await StorageFolder.GetFolderFromPathAsync(DocumentsL.Text);
                     localSettings.Values["DocumentsLocation"] = DocumentsL.Text;
                     DocumentsL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.selectedTabInstance.consentDialog.ShowAsync();
-                    return;
                 }
                 catch (ArgumentException)
                 {
@@ -204,11 +189,6 @@ namespace Files.SettingsPages
                     localSettings.Values["PicturesLocation"] = PictureL.Text;
                     PictureL.BorderBrush = new SolidColorBrush(Colors.Black);
                 }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.selectedTabInstance.consentDialog.ShowAsync();
-                    return;
-                }
                 catch (ArgumentException)
                 {
                     PictureL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
@@ -229,11 +209,6 @@ namespace Files.SettingsPages
                     localSettings.Values["MusicLocation"] = MusicL.Text;
                     MusicL.BorderBrush = new SolidColorBrush(Colors.Black);
                 }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.selectedTabInstance.consentDialog.ShowAsync();
-                    return;
-                }
                 catch (ArgumentException)
                 {
                     MusicL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
@@ -253,11 +228,6 @@ namespace Files.SettingsPages
                     newLocationSetting = await StorageFolder.GetFolderFromPathAsync(VideosL.Text);
                     localSettings.Values["VideosLocation"] = VideosL.Text;
                     VideosL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.selectedTabInstance.consentDialog.ShowAsync();
-                    return;
                 }
                 catch (ArgumentException)
                 {

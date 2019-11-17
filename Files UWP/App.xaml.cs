@@ -29,6 +29,7 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.Storage.Search;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Files
 {
@@ -42,6 +43,7 @@ namespace Files
         {
             this.InitializeComponent();
             exceptionDialog = new Dialogs.ExceptionDialog();
+            consentDialog = new Dialogs.ConsentDialog();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
 
@@ -131,28 +133,38 @@ namespace Files
                     if (!(await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.Path).ToList().Contains(roots.Name))
                     {
                         // TODO: Display Custom Names for Local Disks as well
-                        content = $"Local Disk ({roots.Name.TrimEnd('\\')})";
-                        icon = "\uEDA2";
+                        if(InstanceTabsView.NormalizePath(roots.Name) != InstanceTabsView.NormalizePath("A:") 
+                            && InstanceTabsView.NormalizePath(roots.Name) != InstanceTabsView.NormalizePath("B:"))
+                        {
+                            content = $"Local Disk ({roots.Name.TrimEnd('\\')})";
+                            icon = "\uEDA2";
+                        }
+                        else
+                        {
+                            content = $"Floppy Disk ({roots.Name.TrimEnd('\\')})";
+                            icon = "\uE74E";
+                        }
+
 
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
                         async () =>
                         {
-                            StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
-                            var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-
+                            Visibility capacityBarVis = Visibility.Visible;
                             ulong totalSpaceProg = 0;
                             ulong freeSpaceProg = 0;
                             string free_space_text = "Unknown";
                             string total_space_text = "Unknown";
-                            Visibility capacityBarVis = Visibility.Visible;
+
                             try
                             {
+                                StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
+                                var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+
                                 var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
                                 freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
 
                                 sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
                                 totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
 
                                 free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
                                 total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
@@ -193,8 +205,16 @@ namespace Files
 
         private async void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            PopulateDrivesListWithLocalDisks();
+            try
+            {
+                PopulateDrivesListWithLocalDisks();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await consentDialog.ShowAsync();
+            }
             DeviceAdded(sender, null);
+
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
             () =>
             {
@@ -241,14 +261,12 @@ namespace Files
         {
             try
             {
-                //var device = StorageDevice.FromId(args.Id);
                 var devices = (await KnownFolders.RemovableDevices.GetFoldersAsync()).OrderBy(x => x.Path);
-                foreach(StorageFolder device in devices)
+                foreach (StorageFolder device in devices)
                 {
                     var letter = device.Path;
-                    if(!foundDrives.Any(x => x.tag == letter))
+                    if (!foundDrives.Any(x => x.tag == letter))
                     {
-                        //if (roots.Name == @"C:\") return;
                         var content = device.DisplayName;
                         string icon = null;
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
@@ -263,9 +281,6 @@ namespace Files
                                 icon = "\uE88E";
                             }
 
-                            StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(letter);
-                            var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-
                             ulong totalSpaceProg = 0;
                             ulong freeSpaceProg = 0;
                             string free_space_text = "Unknown";
@@ -273,12 +288,14 @@ namespace Files
                             Visibility capacityBarVis = Visibility.Visible;
                             try
                             {
+                                StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(letter);
+                                var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
+
                                 var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
                                 freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
 
                                 sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
                                 totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
 
                                 free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
                                 total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
@@ -306,13 +323,13 @@ namespace Files
                                 });
                             }
                         });
-                        
+
                     }
                 }
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
-               Debug.WriteLine(e.Message);
+                await consentDialog.ShowAsync();
             }
         }
 
@@ -320,19 +337,11 @@ namespace Files
 
         public async void PopulatePinnedSidebarItems()
         {
-
             AddDefaultLocations();
 
             StorageFile ListFile;
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            try
-            {
-                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-            }
-            catch (FileNotFoundException)
-            {
-                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-            }
+            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
 
             if (ListFile != null)
             {
@@ -399,14 +408,7 @@ namespace Files
         {
             StorageFile ListFile;
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            try
-            {
-                ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-            }
-            catch (FileNotFoundException)
-            {
-                ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-            }
+            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
 
             if (ListFile != null)
             {
@@ -464,17 +466,32 @@ namespace Files
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }
         public Dialogs.ExceptionDialog exceptionDialog;
+        public static Dialogs.ConsentDialog consentDialog { get; set; }
 
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
-            if(exceptionDialog.Visibility == Visibility.Visible)
-                exceptionDialog.Hide();
-
             exceptionInfo = e;
             exceptionStackTrace = e.Exception.StackTrace;
-            await exceptionDialog.ShowAsync();
+            await exceptionDialog.ShowAsync(); 
+        }
 
+        public static IReadOnlyList<ContentDialog> FindDisplayedContentDialogs<T>()
+        {
+            var popupElements = VisualTreeHelper.GetOpenPopupsForXamlRoot(Window.Current.Content.XamlRoot);
+            List<ContentDialog> dialogs = new List<ContentDialog>();
+            List<ContentDialog> openDialogs = new List<ContentDialog>();
+            Interaction.FindChildren<ContentDialog>(dialogs, Window.Current.Content.XamlRoot.Content as DependencyObject);
+            foreach(var dialog in dialogs)
+            {
+                var popups = new List<Popup>();
+                Interaction.FindChildren<Popup>(popups, dialog);
+                if (popups.First().IsOpen && popups.First() is T)
+                {
+                    openDialogs.Add(dialog);
+                }
+            }
+            return openDialogs;
         }
 
         public static PasteState PS { get; set; } = new PasteState();

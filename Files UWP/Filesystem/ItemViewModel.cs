@@ -443,10 +443,6 @@ namespace Files.Filesystem
             return default;
         }
 
-        public async void DisplayConsentDialog()
-        {
-            await App.selectedTabInstance.consentDialog.ShowAsync();
-        }
         bool isLoadingItems = false;
         public async void AddItemsToCollectionAsync(string path)
         {
@@ -618,19 +614,9 @@ namespace Files.Filesystem
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
                 App.selectedTabInstance.RefreshButton.IsEnabled = true;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
-                if (path.Contains(@"C:\"))
-                {
-                    DisplayConsentDialog();
-                }
-                else
-                {
-                    MessageDialog unsupportedDevice = new MessageDialog("This device may be unsupported. Please file an issue report containing what device we couldn't access. Technical information: " + e, "Unsupported Device");
-                    await unsupportedDevice.ShowAsync();
-                    isLoadingItems = false;
-                    return;
-                }
+                await App.consentDialog.ShowAsync();
             }
             catch (COMException e)
             {
