@@ -198,9 +198,6 @@ namespace Files
                 }
 
             });
-
-            
-
         }
 
         private async void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)

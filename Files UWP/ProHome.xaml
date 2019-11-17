@@ -2,9 +2,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
-    xmlns:local1="using:Files.Interacts.Home"
-    xmlns:local2="using:Files.Interacts"
-    xmlns:local3="using:Files.Filesystem"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
@@ -13,14 +10,8 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
-    Loaded="Page_Loaded"
-    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:primitiveContract7Present="using:Microsoft.UI.Xaml.Controls.Primitives?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:animations1="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors">
+    Loaded="Page_Loaded">
     <Page.Resources>
         <Style x:Key="ListViewHeaderItemStyle1" TargetType="ListViewHeaderItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -631,7 +622,14 @@
         <Grid Margin="0,0,0,0" Canvas.ZIndex="2" x:Name="Ribbon" Grid.Row="0">
             <StackPanel Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Orientation="Vertical">
                 <Custom:TabView ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+                    <Custom:TabView.ItemContainerTransitions>
+                        <TransitionCollection>
+                        </TransitionCollection>
+                    </Custom:TabView.ItemContainerTransitions>
                     <Custom:TabViewItem Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -641,7 +639,10 @@
                             </CommandBar.Content>
                         </CommandBar>
                     </Custom:TabViewItem>
-                    <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
+                    <Custom:TabViewItem Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -673,6 +674,9 @@
                         </CommandBar>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -682,6 +686,9 @@
                         </CommandBar>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -715,6 +722,9 @@
                         </CommandBar>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem Visibility="Collapsed" Name="SearchTools" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Search" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
                         <Custom:TabViewItem.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FFD9D7D2" Offset="0"/>
@@ -919,7 +929,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                             <TextBlock Margin="10,10,10,5" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView AllowDrop="True" CanReorderItems="True" ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
+                            <ListView ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" Name="DrivesList">
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                 </ListView.Resources>
