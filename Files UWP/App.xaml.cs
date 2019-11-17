@@ -621,7 +621,10 @@ namespace Files
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            watcher.Stop();
+            if(watcher.Status == DeviceWatcherStatus.Started || watcher.Status == DeviceWatcherStatus.EnumerationCompleted)
+            {
+                watcher.Stop();
+            }
             deferral.Complete();
         }
     }
