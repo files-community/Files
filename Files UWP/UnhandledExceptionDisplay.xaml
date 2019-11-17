@@ -21,9 +21,9 @@
             <TextBlock TextWrapping="WrapWholeWords" FontSize="24" Text="Files ran into a problem that the developers didn't prepare for yet. Please restart the app and try what you were doing again."/>
             <StackPanel Spacing="5" Orientation="Vertical">
                 <TextBlock FontSize="24" Text="Summary:" FontWeight="SemiBold"/>
-                <TextBlock IsTextSelectionEnabled="True" Padding="24,0,0,0" TextWrapping="Wrap" FontSize="18" Name="Summary"/>
+                <TextBlock IsTextSelectionEnabled="True" Padding="24,0,0,0" TextWrapping="Wrap" FontSize="18" x:Name="Summary"/>
                 <TextBlock FontSize="24" Text="Technical Information:" FontWeight="SemiBold"/>
-                <TextBlock IsTextSelectionEnabled="True" Padding="24,0,0,0" TextWrapping="Wrap" FontSize="18" Name="ErrorInfo"/>
+                <TextBlock IsTextSelectionEnabled="True" Padding="24,0,0,0" TextWrapping="Wrap" FontSize="18" x:Name="ErrorInfo"/>
                 <TextBlock FontSize="24" Text="What now?" FontWeight="SemiBold"/>
                 <StackPanel Spacing="24" Orientation="Horizontal">
                     <Button Width="200" Content="Close App to Try Again" CornerRadius="2" HorizontalAlignment="Left" Click="Button_Click"/>

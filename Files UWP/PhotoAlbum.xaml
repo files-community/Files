@@ -15,7 +15,7 @@
     mc:Ignorable="d"
     xmlns:navigation="using:Files.Navigation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Name="PhotoAlbumViewer"
+    x:Name="PhotoAlbumViewer"
     NavigationCacheMode="Required"
     PointerReleased="PhotoAlbumViewer_PointerReleased" PointerPressed="PhotoAlbumViewer_PointerPressed">
 
@@ -396,13 +396,13 @@
                         <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedAscending, Mode=TwoWay}"/>
                         <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedDescending, Mode=TwoWay}"/>
                     </MenuFlyoutSubItem>
-                    <MenuFlyoutItem Click="RefreshGrid_Click" Text="Refresh" Name="RefreshGrid">
+                    <MenuFlyoutItem Click="RefreshGrid_Click" Text="Refresh" x:Name="RefreshGrid">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE72C;"/>
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem Click="PasteGrid_Click" Text="Paste" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="PasteGrid">
+                    <MenuFlyoutItem Click="PasteGrid_Click" Text="Paste" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="PasteGrid">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE77F;"/>
                         </MenuFlyoutItem.Icon>
@@ -442,9 +442,9 @@
             </MenuFlyout>
         </Grid.ContextFlyout>
         <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
-        <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+        <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <GridView PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch">
+        <GridView PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" x:Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="ContextFlyout">
@@ -456,7 +456,7 @@
                                             <FontIcon Glyph="&#xED25;"/>
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." Name="OpenItem">
+                                    <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." x:Name="OpenItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE7AC;"/>
                                         </MenuFlyoutItem.Icon>
@@ -471,7 +471,7 @@
                                             <FontIcon Glyph="&#xE8A7;"/>
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="ShareItem_Click" Text="Share" Name="ShareItem">
+                                    <MenuFlyoutItem Click="ShareItem_Click" Text="Share" x:Name="ShareItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE72D;"/>
                                         </MenuFlyoutItem.Icon>
@@ -480,7 +480,7 @@
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" Name="DeleteItem" >
+                                    <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" x:Name="DeleteItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE74D;"/>
                                         </MenuFlyoutItem.Icon>
@@ -488,7 +488,7 @@
                                             <KeyboardAccelerator Key="Delete"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" Name="RenameItem" >
+                                    <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" x:Name="RenameItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8AC;"/>
                                         </MenuFlyoutItem.Icon>
@@ -497,7 +497,7 @@
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="CutItem_Click" Text="Cut" Name="CutItem" >
+                                    <MenuFlyoutItem Click="CutItem_Click" Text="Cut" x:Name="CutItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8C6;"/>
                                         </MenuFlyoutItem.Icon>
@@ -505,7 +505,7 @@
                                             <KeyboardAccelerator Modifiers="Control" Key="X"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" Name="CopyItem" >
+                                    <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" x:Name="CopyItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8C8;"/>
                                         </MenuFlyoutItem.Icon>
@@ -514,12 +514,12 @@
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Pin to sidebar" Name="SidebarPinItem">
+                                    <MenuFlyoutItem Text="Pin to sidebar" x:Name="SidebarPinItem">
                                         <MenuFlyoutItem.Icon>
                                             <SymbolIcon Symbol="Pin"/>
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" Name="PropertiesItem">
+                                    <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" x:Name="PropertiesItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE946;"/>
                                         </MenuFlyoutItem.Icon>
@@ -538,10 +538,10 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
                         <Grid Grid.Row="0" Tag="ItemImage" Width="125" Height="100">
-                            <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Name="Picture" Visibility="{x:Bind FileIconVis}">
+                            <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="Picture" Visibility="{x:Bind FileIconVis}">
                                 <Image Stretch="Uniform" Source="{x:Bind FileImg}"/>
                             </Grid>
-                            <Grid Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind FolderImg}">
+                            <Grid x:Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind FolderImg}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon FontSize="72" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
                                 </Grid>

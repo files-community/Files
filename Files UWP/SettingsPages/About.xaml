@@ -33,7 +33,7 @@
         <Grid Padding="14" Grid.Row="1" >
             <TextBlock Text="The community thanks contributors: SOI7, jeffsieu, and yaichenbaum for the design of our wonderful icon."/>
             <ListView IsItemClickEnabled="True" Margin="0,24,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Left" Width="875">
-                <ListViewItem IsEnabled="True" Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
+                <ListViewItem IsEnabled="True" x:Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
                     <StackPanel  Orientation="Horizontal">
                         <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>
                         <StackPanel Orientation="Vertical">

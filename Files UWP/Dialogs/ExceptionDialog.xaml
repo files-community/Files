@@ -31,9 +31,9 @@
                 <Grid>
                     <StackPanel Orientation="Vertical">
                         <TextBlock IsTextSelectionEnabled="True" Text="Friendly Description:" />
-                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" Name="Summary"/>
+                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" x:Name="Summary"/>
                         <TextBlock IsTextSelectionEnabled="True" Text="Technical Information:" />
-                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" Name="ErrorInfo"/>
+                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" x:Name="ErrorInfo"/>
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

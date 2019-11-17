@@ -583,7 +583,7 @@
                                             <Button BorderThickness="1" Style="{ThemeResource ButtonRevealStyle}" Windows10version1809:CornerRadius="4" Tag="{Binding Icon}" IsTapEnabled="True" Tapped="Button_Tapped" Background="{ThemeResource YourHomeCardBackgroundColor}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                 <StackPanel Spacing="10" Orientation="Vertical">
                                                     <TextBlock Canvas.ZIndex="5" Foreground="{ThemeResource SystemControlForegroundAccentBrush}" FontFamily="Segoe MDL2 Assets" FontSize="24" Text="{Binding Icon}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                    <TextBlock Margin="0,0,0,0" Text="{Binding Text}" Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                                                    <TextBlock Margin="0,0,0,0" Text="{Binding Text}" x:Name="ItemLocationName" FontFamily="Segoe UI" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
                                                 </StackPanel>
                                             </Button>
                                         </Grid>
@@ -598,7 +598,7 @@
                     <StackPanel Orientation="Vertical">
                         <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Recent Items" HorizontalAlignment="Left"/>
                         <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
-                        <ListView ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                        <ListView ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" x:Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Stretch" Margin="0,0,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnSpacing="14" ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

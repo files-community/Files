@@ -33,7 +33,7 @@
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
             </UILib:NavigationView.MenuItems>
-            <Frame Name="SettingsContentFrame"/>
+            <Frame x:Name="SettingsContentFrame"/>
         </UILib:NavigationView>
     </Grid>
 </Page>

@@ -12,7 +12,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:local3="using:Files.Interacts"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
-    Name="GenericItemView"
+    x:Name="GenericItemView"
     mc:Ignorable="d" NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
     <Page.Resources>
         <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">

@@ -10,12 +10,12 @@
 
     <Grid>
         <StackPanel Spacing="25" Orientation="Vertical">
-            <Grid Name="SubtitleArea">
-                <TextBlock Name="Description" Text="Choose a type below for this new item."/>
+            <Grid x:Name="SubtitleArea">
+                <TextBlock x:Name="Description" Text="Choose a type below for this new item."/>
             </Grid>
-            <Grid Name="SelectionListContent" HorizontalAlignment="Stretch">
+            <Grid x:Name="SelectionListContent" HorizontalAlignment="Stretch">
                 <StackPanel>
-                    <ListView Name="AddItemsListView" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind local:AddItem.AddItemsList}">
+                    <ListView x:Name="AddItemsListView" IsItemClickEnabled="True" ItemClick="ListView_ItemClick" ItemsSource="{x:Bind local:AddItem.AddItemsList}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid Height="50">

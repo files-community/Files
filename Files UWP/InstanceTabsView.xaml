@@ -108,7 +108,7 @@
                                     </Button.KeyboardAccelerators>
                                 </Button>
 
-                                <Grid Background="Transparent" Name="DragArea" Loaded="DragArea_Loaded" Grid.Column="3"/>
+                                <Grid Background="Transparent" x:Name="DragArea" Loaded="DragArea_Loaded" Grid.Column="3"/>
 
                             </Grid>
                             <!--<ContentPresenter x:Name="TabContentPresenter" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Row="1"/>-->
@@ -119,7 +119,7 @@
         </Style>
     </Page.Resources>
 
-    <Grid Background="Transparent" Name="rootGrid" >
+    <Grid Background="Transparent" x:Name="rootGrid" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>

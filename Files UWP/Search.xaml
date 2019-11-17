@@ -20,12 +20,12 @@
                         <Grid.ContextFlyout>
                             <MenuFlyout x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                 <MenuFlyout.Items>
-                                    <MenuFlyoutItem Text="Open With..." Name="OpenItem">
+                                    <MenuFlyoutItem Text="Open With..." x:Name="OpenItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE7AC;"/>
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Share" Name="ShareItem">
+                                    <MenuFlyoutItem Text="Share" x:Name="ShareItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE72D;"/>
                                         </MenuFlyoutItem.Icon>
@@ -34,7 +34,7 @@
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Delete" Name="DeleteItem" >
+                                    <MenuFlyoutItem Text="Delete" x:Name="DeleteItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE74D;"/>
                                         </MenuFlyoutItem.Icon>
@@ -42,7 +42,7 @@
                                             <KeyboardAccelerator Key="Delete"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Rename" Name="RenameItem" >
+                                    <MenuFlyoutItem Text="Rename" x:Name="RenameItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8AC;"/>
                                         </MenuFlyoutItem.Icon>
@@ -51,7 +51,7 @@
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Cut" Name="CutItem" >
+                                    <MenuFlyoutItem Text="Cut" x:Name="CutItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8C6;"/>
                                         </MenuFlyoutItem.Icon>
@@ -59,7 +59,7 @@
                                             <KeyboardAccelerator Modifiers="Control" Key="X"/>
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Copy" Name="CopyItem" >
+                                    <MenuFlyoutItem Text="Copy" x:Name="CopyItem" >
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE8C8;"/>
                                         </MenuFlyoutItem.Icon>
@@ -68,13 +68,13 @@
                                         </MenuFlyoutItem.KeyboardAccelerators>
                                     </MenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Pin to sidebar" Name="SidebarPinItem">
+                                    <MenuFlyoutItem Text="Pin to sidebar" x:Name="SidebarPinItem">
                                         <MenuFlyoutItem.Icon>
                                             <SymbolIcon Symbol="Pin"/>
                                         </MenuFlyoutItem.Icon>
 
                                     </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Properties" Name="PropertiesItem">
+                                    <MenuFlyoutItem Text="Properties" x:Name="PropertiesItem">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE946;"/>
                                         </MenuFlyoutItem.Icon>
