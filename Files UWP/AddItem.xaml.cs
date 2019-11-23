@@ -57,7 +57,7 @@ namespace Files
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var TabInstance = App.selectedTabInstance;
+            var TabInstance = App.OccupiedInstance;
             TabInstance.addItemDialog.Hide();
             CreateFile(TabInstance, (e.ClickedItem as AddListItem).Header);
         }

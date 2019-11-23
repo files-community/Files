@@ -30,14 +30,39 @@ using Windows.UI.Core;
 using Windows.Storage.Search;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
+using Files.Enums;
 
 namespace Files
 {
     sealed partial class App : Application
     {
-        public static ProHome selectedTabInstance { get; set; }
-        DeviceWatcher watcher;
+        public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+        public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
+        public static string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
+        public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+        public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        private static ProHome occupiedInstance;
+        public static ProHome OccupiedInstance
+        {
+            get
+            {
+                return occupiedInstance;
+            }
+            set
+            {
+                if(value != occupiedInstance)
+                {
+                    occupiedInstance = value;
+                    
+                }
+                
+            }
+        }
+        private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
+        public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
 
         public App()
         {
@@ -46,10 +71,11 @@ namespace Files
             consentDialog = new Dialogs.ConsentDialog();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
-
+            Clipboard.ContentChanged += Clipboard_ContentChanged;
+            Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
             if (localSettings.Values["theme"] == null)
             {
@@ -458,7 +484,26 @@ namespace Files
             }
         }
 
+        private void Clipboard_ContentChanged(object sender, object e)
+        {
+            try
+            {
+                DataPackageView packageView = Clipboard.GetContent();
+                if (packageView.Contains(StandardDataFormats.StorageItems))
+                {
+                    App.PS.isEnabled = true;
+                }
+                else
+                {
+                    App.PS.isEnabled = false;
+                }
+            }
+            catch (Exception)
+            {
+                App.PS.isEnabled = false;
+            }
 
+        }
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }

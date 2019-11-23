@@ -76,22 +76,22 @@ namespace Files.SettingsPages
                 localSettings.Values["customLocationsSetting"] = true;
 
                 DesktopL.IsEnabled = true;
-                localSettings.Values["DesktopLocation"] = ProHome.DesktopPath;
+                localSettings.Values["DesktopLocation"] = App.DesktopPath;
 
                 DownloadsL.IsEnabled = true;
-                localSettings.Values["DownloadsLocation"] = ProHome.DownloadsPath;
+                localSettings.Values["DownloadsLocation"] = App.DownloadsPath;
 
                 DocumentsL.IsEnabled = true;
-                localSettings.Values["DocumentsLocation"] = ProHome.DocumentsPath;
+                localSettings.Values["DocumentsLocation"] = App.DocumentsPath;
 
                 PictureL.IsEnabled = true;
-                localSettings.Values["PicturesLocation"] = ProHome.PicturesPath;
+                localSettings.Values["PicturesLocation"] = App.PicturesPath;
 
                 MusicL.IsEnabled = true;
-                localSettings.Values["MusicLocation"] = ProHome.MusicPath;
+                localSettings.Values["MusicLocation"] = App.MusicPath;
 
                 VideosL.IsEnabled = true;
-                localSettings.Values["VideosLocation"] = ProHome.VideosPath;
+                localSettings.Values["VideosLocation"] = App.VideosPath;
 
                 DesktopL.Text = localSettings.Values["DesktopLocation"].ToString();
                 DownloadsL.Text = localSettings.Values["DownloadsLocation"].ToString();

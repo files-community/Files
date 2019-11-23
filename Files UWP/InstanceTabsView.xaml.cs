@@ -79,7 +79,7 @@ namespace Files
             icon.Glyph = "\xE713";
             if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
             {
-                App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                App.OccupiedInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
             }
         }
 
@@ -105,37 +105,37 @@ namespace Files
                         }
                     }
                 }
-                else if (path == ProHome.DesktopPath)
+                else if (path == App.DesktopPath)
                 {
                     tabLocationHeader = "Desktop";
                     fontIconSource.Glyph = "\xE8FC";
                 }
-                else if (path == ProHome.DownloadsPath)
+                else if (path == App.DownloadsPath)
                 {
                     tabLocationHeader = "Downloads";
                     fontIconSource.Glyph = "\xE896";
                 }
-                else if (path == ProHome.DocumentsPath)
+                else if (path == App.DocumentsPath)
                 {
                     tabLocationHeader = "Documents";
                     fontIconSource.Glyph = "\xE8A5";
                 }
-                else if (path == ProHome.PicturesPath)
+                else if (path == App.PicturesPath)
                 {
                     tabLocationHeader = "Pictures";
                     fontIconSource.Glyph = "\xEB9F";
                 }
-                else if (path == ProHome.MusicPath)
+                else if (path == App.MusicPath)
                 {
                     tabLocationHeader = "Music";
                     fontIconSource.Glyph = "\xEC4F";
                 }
-                else if (path == ProHome.VideosPath)
+                else if (path == App.VideosPath)
                 {
                     tabLocationHeader = "Videos";
                     fontIconSource.Glyph = "\xE8B2";
                 }
-                else if (path == ProHome.OneDrivePath)
+                else if (path == App.OneDrivePath)
                 {
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xE753";
@@ -199,37 +199,37 @@ namespace Files
                 tabLocationHeader = "Start";
                 fontIconSource.Glyph = "\xE737";
             }
-            else if (currentPathForTabIcon == ProHome.DesktopPath)
+            else if (currentPathForTabIcon == App.DesktopPath)
             {
                 tabLocationHeader = "Desktop";
                 fontIconSource.Glyph = "\xE8FC";
             }
-            else if (currentPathForTabIcon == ProHome.DownloadsPath)
+            else if (currentPathForTabIcon == App.DownloadsPath)
             {
                 tabLocationHeader = "Downloads";
                 fontIconSource.Glyph = "\xE896";
             }
-            else if (currentPathForTabIcon == ProHome.DocumentsPath)
+            else if (currentPathForTabIcon == App.DocumentsPath)
             {
                 tabLocationHeader = "Documents";
                 fontIconSource.Glyph = "\xE8A5";
             }
-            else if (currentPathForTabIcon == ProHome.PicturesPath)
+            else if (currentPathForTabIcon == App.PicturesPath)
             {
                 tabLocationHeader = "Pictures";
                 fontIconSource.Glyph = "\xEB9F";
             }
-            else if (currentPathForTabIcon == ProHome.MusicPath)
+            else if (currentPathForTabIcon == App.MusicPath)
             {
                 tabLocationHeader = "Music";
                 fontIconSource.Glyph = "\xEC4F";
             }
-            else if (currentPathForTabIcon == ProHome.VideosPath)
+            else if (currentPathForTabIcon == App.VideosPath)
             {
                 tabLocationHeader = "Videos";
                 fontIconSource.Glyph = "\xE8B2";
             }
-            else if (currentPathForTabIcon == ProHome.OneDrivePath)
+            else if (currentPathForTabIcon == App.OneDrivePath)
             {
                 tabLocationHeader = "OneDrive";
                 fontIconSource.Glyph = "\xE753";
@@ -313,7 +313,7 @@ namespace Files
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
                 {
-                    App.selectedTabInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.OccupiedInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 }
             }
 

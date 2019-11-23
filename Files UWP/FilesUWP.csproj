@@ -36,6 +36,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -48,6 +49,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +61,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -71,6 +74,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
     <DebugSymbols>true</DebugSymbols>
@@ -83,6 +87,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
@@ -95,6 +100,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -106,6 +112,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -118,6 +125,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -129,6 +137,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BaseLayout.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
@@ -150,6 +159,7 @@
     <Compile Include="Dialogs\RenameDialog.xaml.cs">
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Enums\FormFactorMode.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\ThemeStyle.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
@@ -163,6 +173,7 @@
     <Compile Include="InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Interacts\EmptyFolderTextState.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="Interacts\ItemInteractions.cs" />
     <Compile Include="Interacts\RibbonActions\Home.cs" />
@@ -175,7 +186,7 @@
     <Compile Include="PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoadingIndicator.cs" />
+    <Compile Include="Interacts\LoadingIndicator.cs" />
     <Compile Include="ProHome.xaml.cs">
       <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>
@@ -201,9 +212,6 @@
     <Compile Include="SettingsPages\StartPageWidgets.xaml.cs">
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UnhandledExceptionDisplay.xaml.cs">
-      <DependentUpon>UnhandledExceptionDisplay.xaml</DependentUpon>
-    </Compile>
     <Compile Include="YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>
@@ -212,15 +220,9 @@
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\logo.bmp" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -301,10 +303,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SettingsPages\StartPageWidgets.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UnhandledExceptionDisplay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,538 +1,164 @@
-﻿<Page
+﻿<local:BaseLayout
     x:Class="Files.PhotoAlbum"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files"
-    xmlns:local3="using:Files.Interacts"
     xmlns:local2="using:Files.Filesystem"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
-    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
-    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
-    xmlns:navigation="using:Files.Navigation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    x:Name="PhotoAlbumViewer"
     NavigationCacheMode="Required"
-    PointerReleased="PhotoAlbumViewer_PointerReleased" PointerPressed="PhotoAlbumViewer_PointerPressed">
+    PointerPressed="PhotoAlbumViewer_PointerPressed">
+    <local:BaseLayout.Resources>
+        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+            <MenuFlyoutSubItem Text="Sort by" x:Name="SortByEmptySpace">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon Glyph="&#xE8CB;"/>
+                </MenuFlyoutSubItem.Icon>
+                <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"/>
+                <MenuFlyoutSeparator/>
+                <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"/>
+            </MenuFlyoutSubItem>
+            <MenuFlyoutItem Text="Refresh" x:Name="RefreshEmptySpace" Click="{x:Bind local:NavigationActions.Refresh_Click}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72C;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Paste" x:Name="PasteEmptySpace" IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}" Click="{x:Bind AssociatedInteractions.PasteItem_ClickAsync}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE77F;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="V"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem x:Name="OpenTerminal" Click="{x:Bind AssociatedInteractions.OpenDirectoryInTerminal}" IsEnabled="True" Text="Open in Terminal...">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE756;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="New" x:Name="NewEmptySpace">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon Glyph="&#xE710;"/>
+                </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutItem Text="Folder" Click="{x:Bind AssociatedInteractions.NewFolder_Click}" x:Name="NewFolder">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8B7;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Bitmap Image" Click="{x:Bind AssociatedInteractions.NewBitmapImage_Click}" x:Name="NewBitmapImage">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xEB9F;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="Text Document" Click="{x:Bind AssociatedInteractions.NewTextDocument_Click}" x:Name="NewTextDocument">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8A5;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+        </MenuFlyout>
 
-    <Page.Resources>
-        <Style x:Key="MenuFlyoutFluentThemeResources" TargetType="MenuFlyoutPresenter">
-            <Setter Property="CornerRadius" Value="4" />
-        </Style>
+        <MenuFlyout Opening="RightClickContextMenu_Opening" x:Key="BaseLayoutItemContextFlyout">
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ExtractItems_Click}" Tag="Extract_FlyoutItem" Text="Extract" x:Load="False" x:Name="UnzipItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xED25;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.OpenItem_Click}" Tag="Open_FlyoutItem" Text="Open with..." x:Load="False" x:Name="OpenItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7AC;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.OpenDirectoryInNewTab_Click}" Tag="OpenTab_FlyoutItem" Text="Open in new tab" x:Load="False" x:Name="OpenInNewTab">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE737;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.OpenInNewWindowItem_Click}" Tag="OpenWindow_FlyoutItem" Text="Open in new window" x:Load="False" x:Name="OpenInNewWindowItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8A7;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ShareItem_Click}" Text="Share" x:Name="ShareItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72D;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="S"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.DeleteItem_Click}" Text="Delete" x:Name="DeleteItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Delete"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.RenameItem_Click}" Text="Rename" x:Name="RenameItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8AC;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F2"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CutItem_Click}" Text="Cut" x:Name="CutItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C6;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="X"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CopyItem_ClickAsync}" Text="Copy" x:Name="CopyItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.PinItem_Click}" Text="Pin to sidebar" x:Load="False" Tag="PinItem_FlyoutItem" x:Name="SidebarPinItem">
+                <MenuFlyoutItem.Icon>
+                    <SymbolIcon Symbol="Pin"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ShowPropertiesButton_Click}" Text="Properties" x:Name="PropertiesItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE946;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </local:BaseLayout.Resources>
 
-        <Style x:Key="TextBoxStyleForPathBar" TargetType="TextBox">
-            <Setter Property="Foreground" Value="{ThemeResource DefaultTextForegroundThemeBrush}"/>
-            <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}"/>
-            <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
-            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
-            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
-            <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>
-            <Setter Property="ContextFlyout" Value="{StaticResource TextControlCommandBarContextFlyout}"/>
-            <Setter Property="SelectionFlyout" Value="{StaticResource TextControlCommandBarSelectionFlyout}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Grid>
-                            <Grid.Resources>
-                                <Style x:Name="DeleteButtonStyle" TargetType="Button">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="Button">
-                                                <Grid x:Name="ButtonLayoutGrid" Background="{ThemeResource TextControlButtonBackground}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{ThemeResource TextControlButtonBorderBrush}">
-                                                    <VisualStateManager.VisualStateGroups>
-                                                        <VisualStateGroup x:Name="CommonStates">
-                                                            <VisualState x:Name="Normal"/>
-                                                            <VisualState x:Name="PointerOver">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPointerOver}"/>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPointerOver}"/>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPointerOver}"/>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Pressed">
-                                                                <Storyboard>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Background">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBackgroundPressed}"/>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="BorderBrush">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonBorderBrushPressed}"/>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="GlyphElement" Storyboard.TargetProperty="Foreground">
-                                                                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlButtonForegroundPressed}"/>
-                                                                    </ObjectAnimationUsingKeyFrames>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                            <VisualState x:Name="Disabled">
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Duration="0" Storyboard.TargetName="ButtonLayoutGrid" Storyboard.TargetProperty="Opacity" To="0"/>
-                                                                </Storyboard>
-                                                            </VisualState>
-                                                        </VisualStateGroup>
-                                                    </VisualStateManager.VisualStateGroups>
-                                                    <TextBlock x:Name="GlyphElement" AutomationProperties.AccessibilityView="Raw" FontStyle="Normal" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="Red" FontSize="12" HorizontalAlignment="Center" Text="&#xE10A;" VerticalAlignment="Center"/>
-                                                </Grid>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="HeaderContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlHeaderForegroundDisabled}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBackgroundDisabled}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderElement" Storyboard.TargetProperty="BorderBrush">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlBorderBrushDisabled}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentElement" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TextControlForegroundDisabled}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForegroundDisabled}}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver"/>
-                                    <VisualState x:Name="Focused"/>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="ButtonStates">
-                                    <VisualState x:Name="ButtonVisible">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="DeleteButton" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                    <DiscreteObjectKeyFrame.Value>
-                                                        <Visibility>Visible</Visibility>
-                                                    </DiscreteObjectKeyFrame.Value>
-                                                </DiscreteObjectKeyFrame>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="ButtonCollapsed"/>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <ContentPresenter x:Name="HeaderContentPresenter" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.ColumnSpan="2" Grid.Column="0" FontWeight="Normal" Foreground="{ThemeResource TextControlHeaderForeground}" Margin="{StaticResource TextBoxTopHeaderMargin}" Grid.Row="0" TextWrapping="Wrap" VerticalAlignment="Top" Visibility="Collapsed" x:DeferLoadStrategy="Lazy"/>
-                            <Border x:Name="BorderElement" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}" Grid.ColumnSpan="2" Grid.Column="0" Control.IsTemplateFocusTarget="True" MinHeight="{ThemeResource TextControlThemeMinHeight}" MinWidth="{ThemeResource TextControlThemeMinWidth}" Grid.RowSpan="1" Grid.Row="1"/>
-                            <ScrollViewer x:Name="ContentElement" AutomationProperties.AccessibilityView="Raw" Grid.Column="0" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsTabStop="False" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="Disabled"/>
-                            <TextBlock x:Name="PlaceholderTextContentPresenter" Grid.ColumnSpan="2" Grid.Column="0" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource TextControlPlaceholderForeground}}" IsHitTestVisible="False" Margin="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}" Grid.Row="1" Text="{TemplateBinding PlaceholderText}" TextWrapping="{TemplateBinding TextWrapping}" TextAlignment="{TemplateBinding TextAlignment}"/>
-                            <Button x:Name="DeleteButton" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" Grid.Column="1" FontSize="{TemplateBinding FontSize}" IsTabStop="False" MinWidth="34" Margin="{ThemeResource HelperButtonThemePadding}" Grid.Row="1" Style="{StaticResource DeleteButtonStyle}" VerticalAlignment="Stretch" Visibility="Collapsed"/>
-                            <ContentPresenter x:Name="DescriptionPresenter" AutomationProperties.AccessibilityView="Raw" Content="{TemplateBinding Description}" Grid.ColumnSpan="2" Grid.Column="0" Foreground="{ThemeResource SystemControlDescriptionTextForegroundBrush}" Grid.Row="2" x:Load="False"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+    <Grid ContextFlyout="{StaticResource BaseLayoutContextFlyout}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
+        <ProgressBar Visibility="{x:Bind LoadIndicator.isVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
+        <TextBlock Visibility="{x:Bind EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <Style x:Key="AppBarButtonFixedStyle" TargetType="AppBarButton">
-            <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}"/>
-            <Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrush}"/>
-            <Setter Property="BorderThickness" Value="{ThemeResource AppBarButtonRevealBorderThemeThickness}"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontWeight" Value="Normal"/>
-            <Setter Property="Width" Value="50"/>
-            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
-            <Setter Property="AllowFocusOnInteraction" Value="False"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="AppBarButton">
-                        <Grid x:Name="Root" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" MinWidth="{TemplateBinding MinWidth}" Margin="0,0" MaxWidth="{TemplateBinding MaxWidth}">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="ApplicationViewStates">
-                                    <VisualState x:Name="FullSize"/>
-                                    <VisualState x:Name="Compact">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarButtonContentViewboxCompactMargin}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="LabelOnRight">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarButtonContentViewboxMargin}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(Grid.Row)">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(Grid.Column)">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="TextAlignment">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Left"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Margin">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarButtonTextLabelOnRightMargin}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="LabelCollapsed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource AppBarButtonContentViewboxCompactMargin}"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Overflow">
-                                        <VisualState.Setters>
-                                            <Setter Target="ContentRoot.MinHeight" Value="0"/>
-                                            <Setter Target="ContentViewbox.Visibility" Value="Collapsed"/>
-                                            <Setter Target="TextLabel.Visibility" Value="Collapsed"/>
-                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="OverflowWithToggleButtons">
-                                        <VisualState.Setters>
-                                            <Setter Target="ContentRoot.MinHeight" Value="0"/>
-                                            <Setter Target="ContentViewbox.Visibility" Value="Collapsed"/>
-                                            <Setter Target="TextLabel.Visibility" Value="Collapsed"/>
-                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible"/>
-                                            <Setter Target="OverflowTextLabel.Margin" Value="38,0,12,0"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="OverflowWithMenuIcons">
-                                        <VisualState.Setters>
-                                            <Setter Target="ContentRoot.MinHeight" Value="0"/>
-                                            <Setter Target="ContentViewbox.HorizontalAlignment" Value="Left"/>
-                                            <Setter Target="ContentViewbox.VerticalAlignment" Value="Center"/>
-                                            <Setter Target="ContentViewbox.Width" Value="16"/>
-                                            <Setter Target="ContentViewbox.Height" Value="16"/>
-                                            <Setter Target="ContentViewbox.Margin" Value="12,0,12,0"/>
-                                            <Setter Target="TextLabel.Visibility" Value="Collapsed"/>
-                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible"/>
-                                            <Setter Target="OverflowTextLabel.Margin" Value="38,0,12,0"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="OverflowWithToggleButtonsAndMenuIcons">
-                                        <VisualState.Setters>
-                                            <Setter Target="ContentRoot.MinHeight" Value="0"/>
-                                            <Setter Target="ContentViewbox.HorizontalAlignment" Value="Left"/>
-                                            <Setter Target="ContentViewbox.VerticalAlignment" Value="Center"/>
-                                            <Setter Target="ContentViewbox.Width" Value="16"/>
-                                            <Setter Target="ContentViewbox.Height" Value="16"/>
-                                            <Setter Target="ContentViewbox.Margin" Value="38,0,12,0"/>
-                                            <Setter Target="TextLabel.Visibility" Value="Collapsed"/>
-                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible"/>
-                                            <Setter Target="OverflowTextLabel.Margin" Value="76,0,12,0"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="OverflowTextLabel"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="Root.(RevealBrush.State)" Value="PointerOver"/>
-                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPointerOver}"/>
-                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPointerOver}"/>
-                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}"/>
-                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}"/>
-                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}"/>
-                                        </VisualState.Setters>
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="OverflowTextLabel"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <VisualState.Setters>
-                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed"/>
-                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPressed}"/>
-                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPressed}"/>
-                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
-                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
-                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
-                                        </VisualState.Setters>
-                                        <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="OverflowTextLabel"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <VisualState.Setters>
-                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundDisabled}"/>
-                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushDisabled}"/>
-                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}"/>
-                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}"/>
-                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}"/>
-                                            <Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundDisabled}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="OverflowNormal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentRoot"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="OverflowPointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPointerOver}"/>
-                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPointerOver}"/>
-                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}"/>
-                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}"/>
-                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}"/>
-                                            <Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPointerOver}"/>
-                                        </VisualState.Setters>
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentRoot"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="OverflowPressed">
-                                        <VisualState.Setters>
-                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPressed}"/>
-                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPressed}"/>
-                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
-                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
-                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}"/>
-                                            <Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPressed}"/>
-                                        </VisualState.Setters>
-                                        <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="ContentRoot"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="InputModeStates">
-                                    <VisualState x:Name="InputModeDefault"/>
-                                    <VisualState x:Name="TouchInputMode">
-                                        <VisualState.Setters>
-                                            <Setter Target="OverflowTextLabel.Padding" Value="{StaticResource AppBarButtonOverflowTextTouchMargin}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                    <VisualState x:Name="GameControllerInputMode">
-                                        <VisualState.Setters>
-                                            <Setter Target="OverflowTextLabel.Padding" Value="{StaticResource AppBarButtonOverflowTextTouchMargin}"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="KeyboardAcceleratorTextVisibility">
-                                    <VisualState x:Name="KeyboardAcceleratorTextCollapsed"/>
-                                    <VisualState x:Name="KeyboardAcceleratorTextVisible">
-                                        <VisualState.Setters>
-                                            <Setter Target="KeyboardAcceleratorTextLabel.Visibility" Value="Visible"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid Height="50" Width="50" x:Name="ContentRoot" MinHeight="50" Margin="0,0">
-
-
-                                <Viewbox x:Name="ContentViewbox" AutomationProperties.AccessibilityView="Raw" HorizontalAlignment="Stretch" Height="16" Margin="{StaticResource AppBarButtonContentViewboxCollapsedMargin}">
-                                    <ContentPresenter x:Name="Content" Content="{TemplateBinding Icon}" Foreground="{TemplateBinding Foreground}"/>
-                                </Viewbox>
-                                <TextBlock x:Name="TextLabel" AutomationProperties.AccessibilityView="Raw" FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" FontSize="22" Margin="2" Grid.Row="1" Text="{TemplateBinding Label}" TextWrapping="Wrap" TextAlignment="Center" Grid.RowSpan="2"/>
-                                <TextBlock x:Name="OverflowTextLabel" AutomationProperties.AccessibilityView="Raw" FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" FontSize="15" HorizontalAlignment="Stretch" Margin="12,0,12,0" Padding="{StaticResource AppBarButtonOverflowTextLabelPadding}" Text="{TemplateBinding Label}" TextTrimming="Clip" TextWrapping="NoWrap" TextAlignment="Left" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                <TextBlock x:Name="KeyboardAcceleratorTextLabel" AutomationProperties.AccessibilityView="Raw" Grid.Column="1" Foreground="{ThemeResource AppBarButtonKeyboardAcceleratorTextForeground}" HorizontalAlignment="Right" MinWidth="{Binding TemplateSettings.KeyboardAcceleratorTextMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" Margin="24,0,12,0" Style="{ThemeResource CaptionTextBlockStyle}" Text="{TemplateBinding KeyboardAcceleratorTextOverride}" VerticalAlignment="Center" Visibility="Collapsed"/>
-                                <Border x:Name="Border" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}"  Margin="0,0"/>
-                            </Grid>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <ItemsPanelTemplate x:Key="GridViewItemsPanel1">
-            <ItemsWrapGrid Orientation="Horizontal"/>
-        </ItemsPanelTemplate>
-    </Page.Resources>
-
-    <Grid Tag="{x:Bind Tag, Mode=OneWay}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
-        <Grid.ContextFlyout>
-            <MenuFlyout x:Name="GridRightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                <MenuFlyout.Items>
-                    <MenuFlyoutSubItem Text="Sort by" x:Name="SortByGrid">
-                        <MenuFlyoutSubItem.Icon>
-                            <FontIcon Glyph="&#xE8CB;"/>
-                        </MenuFlyoutSubItem.Icon>
-                        <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByName, Mode=TwoWay}"/>
-                        <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByDate, Mode=TwoWay}"/>
-                        <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedByType, Mode=TwoWay}"/>
-                        <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind viewModelInstance.IsSortedBySize, Mode=TwoWay}"/>
-                        <MenuFlyoutSeparator/>
-                        <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedAscending, Mode=TwoWay}"/>
-                        <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind viewModelInstance.IsSortedDescending, Mode=TwoWay}"/>
-                    </MenuFlyoutSubItem>
-                    <MenuFlyoutItem Click="RefreshGrid_Click" Text="Refresh" x:Name="RefreshGrid">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE72C;"/>
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem Click="PasteGrid_Click" Text="Paste" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="PasteGrid">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE77F;"/>
-                        </MenuFlyoutItem.Icon>
-                        <MenuFlyoutItem.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Control" Key="V"/>
-                        </MenuFlyoutItem.KeyboardAccelerators>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem x:Name="OpenTerminal" IsEnabled="True" Text="Open in Terminal...">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE756;"/>
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutSeparator/>
-                    <MenuFlyoutSubItem Text="New" x:Name="NewEmptySpace">
-                        <MenuFlyoutSubItem.Icon>
-                            <FontIcon Glyph="&#xE710;"/>
-                        </MenuFlyoutSubItem.Icon>
-                        <MenuFlyoutItem Text="Folder" x:Name="NewFolder">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8B7;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem Text="Bitmap Image" x:Name="NewBitmapImage">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEB9F;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem Text="Text Document" x:Name="NewTextDocument">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8A5;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyoutSubItem>
-                </MenuFlyout.Items>
-            </MenuFlyout>
-        </Grid.ContextFlyout>
-        <ProgressBar Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
-        <TextBlock Visibility="{x:Bind TextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
-
-        <GridView PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" x:Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind viewModelInstance.FilesAndFolders}" VerticalContentAlignment="Stretch">
+        <GridView x:FieldModifier="public" PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" x:Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}" VerticalContentAlignment="Stretch">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
-                    <Setter Property="ContextFlyout">
-                        <Setter.Value>
-                            <MenuFlyout Opened="RightClickContextMenu_Opened" x:Name="RightClickContextMenu" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
-                                <MenuFlyout.Items>
-                                    <MenuFlyoutItem Text="Extract" x:Name="UnzipItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xED25;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="OpenItem_Click" Text="Open With..." x:Name="OpenItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE7AC;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Open in new tab" x:Name="OpenInNewTab">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE737;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Text="Open in new window" x:Name="OpenInNewWindowItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8A7;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="ShareItem_Click" Text="Share" x:Name="ShareItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE72D;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Modifiers="Control" Key="S"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="DeleteItem_Click" Text="Delete" x:Name="DeleteItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE74D;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Key="Delete"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="RenameItem_Click" Text="Rename" x:Name="RenameItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8AC;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Key="F2"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Click="CutItem_Click" Text="Cut" x:Name="CutItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C6;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Modifiers="Control" Key="X"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="CopyItem_Click" Text="Copy" x:Name="CopyItem" >
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE8C8;"/>
-                                        </MenuFlyoutItem.Icon>
-                                        <MenuFlyoutItem.KeyboardAccelerators>
-                                            <KeyboardAccelerator Modifiers="Control" Key="C"/>
-                                        </MenuFlyoutItem.KeyboardAccelerators>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem Text="Pin to sidebar" x:Name="SidebarPinItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <SymbolIcon Symbol="Pin"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                    <MenuFlyoutItem Click="PropertiesItem_Click" Text="Properties" x:Name="PropertiesItem">
-                                        <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE946;"/>
-                                        </MenuFlyoutItem.Icon>
-                                    </MenuFlyoutItem>
-                                </MenuFlyout.Items>
-                            </MenuFlyout>
-                        </Setter.Value>
-                    </Setter>
+                    <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}"/>
                 </Style>
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <Grid IsRightTapEnabled="True" RightTapped="StackPanel_RightTapped" Width="125" Height="Auto" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid Width="125" Height="Auto" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="Auto"/>
@@ -561,4 +187,4 @@
             </GridView.ItemTemplate>
         </GridView>
     </Grid>
-</Page>
+</local:BaseLayout>

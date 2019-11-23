@@ -2,9 +2,9 @@
 using System.Runtime.CompilerServices;
 using Windows.UI.Xaml;
 
-namespace Files.Filesystem
+namespace Files
 {
-    public class LoadingVisibility : INotifyPropertyChanged
+    public class LoadingIndicator : INotifyPropertyChanged
     {
         public Visibility _isVisible;
         public Visibility isVisible

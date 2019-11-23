@@ -174,33 +174,11 @@ namespace Files.Filesystem
         public ItemViewModel()
         {
             _filesAndFolders = new ObservableCollection<ListedItem>();
-
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
-            if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-            }
-            else if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-            }
-            else if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(AddItem))
-            {
-                if((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
-                {
-                    (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                }
-                else if((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-                {
-                    (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                }
-            }
-
-            App.selectedTabInstance.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
-            App.selectedTabInstance.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
-            App.selectedTabInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
-            App.selectedTabInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
-
+            App.OccupiedInstance.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
+            App.OccupiedInstance.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
+            App.OccupiedInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
+            App.OccupiedInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
             _cancellationTokenSource = new CancellationTokenSource();
 
             Universal.PropertyChanged += Universal_PropertyChanged;
@@ -215,7 +193,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            App.selectedTabInstance.pathBoxItems.Clear();
+            App.OccupiedInstance.pathBoxItems.Clear();
             // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -250,7 +228,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.selectedTabInstance.pathBoxItems.Add(item);
+                        App.OccupiedInstance.pathBoxItems.Add(item);
                     }
                     else
                     {
@@ -265,7 +243,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.selectedTabInstance.pathBoxItems.Add(item);
+                        App.OccupiedInstance.pathBoxItems.Add(item);
 
                     }
                     index++;
@@ -275,49 +253,49 @@ namespace Files.Filesystem
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(App.selectedTabInstance.AlwaysPresentCommands.isEnabled == true)
+            if(App.OccupiedInstance.AlwaysPresentCommands.isEnabled == true)
             {
-                App.selectedTabInstance.AlwaysPresentCommands.isEnabled = true;
+                App.OccupiedInstance.AlwaysPresentCommands.isEnabled = true;
             }
             else
             {
-                App.selectedTabInstance.AlwaysPresentCommands.isEnabled = false;
+                App.OccupiedInstance.AlwaysPresentCommands.isEnabled = false;
             }
         }
 
         private void LayoutItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.selectedTabInstance.LayoutItems.isEnabled == true)
+            if (App.OccupiedInstance.LayoutItems.isEnabled == true)
             {
-                App.selectedTabInstance.LayoutItems.isEnabled = true;
+                App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else
             {
-                App.selectedTabInstance.LayoutItems.isEnabled = false;
+                App.OccupiedInstance.LayoutItems.isEnabled = false;
             }
         }
 
         private void ShareItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.selectedTabInstance.ShareItems.isEnabled == true)
+            if (App.OccupiedInstance.ShareItems.isEnabled == true)
             {
-                App.selectedTabInstance.ShareItems.isEnabled = true;
+                App.OccupiedInstance.ShareItems.isEnabled = true;
             }
             else
             {
-                App.selectedTabInstance.ShareItems.isEnabled = false;
+                App.OccupiedInstance.ShareItems.isEnabled = false;
             }
         }
 
         private void HomeItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.selectedTabInstance.HomeItems.isEnabled == true)
+            if (App.OccupiedInstance.HomeItems.isEnabled == true)
             {
-                App.selectedTabInstance.HomeItems.isEnabled = true;
+                App.OccupiedInstance.HomeItems.isEnabled = true;
             }
             else
             {
-                App.selectedTabInstance.HomeItems.isEnabled = false;
+                App.OccupiedInstance.HomeItems.isEnabled = false;
             }
 
         }
@@ -325,18 +303,7 @@ namespace Files.Filesystem
         public void AddFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Add(item);
-            if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-            {
-                if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-                {
-                    (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                }
-                else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-                {
-                    (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                }
-            }
-
+            (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).EmptyTextState.isVisible = Visibility.Collapsed;
         }
 
         public void RemoveFileOrFolder(ListedItem item)
@@ -344,17 +311,7 @@ namespace Files.Filesystem
             _filesAndFolders.Remove(item);
             if (_filesAndFolders.Count == 0)
             {
-                if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-                {
-                    if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-                    {
-                        (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Visible;
-                    }
-                    else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-                    {
-                        (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Visible;
-                    }
-                }
+                (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).EmptyTextState.isVisible = Visibility.Visible;
             }
         }
 
@@ -369,9 +326,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.selectedTabInstance.BackButton.IsEnabled = true;
-            App.selectedTabInstance.ForwardButton.IsEnabled = true;
-            App.selectedTabInstance.UpButton.IsEnabled = true;
+            App.OccupiedInstance.BackButton.IsEnabled = true;
+            App.OccupiedInstance.ForwardButton.IsEnabled = true;
+            App.OccupiedInstance.UpButton.IsEnabled = true;
 
         }
 
@@ -446,58 +403,46 @@ namespace Files.Filesystem
         bool isLoadingItems = false;
         public async void AddItemsToCollectionAsync(string path)
         {
-            App.selectedTabInstance.RefreshButton.IsEnabled = false;
+            App.OccupiedInstance.RefreshButton.IsEnabled = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
             isLoadingItems = true;
-            if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Collapsed;
-            }
-            else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Collapsed;
-            }
+
+            (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).EmptyTextState.isVisible = Visibility.Collapsed;
 
             Universal.path = path;
             _filesAndFolders.Clear();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
-            }
-            else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
-            }
+            (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).LoadIndicator.isVisible = Visibility.Visible;
+
 
             switch (Universal.path)
             {
                 case "Desktop":
-                    Universal.path = ProHome.DesktopPath;
+                    Universal.path = App.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = ProHome.DownloadsPath;
+                    Universal.path = App.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = ProHome.DocumentsPath;
+                    Universal.path = App.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = ProHome.PicturesPath;
+                    Universal.path = App.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = ProHome.MusicPath;
+                    Universal.path = App.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = ProHome.VideosPath;
+                    Universal.path = App.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = ProHome.OneDrivePath;
+                    Universal.path = App.OneDrivePath;
                     break;
             }
 
@@ -505,8 +450,8 @@ namespace Files.Filesystem
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
 
-                App.selectedTabInstance.BackButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoBack;
-                App.selectedTabInstance.ForwardButton.IsEnabled = App.selectedTabInstance.accessibleContentFrame.CanGoForward;
+                App.OccupiedInstance.BackButton.IsEnabled = App.OccupiedInstance.accessibleContentFrame.CanGoBack;
+                App.OccupiedInstance.ForwardButton.IsEnabled = App.OccupiedInstance.accessibleContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -514,12 +459,12 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                        if (App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
-                        else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                        else if (App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
@@ -530,12 +475,12 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                        if (App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
-                        else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+                        else if (App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
@@ -588,31 +533,18 @@ namespace Files.Filesystem
                 }
                 if (numFiles + numFolders == 0)
                 {
-                    if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                    if (_cancellationTokenSource.IsCancellationRequested)
                     {
-                        if (_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            _cancellationTokenSource = new CancellationTokenSource();
-                            isLoadingItems = false;
-                            return;
-                        }
-                        (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).TextState.isVisible = Visibility.Visible;
+                        _cancellationTokenSource = new CancellationTokenSource();
+                        isLoadingItems = false;
+                        return;
                     }
-                    else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-                    {
-                        if (_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            _cancellationTokenSource = new CancellationTokenSource();
-                            isLoadingItems = false;
-                            return;
-                        }
-                        (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).TextState.isVisible = Visibility.Visible;
-                    }
+                    (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).EmptyTextState.isVisible = Visibility.Visible;
                 }
                 OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.selectedTabInstance.RefreshButton.IsEnabled = true;
+                App.OccupiedInstance.RefreshButton.IsEnabled = true;
             }
             catch (UnauthorizedAccessException)
             {
@@ -637,26 +569,13 @@ namespace Files.Filesystem
                 return;
             }
 
-            if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            if (_cancellationTokenSource.IsCancellationRequested)
             {
-                if (_cancellationTokenSource.IsCancellationRequested)
-                {
-                    _cancellationTokenSource = new CancellationTokenSource();
-                    isLoadingItems = false;
-                    return;
-                }
-                (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
+                _cancellationTokenSource = new CancellationTokenSource();
+                isLoadingItems = false;
+                return;
             }
-            else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                if (_cancellationTokenSource.IsCancellationRequested)
-                {
-                    _cancellationTokenSource = new CancellationTokenSource();
-                    isLoadingItems = false;
-                    return;
-                }
-                (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
-            }
+            (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).LoadIndicator.isVisible = Visibility.Collapsed;
             isLoadingItems = false;
         }
 
@@ -664,7 +583,7 @@ namespace Files.Filesystem
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
+            if ((App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -684,14 +603,8 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 });
-                if((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null)
-                {
-                    (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-                }
-                else if((App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-                {
-                    (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-                }
+                (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).EmptyTextState.isVisible = Visibility.Collapsed;
+
             }
         }
 
@@ -712,7 +625,7 @@ namespace Files.Filesystem
             Visibility itemThumbnailImgVis;
             Visibility itemEmptyImgVis;
 
-            if (!(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
+            if (!(App.OccupiedInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 try
                 {
@@ -785,14 +698,8 @@ namespace Files.Filesystem
                 FileSizeBytes = itemSizeBytes
             });
 
-            if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).emptyTextGFB.Visibility = Visibility.Collapsed;
-            }
-            else if(App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).EmptyTextPA.Visibility = Visibility.Collapsed;
-            }
+            (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).EmptyTextState.isVisible = Visibility.Collapsed;
+
         }
 
         public async void FileContentsChanged(IStorageQueryResultBase sender, object args)
@@ -810,17 +717,7 @@ namespace Files.Filesystem
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                if((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-                {
-                    if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-                    {
-                        (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Visible;
-                    }
-                    else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-                    {
-                        (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Visible;
-                    }
-                }
+                (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).LoadIndicator.isVisible = Visibility.Visible;
             });
             _filesRefreshing = true;
 
@@ -874,17 +771,7 @@ namespace Files.Filesystem
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                if ((App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser) != null || (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum) != null)
-                {
-                    if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
-                    {
-                        (App.selectedTabInstance.accessibleContentFrame.Content as GenericFileBrowser).progressBar.Visibility = Visibility.Collapsed;
-                    }
-                    else if (App.selectedTabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
-                    {
-                        (App.selectedTabInstance.accessibleContentFrame.Content as PhotoAlbum).progressBar.Visibility = Visibility.Collapsed;
-                    }
-                }
+                (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).LoadIndicator.isVisible = Visibility.Collapsed;
             });
 
             _filesRefreshing = false;
