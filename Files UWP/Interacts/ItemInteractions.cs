@@ -22,6 +22,8 @@ namespace Files.Interacts
                 }
             }
         }
+                
+                
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

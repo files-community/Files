@@ -19,27 +19,23 @@ using Windows.UI.Xaml.Navigation;
 namespace Files
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// The base class which every layout page must derive from
     /// </summary>
     public class BaseLayout : Page
     {
-        //public MenuFlyout itemContextFlyout;
-        //public MenuFlyout pageContextFlyout;
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
-        public EmptyFolderTextState EmptyTextState { get; set; } = new EmptyFolderTextState();
-        public LoadingIndicator LoadIndicator { get; set; } = new LoadingIndicator();
         public List<ListedItem> selectedItems 
         { 
             get
             {
-                if (App.OccupiedInstance.accessibleContentFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
                 {
-                    return (App.OccupiedInstance.accessibleContentFrame.Content as GenericFileBrowser).AllView.SelectedItems.Cast<ListedItem>().ToList();
+                    return (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItems.Cast<ListedItem>().ToList();
                 }
-                else if (App.OccupiedInstance.accessibleContentFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
                 {
-                    return (App.OccupiedInstance.accessibleContentFrame.Content as PhotoAlbum).FileList.SelectedItems.Cast<ListedItem>().ToList();
+                    return (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItems.Cast<ListedItem>().ToList();
                 }
                 else
                 {
@@ -50,7 +46,6 @@ namespace Files
 
         public BaseLayout()
         {
-            
             this.Loaded += Page_Loaded;
             Page_Loaded(null, null);
         }
@@ -65,11 +60,22 @@ namespace Files
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
-            App.OccupiedInstance.RefreshButton.IsEnabled = true;
+            App.OccupiedInstance.Refresh.IsEnabled = true;
             App.OccupiedInstance.AlwaysPresentCommands.isEnabled = true;
-            EmptyTextState.isVisible = Visibility.Collapsed;
+            AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.OccupiedInstance.instanceViewModel.Universal.path = parameters;
+            
+            if (App.OccupiedInstance.instanceViewModel.Universal.path == Path.GetPathRoot(App.OccupiedInstance.instanceViewModel.Universal.path))
+            {
+                App.OccupiedInstance.Up.IsEnabled = false;
+            }
+            else
+            {
+                App.OccupiedInstance.Up.IsEnabled = true;
+            }
+
             App.OccupiedInstance.instanceViewModel.AddItemsToCollectionAsync(App.OccupiedInstance.instanceViewModel.Universal.path);
+            App.Clipboard_ContentChanged(null, null);
 
             if (parameters.Equals(App.DesktopPath))
             {
@@ -128,7 +134,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            var selectedFileSystemItems = (App.OccupiedInstance.accessibleContentFrame.Content as BaseLayout).selectedItems;
+            var selectedFileSystemItems = (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems;
 
             // Find selected items that are not folders
             if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))

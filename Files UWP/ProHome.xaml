@@ -648,17 +648,17 @@
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                    <AppBarButton Click="CutButton_Click" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  x:Name="CutButton" Label="Cut" Icon="Cut"/>
-                                    <AppBarButton Click="CopyButton_Click" x:Name="CopyButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
-                                    <AppBarButton Click="PasteButton_Click" x:Name="PasteButton" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste"/>
-                                    <AppBarButton Click="CopyPathButton_Click" x:Name="CopyPathButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
+                                    <AppBarButton Click="{x:Bind instanceInteraction.CutItem_Click}" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  x:Name="CutButton" Label="Cut" Icon="Cut"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.CopyItem_ClickAsync}" x:Name="CopyButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.PasteItem_ClickAsync}" x:Name="PasteButton" IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste" x:FieldModifier="public"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.GetPath_Click}" x:Name="CopyPathButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
                                         <AppBarButton.Icon>
                                             <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
                                         </AppBarButton.Icon>
                                     </AppBarButton>
                                     <AppBarSeparator/>
-                                    <AppBarButton Click="DeleteButton_Click" x:Name="DeleteButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
-                                    <AppBarButton Click="RenameButton_Click" x:Name="RenameButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.DeleteItem_Click}" x:Name="DeleteButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.RenameItem_Click}" x:Name="RenameButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
                                     <AppBarButton Click="AddItem_Click" x:Name="addItemButton" IsEnabled="{x:Bind AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add">
                                         <AppBarButton.KeyboardAccelerators>
                                             <KeyboardAccelerator Modifiers="Control, Shift"  Key="N"/>
@@ -670,7 +670,7 @@
                                             <FontIcon Glyph="&#xE946;"/>
                                         </AppBarButton.Icon>
                                     </AppBarButton>
-                                    <AppBarButton Click="OpenWithButton_Click" x:Name="OpenWithButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.OpenItem_Click}" x:Name="OpenWithButton" IsEnabled="{x:Bind HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
                                 </CommandBar>
                             </CommandBar.Content>
                         </CommandBar>
@@ -682,7 +682,7 @@
                         <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                             <CommandBar.Content>
                                 <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                    <AppBarButton Click="ShareButton_Click" x:Name="ShareButton" IsEnabled="{x:Bind ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.ShareItem_Click}" x:Name="ShareButton" IsEnabled="{x:Bind ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
                                 </CommandBar>
                             </CommandBar.Content>
                         </CommandBar>
@@ -699,12 +699,12 @@
                                             <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
                                         </AppBarButton.Icon>
                                     </AppBarButton>
-                                    <AppBarButton Click="SelectAllButton_Click" x:Name="SelectAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
+                                    <AppBarButton Click="{x:Bind instanceInteraction.SelectAllItems}" x:Name="SelectAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
                                         <AppBarButton.KeyboardAccelerators>
                                             <KeyboardAccelerator Modifiers="Control" Key="A"/>
                                         </AppBarButton.KeyboardAccelerators>
                                     </AppBarButton>
-                                    <AppBarButton Click="ClearAllButton_Click" x:Name="ClearAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
+                                    <AppBarButton Click="{x:Bind instanceInteraction.ClearAllItems}" x:Name="ClearAllButton" IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
                                     <AppBarSeparator/>
                                     <AppBarButton IsEnabled="{x:Bind LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="Sort" Label="Sort by">
                                         <AppBarButton.Flyout>
@@ -793,13 +793,6 @@
                             </Button>
                         </StackPanel>
                     </Custom:TabViewItem>
-                    <Custom:TabView.Resources>
-                        <uilib:TeachingTip Loaded="RibbonTip_Loaded" Target="{x:Bind Ribbon}" x:Key="RibbonTipKey" x:Name="RibbonTip" PreferredPlacement="Bottom" Subtitle="Access different commands faster than ever from their new location." Title="Meet the Ribbon">
-                            <uilib:TeachingTip.IconSource>
-                                <uilib:SymbolIconSource Symbol="Help"/>
-                            </uilib:TeachingTip.IconSource>
-                        </uilib:TeachingTip>
-                    </Custom:TabView.Resources>
                 </Custom:TabView>
                 <Grid ColumnSpacing="0" VerticalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -808,7 +801,7 @@
                         <ColumnDefinition MinWidth="24" Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Button IsEnabled="{x:Bind local:App.OccupiedInstance.accessibleContentFrame.CanGoBack, Mode=OneWay}" Style="{StaticResource NavigationBackButtonNormalStyle}"  x:Name="Back">
+                        <Button x:FieldModifier="public" Click="{x:Bind local:NavigationActions.Back_Click}" IsEnabled="{x:Bind ItemDisplayFrame.CanGoBack, Mode=OneWay}" Style="{StaticResource NavigationBackButtonNormalStyle}"  x:Name="Back">
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
                                 <KeyboardAccelerator Key="XButton1"/>
@@ -816,7 +809,7 @@
                             </Button.KeyboardAccelerators>
                         </Button>
 
-                        <Button IsEnabled="{x:Bind local:App.OccupiedInstance.accessibleContentFrame.CanGoForward, Mode=OneWay}" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Forward">
+                        <Button x:FieldModifier="public" Click="{x:Bind local:NavigationActions.Forward_Click}" IsEnabled="{x:Bind ItemDisplayFrame.CanGoForward, Mode=OneWay}" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Forward">
                             <Button.Content>
                                 &#xE72A;
                             </Button.Content>
@@ -826,7 +819,7 @@
                             </Button.KeyboardAccelerators>
                         </Button>
 
-                        <Button Visibility="Visible" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Up">
+                        <Button x:FieldModifier="public" Click="{x:Bind local:NavigationActions.Up_Click}" Visibility="Visible" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Up">
                             <Button.Content>
                                 &#xE74A;
                             </Button.Content>
@@ -835,7 +828,7 @@
                             </Button.KeyboardAccelerators>
                         </Button>
 
-                        <Button Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Refresh" >
+                        <Button x:FieldModifier="public"  Click="{x:Bind local:NavigationActions.Refresh_Click}" Style="{StaticResource NavigationButtonNormalStyle}" x:Name="Refresh" >
                             <Button.Content>
                                 &#xE72C;
                             </Button.Content>
@@ -845,7 +838,7 @@
                         </Button>
                     </StackPanel>
                     <Grid Padding="5,5,5,5.5" Grid.Column="1">
-                        <TextBox LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="4" PlaceholderText="Enter a path"/>
+                        <TextBox x:FieldModifier="public" LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Text="{x:Bind PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Windows10version1809:CornerRadius="2"  KeyDown="VisiblePath_TextChanged" Style="{StaticResource TextBoxStyleForPathBar}" BorderThickness="1" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="4" PlaceholderText="Enter a path"/>
                         <Grid Background="Transparent" Padding="2.5,0,0,0" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Windows10version1809:CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
                             <Grid.ContextFlyout>
                                 <MenuFlyout>
@@ -888,7 +881,7 @@
                                 <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="F"/>
                             </TextBox.KeyboardAccelerators>
                         </TextBox>
-                        <Button BorderBrush="{StaticResource SystemAccentColor}" Width="35" BorderThickness="1" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,2,2,0" Background="{StaticResource SystemAccentColor}" Click="Button_Click">
+                        <Button BorderBrush="{StaticResource SystemAccentColor}" Width="35" BorderThickness="1" VerticalAlignment="Stretch" Windows10version1809:CornerRadius="0,2,2,0" Background="{StaticResource SystemAccentColor}" >
                             <FontIcon FontSize="12" Foreground="White" Glyph="&#xEBE7;"/>
                         </Button>
                     </StackPanel>
@@ -898,7 +891,7 @@
         <SplitView DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
                 <ScrollViewer Margin="0,14,0,0" VerticalScrollBarVisibility="Auto">
-                    <Grid >
+                    <Grid>
                         <StackPanel>
                             <StackPanel.Resources>
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelected" Color="{ThemeResource SystemRevealListMediumColor}"/>
@@ -906,7 +899,7 @@
                                 <SolidColorBrush x:Key="ListViewItemBackgroundSelectedPressed" Color="{ThemeResource SystemRevealListMediumColor}"/>
                             </StackPanel.Resources>
                             <TextBlock Visibility="Collapsed" Margin="10" Text="Locations" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView IsRightTapEnabled="True" RightTapped="LocationsList_RightTapped" ItemsSource="{x:Bind local:App.sideBarItems}" SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" x:Name="LocationsList">
+                            <ListView x:FieldModifier="public" IsRightTapEnabled="True" RightTapped="LocationsList_RightTapped" ItemsSource="{x:Bind local:App.sideBarItems}" SelectionChanged="LocationsList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="LocationsList_ItemClick" x:Name="LocationsList">
                                 <ListView.Resources>
                                     <ResourceDictionary>
                                         <ResourceDictionary.MergedDictionaries>
@@ -914,7 +907,7 @@
                                             <ResourceDictionary>
                                                 <MenuFlyout x:Name="SideBarItemContextFlyout">
                                                     <MenuFlyout.Items>
-                                                        <MenuFlyoutItem x:Name="UnpinItem" Text="Unpin from Sidebar"/>
+                                                        <MenuFlyoutItem Click="{x:Bind local:App.FlyoutItem_Click}" x:Name="UnpinItem" Text="Unpin from Sidebar"/>
                                                     </MenuFlyout.Items>
                                                 </MenuFlyout>
                                             </ResourceDictionary>
@@ -931,7 +924,7 @@
                                 </ListView.ItemTemplate>
                             </ListView>
                             <TextBlock Margin="10,10,10,5" Text="Drives" FontSize="14" FontWeight="Bold" Padding="0" VerticalAlignment="Stretch"/>
-                            <ListView ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" x:Name="DrivesList">
+                            <ListView x:FieldModifier="public" ItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="DrivesList_ItemClick" x:Name="DrivesList">
                                 <ListView.Resources>
                                     <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                                 </ListView.Resources>
@@ -952,7 +945,7 @@
                 </ScrollViewer>
             </SplitView.Pane>
 
-            <Frame Navigated="ItemDisplayFrame_Navigated" Navigating="ItemDisplayFrame_Navigating" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ItemDisplayFrame"/>
+            <Frame x:FieldModifier="public" Navigated="ItemDisplayFrame_Navigated" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ItemDisplayFrame"/>
 
         </SplitView>
         

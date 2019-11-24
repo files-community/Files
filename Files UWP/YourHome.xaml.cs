@@ -56,11 +56,11 @@ namespace Files
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(parameters, null);
             instanceTabsView.TabStrip_SelectionChanged(null, null);
-            App.OccupiedInstance.RefreshButton.IsEnabled = false;
-            App.OccupiedInstance.accessiblePasteButton.IsEnabled = false;
+            App.OccupiedInstance.Refresh.IsEnabled = false;
+            App.PS.isEnabled = false;
             App.OccupiedInstance.AlwaysPresentCommands.isEnabled = false;
             App.OccupiedInstance.LayoutItems.isEnabled = false;
-            App.OccupiedInstance.UpButton.IsEnabled = false;
+            App.OccupiedInstance.Up.IsEnabled = false;
             // Clear the path UI and replace with Favorites
             App.OccupiedInstance.pathBoxItems.Clear();
             //Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
@@ -166,38 +166,38 @@ namespace Files
             if (BelowCardText == "Downloads")
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 2;
+                App.OccupiedInstance.LocationsList.SelectedIndex = 2;
                 //instanceViewModel.TextState.isVisible = Visibility.Collapsed;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 3;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 3;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 4;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 4;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
 
             }
             else if (BelowCardText == "Music")
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 5;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 5;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 6;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 6;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
         }
@@ -218,36 +218,36 @@ namespace Files
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 2;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 2;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 3;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 3;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 4;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 4;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 5;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 5;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
                 
-                App.OccupiedInstance.locationsList.SelectedIndex = 6;
-                App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
+                App.OccupiedInstance.LocationsList.SelectedIndex = 6;
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
         }
@@ -348,18 +348,18 @@ namespace Files
             {
                 if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
                 {
-                    App.OccupiedInstance.drivesList.SelectedIndex = 0;
-                    App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                    App.OccupiedInstance.DrivesList.SelectedIndex = 0;
+                    App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), path);
                 }
                 else
                 {
-                    foreach(ListViewItem drive in App.OccupiedInstance.drivesList.Items)
+                    foreach(ListViewItem drive in App.OccupiedInstance.DrivesList.Items)
                     {
                         if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
-                            App.OccupiedInstance.drivesList.SelectedItem = null;
+                            App.OccupiedInstance.DrivesList.SelectedItem = null;
                             drive.IsSelected = true;
-                            App.OccupiedInstance.accessibleContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                            App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), path);
                             return;
                         }
                     }

@@ -147,10 +147,10 @@
     </local:BaseLayout.Resources>
 
     <Grid ContextFlyout="{StaticResource BaseLayoutContextFlyout}" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" Padding="0,0,0,0" VerticalAlignment="Stretch">
-        <ProgressBar Visibility="{x:Bind LoadIndicator.isVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
-        <TextBlock Visibility="{x:Bind EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
+        <ProgressBar Visibility="{x:Bind AssociatedViewModel.LoadIndicator.isVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Name="ProgBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
+        <TextBlock Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0" Grid.Row="3" Canvas.ZIndex="0"/>
 
-        <GridView x:FieldModifier="public" PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" x:Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}" VerticalContentAlignment="Stretch">
+        <GridView IsDoubleTapEnabled="True" DoubleTapped="{x:Bind local:App.OccupiedInstance.instanceInteraction.List_ItemClick}" x:FieldModifier="public" PreviewKeyDown="FileList_PreviewKeyDown" SelectionChanged="FileList_SelectionChanged" x:Name="FileList" Margin="24,24,24,0" SelectionMode="Extended" ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}" VerticalContentAlignment="Stretch">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}"/>
@@ -158,7 +158,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
-                    <Grid Width="125" Height="Auto" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid RightTapped="StackPanel_RightTapped" IsRightTapEnabled="True" Width="125" Height="Auto" Padding="0" ToolTipService.ToolTip="{Binding FileName}" Background="Transparent" Margin="0, 0, 0, 0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100"/>
                             <RowDefinition Height="Auto"/>

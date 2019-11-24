@@ -17,7 +17,7 @@ namespace Files
 
         }
 
-        private void FileList_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void FileList_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
             var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);

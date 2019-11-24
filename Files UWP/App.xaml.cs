@@ -1,9 +1,7 @@
 ﻿using Files.Interacts;
-using Files.Navigation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
@@ -22,13 +20,9 @@ using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
 using Windows.Devices.Enumeration;
-using System.Text.RegularExpressions;
 using Windows.Devices.Portable;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Windows.Storage.Search;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Controls.Primitives;
 using Files.Enums;
 
@@ -60,6 +54,11 @@ namespace Files
                 
             }
         }
+        public static Dialogs.LayoutDialog layoutDialog;
+        public static Dialogs.PropertiesDialog propertiesDialog;
+        public static Dialogs.AddItemDialog addItemDialog;
+        public static Dialogs.ConsentDialog consentDialog { get; set; }
+
         private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
@@ -69,6 +68,9 @@ namespace Files
             this.InitializeComponent();
             exceptionDialog = new Dialogs.ExceptionDialog();
             consentDialog = new Dialogs.ConsentDialog();
+            layoutDialog = new Dialogs.LayoutDialog();
+            propertiesDialog = new Dialogs.PropertiesDialog();
+            addItemDialog = new Dialogs.AddItemDialog();
             this.Suspending += OnSuspending;
             this.UnhandledException += App_UnhandledException;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
@@ -142,6 +144,20 @@ namespace Files
             if (localSettings.Values["DrivesDisplayed_NewTab"] == null)
             {
                 localSettings.Values["DrivesDisplayed_NewTab"] = false;
+            }
+
+            // Overwrite paths for common locations if Custom Locations setting is enabled
+            if (localSettings.Values["customLocationsSetting"] != null)
+            {
+                if (localSettings.Values["customLocationsSetting"].Equals(true))
+                {
+                    App.DesktopPath = localSettings.Values["DesktopLocation"].ToString();
+                    App.DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
+                    App.DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
+                    App.PicturesPath = localSettings.Values["PicturesLocation"].ToString();
+                    App.MusicPath = localSettings.Values["MusicLocation"].ToString();
+                    App.VideosPath = localSettings.Values["VideosLocation"].ToString();
+                }
             }
 
             PopulatePinnedSidebarItems();
@@ -484,12 +500,12 @@ namespace Files
             }
         }
 
-        private void Clipboard_ContentChanged(object sender, object e)
+        public static void Clipboard_ContentChanged(object sender, object e)
         {
             try
             {
                 DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems))
+                if (packageView.Contains(StandardDataFormats.StorageItems) && App.OccupiedInstance.ItemDisplayFrame.SourcePageType != typeof(YourHome))
                 {
                     App.PS.isEnabled = true;
                 }
@@ -507,8 +523,9 @@ namespace Files
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }
+        
         public Dialogs.ExceptionDialog exceptionDialog;
-        public static Dialogs.ConsentDialog consentDialog { get; set; }
+
 
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {

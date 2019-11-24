@@ -180,6 +180,7 @@
     <Compile Include="Interacts\RibbonActions\Layout.cs" />
     <Compile Include="Interacts\RibbonActions\Share.cs" />
     <Compile Include="LocationsList.cs" />
+    <Compile Include="NavigationActions.cs" />
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />

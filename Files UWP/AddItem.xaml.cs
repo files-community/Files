@@ -58,18 +58,18 @@ namespace Files
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var TabInstance = App.OccupiedInstance;
-            TabInstance.addItemDialog.Hide();
+            App.addItemDialog.Hide();
             CreateFile(TabInstance, (e.ClickedItem as AddListItem).Header);
         }
 
         public static async void CreateFile(ProHome TabInstance, String fileType)
         {
             string currentPath = null;
-            if (TabInstance.accessibleContentFrame.SourcePageType == typeof(GenericFileBrowser))
+            if (TabInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 currentPath = TabInstance.instanceViewModel.Universal.path;
             }
-            else if (TabInstance.accessibleContentFrame.SourcePageType == typeof(PhotoAlbum))
+            else if (TabInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 currentPath = TabInstance.instanceViewModel.Universal.path;
             }
