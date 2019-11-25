@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.IO;
 using Windows.Storage;
@@ -7,6 +8,7 @@ using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -304,5 +306,32 @@ namespace Files.Controls
             await Launcher.LaunchUriAsync(filesUWPUri);
         }
 
+        private void TabViewItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            ((sender as TabViewItem).Resources["FileClickFlyout"] as MenuFlyout).ShowAt((sender as TabViewItem));
+        }
+
+        private void MenuFlyout_Closed(object sender, object e)
+        {
+            HomeRibbonItem.IsSelected = true;
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Exit();
+        }
+
+        private void RibbonItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            var itemTapped = sender as TabViewItem;
+            if(RibbonTabView.SelectedItem != null)
+            {
+                RibbonTabView.SelectedItem = null;
+            }
+            else
+            {
+                itemTapped.IsSelected = true;
+            }
+        }
     }
 }

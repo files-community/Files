@@ -54,6 +54,7 @@ namespace Files
             deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
             deleteProgressBoxTitle = title;
             deleteProgressBoxTextInfo = deleteInfoCurrentText;
+            themeShadow.Receivers.Add(ShadowReceiver);
         }
 
         string NavParams = null;
@@ -159,14 +160,7 @@ namespace Files
 
         private void LocationsList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            // TODO: Fix this
-            Microsoft.UI.Xaml.Controls.NavigationView sidebar = (Microsoft.UI.Xaml.Controls.NavigationView)sender;
-            var item = ((FrameworkElement)e.OriginalSource).DataContext as SidebarItem;
-            if (!item.isDefaultLocation)
-            {
-                SideBarItemContextFlyout.ShowAt(sidebar, e.GetPosition(sidebar));
-                App.rightClickedItem = item;
-            }
+            
         }
 
         private void LocationsList_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -325,8 +319,15 @@ namespace Files
             LocationsList.SelectedItem = App.sideBarItems[0];
         }
 
-        private void RibbonArea_Loading(FrameworkElement sender, object args)
+        private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
+            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebar = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var item = ((FrameworkElement)e.OriginalSource).DataContext as SidebarItem;
+            if (!item.isDefaultLocation)
+            {
+                SideBarItemContextFlyout.ShowAt(sidebar, e.GetPosition(sidebar));
+                App.rightClickedItem = item;
+            }
         }
     }
 

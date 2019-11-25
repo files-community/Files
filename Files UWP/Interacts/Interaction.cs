@@ -109,74 +109,62 @@ namespace Files.Interacts
             if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
-                List<string> items = new List<string>();
+                List<string> itemsToPin = new List<string>();
 
-                try
+
+                foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItems)
                 {
-                    foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItems)
-                    {
-                        items.Add(listedItem.FilePath);
-                    }
-                    var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-                    await FileIO.AppendLinesAsync(ListFile, items);
+                    itemsToPin.Add(listedItem.FilePath);
                 }
-                catch (FileNotFoundException)
+                var ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
+                await FileIO.AppendLinesAsync(ListFile, itemsToPin);
+
+                foreach (string itemPath in itemsToPin)
                 {
-                    foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItems)
+                    try
                     {
-                        items.Add(listedItem.FilePath);
-                    }
-                    var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-                    await FileIO.WriteLinesAsync(createdListFile, items);
-                }
-                finally
-                {
-                    foreach (string itemPath in items)
-                    {
-                        try
+                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
+                        var name = fol.DisplayName;
+                        var content = name;
+                        var icon = "\uE8B7";
+
+                        bool isDuplicate = false;
+                        foreach (SidebarItem sbi in App.sideBarItems)
                         {
-                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
-                            var name = fol.DisplayName;
-                            var content = name;
-                            var icon = "\uE8B7";
-
-                            bool isDuplicate = false;
-                            foreach (SidebarItem sbi in App.sideBarItems)
+                            if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
                             {
-                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
+                                if (sbi.Path.ToString() == itemPath)
                                 {
-                                    if (sbi.Path.ToString() == itemPath)
-                                    {
-                                        isDuplicate = true;
+                                    isDuplicate = true;
 
-                                    }
                                 }
-                                
                             }
 
-                            if (!isDuplicate)
-                            {
-                                App.sideBarItems.Add(new SidebarItem() { Path = itemPath, IconGlyph = icon, isDefaultLocation = false, Text = content });
-                            }
                         }
-                        catch (UnauthorizedAccessException ex)
+
+                        if (!isDuplicate)
                         {
-                            Debug.WriteLine(ex.Message);
-                        }
-                        catch (FileNotFoundException ex)
-                        {
-                            Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                            App.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                        catch (System.Runtime.InteropServices.COMException ex)
-                        {
-                            Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                            App.LinesToRemoveFromFile.Add(itemPath);
+                            App.sideBarItems.Add(new SidebarItem() { Path = itemPath, IconGlyph = icon, isDefaultLocation = false, Text = content });
                         }
                     }
+                    catch (UnauthorizedAccessException ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+                    catch (FileNotFoundException ex)
+                    {
+                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
+                        App.LinesToRemoveFromFile.Add(itemPath);
+                    }
+                    catch (System.Runtime.InteropServices.COMException ex)
+                    {
+                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
+                        App.LinesToRemoveFromFile.Add(itemPath);
+                    }
                 }
+
             }
-            else if(App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+            else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 StorageFolder cacheFolder = Windows.Storage.ApplicationData.Current.LocalCacheFolder;
                 List<string> items = new List<string>();

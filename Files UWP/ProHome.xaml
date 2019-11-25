@@ -13,6 +13,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:controls="using:Files.Controls"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     x:Name="ProHomeInstance"
     Loaded="Page_Loaded">
     <Page.Resources>
@@ -45,8 +46,16 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
-        <controls:RibbonArea parentPage="{x:Bind (local:ProHome)ProHomeInstance}" Loading="RibbonArea_Loading" x:FieldModifier="public" x:Name="RibbonArea" Grid.Row="0"/>
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <controls:RibbonArea parentPage="{x:Bind (local:ProHome)ProHomeInstance}" x:FieldModifier="public" x:Name="RibbonArea" />
+            <Windows10version1903:Grid>
+                <Grid.Resources>
+                    <Windows10version1903:ThemeShadow x:Name="themeShadow"/>
+                </Grid.Resources>
+                <Grid x:Name="ShadowReceiver" Height="8"/>
+                <Grid Canvas.ZIndex="2" Windows10version1903:Shadow="{x:Bind themeShadow}" Translation="0,0,4" x:Name="ShadowCaster" Background="{ThemeResource RibbonBackgroundColor}" Height="4" VerticalAlignment="Top"/>
+            </Windows10version1903:Grid>
+        </StackPanel>
         
         <SplitView  DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
@@ -56,7 +65,7 @@
                             <StackPanel.Resources>
                                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                             </StackPanel.Resources>
-                            <uilib:NavigationView OpenPaneLength="225" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" Loaded="LocationsList_Loaded" ItemInvoked="LocationsList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" IsRightTapEnabled="True" RightTapped="LocationsList_RightTapped" MenuItemsSource="{x:Bind local:App.sideBarItems, Mode=OneWay}" SelectionChanged="LocationsList_SelectionChanged" x:Name="LocationsList">
+                            <uilib:NavigationView OpenPaneLength="225" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" Loaded="LocationsList_Loaded" ItemInvoked="LocationsList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.sideBarItems, Mode=OneWay}" SelectionChanged="LocationsList_SelectionChanged" x:Name="LocationsList">
                                 <uilib:NavigationView.Resources>
                                     <ResourceDictionary>
                                         <ResourceDictionary.MergedDictionaries>
@@ -72,7 +81,7 @@
                                 </uilib:NavigationView.Resources>
                                 <uilib:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local2:SidebarItem">
-                                        <uilib:NavigationViewItem Tag="{x:Bind Path}" Content="{x:Bind Text}">
+                                        <uilib:NavigationViewItem IsRightTapEnabled="True" RightTapped="NavigationViewItem_RightTapped" Tag="{x:Bind Path}" Content="{x:Bind Text}">
                                             <uilib:NavigationViewItem.Icon>
                                                 <FontIcon Glyph="{x:Bind IconGlyph}"/>
                                             </uilib:NavigationViewItem.Icon>

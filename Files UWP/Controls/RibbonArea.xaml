@@ -592,25 +592,26 @@
 
     <Grid Background="{ThemeResource RibbonBackgroundColor}" Margin="0,0,0,0" x:Name="Ribbon" Grid.Row="0">
         <StackPanel x:Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical">
-            <Custom:TabView ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+            <Custom:TabView x:Name="RibbonTabView" ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                 <Custom:TabView.ItemContainerTransitions>
                     <TransitionCollection>
                     </TransitionCollection>
                 </Custom:TabView.ItemContainerTransitions>
-                <Custom:TabViewItem Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File" MinWidth="48" MinHeight="32" Width="Auto">
+                <Custom:TabViewItem Tapped="TabViewItem_Tapped" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File" MinWidth="48" MinHeight="32" Width="Auto">
                     <Custom:TabViewItem.Resources>
-                        <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        <MenuFlyout Placement="BottomEdgeAlignedLeft" Closed="MenuFlyout_Closed" x:Key="FileClickFlyout">
+                            <MenuFlyoutItem x:Name="NewWindowButton" Click="NewWindowButton_Click" Text="Open new window" Icon="NewWindow"/>
+                            <MenuFlyoutItem x:Name="SettingsButton" Click="SettingsButton_Click" Text="Settings" Icon="Setting"/>
+                            <MenuFlyoutSeparator/>
+                            <MenuFlyoutItem x:Name="ExitButton" Click="ExitButton_Click" Text="Close Files">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8BB;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout>
                     </Custom:TabViewItem.Resources>
-                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                        <CommandBar.Content>
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <AppBarButton x:Name="NewWindowButton" Click="NewWindowButton_Click" Label="Open new window" Icon="NewWindow"/>
-                                <AppBarButton x:Name="SettingsButton" Click="SettingsButton_Click" Label="Settings" Icon="Setting"/>
-                            </CommandBar>
-                        </CommandBar.Content>
-                    </CommandBar>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
+                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped" x:Name="HomeRibbonItem" Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
@@ -644,7 +645,7 @@
                         </CommandBar.Content>
                     </CommandBar>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
+                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
@@ -656,7 +657,7 @@
                         </CommandBar.Content>
                     </CommandBar>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
+                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
@@ -692,7 +693,7 @@
                         </CommandBar.Content>
                     </CommandBar>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem Visibility="Collapsed" x:Name="SearchTools" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Search" MinWidth="48" MinHeight="32" Width="Auto">
+                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped" Visibility="Collapsed" x:Name="SearchTools" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Search" MinWidth="48" MinHeight="32" Width="Auto">
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
@@ -767,7 +768,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition MinWidth="24" Width="275"/>
+                    <ColumnDefinition MinWidth="24" Width="300"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
                     <Button x:FieldModifier="public" Click="{x:Bind local1:NavigationActions.Back_Click}" IsEnabled="{x:Bind parentPage.ItemDisplayFrame.CanGoBack, Mode=OneWay}" Style="{StaticResource NavigationBackButtonNormalStyle}"  x:Name="Back">
@@ -844,7 +845,7 @@
                     </Grid>
                 </Grid>
 
-                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2"  Margin="0,5,5,5" VerticalAlignment="Top" >
+                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2"  Margin="0,5,10,5" VerticalAlignment="Top" >
                     <AutoSuggestBox.Resources>
                         <StaticResource x:Key="TextControlBorderBrush" ResourceKey="CustomInputFieldBorderBrush"/>
                         <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="CustomInputFieldBorderBrush"/>

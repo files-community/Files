@@ -14,23 +14,23 @@
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White"/>
                             <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="#19000000" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White"/>
+                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Light">
                             <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="#19000000" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
                             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White"/>
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White"/>
-                            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="White"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White"/>
                             <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef"/>
                             <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="#f3f1ef"/>
                             <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="DarkGray"/>
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White"/>
+                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="Black" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="Black"/>
                             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#191919"/>
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#191919"/>
-                            <SolidColorBrush x:Key="NavigationViewTopPaneBackground" Color="#191919"/>
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black"/>
                             <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black"/>
@@ -42,6 +42,7 @@
                             <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636"/>
                             <SolidColorBrush x:Key="TextControlBorderBrush" Color="#FF363636"/>
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313"/>
+                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->

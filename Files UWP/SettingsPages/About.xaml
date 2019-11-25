@@ -8,12 +8,12 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid Margin="24,14">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Spacing="24" Padding="24,14" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <StackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Grid Height="150" Width="150">
                 <my:DropShadowPanel OffsetY="15">
                     <Image Stretch="Uniform" Source="/Assets/Files UWP Icon.png"/>
@@ -21,8 +21,8 @@
             </Grid>
 
                 <StackPanel Margin="0,0" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock x:Name="Header" Text="Files UWP" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBlock Margin="0,0,0,5" FontFamily="Segoe UI" FontSize="20" Text="Product Information"/>
+                    <TextBlock x:Name="Header" Text="Files" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBlock FontWeight="Medium" Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="18" Text="Product Information"/>
                     <TextBlock FontSize="14" Text="Edition: Pre-Release"/>
                     <TextBlock FontSize="14" x:Name="VersionNumber" Text="Version: 0.5.0"/>
                 </StackPanel>
@@ -30,21 +30,20 @@
         </StackPanel>
 
 
-        <Grid Padding="14" Grid.Row="1" >
-            <TextBlock Text="The community thanks contributors: SOI7, jeffsieu, and yaichenbaum for the design of our wonderful icon."/>
-            <ListView IsItemClickEnabled="True" Margin="0,24,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Left" Width="875">
+        <StackPanel Spacing="8" Grid.Row="1" Orientation="Vertical">
+            <TextBlock Text="The community thanks contributors: SOI7, jeffsieu, and yaichenbaum for the design of our wonderful icon." TextWrapping="WrapWholeWords" VerticalAlignment="Top"/>
+            <ListView IsItemClickEnabled="True" Margin="0,0,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch">
                 <ListViewItem IsEnabled="True" x:Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
-                    <StackPanel  Orientation="Horizontal">
-                        <FontIcon Margin="0,0,25,0" Glyph="&#xED15;"/>
-                        <StackPanel Orientation="Vertical">
+                    <StackPanel Spacing="14" Padding="0,14" Orientation="Horizontal">
+                        <FontIcon Margin="0" Glyph="&#xED15;"/>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
                             <TextBlock Text="Submit Feedback"/>
-                            <TextBlock Text="Submit an issue report to provide the developers with information" Foreground="Gray"/>
+                            <TextBlock Text="Submit an issue report to provide the developers with information" Foreground="Gray" TextWrapping="WrapWholeWords"/>
                         </StackPanel>
                     </StackPanel>
-
                 </ListViewItem>
             </ListView>
-        </Grid>
+        </StackPanel>
 
     </Grid>
 </Page>
