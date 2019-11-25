@@ -809,7 +809,7 @@
                 </StackPanel>
                 <Grid Padding="5,5,5,5.5" Grid.Column="1">
                     <TextBox x:FieldModifier="public" LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Text="{x:Bind parentPage.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" CornerRadius="2"  KeyDown="VisiblePath_TextChanged" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Stretch" Padding="4" PlaceholderText="Enter a path"/>
-                    <Grid Background="{ThemeResource TextControlBackground}" Padding="2.5,0,0,0" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
+                    <Grid Background="{ThemeResource TextControlBackground}" Padding="2.5,0,0,0" Height="32.5" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
                         <Grid.ContextFlyout>
                             <MenuFlyout>
                                 <MenuFlyoutItem x:Name="ManualPathEntryItem" Text="Edit address" Icon="Edit" Click="ManualPathEntryItem_Click"/>
