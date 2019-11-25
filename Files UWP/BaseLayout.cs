@@ -60,18 +60,18 @@ namespace Files
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
-            App.OccupiedInstance.Refresh.IsEnabled = true;
+            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
             App.OccupiedInstance.AlwaysPresentCommands.isEnabled = true;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.OccupiedInstance.instanceViewModel.Universal.path = parameters;
             
             if (App.OccupiedInstance.instanceViewModel.Universal.path == Path.GetPathRoot(App.OccupiedInstance.instanceViewModel.Universal.path))
             {
-                App.OccupiedInstance.Up.IsEnabled = false;
+                App.OccupiedInstance.RibbonArea.Up.IsEnabled = false;
             }
             else
             {
-                App.OccupiedInstance.Up.IsEnabled = true;
+                App.OccupiedInstance.RibbonArea.Up.IsEnabled = true;
             }
 
             App.OccupiedInstance.instanceViewModel.AddItemsToCollectionAsync(App.OccupiedInstance.instanceViewModel.Universal.path);

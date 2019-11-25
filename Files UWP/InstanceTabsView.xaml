@@ -87,7 +87,7 @@
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Grid x:Name="TabContainerGrid" Background="{TemplateBinding Background}" XYFocusKeyboardNavigation="Enabled">
+                            <Grid x:Name="TabContainerGrid" Background="{StaticResource BackgroundAcrylicBrush}" XYFocusKeyboardNavigation="Enabled">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition x:Name="LeftContentColumn" Width="Auto"/>
                                     <ColumnDefinition x:Name="TabColumn" Width="Auto"/>
@@ -130,9 +130,11 @@
         </Grid.ColumnDefinitions>
         <ContentPresenter Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" Content="{x:Bind ((uilib:TabViewItem)(local:InstanceTabsView).TabStrip.SelectedItem).Content, Mode=OneWay}"/>
 
-        <uilib:TabView Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick"  Style="{ThemeResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" x:Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
-            
+        <uilib:TabView Background="Transparent" Grid.Row="0" AddTabButtonClick="TabStrip_AddTabButtonClick"  Style="{ThemeResource TabViewStyleFixed}" SelectionChanged="TabStrip_SelectionChanged"  TabCloseRequested="TabStrip_TabCloseRequested" x:Name="TabStrip" TabWidthMode="Equal" VerticalAlignment="Stretch">
+            <uilib:TabView.Resources>
+                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="RibbonBackgroundColor"/>
+            </uilib:TabView.Resources>
         </uilib:TabView>
-        <Grid Grid.Column="1" Background="{ThemeResource TabViewBackground}"/>
+        <Grid Grid.Column="1" Background="{ThemeResource BackgroundAcrylicBrush}"/>
     </Grid>
 </Page>

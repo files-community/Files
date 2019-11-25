@@ -325,9 +325,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.OccupiedInstance.Back.IsEnabled = true;
-            App.OccupiedInstance.Forward.IsEnabled = true;
-            App.OccupiedInstance.Up.IsEnabled = true;
+            App.OccupiedInstance.RibbonArea.Back.IsEnabled = true;
+            App.OccupiedInstance.RibbonArea.Forward.IsEnabled = true;
+            App.OccupiedInstance.RibbonArea.Up.IsEnabled = true;
 
         }
 
@@ -402,7 +402,7 @@ namespace Files.Filesystem
         bool isLoadingItems = false;
         public async void AddItemsToCollectionAsync(string path)
         {
-            App.OccupiedInstance.Refresh.IsEnabled = false;
+            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -446,8 +446,8 @@ namespace Files.Filesystem
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
 
-                App.OccupiedInstance.Back.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoBack;
-                App.OccupiedInstance.Forward.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoForward;
+                App.OccupiedInstance.RibbonArea.Back.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoBack;
+                App.OccupiedInstance.RibbonArea.Forward.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -543,7 +543,7 @@ namespace Files.Filesystem
                 OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.OccupiedInstance.Refresh.IsEnabled = true;
+                App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
             }
             catch (UnauthorizedAccessException)
             {
