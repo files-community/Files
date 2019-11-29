@@ -265,14 +265,6 @@ namespace Files.Controls
 
         private async void AddItem_Click(object sender, RoutedEventArgs e)
         {
-            if (parentPage.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                App.addItemDialog.addDialogContentFrame.Navigate(typeof(AddItem), parentPage.ItemDisplayFrame.Content as GenericFileBrowser, new SuppressNavigationTransitionInfo());
-            }
-            else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                App.addItemDialog.addDialogContentFrame.Navigate(typeof(AddItem), parentPage.ItemDisplayFrame.Content as PhotoAlbum, new SuppressNavigationTransitionInfo());
-            }
             await App.addItemDialog.ShowAsync();
         }
 

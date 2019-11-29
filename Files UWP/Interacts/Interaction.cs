@@ -941,17 +941,17 @@ namespace Files.Interacts
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
         {
-            AddItem.CreateFile(currentInstance, "Folder");
+            AddItemDialog.CreateFile(AddItemType.Folder);
         }
 
         public void NewTextDocument_Click(object sender, RoutedEventArgs e)
         {
-            AddItem.CreateFile(currentInstance, "Text Document");
+            AddItemDialog.CreateFile(AddItemType.TextDocument);
         }
 
         public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
         {
-            AddItem.CreateFile(currentInstance, "Bitmap Image");
+            AddItemDialog.CreateFile(AddItemType.BitmapImage);
         }
 
         public async void ExtractItems_Click(object sender, RoutedEventArgs e)
