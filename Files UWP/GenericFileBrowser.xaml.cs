@@ -108,14 +108,17 @@ namespace Files
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
+                App.OccupiedInstance.instanceInteraction.itemsPasted = 0;
+                App.OccupiedInstance.instanceInteraction.ItemsToPaste = await e.DataView.GetStorageItemsAsync();
                 foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        App.OccupiedInstance.instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, App.OccupiedInstance.instanceViewModel.Universal.path, (item as StorageFolder).DisplayName);
+                        App.OccupiedInstance.instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, App.OccupiedInstance.instanceViewModel.Universal.path, (item as StorageFolder).DisplayName, false);
                     }
                     else
                     {
+                        App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.OccupiedInstance.instanceInteraction.itemsPasted, App.OccupiedInstance.instanceInteraction.ItemsToPaste.Count);
                         await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.OccupiedInstance.instanceViewModel.Universal.path));
                     }
                 }

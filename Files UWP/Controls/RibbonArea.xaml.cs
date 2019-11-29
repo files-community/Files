@@ -41,7 +41,13 @@ namespace Files.Controls
                 }
                 else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(YourHome))
                 {
-                    var contentInstance = parentPage.instanceViewModel;
+                    if (App.OccupiedInstance.instanceViewModel == null && App.OccupiedInstance.instanceInteraction == null)
+                    {
+                        App.OccupiedInstance.instanceViewModel = new ItemViewModel();
+                        App.OccupiedInstance.instanceInteraction = new Interaction();
+                    }
+
+                    var contentInstance = App.OccupiedInstance.instanceViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
                 VisiblePath.Visibility = Visibility.Collapsed;

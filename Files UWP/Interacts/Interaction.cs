@@ -527,124 +527,58 @@ namespace Files.Interacts
         {
             try
             {
-                if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                var CurrentInstance = App.OccupiedInstance;
+                List<ListedItem> selectedItems = new List<ListedItem>();
+                foreach (ListedItem selectedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
                 {
-                    var CurrentInstance = App.OccupiedInstance;
-                    List<ListedItem> selectedItems = new List<ListedItem>();
-                    foreach (ListedItem selectedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
-                    {
-                        selectedItems.Add(selectedItem);
-                    }
-
-                    CurrentInstance.deleteProgressBoxIndicator.Maximum = selectedItems.Count;
-                    CurrentInstance.deleteProgressBoxIndicator.Value = 0;
-                    CurrentInstance.deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
-                    if(selectedItems.Count > 5)
-                    {
-                        CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
-                    }
-                    CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
-                    foreach (ListedItem storItem in selectedItems)
-                    {
-                        CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (" + (CurrentInstance.deleteProgressBoxIndicator.Value + 1) + "/" + selectedItems.Count + ")";
-                        try
-                        {
-                            if (storItem.FileType != "Folder")
-                            {
-                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                            else
-                            {
-                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                        }
-                        catch (FileLoadException)
-                        {
-                            // try again
-                            if (storItem.FileType != "Folder")
-                            {
-                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                            else
-                            {
-                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                        }
-
-                        currentInstance.instanceViewModel.RemoveFileOrFolder(storItem);
-                        CurrentInstance.deleteProgressBoxIndicator.Value++;
-                    }
-                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Collapsed;
-                    App.OccupiedInstance.RibbonArea.Forward.IsEnabled = false;
+                    selectedItems.Add(selectedItem);
                 }
-                else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                int itemsDeleted = 0;
+                if (selectedItems.Count > 3)
                 {
-                    var CurrentInstance = App.OccupiedInstance;
-                    List<ListedItem> selectedItems = new List<ListedItem>();
-                    foreach (ListedItem selectedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
-                    {
-                        selectedItems.Add(selectedItem);
-                    }
-
-                    CurrentInstance.deleteProgressBoxIndicator.Maximum = selectedItems.Count;
-                    CurrentInstance.deleteProgressBoxIndicator.Value = 0;
-                    CurrentInstance.deleteProgressBoxTitle.Text = "Moving " + selectedItems.Count + " items to the Recycle Bin";
-
-                    if (selectedItems.Count > 5)
-                    {
-                        CurrentInstance.deleteProgressBox.Visibility = Visibility.Visible;
-                    }
-                    CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (0/" + selectedItems.Count + ")";
-
-                    foreach (ListedItem storItem in selectedItems)
-                    {
-                        CurrentInstance.deleteProgressBoxTextInfo.Text = "Removing item (" + (CurrentInstance.deleteProgressBoxIndicator.Value + 1) + "/" + selectedItems.Count + ")";
-                        try
-                        {
-                            if (storItem.FileType != "Folder")
-                            {
-                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                            else
-                            {
-                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                        }
-                        catch (FileLoadException)
-                        {
-                            // try again
-                            if (storItem.FileType != "Folder")
-                            {
-                                var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                            else
-                            {
-                                var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-
-                            }
-                        }
-
-                        currentInstance.instanceViewModel.RemoveFileOrFolder(storItem);
-                        CurrentInstance.deleteProgressBoxIndicator.Value++;
-                    }
-                    CurrentInstance.deleteProgressBox.Visibility = Visibility.Collapsed;
-                    App.OccupiedInstance.RibbonArea.Forward.IsEnabled = false;
+                    App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
                 }
+
+                foreach (ListedItem storItem in selectedItems)
+                {
+                    if (selectedItems.Count > 3) { App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
+
+                    try
+                    {
+                        if (storItem.FileType != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+
+                        }
+                    }
+                    catch (FileLoadException)
+                    {
+                        // try again
+                        if (storItem.FileType != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.Default);
+
+                        }
+                    }
+
+                    currentInstance.instanceViewModel.RemoveFileOrFolder(storItem);
+                }
+                App.OccupiedInstance.RibbonArea.Forward.IsEnabled = false;
+
             }
             catch (UnauthorizedAccessException)
             {
@@ -815,6 +749,9 @@ namespace Files.Interacts
             Clipboard.Flush();
         }
         public string CopySourcePath;
+        public IReadOnlyList<IStorageItem> ItemsToPaste;
+        public int itemsPasted;
+
         public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             DataPackage dataPackage = new DataPackage();
@@ -875,28 +812,30 @@ namespace Files.Interacts
 
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            string DestinationPath = null;
-            int oldCount;
-            if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                DestinationPath = currentInstance.instanceViewModel.Universal.path;
-                oldCount = currentInstance.instanceViewModel.FilesAndFolders.Count;
-            }
-            else if(App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                DestinationPath = currentInstance.instanceViewModel.Universal.path;
-                oldCount = currentInstance.instanceViewModel.FilesAndFolders.Count;
-            }
+            string DestinationPath = currentInstance.instanceViewModel.Universal.path;
+            int oldCount = currentInstance.instanceViewModel.FilesAndFolders.Count;
+
             DataPackageView packageView = Clipboard.GetContent();
-            var ItemsToPaste = await packageView.GetStorageItemsAsync();
+            ItemsToPaste = await packageView.GetStorageItemsAsync();
+            itemsPasted = 0;
+            if(ItemsToPaste.Count > 3)
+            {
+                App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
+            }
+
             foreach (IStorageItem item in ItemsToPaste)
             {
+
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    CloneDirectoryAsync(item.Path, DestinationPath, item.Name);
+                    CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
+                    if (ItemsToPaste.Count > 3)
+                    {
+                        App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
+                    }
                     StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                     await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
                 }
@@ -921,7 +860,7 @@ namespace Files.Interacts
 
         }
 
-        public async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName)
+        public async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
@@ -930,11 +869,19 @@ namespace Files.Interacts
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
+                if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                {
+                    App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                }
                 await fileInSourceDir.CopyAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
             }
             foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
             {
-                CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name);
+                if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                {
+                    App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                }
+                CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
             }
 
         }
@@ -994,7 +941,7 @@ namespace Files.Interacts
                             (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).AssociatedViewModel.LoadIndicator.isVisible = Visibility.Collapsed;
                         }
                     }
-                    CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name);
+                    CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true);
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
                     Frame rootFrame = Window.Current.Content as Frame;
                     var instanceTabsView = rootFrame.Content as InstanceTabsView;

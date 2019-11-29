@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Popups;
@@ -54,7 +55,10 @@ namespace Files
             deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
             deleteProgressBoxTitle = title;
             deleteProgressBoxTextInfo = deleteInfoCurrentText;
-            themeShadow.Receivers.Add(ShadowReceiver);
+            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.ThemeShadow"))
+            {
+                themeShadow.Receivers.Add(ShadowReceiver);
+            }
         }
 
         string NavParams = null;
@@ -329,6 +333,36 @@ namespace Files
                 App.rightClickedItem = item;
             }
         }
+
+        public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
+        {
+            this.FindName("ProgressFlyout");
+
+            string operationText = null;
+            switch (operationType)
+            {
+                case InteractionOperationType.PasteItems:
+                    operationText = "Completing Paste";
+                    break;
+                case InteractionOperationType.DeleteItems:
+                    operationText = "Deleting Items";
+                    break;
+            }
+            ProgressFlyoutTextBlock.Text = operationText + " (" + amountComplete + "/" + amountTotal + ")" + "...";
+            ProgressFlyoutProgressBar.Value = amountComplete;
+            ProgressFlyoutProgressBar.Maximum = amountTotal;
+
+            if(amountComplete == amountTotal)
+            {
+                UnloadObject(ProgressFlyout);
+            }
+        }
+    }
+
+    public enum InteractionOperationType
+    {
+        PasteItems = 0,
+        DeleteItems = 1,
     }
 
     public class PathBoxItem

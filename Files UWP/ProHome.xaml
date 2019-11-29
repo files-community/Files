@@ -116,7 +116,13 @@
             <Frame x:FieldModifier="public" Navigated="ItemDisplayFrame_Navigated" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ItemDisplayFrame"/>
 
         </SplitView>
-        
+        <FlyoutPresenter Grid.Row="1" x:Name="ProgressFlyout" x:Load="False" 
+                         Canvas.ZIndex="4" VerticalAlignment="Top">
+            <StackPanel Spacing="8" Orientation="Vertical">
+                <TextBlock Text="Completing operation (1/1)..." x:Name="ProgressFlyoutTextBlock"/>
+                <ProgressBar x:Name="ProgressFlyoutProgressBar"/>
+            </StackPanel>
+        </FlyoutPresenter>
         <Grid Grid.RowSpan="3" x:Name="DeleteProgressFakeDialog" Visibility="Collapsed" Canvas.ZIndex="5" Width="500" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Custom:DropShadowPanel HorizontalContentAlignment="Stretch">
                 <Grid Padding="14" CornerRadius="4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
