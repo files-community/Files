@@ -95,14 +95,14 @@
                                     <ColumnDefinition x:Name="RightContentColumn" Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <ContentPresenter x:Name="LeftContentPresenter" ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" Content="{TemplateBinding TabStripHeader}" Grid.Column="0"/>
-                                <primitiveContract7Present:TabViewListView x:Name="TabListView" AllowDrop="{TemplateBinding AllowDropTabs}" CanReorderItems="{TemplateBinding CanReorderTabs}" Grid.Column="1" CanDragItems="{TemplateBinding CanDragTabs}" ItemTemplate="{TemplateBinding TabItemTemplate}" ItemsSource="{TemplateBinding TabItemsSource}" ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}">
+                                <primitiveContract7Present:TabViewListView x:Name="TabListView" Padding="{x:Bind local:InstanceTabsView.WindowProperties.TabListPadding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="{TemplateBinding AllowDropTabs}" CanReorderItems="{TemplateBinding CanReorderTabs}" Grid.Column="1" CanDragItems="{TemplateBinding CanDragTabs}" ItemTemplate="{TemplateBinding TabItemTemplate}" ItemsSource="{TemplateBinding TabItemsSource}" ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}">
                                     <primitiveContract7Present:TabViewListView.ItemContainerTransitions>
                                         <TransitionCollection>
                                             <ReorderThemeTransition />
                                         </TransitionCollection>
                                     </primitiveContract7Present:TabViewListView.ItemContainerTransitions>
                                 </primitiveContract7Present:TabViewListView>
-                                <Button x:Name="AddButton" Command="{TemplateBinding AddTabButtonCommand}" CommandParameter="{TemplateBinding AddTabButtonCommandParameter}" Content="&#xE710;" Grid.Column="2" Style="{StaticResource TabViewButtonStyle}" Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Button x:Name="AddButton" Margin="{x:Bind local:InstanceTabsView.WindowProperties.TabAddButtonMargin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Command="{TemplateBinding AddTabButtonCommand}" CommandParameter="{TemplateBinding AddTabButtonCommandParameter}" Content="&#xE710;" Grid.Column="2" Style="{StaticResource TabViewButtonStyle}" Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <Button.KeyboardAccelerators>
                                         <KeyboardAccelerator Modifiers="Control" Key="T"/>
                                     </Button.KeyboardAccelerators>

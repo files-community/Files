@@ -216,6 +216,8 @@
     <Compile Include="SettingsPages\StartPageWidgets.xaml.cs">
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WindowDisplayInfo.cs" />
+    <Compile Include="WindowDisplayMode.cs" />
     <Compile Include="YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>

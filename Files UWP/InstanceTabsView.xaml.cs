@@ -3,6 +3,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
@@ -59,9 +60,28 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 //titleBar.BackgroundColor = Colors.Transparent;
             }
-            
+            Window.Current.SizeChanged += Current_SizeChanged;
+            Current_SizeChanged(null, null);
         }
-        
+
+        public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            if (Huyn.WindowDisplayInfo.GetForCurrentView().ToString() == "Maximized")
+            {
+                WindowProperties.TabListPadding = new Thickness(8, 0, 0, 0);
+                WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
+
+            }
+            else
+            {
+                WindowProperties.TabListPadding = new Thickness(8, 8, 0, 0);
+                WindowProperties.TabAddButtonMargin = new Thickness(0, 8, 0, 0);
+
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             navArgs = eventArgs.Parameter?.ToString();
@@ -339,4 +359,51 @@ namespace Files
         }
     }
 
+    public class TabWindowProperties : INotifyPropertyChanged
+    {
+        private Thickness tabListPadding = new Thickness(8, 8, 0, 0);
+        private Thickness tabAddButtonMargin = new Thickness(0, 8, 0, 0);
+
+        public Thickness TabListPadding
+        {
+            get
+            {
+                return tabListPadding;
+            }
+            set
+            {
+                if (tabListPadding != value)
+                {
+                    tabListPadding = value;
+                    RaiseChangeNotification("TabListPadding");
+                }
+            }
+        }
+
+        public Thickness TabAddButtonMargin
+        {
+            get
+            {
+                return tabAddButtonMargin;
+            }
+            set
+            {
+                if (tabAddButtonMargin != value)
+                {
+                    tabAddButtonMargin = value;
+                    RaiseChangeNotification("TabAddButtonMargin");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void RaiseChangeNotification(string v)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(v));
+            }
+        }
+
+    }
 }
