@@ -569,7 +569,7 @@
         </Style>
 
     </Page.Resources>
-    <ScrollViewer>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <Grid Padding="24,10,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10" Orientation="Vertical">
                 <TextBlock x:Name="FavoritesCardsHeader" Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />

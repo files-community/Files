@@ -33,7 +33,7 @@
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#191919"/>
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black"/>
-                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black"/>
+                            <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="TextControlBackground"/>
                             <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="White"/>
                             <SolidColorBrush x:Key="TabViewBackground" Color="Black"/>
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919"/>

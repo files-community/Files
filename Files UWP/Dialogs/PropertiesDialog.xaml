@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
-    Background="{StaticResource ApplicationPageBackgroundThemeBrush}" PrimaryButtonText="OK" DefaultButton="Primary" CloseButtonText="Cancel" CornerRadius="4" x:Name="PropertiesDialogMarkup" Title="Properties" >
+    PrimaryButtonText="OK" DefaultButton="Primary" CloseButtonText="Cancel" CornerRadius="4" x:Name="PropertiesDialogMarkup" Title="Properties" >
     
     <Frame Width="400" Height="450" x:Name="propertiesFrame" />
 </ContentDialog>

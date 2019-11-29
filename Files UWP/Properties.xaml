@@ -8,7 +8,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     x:Class="Files.Properties"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Width="400" Height="450">
+    Width="400" Height="450">
 
     <Grid>
         <StackPanel>
