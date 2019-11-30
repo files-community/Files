@@ -47,7 +47,6 @@
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <PackageCertificateKeyFile>FilesUwp.Package_StoreKey.pfx</PackageCertificateKeyFile>
-    <EntryPointProjectUniqueName>..\Files UWP\FilesUWP.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppInstallerUpdateFrequency>0</AppInstallerUpdateFrequency>
@@ -59,6 +58,7 @@
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
+    <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -90,8 +90,8 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Files UWP\FilesUWP.csproj" />
-    <ProjectReference Include="..\ProcessLauncher\ProcessLauncher.csproj" />
+    <ProjectReference Include="..\Files\Files.csproj" />
+    <ProjectReference Include="..\Files.Launcher\Files.Launcher.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Files UWP Icon.png" />

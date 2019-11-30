@@ -48,17 +48,14 @@ namespace Files
             {
                 if(value != occupiedInstance)
                 {
-                    occupiedInstance = value;
-                    
+                    occupiedInstance = value; 
                 }
-                
             }
         }
-        public static Dialogs.LayoutDialog layoutDialog;
-        public static Dialogs.PropertiesDialog propertiesDialog;
-        public static Dialogs.AddItemDialog addItemDialog;
         public static Dialogs.ConsentDialog consentDialog { get; set; }
-
+        public static Dialogs.PropertiesDialog propertiesDialog { get; set; }
+        public static Dialogs.LayoutDialog layoutDialog { get; set; }
+        public static Dialogs.AddItemDialog addItemDialog { get; set; }
         private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
@@ -66,17 +63,21 @@ namespace Files
         public App()
         {
             this.InitializeComponent();
-            exceptionDialog = new Dialogs.ExceptionDialog();
-            consentDialog = new Dialogs.ConsentDialog();
-            layoutDialog = new Dialogs.LayoutDialog();
-            propertiesDialog = new Dialogs.PropertiesDialog();
-            addItemDialog = new Dialogs.AddItemDialog();
             this.Suspending += OnSuspending;
+            consentDialog = new Dialogs.ConsentDialog();
+            propertiesDialog = new Dialogs.PropertiesDialog();
+            layoutDialog = new Dialogs.LayoutDialog();
+            addItemDialog = new Dialogs.AddItemDialog();
             this.UnhandledException += App_UnhandledException;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+            SetPropertiesFromLocalSettings();
+            PopulatePinnedSidebarItems();
+        }
 
+        private void SetPropertiesFromLocalSettings()
+        {
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
             if (localSettings.Values["theme"] == null)
@@ -115,52 +116,35 @@ namespace Files
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
+            DetectCustomLocations(localSettings);
+        }
 
-            if (localSettings.Values["FavoritesDisplayed_Start"] == null)
-            {
-                localSettings.Values["FavoritesDisplayed_Start"] = true;
-            }
+        private async void DetectCustomLocations(ApplicationDataContainer localSettings)
+        {
+            // Detect custom locations set from Windows
+            localSettings.Values["Arguments"] = "DetectUserPaths";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("UserFolderPathsGroup");
 
-            if (localSettings.Values["RecentsDisplayed_Start"] == null)
-            {
-                localSettings.Values["RecentsDisplayed_Start"] = true;
-            }
-
-            if (localSettings.Values["DrivesDisplayed_Start"] == null)
-            {
-                localSettings.Values["DrivesDisplayed_Start"] = false;
-            }
-
-            if (localSettings.Values["FavoritesDisplayed_NewTab"] == null)
-            {
-                localSettings.Values["FavoritesDisplayed_NewTab"] = true;
-            }
-
-            if (localSettings.Values["RecentsDisplayed_NewTab"] == null)
-            {
-                localSettings.Values["RecentsDisplayed_NewTab"] = true;
-            }
-
-            if (localSettings.Values["DrivesDisplayed_NewTab"] == null)
-            {
-                localSettings.Values["DrivesDisplayed_NewTab"] = false;
-            }
+            App.DesktopPath = localSettings.Values["DetectedDesktopLocation"] as string;
+            App.DownloadsPath = localSettings.Values["DetectedDownloadsLocation"] as string;
+            App.DocumentsPath = localSettings.Values["DetectedDocumentsLocation"] as string;
+            App.PicturesPath = localSettings.Values["DetectedPicturesLocation"] as string;
+            App.MusicPath = localSettings.Values["DetectedMusicLocation"] as string;
+            App.VideosPath = localSettings.Values["DetectedVideosLocation"] as string;
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             if (localSettings.Values["customLocationsSetting"] != null)
             {
                 if (localSettings.Values["customLocationsSetting"].Equals(true))
                 {
-                    App.DesktopPath = localSettings.Values["DesktopLocation"].ToString();
-                    App.DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
-                    App.DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
-                    App.PicturesPath = localSettings.Values["PicturesLocation"].ToString();
-                    App.MusicPath = localSettings.Values["MusicLocation"].ToString();
-                    App.VideosPath = localSettings.Values["VideosLocation"].ToString();
+                    App.DesktopPath = localSettings.Values["DesktopLocation"] as string;
+                    App.DownloadsPath = localSettings.Values["DownloadsLocation"] as string;
+                    App.DocumentsPath = localSettings.Values["DocumentsLocation"] as string;
+                    App.PicturesPath = localSettings.Values["PicturesLocation"] as string;
+                    App.MusicPath = localSettings.Values["MusicLocation"] as string;
+                    App.VideosPath = localSettings.Values["VideosLocation"] as string;
                 }
             }
-
-            PopulatePinnedSidebarItems();
         }
 
         public void PopulateDrivesListWithLocalDisks()
@@ -532,7 +516,7 @@ namespace Files
             e.Handled = true;
             exceptionInfo = e;
             exceptionStackTrace = e.Exception.StackTrace;
-            await exceptionDialog.ShowAsync(); 
+            await exceptionDialog.ShowAsync(ContentDialogPlacement.Popup); 
         }
 
         public static IReadOnlyList<ContentDialog> FindDisplayedContentDialogs<T>()
