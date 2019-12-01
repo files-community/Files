@@ -213,6 +213,7 @@
     <Compile Include="SettingsPages\StartPageWidgets.xaml.cs">
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View Models\RibbonViewModel.cs" />
     <Compile Include="WindowDisplayInfo.cs" />
     <Compile Include="WindowDisplayMode.cs" />
     <Compile Include="YourHome.xaml.cs">
@@ -358,6 +359,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.2.190917002</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

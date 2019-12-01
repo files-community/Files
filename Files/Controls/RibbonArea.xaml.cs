@@ -18,6 +18,7 @@ namespace Files.Controls
     public sealed partial class RibbonArea : UserControl
     {
         public ProHome parentPage { get; set; }
+        public RibbonViewModel RibbonViewModel { get; } = new RibbonViewModel();
         public RibbonArea()
         {
             this.InitializeComponent();
