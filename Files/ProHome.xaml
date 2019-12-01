@@ -108,6 +108,22 @@
                                     </DataTemplate>
                                 </uilib:NavigationView.MenuItemTemplate>
                             </uilib:NavigationView>
+                            <TextBlock x:Name="LinuxHeader" x:Load="{x:Bind local:App.areLinuxFilesSupported, Mode=OneWay}" Visibility="Visible" Margin="8,-16,0,0" Text="Linux Files" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
+                            <uilib:NavigationView x:Load="{x:Bind local:App.areLinuxFilesSupported, Mode=OneWay}" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="LinuxList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.linuxDistroItems, Mode=OneWay}" SelectionChanged="LinuxList_SelectionChanged" x:Name="LinuxList">
+                                <uilib:NavigationView.MenuItemTemplate>
+                                    <DataTemplate x:DataType="local:WSLDistroItem">
+                                        <uilib:NavigationViewItem  Padding="0" Tag="{x:Bind Path}">
+                                            <uilib:NavigationViewItem.Content>
+                                                <StackPanel Margin="-8,0,0,0" Spacing="12" Orientation="Horizontal">
+                                                    <BitmapIcon ShowAsMonochrome="False" Width="30" Height="30" UriSource="{x:Bind Logo}"/>
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind DistroName}" FontSize="14"/>
+                                                </StackPanel>
+                                            </uilib:NavigationViewItem.Content>
+                                        </uilib:NavigationViewItem>
+
+                                    </DataTemplate>
+                                </uilib:NavigationView.MenuItemTemplate>
+                            </uilib:NavigationView>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>

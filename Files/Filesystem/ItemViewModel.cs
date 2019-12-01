@@ -231,11 +231,14 @@ namespace Files.Filesystem
                     }
                     else
                     {
+
                         componentLabel = s;
                         foreach (string part in pathComponents.GetRange(0, index + 1))
                         {
                             tag = tag + part + @"\";
                         }
+                        
+                        tag = "\\\\" + tag;
 
                         PathBoxItem item = new PathBoxItem()
                         {

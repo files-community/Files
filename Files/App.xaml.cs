@@ -25,11 +25,15 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Primitives;
 using Files.Enums;
+using Windows.UI.Xaml.Media.Imaging;
+using Windows.Management.Deployment;
+using Windows.Storage.Streams;
 
 namespace Files
 {
     sealed partial class App : Application
     {
+        public static bool areLinuxFilesSupported { get; set; } = false;
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -58,6 +62,7 @@ namespace Files
         public static Dialogs.AddItemDialog addItemDialog { get; set; }
         private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
+        public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
 
         public App()
@@ -74,6 +79,57 @@ namespace Files
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
             SetPropertiesFromLocalSettings();
             PopulatePinnedSidebarItems();
+            DetectWSLDistros();
+        }
+
+        private async void DetectWSLDistros()
+        {
+            try
+            {
+                var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
+                if ((await distroFolder.GetFoldersAsync()).Count > 0)
+                {
+                    areLinuxFilesSupported = false;
+                }
+
+                foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
+                {
+                    Uri logoURI = null;
+                    if (folder.DisplayName.Contains("ubuntu", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
+                    }
+                    else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/kali.svg");
+                    }
+                    else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/debian.svg");
+                    }
+                    else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/opensuse.svg");
+                    }
+                    else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/alpine.svg");
+                    }
+                    else
+                    {
+                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/generic.svg");
+                    }
+
+
+                    linuxDistroItems.Add(new WSLDistroItem() { DistroName = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                }
+            }
+            catch (Exception)
+            {
+                // WSL Not Supported/Enabled
+                areLinuxFilesSupported = false;
+            }
+            
         }
 
         private void SetPropertiesFromLocalSettings()
@@ -670,5 +726,12 @@ namespace Files
             }
             deferral.Complete();
         }
+    }
+
+    public class WSLDistroItem
+    {
+        public string DistroName { get; set; }
+        public string Path { get; set; }
+        public Uri Logo { get; set; }
     }
 }

@@ -294,18 +294,26 @@ namespace Files
 
         public static string NormalizePath(string path)
         {
-            if (path.Contains('\\'))
+            if (path.StartsWith("\\\\"))
             {
-                return Path.GetFullPath(new Uri(path).LocalPath)
-                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                .ToUpperInvariant();
+                return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
             }
             else
             {
-                return Path.GetFullPath(path)
-                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                .ToUpperInvariant();
+                if (path.Contains('\\'))
+                {
+                    return Path.GetFullPath(new Uri(path).LocalPath)
+                    .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                    .ToUpperInvariant();
+                }
+                else
+                {
+                    return Path.GetFullPath(path)
+                    .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                    .ToUpperInvariant();
+                }
             }
+            
             
         }
 
