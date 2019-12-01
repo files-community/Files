@@ -620,7 +620,7 @@
                     <Custom:TabViewItem DoubleTapped="RibbonItem_DoubleTapped" x:Name="HomeRibbonItem" Template="{StaticResource TabViewItemFluentTemplate}" IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
-                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.TabViewTapped}"/>
+                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}"/>
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>
@@ -659,7 +659,7 @@
                 <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
                     <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
-                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.TabViewTapped}"/>
+                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}"/>
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                     <Custom:TabViewItem.Resources>
@@ -676,7 +676,7 @@
                     <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
-                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.TabViewTapped}"/>
+                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}"/>
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>

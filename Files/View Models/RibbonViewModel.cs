@@ -57,8 +57,8 @@ namespace Files.Controls
             UpdateToggleIcon();
         });
 
-        private RelayCommand tabViewTapped;
-        public RelayCommand TabViewTapped => tabViewTapped = new RelayCommand(() =>
+        private RelayCommand showRibbonCommand;
+        public RelayCommand ShowRibbonCommand => showRibbonCommand = new RelayCommand(() =>
         {
             if (ShowRibbonContent == false)
             {
