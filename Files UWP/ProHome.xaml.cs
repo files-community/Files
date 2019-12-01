@@ -4,9 +4,7 @@ using Files.Interacts;
 using Files.Navigation;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.Storage;
@@ -16,7 +14,6 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -121,6 +118,12 @@ namespace Files
             deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
             deleteProgressBoxTitle = title;
             deleteProgressBoxTextInfo = deleteInfoCurrentText;
+
+            // Acrylic Sidebar background
+            if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
+            {
+	            SidebarPane.PaneBackground = (Brush)Application.Current.Resources["SystemControlChromeHighAcrylicWindowMediumBrush"];
+            }
         }
 
 

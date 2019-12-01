@@ -55,6 +55,25 @@ namespace Files.SettingsPages
                     };
                 };
             }
+
+            // Acrylic Sidebar
+            if (localSettings.Values["acrylicSidebar"] != null)
+            {
+	            var isAcrylicSidebarEnabled = bool.Parse(localSettings.Values["acrylicSidebar"].ToString());
+	            AcrylicSidebarCheckbox.IsChecked = isAcrylicSidebarEnabled;
+            }
+
+            AcrylicSidebarCheckbox.Loaded += (sender, args) =>
+            {
+	            AcrylicSidebarCheckbox.Checked += (o, eventArgs) =>
+	            {
+		            localSettings.Values["acrylicSidebar"] = ((CheckBox) o).IsChecked;
+	            };
+	            AcrylicSidebarCheckbox.Unchecked += (o, eventArgs) =>
+	            {
+		            localSettings.Values["acrylicSidebar"] = ((CheckBox) o).IsChecked;
+	            };
+            };
         }
 
         private static ThemeValueClass tv = new ThemeValueClass();

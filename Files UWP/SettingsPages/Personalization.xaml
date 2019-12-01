@@ -19,7 +19,11 @@
                 <StackPanel>
                     <TextBlock Margin="0,0,0,15" HorizontalAlignment="Left"  Text="Choose your date format" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
                     <ComboBox CornerRadius="2" x:Name="DateFormatChooser" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="300" />
-                    <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Foreground="Green" Text="Success! Refresh list to apply time format." Margin="0,10,0,100"/>
+                    <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Foreground="Green" Text="Success! Refresh list to apply time format." Margin="0,10,0,10"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0,0" HorizontalAlignment="Left"  Text="Acrylic sidebar" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18"/>
+                    <CheckBox CornerRadius="2" x:Name="AcrylicSidebarCheckbox" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="300" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
