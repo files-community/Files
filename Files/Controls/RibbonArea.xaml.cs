@@ -254,7 +254,7 @@ namespace Files.Controls
             VisiblePath.Visibility = Visibility.Visible;
             ClickablePath.Visibility = Visibility.Collapsed;
             VisiblePath.Focus(FocusState.Programmatic);
-            VisiblePath.SelectionStart = VisiblePath.Text.Length;
+            VisiblePath.SelectAll();
         }
 
         private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
