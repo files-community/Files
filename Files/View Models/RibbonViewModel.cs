@@ -54,6 +54,22 @@ namespace Files.Controls
         {
             ShowRibbonContent = !ShowRibbonContent;
 
+            UpdateToggleIcon();
+        });
+
+        private RelayCommand tabViewTapped;
+        public RelayCommand TabViewTapped => tabViewTapped = new RelayCommand(() =>
+        {
+            if (ShowRibbonContent == false)
+            {
+                ShowRibbonContent = true;
+                
+                UpdateToggleIcon();
+            }
+        });
+
+        public void UpdateToggleIcon()
+        {
             if (ShowRibbonContent)
             {
                 ToggleRibbonIcon = ""; //This is the hide icon
@@ -62,6 +78,6 @@ namespace Files.Controls
             {
                 ToggleRibbonIcon = ""; //This is the show icon
             }
-        });
+        }
     }
 }

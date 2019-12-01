@@ -8,6 +8,8 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d"
     d:DesignHeight="125" d:DesignWidth="1280">
     <UserControl.Resources>
@@ -615,8 +617,13 @@
                         </MenuFlyout>
                     </Custom:TabViewItem.Resources>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped" x:Name="HomeRibbonItem" Template="{StaticResource TabViewItemFluentTemplate}"  IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
-                    <Custom:TabViewItem.Resources>
+                    <Custom:TabViewItem DoubleTapped="RibbonItem_DoubleTapped" x:Name="HomeRibbonItem" Template="{StaticResource TabViewItemFluentTemplate}" IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.TabViewTapped}"/>
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                        <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
                     <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
@@ -650,6 +657,11 @@
                     </CommandBar>
                 </Custom:TabViewItem>
                 <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
+                    <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.TabViewTapped}"/>
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
@@ -661,8 +673,13 @@
                         </CommandBar.Content>
                     </CommandBar>
                 </Custom:TabViewItem>
-                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
-                    <Custom:TabViewItem.Resources>
+                    <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
+                        <interactivity:Interaction.Behaviors>
+                            <core:EventTriggerBehavior EventName="Tapped">
+                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.TabViewTapped}"/>
+                            </core:EventTriggerBehavior>
+                        </interactivity:Interaction.Behaviors>
+                        <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
                         <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
