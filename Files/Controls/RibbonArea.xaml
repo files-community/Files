@@ -763,7 +763,7 @@
                     </StackPanel>
                 </Custom:TabViewItem>
             </Custom:TabView>
-            <Grid ColumnSpacing="0" VerticalAlignment="Stretch">
+            <Grid ColumnSpacing="0" VerticalAlignment="Stretch" Padding="0,4,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
