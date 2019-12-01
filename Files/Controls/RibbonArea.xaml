@@ -591,7 +591,12 @@
 
     <Grid Background="{ThemeResource RibbonBackgroundColor}" Margin="0,0,0,0" x:Name="Ribbon" Grid.Row="0">
         <StackPanel x:Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical">
-            <Custom:TabView x:Name="RibbonTabView" ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
+            <Grid Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Custom:TabView x:Name="RibbonTabView" ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                 <Custom:TabView.ItemContainerTransitions>
                     <TransitionCollection>
                     </TransitionCollection>
@@ -614,7 +619,7 @@
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
-                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                    <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                         <CommandBar.Content>
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <AppBarButton Click="{x:Bind parentPage.instanceInteraction.CutItem_Click}" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  x:Name="CutButton" Label="Cut" Icon="Cut"/>
@@ -648,7 +653,7 @@
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
-                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                        <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                         <CommandBar.Content>
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <AppBarButton Click="{x:Bind parentPage.instanceInteraction.ShareItem_Click}" x:Name="ShareButton" IsEnabled="{x:Bind parentPage.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
@@ -660,7 +665,7 @@
                     <Custom:TabViewItem.Resources>
                         <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                     </Custom:TabViewItem.Resources>
-                    <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
+                        <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                         <CommandBar.Content>
                             <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
                                 <AppBarButton Click="LayoutButton_Click" x:Name="LayoutButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
@@ -763,6 +768,9 @@
                     </StackPanel>
                 </Custom:TabViewItem>
             </Custom:TabView>
+                <Button x:Name="ToggleRibbon" Command="{x:Bind RibbonViewModel.ToggleRibbon}" Content="{x:Bind RibbonViewModel.ToggleRibbonIcon, Mode=OneWay}" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Style="{StaticResource ToolBarButtonStyle}" Background="Transparent" Height="25" Width="35" Margin="0,4,4,0"/>
+            </Grid>
+            
             <Grid ColumnSpacing="0" VerticalAlignment="Stretch" Padding="0,4,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
