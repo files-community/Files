@@ -594,10 +594,6 @@
     <Grid Background="{ThemeResource RibbonBackgroundColor}" Margin="0,0,0,0" x:Name="Ribbon" Grid.Row="0">
         <StackPanel x:Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical">
             <Grid Height="Auto">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
                 <Custom:TabView x:Name="RibbonTabView" ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
                 <Custom:TabView.ItemContainerTransitions>
                     <TransitionCollection>
@@ -785,7 +781,7 @@
                     </StackPanel>
                 </Custom:TabViewItem>
             </Custom:TabView>
-                <Button x:Name="ToggleRibbon" Command="{x:Bind RibbonViewModel.ToggleRibbon}" CornerRadius="2" Content="{x:Bind RibbonViewModel.ToggleRibbonIcon, Mode=OneWay}" VerticalAlignment="Top" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Style="{StaticResource ToolBarButtonStyle}" Background="Transparent" Height="25" Width="35" Margin="0,4,4,0"/>
+                <Button x:Name="ToggleRibbon" Command="{x:Bind RibbonViewModel.ToggleRibbon}" CornerRadius="2" Content="{x:Bind RibbonViewModel.ToggleRibbonIcon, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Style="{StaticResource ToolBarButtonStyle}" Background="Transparent" Height="25" Width="35" Margin="0,4,4,0"/>
             </Grid>
             
             <Grid ColumnSpacing="0" VerticalAlignment="Stretch" Padding="0,4,0,0">
@@ -873,7 +869,7 @@
                     </Grid>
                 </Grid>
 
-                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2" Margin="0,0,10,0" VerticalAlignment="Center">
+                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2" Margin="0,0,4,0" VerticalAlignment="Center">
                     <AutoSuggestBox.Resources>
                         <StaticResource x:Key="TextControlBorderBrush" ResourceKey="CustomInputFieldBorderBrush"/>
                         <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="CustomInputFieldBorderBrush"/>
