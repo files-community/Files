@@ -56,6 +56,7 @@ namespace Files
                 }
             }
         }
+        public static Dialogs.ExceptionDialog exceptionDialog { get; set; }
         public static Dialogs.ConsentDialog consentDialog { get; set; }
         public static Dialogs.PropertiesDialog propertiesDialog { get; set; }
         public static Dialogs.LayoutDialog layoutDialog { get; set; }
@@ -73,7 +74,8 @@ namespace Files
             propertiesDialog = new Dialogs.PropertiesDialog();
             layoutDialog = new Dialogs.LayoutDialog();
             addItemDialog = new Dialogs.AddItemDialog();
-            this.UnhandledException += App_UnhandledException;
+            exceptionDialog = new Dialogs.ExceptionDialog();
+            //this.UnhandledException += App_UnhandledException;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
@@ -564,7 +566,6 @@ namespace Files
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }
         
-        public Dialogs.ExceptionDialog exceptionDialog;
 
 
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
