@@ -14,12 +14,12 @@
                 <StackPanel>
                     <TextBlock Margin="0,0,0,15" HorizontalAlignment="Left"  Text="Choose your color scheme" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
                     <ComboBox CornerRadius="2" x:Name="ThemeChooser" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="300" />
-                    <TextBlock x:Name="RestartReminder" Opacity="0.0" Foreground="Green" Text="Success! Restart app to apply theme." Margin="0,10"/>
+                    <TextBlock x:Name="RestartReminder" Opacity="0.0" Visibility="Collapsed" Foreground="Green" Text="Success! Restart app to apply theme." Margin="0,10"/>
                 </StackPanel>
-                <StackPanel>
+                <StackPanel Margin="0,10">
                     <TextBlock Margin="0,0,0,15" HorizontalAlignment="Left"  Text="Choose your date format" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
                     <ComboBox CornerRadius="2" x:Name="DateFormatChooser" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Center" Width="300" />
-                    <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Foreground="Green" Text="Success! Refresh list to apply time format." Margin="0,10,0,100"/>
+                    <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Visibility="Collapsed" Foreground="Green" Text="Success! Refresh list to apply time format." Margin="0,10,0,100"/>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>

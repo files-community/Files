@@ -30,8 +30,10 @@ namespace Files.SettingsPages
                     ThemeChooser.SelectionChanged += async (s1, e1) =>
                     {
                         localSettings.Values["theme"] = e1.AddedItems[0].Equals("System") ? "Default" : e1.AddedItems[0].ToString();
+                        RestartReminder.Visibility = Visibility.Visible;
                         await RestartReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
                         await RestartReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
+                        RestartReminder.Visibility = Visibility.Collapsed;
                     };
                 };
             }
@@ -52,6 +54,7 @@ namespace Files.SettingsPages
                         TimeFormatReminder.Visibility = Visibility.Visible;
                         await TimeFormatReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
                         await TimeFormatReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
+                        TimeFormatReminder.Visibility = Visibility.Collapsed;
                     };
                 };
             }
