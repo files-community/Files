@@ -114,7 +114,7 @@
                                     <DataTemplate x:DataType="local:WSLDistroItem">
                                         <uilib:NavigationViewItem  Padding="0" Tag="{x:Bind Path}">
                                             <uilib:NavigationViewItem.Content>
-                                                <StackPanel Margin="-8,0,0,0" Spacing="12" Orientation="Horizontal">
+                                                <StackPanel Margin="-8,0,0,0" Spacing="6" Orientation="Horizontal">
                                                     <BitmapIcon ShowAsMonochrome="False" Width="30" Height="30" UriSource="{x:Bind Logo}"/>
                                                     <TextBlock VerticalAlignment="Center" Text="{x:Bind DistroName}" FontSize="14"/>
                                                 </StackPanel>

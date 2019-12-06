@@ -228,10 +228,15 @@
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\WSL\alpine.svg" />
+    <Content Include="Assets\WSL\alpinepng.png" />
     <Content Include="Assets\WSL\debian.svg" />
+    <Content Include="Assets\WSL\debianpng.png" />
     <Content Include="Assets\WSL\generic.svg" />
+    <Content Include="Assets\WSL\genericpng.png" />
     <Content Include="Assets\WSL\kali.svg" />
+    <Content Include="Assets\WSL\kalipng.png" />
     <Content Include="Assets\WSL\opensuse.svg" />
+    <Content Include="Assets\WSL\opensusepng.png" />
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />

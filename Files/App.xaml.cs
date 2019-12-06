@@ -91,7 +91,7 @@ namespace Files
                 var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
                 if ((await distroFolder.GetFoldersAsync()).Count > 0)
                 {
-                    areLinuxFilesSupported = false;
+                    areLinuxFilesSupported = true;
                 }
 
                 foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
@@ -103,23 +103,23 @@ namespace Files
                     }
                     else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
                     {
-                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/kali.svg");
+                        logoURI = new Uri("ms-appx:///Assets/WSL/kalipng.png");
                     }
                     else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
                     {
-                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/debian.svg");
+                        logoURI = new Uri("ms-appx:///Assets/WSL/debianpng.png");
                     }
                     else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
                     {
-                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/opensuse.svg");
+                        logoURI = new Uri("ms-appx:///Assets/WSL/opensusepng.png");
                     }
                     else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
                     {
-                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/alpine.svg");
+                        logoURI = new Uri("ms-appx:///Assets/WSL/alpinepng.png");
                     }
                     else
                     {
-                        logoURI = new Uri("ms-appx:///Files/Assets/WSL/generic.svg");
+                        logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
 
