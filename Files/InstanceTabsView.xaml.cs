@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Controls;
+using Files.Filesystem;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace Files
             {
                 WindowProperties.TabListPadding = new Thickness(8, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-
+                
             }
             else
             {

@@ -1,34 +1,7 @@
-﻿using ByteSizeLib;
-using Files.Enums;
-using Files.Interacts;
-using Files.Navigation;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
-using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.UI.Xaml.Controls;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
-using Windows.Storage.Search;
-using Windows.UI.Core;
-using Windows.UI.Popups;
-using Windows.UI.Text;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
+using System;
 
 namespace Files.Controls
 {
@@ -36,7 +9,7 @@ namespace Files.Controls
     {
         private bool _ShowRibbonContent = true;
         private string _ToggleRibbonIcon = "";
-
+        private CommandBarLabelPosition _ItemLabelPosition = CommandBarLabelPosition.Default;
         public string ToggleRibbonIcon
         {
             get => _ToggleRibbonIcon;
@@ -47,6 +20,12 @@ namespace Files.Controls
         {
             get => _ShowRibbonContent;
             set => Set(ref _ShowRibbonContent, value);
+        }
+
+        public CommandBarLabelPosition ItemLabelPosition
+        {
+            get => _ItemLabelPosition;
+            set => Set(ref _ItemLabelPosition, value);
         }
 
         private RelayCommand toggleRibbon;
@@ -78,6 +57,16 @@ namespace Files.Controls
             {
                 ToggleRibbonIcon = ""; //This is the show icon
             }
+        }
+
+        public void HideItemLabels()
+        {
+            ItemLabelPosition = CommandBarLabelPosition.Collapsed;
+        }
+
+        public void ShowItemLabels()
+        {
+            ItemLabelPosition = CommandBarLabelPosition.Default;
         }
     }
 }

@@ -10,6 +10,7 @@
     xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:controls="using:Files.Controls"
     mc:Ignorable="d"
     d:DesignHeight="125" d:DesignWidth="1280">
     <UserControl.Resources>
@@ -566,6 +567,315 @@
             <StackPanel Padding="0,0,0,0" Orientation="Horizontal" Spacing="0"/>
         </ItemsPanelTemplate>
 
+        <Style TargetType="AppBarButton" x:Key="AppBarButtonRevealStyle">
+            <Setter Property="Background" Value="{ThemeResource AppBarButtonRevealBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource AppBarButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource AppBarButtonRevealBorderThemeThickness}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Width" Value="Auto" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+            <Setter Property="AllowFocusOnInteraction" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="AppBarButton">
+                        <Grid x:Name="Root" MinWidth="{TemplateBinding MinWidth}" MaxWidth="{TemplateBinding MaxWidth}" Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" Margin="1,0">
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="ApplicationViewStates">
+                                    <VisualState x:Name="FullSize">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonContentViewboxMargin}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(Grid.Row)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(Grid.Column)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="TextAlignment">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Left" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonTextLabelOnRightMargin}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Compact">
+
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonContentViewboxCompactMargin}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="LabelOnRight">
+
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonContentViewboxMargin}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(Grid.Row)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="0" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="(Grid.Column)">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="1" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="TextAlignment">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Left" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonTextLabelOnRightMargin}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="LabelCollapsed">
+
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentRoot" Storyboard.TargetProperty="MinHeight">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarThemeCompactHeight}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonContentViewboxCompactMargin}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Overflow">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentRoot.MinHeight" Value="0" />
+                                            <Setter Target="ContentViewbox.Visibility" Value="Collapsed" />
+                                            <Setter Target="TextLabel.Visibility" Value="Collapsed" />
+                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="OverflowWithToggleButtons">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentRoot.MinHeight" Value="0" />
+                                            <Setter Target="ContentViewbox.Visibility" Value="Collapsed" />
+                                            <Setter Target="TextLabel.Visibility" Value="Collapsed" />
+                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
+                                            <Setter Target="OverflowTextLabel.Margin" Value="38,0,12,0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="OverflowWithMenuIcons">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentRoot.MinHeight" Value="0" />
+                                            <Setter Target="ContentViewbox.HorizontalAlignment" Value="Left" />
+                                            <Setter Target="ContentViewbox.VerticalAlignment" Value="Center" />
+                                            <Setter Target="ContentViewbox.Width" Value="16" />
+                                            <Setter Target="ContentViewbox.Height" Value="16" />
+                                            <Setter Target="ContentViewbox.Margin" Value="12,0,12,0" />
+                                            <Setter Target="TextLabel.Visibility" Value="Collapsed" />
+                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
+                                            <Setter Target="OverflowTextLabel.Margin" Value="38,0,12,0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="OverflowWithToggleButtonsAndMenuIcons">
+                                        <VisualState.Setters>
+                                            <Setter Target="ContentRoot.MinHeight" Value="0" />
+                                            <Setter Target="ContentViewbox.HorizontalAlignment" Value="Left" />
+                                            <Setter Target="ContentViewbox.VerticalAlignment" Value="Center" />
+                                            <Setter Target="ContentViewbox.Width" Value="16" />
+                                            <Setter Target="ContentViewbox.Height" Value="16" />
+                                            <Setter Target="ContentViewbox.Margin" Value="38,0,12,0" />
+                                            <Setter Target="TextLabel.Visibility" Value="Collapsed" />
+                                            <Setter Target="OverflowTextLabel.Visibility" Value="Visible" />
+                                            <Setter Target="OverflowTextLabel.Margin" Value="76,0,12,0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="OverflowTextLabel" />
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="PointerOver" />
+                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPointerOver}" />
+                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPointerOver}" />
+                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                        </VisualState.Setters>
+
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="OverflowTextLabel" />
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.(RevealBrush.State)" Value="Pressed" />
+                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPressed}" />
+                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPressed}" />
+                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                        </VisualState.Setters>
+
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="OverflowTextLabel" />
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundDisabled}" />
+                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushDisabled}" />
+                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundDisabled}" />
+                                            <Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundDisabled}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="OverflowNormal">
+
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentRoot" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="OverflowPointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPointerOver}" />
+                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPointerOver}" />
+                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPointerOver}" />
+                                            <Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPointerOver}" />
+                                        </VisualState.Setters>
+
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentRoot" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="OverflowPressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="Root.Background" Value="{ThemeResource AppBarButtonRevealBackgroundPressed}" />
+                                            <Setter Target="Border.BorderBrush" Value="{ThemeResource AppBarButtonRevealBorderBrushPressed}" />
+                                            <Setter Target="Content.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                            <Setter Target="TextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                            <Setter Target="OverflowTextLabel.Foreground" Value="{ThemeResource AppBarButtonForegroundPressed}" />
+                                            <Setter Target="KeyboardAcceleratorTextLabel.Foreground" Value="{ThemeResource AppBarButtonKeyboardAcceleratorTextForegroundPressed}" />
+                                        </VisualState.Setters>
+
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="ContentRoot" />
+                                        </Storyboard>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="InputModeStates">
+                                    <VisualState x:Name="InputModeDefault" />
+                                    <VisualState x:Name="TouchInputMode">
+                                        <VisualState.Setters>
+                                            <Setter Target="OverflowTextLabel.Padding" Value="{ThemeResource AppBarButtonOverflowTextTouchMargin}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="GameControllerInputMode">
+                                        <VisualState.Setters>
+                                            <Setter Target="OverflowTextLabel.Padding" Value="{ThemeResource AppBarButtonOverflowTextTouchMargin}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="KeyboardAcceleratorTextVisibility">
+                                    <VisualState x:Name="KeyboardAcceleratorTextCollapsed" />
+                                    <VisualState x:Name="KeyboardAcceleratorTextVisible">
+                                        <VisualState.Setters>
+                                            <Setter Target="KeyboardAcceleratorTextLabel.Visibility" Value="Visible" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                </VisualStateGroup>
+
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="ContentRoot" MinHeight="{ThemeResource AppBarThemeMinHeight}" Margin="-1,0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Viewbox x:Name="ContentViewbox"
+                                Height="{ThemeResource AppBarButtonContentHeight}"
+                                Margin="{ThemeResource AppBarButtonContentViewboxCollapsedMargin}"
+                                HorizontalAlignment="Stretch"
+                                AutomationProperties.AccessibilityView="Raw" >
+                                    <ContentPresenter x:Name="Content"
+                                    Content="{TemplateBinding Icon}"
+                                    Foreground="{TemplateBinding Foreground}"/>
+                                </Viewbox>
+                                <TextBlock x:Name="TextLabel"
+                                Grid.Row="1"
+                                Text="{TemplateBinding Label}"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontSize="12"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                TextAlignment="Center"
+                                TextWrapping="Wrap"
+                                Margin="{ThemeResource AppBarButtonTextLabelMargin}"
+                                AutomationProperties.AccessibilityView="Raw" />
+                                <TextBlock x:Name="OverflowTextLabel"
+                                Text="{TemplateBinding Label}"
+                                Foreground="{TemplateBinding Foreground}"
+                                FontSize="15"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                TextAlignment="Left"
+                                TextTrimming="Clip"
+                                TextWrapping="NoWrap"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                Margin="12,0,12,0"
+                                Padding="{ThemeResource AppBarButtonOverflowTextLabelPadding}"
+                                Visibility="Collapsed"
+                                AutomationProperties.AccessibilityView="Raw" />
+                                <TextBlock x:Name="KeyboardAcceleratorTextLabel"
+                                Grid.Column="1"
+                                Style="{ThemeResource CaptionTextBlockStyle}"
+                                Text="{TemplateBinding KeyboardAcceleratorTextOverride}"
+                                MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KeyboardAcceleratorTextMinWidth}"
+                                Margin="24,0,12,0"
+                                Foreground="{ThemeResource AppBarButtonKeyboardAcceleratorTextForeground}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                Visibility="Collapsed"
+                                AutomationProperties.AccessibilityView="Raw" />
+                                <Border x:Name="Border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}" Grid.RowSpan="2" Grid.ColumnSpan="2" Margin="1,0" />
+
+                            </Grid>
+
+                        </Grid>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </UserControl.Resources>
 
     <VisualStateManager.VisualStateGroups>
@@ -595,24 +905,24 @@
         <StackPanel x:Name="RibbonPanel" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Orientation="Vertical">
             <Grid Height="Auto">
                 <Custom:TabView x:Name="RibbonTabView" ItemsPanel="{StaticResource TabViewItemsPanel1}" TabWidthBehavior="Actual" Background="Transparent" Template="{StaticResource TabViewTemplate1}">
-                <Custom:TabView.ItemContainerTransitions>
-                    <TransitionCollection>
-                    </TransitionCollection>
-                </Custom:TabView.ItemContainerTransitions>
-                <Custom:TabViewItem Tapped="TabViewItem_Tapped" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File" MinWidth="48" MinHeight="32" Width="Auto">
-                    <Custom:TabViewItem.Resources>
-                        <MenuFlyout Placement="BottomEdgeAlignedLeft" Closed="MenuFlyout_Closed" x:Key="FileClickFlyout">
-                            <MenuFlyoutItem x:Name="NewWindowButton" Click="NewWindowButton_Click" Text="Open new window" Icon="NewWindow"/>
-                            <MenuFlyoutItem x:Name="SettingsButton" Click="SettingsButton_Click" Text="Settings" Icon="Setting"/>
-                            <MenuFlyoutSeparator/>
-                            <MenuFlyoutItem x:Name="ExitButton" Click="ExitButton_Click" Text="Close Files">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8BB;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </Custom:TabViewItem.Resources>
-                </Custom:TabViewItem>
+                    <Custom:TabView.ItemContainerTransitions>
+                        <TransitionCollection>
+                        </TransitionCollection>
+                    </Custom:TabView.ItemContainerTransitions>
+                    <Custom:TabViewItem Tapped="TabViewItem_Tapped" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <MenuFlyout Placement="BottomEdgeAlignedLeft" Closed="MenuFlyout_Closed" x:Key="FileClickFlyout">
+                                <MenuFlyoutItem x:Name="NewWindowButton" Click="NewWindowButton_Click" Text="Open new window" Icon="NewWindow"/>
+                                <MenuFlyoutItem x:Name="SettingsButton" Click="SettingsButton_Click" Text="Settings" Icon="Setting"/>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="ExitButton" Click="ExitButton_Click" Text="Close Files">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8BB;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Custom:TabViewItem.Resources>
+                    </Custom:TabViewItem>
                     <Custom:TabViewItem DoubleTapped="RibbonItem_DoubleTapped" x:Name="HomeRibbonItem" Template="{StaticResource TabViewItemFluentTemplate}" IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
@@ -620,55 +930,51 @@
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>
-                        <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
-                    </Custom:TabViewItem.Resources>
-                    <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                        <CommandBar.Content>
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.CutItem_Click}" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  x:Name="CutButton" Label="Cut" Icon="Cut"/>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.CopyItem_ClickAsync}" x:Name="CopyButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.PasteItem_ClickAsync}" x:Name="PasteButton" IsEnabled="{x:Bind local1:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste" x:FieldModifier="public"/>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.GetPath_Click}" x:Name="CopyPathButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
+                        <controls:RibbonPage Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" >
+                            <controls:RibbonPage.PageContent>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.CutItem_Click}" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"  x:Name="CutButton" Label="Cut" Icon="Cut"/>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.CopyItem_ClickAsync}" x:Name="CopyButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy" Icon="Copy"/>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.PasteItem_ClickAsync}" x:Name="PasteButton" IsEnabled="{x:Bind local1:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Paste" Icon="Paste" x:FieldModifier="public"/>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.GetPath_Click}" x:Name="CopyPathButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Copy Path">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                                 <AppBarSeparator/>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.DeleteItem_Click}" x:Name="DeleteButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.RenameItem_Click}" x:Name="RenameButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
-                                <AppBarButton Click="AddItem_Click" x:Name="addItemButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add">
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.DeleteItem_Click}" x:Name="DeleteButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.RenameItem_Click}" x:Name="RenameButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="AddItem_Click" x:Name="addItemButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add">
                                     <AppBarButton.KeyboardAccelerators>
                                         <KeyboardAccelerator Modifiers="Control, Shift"  Key="N"/>
                                     </AppBarButton.KeyboardAccelerators>
                                 </AppBarButton>
                                 <AppBarSeparator/>
-                                <AppBarButton Click="ShowPropertiesButton_Click" x:Name="ShowPropertiesButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="ShowPropertiesButton_Click" x:Name="ShowPropertiesButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE946;"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.OpenItem_Click}" x:Name="OpenWithButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
-                            </CommandBar>
-                        </CommandBar.Content>
-                    </CommandBar>
-                </Custom:TabViewItem>
-                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
-                    <interactivity:Interaction.Behaviors>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.OpenItem_Click}" x:Name="OpenWithButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
+                            </controls:RibbonPage.PageContent>
+                        </controls:RibbonPage>
+                    </Custom:TabViewItem>
+                    <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="Share" MinWidth="48" MinHeight="32" Width="Auto">
+                        <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
                                 <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}"/>
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
-                    <Custom:TabViewItem.Resources>
-                        <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
-                    </Custom:TabViewItem.Resources>
-                        <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                        <CommandBar.Content>
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.ShareItem_Click}" x:Name="ShareButton" IsEnabled="{x:Bind parentPage.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
-                            </CommandBar>
-                        </CommandBar.Content>
-                    </CommandBar>
-                </Custom:TabViewItem>
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
+                        <controls:RibbonPage Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}">
+                            <controls:RibbonPage.PageContent>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2"  Click="{x:Bind parentPage.instanceInteraction.ShareItem_Click}" x:Name="ShareButton" IsEnabled="{x:Bind parentPage.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Share" Icon="Share"/>
+                            </controls:RibbonPage.PageContent>
+                        </controls:RibbonPage>
+                    </Custom:TabViewItem>
                     <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
@@ -676,24 +982,23 @@
                             </core:EventTriggerBehavior>
                         </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>
-                        <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
-                    </Custom:TabViewItem.Resources>
-                        <CommandBar Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}" Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                        <CommandBar.Content>
-                            <CommandBar Background="Transparent" OverflowButtonVisibility="Collapsed" DefaultLabelPosition="Right">
-                                <AppBarButton Click="LayoutButton_Click" x:Name="LayoutButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
+                        <controls:RibbonPage Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}">
+                            <controls:RibbonPage.PageContent>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2" Click="LayoutButton_Click" x:Name="LayoutButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.SelectAllItems}" x:Name="SelectAllButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.SelectAllItems}" x:Name="SelectAllButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
                                     <AppBarButton.KeyboardAccelerators>
                                         <KeyboardAccelerator Modifiers="Control" Key="A"/>
                                     </AppBarButton.KeyboardAccelerators>
                                 </AppBarButton>
-                                <AppBarButton Click="{x:Bind parentPage.instanceInteraction.ClearAllItems}" x:Name="ClearAllButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.ClearAllItems}" x:Name="ClearAllButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
                                 <AppBarSeparator/>
-                                <AppBarButton IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="Sort" Label="Sort by">
+                                <AppBarButton MinWidth="35" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="Sort" Label="Sort by">
                                     <AppBarButton.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByName, Mode=TwoWay}"/>
@@ -706,84 +1011,85 @@
                                         </MenuFlyout>
                                     </AppBarButton.Flyout>
                                 </AppBarButton>
-                            </CommandBar>
-                        </CommandBar.Content>
-                    </CommandBar>
-                </Custom:TabViewItem>
-                <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped" Visibility="Collapsed" x:Name="SearchTools" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Search" MinWidth="48" MinHeight="32" Width="Auto">
-                    <Custom:TabViewItem.Resources>
-                        <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
-                    </Custom:TabViewItem.Resources>
-                    <Custom:TabViewItem.Background>
-                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                            <GradientStop Color="#FFD9D7D2" Offset="0"/>
-                            <GradientStop Color="Transparent" Offset="1.25"/>
-                        </LinearGradientBrush>
-                    </Custom:TabViewItem.Background>
-                    <StackPanel Padding="15,5" Orientation="Horizontal">
-                        <StackPanel Spacing="2.5" Orientation="Vertical">
-                            <StackPanel Spacing="5" Orientation="Horizontal">
-                                <RadioButton Content="Current folder"/>
-                                <RadioButton Content="All subfolders"/>
-                            </StackPanel>
-                            <TextBlock TextAlignment="Center" Text="Search within"/>
-                        </StackPanel>
-                        <AppBarSeparator/>
-                        <StackPanel Spacing="2.5" Orientation="Vertical">
-                            <StackPanel Spacing="5" Orientation="Horizontal">
-                                <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Date modified">
-                                    <ComboBox.Items>
-                                        <ComboBoxItem Content="Today"/>
-                                        <ComboBoxItem Content="Yesterday"/>
-                                        <ComboBoxItem Content="This week"/>
-                                        <ComboBoxItem Content="Last week"/>
-                                        <ComboBoxItem Content="This month"/>
-                                        <ComboBoxItem Content="Last month"/>
-                                        <ComboBoxItem Content="This year"/>
-                                        <ComboBoxItem Content="Last year"/>
-                                    </ComboBox.Items>
-                                </ComboBox>
-                                <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Type">
-                                    <ComboBox.Items>
-                                        <ComboBoxItem Content="Document"/>
-                                        <ComboBoxItem Content="Folder"/>
-                                        <ComboBoxItem Content="Movie"/>
-                                        <ComboBoxItem Content="Music"/>
-                                        <ComboBoxItem Content="Note"/>
-                                        <ComboBoxItem Content="Picture"/>
-                                        <ComboBoxItem Content="Video"/>
-                                        <ComboBoxItem Content="Custom"/>
-                                    </ComboBox.Items>
-                                </ComboBox>
-                                <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Size">
-                                    <ComboBox.Items>
-                                        <ComboBoxItem Content="Empty"/>
-                                        <ComboBoxItem Content="Tiny (0 - 16 KB)"/>
-                                        <ComboBoxItem Content="Small (16 KB - 1 MB)"/>
-                                        <ComboBoxItem Content="Medium (1 - 128 MB)"/>
-                                        <ComboBoxItem Content="Large (128 MB - 1 GB)"/>
-                                        <ComboBoxItem Content="Huge (1 - 4 GB)"/>
-                                        <ComboBoxItem Content="Gigantic (>4 GB)"/>
-                                    </ComboBox.Items>
-                                </ComboBox>
-                            </StackPanel>
-                            <TextBlock TextAlignment="Center" Text="Filter"/>
-                        </StackPanel>
-                        <AppBarSeparator/>
-                        <Button BorderThickness="1" Background="Transparent" Style="{ThemeResource ButtonRevealStyle}" Width="125">
-                            <Button.Content>
-                                <StackPanel Orientation="Vertical">
-                                    <FontIcon Glyph="&#xE8BB;"/>
-                                    <TextBlock TextWrapping="WrapWholeWords" Text="Cancel search"/>
+                            </controls:RibbonPage.PageContent>
+                        </controls:RibbonPage>
+                    </Custom:TabViewItem>
+                    <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped" Visibility="Collapsed" x:Name="SearchTools" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Search" MinWidth="48" MinHeight="32" Width="Auto">
+                        <Custom:TabViewItem.Resources>
+                            <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                        </Custom:TabViewItem.Resources>
+                        <Custom:TabViewItem.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FFD9D7D2" Offset="0"/>
+                                <GradientStop Color="Transparent" Offset="1.25"/>
+                            </LinearGradientBrush>
+                        </Custom:TabViewItem.Background>
+                        <controls:RibbonPage>
+                            <controls:RibbonPage.PageContent>
+                                <StackPanel Spacing="2.5" Orientation="Vertical">
+                                    <StackPanel Spacing="5" Orientation="Horizontal">
+                                        <RadioButton Content="Current folder"/>
+                                        <RadioButton Content="All subfolders"/>
+                                    </StackPanel>
+                                    <TextBlock TextAlignment="Center" Text="Search within"/>
                                 </StackPanel>
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
-                </Custom:TabViewItem>
-            </Custom:TabView>
+                                <AppBarSeparator/>
+                                <StackPanel Spacing="2.5" Orientation="Vertical">
+                                    <StackPanel Spacing="5" Orientation="Horizontal">
+                                        <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Date modified">
+                                            <ComboBox.Items>
+                                                <ComboBoxItem Content="Today"/>
+                                                <ComboBoxItem Content="Yesterday"/>
+                                                <ComboBoxItem Content="This week"/>
+                                                <ComboBoxItem Content="Last week"/>
+                                                <ComboBoxItem Content="This month"/>
+                                                <ComboBoxItem Content="Last month"/>
+                                                <ComboBoxItem Content="This year"/>
+                                                <ComboBoxItem Content="Last year"/>
+                                            </ComboBox.Items>
+                                        </ComboBox>
+                                        <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Type">
+                                            <ComboBox.Items>
+                                                <ComboBoxItem Content="Document"/>
+                                                <ComboBoxItem Content="Folder"/>
+                                                <ComboBoxItem Content="Movie"/>
+                                                <ComboBoxItem Content="Music"/>
+                                                <ComboBoxItem Content="Note"/>
+                                                <ComboBoxItem Content="Picture"/>
+                                                <ComboBoxItem Content="Video"/>
+                                                <ComboBoxItem Content="Custom"/>
+                                            </ComboBox.Items>
+                                        </ComboBox>
+                                        <ComboBox Width="135" MaxDropDownHeight="250" PlaceholderText="Size">
+                                            <ComboBox.Items>
+                                                <ComboBoxItem Content="Empty"/>
+                                                <ComboBoxItem Content="Tiny (0 - 16 KB)"/>
+                                                <ComboBoxItem Content="Small (16 KB - 1 MB)"/>
+                                                <ComboBoxItem Content="Medium (1 - 128 MB)"/>
+                                                <ComboBoxItem Content="Large (128 MB - 1 GB)"/>
+                                                <ComboBoxItem Content="Huge (1 - 4 GB)"/>
+                                                <ComboBoxItem Content="Gigantic (>4 GB)"/>
+                                            </ComboBox.Items>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <TextBlock TextAlignment="Center" Text="Filter"/>
+                                </StackPanel>
+                                <AppBarSeparator/>
+                                <Button BorderThickness="1" Background="Transparent" Style="{ThemeResource ButtonRevealStyle}" Width="125">
+                                    <Button.Content>
+                                        <StackPanel Orientation="Vertical">
+                                            <FontIcon Glyph="&#xE8BB;"/>
+                                            <TextBlock TextWrapping="WrapWholeWords" Text="Cancel search"/>
+                                        </StackPanel>
+                                    </Button.Content>
+                                </Button>
+                            </controls:RibbonPage.PageContent>
+                        </controls:RibbonPage>
+                    </Custom:TabViewItem>
+                </Custom:TabView>
                 <Button x:Name="ToggleRibbon" Command="{x:Bind RibbonViewModel.ToggleRibbon}" CornerRadius="2" Content="{x:Bind RibbonViewModel.ToggleRibbonIcon, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Style="{StaticResource ToolBarButtonStyle}" Background="Transparent" Height="25" Width="35" Margin="0,4,4,0"/>
             </Grid>
-            
+
             <Grid ColumnSpacing="0" VerticalAlignment="Stretch" Padding="0,4,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

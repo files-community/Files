@@ -22,6 +22,19 @@ namespace Files.Controls
         public RibbonArea()
         {
             this.InitializeComponent();
+            Window.Current.SizeChanged += Current_SizeChanged;
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            if(e.Size.Width >= 750)
+            {
+                RibbonViewModel.ShowItemLabels();
+            }
+            else
+            {
+                RibbonViewModel.HideItemLabels();
+            }
         }
 
         private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)

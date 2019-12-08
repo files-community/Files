@@ -138,6 +138,9 @@
     <Compile Include="Controls\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\RibbonPage.xaml.cs">
+      <DependentUpon>RibbonPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
@@ -247,6 +250,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\RibbonArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
