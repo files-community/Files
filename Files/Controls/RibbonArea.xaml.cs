@@ -330,7 +330,8 @@ namespace Files.Controls
 
         private void TabViewItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ((sender as TabViewItem).Resources["FileClickFlyout"] as MenuFlyout).ShowAt((sender as TabViewItem));
+            FlyoutBase.ShowAttachedFlyout(sender as TabViewItem);
+            //((sender as TabViewItem).Resources["FileClickFlyout"] as FlyoutPresenter).ShowAt((sender as TabViewItem));
         }
 
         private void MenuFlyout_Closed(object sender, object e)
@@ -353,6 +354,14 @@ namespace Files.Controls
             else
             {
                 itemTapped.IsSelected = true;
+            }
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(e.AddedItems.Count > 0)
+            {
+                (sender as ListView).SelectedItem = null;
             }
         }
     }

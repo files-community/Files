@@ -910,18 +910,42 @@
                         </TransitionCollection>
                     </Custom:TabView.ItemContainerTransitions>
                     <Custom:TabViewItem Tapped="TabViewItem_Tapped" Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0"  Header="File" MinWidth="48" MinHeight="32" Width="Auto">
-                        <Custom:TabViewItem.Resources>
-                            <MenuFlyout Placement="BottomEdgeAlignedLeft" Closed="MenuFlyout_Closed" x:Key="FileClickFlyout">
-                                <MenuFlyoutItem x:Name="NewWindowButton" Click="NewWindowButton_Click" Text="Open new window" Icon="NewWindow"/>
-                                <MenuFlyoutItem x:Name="SettingsButton" Click="SettingsButton_Click" Text="Settings" Icon="Setting"/>
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Name="ExitButton" Click="ExitButton_Click" Text="Close Files">
-                                    <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE8BB;"/>
-                                    </MenuFlyoutItem.Icon>
-                                </MenuFlyoutItem>
-                            </MenuFlyout>
-                        </Custom:TabViewItem.Resources>
+                        <FlyoutBase.AttachedFlyout>
+                            <Flyout Closed="MenuFlyout_Closed">
+                                <Flyout.Content>
+                                    <ListView SelectionChanged="ListView_SelectionChanged" SelectionMode="Single">
+                                        <ListViewItem Padding="12,8" x:Name="NewWindowButton" IsTapEnabled="true" Tapped="NewWindowButton_Click">
+                                            <StackPanel Spacing="14" Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE78B;"/>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="14" FontWeight="Medium" Text="Open new window"/>
+                                                    <TextBlock Text="Creates a new instance of Files"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </ListViewItem>
+                                        <ListViewItem Padding="12,8" x:Name="SettingsButton" IsTapEnabled="true" Tapped="SettingsButton_Click">
+                                            <StackPanel Spacing="14" Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE713;"/>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="14" FontWeight="Medium" Text="Settings"/>
+                                                    <TextBlock Text="Make changes to app preferences"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </ListViewItem>
+                                        <ListViewItem Padding="12,8" x:Name="ExitButton" IsTapEnabled="true" Tapped="ExitButton_Click">
+                                            <StackPanel Spacing="14" Orientation="Horizontal">
+                                                <FontIcon Glyph="&#xE8BB;"/>
+                                                <StackPanel Orientation="Vertical">
+                                                    <TextBlock FontSize="14" FontWeight="Medium" Text="Close Files"/>
+                                                    <TextBlock Text="Closes this window"/>
+                                                </StackPanel>
+                                            </StackPanel>
+                                        </ListViewItem>
+                                    </ListView>
+                                </Flyout.Content>
+                                
+                            </Flyout>
+                        </FlyoutBase.AttachedFlyout>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem DoubleTapped="RibbonItem_DoubleTapped" x:Name="HomeRibbonItem" Template="{StaticResource TabViewItemFluentTemplate}" IsSelected="True" BorderThickness="0" Header="Home" MinWidth="48" MinHeight="32" Width="Auto">
                         <interactivity:Interaction.Behaviors>
