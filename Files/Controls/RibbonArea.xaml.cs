@@ -23,17 +23,27 @@ namespace Files.Controls
         {
             this.InitializeComponent();
             Window.Current.SizeChanged += Current_SizeChanged;
+            Current_SizeChanged(null, null);
         }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
-            if(e.Size.Width >= 750)
+            
+            if(Window.Current.Bounds.Width >= 750)
             {
                 RibbonViewModel.ShowItemLabels();
+                SearchReigon.Visibility = Visibility.Visible;
+                ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
+                SearchBoxResizer.Visibility = Visibility.Visible;
+                ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
             }
             else
             {
                 RibbonViewModel.HideItemLabels();
+                SearchReigon.Visibility = Visibility.Collapsed;
+                ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
+                SearchBoxResizer.Visibility = Visibility.Collapsed;
+                ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
             }
         }
 

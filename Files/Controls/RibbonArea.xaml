@@ -1090,11 +1090,11 @@
                 <Button x:Name="ToggleRibbon" Command="{x:Bind RibbonViewModel.ToggleRibbon}" CornerRadius="2" Content="{x:Bind RibbonViewModel.ToggleRibbonIcon, Mode=OneWay}" VerticalAlignment="Top" HorizontalAlignment="Right" FontFamily="Segoe MDL2 Assets" Grid.Column="1" Style="{StaticResource ToolBarButtonStyle}" Background="Transparent" Height="25" Width="35" Margin="0,4,4,0"/>
             </Grid>
 
-            <Grid ColumnSpacing="0" VerticalAlignment="Stretch" Padding="0,4,0,0">
+            <Grid x:Name="ToolbarGrid" ColumnSpacing="0" VerticalAlignment="Stretch" Padding="0,4,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
-                    <ColumnDefinition MinWidth="24" Width="300"/>
+                    <ColumnDefinition MinWidth="285" MaxWidth="485"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
                     <Button Style="{StaticResource ToolBarButtonStyle}" x:FieldModifier="public" Height="30" Width="34" CornerRadius="2" Margin="4,0,2,0" Background="Transparent" Click="{x:Bind local1:NavigationActions.Back_Click}" IsEnabled="{x:Bind parentPage.ItemDisplayFrame.CanGoBack, Mode=OneWay}" x:Name="Back" FontFamily="Segoe MDL2 Assets">
@@ -1136,7 +1136,6 @@
                         </Button.KeyboardAccelerators>
                     </Button>
                 </StackPanel>
-                
                 <Grid Padding="5,0,5,0" Grid.Column="1" VerticalAlignment="Center">
                     <TextBox x:FieldModifier="public" LostFocus="VisiblePath_LostFocus" FocusDisengaged="VisiblePath_LostFocus" Visibility="Collapsed" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" Text="{x:Bind parentPage.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" KeyDown="VisiblePath_TextChanged" x:Name="VisiblePath" FontFamily="Segoe UI" FontWeight="SemiBold" FontSize="14" ScrollViewer.VerticalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalAlignment="Center" Padding="4" PlaceholderText="Enter a path"/>
                     <Grid Padding="2.5,0,0,0" Height="32.5" PointerPressed="ManualPathEntryItem_Click" HorizontalAlignment="Stretch" BorderBrush="{ThemeResource CustomInputFieldBorderBrush}" CornerRadius="2" BorderThickness="1" x:Name="ClickablePath" VerticalAlignment="Stretch">
@@ -1174,8 +1173,8 @@
                         </ListView>
                     </Grid>
                 </Grid>
-
-                <AutoSuggestBox QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2" Margin="0,0,4,0" VerticalAlignment="Center">
+                <Custom:GridSplitter x:Name="SearchBoxResizer" Foreground="Transparent" Background="Transparent" GripperCursor="SizeWestEast" HorizontalAlignment="Right" Width="Auto" Grid.Column="1" ResizeBehavior="CurrentAndNext" ResizeDirection="Columns"/>
+                <AutoSuggestBox MaxWidth="485" QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2" Margin="0,0,4,0" VerticalAlignment="Center">
                     <AutoSuggestBox.Resources>
                         <StaticResource x:Key="TextControlBorderBrush" ResourceKey="CustomInputFieldBorderBrush"/>
                         <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="CustomInputFieldBorderBrush"/>
