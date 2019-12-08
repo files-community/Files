@@ -942,7 +942,7 @@
                                         <FontIcon Glyph="&#xF271;" FontFamily="Segoe MDL2 Assets"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                                <AppBarSeparator/>
+                                <AppBarSeparator IsCompact="True" Height="40"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.DeleteItem_Click}" x:Name="DeleteButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Delete" Icon="Delete"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.RenameItem_Click}" x:Name="RenameButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Rename" Icon="Rename"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="AddItem_Click" x:Name="addItemButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Add Item" Icon="Add">
@@ -950,7 +950,7 @@
                                         <KeyboardAccelerator Modifiers="Control, Shift"  Key="N"/>
                                     </AppBarButton.KeyboardAccelerators>
                                 </AppBarButton>
-                                <AppBarSeparator/>
+                                <AppBarSeparator IsCompact="True" Height="40"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="ShowPropertiesButton_Click" x:Name="ShowPropertiesButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Properties">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE946;"/>
@@ -997,7 +997,7 @@
                                     </AppBarButton.KeyboardAccelerators>
                                 </AppBarButton>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.ClearAllItems}" x:Name="ClearAllButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="ClearSelection" Label="Clear All"/>
-                                <AppBarSeparator/>
+                                <AppBarSeparator IsCompact="True" Height="40"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="Sort" Label="Sort by">
                                     <AppBarButton.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
