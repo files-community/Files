@@ -21,7 +21,7 @@
             <Style x:Key="ListViewHeaderItemStyle1" TargetType="ListViewHeaderItem">
                 <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
                 <Setter Property="FontSize" Value="{ThemeResource ListViewHeaderItemThemeFontSize}"/>
-                <Setter Property="Background" Value="{ThemeResource ListViewHeaderItemBackground}"/>
+                <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Margin" Value="0,0,0,0"/>
                 <Setter Property="Padding" Value="0"/>
                 <Setter Property="HorizontalContentAlignment" Value="Left"/>
@@ -57,7 +57,7 @@
             </Windows10version1903:Grid>
         </StackPanel>
         
-        <SplitView  DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
                 <ScrollViewer Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
                     <Grid>

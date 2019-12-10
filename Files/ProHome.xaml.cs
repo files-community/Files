@@ -14,8 +14,10 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
 
 namespace Files
 {
@@ -131,6 +133,28 @@ namespace Files
                 {
                     DrivesList.SelectedItem = null;
                 }
+            }
+
+            // Acrylic sidebar
+            var localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
+            {
+	            var selectedTheme = localSettings.Values["theme"].ToString().Equals("Default") ? ThemeStyle.System : Enum.Parse<ThemeStyle>(localSettings.Values["theme"].ToString());
+	            switch (selectedTheme)
+	            {
+		            case ThemeStyle.System:
+			            splitView.PaneBackground = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+                        DrivesList.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+                        break;
+		            case ThemeStyle.Light:
+			            splitView.PaneBackground = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+                        break;
+		            case ThemeStyle.Dark:
+			            splitView.PaneBackground = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+                        break;
+		            default:
+			            throw new ArgumentOutOfRangeException();
+	            }
             }
 
             this.Loaded -= Page_Loaded;
