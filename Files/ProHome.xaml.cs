@@ -76,6 +76,10 @@ namespace Files
             if (e.SelectedItem != null)
             {
                 LocationsList.SelectedItem = null;
+                if(LinuxList != null)
+                {
+                    LinuxList.SelectedItem = null;
+                }
             }
         }
 
@@ -196,6 +200,10 @@ namespace Files
             if (args.SelectedItem != null)
             {
                 DrivesList.SelectedItem = null;
+                if(LinuxList != null)
+                {
+                    LinuxList.SelectedItem = null;
+                }
             }
         }
 
@@ -204,17 +212,31 @@ namespace Files
             var clickedItem = args.InvokedItem.ToString();
             var clickedItemContainer = args.InvokedItemContainer;
 
+            HomeItems.isEnabled = false;
+            ShareItems.isEnabled = false;
+            if (LinuxList != null)
+            {
+                if (LinuxList.SelectedItem != null)
+                {
+                    LinuxList.SelectedItem = null;
+                    LayoutItems.isEnabled = false;
+                }
+            }
+            
+
+            if (DrivesList.SelectedItem != null)
+            {
+                DrivesList.SelectedItem = null;
+                LayoutItems.isEnabled = false;
+            }
+
             if (clickedItem == "Home")
             {
                 ItemDisplayFrame.Navigate(typeof(YourHome), "New tab");
                 PathText.Text = "New tab";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = false;
             }
             else if (clickedItem == "Desktop")
@@ -223,11 +245,7 @@ namespace Files
                 PathText.Text = "Desktop";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
             else if (clickedItem == "Downloads")
@@ -236,11 +254,7 @@ namespace Files
                 PathText.Text = "Downloads";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
             else if (clickedItem == "Documents")
@@ -249,11 +263,7 @@ namespace Files
                 PathText.Text = "Documents";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
             else if (clickedItem == "Pictures")
@@ -262,11 +272,7 @@ namespace Files
                 PathText.Text = "Pictures";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
             else if (clickedItem == "Music")
@@ -275,11 +281,7 @@ namespace Files
                 PathText.Text = "Music";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
             else if (clickedItem == "Videos")
@@ -288,11 +290,7 @@ namespace Files
                 PathText.Text = "Videos";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
             else
@@ -301,11 +299,7 @@ namespace Files
                 PathText.Text = clickedItem;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
-                if (DrivesList.SelectedItem != null)
-                {
-                    DrivesList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
+
                 LayoutItems.isEnabled = true;
             }
         }
@@ -319,6 +313,16 @@ namespace Files
                 LocationsList.SelectedItem = null;
                 LayoutItems.isEnabled = false;
             }
+
+            if (LinuxList != null)
+            {
+                if (LinuxList.SelectedItem != null)
+                {
+                    LinuxList.SelectedItem = null;
+                    LayoutItems.isEnabled = false;
+                }
+            }
+            
 
             var clickedItem = args.InvokedItemContainer;
 
@@ -380,6 +384,38 @@ namespace Files
             {
                 UnloadObject(ProgressFlyout);
             }
+        }
+
+        private void LinuxList_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.SelectedItem != null)
+            {
+                DrivesList.SelectedItem = null;
+                LocationsList.SelectedItem = null;
+            }
+        }
+
+        private void LinuxList_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
+        {
+            HomeItems.isEnabled = false;
+            ShareItems.isEnabled = false;
+            if (LocationsList.SelectedItem != null)
+            {
+                LocationsList.SelectedItem = null;
+                LayoutItems.isEnabled = false;
+            }
+
+            if (DrivesList.SelectedItem != null)
+            {
+                DrivesList.SelectedItem = null;
+                LayoutItems.isEnabled = false;
+            }
+
+            var clickedItem = args.InvokedItemContainer;
+
+            ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+            PathText.Text = clickedItem.Tag.ToString();
+            LayoutItems.isEnabled = true;
         }
     }
 

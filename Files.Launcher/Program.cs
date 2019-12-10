@@ -32,12 +32,26 @@ namespace ProcessLauncher
             }
             else
             {
-                var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
-                Process process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = executable;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
+                try
+                {
+                    var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.FileName = executable;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                    process.StartInfo.FileName = executable;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                }
+                
 
             }
                       
