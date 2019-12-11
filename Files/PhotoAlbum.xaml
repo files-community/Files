@@ -99,23 +99,6 @@
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.DeleteItem_Click}" Text="Delete" x:Name="DeleteItem" >
-                <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE74D;"/>
-                </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Delete"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.RenameItem_Click}" Text="Rename" x:Name="RenameItem" >
-                <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE8AC;"/>
-                </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F2"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
-            </MenuFlyoutItem>
-            <MenuFlyoutSeparator/>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CutItem_Click}" Text="Cut" x:Name="CutItem" >
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C6;"/>
@@ -130,6 +113,23 @@
                 </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Modifiers="Control" Key="C"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.DeleteItem_Click}" Text="Delete" x:Name="DeleteItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Delete"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.RenameItem_Click}" Text="Rename" x:Name="RenameItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8AC;"/>
+                </MenuFlyoutItem.Icon>
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="F2"/>
                 </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
