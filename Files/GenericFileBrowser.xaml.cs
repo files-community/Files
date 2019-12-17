@@ -135,6 +135,7 @@ namespace Files
             previousFileName = selectedItem.FileName;
             textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
             textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+            isRenamingItem = true;
         }
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)

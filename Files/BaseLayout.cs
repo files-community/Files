@@ -27,7 +27,7 @@ namespace Files
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
         public bool isRenamingItem = false;
-        public List<ListedItem> selectedItems 
+        public List<ListedItem> SelectedItems 
         { 
             get
             {
@@ -43,7 +43,25 @@ namespace Files
                 {
                     return new List<ListedItem>();
                 }
-            } 
+            }
+        }
+        public ListedItem SelectedItem
+        {
+            get
+            {
+                if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                {
+                    return (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem as ListedItem;
+                }
+                else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                {
+                    return (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem as ListedItem;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public BaseLayout()
@@ -140,7 +158,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            var selectedFileSystemItems = (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems;
+            var selectedFileSystemItems = (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems;
 
             // Find selected items that are not folders
             if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
