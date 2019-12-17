@@ -1,27 +1,30 @@
-﻿using System;
+using Files.Dialogs;
+using Files.Filesystem;
+using Files.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Files.Filesystem;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using System.Collections;
-using Windows.Foundation;
 using System.IO;
-using System.Reflection;
-using Files.Dialogs;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.Interacts
 {
@@ -984,6 +987,11 @@ namespace Files.Interacts
             {
                 (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Clear();
             }
+        }
+
+        public void PushJumpChar(char letter)
+        {
+            App.OccupiedInstance.instanceViewModel.JumpString += letter.ToString().ToLower();
         }
     }
 }

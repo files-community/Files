@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,7 @@ namespace Files
     {
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
+        public bool isRenamingItem = false;
         public List<ListedItem> selectedItems 
         { 
             get
@@ -53,6 +55,8 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            // Add item jumping handler
+            Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (string)eventArgs.Parameter;
             if (App.FormFactor == Enums.FormFactorMode.Regular)
             {
@@ -121,6 +125,8 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            // Remove item jumping handler
+            Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             if (App.OccupiedInstance.instanceViewModel._fileQueryResult != null)
             {
                 App.OccupiedInstance.instanceViewModel._fileQueryResult.ContentsChanged -= App.OccupiedInstance.instanceViewModel.FileContentsChanged;
@@ -204,6 +210,16 @@ namespace Files
                     Page_Loaded(null, null);
                 }
             }
+        }
+
+        protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        {
+            var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+            if (focusedElement is TextBox)
+                return;
+
+            char letterPressed = Convert.ToChar(args.KeyCode);
+            App.OccupiedInstance.instanceInteraction.PushJumpChar(letterPressed);
         }
     }
 }
