@@ -18,6 +18,7 @@ namespace ProcessLauncher
                     ApplicationData.Current.LocalSettings.Values["DetectedPicturesLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Pictures", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedMusicLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedVideosLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
+                    ApplicationData.Current.LocalSettings.Values["DetectedOneDriveLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", null);
                 }
                 else
                 {
