@@ -64,6 +64,12 @@
                         <FontIcon Glyph="&#xE8A5;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Properties" Click="{x:Bind AssociatedInteractions.ShowFolderPropertiesButton_Click}" x:Name="PropertiesFolder">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE946;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
             </MenuFlyoutSubItem>
         </MenuFlyout>
 

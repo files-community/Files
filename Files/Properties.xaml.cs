@@ -1,20 +1,5 @@
 ﻿using Files.Filesystem;
-using Files.Interacts;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -31,9 +16,7 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var result = e.Parameter as IEnumerable;
-            IList<ListedItem> listedItems = result.OfType<ListedItem>().ToList();
-            Item = listedItems[0];
+            Item = e.Parameter as ListedItem;
             PropertiesDialog = Frame.Tag as ContentDialog;
             base.OnNavigatedTo(e);
         }

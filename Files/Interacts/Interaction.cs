@@ -480,6 +480,13 @@ namespace Files.Interacts
             await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 
+        public async void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
+            App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), App.OccupiedInstance.instanceViewModel.currentFolder, new SuppressNavigationTransitionInfo());
+            await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+        }
+
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
