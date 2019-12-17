@@ -10,6 +10,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Windows.System;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -153,6 +154,11 @@ namespace Files
             }
         }
 
+        private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        {
+            isRenamingItem = false;
+        }
+
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             AllView.SelectedItem = null;
@@ -192,9 +198,22 @@ namespace Files
         {
             if (e.Key == VirtualKey.Enter)
             {
-                App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                if (isRenamingItem)
+                {
+                    AllView.CommitEdit();
+                }
+                else
+                {
+                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                }
                 e.Handled = true;
             }
+        }
+
+        protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        {
+            base.Page_CharacterReceived(sender, args);
+            AllView.Focus(FocusState.Keyboard);
         }
     }
 }
