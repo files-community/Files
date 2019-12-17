@@ -17,7 +17,11 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Image Margin="15,15" Grid.Column="0" Width="45" Height="45" x:Name="itemIcon" Source="{x:Bind Item.FileImg,Mode=OneTime}" />
+                <Custom:DockPanel x:Name="Icon" Margin="15,15" Width="45" Height="45" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <FontIcon FontSize="36" Visibility="{x:Bind Item.FolderImg,Mode=OneTime}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <FontIcon FontSize="36" Visibility="{x:Bind Item.EmptyImgVis,Mode=OneTime}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Image Visibility="{x:Bind Item.FileIconVis,Mode=OneTime}" x:Name="itemIcon" Source="{x:Bind Item.FileImg,Mode=OneTime}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                </Custom:DockPanel>
                 <TextBox CornerRadius="2" BorderThickness="1" Padding="10,4" x:Name="itemFileName" Text="{x:Bind Item.FileName,Mode=OneTime}" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="15,0,15,0" />
             </Grid>
             <MenuFlyoutSeparator HorizontalAlignment="Stretch" Margin="-10,0"/>

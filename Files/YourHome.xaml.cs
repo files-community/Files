@@ -40,6 +40,7 @@ namespace Files
                     App.PicturesPath = localSettings.Values["PicturesLocation"].ToString();
                     App.MusicPath = localSettings.Values["MusicLocation"].ToString();
                     App.VideosPath = localSettings.Values["VideosLocation"].ToString();
+                    App.OneDrivePath = localSettings.Values["OneDriveLocation"].ToString();
                 }
             }
 

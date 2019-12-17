@@ -35,6 +35,7 @@ namespace Files.Filesystem
         public EmptyFolderTextState EmptyTextState { get; set; } = new EmptyFolderTextState();
         public LoadingIndicator LoadIndicator { get; set; } = new LoadingIndicator();
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
+        public ListedItem currentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
         public UniversalPath Universal { get; } = new UniversalPath();
         private ObservableCollection<ListedItem> _filesAndFolders;
@@ -42,10 +43,14 @@ namespace Files.Filesystem
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
         private StorageFolder _rootFolder;
+        private ListedItem _rootFolderItem;
         private QueryOptions _options;
         private volatile bool _filesRefreshing;
         private const int _step = 250;
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private string _jumpString = "";
+        private DispatcherTimer jumpTimer = new DispatcherTimer();
 
         private SortOption _directorySortOption = SortOption.Name;
         private SortDirection _directorySortDirection = SortDirection.Ascending;
@@ -170,6 +175,66 @@ namespace Files.Filesystem
             }
         }
 
+        public string JumpString
+        {
+            get
+            {
+                return _jumpString;
+            }
+            set
+            {
+                // If current string is "a", and the next character typed is "a",
+                // search for next file that starts with "a" (a.k.a. _jumpString = "a")
+                if (_jumpString.Length == 1 && value == _jumpString + _jumpString)
+                {
+                    value = _jumpString;
+                }
+                if (value != "")
+                {
+                    ListedItem jumpedToItem = null;
+                    ListedItem previouslySelectedItem = null;
+                    var candidateItems = _filesAndFolders.Where(f => f.FileName.Length >= value.Length && f.FileName.Substring(0, value.Length).ToLower() == value);
+                    if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                    {
+                        previouslySelectedItem = (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem as ListedItem;
+                    }
+                    else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                    {
+                        previouslySelectedItem = (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem as ListedItem;
+                    }
+
+                    // If the user is trying to cycle through items
+                    // starting with the same letter
+                    if (value.Length == 1 && previouslySelectedItem != null)
+                    {
+                        // Try to select item lexicographically bigger than the previous item
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.FileName.CompareTo(previouslySelectedItem.FileName) > 0);
+                    }
+                    if (jumpedToItem == null)
+                        jumpedToItem = candidateItems.FirstOrDefault();
+
+                    if (jumpedToItem != null)
+                    {
+                        if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                        {
+                            (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
+                            (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
+                        }
+                        else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                        {
+                            (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
+                            (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
+                        }
+
+                    }
+
+                    // Restart the timer
+                    jumpTimer.Start();
+                }
+                _jumpString = value;
+            }
+        }
+
         public ItemViewModel()
         {
             _filesAndFolders = new ObservableCollection<ListedItem>();
@@ -181,6 +246,15 @@ namespace Files.Filesystem
             _cancellationTokenSource = new CancellationTokenSource();
 
             Universal.PropertyChanged += Universal_PropertyChanged;
+
+            jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
+            jumpTimer.Tick += JumpTimer_Tick;
+        }
+
+        private void JumpTimer_Tick(object sender, object e)
+        {
+            _jumpString = "";
+            jumpTimer.Stop();
         }
 
         /*
@@ -188,7 +262,6 @@ namespace Files.Filesystem
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
-
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
@@ -448,6 +521,21 @@ namespace Files.Filesystem
             try
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
+                var rootFolderProperties = await _rootFolder.GetBasicPropertiesAsync();
+
+                _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
+                {
+                    FileName = _rootFolder.Name,
+                    FileDateReal = rootFolderProperties.DateModified,
+                    FileType = "Folder",    //TODO: Take a look at folder.DisplayType
+                    FolderImg = Visibility.Visible,
+                    FileImg = null,
+                    FileIconVis = Visibility.Collapsed,
+                    FilePath = _rootFolder.Path,
+                    EmptyImgVis = Visibility.Collapsed,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
 
                 App.OccupiedInstance.RibbonArea.Back.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoBack;
                 App.OccupiedInstance.RibbonArea.Forward.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoForward;

@@ -37,7 +37,7 @@ namespace Files
         public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        public static string OneDrivePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive";
+        public static string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
         public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
@@ -189,6 +189,7 @@ namespace Files
             App.PicturesPath = localSettings.Values["DetectedPicturesLocation"] as string;
             App.MusicPath = localSettings.Values["DetectedMusicLocation"] as string;
             App.VideosPath = localSettings.Values["DetectedVideosLocation"] as string;
+            App.OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
 
             // Overwrite paths for common locations if Custom Locations setting is enabled
             if (localSettings.Values["customLocationsSetting"] != null)
@@ -201,6 +202,7 @@ namespace Files
                     App.PicturesPath = localSettings.Values["PicturesLocation"] as string;
                     App.MusicPath = localSettings.Values["MusicLocation"] as string;
                     App.VideosPath = localSettings.Values["VideosLocation"] as string;
+                    App.OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
                 }
             }
         }

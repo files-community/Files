@@ -10,6 +10,7 @@ using Files.Enums;
 using Files.Filesystem;
 using Windows.System;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -134,6 +135,7 @@ namespace Files
             previousFileName = selectedItem.FileName;
             textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
             textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+            isRenamingItem = true;
         }
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -151,6 +153,11 @@ namespace Files
                 selectedItem.FileName = currentName;
                 ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
             }
+        }
+
+        private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        {
+            isRenamingItem = false;
         }
 
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -192,9 +199,22 @@ namespace Files
         {
             if (e.Key == VirtualKey.Enter)
             {
-                App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                if (isRenamingItem)
+                {
+                    AllView.CommitEdit();
+                }
+                else
+                {
+                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                }
                 e.Handled = true;
             }
+        }
+
+        protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        {
+            base.Page_CharacterReceived(sender, args);
+            AllView.Focus(FocusState.Keyboard);
         }
     }
 }
