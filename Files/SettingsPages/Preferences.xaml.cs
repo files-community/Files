@@ -41,6 +41,9 @@ namespace Files.SettingsPages
                     VideosL.IsEnabled = true;
                     VideosL.Text = localSettings.Values["VideosLocation"].ToString();
 
+                    OneDriveL.IsEnabled = true;
+                    OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
+
                     SaveCustomL.IsEnabled = true;
                 }
                 else
@@ -53,6 +56,7 @@ namespace Files.SettingsPages
                     MusicL.IsEnabled = false;
                     VideosL.IsEnabled = false;
                     SaveCustomL.IsEnabled = false;
+                    OneDriveL.IsEnabled = false;
                 }
             }
             else
@@ -65,6 +69,7 @@ namespace Files.SettingsPages
                 MusicL.IsEnabled = false;
                 VideosL.IsEnabled = false;
                 SaveCustomL.IsEnabled = false;
+                OneDriveL.IsEnabled = false;
             }
             SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
@@ -93,12 +98,16 @@ namespace Files.SettingsPages
                 VideosL.IsEnabled = true;
                 localSettings.Values["VideosLocation"] = App.VideosPath;
 
+                OneDriveL.IsEnabled = true;
+                localSettings.Values["OneDriveLocation"] = App.OneDrivePath;
+
                 DesktopL.Text = localSettings.Values["DesktopLocation"].ToString();
                 DownloadsL.Text = localSettings.Values["DownloadsLocation"].ToString();
                 DocumentsL.Text = localSettings.Values["DocumentsLocation"].ToString();
                 PictureL.Text = localSettings.Values["PicturesLocation"].ToString();
                 MusicL.Text = localSettings.Values["MusicLocation"].ToString();
                 VideosL.Text = localSettings.Values["VideosLocation"].ToString();
+                OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
 
                 SaveCustomL.IsEnabled = true;
             }
@@ -111,6 +120,7 @@ namespace Files.SettingsPages
                 PictureL.IsEnabled = false;
                 MusicL.IsEnabled = false;
                 VideosL.IsEnabled = false;
+                OneDriveL.IsEnabled = false;
                 SaveCustomL.IsEnabled = false;
             }
         }
@@ -237,6 +247,26 @@ namespace Files.SettingsPages
                 catch (FileNotFoundException)
                 {
                     VideosL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                    isFlawless = false;
+                }
+            }
+
+            if (!string.IsNullOrEmpty(OneDriveL.Text))
+            {
+                try
+                {
+                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(OneDriveL.Text);
+                    localSettings.Values["OneDriveLocation"] = OneDriveL.Text;
+                    OneDriveL.BorderBrush = new SolidColorBrush(Colors.Black);
+                }
+                catch (ArgumentException)
+                {
+                    OneDriveL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                    isFlawless = false;
+                }
+                catch (FileNotFoundException)
+                {
+                    OneDriveL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
                     isFlawless = false;
                 }
             }
