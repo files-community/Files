@@ -1,0 +1,15 @@
+﻿<ContentDialog
+    x:Class="Files.Dialogs.RenameDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.Dialogs"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
+    CornerRadius="4" Grid.RowSpan="4" DefaultButton="Primary" Title="Enter an item name" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" x:Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel">
+   
+    <Grid MinWidth="300">
+        <TextBox x:Name="RenameInput" PlaceholderText="Enter an item name without an extension" Height="35"/>
+    </Grid>
+</ContentDialog>

@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="Files.SettingsPages.Personalization"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="24,24,0,0">
+
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel Orientation="Vertical">
+                <StackPanel>
+                    <TextBlock Margin="0,0,0,10" Text="Choose your color scheme" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="ThemeChooser" VerticalAlignment="Center" Width="250"/>
+                        <TextBlock x:Name="RestartReminder" Opacity="0.0" Foreground="Green" VerticalAlignment="Center" Text="Restart app to apply theme." Margin="15,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Margin="0,15">
+                    <TextBlock Margin="0,0,0,10" Text="Choose your date format" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox x:Name="DateFormatChooser" VerticalAlignment="Center" Width="250"/>
+                        <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Foreground="Green" VerticalAlignment="Center" Text="Refresh list to apply time format." Margin="15,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0,0" HorizontalAlignment="Left"  Text="Acrylic sidebar" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18"/>
+                    <ToggleSwitch CornerRadius="2" x:Name="AcrylicSidebarSwitch" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="300" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+            
+    </Grid>
+</Page>
