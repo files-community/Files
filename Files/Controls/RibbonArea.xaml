@@ -1005,7 +1005,7 @@
                             </controls:RibbonPage.PageContent>
                         </controls:RibbonPage>
                     </Custom:TabViewItem>
-                    <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="Layout" MinWidth="48" MinHeight="32" Width="Auto">
+                    <Custom:TabViewItem IsDoubleTapEnabled="True" DoubleTapped="RibbonItem_DoubleTapped"  Template="{StaticResource TabViewItemFluentTemplate}"  BorderThickness="0" Header="View" MinWidth="48" MinHeight="32" Width="Auto">
                         <interactivity:Interaction.Behaviors>
                             <core:EventTriggerBehavior EventName="Tapped">
                                 <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}"/>
@@ -1018,7 +1018,7 @@
                             <controls:RibbonPage.PageContent>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2" Click="LayoutButton_Click" x:Name="LayoutButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Layout Mode">
                                     <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xF246;" FontFamily="Segoe MDL2 Assets"/>
+                                        <FontIcon Glyph="&#xF0E2;" FontFamily="Segoe MDL2 Assets"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"  Style="{StaticResource AppBarButtonRevealStyle}"  CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.SelectAllItems}" x:Name="SelectAllButton" IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Icon="SelectAll" Label="Select All">
