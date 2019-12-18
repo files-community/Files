@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics;
+using System.IO;
+using System.IO.Pipes;
+using System.Security.Principal;
 using Windows.Storage;
 
 namespace ProcessLauncher
@@ -6,6 +9,13 @@ namespace ProcessLauncher
     class Program
     {
         static void Main(string[] args)
+        {
+            var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
+
+            ToggleQuickLock(executable);
+        }
+
+        static void Main2(string[] args)
         {
             var arguments = (string)ApplicationData.Current.LocalSettings.Values["Arguments"];
             if (!string.IsNullOrWhiteSpace(arguments))
@@ -40,7 +50,24 @@ namespace ProcessLauncher
                 process.Start();
 
             }
-                      
+
+        }
+
+        static void ToggleQuickLock(string path)
+        {
+            string PipeName = "QuickLook.App.Pipe." + WindowsIdentity.GetCurrent().User?.Value;
+            string Toggle = "QuickLook.App.PipeMessages.Toggle";
+
+            using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
+            {
+                client.Connect();
+
+                using (var writer = new StreamWriter(client))
+                {
+                    writer.WriteLine($"{Toggle}|{path}");
+                    writer.Flush();
+                }
+            }
         }
     }
 }
