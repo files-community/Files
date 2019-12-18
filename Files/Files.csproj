@@ -135,6 +135,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
+    <Compile Include="Controls\FileViewControl.xaml.cs">
+      <DependentUpon>FileViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
@@ -249,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\FileViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RibbonArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
