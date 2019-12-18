@@ -43,8 +43,18 @@ namespace Files
                     App.OneDrivePath = localSettings.Values["OneDriveLocation"].ToString();
                 }
             }
+        }
 
-              
+        private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
+        {           
+            var flyoutItem = sender as MenuFlyoutItem;
+            var clickedOnItem = flyoutItem.DataContext as RecentItem;
+            if (clickedOnItem.isFile)
+            {
+                var filePath = clickedOnItem.path;
+                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.name.Length);
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), folderPath);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -253,6 +263,7 @@ namespace Files
             BitmapImage ItemImage = new BitmapImage();
             string ItemPath = null;
             string ItemName;
+            StorageItemTypes ItemType;
             Visibility ItemFolderImgVis;
             Visibility ItemEmptyImgVis;
             Visibility ItemFileIconVis;
@@ -274,15 +285,17 @@ namespace Files
                     {
                         ItemName = item.Name;
                         ItemPath = item.Path;
+                        ItemType = StorageItemTypes.Folder;
                         ItemFolderImgVis = Visibility.Visible;
                         ItemEmptyImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Collapsed;
-                        recentItemsCollection.Add(new RecentItem() { name = ItemName, path = ItemPath, EmptyImgVis = ItemEmptyImgVis, FolderImg = ItemFolderImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        recentItemsCollection.Add(new RecentItem() { name = ItemName, path = ItemPath, type = ItemType, EmptyImgVis = ItemEmptyImgVis, FolderImg = ItemFolderImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
                     }
                     else if (item.IsOfType(StorageItemTypes.File))
                     {
                         ItemName = item.Name;
                         ItemPath = item.Path;
+                        ItemType = StorageItemTypes.File;
                         ItemImage = new BitmapImage();
                         StorageFile file = await StorageFile.GetFileFromPathAsync(ItemPath);
                         var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 30, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
@@ -297,7 +310,7 @@ namespace Files
                         }
                         ItemFolderImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Visible;
-                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, type = ItemType, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
                     }
                 }
                 catch (System.IO.FileNotFoundException)
@@ -490,6 +503,8 @@ namespace Files
         public BitmapImage FileImg { get; set; }
         public string path { get; set; }
         public string name { get; set; }
+        public bool isFile { get => type == StorageItemTypes.File; }
+        public StorageItemTypes type { get; set; }
         public Visibility FolderImg { get; set; }
         public Visibility EmptyImgVis { get; set; }
         public Visibility FileIconVis { get; set; }
