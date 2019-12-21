@@ -54,6 +54,7 @@
     <AppxPackageDir>C:\Users\lukeb\Documents\build\</AppxPackageDir>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <GenerateTestArtifacts>False</GenerateTestArtifacts>

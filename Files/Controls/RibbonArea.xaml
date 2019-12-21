@@ -981,7 +981,7 @@
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.OpenItem_Click}" x:Name="OpenWithButton" IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Label="Open With" Icon="OpenWith"/>
-                                <AppBarSeparator/>
+                                <AppBarSeparator IsCompact="True" Height="40"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.ShowFolderPropertiesButton_Click}" x:Name="ShowFolderPropertiesButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=OneWay}" Label="Folder Properties">
                                     <AppBarButton.Icon>
                                         <FontIcon Glyph="&#xE946;"/>
