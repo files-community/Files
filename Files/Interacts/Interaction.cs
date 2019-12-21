@@ -985,5 +985,46 @@ namespace Files.Interacts
                 (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Clear();
             }
         }
+
+        public void ToggleQuickLock_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleQuickLock();
+        }
+
+        public async void ToggleQuickLock()
+        {
+            try
+            {
+                string selectedItemPath = null;
+                int selectedItemCount;
+                Type sourcePageType = App.OccupiedInstance.ItemDisplayFrame.SourcePageType;
+                selectedItemCount = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count;
+                if (selectedItemCount == 1)
+                {
+                    selectedItemPath = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems[0].FilePath;
+                }
+
+                // Access MRU List
+                var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+
+                if (selectedItemCount == 1)
+                {
+                    var clickedOnItem = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems[0];
+
+                    // Add location to MRU List
+                    mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
+
+                    // TODO LaunchQuickLock
+                    await LaunchExe(clickedOnItem.FilePath);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                MessageDialog dialog = new MessageDialog("The file you are attempting to access may have been moved or deleted.", "File Not Found");
+                var task = dialog.ShowAsync();
+                task.AsTask().Wait();
+                NavigationActions.Refresh_Click(null, null);
+            }
+        }
     }
 }

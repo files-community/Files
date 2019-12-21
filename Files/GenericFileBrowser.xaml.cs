@@ -69,6 +69,15 @@ namespace Files
             }
 
             App.OccupiedInstance.instanceViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+            // QuickLock Integration
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            var isQuickLockIntegrationEnabled = localSettings.Values["quicklock_enabled"];
+
+            if (isQuickLockIntegrationEnabled != null && isQuickLockIntegrationEnabled.Equals(false))
+            {
+                QuickLock.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
