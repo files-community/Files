@@ -996,6 +996,43 @@ namespace Files.Interacts
             }
         }
 
+        public void ToggleQuickLook_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleQuickLook();
+        }
+
+        public async void ToggleQuickLook()
+        {
+            try
+            {
+                string selectedItemPath = null;
+                int selectedItemCount;
+                Type sourcePageType = App.OccupiedInstance.ItemDisplayFrame.SourcePageType;
+                selectedItemCount = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count;
+                if (selectedItemCount == 1)
+                {
+                    selectedItemPath = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems[0].FilePath;
+                }
+
+                if (selectedItemCount == 1)
+                {
+                    var clickedOnItem = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems[0];
+
+                    Debug.WriteLine("Toggle QuickLook");
+                    ApplicationData.Current.LocalSettings.Values["path"] = clickedOnItem.FilePath;
+                    ApplicationData.Current.LocalSettings.Values["Arguments"] = "ToggleQuickLook";
+                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                MessageDialog dialog = new MessageDialog("The file you are attempting to preview may have been moved or deleted.", "File Not Found");
+                var task = dialog.ShowAsync();
+                task.AsTask().Wait();
+                NavigationActions.Refresh_Click(null, null); 
+            }
+        }
+        
         public void PushJumpChar(char letter)
         {
             App.OccupiedInstance.instanceViewModel.JumpString += letter.ToString().ToLower();

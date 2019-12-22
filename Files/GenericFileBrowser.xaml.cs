@@ -16,7 +16,7 @@ namespace Files
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {
-        
+        private bool _isQuickLookEnabled { get; set; } = false;
         public string previousFileName;
         private DataGridColumn _sortedColumn;
         public DataGridColumn SortedColumn
@@ -70,6 +70,15 @@ namespace Files
             }
 
             App.OccupiedInstance.instanceViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+            // QuickLook Integration
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
+
+            if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
+            {
+                _isQuickLookEnabled = true;
+            }
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)

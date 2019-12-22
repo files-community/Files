@@ -1,4 +1,7 @@
 ﻿using System.Diagnostics;
+using System.IO;
+using System.IO.Pipes;
+using System.Security.Principal;
 using Windows.Storage;
 
 namespace ProcessLauncher
@@ -7,7 +10,8 @@ namespace ProcessLauncher
     {
         static void Main(string[] args)
         {
-            var arguments = (string)ApplicationData.Current.LocalSettings.Values["Arguments"];
+            var localSettings = ApplicationData.Current.LocalSettings;
+            var arguments = (string)localSettings.Values["Arguments"];
             if (!string.IsNullOrWhiteSpace(arguments))
             {
                 if (arguments.Equals("DetectUserPaths"))
@@ -19,6 +23,15 @@ namespace ProcessLauncher
                     ApplicationData.Current.LocalSettings.Values["DetectedMusicLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedVideosLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedOneDriveLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", null);
+                }
+                else if (arguments.Equals("CheckQuickLookAvailability"))
+                {
+                    QuickLook.CheckQuickLookAvailability(localSettings);
+                }
+                else if (arguments.Equals("ToggleQuickLook"))
+                {
+                    var path = (string) localSettings.Values["path"];
+                    QuickLook.ToggleQuickLook(path);
                 }
                 else
                 {
@@ -55,7 +68,6 @@ namespace ProcessLauncher
                 
 
             }
-                      
         }
     }
 }

@@ -147,6 +147,11 @@
                     <FontIcon Glyph="&#xE946;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ToggleQuickLook_Click}" Text="QuickLook" x:Name="QuickLook" Visibility="{x:Bind _isQuickLookEnabled}">
+                <MenuFlyoutItem.KeyboardAccelerators>
+                    <KeyboardAccelerator Key="Space"/>
+                </MenuFlyoutItem.KeyboardAccelerators>
+            </MenuFlyoutItem>
         </MenuFlyout>
     </local:BaseLayout.Resources>
     <Grid ContextFlyout="{StaticResource BaseLayoutContextFlyout}" Background="Transparent" x:Name="RootGrid">

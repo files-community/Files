@@ -82,6 +82,7 @@ namespace Files
             SetPropertiesFromLocalSettings();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
+            QuickLookIntegration();
         }
 
         private async void DetectWSLDistros()
@@ -131,7 +132,12 @@ namespace Files
                 // WSL Not Supported/Enabled
                 areLinuxFilesSupported = false;
             }
-            
+        }
+
+        private async void QuickLookIntegration()
+        {
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "CheckQuickLookAvailability";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void SetPropertiesFromLocalSettings()
