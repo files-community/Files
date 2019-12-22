@@ -411,7 +411,7 @@ namespace Files.Interacts
                             currentInstance.ItemDisplayFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
                         }
                     }
-                    else if (clickedOnItem.FileType == "Application" || clickedOnItem.FileType == "Anwendung")
+                    else if (clickedOnItem.FileType == "Application")
                     {
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
