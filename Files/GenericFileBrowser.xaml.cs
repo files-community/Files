@@ -70,13 +70,13 @@ namespace Files
 
             App.OccupiedInstance.instanceViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
-            // QuickLock Integration
+            // QuickLook Integration
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            var isQuickLockIntegrationEnabled = localSettings.Values["quicklock_enabled"];
+            var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
 
-            if (isQuickLockIntegrationEnabled != null && isQuickLockIntegrationEnabled.Equals(false))
+            if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(false))
             {
-                QuickLock.Visibility = Visibility.Collapsed;
+                QuickLook.Visibility = Visibility.Collapsed;
             }
         }
 

@@ -74,6 +74,14 @@ namespace Files
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
             SetPropertiesFromLocalSettings();
             PopulatePinnedSidebarItems();
+
+            QuickLookIntegration();
+        }
+
+        private async void QuickLookIntegration()
+        {
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "CheckQuickLookAvailability";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void SetPropertiesFromLocalSettings()

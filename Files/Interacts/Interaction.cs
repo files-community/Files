@@ -986,12 +986,12 @@ namespace Files.Interacts
             }
         }
 
-        public void ToggleQuickLock_Click(object sender, RoutedEventArgs e)
+        public void ToggleQuickLook_Click(object sender, RoutedEventArgs e)
         {
-            ToggleQuickLock();
+            ToggleQuickLook();
         }
 
-        public async void ToggleQuickLock()
+        public async void ToggleQuickLook()
         {
             try
             {
@@ -1014,16 +1014,18 @@ namespace Files.Interacts
                     // Add location to MRU List
                     mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
 
-                    // TODO LaunchQuickLock
-                    await LaunchExe(clickedOnItem.FilePath);
+                    Debug.WriteLine("Toggle QuickLook");
+                    ApplicationData.Current.LocalSettings.Values["path"] = clickedOnItem.FilePath;
+                    ApplicationData.Current.LocalSettings.Values["Arguments"] = "ToggleQuickLook";
+                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
                 }
             }
             catch (FileNotFoundException)
             {
-                MessageDialog dialog = new MessageDialog("The file you are attempting to access may have been moved or deleted.", "File Not Found");
+                MessageDialog dialog = new MessageDialog("The file you are attempting to preview may have been moved or deleted.", "File Not Found");
                 var task = dialog.ShowAsync();
                 task.AsTask().Wait();
-                NavigationActions.Refresh_Click(null, null);
+                NavigationActions.Refresh_Click(null, null); 
             }
         }
     }

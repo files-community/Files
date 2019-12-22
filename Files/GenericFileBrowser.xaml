@@ -141,7 +141,7 @@
                     <FontIcon Glyph="&#xE946;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ToggleQuickLock_Click}" Text="QuickLock" x:Name="QuickLock">
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ToggleQuickLook_Click}" Text="QuickLook" x:Name="QuickLook">
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Space"/>
                 </MenuFlyoutItem.KeyboardAccelerators>

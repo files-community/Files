@@ -10,14 +10,8 @@ namespace ProcessLauncher
     {
         static void Main(string[] args)
         {
-            var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
-
-            ToggleQuickLock(executable);
-        }
-
-        static void Main2(string[] args)
-        {
-            var arguments = (string)ApplicationData.Current.LocalSettings.Values["Arguments"];
+            var localSettings = ApplicationData.Current.LocalSettings;
+            var arguments = (string)localSettings.Values["Arguments"];
             if (!string.IsNullOrWhiteSpace(arguments))
             {
                 if (arguments.Equals("DetectUserPaths"))
@@ -28,6 +22,15 @@ namespace ProcessLauncher
                     ApplicationData.Current.LocalSettings.Values["DetectedPicturesLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Pictures", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedMusicLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedVideosLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
+                }
+                else if (arguments.Equals("CheckQuickLookAvailability"))
+                {
+                    QuickLook.CheckQuickLookAvailability(localSettings);
+                }
+                else if (arguments.Equals("ToggleQuickLook"))
+                {
+                    var path = (string) localSettings.Values["path"];
+                    QuickLook.ToggleQuickLook(path);
                 }
                 else
                 {
@@ -49,24 +52,6 @@ namespace ProcessLauncher
                 process.StartInfo.CreateNoWindow = true;
                 process.Start();
 
-            }
-
-        }
-
-        static void ToggleQuickLock(string path)
-        {
-            string PipeName = "QuickLook.App.Pipe." + WindowsIdentity.GetCurrent().User?.Value;
-            string Toggle = "QuickLook.App.PipeMessages.Toggle";
-
-            using (var client = new NamedPipeClientStream(".", PipeName, PipeDirection.Out))
-            {
-                client.Connect();
-
-                using (var writer = new StreamWriter(client))
-                {
-                    writer.WriteLine($"{Toggle}|{path}");
-                    writer.Flush();
-                }
             }
         }
     }
