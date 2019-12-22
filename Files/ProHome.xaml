@@ -86,7 +86,7 @@
                                         <VisualState x:Name="Compact"/>
                                         <VisualState x:Name="Expanded">
                                             <VisualState.Setters>
-                                                <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}"/>
+                                                <Setter Target="RootSplitView.PaneBackground" Value="Transparent"/>
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Minimal"/>
