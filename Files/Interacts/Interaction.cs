@@ -1008,21 +1008,15 @@ namespace Files.Interacts
                 string selectedItemPath = null;
                 int selectedItemCount;
                 Type sourcePageType = App.OccupiedInstance.ItemDisplayFrame.SourcePageType;
-                selectedItemCount = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count;
+                selectedItemCount = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count;
                 if (selectedItemCount == 1)
                 {
-                    selectedItemPath = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems[0].FilePath;
+                    selectedItemPath = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems[0].FilePath;
                 }
 
-                // Access MRU List
-                var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-
                 if (selectedItemCount == 1)
                 {
-                    var clickedOnItem = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems[0];
-
-                    // Add location to MRU List
-                    mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
+                    var clickedOnItem = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems[0];
 
                     Debug.WriteLine("Toggle QuickLook");
                     ApplicationData.Current.LocalSettings.Values["path"] = clickedOnItem.FilePath;
