@@ -7,17 +7,18 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
+                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml"/>
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Default">
                             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White"/>
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White"/>
-                            <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="#19000000" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
+                            <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White"/>
                             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Light">
-                            <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="#19000000" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
+                            <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
                             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White"/>
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White"/>
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White"/>
@@ -28,7 +29,7 @@
                             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor"/>
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
-                            <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="Black" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="Black"/>
+                            <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="Black"/>
                             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#191919"/>
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#191919"/>
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919"/>
@@ -50,9 +51,7 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            
         </ResourceDictionary>
-
 
     </Application.Resources>
     

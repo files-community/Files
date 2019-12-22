@@ -18,9 +18,33 @@ namespace Files.Controls
     public sealed partial class RibbonArea : UserControl
     {
         public ProHome parentPage { get; set; }
+        public RibbonViewModel RibbonViewModel { get; } = new RibbonViewModel();
         public RibbonArea()
         {
             this.InitializeComponent();
+            Window.Current.SizeChanged += Current_SizeChanged;
+            Current_SizeChanged(null, null);
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            
+            if(Window.Current.Bounds.Width >= 750)
+            {
+                RibbonViewModel.ShowItemLabels();
+                SearchReigon.Visibility = Visibility.Visible;
+                ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
+                SearchBoxResizer.Visibility = Visibility.Visible;
+                ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
+            }
+            else
+            {
+                RibbonViewModel.HideItemLabels();
+                SearchReigon.Visibility = Visibility.Collapsed;
+                ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
+                SearchBoxResizer.Visibility = Visibility.Collapsed;
+                ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
+            }
         }
 
         private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
@@ -254,7 +278,7 @@ namespace Files.Controls
             VisiblePath.Visibility = Visibility.Visible;
             ClickablePath.Visibility = Visibility.Collapsed;
             VisiblePath.Focus(FocusState.Programmatic);
-            VisiblePath.SelectionStart = VisiblePath.Text.Length;
+            VisiblePath.SelectAll();
         }
 
         private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -306,7 +330,8 @@ namespace Files.Controls
 
         private void TabViewItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            ((sender as TabViewItem).Resources["FileClickFlyout"] as MenuFlyout).ShowAt((sender as TabViewItem));
+            FlyoutBase.ShowAttachedFlyout(sender as TabViewItem);
+            //((sender as TabViewItem).Resources["FileClickFlyout"] as FlyoutPresenter).ShowAt((sender as TabViewItem));
         }
 
         private void MenuFlyout_Closed(object sender, object e)
@@ -329,6 +354,14 @@ namespace Files.Controls
             else
             {
                 itemTapped.IsSelected = true;
+            }
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(e.AddedItems.Count > 0)
+            {
+                (sender as ListView).SelectedItem = null;
             }
         }
     }

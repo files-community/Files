@@ -40,6 +40,10 @@
                             <TextBlock Text="Videos" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
                             <TextBox CornerRadius="2" Name="VideosL" PlaceholderText="Set Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
                         </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="OneDrive" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="OneDriveL" PlaceholderText="Set Custom OneDrive Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                        </Grid>
                         <StackPanel Orientation="Horizontal">
                             <Button CornerRadius="2" Content="Save Locations" x:Name="SaveCustomL" HorizontalAlignment="Left" Click="SaveCustomL_Click" />
                             <StackPanel x:Name="SuccessMark" Orientation="Horizontal" Spacing="15">

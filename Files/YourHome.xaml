@@ -606,6 +606,11 @@
                                             <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                                 <MenuFlyoutItem Click="mfi_RemoveOneItem_Click" Icon="Remove" Text="Remove this item" x:Name="mfi_RemoveOneItem"/>
                                                 <MenuFlyoutItem Click="MenuFlyoutItem_Click" Icon="Delete" Text="Clear all items"/>
+                                                <MenuFlyoutItem Click="OpenFileLocation_Click" Text="Open file location" Visibility="{Binding isFile}">
+                                                    <MenuFlyoutItem.Icon>
+                                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;"/>
+                                                    </MenuFlyoutItem.Icon>
+                                                </MenuFlyoutItem>
                                             </MenuFlyout>
                                         </Grid.ContextFlyout>
                                         <Grid.ColumnDefinitions>

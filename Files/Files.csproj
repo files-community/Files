@@ -23,6 +23,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <AppxBundle>Always</AppxBundle>
+    <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
@@ -135,8 +136,14 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
+    <Compile Include="Controls\FileViewControl.xaml.cs">
+      <DependentUpon>FileViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\RibbonPage.xaml.cs">
+      <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
@@ -213,6 +220,7 @@
     <Compile Include="SettingsPages\StartPageWidgets.xaml.cs">
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View Models\RibbonViewModel.cs" />
     <Compile Include="WindowDisplayInfo.cs" />
     <Compile Include="WindowDisplayMode.cs" />
     <Compile Include="YourHome.xaml.cs">
@@ -226,6 +234,18 @@
     <Content Include="Assets\logo.bmp" />
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\WSL\alpine.svg" />
+    <Content Include="Assets\WSL\alpinepng.png" />
+    <Content Include="Assets\WSL\debian.svg" />
+    <Content Include="Assets\WSL\debianpng.png" />
+    <Content Include="Assets\WSL\generic.svg" />
+    <Content Include="Assets\WSL\genericpng.png" />
+    <Content Include="Assets\WSL\kali.svg" />
+    <Content Include="Assets\WSL\kalipng.png" />
+    <Content Include="Assets\WSL\opensuse.svg" />
+    <Content Include="Assets\WSL\opensusepng.png" />
+    <Content Include="Assets\WSL\ubuntu.svg" />
+    <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -233,7 +253,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\FileViewControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RibbonArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\RibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -309,6 +337,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ResourceDictionaries\ToolbarButtonStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="YourHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -319,10 +351,10 @@
       <Version>1.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>2.6.1</Version>
+      <Version>2.6.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>2.6.1</Version>
+      <Version>2.6.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
@@ -346,7 +378,10 @@
       <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.2.190917002</Version>
+      <Version>2.3.191211002</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.4.1.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

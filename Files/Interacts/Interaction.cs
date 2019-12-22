@@ -1,27 +1,30 @@
-﻿using System;
+using Files.Dialogs;
+using Files.Filesystem;
+using Files.Navigation;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
-using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Popups;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
-using Files.Filesystem;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using System.Collections;
-using Windows.Foundation;
 using System.IO;
-using System.Reflection;
-using Files.Dialogs;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.System;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.Interacts
 {
@@ -45,7 +48,7 @@ namespace Files.Interacts
             var CurrentSourceType = App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType;
             if (CurrentSourceType == typeof(GenericFileBrowser))
             {
-                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems;
+                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
                     var selectedItemPath = listedItem.FilePath;
@@ -56,7 +59,7 @@ namespace Files.Interacts
             }
             else if (CurrentSourceType == typeof(PhotoAlbum))
             {
-                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems;
+                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
                     var selectedItemPath = listedItem.FilePath;
@@ -71,7 +74,7 @@ namespace Files.Interacts
             var CurrentSourceType = App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType;
             if(CurrentSourceType == typeof(GenericFileBrowser))
             {
-                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems;
+                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
                     instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
@@ -80,7 +83,7 @@ namespace Files.Interacts
             }
             else if(CurrentSourceType == typeof(PhotoAlbum))
             {
-                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems;
+                var items = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
                     instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
@@ -171,7 +174,7 @@ namespace Files.Interacts
 
                 try
                 {
-                    foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
                         items.Add(listedItem.FilePath);
                     }
@@ -180,7 +183,7 @@ namespace Files.Interacts
                 }
                 catch (FileNotFoundException)
                 {
-                    foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem listedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
                         items.Add(listedItem.FilePath);
                     }
@@ -278,7 +281,7 @@ namespace Files.Interacts
                 var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
                 // Check if RightTapped row is currently selected
                 var CurrentInstance = App.OccupiedInstance;
-                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Contains(ObjectPressed))
+                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Contains(ObjectPressed))
                     return;
                 // The following code is only reachable when a user RightTapped an unselected row
                 dataGrid.SelectedItems.Clear();
@@ -331,10 +334,10 @@ namespace Files.Interacts
                 string selectedItemPath = null;
                 int selectedItemCount;
                 Type sourcePageType = App.OccupiedInstance.ItemDisplayFrame.SourcePageType;
-                selectedItemCount = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count;
+                selectedItemCount = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count;
                 if (selectedItemCount == 1)
                 {
-                    selectedItemPath = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems[0].FilePath;
+                    selectedItemPath = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems[0].FilePath;
                 }
 
                 // Access MRU List
@@ -342,7 +345,7 @@ namespace Files.Interacts
 
                 if (selectedItemCount == 1)
                 {
-                    var clickedOnItem = (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems[0];
+                    var clickedOnItem = (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems[0];
                     if (clickedOnItem.FileType == "Folder")
                     {
                         // Add location to MRU List
@@ -428,7 +431,7 @@ namespace Files.Interacts
                 }
                 else if(selectedItemCount > 1)
                 {
-                    foreach (ListedItem clickedOnItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem clickedOnItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
 
                         if (clickedOnItem.FileType == "Folder")
@@ -473,7 +476,14 @@ namespace Files.Interacts
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
-            App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems, new SuppressNavigationTransitionInfo());
+            App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
+            await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+        }
+
+        public async void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
+        {
+            App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
+            App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), App.OccupiedInstance.instanceViewModel.currentFolder, new SuppressNavigationTransitionInfo());
             await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 
@@ -485,7 +495,7 @@ namespace Files.Interacts
             {
                 var CurrentInstance = App.OccupiedInstance;
 
-                foreach (ListedItem li in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                foreach (ListedItem li in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                 {
                     if (li.FileType == "Folder")
                     {
@@ -501,7 +511,7 @@ namespace Files.Interacts
             }
             else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                foreach (ListedItem li in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                foreach (ListedItem li in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                 {
                     if (li.FileType == "Folder")
                     {
@@ -529,7 +539,7 @@ namespace Files.Interacts
             {
                 var CurrentInstance = App.OccupiedInstance;
                 List<ListedItem> selectedItems = new List<ListedItem>();
-                foreach (ListedItem selectedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                foreach (ListedItem selectedItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                 {
                     selectedItems.Add(selectedItem);
                 }
@@ -657,7 +667,7 @@ namespace Files.Interacts
             if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.OccupiedInstance;
-                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count != 0)
+                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count != 0)
                 {
                     dataGridRows.Clear();
                     FindChildren<DataGridRow>(dataGridRows, (CurrentInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView);
@@ -671,7 +681,7 @@ namespace Files.Interacts
                         }
                     }
 
-                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
                         IEnumerator allItems = (CurrentInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.ItemsSource.GetEnumerator();
                         int index = -1;
@@ -703,7 +713,7 @@ namespace Files.Interacts
             else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
             {
                 var CurrentInstance = App.OccupiedInstance;
-                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count != 0)
+                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count != 0)
                 {
 
                     gridViewItems.Clear();
@@ -721,7 +731,7 @@ namespace Files.Interacts
                         }
                     }
 
-                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
                         GridViewItem itemToDimForCut = (GridViewItem) (currentInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.ContainerFromItem(StorItem);
                         List<Grid> itemContentGrids = new List<Grid>();
@@ -762,9 +772,9 @@ namespace Files.Interacts
                 var CurrentInstance = App.OccupiedInstance;
                 CopySourcePath = currentInstance.instanceViewModel.Universal.path;
 
-                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count != 0)
+                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count != 0)
                 {
-                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
                         if (StorItem.FileType != "Folder")
                         {
@@ -783,9 +793,9 @@ namespace Files.Interacts
             {
                 CopySourcePath = currentInstance.instanceViewModel.Universal.path;
 
-                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Count != 0)
+                if ((currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count != 0)
                 {
-                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems)
+                    foreach (ListedItem StorItem in (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems)
                     {
                         if (StorItem.FileType != "Folder")
                         {
@@ -961,9 +971,9 @@ namespace Files.Interacts
                 var CurrentInstance = App.OccupiedInstance;
                 foreach (ListedItem li in (CurrentInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.ItemsSource)
                 {
-                    if (!(currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Contains(li))
+                    if (!(currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Contains(li))
                     {
-                        (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Add(li);
+                        (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Add(li);
                     }
                 }
             }
@@ -978,11 +988,11 @@ namespace Files.Interacts
             if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.OccupiedInstance;
-                (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Clear();
+                (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Clear();
             }
             else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
             {
-                (currentInstance.ItemDisplayFrame.Content as BaseLayout).selectedItems.Clear();
+                (currentInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Clear();
             }
         }
 
@@ -1027,6 +1037,11 @@ namespace Files.Interacts
                 task.AsTask().Wait();
                 NavigationActions.Refresh_Click(null, null); 
             }
+        }
+        
+        public void PushJumpChar(char letter)
+        {
+            App.OccupiedInstance.instanceViewModel.JumpString += letter.ToString().ToLower();
         }
     }
 }

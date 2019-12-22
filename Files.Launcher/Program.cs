@@ -22,6 +22,7 @@ namespace ProcessLauncher
                     ApplicationData.Current.LocalSettings.Values["DetectedPicturesLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Pictures", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedMusicLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
                     ApplicationData.Current.LocalSettings.Values["DetectedVideosLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
+                    ApplicationData.Current.LocalSettings.Values["DetectedOneDriveLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", null);
                 }
                 else if (arguments.Equals("CheckQuickLookAvailability"))
                 {
@@ -45,12 +46,26 @@ namespace ProcessLauncher
             }
             else
             {
-                var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
-                Process process = new Process();
-                process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = executable;
-                process.StartInfo.CreateNoWindow = true;
-                process.Start();
+                try
+                {
+                    var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = false;
+                    process.StartInfo.FileName = executable;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                }
+                catch (System.ComponentModel.Win32Exception)
+                {
+                    var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                    process.StartInfo.FileName = executable;
+                    process.StartInfo.CreateNoWindow = true;
+                    process.Start();
+                }
+                
 
             }
         }

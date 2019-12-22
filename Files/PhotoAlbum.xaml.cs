@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Windows.UI.Xaml.Input;
 using Windows.System;
 using Interaction = Files.Interacts.Interaction;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -81,6 +82,7 @@ namespace Files
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
             textBox.Select(0, renamingItem.FileName.Length - extensionLength);
+            isRenamingItem = true;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -90,11 +92,13 @@ namespace Files
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
                 EndRename(textBox);
+                e.Handled = true;
             }
             else if (e.Key == VirtualKey.Enter)
             {
                 TextBox textBox = sender as TextBox;
                 CommitRename(textBox);
+                e.Handled = true;
             }
         }
 
@@ -125,15 +129,25 @@ namespace Files
             textBlock.Visibility = Visibility.Visible;
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
+            isRenamingItem = false;
         }
 
         private void FileList_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
-                App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
-                e.Handled = true;
+                if (!isRenamingItem)
+                {
+                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                    e.Handled = true;
+                }
             }
+        }
+
+        protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
+        {
+            base.Page_CharacterReceived(sender, args);
+            FileList.Focus(FocusState.Keyboard);
         }
     }
 }

@@ -49,7 +49,6 @@ namespace Files.SettingsPages
                     DateFormatChooser.SelectionChanged += async (s1, e1) =>
                     {
                         localSettings.Values["datetimeformat"] = e1.AddedItems[0].ToString();
-                        TimeFormatReminder.Visibility = Visibility.Visible;
                         await TimeFormatReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
                         await TimeFormatReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
                     };
