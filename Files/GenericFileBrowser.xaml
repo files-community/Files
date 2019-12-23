@@ -148,6 +148,9 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ToggleQuickLook_Click}" Text="QuickLook" x:Name="QuickLook" Visibility="{x:Bind _isQuickLookEnabled}">
+                <MenuFlyoutItem.Icon>
+                    <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png"/>
+                </MenuFlyoutItem.Icon>
                 <MenuFlyoutItem.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Space"/>
                 </MenuFlyoutItem.KeyboardAccelerators>
