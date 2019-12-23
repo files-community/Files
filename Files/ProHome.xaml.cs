@@ -14,8 +14,11 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
+using System.Drawing;
 
 namespace Files
 {
@@ -59,6 +62,15 @@ namespace Files
             {
                 themeShadow.Receivers.Add(ShadowReceiver);
             }
+
+            // Acrylic sidebar
+            var localSettings = ApplicationData.Current.LocalSettings;
+            if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
+            {
+                splitView.PaneBackground = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+                Application.Current.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
+            }
+
         }
 
         string NavParams = null;

@@ -86,7 +86,7 @@
                                         <VisualState x:Name="Compact"/>
                                         <VisualState x:Name="Expanded">
                                             <VisualState.Setters>
-                                                <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}"/>
+                                                <Setter Target="RootSplitView.PaneBackground" Value="Transparent"/>
                                             </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Minimal"/>
@@ -297,7 +297,7 @@
             </Windows10version1903:Grid>
         </StackPanel>
         
-        <SplitView  DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
                 <ScrollViewer Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
                     <Grid>

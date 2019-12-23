@@ -25,6 +25,10 @@
                         <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Foreground="Green" VerticalAlignment="Center" Text="Refresh list to apply time format." Margin="15,0,0,0"/>
                     </StackPanel>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Margin="0,0,0,0" HorizontalAlignment="Left"  Text="Acrylic sidebar" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18"/>
+                    <ToggleSwitch CornerRadius="2" x:Name="AcrylicSidebarSwitch" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="300" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
             
