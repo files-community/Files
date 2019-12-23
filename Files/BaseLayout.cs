@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,6 +25,8 @@ namespace Files
     /// </summary>
     public class BaseLayout : Page
     {
+        protected bool IsQuickLookEnabled { get; set; } = false;
+
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
         public bool isRenamingItem = false;
@@ -68,6 +71,15 @@ namespace Files
         {
             this.Loaded += Page_Loaded;
             Page_Loaded(null, null);
+
+            // QuickLook Integration
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+            var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
+
+            if (isQuickLookIntegrationEnabled != null && isQuickLookIntegrationEnabled.Equals(true))
+            {
+                IsQuickLookEnabled = true;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
