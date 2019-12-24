@@ -330,7 +330,7 @@ namespace Files
             try
             {
                 var file = (await StorageFile.GetFileFromPathAsync(path));
-                if (await ItemViewModel.IsFileExecutable(file))
+                if (file.DisplayType == "Application")
                 {
                     await Interaction.LaunchExe(path);
 

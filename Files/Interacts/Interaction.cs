@@ -411,7 +411,7 @@ namespace Files.Interacts
                             currentInstance.ItemDisplayFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
                         }
                     }
-                    else if (clickedOnItem.IsFileExecutable)
+                    else if (clickedOnItem.FileType == "Application")
                     {
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
@@ -438,7 +438,7 @@ namespace Files.Interacts
                         {
                             instanceTabsView.AddNewTab(typeof(ProHome), clickedOnItem.FilePath);
                         }
-                        else if (clickedOnItem.IsFileExecutable)
+                        else if (clickedOnItem.FileType == "Application")
                         {
                             // Add location to MRU List
                             mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
