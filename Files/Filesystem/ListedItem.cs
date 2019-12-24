@@ -7,6 +7,7 @@ namespace Files.Filesystem
 {
     public class ListedItem
     {
+        public bool IsFileExecutable { get; set; }
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; }
         public Visibility FolderImg { get; set; }
