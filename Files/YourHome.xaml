@@ -570,9 +570,8 @@
 
     </Page.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <Grid Padding="24,10,24,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid Padding="14,14,14,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <StackPanel Spacing="10" Orientation="Vertical">
-                <TextBlock x:Name="FavoritesCardsHeader" Padding="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Favorites" VerticalAlignment="Bottom" Grid.ColumnSpan="2" HorizontalAlignment="Left" />
                 <controls:AdaptiveGridView ScrollViewer.HorizontalScrollBarVisibility="Hidden" IsItemClickEnabled="True" x:Name="CardsList" ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}" ItemsSource="{x:Bind list:ItemLoader.itemsAdded}" Padding="0,0,0,0" OneRowModeEnabled="True" ItemHeight="100" DesiredWidth="175" Grid.Row="1"  Grid.ColumnSpan="2" ItemClick="CardPressed">
                     <controls:AdaptiveGridView.ItemTemplate>
                         <DataTemplate>
@@ -596,9 +595,9 @@
 
                 <Grid x:Name="RecentsListGrid" Grid.Column="0">
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="20" Text="Recent Items" HorizontalAlignment="Left"/>
+                        <TextBlock Margin="0,0,0,0" FontWeight="Medium" FontFamily="Segoe UI" FontSize="14" Text="Recent items" HorizontalAlignment="Left"/>
                         <TextBlock Visibility="{x:Bind local:YourHome.Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,24,0,0" Text="Files and folders you've previously accessed will show up here" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="WrapWholeWords" FontSize="14"/>
-                        <ListView ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" x:Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Stretch" Margin="0,0,0,0">
+                        <ListView SelectionMode="None" ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}" IsItemClickEnabled="True" IsRightTapEnabled="True" RightTapped="RecentsView_RightTapped" ItemClick="RecentsView_ItemClick" ItemsSource="{x:Bind local:YourHome.recentItemsCollection}" x:Name="RecentsView" HorizontalAlignment="Stretch"  Padding="0,0,0,0" VerticalAlignment="Stretch" Margin="0,0,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Grid ColumnSpacing="14" ToolTipService.ToolTip="{Binding path}" Padding="2.5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">

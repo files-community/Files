@@ -980,7 +980,7 @@
                                 <AppBarSeparator IsCompact="True" Height="40"/>
                                 <AppBarButton MinWidth="40" LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}" Style="{StaticResource AppBarButtonRevealStyle}" CornerRadius="2" Click="{x:Bind parentPage.instanceInteraction.ShowFolderPropertiesButton_Click}" x:Name="ShowFolderPropertiesButton" IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=OneWay}" Label="Folder Properties">
                                     <AppBarButton.Icon>
-                                        <FontIcon Glyph="&#xE946;"/>
+                                        <FontIcon Glyph="&#xF12B;"/>
                                     </AppBarButton.Icon>
                                 </AppBarButton>
                             </controls:RibbonPage.PageContent>
@@ -1124,7 +1124,6 @@
                             &#xE72B;
                         </Button.Content>
                         <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Menu" Key="Left"/>
                             <KeyboardAccelerator Key="XButton1"/>
                             <KeyboardAccelerator Key="Back"/>
                         </Button.KeyboardAccelerators>
@@ -1135,7 +1134,6 @@
                             &#xE72A;
                         </Button.Content>
                         <Button.KeyboardAccelerators>
-                            <KeyboardAccelerator Modifiers="Menu" Key="Right"/>
                             <KeyboardAccelerator Key="XButton2"/>
                         </Button.KeyboardAccelerators>
                     </Button>
