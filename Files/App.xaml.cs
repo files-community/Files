@@ -28,6 +28,8 @@ using Files.Enums;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Management.Deployment;
 using Windows.Storage.Streams;
+using Windows.System;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Files
 {
@@ -65,6 +67,7 @@ namespace Files
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
+        ApplicationDataContainer localSettings;
 
         public App()
         {
@@ -79,10 +82,140 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+            localSettings = ApplicationData.Current.LocalSettings;
             SetPropertiesFromLocalSettings();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
             QuickLookIntegration();
+        }
+
+        public void CloseOpenPopups()
+        {
+            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            foreach (var popup in popups)
+            {
+                if(popup.Child is ContentDialog)
+                {
+                    (popup.Child as ContentDialog).Hide();
+                }
+            }
+        }
+
+        public Popup GetOpenPopupByDialog(ContentDialog dialog)
+        {
+            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
+            foreach (var popup in popups)
+            {
+                if (popup.Child is ContentDialog)
+                {
+                    if((popup.Child as ContentDialog) == dialog)
+                    {
+                        return popup;
+                    }
+                }
+            }
+            return null;
+        }
+
+        private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
+            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu);
+            if (App.OccupiedInstance != null)
+            {
+                if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
+                {
+                    if (shift.HasFlag(CoreVirtualKeyStates.Down))
+                    {
+                        if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout) != null)
+                        {
+                            switch (args.VirtualKey)
+                            {
+                                case VirtualKey.N:
+                                    Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+                                    await App.addItemDialog.ShowAsync();
+                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                                    break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout) != null)
+                        {
+                            switch (args.VirtualKey)
+                            {
+                                case VirtualKey.C:
+                                    App.OccupiedInstance.instanceInteraction.CopyItem_ClickAsync(null, null);
+                                    break;
+                                case VirtualKey.X:
+                                    App.OccupiedInstance.instanceInteraction.CutItem_Click(null, null);
+                                    break;
+                                case VirtualKey.V:
+                                    App.OccupiedInstance.instanceInteraction.PasteItem_ClickAsync(null, null);
+                                    break;
+                                case VirtualKey.A:
+                                    App.OccupiedInstance.instanceInteraction.SelectAllItems();
+                                    break;
+                            }
+                        }
+
+                        switch (args.VirtualKey)
+                        {
+                            case VirtualKey.N:
+                                var filesUWPUri = new Uri("files-uwp:");
+                                await Launcher.LaunchUriAsync(filesUWPUri);
+                                break;
+                            case VirtualKey.W:
+                                if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
+                                {
+                                    Application.Current.Exit();
+                                }
+                                else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
+                                {
+                                    ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
+                                }
+                                break;
+                        }
+                    }
+                }
+                else if (ctrl.HasFlag(CoreVirtualKeyStates.None) && alt.HasFlag(CoreVirtualKeyStates.None))
+                {
+                    if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout) != null)
+                    {
+                        switch (args.VirtualKey)
+                        {
+                            case VirtualKey.Delete:
+                                App.OccupiedInstance.instanceInteraction.DeleteItem_Click(null, null);
+                                break;
+                            case VirtualKey.Enter:
+                                if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).IsQuickLookEnabled)
+                                {
+                                    App.OccupiedInstance.instanceInteraction.ToggleQuickLook();
+                                }
+                                else
+                                {
+                                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                                }
+                                break;
+                        }
+
+                        if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                        {
+                            switch (args.VirtualKey)
+                            {
+                                case VirtualKey.F2:
+                                    if((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count > 0)
+                                    {
+                                        App.OccupiedInstance.instanceInteraction.RenameItem_Click(null, null);
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private async void DetectWSLDistros()
@@ -136,14 +269,12 @@ namespace Files
 
         private async void QuickLookIntegration()
         {
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "CheckQuickLookAvailability";
+            localSettings.Values["Arguments"] = "CheckQuickLookAvailability";
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void SetPropertiesFromLocalSettings()
         {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
             if (localSettings.Values["theme"] == null)
             {
                 localSettings.Values["theme"] = "Default";
@@ -180,10 +311,10 @@ namespace Files
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
-            DetectCustomLocations(localSettings);
+            DetectCustomLocations();
         }
 
-        private async void DetectCustomLocations(ApplicationDataContainer localSettings)
+        private async void DetectCustomLocations()
         {
             // Detect custom locations set from Windows
             localSettings.Values["Arguments"] = "DetectUserPaths";
@@ -660,7 +791,37 @@ namespace Files
                 watcher.Start();
                 // Ensure the current window is active
                 Window.Current.Activate();
+                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
 
+            }
+        }
+
+        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
+        {
+            if (args.KeyStatus.IsMenuKeyDown)
+            {
+                switch (args.VirtualKey)
+                {
+                    case VirtualKey.Left:
+                        NavigationActions.Back_Click(null, null);
+                        break;
+                    case VirtualKey.Right:
+                        NavigationActions.Forward_Click(null, null);
+                        break;
+                    case VirtualKey.F:
+                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 0;
+                        break;
+                    case VirtualKey.H:
+                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 1;
+                        break;
+                    case VirtualKey.S:
+                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 2;
+                        break;
+                    case VirtualKey.V:
+                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 3;
+                        break;
+                }
             }
         }
 
@@ -695,6 +856,8 @@ namespace Files
                 watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
                 watcher.Start();
                 Window.Current.Activate();
+                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                 return;
             }
 

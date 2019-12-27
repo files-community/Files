@@ -23,9 +23,9 @@ namespace Files
         {
             App.OccupiedInstance.RibbonArea.Back.IsEnabled = false;
             Frame instanceContentFrame = App.OccupiedInstance.ItemDisplayFrame;
-            App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
             if (instanceContentFrame.CanGoBack)
             {
+                App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].Parameter;
 
@@ -37,11 +37,11 @@ namespace Files
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
             App.OccupiedInstance.RibbonArea.Forward.IsEnabled = false;
-            App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
             Frame instanceContentFrame = App.OccupiedInstance.ItemDisplayFrame;
 
             if (instanceContentFrame.CanGoForward)
             {
+                App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(Parameter.ToString(), previousSourcePageType);

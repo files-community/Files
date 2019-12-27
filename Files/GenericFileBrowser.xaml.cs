@@ -196,7 +196,7 @@ namespace Files
 
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
+            if (e.Key == VirtualKey.Enter && !e.KeyStatus.IsMenuKeyDown)
             {
                 if (isRenamingItem)
                 {
@@ -208,12 +208,22 @@ namespace Files
                 }
                 e.Handled = true;
             }
+            else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
+            {
+                AssociatedInteractions.ShowPropertiesButton_Click(null, null);
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            base.Page_CharacterReceived(sender, args);
-            AllView.Focus(FocusState.Keyboard);
+            if (App.OccupiedInstance != null)
+            {
+                if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                {
+                    base.Page_CharacterReceived(sender, args);
+                    AllView.Focus(FocusState.Keyboard);
+                }
+            }
         }
     }
 }

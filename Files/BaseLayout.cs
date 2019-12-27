@@ -25,7 +25,7 @@ namespace Files
     /// </summary>
     public class BaseLayout : Page
     {
-        protected bool IsQuickLookEnabled { get; set; } = false;
+        public bool IsQuickLookEnabled { get; set; } = false;
 
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;

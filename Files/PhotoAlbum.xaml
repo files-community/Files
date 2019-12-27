@@ -35,9 +35,6 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="V"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem x:Name="OpenTerminal" Click="{x:Bind AssociatedInteractions.OpenDirectoryInTerminal}" IsEnabled="True" Text="Open in Terminal...">
@@ -100,43 +97,28 @@
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE72D;"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="S"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CutItem_Click}" Text="Cut" x:Name="CutItem" >
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C6;"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="X"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CopyItem_ClickAsync}" Text="Copy" x:Name="CopyItem" >
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C8;"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Modifiers="Control" Key="C"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.DeleteItem_Click}" Text="Delete" x:Name="DeleteItem" >
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE74D;"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Delete"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.RenameItem_Click}" Text="Rename" x:Name="RenameItem" >
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8AC;"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="F2"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.PinItem_Click}" Text="Pin to sidebar" x:Load="False" Tag="PinItem_FlyoutItem" x:Name="SidebarPinItem">
@@ -153,9 +135,6 @@
                 <MenuFlyoutItem.Icon>
                     <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png"/>
                 </MenuFlyoutItem.Icon>
-                <MenuFlyoutItem.KeyboardAccelerators>
-                    <KeyboardAccelerator Key="Space"/>
-                </MenuFlyoutItem.KeyboardAccelerators>
             </MenuFlyoutItem>
         </MenuFlyout>
     </local:BaseLayout.Resources>
