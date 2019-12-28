@@ -682,8 +682,26 @@ namespace Files.Filesystem
                     isLoadingItems = false;
                     return;
                 }
+                //string dateCreatedText = folder.DateCreated.DateTime.ToString();
+                //var firstFiles = (await folder.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, 3)).Select(x => x.Name);
+                //string firstFilesText = "No Files";
+                //if(firstFiles.Count() > 0)
+                //{
+                //    firstFilesText = string.Join(',', firstFiles.ToArray());
+                //}
+
+                //var firstFolders = (await folder.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, 3)).Select(x => x.Name);
+                //string firstFoldersText = "No Folders";
+                //if (firstFolders.Count() > 0)
+                //{
+                //    firstFoldersText = string.Join(',', firstFolders.ToArray());
+                //}
+
+                //string tooltipString = dateCreatedText + "\n" + "Folders: " + firstFoldersText + "\n" + "Files: " + firstFilesText;
+
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
+                    //FolderTooltipText = tooltipString,
                     FileName = folder.Name,
                     FileDateReal = basicProperties.DateModified,
                     FileType = "Folder",    //TODO: Take a look at folder.DisplayType

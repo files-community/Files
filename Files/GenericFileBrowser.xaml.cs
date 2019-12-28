@@ -11,11 +11,13 @@ using Files.Filesystem;
 using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Core;
+using Windows.UI.Input;
 
 namespace Files
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {
+        public bool IsSelectionRectangleDisplayed { get; set; } = false;
         public string previousFileName;
         private DataGridColumn _sortedColumn;
         public DataGridColumn SortedColumn
@@ -223,6 +225,27 @@ namespace Files
                     base.Page_CharacterReceived(sender, args);
                     AllView.Focus(FocusState.Keyboard);
                 }
+            }
+        }
+
+        PointerPoint startingPoint;
+        private void BaseLayout_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            startingPoint = e.GetCurrentPoint(this);
+            IsSelectionRectangleDisplayed = true;
+            SelectionRectangle.Margin = new Thickness(e.GetCurrentPoint(this).Position.X, e.GetCurrentPoint(this).Position.Y, 0, 0);
+            
+        }
+
+        private void BaseLayout_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            if(e.GetCurrentPoint(this).Position.X < startingPoint.Position.X)
+            {
+                SelectionRectangle.Width -= e.GetCurrentPoint(this).Position.X;
+            }
+            else
+            {
+                SelectionRectangle.Width += (e.GetCurrentPoint(this).Position.X - startingPoint.Position.X);
             }
         }
     }

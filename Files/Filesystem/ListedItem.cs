@@ -7,6 +7,7 @@ namespace Files.Filesystem
 {
     public class ListedItem
     {
+        public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; }
         public Visibility FolderImg { get; set; }
         public Visibility FileIconVis { get; set; }
