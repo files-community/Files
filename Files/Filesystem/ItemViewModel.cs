@@ -13,7 +13,6 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -723,7 +722,6 @@ namespace Files.Filesystem
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
 
-            bool isExecutable = await IsFileExecutable(file);
             var itemName = file.DisplayName;
             var itemDate = basicProperties.DateModified;
             var itemPath = file.Path;
@@ -807,21 +805,10 @@ namespace Files.Filesystem
                 FileType = itemType,
                 FilePath = itemPath,
                 FileSize = itemSize,
-                FileSizeBytes = itemSizeBytes,
-                IsFileExecutable = isExecutable
+                FileSizeBytes = itemSizeBytes
             });
 
             EmptyTextState.isVisible = Visibility.Collapsed;
-        }
-
-        public static async Task<bool> IsFileExecutable(StorageFile inputFile)
-        {
-            var firstTwoBytes = new byte[2];
-            using(Stream stream = await inputFile.OpenStreamForReadAsync())
-            {
-                stream.Read(firstTwoBytes, 0, 2);
-            }
-            return Encoding.UTF8.GetString(firstTwoBytes) == "MZ";
         }
 
         public async void FileContentsChanged(IStorageQueryResultBase sender, object args)
