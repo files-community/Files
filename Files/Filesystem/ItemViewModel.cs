@@ -550,7 +550,7 @@ namespace Files.Filesystem
 
                         if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
                         else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
@@ -566,7 +566,7 @@ namespace Files.Filesystem
 
                         if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
                         else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
@@ -741,13 +741,13 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
                         itemThumbnailImgVis = Visibility.Visible;
-                        icon.DecodePixelWidth = 20;
-                        icon.DecodePixelHeight = 20;
+                        icon.DecodePixelWidth = 40;
+                        icon.DecodePixelHeight = 40;
                         await icon.SetSourceAsync(itemThumbnailImg);
                     }
                     else
@@ -768,7 +768,7 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
