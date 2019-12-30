@@ -69,12 +69,12 @@ namespace Files
             }
 
             SelectSidebarItemFromPath(parentDirectoryOfPath, null);
-            instanceContentFrame.Navigate(typeof(PhotoAlbum), parentDirectoryOfPath, new SuppressNavigationTransitionInfo());
+            instanceContentFrame.Navigate(App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType, parentDirectoryOfPath, new SuppressNavigationTransitionInfo());
         }
 
-        private static void SelectSidebarItemFromPath(string Parameter, Type previousSourcePageType)
+        private static void SelectSidebarItemFromPath(string Parameter, Type incomingSourcePageType)
         {
-            if (previousSourcePageType == typeof(YourHome) && previousSourcePageType != null)
+            if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
                 App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem) == App.sideBarItems[0]);
                 App.OccupiedInstance.PathText.Text = "New tab";
