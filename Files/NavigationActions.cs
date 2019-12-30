@@ -42,10 +42,10 @@ namespace Files
             if (instanceContentFrame.CanGoForward)
             {
                 App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
-                var previousSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
+                var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
-                SelectSidebarItemFromPath(Parameter.ToString(), previousSourcePageType);
-
+                SelectSidebarItemFromPath(Parameter.ToString(), incomingSourcePageType);
+                App.OccupiedInstance.instanceViewModel.Universal.path = Parameter.ToString();
                 instanceContentFrame.GoForward();
             }
         }
