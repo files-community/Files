@@ -188,7 +188,11 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid x:Name="Icon" Margin="0, 0, 0, 0">
                                 <Rectangle Visibility="Collapsed" x:Name="CutIndicator" Opacity="0.1" Fill="LightGray"/>
-                                <FontIcon Visibility="{x:Bind FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
+                                <Image Width="24" Height="24" Visibility="{x:Bind FolderImg}">
+                                    <Image.Source>
+                                        <SvgImageSource RasterizePixelWidth="128" RasterizePixelHeight="128" UriSource="/Assets/FolderIcon.svg" />
+                                    </Image.Source>
+                                </Image>
                                 <FontIcon Visibility="{x:Bind EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
                                 <Image Visibility="{x:Bind FileIconVis}" Height="20" Width="20" Source="{x:Bind FileImg}" Stretch="UniformToFill" />
                             </Grid>

@@ -220,7 +220,7 @@ namespace Files
 
             if (clickedItem == "Home")
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome), "New tab");
+                ItemDisplayFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 PathText.Text = "New tab";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -229,7 +229,7 @@ namespace Files
             }
             else if (clickedItem == "Desktop")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath);
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "Desktop";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -238,7 +238,7 @@ namespace Files
             }
             else if (clickedItem == "Downloads")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "Downloads";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -247,7 +247,7 @@ namespace Files
             }
             else if (clickedItem == "Documents")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "Documents";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -256,7 +256,7 @@ namespace Files
             }
             else if (clickedItem == "Pictures")
             {
-                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
+                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "Pictures";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -265,7 +265,7 @@ namespace Files
             }
             else if (clickedItem == "Music")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "Music";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -274,7 +274,7 @@ namespace Files
             }
             else if (clickedItem == "Videos")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "Videos";
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -283,7 +283,7 @@ namespace Files
             }
             else
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItemContainer.Tag.ToString());
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
                 PathText.Text = clickedItem;
                 HomeItems.isEnabled = false;
                 ShareItems.isEnabled = false;
@@ -316,19 +316,19 @@ namespace Files
 
             if (clickedItem.Tag.ToString() == "LocalDisk")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\");
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\", new SuppressNavigationTransitionInfo());
                 PathText.Text = @"Local Disk (C:\)";
                 LayoutItems.isEnabled = true;
             }
             else if (clickedItem.Tag.ToString() == "OneDrive")
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.OneDrivePath);
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.OneDrivePath, new SuppressNavigationTransitionInfo());
                 PathText.Text = "OneDrive";
                 LayoutItems.isEnabled = true;
             }
             else
             {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
                 PathText.Text = clickedItem.Tag.ToString();
                 LayoutItems.isEnabled = true;
             }
@@ -401,7 +401,7 @@ namespace Files
 
             var clickedItem = args.InvokedItemContainer;
 
-            ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString());
+            ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
             PathText.Text = clickedItem.Tag.ToString();
             LayoutItems.isEnabled = true;
         }

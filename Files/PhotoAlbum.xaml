@@ -160,11 +160,11 @@
                             <Grid Padding="12" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="Picture" Visibility="{x:Bind FileIconVis}">
                                 <Image Stretch="Uniform" Source="{x:Bind FileImg}"/>
                             </Grid>
-                            <Grid x:Name="Album" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind FolderImg}">
-                                <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                    <FontIcon FontSize="72" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                </Grid>
-                            </Grid>
+                                <Image Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind FolderImg}">
+                                    <Image.Source>
+                                        <SvgImageSource RasterizePixelWidth="128" RasterizePixelHeight="128" UriSource="/Assets/FolderIcon.svg" />
+                                    </Image.Source>
+                                </Image>
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="{x:Bind EmptyImgVis}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon FontSize="72" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
