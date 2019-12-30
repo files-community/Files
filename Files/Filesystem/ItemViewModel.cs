@@ -310,8 +310,10 @@ namespace Files.Filesystem
                         {
                             tag = tag + part + @"\";
                         }
-                        
-                        tag = "\\\\" + tag;
+                        if(index == 0)
+                        {
+                            tag = "\\\\" + tag;
+                        }
 
                         PathBoxItem item = new PathBoxItem()
                         {
