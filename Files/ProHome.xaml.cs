@@ -141,7 +141,7 @@ namespace Files
                 ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
                 if (NavParams.Contains("C:", StringComparison.OrdinalIgnoreCase))
                 {
-                    DrivesList.SelectedItem = App.foundDrives.First(x => x.tag.ToString().Equals("LocalDisk", StringComparison.OrdinalIgnoreCase));
+                    DrivesList.SelectedItem = App.foundDrives.First(x => x.tag.ToString().Equals("C:\\", StringComparison.OrdinalIgnoreCase));
                 }
                 else
                 {
