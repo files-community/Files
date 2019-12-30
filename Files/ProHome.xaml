@@ -1,0 +1,403 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    x:Class="Files.ProHome"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+    xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
+    xmlns:controls="using:Files.Controls"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    x:Name="ProHomeInstance"
+    Loaded="Page_Loaded">
+    <Page.Resources>
+        <ResourceDictionary>
+            
+            <Style x:Key="NavigationBackButtonNormalStyle" TargetType="Button">
+                <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}"/>
+                <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+                <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
+                <Setter Property="FontSize" Value="16"/>
+                <Setter Property="Height" Value="{ThemeResource NavigationBackButtonHeight}"/>
+                <Setter Property="Width" Value="{ThemeResource NavigationBackButtonWidth}"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+                <Setter Property="Content" Value="&#xE72B;"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="PointerOver">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonForegroundPointerOver}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPressed}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonForegroundPressed}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonForegroundDisabled}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <FontIcon x:Name="Content" AutomationProperties.AccessibilityView="Raw" FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}" Glyph="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" MirroredWhenRightToLeft="True" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Style x:Key="NavigationViewStyle_Fixed" TargetType="uilib:NavigationView">
+                <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}"/>
+                <Setter Property="IsTabStop" Value="False"/>
+                <Setter Property="MinHeight" Value="0"/>
+                <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="uilib:NavigationView">
+                            <Grid x:Name="RootGrid">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="DisplayModeGroup">
+                                        <VisualState x:Name="Compact"/>
+                                        <VisualState x:Name="Expanded">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootSplitView.PaneBackground" Value="Transparent"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Minimal"/>
+                                        <VisualState x:Name="TopNavigationMinimal"/>
+                                        <VisualState x:Name="MinimalWithBackButton"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="TogglePaneGroup">
+                                        <VisualState x:Name="TogglePaneButtonVisible"/>
+                                        <VisualState x:Name="TogglePaneButtonCollapsed"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="HeaderGroup">
+                                        <VisualState x:Name="HeaderVisible"/>
+                                        <VisualState x:Name="HeaderCollapsed"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="SettingsGroup">
+                                        <VisualState x:Name="SettingsVisible"/>
+                                        <VisualState x:Name="SettingsCollapsed">
+                                            <VisualState.Setters>
+                                                <Setter Target="SettingsTopNavPaneItem.Visibility" Value="Collapsed"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="AutoSuggestGroup">
+                                        <VisualState x:Name="AutoSuggestBoxVisible"/>
+                                        <VisualState x:Name="AutoSuggestBoxCollapsed">
+                                            <VisualState.Setters>
+                                                <Setter Target="TopPaneAutoSuggestArea.Visibility" Value="Collapsed"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="PaneStateGroup">
+                                        <VisualState x:Name="NotClosedCompact"/>
+                                        <VisualState x:Name="ClosedCompact"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="PaneStateListSizeGroup">
+                                        <VisualState x:Name="ListSizeFull"/>
+                                        <VisualState x:Name="ListSizeCompact"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="TitleBarVisibilityGroup">
+                                        <VisualState x:Name="TitleBarVisible"/>
+                                        <VisualState x:Name="TitleBarCollapsed"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="OverflowLabelGroup">
+                                        <VisualState x:Name="OverflowButtonWithLabel"/>
+                                        <VisualState x:Name="OverflowButtonNoLabel">
+                                            <VisualState.Setters>
+                                                <Setter Target="TopNavOverflowButton.Style" Value="{ThemeResource NavigationViewOverflowButtonNoLabelStyleWhenPaneOnTop}"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="BackButtonGroup">
+                                        <VisualState x:Name="BackButtonVisible"/>
+                                        <VisualState x:Name="BackButtonCollapsed"/>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="PaneVisibilityGroup">
+                                        <VisualState x:Name="PaneVisible"/>
+                                        <VisualState x:Name="PaneCollapsed">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootSplitView.CompactPaneLength" Value="0"/>
+                                                <Setter Target="PaneToggleButtonGrid.Visibility" Value="Collapsed"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid x:Name="PaneToggleButtonGrid" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Top" Canvas.ZIndex="100">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid x:Name="TogglePaneTopPadding" Height="{Binding TemplateSettings.TopPadding, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                    <Grid x:Name="ButtonHolderGrid" Grid.Row="1">
+                                        <Button x:Name="NavigationViewBackButton" IsEnabled="{TemplateBinding IsBackEnabled}" Style="{StaticResource NavigationBackButtonNormalStyle}" VerticalAlignment="Top" Visibility="{Binding TemplateSettings.BackButtonVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                            <ToolTipService.ToolTip>
+                                                <ToolTip x:Name="NavigationViewBackButtonToolTip"/>
+                                            </ToolTipService.ToolTip>
+                                        </Button>
+                                        <Grid x:Name="PaneTitleHolder" Visibility="Collapsed">
+                                            <ContentControl x:Name="PaneTitlePresenter" HorizontalContentAlignment="Stretch" IsTabStop="False" Margin="{ThemeResource NavigationViewPaneTitlePresenterMargin}" VerticalContentAlignment="Stretch"/>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <StackPanel x:Name="TopNavArea" Background="{ThemeResource NavigationViewTopPaneBackground}" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Top" XYFocusKeyboardNavigation="Enabled" Canvas.ZIndex="1">
+                                        <Grid x:Name="TopNavTopPadding" Height="{Binding TemplateSettings.TopPadding, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="{Binding TemplateSettings.TopPaneVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                        <Grid x:Name="TopNavGrid" Height="{ThemeResource NavigationViewTopPaneHeight}" Visibility="{Binding TemplateSettings.TopPaneVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition x:Name="BackButtonPlaceholderOnTopNav" Width="{ThemeResource NavigationBackButtonWidth}"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition MinWidth="48" Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid x:Name="TopNavLeftPadding" Grid.Column="1" Width="0"/>
+                                            <ContentControl x:Name="PaneHeaderOnTopPane" Grid.Column="2" HorizontalContentAlignment="Stretch" IsTabStop="False" VerticalContentAlignment="Stretch"/>
+                                            <ContentControl x:Name="PaneTitleOnTopPane" Grid.Column="2" HorizontalContentAlignment="Stretch" IsTabStop="False" VerticalContentAlignment="Stretch"/>
+                                            <uilib:NavigationViewList x:Name="TopNavMenuItemsHost" Grid.Column="3" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.HorizontalScrollMode="Disabled" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemTemplate="{TemplateBinding MenuItemTemplate}" IsItemClickEnabled="True" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" AutomationProperties.LandmarkType="Navigation" AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}" SelectionMode="Single" SingleSelectionFollowsFocus="{Binding TemplateSettings.SingleSelectionFollowsFocus, RelativeSource={RelativeSource Mode=TemplatedParent}}" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                                                <uilib:NavigationViewList.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <ItemsStackPanel Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </uilib:NavigationViewList.ItemsPanel>
+                                                <uilib:NavigationViewList.ItemContainerTransitions>
+                                                    <TransitionCollection/>
+                                                </uilib:NavigationViewList.ItemContainerTransitions>
+                                            </uilib:NavigationViewList>
+                                            <Button x:Name="TopNavOverflowButton" Content="More" Grid.Column="4" Style="{StaticResource NavigationViewOverflowButtonStyleWhenPaneOnTop}" Visibility="{Binding TemplateSettings.OverflowButtonVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <Button.Flyout>
+                                                    <Flyout ElementSoundMode="{Binding ElementSoundMode, RelativeSource={RelativeSource Mode=TemplatedParent}}" Placement="Bottom">
+                                                        <Flyout.FlyoutPresenterStyle>
+                                                            <Style TargetType="FlyoutPresenter">
+                                                                <Setter Property="Padding" Value="0,8"/>
+                                                                <Setter Property="Margin" Value="0,-4,0,0"/>
+                                                            </Style>
+                                                        </Flyout.FlyoutPresenterStyle>
+                                                        <uilib:NavigationViewList x:Name="TopNavMenuItemsOverflowHost" ElementSoundMode="{TemplateBinding ElementSoundMode}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemTemplate="{TemplateBinding MenuItemTemplate}" IsItemClickEnabled="True" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" SingleSelectionFollowsFocus="False">
+                                                            <uilib:NavigationViewList.ItemContainerTransitions>
+                                                                <TransitionCollection/>
+                                                            </uilib:NavigationViewList.ItemContainerTransitions>
+                                                        </uilib:NavigationViewList>
+                                                    </Flyout>
+                                                </Button.Flyout>
+                                            </Button>
+                                            <ContentControl x:Name="PaneCustomContentOnTopPane" Grid.Column="5" HorizontalContentAlignment="Stretch" IsTabStop="False" VerticalContentAlignment="Stretch"/>
+                                            <Grid x:Name="TopPaneAutoSuggestArea" Grid.Column="6" Height="{ThemeResource NavigationViewTopPaneHeight}">
+                                                <ContentControl x:Name="TopPaneAutoSuggestBoxPresenter" HorizontalContentAlignment="Stretch" IsTabStop="False" MinWidth="48" Margin="12,0,12,0" VerticalContentAlignment="Center"/>
+                                            </Grid>
+                                            <ContentControl x:Name="PaneFooterOnTopPane" Grid.Column="7" HorizontalContentAlignment="Stretch" IsTabStop="False" VerticalContentAlignment="Stretch"/>
+                                            <Grid Grid.Column="8">
+                                                <uilib:NavigationViewItem x:Name="SettingsTopNavPaneItem" Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}">
+                                                    <uilib:NavigationViewItem.Icon>
+                                                        <SymbolIcon Symbol="Setting"/>
+                                                    </uilib:NavigationViewItem.Icon>
+                                                </uilib:NavigationViewItem>
+                                            </Grid>
+                                        </Grid>
+                                        <Border x:Name="TopNavContentOverlayAreaGrid" Child="{TemplateBinding ContentOverlay}"/>
+                                    </StackPanel>
+                                    <SplitView x:Name="RootSplitView" Background="{TemplateBinding Background}" CompactPaneLength="{TemplateBinding CompactPaneLength}" DisplayMode="Inline" IsTabStop="False" IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" OpenPaneLength="{TemplateBinding OpenPaneLength}" PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}" Grid.Row="1">
+                                        <SplitView.Pane>
+                                            <Grid x:Name="PaneContentGrid" Visibility="{Binding TemplateSettings.LeftPaneVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="0"/>
+                                                    <RowDefinition x:Name="PaneContentGridToggleButtonRow" Height="Auto" />
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                <Grid x:Name="ContentPaneTopPadding" Height="{Binding TemplateSettings.TopPadding, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                               
+                                               
+                                                <ContentControl x:Name="PaneCustomContentBorder" HorizontalContentAlignment="Stretch" IsTabStop="False" Grid.Row="4" VerticalContentAlignment="Stretch"/>
+                                                <uilib:NavigationViewList x:Name="MenuItemsHost" HorizontalAlignment="Stretch" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemTemplate="{TemplateBinding MenuItemTemplate}" IsItemClickEnabled="True" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" Margin="0,0,0,20" AutomationProperties.Name="{TemplateBinding AutomationProperties.Name}" Grid.Row="6" SelectionMode="Single" SelectedItem="{TemplateBinding SelectedItem}" SingleSelectionFollowsFocus="{Binding TemplateSettings.SingleSelectionFollowsFocus, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                <ContentControl x:Name="FooterContentBorder" HorizontalContentAlignment="Stretch" IsTabStop="False" Grid.Row="7" VerticalContentAlignment="Stretch"/>
+                                                
+                                            </Grid>
+                                        </SplitView.Pane>
+                                        <Grid x:Name="ContentGrid">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Grid x:Name="ContentTopPadding" Grid.ColumnSpan="2" Height="{Binding TemplateSettings.TopPadding, RelativeSource={RelativeSource Mode=TemplatedParent}}" Visibility="{Binding TemplateSettings.LeftPaneVisibility, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                            <Grid x:Name="ContentLeftPadding" Grid.Row="1"/>
+                                            <ContentControl x:Name="HeaderContent" ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="1" HorizontalContentAlignment="Stretch" IsTabStop="False" MinHeight="0" Grid.Row="1" Style="{StaticResource NavigationViewTitleHeaderContentControlTextStyle}" VerticalContentAlignment="Stretch"/>
+                                            <ContentPresenter Content="{TemplateBinding Content}" Grid.ColumnSpan="2" AutomationProperties.LandmarkType="Main" Grid.Row="2"/>
+                                        </Grid>
+                                    </SplitView>
+                                </Grid>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid Padding="0,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Vertical">
+            <controls:RibbonArea parentPage="{x:Bind (local:ProHome)ProHomeInstance}" x:FieldModifier="public" x:Name="RibbonArea" />
+            <Windows10version1903:Grid>
+                <Grid.Resources>
+                    <Windows10version1903:ThemeShadow x:Name="themeShadow"/>
+                </Grid.Resources>
+                <Grid Background="Transparent" x:Name="ShadowReceiver" Height="8"/>
+                <Grid Canvas.ZIndex="2" Windows10version1903:Shadow="{x:Bind themeShadow}" Translation="0,0,4" x:Name="ShadowCaster" Background="{ThemeResource RibbonBackgroundColor}" Height="4" VerticalAlignment="Top"/>
+            </Windows10version1903:Grid>
+        </StackPanel>
+        
+        <SplitView x:Name="splitView" DisplayMode="Inline" OpenPaneLength="225" IsPaneOpen="True" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.Row="1" VerticalAlignment="Stretch" PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <SplitView.Pane>
+                <ScrollViewer Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
+                    <Grid>
+                        <StackPanel Margin="0,4,0,0" Spacing="4">
+                            <StackPanel.Resources>
+                                <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
+                            </StackPanel.Resources>
+                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" OpenPaneLength="225" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" Loaded="LocationsList_Loaded" ItemInvoked="LocationsList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.sideBarItems, Mode=OneWay}" SelectionChanged="LocationsList_SelectionChanged" x:Name="LocationsList">
+                                <uilib:NavigationView.Resources>
+                                    <ResourceDictionary>
+                                        <ResourceDictionary.MergedDictionaries>
+                                            <ResourceDictionary>
+                                                <MenuFlyout x:Name="SideBarItemContextFlyout">
+                                                    <MenuFlyout.Items>
+                                                        <MenuFlyoutItem Click="{x:Bind local:App.FlyoutItem_Click}" x:Name="UnpinItem" Text="Unpin from Sidebar"/>
+                                                    </MenuFlyout.Items>
+                                                </MenuFlyout>
+                                            </ResourceDictionary>
+                                        </ResourceDictionary.MergedDictionaries>
+                                    </ResourceDictionary>
+                                </uilib:NavigationView.Resources>
+                                <uilib:NavigationView.MenuItemTemplate>
+                                    <DataTemplate x:DataType="local2:SidebarItem">
+                                        <uilib:NavigationViewItem IsRightTapEnabled="True" RightTapped="NavigationViewItem_RightTapped" Tag="{x:Bind Path}" Content="{x:Bind Text}">
+                                            <uilib:NavigationViewItem.Icon>
+                                                <FontIcon Glyph="{x:Bind IconGlyph}"/>
+                                            </uilib:NavigationViewItem.Icon>
+                                        </uilib:NavigationViewItem>
+                                    </DataTemplate>
+                                </uilib:NavigationView.MenuItemTemplate>
+                            </uilib:NavigationView>
+                            <TextBlock Visibility="Visible" Margin="8,-16,0,0" Text="Drives" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
+                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Drives" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="DrivesList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.foundDrives}" SelectionChanged="DrivesList_SelectionChanged" x:Name="DrivesList">
+                                <uilib:NavigationView.MenuItemTemplate>
+                                    <DataTemplate x:DataType="local2:DriveItem">
+                                        <uilib:NavigationViewItem Padding="0" Tag="{x:Bind tag}">
+                                            <uilib:NavigationViewItem.Content>
+                                                <StackPanel Margin="-4,0,0,0" ToolTipService.ToolTip="{Binding spaceText}" Spacing="12" Orientation="Horizontal">
+                                                    <Grid>
+                                                        <FontIcon Visibility="{Binding driveGlyphVisibility}" FontSize="18" Glyph="{Binding glyph}" FontFamily="Segoe MDL2 Assets"/>
+                                                        <FontIcon Visibility="{Binding cloudGlyphVisibility}" FontSize="18" Glyph="&#xE753;" FontFamily="Segoe MDL2 Assets"/>
+                                                    </Grid>
+                                                    <TextBlock Text="{Binding driveText}" FontSize="14"/>
+                                                </StackPanel>
+                                            </uilib:NavigationViewItem.Content>
+                                        </uilib:NavigationViewItem>
+                                        
+                                    </DataTemplate>
+                                </uilib:NavigationView.MenuItemTemplate>
+                            </uilib:NavigationView>
+                            <TextBlock x:Name="LinuxHeader" x:Load="{x:Bind local:App.areLinuxFilesSupported, Mode=OneWay}" Visibility="Visible" Margin="8,-16,0,0" Text="Linux Files" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
+                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Linux Files" x:Load="{x:Bind local:App.areLinuxFilesSupported, Mode=OneWay}" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="LinuxList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.linuxDistroItems, Mode=OneWay}" SelectionChanged="LinuxList_SelectionChanged" x:Name="LinuxList">
+                                <uilib:NavigationView.MenuItemTemplate>
+                                    <DataTemplate x:DataType="local:WSLDistroItem">
+                                        <uilib:NavigationViewItem  Padding="0" Tag="{x:Bind Path}">
+                                            <uilib:NavigationViewItem.Content>
+                                                <StackPanel Margin="-8,0,0,0" Spacing="6" Orientation="Horizontal">
+                                                    <BitmapIcon ShowAsMonochrome="False" Width="30" Height="30" UriSource="{x:Bind Logo}"/>
+                                                    <TextBlock VerticalAlignment="Center" Text="{x:Bind DistroName}" FontSize="14"/>
+                                                </StackPanel>
+                                            </uilib:NavigationViewItem.Content>
+                                        </uilib:NavigationViewItem>
+
+                                    </DataTemplate>
+                                </uilib:NavigationView.MenuItemTemplate>
+                            </uilib:NavigationView>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </SplitView.Pane>
+
+            <Frame x:FieldModifier="public" Navigated="ItemDisplayFrame_Navigated" Background="{StaticResource ApplicationPageBackgroundThemeBrush}" x:Name="ItemDisplayFrame"/>
+
+        </SplitView>
+        <FlyoutPresenter Windows10version1903:IsDefaultShadowEnabled="True" Background="{ThemeResource UnmodifiedSystemPageColor}" Grid.Row="1" x:Name="ProgressFlyout" x:Load="False" 
+                         Canvas.ZIndex="4" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,4,0,0">
+            <StackPanel Spacing="8" Orientation="Vertical">
+                <TextBlock Margin="0,0,48,0" Text="Completing operation (1/1)..." x:Name="ProgressFlyoutTextBlock"/>
+                <ProgressBar x:Name="ProgressFlyoutProgressBar" VerticalAlignment="Center"/>
+            </StackPanel>
+        </FlyoutPresenter>
+        <Grid Grid.RowSpan="3" x:Name="DeleteProgressFakeDialog" Visibility="Collapsed" Canvas.ZIndex="5" Width="500" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Custom:DropShadowPanel HorizontalContentAlignment="Stretch">
+                <Grid Padding="14" CornerRadius="4" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Spacing="14" Orientation="Vertical"  Grid.RowSpan="1">
+                        <TextBlock x:Name="title" FontSize="20" FontFamily="Segoe UI"/>
+                        <Grid>
+                            <StackPanel Spacing="15" Orientation="Vertical">
+                                <TextBlock x:Name="deleteInfoCurrentText" FontSize="14"/>
+                                <ProgressBar x:Name="deleteInfoCurrentIndicator" Height="8"/>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                    <Button x:Name="HideFakeDialogButton" CornerRadius="2" Content="Hide" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1" Width="200" Click="HideFakeDialogButton_Click"/>
+                </Grid>
+            </Custom:DropShadowPanel>
+        </Grid>
+    </Grid>
+</Page>

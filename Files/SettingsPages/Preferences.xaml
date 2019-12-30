@@ -1,0 +1,59 @@
+﻿<Page
+    x:Class="Files.SettingsPages.Preferences"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Padding="24,24,0,0">
+        <ScrollViewer>
+            <StackPanel Spacing="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid x:Name="CustomLibraries">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="20" Text="Custom Locations"/>
+                        <TextBlock Text="Replaces common locations with those of your choice. You'll need to restart Files after saving your settings or disabling custom locations."/>
+                        <ToggleSwitch IsEnabled="True" Toggled="ToggleSwitch_Toggled" x:Name="CustomLocationToggle" VerticalAlignment="Top"/>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="Desktop" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="DesktopL" PlaceholderText="Set Custom Desktop Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
+                        </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="Downloads" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="DownloadsL" PlaceholderText="Set Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
+                        </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="Documents" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="DocumentsL" PlaceholderText="Set Custom Documents Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
+                        </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="Pictures" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="PictureL" PlaceholderText="Set Custom Pictures Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                        </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="Music" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="MusicL" PlaceholderText="Set Custom Music Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                        </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="Videos" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="VideosL" PlaceholderText="Set Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                        </Grid>
+                        <Grid Margin="0, 0, 0, 12.5">
+                            <TextBlock Text="OneDrive" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
+                            <TextBox CornerRadius="2" Name="OneDriveL" PlaceholderText="Set Custom OneDrive Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal">
+                            <Button CornerRadius="2" Content="Save Locations" x:Name="SaveCustomL" HorizontalAlignment="Left" Click="SaveCustomL_Click" />
+                            <StackPanel x:Name="SuccessMark" Orientation="Horizontal" Spacing="15">
+                                <FontIcon Glyph="&#xE73E;"  Margin="25,0,0,0"/>
+                                <TextBlock VerticalAlignment="Center" Text="Restart the app for these changes to take effect."/>
+                            </StackPanel>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

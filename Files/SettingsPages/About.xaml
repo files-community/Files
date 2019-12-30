@@ -1,0 +1,70 @@
+﻿<Page xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+    x:Class="Files.SettingsPages.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Files.SettingsPages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Margin="24,14">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid Height="150" Width="150">
+                <my:DropShadowPanel OffsetY="15">
+                    <Image Stretch="Uniform" Source="/Assets/Files UWP Icon.png"/>
+                </my:DropShadowPanel>
+            </Grid>
+
+                <StackPanel Margin="0,0" Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock x:Name="Header" Text="Files" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <TextBlock FontWeight="Medium" Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="18" Text="Product Information"/>
+                    <TextBlock FontSize="14" Text="Edition: Pre-Release"/>
+                    <TextBlock FontSize="14" x:Name="VersionNumber" Text="Version: 0.5.0"/>
+                </StackPanel>
+
+        </StackPanel>
+
+
+        <StackPanel Spacing="8" Grid.Row="1" Orientation="Vertical">
+            <TextBlock Text="The community thanks contributors: SOI7, jeffsieu, and yaichenbaum for the design of our wonderful icon." TextWrapping="WrapWholeWords" VerticalAlignment="Top"/>
+            <ListView IsItemClickEnabled="True" Margin="0,0,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch">
+                <ListViewItem IsEnabled="True" x:Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
+                    <StackPanel Spacing="14" Padding="0,14" Orientation="Horizontal">
+                        <FontIcon Margin="0" Glyph="&#xED15;"/>
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                            <TextBlock Text="Submit Feedback"/>
+                            <TextBlock Text="Submit an issue report to provide the developers with information" Foreground="Gray" TextWrapping="WrapWholeWords"/>
+                        </StackPanel>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2">
+            <TextBlock Text="Third Party Licenses" FontSize="18" Margin="0,16,0,0"/>
+            <ListView>
+                <ListViewItem>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" Width="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="QuickLook" FontSize="16" VerticalAlignment="Bottom" Margin="2,0,16,0"/>
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                                <Span xml:space="preserve"><Run>Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
+                            </TextBlock>
+                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom">
+                                <Span xml:space="preserve"><Run>License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">Link</Hyperlink></Span>
+                            </TextBlock>
+                        </StackPanel>
+                    </StackPanel>
+                </ListViewItem>
+            </ListView>
+        </StackPanel>
+
+    </Grid>
+</Page>

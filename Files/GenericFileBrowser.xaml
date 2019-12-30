@@ -1,0 +1,228 @@
+﻿<local:BaseLayout
+    x:Class="Files.GenericFileBrowser"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Files"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d"  NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+    <local:BaseLayout.Resources>
+        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+            <MenuFlyoutSubItem Text="Sort by" x:Name="SortByEmptySpace">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon Glyph="&#xE8CB;"/>
+                </MenuFlyoutSubItem.Icon>
+                <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"/>
+                <MenuFlyoutSeparator/>
+                <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"/>
+                <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"/>
+            </MenuFlyoutSubItem>
+            <MenuFlyoutItem Text="Refresh" x:Name="RefreshEmptySpace" Click="{x:Bind local:NavigationActions.Refresh_Click}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72C;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Paste" x:Name="PasteEmptySpace" IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}" Click="{x:Bind AssociatedInteractions.PasteItem_ClickAsync}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE77F;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem x:Name="OpenTerminal" Click="{x:Bind AssociatedInteractions.OpenDirectoryInTerminal}" IsEnabled="True" Text="Open in Terminal...">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE756;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutSubItem Text="New" x:Name="NewEmptySpace">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon Glyph="&#xE710;"/>
+                </MenuFlyoutSubItem.Icon>
+                <MenuFlyoutItem Text="Folder" Click="{x:Bind AssociatedInteractions.NewFolder_Click}" x:Name="NewFolder">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8B7;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem Text="Bitmap Image" Click="{x:Bind AssociatedInteractions.NewBitmapImage_Click}" x:Name="NewBitmapImage">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xEB9F;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem Text="Text Document" Click="{x:Bind AssociatedInteractions.NewTextDocument_Click}" x:Name="NewTextDocument">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8A5;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyoutSubItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Text="Properties" Click="{x:Bind AssociatedInteractions.ShowFolderPropertiesButton_Click}" x:Name="PropertiesFolder">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE946;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+
+        <MenuFlyout Opening="RightClickContextMenu_Opening" x:Key="BaseLayoutItemContextFlyout">
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ExtractItems_Click}" Tag="Extract_FlyoutItem" Text="Extract" x:Load="False" x:Name="UnzipItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xED25;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.OpenItem_Click}" Tag="Open_FlyoutItem" Text="Open with..." x:Load="False" x:Name="OpenItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7AC;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.OpenDirectoryInNewTab_Click}" Tag="OpenTab_FlyoutItem" Text="Open in new tab" x:Load="False" x:Name="OpenInNewTab">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE737;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.OpenInNewWindowItem_Click}" Tag="OpenWindow_FlyoutItem" Text="Open in new window" x:Load="False" x:Name="OpenInNewWindowItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8A7;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ShareItem_Click}" Text="Share" x:Name="ShareItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72D;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CutItem_Click}" Text="Cut" x:Name="CutItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C6;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.CopyItem_ClickAsync}" Text="Copy" x:Name="CopyItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.DeleteItem_Click}" Text="Delete" x:Name="DeleteItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.RenameItem_Click}" Text="Rename" x:Name="RenameItem" >
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8AC;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.PinItem_Click}" Text="Pin to sidebar" x:Load="False" Tag="PinItem_FlyoutItem" x:Name="SidebarPinItem">
+                <MenuFlyoutItem.Icon>
+                    <SymbolIcon Symbol="Pin"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ShowPropertiesButton_Click}" Text="Properties" x:Name="PropertiesItem">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE946;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Click="{x:Bind AssociatedInteractions.ToggleQuickLook_Click}" Text="QuickLook" x:Name="QuickLook" Visibility="{x:Bind IsQuickLookEnabled}">
+                <MenuFlyoutItem.Icon>
+                    <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </local:BaseLayout.Resources>
+    <Grid ContextFlyout="{StaticResource BaseLayoutContextFlyout}" Background="Transparent" x:Name="RootGrid">
+        <Rectangle x:Load="{x:Bind IsSelectionRectangleDisplayed, Mode=OneWay}" x:Name="SelectionRectangle" Fill="Blue" Stroke="DarkBlue" Opacity="0.7"/>
+        <ProgressBar Visibility="{x:Bind AssociatedViewModel.LoadIndicator.isVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
+        <TextBlock Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
+        <controls:DataGrid DoubleTapped="{x:Bind local:App.OccupiedInstance.instanceInteraction.List_ItemClick}" RightTapped="{x:Bind local:App.OccupiedInstance.instanceInteraction.AllView_RightTapped}" ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}" PreviewKeyDown="AllView_PreviewKeyDown" ScrollViewer.IsScrollInertiaEnabled="True"  ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" PreparingCellForEdit="AllView_PreparingCellForEdit" CellEditEnding="AllView_CellEditEnding" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" CanUserSortColumns="True" Sorting="AllView_Sorting" HorizontalAlignment="Left">
+            <controls:DataGrid.Resources>
+                <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent"/>
+                <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent"/>
+                <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="ApplicationPageBackgroundThemeBrush"/>
+            </controls:DataGrid.Resources>
+            <controls:DataGrid.ColumnHeaderStyle>
+                <Style TargetType="controlsprimitives:DataGridColumnHeader">
+                    <Setter Property="ContextFlyout">
+                        <Setter.Value>
+                            <MenuFlyout  x:Name="HeaderRightClickMenu">
+                                <MenuFlyoutItem IsEnabled="False" Text="Edit Columns" x:Name="EditColumn">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE70F;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem IsEnabled="False" Text="Size All Columns to Fit" x:Name="FitColumns">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE9A6;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+                </Style>
+            </controls:DataGrid.ColumnHeaderStyle>
+            <controls:DataGrid.RowStyle>
+                <Style TargetType="controls:DataGridRow">
+                    <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}"/>
+                </Style>
+            </controls:DataGrid.RowStyle>
+            <controls:DataGrid.CellStyle>
+                <Style TargetType="controls:DataGridCell">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="AllowFocusOnInteraction" Value="False"/>
+                    <Setter Property="FocusVisualPrimaryThickness" Value="0"/>
+                    <Setter Property="FocusVisualSecondaryThickness" Value="0"/>
+                </Style>
+            </controls:DataGrid.CellStyle>
+
+            <controls:DataGrid.Columns>
+                <controls:DataGridTemplateColumn ToolTipService.ToolTip="{Binding FolderTooltipText}" DisplayIndex="0" x:Name="iconColumn" IsReadOnly="True">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="local2:ListedItem">
+                            <Grid x:Name="Icon" Margin="0, 0, 0, 0">
+                                <Rectangle Visibility="Collapsed" x:Name="CutIndicator" Opacity="0.1" Fill="LightGray"/>
+                                <Image Width="24" Height="24" Visibility="{x:Bind FolderImg}">
+                                    <Image.Source>
+                                        <SvgImageSource RasterizePixelWidth="128" RasterizePixelHeight="128" UriSource="/Assets/FolderIcon.svg" />
+                                    </Image.Source>
+                                </Image>
+                                <FontIcon Visibility="{x:Bind EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                <Image Visibility="{x:Bind FileIconVis}" Height="20" Width="20" Source="{x:Bind FileImg}" Stretch="UniformToFill" />
+                            </Grid>
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                    
+                </controls:DataGridTemplateColumn>
+                <controls:DataGridTextColumn DisplayIndex="1" x:Name="nameColumn" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn DisplayIndex="2" x:Name="dateColumn" IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn DisplayIndex="3" x:Name="typeColumn" IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn DisplayIndex="4" x:Name="sizeColumn" IsReadOnly="True" Header="Size" Width="Auto" MinWidth="100" Binding="{Binding FileSize}" Tag="Size">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+            </controls:DataGrid.Columns>
+        </controls:DataGrid>
+
+
+    </Grid>
+</local:BaseLayout>
