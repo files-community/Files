@@ -913,6 +913,33 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <SolidColorBrush x:Key="SystemControlSplitterPointerOver" Color="{ThemeResource SystemBaseLowColor}"/>
+        <SolidColorBrush x:Key="SystemControlSplitterPressed" Color="{ThemeResource SystemBaseHighColor}"/>
+        <Style x:Key="GridSplitterStyle_Invisible" TargetType="Custom:GridSplitter">
+            <Setter Property="IsTabStop" Value="True"/>
+            <Setter Property="UseSystemFocusVisuals" Value="True"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="IsFocusEngagementEnabled" Value="True"/>
+            <Setter Property="MinWidth" Value="2"/>
+            <Setter Property="MinHeight" Value="16"/>
+            <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}"/>
+            <Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Custom:GridSplitter">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="GridSplitterStates">
+                                    <VisualState x:Name="Normal"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter Content="{TemplateBinding Element}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </UserControl.Resources>
 
@@ -1231,7 +1258,7 @@
                         </ListView>
                     </Grid>
                 </Grid>
-                <Custom:GridSplitter x:Name="SearchBoxResizer" Foreground="Transparent" Background="Transparent" GripperCursor="SizeWestEast" HorizontalAlignment="Right" Width="Auto" Grid.Column="1" ResizeBehavior="CurrentAndNext" ResizeDirection="Columns"/>
+                <Custom:GridSplitter Style="{StaticResource GridSplitterStyle_Invisible}" Element="{x:Null}" x:Name="SearchBoxResizer" GripperForeground="Transparent" Background="Transparent" GripperCursor="SizeWestEast" HorizontalAlignment="Right" MinWidth="4" Width="4" Grid.Column="1" ResizeBehavior="CurrentAndNext" ResizeDirection="Columns"/>
                 <AutoSuggestBox MaxWidth="485" QueryIcon="Find" PlaceholderText="Search" x:Name="SearchReigon" Grid.Column="2" Margin="0,0,4,0" VerticalAlignment="Center">
                     <AutoSuggestBox.Resources>
                         <StaticResource x:Key="TextControlBorderBrush" ResourceKey="CustomInputFieldBorderBrush"/>
