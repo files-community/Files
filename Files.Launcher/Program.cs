@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
@@ -55,7 +56,7 @@ namespace ProcessLauncher
                     process.StartInfo.CreateNoWindow = true;
                     process.Start();
                 }
-                catch (System.ComponentModel.Win32Exception)
+                catch (Win32Exception)
                 {
                     var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
                     Process process = new Process();
@@ -63,7 +64,14 @@ namespace ProcessLauncher
                     process.StartInfo.Verb = "runas";
                     process.StartInfo.FileName = executable;
                     process.StartInfo.CreateNoWindow = true;
-                    process.Start();
+                    try
+                    {
+                        process.Start();
+                    }
+                    catch (Win32Exception)
+                    {
+                        Process.Start(executable);
+                    }
                 }
                 
 

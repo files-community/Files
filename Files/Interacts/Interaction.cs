@@ -257,7 +257,7 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task LaunchExe(string ApplicationPath)
+        public static async Task InvokeWin32Component(string ApplicationPath)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
@@ -411,22 +411,30 @@ namespace Files.Interacts
                             currentInstance.ItemDisplayFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
                         }
                     }
-                    else if (clickedOnItem.FileType == "Application")
-                    {
-                        // Add location to MRU List
-                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
-                        await LaunchExe(clickedOnItem.FilePath);
-                    }
                     else
                     {
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
-                        // Add location to MRU List
-                        mostRecentlyUsed.Add(file);
-                        var options = new LauncherOptions
+                        if (clickedOnItem.FileType == "Folder")
                         {
-                            DisplayApplicationPicker = displayApplicationPicker
-                        };
-                        await Launcher.LaunchFileAsync(file, options);
+                            instanceTabsView.AddNewTab(typeof(ProHome), clickedOnItem.FilePath);
+                        }
+                        else
+                        {
+                            // Add location to MRU List
+                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
+                            if (displayApplicationPicker)
+                            {
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                                var options = new LauncherOptions
+                                {
+                                    DisplayApplicationPicker = true
+                                };
+                                await Launcher.LaunchFileAsync(file, options);
+                            }
+                            else
+                            {
+                                await InvokeWin32Component(clickedOnItem.FilePath);
+                            }
+                        }
                     }
                 }
                 else if(selectedItemCount > 1)
@@ -438,22 +446,23 @@ namespace Files.Interacts
                         {
                             instanceTabsView.AddNewTab(typeof(ProHome), clickedOnItem.FilePath);
                         }
-                        else if (clickedOnItem.FileType == "Application")
+                        else
                         {
                             // Add location to MRU List
                             mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
-                            await LaunchExe(clickedOnItem.FilePath);
-                        }
-                        else
-                        {
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(file);
-                            var options = new LauncherOptions
+                            if (displayApplicationPicker)
                             {
-                                DisplayApplicationPicker = displayApplicationPicker
-                            };
-                            await Launcher.LaunchFileAsync(file, options);
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                                var options = new LauncherOptions
+                                {
+                                    DisplayApplicationPicker = true
+                                };
+                                await Launcher.LaunchFileAsync(file, options);
+                            }
+                            else
+                            {
+                                await InvokeWin32Component(clickedOnItem.FilePath);
+                            }
                         }
                     }
                 }

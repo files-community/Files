@@ -155,11 +155,11 @@ namespace Files.Controls
                             {
                                 if (parentPage.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
                                 {
-                                    await Interaction.LaunchExe(CurrentInput);
+                                    await Interaction.InvokeWin32Component(CurrentInput);
                                 }
                                 else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
                                 {
-                                    await Interaction.LaunchExe(CurrentInput);
+                                    await Interaction.InvokeWin32Component(CurrentInput);
                                 }
 
                                 VisiblePath.Text = instance.Universal.path;
