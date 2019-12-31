@@ -93,16 +93,12 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
+            var localSettings = ApplicationData.Current.LocalSettings;
+            var terminalId = (int)localSettings.Values["terminal_id"];
+            var terminal = App.Terminals.Single(p => p.Id == terminalId);
 
-            ApplicationData.Current.LocalSettings.Values["Application"] = "cmd.exe";
-            if(App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d "+ currentInstance.instanceViewModel.Universal.path + "&& title Command Prompt" + "\""; 
-            }
-            else if(App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                ApplicationData.Current.LocalSettings.Values["Arguments"] = "/k \"cd /d " + currentInstance.instanceViewModel.Universal.path + "&& title Command Prompt" + "\"";
-            }
+            localSettings.Values["Application"] = terminal.Path;
+            localSettings.Values["Arguments"] = String.Format(terminal.arguments, currentInstance.instanceViewModel.Universal.path);
 
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }

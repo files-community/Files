@@ -5,12 +5,18 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using System.IO;
 using Files.Filesystem;
+using Newtonsoft.Json;
+using Files.DataModels;
+using System.Collections.ObjectModel;
+using Windows.System;
 
 namespace Files.SettingsPages
 {
     
     public sealed partial class Preferences : Page
     {
+        ObservableCollection<TerminalModel> Terminals { get; } = new ObservableCollection<TerminalModel>();
+
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         public Preferences()
@@ -72,6 +78,31 @@ namespace Files.SettingsPages
                 OneDriveL.IsEnabled = false;
             }
             SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            LoadTerminalsAsync();
+        }
+
+        private async System.Threading.Tasks.Task LoadTerminalsAsync()
+        {
+            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
+            StorageFile file;
+            try
+            {
+                file = await localSettingsFolder.GetFileAsync("terminal.json");
+            }
+            catch (FileNotFoundException ex)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
+
+                file = await localSettingsFolder.CreateFileAsync("terminal.json");
+                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+            }
+                        
+            var content = await FileIO.ReadTextAsync(file);
+
+            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
+
+            foreach (var terminal in terminals) Terminals.Add(terminal);
         }
 
         private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -275,6 +306,25 @@ namespace Files.SettingsPages
             {
                 SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
+        }
+
+        private async void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            LaunchTerminalsConfigFile();
+        }
+
+        private async void LaunchTerminalsConfigFile()
+        {
+            Launcher.LaunchFileAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+        }
+
+        private void TerminalApp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+
+            var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
+
+            localSettings.Values["terminal_id"] = selectedTerminal.Id;
         }
     }
 }

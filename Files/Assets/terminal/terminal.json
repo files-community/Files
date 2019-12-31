@@ -1,0 +1,21 @@
+﻿{
+  "version": 1,
+  "terminals": [
+    {
+      "id": 1,
+      "name": "CMD",
+      "path": "cmd.exe",
+      "arguments": "/k \"cd /d {0} && title Command Prompt\"",
+      "icon": "C:\\Users\\felix\\Pictures\\BingImageOfTheDay_20190730.jpg"
+    }
+    /*
+    {
+      "id": 2,
+      "name": "PowerShell Core 6",
+      "path": "pwsh.exe",
+      "arguments": "-WorkingDirectory {0}",
+      "icon": "C:\\Users\\felix\\Pictures\\BingImageOfTheDay_20190730.jpg"
+    }
+    */
+  ]
+}
