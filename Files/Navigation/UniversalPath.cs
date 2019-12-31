@@ -17,8 +17,11 @@ namespace Files.Navigation
 
             set
             {
-                _path = value;
-                NotifyPropertyChanged("path");
+                if(value != null)
+                {
+                    _path = value;
+                    NotifyPropertyChanged("path");
+                }
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
