@@ -90,6 +90,7 @@ namespace Files
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
             localSettings = ApplicationData.Current.LocalSettings;
             SetPropertiesFromLocalSettings();
+            DetectCustomLocations();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
             QuickLookIntegration();
@@ -342,7 +343,6 @@ namespace Files
             }
 
             this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
-            DetectCustomLocations();
         }
 
         private async void DetectCustomLocations()
