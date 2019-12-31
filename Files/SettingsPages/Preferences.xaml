@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files.SettingsPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:datamodels="using:Files.DataModels"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -51,6 +51,27 @@
                                 <TextBlock VerticalAlignment="Center" Text="Restart the app for these changes to take effect."/>
                             </StackPanel>
                         </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Margin="0,18,0,0">
+                    <StackPanel Orientation="Vertical">
+                        <TextBlock FontSize="20" Text="Terminal Applications"/>
+                        
+                        <ComboBox
+                            x:Name="TerminalApplicationsComboBox"
+                            Header="Choose Terminal Application"
+                            ItemsSource="{x:Bind Terminals}"
+                            SelectionChanged="TerminalApp_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="datamodels:TerminalModel">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{x:Bind Name}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+                        <HyperlinkButton Content="Edit Terminal Applications" Click="EditTerminalApplications_Click"/>
                     </StackPanel>
                 </Grid>
             </StackPanel>

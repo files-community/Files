@@ -5,12 +5,20 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using System.IO;
 using Files.Filesystem;
+using Newtonsoft.Json;
+using Files.DataModels;
+using System.Collections.ObjectModel;
+using Windows.System;
+using Windows.UI.Xaml.Navigation;
+using System.Linq;
 
 namespace Files.SettingsPages
 {
     
     public sealed partial class Preferences : Page
     {
+        ObservableCollection<TerminalModel> Terminals { get; } = new ObservableCollection<TerminalModel>();
+
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         public Preferences()
@@ -72,6 +80,20 @@ namespace Files.SettingsPages
                 OneDriveL.IsEnabled = false;
             }
             SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var terminals = App.Terminals;
+
+            foreach (var terminal in terminals) Terminals.Add(terminal);
+
+            var terminalId = 1;
+            if (localSettings.Values["terminal_id"] != null) terminalId = (int) localSettings.Values["terminal_id"];
+
+            TerminalApplicationsComboBox.SelectedItem = Terminals.Single(p => p.Id == terminalId);
         }
 
         private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -275,6 +297,25 @@ namespace Files.SettingsPages
             {
                 SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
+        }
+
+        private async void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            LaunchTerminalsConfigFile();
+        }
+
+        private async void LaunchTerminalsConfigFile()
+        {
+            Launcher.LaunchFileAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+        }
+
+        private void TerminalApp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+
+            var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
+
+            localSettings.Values["terminal_id"] = selectedTerminal.Id;
         }
     }
 }

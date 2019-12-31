@@ -30,6 +30,11 @@ using Windows.Management.Deployment;
 using Windows.Storage.Streams;
 using Windows.System;
 using Microsoft.UI.Xaml.Controls;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.AppExtensions;
+using Files.DataModels;
+using Newtonsoft.Json;
 
 namespace Files
 {
@@ -52,9 +57,9 @@ namespace Files
             }
             set
             {
-                if(value != occupiedInstance)
+                if (value != occupiedInstance)
                 {
-                    occupiedInstance = value; 
+                    occupiedInstance = value;
                 }
             }
         }
@@ -68,6 +73,7 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
         ApplicationDataContainer localSettings;
+        public static IList<TerminalModel> Terminals {get; set;}
 
         public App()
         {
@@ -87,6 +93,31 @@ namespace Files
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
             QuickLookIntegration();
+            LoadTerminalApps();
+        }
+
+        private async void LoadTerminalApps()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
+            StorageFile file;
+            try
+            {
+                file = await localSettingsFolder.GetFileAsync("terminal.json");
+            }
+            catch (FileNotFoundException ex)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
+
+                file = await localSettingsFolder.CreateFileAsync("terminal.json");
+                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+            }
+
+            var content = await FileIO.ReadTextAsync(file);
+
+            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
+
+            Terminals = terminals;
         }
 
         public void CloseOpenPopups()
