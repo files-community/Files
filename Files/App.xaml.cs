@@ -258,7 +258,7 @@ namespace Files
                 var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
                 if ((await distroFolder.GetFoldersAsync()).Count > 0)
                 {
-                    areLinuxFilesSupported = true;
+                    areLinuxFilesSupported = false;
                 }
 
                 foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())

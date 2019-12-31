@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -16,9 +17,9 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
             Item = e.Parameter as ListedItem;
             PropertiesDialog = Frame.Tag as ContentDialog;
-            base.OnNavigatedTo(e);
         }
     }
 }

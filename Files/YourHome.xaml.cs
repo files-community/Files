@@ -281,17 +281,7 @@ namespace Files
                 try
                 {
                     Windows.Storage.IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        ItemName = item.Name;
-                        ItemPath = item.Path;
-                        ItemType = StorageItemTypes.Folder;
-                        ItemFolderImgVis = Visibility.Visible;
-                        ItemEmptyImgVis = Visibility.Collapsed;
-                        ItemFileIconVis = Visibility.Collapsed;
-                        recentItemsCollection.Add(new RecentItem() { name = ItemName, path = ItemPath, type = ItemType, EmptyImgVis = ItemEmptyImgVis, FolderImg = ItemFolderImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                    }
-                    else if (item.IsOfType(StorageItemTypes.File))
+                    if (item.IsOfType(StorageItemTypes.File))
                     {
                         ItemName = item.Name;
                         ItemPath = item.Path;
@@ -329,20 +319,7 @@ namespace Files
             var path = (e.ClickedItem as RecentItem).path;
             try
             {
-                var file = (await StorageFile.GetFileFromPathAsync(path));
-                if (file.DisplayType == "Application")
-                {
-                    await Interaction.LaunchExe(path);
-
-                }
-                else
-                {
-                    var options = new LauncherOptions
-                    {
-                        DisplayApplicationPicker = false
-                    };
-                    await Launcher.LaunchFileAsync(file, options);
-                }
+                await Interaction.InvokeWin32Component(path);
             }
             catch (UnauthorizedAccessException)
             {
@@ -357,7 +334,7 @@ namespace Files
                 }
                 else
                 {
-                    foreach(DriveItem drive in App.foundDrives)
+                    foreach (DriveItem drive in App.foundDrives)
                     {
                         if (drive.tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {

@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Files"
+    xmlns:local2="using:Files.Filesystem"
     xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"  NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
     <local:BaseLayout.Resources>
@@ -137,6 +138,7 @@
         </MenuFlyout>
     </local:BaseLayout.Resources>
     <Grid ContextFlyout="{StaticResource BaseLayoutContextFlyout}" Background="Transparent" x:Name="RootGrid">
+        <Rectangle x:Load="{x:Bind IsSelectionRectangleDisplayed, Mode=OneWay}" x:Name="SelectionRectangle" Fill="Blue" Stroke="DarkBlue" Opacity="0.7"/>
         <ProgressBar Visibility="{x:Bind AssociatedViewModel.LoadIndicator.isVisible,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" x:Name="progBar" Height="10" VerticalAlignment="Top" IsIndeterminate="True"/>
         <TextBlock Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" x:Name="EmptyText" HorizontalAlignment="Center" Text="This folder is empty." TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,125,0,0"/>
         <controls:DataGrid DoubleTapped="{x:Bind local:App.OccupiedInstance.instanceInteraction.List_ItemClick}" RightTapped="{x:Bind local:App.OccupiedInstance.instanceInteraction.AllView_RightTapped}" ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}" PreviewKeyDown="AllView_PreviewKeyDown" ScrollViewer.IsScrollInertiaEnabled="True"  ClipboardCopyMode="None" RowDetailsVisibilityMode="Collapsed" AllowDrop="True" Drop="AllView_DropAsync" DragStarting="AllView_DragStarting" SelectionChanged="AllView_SelectionChanged" Margin="24,24,0,0" Grid.Row="3" PreparingCellForEdit="AllView_PreparingCellForEdit" CellEditEnding="AllView_CellEditEnding" CellEditEnded="AllView_CellEditEnded" FocusVisualPrimaryThickness="0" SelectionMode="Extended" IsDoubleTapEnabled="True" x:FieldModifier="public" x:Name="AllView" AutoGenerateColumns="False" CanDrag="True" DragOver="AllView_DragOver" IsRightTapEnabled="True" CanUserReorderColumns="False" CanUserSortColumns="True" Sorting="AllView_Sorting" HorizontalAlignment="Left">
@@ -181,22 +183,43 @@
             </controls:DataGrid.CellStyle>
 
             <controls:DataGrid.Columns>
-                <controls:DataGridTemplateColumn DisplayIndex="0" x:Name="iconColumn" IsReadOnly="True">
+                <controls:DataGridTemplateColumn ToolTipService.ToolTip="{Binding FolderTooltipText}" DisplayIndex="0" x:Name="iconColumn" IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="local2:ListedItem">
                             <Grid x:Name="Icon" Margin="0, 0, 0, 0">
                                 <Rectangle Visibility="Collapsed" x:Name="CutIndicator" Opacity="0.1" Fill="LightGray"/>
-                                <FontIcon Visibility="{Binding FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793"/>
-                                <FontIcon Visibility="{Binding EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
-                                <Image Visibility="{Binding FileIconVis}" Height="20" Width="20" Source="{Binding FileImg}" Stretch="UniformToFill" />
+                                <Image Width="24" Height="24" Visibility="{x:Bind FolderImg}">
+                                    <Image.Source>
+                                        <SvgImageSource RasterizePixelWidth="128" RasterizePixelHeight="128" UriSource="/Assets/FolderIcon.svg" />
+                                    </Image.Source>
+                                </Image>
+                                <FontIcon Visibility="{x:Bind EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets"/>
+                                <Image Visibility="{x:Bind FileIconVis}" Height="20" Width="20" Source="{x:Bind FileImg}" Stretch="UniformToFill" />
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
+                    
                 </controls:DataGridTemplateColumn>
-                <controls:DataGridTextColumn DisplayIndex="1" x:Name="nameColumn" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name"/>
-                <controls:DataGridTextColumn DisplayIndex="2" x:Name="dateColumn" IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date"/>
-                <controls:DataGridTextColumn DisplayIndex="3" x:Name="typeColumn" IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type"/>
-                <controls:DataGridTextColumn DisplayIndex="4" x:Name="sizeColumn" IsReadOnly="True" Header="Size" Width="Auto" MinWidth="100" Binding="{Binding FileSize}" Tag="Size"/>
+                <controls:DataGridTextColumn DisplayIndex="1" x:Name="nameColumn" Header="Name" Width="275" Binding="{Binding FileName}" Tag="Name">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn DisplayIndex="2" x:Name="dateColumn" IsReadOnly="True" Header="Date modified" Width="Auto" Binding="{Binding FileDate}" Tag="Date">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn DisplayIndex="3" x:Name="typeColumn" IsReadOnly="True" Header="Type" Width="150" Binding="{Binding FileType}" Tag="Type">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn DisplayIndex="4" x:Name="sizeColumn" IsReadOnly="True" Header="Size" Width="Auto" MinWidth="100" Binding="{Binding FileSize}" Tag="Size">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}"/>
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
 

@@ -155,11 +155,11 @@ namespace Files.Controls
                             {
                                 if (parentPage.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
                                 {
-                                    await Interaction.LaunchExe(CurrentInput);
+                                    await Interaction.InvokeWin32Component(CurrentInput);
                                 }
                                 else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
                                 {
-                                    await Interaction.LaunchExe(CurrentInput);
+                                    await Interaction.InvokeWin32Component(CurrentInput);
                                 }
 
                                 VisiblePath.Text = instance.Universal.path;
@@ -305,16 +305,8 @@ namespace Files.Controls
 
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (parentPage.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
-            {
-                App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
-                App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (parentPage.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItems, new SuppressNavigationTransitionInfo());
-            }
-            else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
-                App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (parentPage.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItems, new SuppressNavigationTransitionInfo());
-            }
+            App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
+            App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
             await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 

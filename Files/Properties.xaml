@@ -8,7 +8,7 @@
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     x:Class="Files.Properties"
     mc:Ignorable="d"
-    Width="400" Height="450">
+    Width="375" Height="425">
 
     <Grid>
         <StackPanel>
@@ -17,12 +17,12 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Custom:DockPanel x:Name="Icon" Margin="15,15" Width="45" Height="45" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                    <FontIcon FontSize="36" Visibility="{x:Bind Item.FolderImg,Mode=OneTime}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <FontIcon FontSize="36" Visibility="{x:Bind Item.EmptyImgVis,Mode=OneTime}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                    <Image Visibility="{x:Bind Item.FileIconVis,Mode=OneTime}" x:Name="itemIcon" Source="{x:Bind Item.FileImg,Mode=OneTime}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <Custom:DockPanel x:Name="Icon" Margin="15,15" Width="40" Height="40" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <FontIcon FontSize="36" Visibility="{x:Bind Item.FolderImg}" Glyph="&#xE8D5;" FontFamily="Segoe MDL2 Assets" Foreground="#ffe793" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <FontIcon FontSize="36" Visibility="{x:Bind Item.EmptyImgVis}" Glyph="&#xE7C3;" FontFamily="Segoe MDL2 Assets" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                    <Image Visibility="{x:Bind Item.FileIconVis}" x:Name="itemIcon" Source="{x:Bind Item.FileImg}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 </Custom:DockPanel>
-                <TextBox CornerRadius="2" BorderThickness="1" Padding="10,4" x:Name="itemFileName" Text="{x:Bind Item.FileName,Mode=OneTime}" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="15,0,15,0" />
+                <TextBox IsReadOnly="True" CornerRadius="2" BorderThickness="1" Padding="10,4" x:Name="itemFileName" Text="{x:Bind Item.FileName}" PlaceholderText="Item Name" VerticalAlignment="Center" Grid.Column="1" Margin="15,0,15,0" />
             </Grid>
             <MenuFlyoutSeparator HorizontalAlignment="Stretch" Margin="-10,0"/>
             <Grid Padding="0,10">
@@ -31,7 +31,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Item type:"/>
-                <TextBlock Grid.Column="1" x:Name="itemType" Text="{x:Bind Item.FileType,Mode=OneTime}" />
+                <TextBlock IsTextSelectionEnabled="True" Grid.Column="1" x:Name="itemType" Text="{x:Bind Item.FileType}" />
             </Grid>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
@@ -39,7 +39,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Path:"/>
-                <TextBlock Grid.Column="2" x:Name="itemPath" Text="{x:Bind Item.FilePath,Mode=OneTime}" TextWrapping="Wrap" />
+                <TextBlock IsTextSelectionEnabled="True" Grid.Column="2" x:Name="itemPath" Text="{x:Bind Item.FilePath}" TextWrapping="Wrap" />
             </Grid>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
@@ -47,7 +47,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Size:"/>
-                <TextBlock Grid.Column="3" x:Name="itemSize" Text="{x:Bind Item.FileSize,Mode=OneTime}" />
+                <TextBlock IsTextSelectionEnabled="True" Grid.Column="3" x:Name="itemSize" Text="{x:Bind Item.FileSize}" />
             </Grid>
             <MenuFlyoutSeparator Margin="-10,0"/>
             <Grid Padding="0,10">
@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Created:"/>
-                <TextBlock Grid.Column="4" x:Name="itemCreatedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneTime}" />
+                <TextBlock IsTextSelectionEnabled="True" Grid.Column="4" x:Name="itemCreatedTimestamp" Text="{x:Bind Item.FileDate}" />
             </Grid>
             <Grid Padding="0,10">
                 <Grid.ColumnDefinitions>
@@ -64,7 +64,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="Modified:"/>
-                <TextBlock Grid.Column="5" x:Name="itemModifiedTimestamp" Text="{x:Bind Item.FileDate,Mode=OneTime}"/>
+                <TextBlock IsTextSelectionEnabled="True" Grid.Column="5" x:Name="itemModifiedTimestamp" Text="{x:Bind Item.FileDate}"/>
             </Grid>
         </StackPanel>
         

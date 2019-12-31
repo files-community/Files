@@ -7,7 +7,7 @@ namespace Files.Navigation
     {
 
 
-        public string _path;
+        private string _path;
         public string path
         {
             get
@@ -17,11 +17,8 @@ namespace Files.Navigation
 
             set
             {
-                if (value != _path)
-                {
-                    _path = value;
-                    NotifyPropertyChanged("path");
-                }
+                _path = value;
+                NotifyPropertyChanged("path");
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;

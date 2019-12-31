@@ -310,8 +310,10 @@ namespace Files.Filesystem
                         {
                             tag = tag + part + @"\";
                         }
-                        
-                        tag = "\\\\" + tag;
+                        if(index == 0)
+                        {
+                            tag = "\\\\" + tag;
+                        }
 
                         PathBoxItem item = new PathBoxItem()
                         {
@@ -548,7 +550,7 @@ namespace Files.Filesystem
 
                         if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
                         else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
@@ -564,7 +566,7 @@ namespace Files.Filesystem
 
                         if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
-                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
+                            _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
                         else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
@@ -682,8 +684,26 @@ namespace Files.Filesystem
                     isLoadingItems = false;
                     return;
                 }
+                //string dateCreatedText = folder.DateCreated.DateTime.ToString();
+                //var firstFiles = (await folder.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, 3)).Select(x => x.Name);
+                //string firstFilesText = "No Files";
+                //if(firstFiles.Count() > 0)
+                //{
+                //    firstFilesText = string.Join(',', firstFiles.ToArray());
+                //}
+
+                //var firstFolders = (await folder.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, 3)).Select(x => x.Name);
+                //string firstFoldersText = "No Folders";
+                //if (firstFolders.Count() > 0)
+                //{
+                //    firstFoldersText = string.Join(',', firstFolders.ToArray());
+                //}
+
+                //string tooltipString = dateCreatedText + "\n" + "Folders: " + firstFoldersText + "\n" + "Files: " + firstFilesText;
+
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
+                    //FolderTooltipText = tooltipString,
                     FileName = folder.Name,
                     FileDateReal = basicProperties.DateModified,
                     FileType = "Folder",    //TODO: Take a look at folder.DisplayType
@@ -721,13 +741,13 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.ResizeThumbnail);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;
                         itemThumbnailImgVis = Visibility.Visible;
-                        icon.DecodePixelWidth = 20;
-                        icon.DecodePixelHeight = 20;
+                        icon.DecodePixelWidth = 40;
+                        icon.DecodePixelHeight = 40;
                         await icon.SetSourceAsync(itemThumbnailImg);
                     }
                     else
@@ -748,7 +768,7 @@ namespace Files.Filesystem
             {
                 try
                 {
-                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
+                    var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 80, ThumbnailOptions.UseCurrentScale);
                     if (itemThumbnailImg != null)
                     {
                         itemEmptyImgVis = Visibility.Collapsed;

@@ -233,6 +233,7 @@
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />
+    <Content Include="Assets\FolderIcon.svg" />
     <Content Include="Assets\logo.bmp" />
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

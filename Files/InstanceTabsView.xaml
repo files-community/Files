@@ -107,7 +107,7 @@
                                 <ContentPresenter x:Name="RightContentPresenter" ContentTemplate="{TemplateBinding TabStripFooterTemplate}" Content="{TemplateBinding TabStripFooter}" Grid.Column="3" HorizontalAlignment="Stretch"/>
                             </Grid>
                             <Grid x:Name="ShadowCaster" Background="Transparent" Height="10" Margin="0,0,0,-10" Grid.Row="0" VerticalAlignment="Bottom"/>
-                            <ContentPresenter x:Name="TabContentPresenter" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Row="1"/>
+                            <ContentPresenter ContentTransitions="{x:Null}" x:Name="TabContentPresenter" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" Grid.Row="1"/>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
