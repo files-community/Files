@@ -98,8 +98,6 @@ namespace Files
 
         private async void LoadTerminalApps()
         {
-            ApplicationData.Current.LocalSettings.Values["terminal_id"] = 1;
-
             var localFolder = ApplicationData.Current.LocalFolder;
             var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
             StorageFile file;

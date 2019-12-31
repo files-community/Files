@@ -94,7 +94,11 @@ namespace Files.Interacts
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
             var localSettings = ApplicationData.Current.LocalSettings;
-            var terminalId = (int)localSettings.Values["terminal_id"];
+
+            var terminalId = 1;
+
+            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
+
             var terminal = App.Terminals.Single(p => p.Id == terminalId);
 
             localSettings.Values["Application"] = terminal.Path;

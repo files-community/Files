@@ -9,6 +9,8 @@ using Newtonsoft.Json;
 using Files.DataModels;
 using System.Collections.ObjectModel;
 using Windows.System;
+using Windows.UI.Xaml.Navigation;
+using System.Linq;
 
 namespace Files.SettingsPages
 {
@@ -78,31 +80,20 @@ namespace Files.SettingsPages
                 OneDriveL.IsEnabled = false;
             }
             SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-
-            LoadTerminalsAsync();
         }
 
-        private async System.Threading.Tasks.Task LoadTerminalsAsync()
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            StorageFile file;
-            try
-            {
-                file = await localSettingsFolder.GetFileAsync("terminal.json");
-            }
-            catch (FileNotFoundException ex)
-            {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
+            base.OnNavigatedTo(e);
 
-                file = await localSettingsFolder.CreateFileAsync("terminal.json");
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
-            }
-                        
-            var content = await FileIO.ReadTextAsync(file);
-
-            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
+            var terminals = App.Terminals;
 
             foreach (var terminal in terminals) Terminals.Add(terminal);
+
+            var terminalId = 1;
+            if (localSettings.Values["terminal_id"] != null) terminalId = (int) localSettings.Values["terminal_id"];
+
+            TerminalApplicationsComboBox.SelectedItem = Terminals.Single(p => p.Id == terminalId);
         }
 
         private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)

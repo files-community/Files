@@ -59,8 +59,9 @@
                         <TextBlock FontSize="20" Text="Terminal Applications"/>
                         
                         <ComboBox
-                        Header="Choose Terminal Application"
-                        ItemsSource="{x:Bind Terminals}"
+                            x:Name="TerminalApplicationsComboBox"
+                            Header="Choose Terminal Application"
+                            ItemsSource="{x:Bind Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:TerminalModel">
