@@ -899,7 +899,8 @@ namespace Files
                     var activationPath = operation.CurrentDirectoryPath;
 
                     rootFrame.Navigate(typeof(InstanceTabsView), activationPath, new SuppressNavigationTransitionInfo());
-                    
+
+                    /*
                     // Ensure the current window is active.
                     watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
                     watcher.Added += DeviceAdded;
@@ -911,6 +912,8 @@ namespace Files
                     Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                     Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                     return;
+                    */
+                    break;
             }
 
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
