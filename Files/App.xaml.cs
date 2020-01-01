@@ -866,30 +866,51 @@ namespace Files
                 Window.Current.Content = rootFrame;
             }
 
-            if (args.Kind == ActivationKind.Protocol)
+            switch (args.Kind)
             {
-                var eventArgs = args as ProtocolActivatedEventArgs;
+                case ActivationKind.Protocol:
+                    var eventArgs = args as ProtocolActivatedEventArgs;
 
-                if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
-                {
-                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                    rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
-                }
-                // Ensure the current window is active.
-                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                watcher.Added += DeviceAdded;
-                watcher.Removed += DeviceRemoved;
-                watcher.Updated += DeviceUpdated;
-                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                watcher.Start();
-                Window.Current.Activate();
-                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-                return;
+                    if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+                    {
+                        rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                    }
+                    else
+                    {
+                        var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
+                        rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
+                    }
+                    // Ensure the current window is active.
+                    watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                    watcher.Added += DeviceAdded;
+                    watcher.Removed += DeviceRemoved;
+                    watcher.Updated += DeviceUpdated;
+                    watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                    watcher.Start();
+                    Window.Current.Activate();
+                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                    return;
+
+                case ActivationKind.CommandLineLaunch:
+                    var cmdLineArgs = args as CommandLineActivatedEventArgs;
+                    var operation = cmdLineArgs.Operation;
+                    var cmdLineString = operation.Arguments;
+                    var activationPath = operation.CurrentDirectoryPath;
+
+                    rootFrame.Navigate(typeof(InstanceTabsView), activationPath, new SuppressNavigationTransitionInfo());
+                    
+                    // Ensure the current window is active.
+                    watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                    watcher.Added += DeviceAdded;
+                    watcher.Removed += DeviceRemoved;
+                    watcher.Updated += DeviceUpdated;
+                    watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                    watcher.Start();
+                    Window.Current.Activate();
+                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                    return;
             }
 
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
