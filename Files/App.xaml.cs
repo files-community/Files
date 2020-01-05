@@ -30,19 +30,13 @@ using Windows.Management.Deployment;
 using Windows.Storage.Streams;
 using Windows.System;
 using Microsoft.UI.Xaml.Controls;
+using Files.View_Models;
 
 namespace Files
 {
     sealed partial class App : Application
     {
-        public static bool areLinuxFilesSupported { get; set; } = false;
-        public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        public static string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
-        public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        
         private static ProHome occupiedInstance;
         public static ProHome OccupiedInstance
         {
@@ -66,8 +60,7 @@ namespace Files
         private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
-        public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
-        ApplicationDataContainer localSettings;
+        public static SettingsViewModel AppSettings = new SettingsViewModel();
 
         public App()
         {
@@ -82,12 +75,11 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
-            localSettings = ApplicationData.Current.LocalSettings;
+
             SetPropertiesFromLocalSettings();
-            DetectCustomLocations();
+            
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
-            QuickLookIntegration();
         }
 
         public void CloseOpenPopups()
@@ -226,7 +218,7 @@ namespace Files
                 var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
                 if ((await distroFolder.GetFoldersAsync()).Count > 0)
                 {
-                    areLinuxFilesSupported = false;
+                    AppSettings.AreLinuxFilesSupported = false;
                 }
 
                 foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
@@ -264,85 +256,20 @@ namespace Files
             catch (Exception)
             {
                 // WSL Not Supported/Enabled
-                areLinuxFilesSupported = false;
+                AppSettings.AreLinuxFilesSupported = false;
             }
-        }
-
-        private async void QuickLookIntegration()
-        {
-            localSettings.Values["Arguments"] = "CheckQuickLookAvailability";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void SetPropertiesFromLocalSettings()
         {
-            if (localSettings.Values["theme"] == null)
-            {
-                localSettings.Values["theme"] = "Default";
-            }
 
-            if (localSettings.Values["datetimeformat"] == null)
-            {
-                localSettings.Values["datetimeformat"] = "Application";
-            }
 
-            if (localSettings.Values["theme"] != null)
-            {
-                if (localSettings.Values["theme"].ToString() == "Light")
-                {
-                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                }
-                else if (localSettings.Values["theme"].ToString() == "Dark")
-                {
-                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                }
-                else
-                {
-                    var uiSettings = new Windows.UI.ViewManagement.UISettings();
-                    var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
-                    if (color == Colors.White)
-                    {
-                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                    }
-                    else
-                    {
-                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                    }
-                }
-            }
 
-            this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
+            
+
         }
 
-        private async void DetectCustomLocations()
-        {
-            // Detect custom locations set from Windows
-            localSettings.Values["Arguments"] = "DetectUserPaths";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("UserFolderPathsGroup");
 
-            App.DesktopPath = localSettings.Values["DetectedDesktopLocation"] as string;
-            App.DownloadsPath = localSettings.Values["DetectedDownloadsLocation"] as string;
-            App.DocumentsPath = localSettings.Values["DetectedDocumentsLocation"] as string;
-            App.PicturesPath = localSettings.Values["DetectedPicturesLocation"] as string;
-            App.MusicPath = localSettings.Values["DetectedMusicLocation"] as string;
-            App.VideosPath = localSettings.Values["DetectedVideosLocation"] as string;
-            App.OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
-
-            // Overwrite paths for common locations if Custom Locations setting is enabled
-            if (localSettings.Values["customLocationsSetting"] != null)
-            {
-                if (localSettings.Values["customLocationsSetting"].Equals(true))
-                {
-                    App.DesktopPath = localSettings.Values["DesktopLocation"] as string;
-                    App.DownloadsPath = localSettings.Values["DownloadsLocation"] as string;
-                    App.DocumentsPath = localSettings.Values["DocumentsLocation"] as string;
-                    App.PicturesPath = localSettings.Values["PicturesLocation"] as string;
-                    App.MusicPath = localSettings.Values["MusicLocation"] as string;
-                    App.VideosPath = localSettings.Values["VideosLocation"] as string;
-                    App.OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
-                }
-            }
-        }
 
         public void PopulateDrivesListWithLocalDisks()
         {
@@ -616,12 +543,12 @@ namespace Files
         private void AddDefaultLocations()
         {
             sideBarItems.Add(new SidebarItem() { Text = "Home", IconGlyph = "\uE737", isDefaultLocation = true, Path = "Home" });
-            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true, Path = DesktopPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true, Path = DownloadsPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true, Path = DocumentsPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true, Path = PicturesPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true, Path = MusicPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true, Path = VideosPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true, Path = AppSettings.DesktopPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true, Path = AppSettings.DownloadsPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true, Path = AppSettings.DocumentsPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true, Path = AppSettings.PicturesPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true, Path = AppSettings.MusicPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true, Path = AppSettings.VideosPath });
         }
 
         public static async void RemoveStaleSidebarItems()

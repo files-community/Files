@@ -11,13 +11,12 @@ namespace Files.SettingsPages
     
     public sealed partial class Preferences : Page
     {
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         public Preferences()
         {
             this.InitializeComponent();
 
-            if (localSettings.Values["customLocationsSetting"] != null)
+            if (App.AppSettings != null)
             {
                 if (localSettings.Values["customLocationsSetting"].Equals(true))
                 {

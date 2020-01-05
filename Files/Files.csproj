@@ -167,6 +167,7 @@
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
+    <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\ThemeStyle.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
@@ -221,6 +222,7 @@
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\RibbonViewModel.cs" />
+    <Compile Include="View Models\SettingsViewModel.cs" />
     <Compile Include="WindowDisplayInfo.cs" />
     <Compile Include="WindowDisplayMode.cs" />
     <Compile Include="YourHome.xaml.cs">
