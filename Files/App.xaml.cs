@@ -932,20 +932,6 @@ namespace Files
                             }
 	                    }
                     }
-
-                    /*
-                    // Ensure the current window is active.
-                    watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                    watcher.Added += DeviceAdded;
-                    watcher.Removed += DeviceRemoved;
-                    watcher.Updated += DeviceUpdated;
-                    watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                    watcher.Start();
-                    Window.Current.Activate();
-                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-                    return;
-                    */
                     break;
             }
 
