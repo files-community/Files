@@ -33,6 +33,7 @@ using Microsoft.UI.Xaml.Controls;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.AppExtensions;
+using Files.CommandLine;
 using Files.DataModels;
 using Newtonsoft.Json;
 
@@ -898,7 +899,39 @@ namespace Files
                     var cmdLineString = operation.Arguments;
                     var activationPath = operation.CurrentDirectoryPath;
 
-                    rootFrame.Navigate(typeof(InstanceTabsView), activationPath, new SuppressNavigationTransitionInfo());
+                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+
+                    if (parsedCommands != null && parsedCommands.Count > 0)
+                    {
+	                    foreach (var command in parsedCommands)
+	                    {
+		                    switch (command.Type)
+		                    {
+			                    case ParsedCommandType.OpenDirectory:
+                                    // TODO Open Directory
+
+                                    rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+
+                                    // Ensure the current window is active.
+                                    watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                                    watcher.Added += DeviceAdded;
+                                    watcher.Removed += DeviceRemoved;
+                                    watcher.Updated += DeviceUpdated;
+                                    watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
+                                    watcher.Start();
+                                    Task.Delay(5000);
+                                    Window.Current.Activate();
+                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+
+                                    
+                                    return;
+			                    case ParsedCommandType.Unkwon:
+				                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                                    break;
+                            }
+	                    }
+                    }
 
                     /*
                     // Ensure the current window is active.
