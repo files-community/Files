@@ -10,12 +10,15 @@ using Windows.Storage;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Filesystem;
 
 namespace Files.View_Models
 {
     class SettingsViewModel : ViewModelBase
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+        public Drives Drives { get; }
 
         public SettingsViewModel()
         {
@@ -24,6 +27,7 @@ namespace Files.View_Models
             DetectDateTimeFormat();
             DetectSidebarOpacity();
 
+            Drives = new Drives();
         }
 
         private void DetectSidebarOpacity()
