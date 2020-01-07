@@ -136,6 +136,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
+    <Compile Include="CommandLine\CommandLineParser.cs" />
+    <Compile Include="CommandLine\ParsedCommand.cs" />
+    <Compile Include="CommandLine\ParsedCommands.cs" />
+    <Compile Include="CommandLine\ParsedCommandType.cs" />
     <Compile Include="Controls\FileViewControl.xaml.cs">
       <DependentUpon>FileViewControl.xaml</DependentUpon>
     </Compile>
@@ -404,6 +408,7 @@
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
