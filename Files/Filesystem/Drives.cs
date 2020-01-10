@@ -24,7 +24,6 @@ namespace Files.Filesystem
 
 		public DrivesManager()
 		{
-			/*
 			try
 			{
 				GetDrives(Drives);
@@ -35,8 +34,6 @@ namespace Files.Filesystem
 				Console.WriteLine(e);
 				new Dialogs.ConsentDialog().ShowAsync();
 			}
-			*/
-			
 
 			_deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
 			_deviceWatcher.Added += DeviceAdded;
