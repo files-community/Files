@@ -99,31 +99,34 @@ namespace Files.View_Models
 
         private void DetectApplicationTheme()
         {
-            if (localSettings.Values["theme"].ToString() == "Light")
-            {
-                ThemeValue = ThemeStyle.Light;
-                App.Current.RequestedTheme = ApplicationTheme.Light;
-            }
-            else if (localSettings.Values["theme"].ToString() == "Dark")
-            {
-                ThemeValue = ThemeStyle.Dark;
-                App.Current.RequestedTheme = ApplicationTheme.Dark;
-            }
-            else
-            {
-                var uiSettings = new UISettings();
-                var color = uiSettings.GetColorValue(UIColorType.Background);
-                if (color == Colors.White)
-                {
-                    ThemeValue = ThemeStyle.System;
-                    App.Current.RequestedTheme = ApplicationTheme.Light;
-                }
-                else
-                {
-                    ThemeValue = ThemeStyle.System;
-                    App.Current.RequestedTheme = ApplicationTheme.Dark;
-                }
-            }
+	        if (localSettings.Values["theme"] != null)
+	        {
+		        if (localSettings.Values["theme"].ToString() == "Light")
+		        {
+			        ThemeValue = ThemeStyle.Light;
+			        App.Current.RequestedTheme = ApplicationTheme.Light;
+			        return;
+		        }
+		        else if (localSettings.Values["theme"].ToString() == "Dark")
+		        {
+			        ThemeValue = ThemeStyle.Dark;
+			        App.Current.RequestedTheme = ApplicationTheme.Dark;
+			        return;
+		        }
+	        }
+
+	        var uiSettings = new UISettings();
+	        var color = uiSettings.GetColorValue(UIColorType.Background);
+		    if (color == Colors.White)
+		    {
+			    ThemeValue = ThemeStyle.System;
+			    App.Current.RequestedTheme = ApplicationTheme.Light;
+		    }
+		    else
+		    {
+			    ThemeValue = ThemeStyle.System;
+			    App.Current.RequestedTheme = ApplicationTheme.Dark;
+		    }
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;

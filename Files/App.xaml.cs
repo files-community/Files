@@ -19,18 +19,9 @@ using Files.Filesystem;
 using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Portable;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Primitives;
-using Files.Enums;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Management.Deployment;
-using Windows.Storage.Streams;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 using Files.View_Models;
 
 namespace Files
@@ -60,7 +51,7 @@ namespace Files
         public static Dialogs.AddItemDialog addItemDialog { get; set; }
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
-        public static SettingsViewModel AppSettings = new SettingsViewModel();
+        public static SettingsViewModel AppSettings { get; set; }
 
         public App()
         {
@@ -75,6 +66,8 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+
+            AppSettings = new SettingsViewModel();
 
             SetPropertiesFromLocalSettings();
             
