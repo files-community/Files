@@ -12,6 +12,9 @@ namespace Files.SettingsPages
     public sealed partial class Preferences : Page
     {
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+
         public Preferences()
         {
             this.InitializeComponent();
@@ -80,25 +83,25 @@ namespace Files.SettingsPages
                 localSettings.Values["customLocationsSetting"] = true;
 
                 DesktopL.IsEnabled = true;
-                localSettings.Values["DesktopLocation"] = App.DesktopPath;
+                localSettings.Values["DesktopLocation"] = App.AppSettings.DesktopPath;
 
                 DownloadsL.IsEnabled = true;
-                localSettings.Values["DownloadsLocation"] = App.DownloadsPath;
+                localSettings.Values["DownloadsLocation"] = App.AppSettings.DownloadsPath;
 
                 DocumentsL.IsEnabled = true;
-                localSettings.Values["DocumentsLocation"] = App.DocumentsPath;
+                localSettings.Values["DocumentsLocation"] = App.AppSettings.DocumentsPath;
 
                 PictureL.IsEnabled = true;
-                localSettings.Values["PicturesLocation"] = App.PicturesPath;
+                localSettings.Values["PicturesLocation"] = App.AppSettings.PicturesPath;
 
                 MusicL.IsEnabled = true;
-                localSettings.Values["MusicLocation"] = App.MusicPath;
+                localSettings.Values["MusicLocation"] = App.AppSettings.MusicPath;
 
                 VideosL.IsEnabled = true;
-                localSettings.Values["VideosLocation"] = App.VideosPath;
+                localSettings.Values["VideosLocation"] = App.AppSettings.VideosPath;
 
                 OneDriveL.IsEnabled = true;
-                localSettings.Values["OneDriveLocation"] = App.OneDrivePath;
+                localSettings.Values["OneDriveLocation"] = App.AppSettings.OneDrivePath;
 
                 DesktopL.Text = localSettings.Values["DesktopLocation"].ToString();
                 DownloadsL.Text = localSettings.Values["DownloadsLocation"].ToString();

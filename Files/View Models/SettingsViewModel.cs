@@ -2,23 +2,25 @@
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Filesystem;
 
 namespace Files.View_Models
 {
-    class SettingsViewModel : ViewModelBase
+	public class SettingsViewModel : ViewModelBase
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public Drives Drives { get; }
+        public DrivesManager Drives { get; }
 
         public SettingsViewModel()
         {
@@ -27,7 +29,9 @@ namespace Files.View_Models
             DetectDateTimeFormat();
             DetectSidebarOpacity();
 
-            Drives = new Drives();
+            Drives = new DrivesManager();
+
+            foundDrives = Drives.Drives;
         }
 
         private void DetectSidebarOpacity()
@@ -106,8 +110,8 @@ namespace Files.View_Models
             }
             else
             {
-                var uiSettings = new Windows.UI.ViewManagement.UISettings();
-                var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
+                var uiSettings = new UISettings();
+                var color = uiSettings.GetColorValue(UIColorType.Background);
                 if (color == Colors.White)
                 {
                     ThemeValue = ThemeStyle.System;
@@ -243,6 +247,14 @@ namespace Files.View_Models
                 }
             }
         }
-        
+
+        public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
+
+        public ObservableCollection<DriveItem> foundDrives2 => foundDrives;
+
+        public void Dispose()
+        {
+            Drives.Dispose();
+        }
     }
 }

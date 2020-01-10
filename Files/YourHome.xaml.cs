@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Linq;
 using Files.Filesystem;
+using Files.View_Models;
 
 namespace Files
 {
@@ -34,13 +35,13 @@ namespace Files
             {
                 if (localSettings.Values["customLocationsSetting"].Equals(true))
                 {
-                    App.DesktopPath = localSettings.Values["DesktopLocation"].ToString();
-                    App.DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
-                    App.DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
-                    App.PicturesPath = localSettings.Values["PicturesLocation"].ToString();
-                    App.MusicPath = localSettings.Values["MusicLocation"].ToString();
-                    App.VideosPath = localSettings.Values["VideosLocation"].ToString();
-                    App.OneDrivePath = localSettings.Values["OneDriveLocation"].ToString();
+                    App.AppSettings.DesktopPath = localSettings.Values["DesktopLocation"].ToString();
+                    App.AppSettings.DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
+                    App.AppSettings.DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
+                    App.AppSettings.PicturesPath = localSettings.Values["PicturesLocation"].ToString();
+                    App.AppSettings.MusicPath = localSettings.Values["MusicLocation"].ToString();
+                    App.AppSettings.VideosPath = localSettings.Values["VideosLocation"].ToString();
+                    App.AppSettings.OneDrivePath = localSettings.Values["OneDriveLocation"].ToString();
                 }
             }
         }
@@ -178,32 +179,32 @@ namespace Files
             string BelowCardText = ((Locations.LocationItem)e.ClickedItem).Text;
             if (BelowCardText == "Downloads")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Music")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.MusicPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.VideosPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
         }
@@ -223,32 +224,32 @@ namespace Files
             var clickedButton = sender as Button;
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.MusicPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.VideosPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
+                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
                 App.OccupiedInstance.LayoutItems.isEnabled = true;
             }
         }
@@ -334,7 +335,7 @@ namespace Files
                 }
                 else
                 {
-                    foreach (DriveItem drive in App.foundDrives)
+                    foreach (DriveItem drive in SettingsViewModel.foundDrives)
                     {
                         if (drive.tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
