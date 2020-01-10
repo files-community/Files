@@ -19,6 +19,7 @@ using Files.Filesystem;
 using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using Windows.Devices.Portable;
 using Windows.ApplicationModel.Core;
@@ -63,7 +64,7 @@ namespace Files
 
         public App()
         {
-            this.InitializeComponent();
+	        this.InitializeComponent();
             this.Suspending += OnSuspending;
             consentDialog = new Dialogs.ConsentDialog();
             propertiesDialog = new Dialogs.PropertiesDialog();

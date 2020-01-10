@@ -24,8 +24,19 @@ namespace Files.Filesystem
 
 		public DrivesManager()
 		{
-			GetDrives(Drives);
-			GetVirtualDrivesList(Drives);
+			/*
+			try
+			{
+				GetDrives(Drives);
+				GetVirtualDrivesList(Drives);
+			}
+			catch (AggregateException e)
+			{
+				Console.WriteLine(e);
+				new Dialogs.ConsentDialog().ShowAsync();
+			}
+			*/
+			
 
 			_deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
 			_deviceWatcher.Added += DeviceAdded;

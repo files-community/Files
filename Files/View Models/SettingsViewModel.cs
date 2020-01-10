@@ -3,6 +3,7 @@ using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Files.View_Models
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        public DrivesManager Drives { get; }
+        public DrivesManager DrivesManager { get; }
 
         public SettingsViewModel()
         {
@@ -29,9 +30,9 @@ namespace Files.View_Models
             DetectDateTimeFormat();
             DetectSidebarOpacity();
 
-            Drives = new DrivesManager();
+            DrivesManager = new DrivesManager();
 
-            foundDrives = Drives.Drives;
+            foundDrives = DrivesManager.Drives;
         }
 
         private void DetectSidebarOpacity()
@@ -248,13 +249,12 @@ namespace Files.View_Models
             }
         }
 
+        [Obsolete]
         public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
-
-        public ObservableCollection<DriveItem> foundDrives2 => foundDrives;
 
         public void Dispose()
         {
-            Drives.Dispose();
+            DrivesManager.Dispose();
         }
     }
 }
