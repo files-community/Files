@@ -53,16 +53,20 @@ namespace Files.View_Models
 
         private void DetectDateTimeFormat()
         {
-            if (localSettings.Values["datetimeformat"] != null)
+            if (localSettings.Values[LocalSettings.DateTimeFormat] != null)
             {
-                if (localSettings.Values["datetimeformat"].ToString() == "Application")
+                if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "Application")
                 {
                     DisplayedTimeStyle = TimeStyle.Application;
                 }
-                else if (localSettings.Values["datetimeformat"].ToString() == "System")
+                else if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "System")
                 {
                     DisplayedTimeStyle = TimeStyle.System;
                 }
+            }
+            else
+            {
+	            localSettings.Values[LocalSettings.DateTimeFormat] = "System";
             }
         }
 
@@ -243,11 +247,11 @@ namespace Files.View_Models
                 Set(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
-                    localSettings.Values["datetimeformat"] = "Application";
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
                 }
                 else if (value.Equals(TimeStyle.System))
                 {
-                    localSettings.Values["datetimeformat"] = "System";
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
                 }
             }
         }
