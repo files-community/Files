@@ -67,10 +67,22 @@ namespace Files
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
+            /*
             AppSettings = new SettingsViewModel();
 
             SetPropertiesFromLocalSettings();
             
+            PopulatePinnedSidebarItems();
+            DetectWSLDistros();
+            */
+
+            Init();
+        }
+
+        private void Init()
+        {
+	        AppSettings = new SettingsViewModel();
+            SetPropertiesFromLocalSettings();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
         }

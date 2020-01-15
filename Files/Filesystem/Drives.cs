@@ -67,7 +67,16 @@ namespace Files.Filesystem
 				Visibility.Visible,
 				type);
 
-			CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => { Drives.Add(driveItem); });
+			// Update the collection on the ui-thread.
+			try
+			{
+				CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => { Drives.Add(driveItem); });
+			}
+			catch (Exception e)
+			{
+				// Ui-Thread not yet created.
+				Drives.Add(driveItem);
+			}
 		}
 
 		private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
@@ -81,8 +90,16 @@ namespace Files.Filesystem
 					continue;
 				}
 
-				await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-					() => { Drives.Remove(drive); });
+				// Update the collection on the ui-thread.
+				try
+				{
+					CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => { Drives.Remove(drive); });
+				}
+				catch (Exception e)
+				{
+					// Ui-Thread not yet created.
+					Drives.Remove(drive);
+				}
 				return;
 			}
 		}
