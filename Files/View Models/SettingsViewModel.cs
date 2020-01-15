@@ -66,7 +66,7 @@ namespace Files.View_Models
             }
             else
             {
-	            localSettings.Values[LocalSettings.DateTimeFormat] = "System";
+	            localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
             }
         }
 
