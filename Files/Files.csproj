@@ -172,6 +172,7 @@
     <Compile Include="Enums\ThemeStyle.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
+    <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\SidebarItem.cs" />
@@ -206,6 +207,7 @@
     <Compile Include="Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>

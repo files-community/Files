@@ -2,20 +2,26 @@
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Files.Filesystem;
 
 namespace Files.View_Models
 {
-    class SettingsViewModel : ViewModelBase
+	public class SettingsViewModel : ViewModelBase
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+        public DrivesManager DrivesManager { get; }
 
         public SettingsViewModel()
         {
@@ -24,6 +30,9 @@ namespace Files.View_Models
             DetectDateTimeFormat();
             DetectSidebarOpacity();
 
+            DrivesManager = new DrivesManager();
+
+            foundDrives = DrivesManager.Drives;
         }
 
         private void DetectSidebarOpacity()
@@ -44,16 +53,20 @@ namespace Files.View_Models
 
         private void DetectDateTimeFormat()
         {
-            if (localSettings.Values["datetimeformat"] != null)
+            if (localSettings.Values[LocalSettings.DateTimeFormat] != null)
             {
-                if (localSettings.Values["datetimeformat"].ToString() == "Application")
+                if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "Application")
                 {
                     DisplayedTimeStyle = TimeStyle.Application;
                 }
-                else if (localSettings.Values["datetimeformat"].ToString() == "System")
+                else if (localSettings.Values[LocalSettings.DateTimeFormat].ToString() == "System")
                 {
                     DisplayedTimeStyle = TimeStyle.System;
                 }
+            }
+            else
+            {
+	            localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
             }
         }
 
@@ -90,31 +103,34 @@ namespace Files.View_Models
 
         private void DetectApplicationTheme()
         {
-            if (localSettings.Values["theme"].ToString() == "Light")
-            {
-                ThemeValue = ThemeStyle.Light;
-                App.Current.RequestedTheme = ApplicationTheme.Light;
-            }
-            else if (localSettings.Values["theme"].ToString() == "Dark")
-            {
-                ThemeValue = ThemeStyle.Dark;
-                App.Current.RequestedTheme = ApplicationTheme.Dark;
-            }
-            else
-            {
-                var uiSettings = new Windows.UI.ViewManagement.UISettings();
-                var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
-                if (color == Colors.White)
-                {
-                    ThemeValue = ThemeStyle.System;
-                    App.Current.RequestedTheme = ApplicationTheme.Light;
-                }
-                else
-                {
-                    ThemeValue = ThemeStyle.System;
-                    App.Current.RequestedTheme = ApplicationTheme.Dark;
-                }
-            }
+	        if (localSettings.Values["theme"] != null)
+	        {
+		        if (localSettings.Values["theme"].ToString() == "Light")
+		        {
+			        ThemeValue = ThemeStyle.Light;
+			        App.Current.RequestedTheme = ApplicationTheme.Light;
+			        return;
+		        }
+		        else if (localSettings.Values["theme"].ToString() == "Dark")
+		        {
+			        ThemeValue = ThemeStyle.Dark;
+			        App.Current.RequestedTheme = ApplicationTheme.Dark;
+			        return;
+		        }
+	        }
+
+	        var uiSettings = new UISettings();
+	        var color = uiSettings.GetColorValue(UIColorType.Background);
+		    if (color == Colors.White)
+		    {
+			    ThemeValue = ThemeStyle.System;
+			    App.Current.RequestedTheme = ApplicationTheme.Light;
+		    }
+		    else
+		    {
+			    ThemeValue = ThemeStyle.System;
+			    App.Current.RequestedTheme = ApplicationTheme.Dark;
+		    }
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
@@ -231,14 +247,21 @@ namespace Files.View_Models
                 Set(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))
                 {
-                    localSettings.Values["datetimeformat"] = "Application";
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
                 }
                 else if (value.Equals(TimeStyle.System))
                 {
-                    localSettings.Values["datetimeformat"] = "System";
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
                 }
             }
         }
-        
+
+        [Obsolete]
+        public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
+
+        public void Dispose()
+        {
+            DrivesManager.Dispose();
+        }
     }
 }

@@ -19,17 +19,9 @@ using Files.Filesystem;
 using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Portable;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Primitives;
-using Files.Enums;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Management.Deployment;
-using Windows.Storage.Streams;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
 using Files.View_Models;
 
 namespace Files
@@ -57,14 +49,13 @@ namespace Files
         public static Dialogs.PropertiesDialog propertiesDialog { get; set; }
         public static Dialogs.LayoutDialog layoutDialog { get; set; }
         public static Dialogs.AddItemDialog addItemDialog { get; set; }
-        private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
-        public static SettingsViewModel AppSettings = new SettingsViewModel();
+        public static SettingsViewModel AppSettings { get; set; }
 
         public App()
         {
-            this.InitializeComponent();
+	        this.InitializeComponent();
             this.Suspending += OnSuspending;
             consentDialog = new Dialogs.ConsentDialog();
             propertiesDialog = new Dialogs.PropertiesDialog();
@@ -76,8 +67,8 @@ namespace Files
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
+            AppSettings = new SettingsViewModel();
             SetPropertiesFromLocalSettings();
-            
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
         }
@@ -269,217 +260,6 @@ namespace Files
 
         }
 
-
-
-        public void PopulateDrivesListWithLocalDisks()
-        {
-            var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
-            driveLetters.ForEach(async roots =>
-            {
-                try
-                {
-                    var content = string.Empty;
-                    string icon = null;
-                    if (!(await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.Path).ToList().Contains(roots.Name))
-                    {
-                        // TODO: Display Custom Names for Local Disks as well
-                        if(InstanceTabsView.NormalizePath(roots.Name) != InstanceTabsView.NormalizePath("A:") 
-                            && InstanceTabsView.NormalizePath(roots.Name) != InstanceTabsView.NormalizePath("B:"))
-                        {
-                            content = $"Local Disk ({roots.Name.TrimEnd('\\')})";
-                            icon = "\uEDA2";
-                        }
-                        else
-                        {
-                            content = $"Floppy Disk ({roots.Name.TrimEnd('\\')})";
-                            icon = "\uE74E";
-                        }
-
-
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-                        async () =>
-                        {
-                            Visibility capacityBarVis = Visibility.Visible;
-                            ulong totalSpaceProg = 0;
-                            ulong freeSpaceProg = 0;
-                            string free_space_text = "Unknown";
-                            string total_space_text = "Unknown";
-
-                            try
-                            {
-                                StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
-                                var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-
-                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
-                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
-                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
-                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-                            catch (NullReferenceException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-
-                            App.foundDrives.Add(new DriveItem()
-                            {
-                                driveText = content,
-                                glyph = icon,
-                                maxSpace = totalSpaceProg,
-                                spaceUsed = totalSpaceProg - freeSpaceProg,
-                                tag = roots.Name,
-                                progressBarVisibility = capacityBarVis,
-                                spaceText = free_space_text + " free of " + total_space_text,
-                            });
-                        });
-                    }
-
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-
-            });
-        }
-
-        private async void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)
-        {
-            try
-            {
-                PopulateDrivesListWithLocalDisks();
-            }
-            catch (UnauthorizedAccessException)
-            {
-                await consentDialog.ShowAsync();
-            }
-            DeviceAdded(sender, null);
-
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-            () =>
-            {
-                App.foundDrives.Add(new DriveItem()
-                {
-                    driveText = "OneDrive",
-                    tag = "OneDrive",
-                    cloudGlyphVisibility = Visibility.Visible,
-                    driveGlyphVisibility = Visibility.Collapsed
-                });
-            });
-        }
-
-        private void DeviceUpdated(DeviceWatcher sender, DeviceInformationUpdate args)
-        {
-            Debug.WriteLine("Devices updated");
-        }
-
-
-        private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
-        {
-            var devices = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
-
-            foreach (DriveItem driveItem in foundDrives)
-            {
-                if (!driveItem.tag.Equals("OneDrive"))
-                {
-                    if (!devices.Any(x => x.Name == driveItem.tag) || devices.Equals(null))
-                    {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-                        () =>
-                        {
-                            foundDrives.Remove(driveItem);
-                        });
-                        return;
-
-                    }
-                }
-                
-            }
-        }
-
-        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
-        {
-            try
-            {
-                var devices = (await KnownFolders.RemovableDevices.GetFoldersAsync()).OrderBy(x => x.Path);
-                foreach (StorageFolder device in devices)
-                {
-                    var letter = device.Path;
-                    if (!foundDrives.Any(x => x.tag == letter))
-                    {
-                        var content = device.DisplayName;
-                        string icon = null;
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-                        async () =>
-                        {
-                            if (content.Contains("DVD"))
-                            {
-                                icon = "\uE958";
-                            }
-                            else
-                            {
-                                icon = "\uE88E";
-                            }
-
-                            ulong totalSpaceProg = 0;
-                            ulong freeSpaceProg = 0;
-                            string free_space_text = "Unknown";
-                            string total_space_text = "Unknown";
-                            Visibility capacityBarVis = Visibility.Visible;
-                            try
-                            {
-                                StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(letter);
-                                var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-
-                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
-                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
-                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
-                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-                            catch (NullReferenceException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-
-                            if (!foundDrives.Any(x => x.tag == letter))
-                            {
-                                foundDrives.Add(new DriveItem()
-                                {
-                                    driveText = content,
-                                    glyph = icon,
-                                    maxSpace = totalSpaceProg,
-                                    spaceUsed = totalSpaceProg - freeSpaceProg,
-                                    tag = letter,
-                                    progressBarVisibility = capacityBarVis,
-                                    spaceText = free_space_text + " free of " + total_space_text,
-                                });
-                            }
-                        });
-
-                    }
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                await consentDialog.ShowAsync();
-            }
-        }
-
         public static List<string> LinesToRemoveFromFile = new List<string>();
 
         public async void PopulatePinnedSidebarItems()
@@ -662,7 +442,6 @@ namespace Files
 
         public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
-        public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -710,12 +489,7 @@ namespace Files
 
 
                 }
-                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                watcher.Added += DeviceAdded;
-                watcher.Removed += DeviceRemoved;
-                watcher.Updated += DeviceUpdated;
-                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                watcher.Start();
+
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
@@ -776,18 +550,12 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
                 }
                 // Ensure the current window is active.
-                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                watcher.Added += DeviceAdded;
-                watcher.Removed += DeviceRemoved;
-                watcher.Updated += DeviceUpdated;
-                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                watcher.Start();
                 Window.Current.Activate();
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                 Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                 return;
             }
-
+            
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.
@@ -819,10 +587,7 @@ namespace Files
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            if(watcher.Status == DeviceWatcherStatus.Started || watcher.Status == DeviceWatcherStatus.EnumerationCompleted)
-            {
-                watcher.Stop();
-            }
+            AppSettings.Dispose();
             deferral.Complete();
         }
     }
