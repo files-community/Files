@@ -7,10 +7,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="12,12,4,4">
+    <Grid>
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Vertical" Spacing="14">
+            <StackPanel Orientation="Vertical" Spacing="14" Margin="12,12,8,8">
 
                 <TextBlock FontSize="22" Text="Personalization" />
 
@@ -31,7 +31,6 @@
                         x:Name="ThemeChooser"
                         Grid.Column="3"
                         Width="150"
-                        Margin="0,0,8,0"
                         HorizontalAlignment="Right" />
                 </Grid>
 
@@ -52,7 +51,6 @@
                         x:Name="DateFormatChooser"
                         Grid.Column="3"
                         Width="175"
-                        Margin="0,0,8,0"
                         HorizontalAlignment="Right" />
                 </Grid>
 
@@ -75,7 +73,7 @@
                         HorizontalAlignment="Right"
                         OffContent=""
                         OnContent="" 
-                        Width="50"/>
+                        Width="40"/>
                 </Grid>
 
             </StackPanel>
