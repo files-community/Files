@@ -12,11 +12,15 @@
     <Grid>
         <muxc:NavigationView
             x:Name="SettingsPane"
+            PaneTitle="Settings"
+            Margin="0,8,0,0"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
+            OpenPaneLength="250"
+            IsPaneToggleButtonVisible="True"
             ItemInvoked="NavigationView_ItemInvoked"
             PaneDisplayMode="LeftCompact">
-            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem Content="Personalization" IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
@@ -38,7 +42,10 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Frame x:Name="SettingsContentFrame" />
+            <Grid>
+            <Rectangle x:Name="Divider" Width=".5" Opacity=".5" Fill="{ThemeResource AppBarItemForegroundThemeBrush}" HorizontalAlignment="Left" Visibility="Collapsed" VerticalAlignment="Stretch" Margin="-0,20,0,20"/>
+            <Frame x:Name="SettingsContentFrame" Margin="1,0,0,0"/>
+            </Grid>
         </muxc:NavigationView>
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
@@ -48,6 +55,8 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
+                        <Setter Target="Divider.Visibility" Value="Visible" />
+                        <Setter Target="SettingsPane.IsPaneToggleButtonVisible" Value="False" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Padding="24,24,0,0">
+    <Grid Margin="12,12">
         <ScrollViewer>
             <StackPanel
                 HorizontalAlignment="Stretch"
@@ -183,8 +183,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="260" />
-                        <ColumnDefinition Width="*" MaxWidth="470" />
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" MaxWidth="530" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
