@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="0,-1,0,0">
+    <Grid>
         <UILib:NavigationView
             x:Name="SettingsPane"
             IsBackButtonVisible="Collapsed"
