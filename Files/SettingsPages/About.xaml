@@ -9,88 +9,90 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="24,14">
-        <StackPanel
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            Orientation="Vertical"
-            Spacing="14">
+    <Grid >
+        <ScrollViewer >
+            <StackPanel Margin="24,14"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Orientation="Vertical"
+                Spacing="14">
 
-            <TextBlock FontSize="22" Text="About" />
+                <TextBlock FontSize="22" Text="About" />
 
-            <StackPanel Orientation="Horizontal">
-                <Image
-                    Width="60"
-                    Source="/Assets/Files UWP Icon.png"
-                    Stretch="Uniform" />
-                <StackPanel Padding="12,0,0,0" Orientation="Vertical">
-                    <TextBlock FontSize="16" Text="Files UWP" />
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Width="60"
+                        Source="/Assets/Files UWP Icon.png"
+                        Stretch="Uniform" />
+                    <StackPanel Padding="12,0,0,0" Orientation="Vertical">
+                        <TextBlock FontSize="16" Text="Files UWP" />
+                        <TextBlock
+                            x:Name="VersionNumber"
+                            Padding="0,4"
+                            FontSize="14"
+                            Opacity=".5"
+                            Text="Version: 0.5.0" />
+                    </StackPanel>
+                </StackPanel>
+
+                <ListView
+                    HorizontalAlignment="Stretch"
+                    IsItemClickEnabled="True"
+                    ItemClick="ListView_ItemClick">
+                    <ListViewItem
+                        x:Name="FeedbackForm"
+                        Height="65"
+                        HorizontalAlignment="Stretch"
+                        IsEnabled="True">
+                        <StackPanel
+                            Padding="0,14"
+                            Orientation="Horizontal"
+                            Spacing="14">
+                            <FontIcon Glyph="&#xED15;" />
+                            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                <TextBlock Text="Submit Feedback" />
+                                <TextBlock
+                                    Foreground="Gray"
+                                    Text="Submit an issue report to provide the developers with information"
+                                    TextWrapping="Wrap" />
+                            </StackPanel>
+                        </StackPanel>
+                    </ListViewItem>
+                </ListView>
+
+                <StackPanel Spacing="4">
+                    <TextBlock FontSize="16" Text="Special thanks to:" />
+                    <TextBlock Text="SOI7" />
+                    <TextBlock Text="jeffsieu" />
+                    <TextBlock Text="yaichenbaum" />
+                </StackPanel>
+
+                <TextBlock
+                    Margin="0,16,0,0"
+                    FontSize="18"
+                    Text="Third Party Licenses" />
+
+                <StackPanel Orientation="Horizontal">
+                    <BitmapIcon
+                        Width="16"
+                        VerticalAlignment="Center"
+                        UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                     <TextBlock
-                        Padding="0,4"
-                        x:Name="VersionNumber"
-                        FontSize="14"
-                        Opacity=".5"
-                        Text="Version: 0.5.0" />
+                        Margin="2,0,16,0"
+                        VerticalAlignment="Bottom"
+                        FontSize="16"
+                        Text="QuickLook" />
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        VerticalAlignment="Bottom"
+                        TextWrapping="WrapWholeWords">
+                        <Span xml:space="preserve"><Run>Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
+                    </TextBlock>
+                    <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords">
+                        <Span xml:space="preserve"><Run>License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">Link</Hyperlink></Span>
+                    </TextBlock>
                 </StackPanel>
             </StackPanel>
-            
-            <ListView
-                HorizontalAlignment="Stretch"
-                IsItemClickEnabled="True"
-                ItemClick="ListView_ItemClick">
-                <ListViewItem
-                    x:Name="FeedbackForm"
-                    Height="65"
-                    HorizontalAlignment="Stretch"
-                    IsEnabled="True">
-                    <StackPanel
-                        Padding="0,14"
-                        Orientation="Horizontal"
-                        Spacing="14">
-                        <FontIcon Glyph="&#xED15;" />
-                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                            <TextBlock Text="Submit Feedback" />
-                            <TextBlock
-                                Foreground="Gray"
-                                Text="Submit an issue report to provide the developers with information"
-                                TextWrapping="Wrap" />
-                        </StackPanel>
-                    </StackPanel>
-                </ListViewItem>
-            </ListView>
-
-            <StackPanel Spacing="4">
-                <TextBlock FontSize="16" Text="Special thanks to:" />
-                <TextBlock Text="SOI7" />
-                <TextBlock Text="jeffsieu" />
-                <TextBlock Text="yaichenbaum" />
-            </StackPanel>
-            
-            <TextBlock
-                Margin="0,16,0,0"
-                FontSize="18"
-                Text="Third Party Licenses" />
-
-            <StackPanel Orientation="Horizontal">
-                <BitmapIcon
-                    Width="16"
-                    VerticalAlignment="Center"
-                    UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
-                <TextBlock
-                    Margin="2,0,16,0"
-                    VerticalAlignment="Bottom"
-                    FontSize="16"
-                    Text="QuickLook" />
-                <TextBlock
-                    Margin="0,0,8,0"
-                    VerticalAlignment="Bottom"
-                    TextWrapping="WrapWholeWords">
-                    <Span xml:space="preserve"><Run>Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
-                </TextBlock>
-                <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords">
-                    <Span xml:space="preserve"><Run>License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">Link</Hyperlink></Span>
-                </TextBlock>
-            </StackPanel>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>
