@@ -15,7 +15,7 @@
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             ItemInvoked="NavigationView_ItemInvoked"
-            PaneDisplayMode="Top">
+            PaneDisplayMode="Left">
             <UILib:NavigationView.MenuItems>
                 <UILib:NavigationViewItem Content="Personalization" IsSelected="True">
                     <UILib:NavigationViewItem.Icon>
