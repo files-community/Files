@@ -10,65 +10,74 @@
     <Grid Padding="24,24,0,0">
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Vertical">
-                <StackPanel>
+            <StackPanel Orientation="Vertical" Spacing="14">
+
+                <TextBlock FontSize="22" Text="Personalization" />
+
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" MaxWidth="400" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
                     <TextBlock
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Top"
-                        FontSize="18"
-                        Text="Choose your color scheme"
-                        TextWrapping="Wrap" />
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox
-                            x:Name="ThemeChooser"
-                            Width="250"
-                            VerticalAlignment="Center" />
-                        <TextBlock
-                            x:Name="RestartReminder"
-                            Margin="15,0"
-                            VerticalAlignment="Center"
-                            Foreground="Green"
-                            Opacity="0.0"
-                            Text="Restart app to apply theme." />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Margin="0,15">
-                    <TextBlock
-                        Margin="0,0,0,10"
-                        VerticalAlignment="Top"
-                        FontSize="18"
-                        Text="Choose your date format"
-                        TextWrapping="Wrap" />
-                    <StackPanel Orientation="Horizontal">
-                        <ComboBox
-                            x:Name="DateFormatChooser"
-                            Width="250"
-                            VerticalAlignment="Center" />
-                        <TextBlock
-                            x:Name="TimeFormatReminder"
-                            Margin="15,0,0,0"
-                            VerticalAlignment="Center"
-                            Foreground="Green"
-                            Opacity="0.0"
-                            Text="Refresh list to apply time format." />
-                    </StackPanel>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                        Margin="0,0,0,0"
-                        HorizontalAlignment="Left"
+                        Grid.Column="0"
                         VerticalAlignment="Center"
-                        FontSize="18"
-                        Text="Acrylic sidebar"
-                        TextWrapping="Wrap" />
+                        FontSize="16"
+                        Text="Theme" />
+
+                    <ComboBox
+                        x:Name="ThemeChooser"
+                        Grid.Column="3"
+                        Width="150"
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" MaxWidth="400" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Date format" />
+
+                    <ComboBox
+                        x:Name="DateFormatChooser"
+                        Grid.Column="3"
+                        Width="175"
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right" />
+                </Grid>
+
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="120" />
+                        <ColumnDefinition Width="*" MaxWidth="400" />
+                        <ColumnDefinition Width="200" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Acrylic sidebar" />
+
                     <ToggleSwitch
                         x:Name="AcrylicSidebarSwitch"
-                        Width="300"
-                        Margin="10,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Center"
-                        CornerRadius="2" />
-                </StackPanel>
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        OffContent=""
+                        OnContent="" 
+                        Width="50"/>
+                </Grid>
+
             </StackPanel>
         </ScrollViewer>
 
