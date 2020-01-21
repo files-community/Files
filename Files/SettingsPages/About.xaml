@@ -11,7 +11,7 @@
 
     <Grid >
         <ScrollViewer >
-            <StackPanel Margin="12,12"
+            <StackPanel Margin="12,12,8,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Orientation="Vertical"

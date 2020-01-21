@@ -7,7 +7,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="12,12">
+    <Grid Margin="12,12,4,4">
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Vertical" Spacing="14">

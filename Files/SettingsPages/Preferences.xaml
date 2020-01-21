@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid Margin="12,12">
+    <Grid Margin="12,12,8,8">
         <ScrollViewer>
             <StackPanel
                 HorizontalAlignment="Stretch"
@@ -29,12 +29,12 @@
                             Grid.Column="0"
                             VerticalAlignment="Center"
                             FontSize="16"
-                            Text="Replaces common locations" />
+                            Text="Replace common locations" />
 
                         <ToggleSwitch
                             x:Name="CustomLocationToggle"
                             Grid.Column="2"
-                            Width="50"
+                            Width="40"
                             HorizontalAlignment="Right"
                             OffContent=""
                             OnContent=""
@@ -67,7 +67,6 @@
                             x:Name="DesktopL"
                             Grid.Row="0"
                             Grid.Column="1"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             PlaceholderText="Set custom desktop location" />
@@ -83,7 +82,6 @@
                             x:Name="DownloadsL"
                             Grid.Row="1"
                             Grid.Column="1"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             PlaceholderText="Set custom downloads location" />
@@ -99,7 +97,6 @@
                             x:Name="DocumentsL"
                             Grid.Row="2"
                             Grid.Column="1"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             PlaceholderText="Set custom documents location" />
@@ -131,7 +128,6 @@
                             x:Name="MusicL"
                             Grid.Row="4"
                             Grid.Column="1"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             PlaceholderText="Set custom mcusic location" />
@@ -146,7 +142,6 @@
                             x:Name="VideosL"
                             Grid.Row="5"
                             Grid.Column="1"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             PlaceholderText="Set custom video location" />
@@ -162,7 +157,6 @@
                             x:Name="OneDriveL"
                             Grid.Row="6"
                             Grid.Column="1"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             PlaceholderText="Set custom OneDrive location" />
@@ -171,7 +165,6 @@
                             x:Name="SaveCustomL"
                             Grid.Row="7"
                             Grid.Column="2"
-                            Margin="0,0,8,0"
                             HorizontalAlignment="Right"
                             Click="SaveCustomL_Click"
                             Content="Save Locations"
@@ -195,7 +188,6 @@
 
                     <StackPanel
                         Grid.Column="2"
-                        Margin="0,0,8,0"
                         HorizontalAlignment="Right"
                         Orientation="Horizontal">
                         <HyperlinkButton
