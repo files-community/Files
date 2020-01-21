@@ -22,7 +22,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Image
                         Width="60"
-                        Source="/Assets/Files UWP Icon.png"
+                        Source="/Assets/Files UWP Beta Icon.png"
                         Stretch="Uniform" />
                     <StackPanel Padding="12,0,0,0" Orientation="Vertical">
                         <TextBlock FontSize="16" Text="Files UWP" />
