@@ -2,43 +2,55 @@
     x:Class="Files.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <Grid>
-        <UILib:NavigationView
+        <muxc:NavigationView
             x:Name="SettingsPane"
             IsBackButtonVisible="Collapsed"
             IsSettingsVisible="False"
             ItemInvoked="NavigationView_ItemInvoked"
-            PaneDisplayMode="Left">
-            <UILib:NavigationView.MenuItems>
-                <UILib:NavigationViewItem Content="Personalization" IsSelected="True">
-                    <UILib:NavigationViewItem.Icon>
+            PaneDisplayMode="LeftCompact">
+            <muxc:NavigationView.MenuItems>
+                <muxc:NavigationViewItem Content="Personalization" IsSelected="True">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
-                    </UILib:NavigationViewItem.Icon>
-                </UILib:NavigationViewItem>
-                <UILib:NavigationViewItem Content="Page Layouts" Visibility="Collapsed">
-                    <UILib:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Page Layouts" Visibility="Collapsed">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE737;" />
-                    </UILib:NavigationViewItem.Icon>
-                </UILib:NavigationViewItem>
-                <UILib:NavigationViewItem Content="Preferences">
-                    <UILib:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Preferences">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
-                    </UILib:NavigationViewItem.Icon>
-                </UILib:NavigationViewItem>
-                <UILib:NavigationViewItem Content="About">
-                    <UILib:NavigationViewItem.Icon>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="About">
+                    <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
-                    </UILib:NavigationViewItem.Icon>
-                </UILib:NavigationViewItem>
-            </UILib:NavigationView.MenuItems>
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </muxc:NavigationView.MenuItems>
             <Frame x:Name="SettingsContentFrame" />
-        </UILib:NavigationView>
+        </muxc:NavigationView>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{x:Bind SettingsPane.CompactModeThresholdWidth}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
