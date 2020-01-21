@@ -2,38 +2,43 @@
     x:Class="Files.Settings"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UILib="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
-    <Grid Margin="0,-1,0,0" >
-        <UILib:NavigationView IsSettingsVisible="False" x:Name="SettingsPane" IsBackButtonVisible="Collapsed" ItemInvoked="NavigationView_ItemInvoked" PaneDisplayMode="Top">
+    <Grid Margin="0,-1,0,0">
+        <UILib:NavigationView
+            x:Name="SettingsPane"
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="False"
+            ItemInvoked="NavigationView_ItemInvoked"
+            PaneDisplayMode="Top">
             <UILib:NavigationView.MenuItems>
-                <UILib:NavigationViewItem IsSelected="True" Content="Personalization">
+                <UILib:NavigationViewItem Content="Personalization" IsSelected="True">
                     <UILib:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE790;"/>
+                        <FontIcon Glyph="&#xE790;" />
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
-                <UILib:NavigationViewItem Visibility="Collapsed" Content="Page Layouts">
+                <UILib:NavigationViewItem Content="Page Layouts" Visibility="Collapsed">
                     <UILib:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE737;"/>
+                        <FontIcon Glyph="&#xE737;" />
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
                 <UILib:NavigationViewItem Content="Preferences">
                     <UILib:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE713;"/>
+                        <FontIcon Glyph="&#xE713;" />
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
                 <UILib:NavigationViewItem Content="About">
                     <UILib:NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE946;"/>
+                        <FontIcon Glyph="&#xE946;" />
                     </UILib:NavigationViewItem.Icon>
                 </UILib:NavigationViewItem>
             </UILib:NavigationView.MenuItems>
-            <Frame x:Name="SettingsContentFrame"/>
+            <Frame x:Name="SettingsContentFrame" />
         </UILib:NavigationView>
     </Grid>
 </Page>

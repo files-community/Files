@@ -1,36 +1,76 @@
 ﻿<Page
     x:Class="Files.SettingsPages.Personalization"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
     <Grid Padding="24,24,0,0">
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel Orientation="Vertical">
                 <StackPanel>
-                    <TextBlock Margin="0,0,0,10" Text="Choose your color scheme" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Top"
+                        FontSize="18"
+                        Text="Choose your color scheme"
+                        TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="ThemeChooser" VerticalAlignment="Center" Width="250"/>
-                        <TextBlock x:Name="RestartReminder" Opacity="0.0" Foreground="Green" VerticalAlignment="Center" Text="Restart app to apply theme." Margin="15,0"/>
+                        <ComboBox
+                            x:Name="ThemeChooser"
+                            Width="250"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            x:Name="RestartReminder"
+                            Margin="15,0"
+                            VerticalAlignment="Center"
+                            Foreground="Green"
+                            Opacity="0.0"
+                            Text="Restart app to apply theme." />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Margin="0,15">
-                    <TextBlock Margin="0,0,0,10" Text="Choose your date format" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="18"/>
+                    <TextBlock
+                        Margin="0,0,0,10"
+                        VerticalAlignment="Top"
+                        FontSize="18"
+                        Text="Choose your date format"
+                        TextWrapping="Wrap" />
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="DateFormatChooser" VerticalAlignment="Center" Width="250"/>
-                        <TextBlock x:Name="TimeFormatReminder" Opacity="0.0" Foreground="Green" VerticalAlignment="Center" Text="Refresh list to apply time format." Margin="15,0,0,0"/>
+                        <ComboBox
+                            x:Name="DateFormatChooser"
+                            Width="250"
+                            VerticalAlignment="Center" />
+                        <TextBlock
+                            x:Name="TimeFormatReminder"
+                            Margin="15,0,0,0"
+                            VerticalAlignment="Center"
+                            Foreground="Green"
+                            Opacity="0.0"
+                            Text="Refresh list to apply time format." />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Margin="0,0,0,0" HorizontalAlignment="Left"  Text="Acrylic sidebar" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="18"/>
-                    <ToggleSwitch CornerRadius="2" x:Name="AcrylicSidebarSwitch" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Width="300" />
+                    <TextBlock
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Text="Acrylic sidebar"
+                        TextWrapping="Wrap" />
+                    <ToggleSwitch
+                        x:Name="AcrylicSidebarSwitch"
+                        Width="300"
+                        Margin="10,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        CornerRadius="2" />
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
-            
+
     </Grid>
 </Page>

@@ -1,45 +1,88 @@
-﻿<Page xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls" 
+﻿<Page
     x:Class="Files.SettingsPages.About"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.SettingsPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.SettingsPages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    xmlns:my="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
     <Grid Margin="24,14">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel Spacing="24" Orientation="Horizontal" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Grid Height="150" Width="150">
+        <StackPanel
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Orientation="Horizontal"
+            Spacing="24">
+            <Grid Width="150" Height="150">
                 <my:DropShadowPanel OffsetY="15">
-                    <Image Stretch="Uniform" Source="/Assets/Files UWP Icon.png"/>
+                    <Image Source="/Assets/Files UWP Icon.png" Stretch="Uniform" />
                 </my:DropShadowPanel>
             </Grid>
 
-                <StackPanel Margin="0,0" Orientation="Vertical" VerticalAlignment="Center">
-                    <TextBlock x:Name="Header" Text="Files" FontFamily="Segoe UI Black" FontWeight="Bold" FontSize="40" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <TextBlock FontWeight="Medium" Margin="0,0,0,0" FontFamily="Segoe UI" FontSize="18" Text="Product Information"/>
-                    <TextBlock FontSize="14" Text="Edition: Pre-Release"/>
-                    <TextBlock FontSize="14" x:Name="VersionNumber" Text="Version: 0.5.0"/>
-                </StackPanel>
+            <StackPanel
+                Margin="0,0"
+                VerticalAlignment="Center"
+                Orientation="Vertical">
+                <TextBlock
+                    x:Name="Header"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    FontFamily="Segoe UI Black"
+                    FontSize="40"
+                    FontWeight="Bold"
+                    Text="Files" />
+                <TextBlock
+                    Margin="0,0,0,0"
+                    FontFamily="Segoe UI"
+                    FontSize="18"
+                    FontWeight="Medium"
+                    Text="Product Information" />
+                <TextBlock FontSize="14" Text="Edition: Pre-Release" />
+                <TextBlock
+                    x:Name="VersionNumber"
+                    FontSize="14"
+                    Text="Version: 0.5.0" />
+            </StackPanel>
 
         </StackPanel>
 
 
-        <StackPanel Spacing="8" Grid.Row="1" Orientation="Vertical">
-            <TextBlock Text="The community thanks contributors: SOI7, jeffsieu, and yaichenbaum for the design of our wonderful icon." TextWrapping="WrapWholeWords" VerticalAlignment="Top"/>
-            <ListView IsItemClickEnabled="True" Margin="0,0,0,0" ItemClick="ListView_ItemClick" HorizontalAlignment="Stretch">
-                <ListViewItem IsEnabled="True" x:Name="FeedbackForm" Height="65" HorizontalAlignment="Stretch">
-                    <StackPanel Spacing="14" Padding="0,14" Orientation="Horizontal">
-                        <FontIcon Margin="0" Glyph="&#xED15;"/>
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <TextBlock Text="Submit Feedback"/>
-                            <TextBlock Text="Submit an issue report to provide the developers with information" Foreground="Gray" TextWrapping="WrapWholeWords"/>
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Vertical"
+            Spacing="8">
+            <TextBlock
+                VerticalAlignment="Top"
+                Text="The community thanks contributors: SOI7, jeffsieu, and yaichenbaum for the design of our wonderful icon."
+                TextWrapping="WrapWholeWords" />
+            <ListView
+                Margin="0,0,0,0"
+                HorizontalAlignment="Stretch"
+                IsItemClickEnabled="True"
+                ItemClick="ListView_ItemClick">
+                <ListViewItem
+                    x:Name="FeedbackForm"
+                    Height="65"
+                    HorizontalAlignment="Stretch"
+                    IsEnabled="True">
+                    <StackPanel
+                        Padding="0,14"
+                        Orientation="Horizontal"
+                        Spacing="14">
+                        <FontIcon Margin="0" Glyph="&#xED15;" />
+                        <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                            <TextBlock Text="Submit Feedback" />
+                            <TextBlock
+                                Foreground="Gray"
+                                Text="Submit an issue report to provide the developers with information"
+                                TextWrapping="WrapWholeWords" />
                         </StackPanel>
                     </StackPanel>
                 </ListViewItem>
@@ -47,17 +90,30 @@
         </StackPanel>
 
         <StackPanel Grid.Row="2">
-            <TextBlock Text="Third Party Licenses" FontSize="18" Margin="0,16,0,0"/>
+            <TextBlock
+                Margin="0,16,0,0"
+                FontSize="18"
+                Text="Third Party Licenses" />
             <ListView>
                 <ListViewItem>
                     <StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" Width="16" VerticalAlignment="Center"/>
-                            <TextBlock Text="QuickLook" FontSize="16" VerticalAlignment="Bottom" Margin="2,0,16,0"/>
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom" Margin="0,0,8,0">
+                            <BitmapIcon
+                                Width="16"
+                                VerticalAlignment="Center"
+                                UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
+                            <TextBlock
+                                Margin="2,0,16,0"
+                                VerticalAlignment="Bottom"
+                                FontSize="16"
+                                Text="QuickLook" />
+                            <TextBlock
+                                Margin="0,0,8,0"
+                                VerticalAlignment="Bottom"
+                                TextWrapping="WrapWholeWords">
                                 <Span xml:space="preserve"><Run>Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
                             </TextBlock>
-                            <TextBlock TextWrapping="WrapWholeWords" VerticalAlignment="Bottom">
+                            <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords">
                                 <Span xml:space="preserve"><Run>License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">Link</Hyperlink></Span>
                             </TextBlock>
                         </StackPanel>
