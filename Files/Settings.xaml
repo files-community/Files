@@ -54,7 +54,7 @@
                 <Rectangle
                     x:Name="Divider"
                     Width=".5"
-                    Margin="-0,20,0,20"
+                    Margin="0,20,0,20"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
