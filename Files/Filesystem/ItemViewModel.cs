@@ -40,7 +40,7 @@ namespace Files.Filesystem
         public ListedItem currentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
         public UniversalPath Universal { get; } = new UniversalPath();
-        private ObservableCollection<ListedItem> _filesAndFolders;
+        public ObservableCollection<ListedItem> _filesAndFolders;
         private StorageFolderQueryResult _folderQueryResult;
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
@@ -578,31 +578,38 @@ namespace Files.Filesystem
                     Universal.path = App.OneDrivePath;
                     break;
             }
+            ObservableCollection<PartialStorageItem> partialFiles = null;
+            ObservableCollection<PartialStorageItem> partialFolders = null;
+            var fetchOperation = Task.Run(async () => 
+            {
+                _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                QueryOptions options = new QueryOptions()
+                {
+                    IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
+                    FolderDepth = FolderDepth.Shallow
+                };
+                var query = _rootFolder.CreateItemQueryWithOptions(options);
+                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+                options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
+                FileInformationFactory thumbnailFactory = new FileInformationFactory(query, ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached, false);
 
-            _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
-            QueryOptions options = new QueryOptions()
-            {
-                IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
-                FolderDepth = FolderDepth.Shallow
-            };
-            var query = _rootFolder.CreateFileQueryWithOptions(options);
-            options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
-            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
-            FileInformationFactory thumbnailFactory = new FileInformationFactory(query, ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached, false);
-            
-            var singlePurposedFiles = await thumbnailFactory.GetFilesAsync();
-            ObservableCollection<PartialStorageItem> partialFiles = new System.Collections.ObjectModel.ObservableCollection<PartialStorageItem>();
-            foreach(FileInformation info in singlePurposedFiles)
-            {
-                partialFiles.Add(new PartialStorageItem() { RelativeId = info.FolderRelativeId, Thumbnail = info.Thumbnail, ItemName = info.Name, ContentType = info.DisplayType });
-            }
+                var singlePurposedFiles = await thumbnailFactory.GetFilesAsync();
+                partialFiles = new System.Collections.ObjectModel.ObservableCollection<PartialStorageItem>();
+                foreach (FileInformation info in singlePurposedFiles)
+                {
+                    partialFiles.Add(new PartialStorageItem() { RelativeId = info.FolderRelativeId, Thumbnail = await info.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = info.Name, ContentType = info.DisplayType });
+                }
 
-            var singlePurposedFolders = await thumbnailFactory.GetFoldersAsync();
-            ObservableCollection<PartialStorageItem> partialFolders = new System.Collections.ObjectModel.ObservableCollection<PartialStorageItem>();
-            foreach(FolderInformation info in singlePurposedFolders)
-            {
-                partialFolders.Add(new PartialStorageItem() { RelativeId = info.FolderRelativeId, ItemName = info.Name, ContentType = null, Thumbnail = null });
-            }
+                var singlePurposedFolders = await thumbnailFactory.GetFoldersAsync();
+                partialFolders = new System.Collections.ObjectModel.ObservableCollection<PartialStorageItem>();
+                foreach (FolderInformation info in singlePurposedFolders)
+                {
+                    partialFolders.Add(new PartialStorageItem() { RelativeId = info.FolderRelativeId, ItemName = info.Name, ContentType = null, Thumbnail = null });
+                }
+
+                
+            });
+
 
             WIN32_FIND_DATA findData;
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoStandard;
@@ -619,19 +626,60 @@ namespace Files.Filesystem
                 {
                     if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        AddFile(findData, path, partialFiles.FirstOrDefault(x => x.ItemName == findData.cFileName));
+                        AddFile(findData, path, null);
                         ++count;
                     }
                     else if(((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                     {
-                        AddFolder(findData, path, partialFolders.FirstOrDefault(x => x.ItemName == findData.cFileName));
+                        AddFolder(findData, path, null);
                         ++count;
                     }
                 } while (FindNextFile(hFile, out findData));
 
                 FindClose(hFile);
             }
-
+            var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
+                {
+                    BitmapImage icon = null;
+                    var itemsCopy = FilesAndFolders.ToList();
+                    foreach (ListedItem item in itemsCopy)
+                    {
+                        if (item.FileType != "Folder")
+                        {
+                            icon = new BitmapImage();
+                            var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                            var matchingStorageItem = partialFiles.FirstOrDefault(x => x.ItemName == matchingItem.FileName);
+                            if (matchingItem != null && matchingStorageItem != null)
+                            {
+                                matchingItem.FileType = matchingStorageItem.ContentType;
+                                matchingItem.FolderRelativeId = matchingStorageItem.RelativeId;
+                                if (matchingStorageItem.Thumbnail != null)
+                                {
+                                    icon.DecodePixelWidth = 40;
+                                    icon.DecodePixelHeight = 40;
+                                    await icon.SetSourceAsync(matchingStorageItem.Thumbnail.CloneStream());
+                                    matchingItem.FileImg = icon;
+                                    matchingItem.EmptyImgVis = Visibility.Collapsed;
+                                    matchingItem.FileIconVis = Visibility.Visible;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                            var matchingStorageItem = partialFolders.FirstOrDefault(x => x.ItemName == matchingItem.FileName);
+                            if (matchingItem != null && matchingStorageItem != null)
+                            {
+                                matchingItem.FolderRelativeId = matchingStorageItem.RelativeId;
+                            }
+                        }
+                    }
+                });
+                
+            });
+            
 
             if (FilesAndFolders.Count == 0)
             {

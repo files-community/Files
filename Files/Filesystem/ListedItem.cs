@@ -1,21 +1,82 @@
 ﻿using Files.Enums;
 using System;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
-    public class ListedItem
+    public class ListedItem : INotifyPropertyChanged
     {
         public string FolderTooltipText { get; set; }
-        public string FolderRelativeId { get; }
+        public string FolderRelativeId { get; set; }
         public Visibility FolderImg { get; set; }
-        public Visibility FileIconVis { get; set; }
-        public Visibility EmptyImgVis { get; set; }
-        public BitmapImage FileImg { get; set; }
+        private Visibility _FileIconVis;
+        public Visibility FileIconVis
+        {
+            get
+            {
+                return _FileIconVis;
+            }
+            set
+            {
+                if(_FileIconVis != value)
+                {
+                    _FileIconVis = value;
+                    NotifyPropertyChanged("FileIconVis");
+                }
+            }
+        }
+        private Visibility _EmptyImgVis;
+        public Visibility EmptyImgVis
+        {
+            get
+            {
+                return _EmptyImgVis;
+            }
+            set
+            {
+                if (_EmptyImgVis != value)
+                {
+                    _EmptyImgVis = value;
+                    NotifyPropertyChanged("EmptyImgVis");
+                }
+            }
+        }
+        private BitmapImage _FileImg;
+        public BitmapImage FileImg
+        {
+            get
+            {
+                return _FileImg;
+            }
+            set
+            {
+                if(_FileImg != value && value != null)
+                {
+                    _FileImg = value;
+                    NotifyPropertyChanged("FileImg");
+                }
+            }
+        }
         public string FileName { get; set; }
         public string FileDate { get; private set; }
-        public string FileType { get; set; }
+        private string _FileType;
+        public string FileType
+        {
+            get
+            {
+                return _FileType;
+            }
+            set
+            {
+                if(_FileType != value && value != null)
+                {
+                    _FileType = value;
+                    NotifyPropertyChanged("FileType");
+                }
+            }
+        }
         public string DotFileExtension { get; set; }
         public string FilePath { get; set; }
         public string FileSize { get; set; }
@@ -32,6 +93,12 @@ namespace Files.Filesystem
         }
 
         private DateTimeOffset _fileDataReal;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged(string info)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
 
         public ListedItem(string folderRelativeId)
         {
