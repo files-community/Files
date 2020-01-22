@@ -53,6 +53,8 @@ namespace Files.SettingsPages
                     OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
 
                     SaveCustomL.IsEnabled = true;
+                    aaaa.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
                 }
                 else
                 {
@@ -65,6 +67,8 @@ namespace Files.SettingsPages
                     VideosL.IsEnabled = false;
                     SaveCustomL.IsEnabled = false;
                     OneDriveL.IsEnabled = false;
+                    aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
                 }
             }
             else
@@ -78,8 +82,8 @@ namespace Files.SettingsPages
                 VideosL.IsEnabled = false;
                 SaveCustomL.IsEnabled = false;
                 OneDriveL.IsEnabled = false;
+                aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
-            SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -96,7 +100,7 @@ namespace Files.SettingsPages
             TerminalApplicationsComboBox.SelectedItem = Terminals.Single(p => p.Id == terminalId);
         }
 
-        private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void CustomLocationToggle_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             if ((sender as ToggleSwitch).IsOn)
             {
@@ -130,6 +134,7 @@ namespace Files.SettingsPages
                 MusicL.Text = localSettings.Values["MusicLocation"].ToString();
                 VideosL.Text = localSettings.Values["VideosLocation"].ToString();
                 OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
+                aaaa.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
                 SaveCustomL.IsEnabled = true;
             }
@@ -144,6 +149,8 @@ namespace Files.SettingsPages
                 VideosL.IsEnabled = false;
                 OneDriveL.IsEnabled = false;
                 SaveCustomL.IsEnabled = false;
+                aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
             }
         }
 
@@ -291,11 +298,6 @@ namespace Files.SettingsPages
                     OneDriveL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
                     isFlawless = false;
                 }
-            }
-
-            if (isFlawless)
-            {
-                SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
         }
 

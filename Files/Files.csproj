@@ -234,6 +234,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />

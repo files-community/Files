@@ -30,8 +30,6 @@ namespace Files.SettingsPages
                     ThemeChooser.SelectionChanged += async (s1, e1) =>
                     {
                         localSettings.Values["theme"] = e1.AddedItems[0].Equals("System") ? "Default" : e1.AddedItems[0].ToString();
-                        await RestartReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
-                        await RestartReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
                     };
                 };
             }
@@ -49,8 +47,6 @@ namespace Files.SettingsPages
                     DateFormatChooser.SelectionChanged += async (s1, e1) =>
                     {
                         localSettings.Values["datetimeformat"] = e1.AddedItems[0].ToString();
-                        await TimeFormatReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
-                        await TimeFormatReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
                     };
                 };
             }
