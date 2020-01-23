@@ -94,7 +94,7 @@ namespace Files
             DetectCustomLocations();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
-            //QuickLookIntegration(); <--- Prevent Crash
+            //QuickLookIntegration(); <--- Temporarily Prevent Crash
             LoadTerminalApps();
         }
 
