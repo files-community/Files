@@ -31,11 +31,17 @@
                             <RepositionThemeTransition />
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
+
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="260" />
                             <ColumnDefinition Width="*" MaxWidth="470" />
                         </Grid.ColumnDefinitions>
+                        <Grid.ChildrenTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition />
+                            </TransitionCollection>
+                        </Grid.ChildrenTransitions>
 
                         <TextBlock
                             Grid.Column="0"
@@ -68,6 +74,11 @@
                             <RowDefinition Height="44" />
                             <RowDefinition Height="44" />
                         </Grid.RowDefinitions>
+                        <Grid.ChildrenTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition />
+                            </TransitionCollection>
+                        </Grid.ChildrenTransitions>
 
                         <TextBlock
                             Grid.Row="0"
