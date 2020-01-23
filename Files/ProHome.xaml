@@ -433,6 +433,13 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ChildrenTransitions>
+            <TransitionCollection>
+                <RepositionThemeTransition />
+                <ReorderThemeTransition />
+            </TransitionCollection>
+        </Grid.ChildrenTransitions>
+
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <controls:RibbonArea
                 x:Name="RibbonArea"

@@ -29,7 +29,7 @@ namespace Files.Controls
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             
-            if(Window.Current.Bounds.Width >= 750)
+            if(Window.Current.Bounds.Width >= 1050)
             {
                 RibbonViewModel.ShowItemLabels();
                 SearchReigon.Visibility = Visibility.Visible;
