@@ -16,10 +16,21 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
                 <TextBlock FontSize="22" Text="Preferences" />
 
                 <StackPanel>
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="260" />
@@ -179,6 +190,11 @@
                         <ColumnDefinition Width="200" />
                         <ColumnDefinition Width="*" MaxWidth="530" />
                     </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
 
                     <TextBlock
                         Grid.Column="0"
