@@ -14,6 +14,8 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Files.Filesystem;
+using Newtonsoft.Json;
+using Files.DataModels;
 
 namespace Files.View_Models
 {
@@ -133,6 +135,30 @@ namespace Files.View_Models
 		    }
         }
 
+        private async void LoadTerminalApps()
+        {
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
+            StorageFile file;
+            try
+            {
+                file = await localSettingsFolder.GetFileAsync("terminal.json");
+            }
+            catch (FileNotFoundException ex)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
+
+                file = await localSettingsFolder.CreateFileAsync("terminal.json");
+                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+            }
+
+            var content = await FileIO.ReadTextAsync(file);
+
+            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
+
+            Terminals = terminals;
+        }
+
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
         private ThemeStyle _ThemeValue;
         private bool _AreLinuxFilesSupported = false;
@@ -145,7 +171,13 @@ namespace Files.View_Models
         private string _VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+        private IList<TerminalModel> _Terminals = null;
 
+        public IList<TerminalModel> Terminals
+        {
+            get => _Terminals;
+            set => Set(ref _Terminals, value);
+        }
 
         public FormFactorMode FormFactor
         {

@@ -90,14 +90,14 @@ namespace Files.SettingsPages
         {
             base.OnNavigatedTo(e);
 
-            var terminals = App.Terminals;
+            var terminals = App.AppSettings.Terminals;
 
-            foreach (var terminal in terminals) Terminals.Add(terminal);
+            foreach (var terminal in terminals) App.AppSettings.Terminals.Add(terminal);
 
             var terminalId = 1;
             if (localSettings.Values["terminal_id"] != null) terminalId = (int) localSettings.Values["terminal_id"];
 
-            TerminalApplicationsComboBox.SelectedItem = Terminals.Single(p => p.Id == terminalId);
+            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
         }
 
         private void CustomLocationToggle_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)

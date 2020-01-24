@@ -100,7 +100,7 @@ namespace Files.Interacts
 
             if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
 
-            var terminal = App.Terminals.Single(p => p.Id == terminalId);
+            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
 
             localSettings.Values["Application"] = terminal.Path;
             localSettings.Values["Arguments"] = String.Format(terminal.arguments, currentInstance.instanceViewModel.Universal.path);

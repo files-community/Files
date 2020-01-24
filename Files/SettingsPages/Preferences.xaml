@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:datamodels="using:Files.DataModels"
     xmlns:local="using:Files.SettingsPages"
+    xmlns:local2="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -227,7 +228,7 @@
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
                             Width="130"
-                            ItemsSource="{x:Bind Terminals}"
+                            ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:TerminalModel">
