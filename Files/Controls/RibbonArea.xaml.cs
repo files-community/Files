@@ -29,7 +29,7 @@ namespace Files.Controls
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             
-            if(Window.Current.Bounds.Width >= 750)
+            if(Window.Current.Bounds.Width >= 1050)
             {
                 RibbonViewModel.ShowItemLabels();
                 SearchReigon.Visibility = Visibility.Visible;
@@ -44,6 +44,15 @@ namespace Files.Controls
                 ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
                 SearchBoxResizer.Visibility = Visibility.Collapsed;
                 ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
+            }
+
+            if (Window.Current.Bounds.Width >= 700)
+            {
+                RibbonViewModel.ShowAppBarSeparator();
+            }
+            else
+            {
+                RibbonViewModel.HideAppBarSeparator();
             }
         }
 

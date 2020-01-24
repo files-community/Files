@@ -10,7 +10,16 @@
     <Grid>
 
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <StackPanel Orientation="Vertical" Spacing="14" Margin="12,12,8,8">
+            <StackPanel
+                Margin="12,12,8,8"
+                Orientation="Vertical"
+                Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
                 <TextBlock FontSize="22" Text="Personalization" />
 
@@ -20,6 +29,11 @@
                         <ColumnDefinition Width="*" MaxWidth="400" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
 
                     <TextBlock
                         Grid.Column="0"
@@ -40,6 +54,11 @@
                         <ColumnDefinition Width="*" MaxWidth="400" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
 
                     <TextBlock
                         Grid.Column="0"
@@ -60,6 +79,11 @@
                         <ColumnDefinition Width="*" MaxWidth="400" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
 
                     <TextBlock
                         Grid.Column="0"
@@ -70,10 +94,10 @@
                     <ToggleSwitch
                         x:Name="AcrylicSidebarSwitch"
                         Grid.Column="2"
+                        Width="40"
                         HorizontalAlignment="Right"
                         OffContent=""
-                        OnContent="" 
-                        Width="40"/>
+                        OnContent="" />
                 </Grid>
 
             </StackPanel>

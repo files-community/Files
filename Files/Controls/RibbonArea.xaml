@@ -1409,7 +1409,10 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF271;" />
                                     </AppBarButton.Icon>
                                 </AppBarButton>
-                                <AppBarSeparator Height="40" IsCompact="True" />
+                                <AppBarSeparator
+                                    Height="40"
+                                    IsCompact="True"
+                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <AppBarButton
                                     x:Name="DeleteButton"
                                     MinWidth="40"
@@ -1440,7 +1443,10 @@
                                     Label="New Item"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
-                                <AppBarSeparator Height="40" IsCompact="True" />
+                                <AppBarSeparator
+                                    Height="40"
+                                    IsCompact="True"
+                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <AppBarButton
                                     x:Name="ShowPropertiesButton"
                                     MinWidth="40"
@@ -1464,7 +1470,10 @@
                                     Label="Open With"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
-                                <AppBarSeparator Height="40" IsCompact="True" />
+                                <AppBarSeparator
+                                    Height="40"
+                                    IsCompact="True"
+                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <AppBarButton
                                     x:Name="ShowFolderPropertiesButton"
                                     MinWidth="40"
@@ -1565,7 +1574,10 @@
                                     Label="Clear All"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
-                                <AppBarSeparator Height="40" IsCompact="True" />
+                                <AppBarSeparator
+                                    Height="40"
+                                    IsCompact="True"
+                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <AppBarButton
                                     MinWidth="40"
                                     CornerRadius="2"
@@ -1636,7 +1648,7 @@
                                     </StackPanel>
                                     <TextBlock Text="Search within" TextAlignment="Center" />
                                 </StackPanel>
-                                <AppBarSeparator />
+                                <AppBarSeparator Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <StackPanel Orientation="Vertical" Spacing="2.5">
                                     <StackPanel Orientation="Horizontal" Spacing="5">
                                         <ComboBox
@@ -1686,7 +1698,7 @@
                                     </StackPanel>
                                     <TextBlock Text="Filter" TextAlignment="Center" />
                                 </StackPanel>
-                                <AppBarSeparator />
+                                <AppBarSeparator Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <Button
                                     Width="125"
                                     Background="Transparent"

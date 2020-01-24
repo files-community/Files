@@ -16,6 +16,12 @@
                 VerticalAlignment="Stretch"
                 Orientation="Vertical"
                 Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
                 <TextBlock FontSize="22" Text="About" />
 
