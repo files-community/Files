@@ -88,7 +88,7 @@ namespace Files
             // Add item jumping handler
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (string)eventArgs.Parameter;
-            if (App.FormFactor == Enums.FormFactorMode.Regular)
+            if (App.AppSettings.FormFactor == Enums.FormFactorMode.Regular)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -111,31 +111,31 @@ namespace Files
             App.OccupiedInstance.instanceViewModel.AddItemsToCollectionAsync(App.OccupiedInstance.instanceViewModel.Universal.path);
             App.Clipboard_ContentChanged(null, null);
 
-            if (parameters.Equals(App.DesktopPath))
+            if (parameters.Equals(App.AppSettings.DesktopPath))
             {
                 App.OccupiedInstance.PathText.Text = "Desktop";
             }
-            else if (parameters.Equals(App.DocumentsPath))
+            else if (parameters.Equals(App.AppSettings.DocumentsPath))
             {
                 App.OccupiedInstance.PathText.Text = "Documents";
             }
-            else if (parameters.Equals(App.DownloadsPath))
+            else if (parameters.Equals(App.AppSettings.DownloadsPath))
             {
                 App.OccupiedInstance.PathText.Text = "Downloads";
             }
-            else if (parameters.Equals(App.PicturesPath))
+            else if (parameters.Equals(App.AppSettings.PicturesPath))
             {
                 App.OccupiedInstance.PathText.Text = "Pictures";
             }
-            else if (parameters.Equals(App.MusicPath))
+            else if (parameters.Equals(App.AppSettings.MusicPath))
             {
                 App.OccupiedInstance.PathText.Text = "Music";
             }
-            else if (parameters.Equals(App.OneDrivePath))
+            else if (parameters.Equals(App.AppSettings.OneDrivePath))
             {
                 App.OccupiedInstance.PathText.Text = "OneDrive";
             }
-            else if (parameters.Equals(App.VideosPath))
+            else if (parameters.Equals(App.AppSettings.VideosPath))
             {
                 App.OccupiedInstance.PathText.Text = "Videos";
             }

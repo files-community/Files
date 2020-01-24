@@ -114,43 +114,43 @@ namespace Files.Controls
                 }
                 else if (CurrentInput.Equals("Desktop", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath);
                     parentPage.PathText.Text = "Desktop";
                     parentPage.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Documents", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
                     parentPage.PathText.Text = "Documents";
                     parentPage.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Downloads", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
                     parentPage.PathText.Text = "Downloads";
                     parentPage.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Pictures", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
                     parentPage.PathText.Text = "Pictures";
                     parentPage.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Music", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
                     parentPage.PathText.Text = "Music";
                     parentPage.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Videos", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
                     parentPage.PathText.Text = "Videos";
                     parentPage.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("OneDrive", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.OneDrivePath);
+                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath);
                     parentPage.PathText.Text = "OneDrive";
                     parentPage.LayoutItems.isEnabled = true;
                 }

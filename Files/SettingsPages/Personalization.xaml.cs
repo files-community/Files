@@ -19,82 +19,76 @@ namespace Files.SettingsPages
             //Load Theme Style
             var _themeval = Enum.GetValues(typeof(ThemeStyle)).Cast<ThemeStyle>();
             ThemeChooser.ItemsSource = _themeval.ToList();
+            ThemeStyle _selectedTheme = App.AppSettings.ThemeValue;
 
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["theme"] != null)
+            ThemeChooser.SelectedIndex = _themeval.ToList().IndexOf(_selectedTheme);
+            ThemeChooser.Loaded += (s, e) =>
             {
-                ThemeStyle _selectedTheme = localSettings.Values["theme"].ToString().Equals("Default") ? ThemeStyle.System : Enum.Parse<ThemeStyle>(localSettings.Values["theme"].ToString());
-                ThemeChooser.SelectedIndex = _themeval.ToList().IndexOf(_selectedTheme);
-                ThemeChooser.Loaded += (s, e) =>
+                ThemeChooser.SelectionChanged += async (s1, e1) =>
                 {
-                    ThemeChooser.SelectionChanged += async (s1, e1) =>
+                    switch (e1.AddedItems[0].ToString())
                     {
-                        localSettings.Values["theme"] = e1.AddedItems[0].Equals("System") ? "Default" : e1.AddedItems[0].ToString();
-                    };
+                        case "System":
+                            App.AppSettings.ThemeValue = ThemeStyle.System;
+                            break;
+                        case "Light":
+                            App.AppSettings.ThemeValue = ThemeStyle.Light;
+                            break;
+                        case "Dark":
+                            App.AppSettings.ThemeValue = ThemeStyle.Dark;
+                            break;
+                    }
+                    
+                    await RestartReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
+                    await RestartReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
                 };
-            }
+            };
 
             //Load App Time Style
             var _dateformatval = Enum.GetValues(typeof(TimeStyle)).Cast<TimeStyle>();
             DateFormatChooser.ItemsSource = _dateformatval.ToList();
 
-            if (localSettings.Values["datetimeformat"] != null)
+            TimeStyle _selectedFormat = App.AppSettings.DisplayedTimeStyle;
+            DateFormatChooser.SelectedIndex = _dateformatval.ToList().IndexOf(_selectedFormat);
+            DateFormatChooser.Loaded += (s, e) =>
             {
-                TimeStyle _selectedFormat = Enum.Parse<TimeStyle>(localSettings.Values["datetimeformat"].ToString());
-                DateFormatChooser.SelectedIndex = _dateformatval.ToList().IndexOf(_selectedFormat);
-                DateFormatChooser.Loaded += (s, e) =>
+                DateFormatChooser.SelectionChanged += async (s1, e1) =>
                 {
-                    DateFormatChooser.SelectionChanged += async (s1, e1) =>
+                    switch (e1.AddedItems[0].ToString())
                     {
-                        localSettings.Values["datetimeformat"] = e1.AddedItems[0].ToString();
-                    };
-                };
-            }
+                        case "Application":
+                            App.AppSettings.DisplayedTimeStyle = TimeStyle.Application;
+                            break;
+                        case "System":
+                            App.AppSettings.DisplayedTimeStyle = TimeStyle.System;
+                            break;
+                    }
 
-            // Acrylic Sidebar
-            if (localSettings.Values["acrylicSidebar"] != null)
-            {
-	            var isAcrylicSidebarEnabled = bool.Parse(localSettings.Values["acrylicSidebar"].ToString());
-	            AcrylicSidebarSwitch.IsOn = isAcrylicSidebarEnabled;
-            }
+                    await TimeFormatReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
+                    await TimeFormatReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
+                };
+            };
+
+	        
+            AcrylicSidebarSwitch.IsOn = App.AppSettings.SidebarThemeMode.Equals(SidebarOpacity.Opaque) ? false : true;
 
             AcrylicSidebarSwitch.Loaded += (sender, args) =>
             {
 	            AcrylicSidebarSwitch.Toggled += (o, eventArgs) =>
 	            {
-		            localSettings.Values["acrylicSidebar"] = ((ToggleSwitch)o).IsOn;
+                    if (((ToggleSwitch)o).IsOn)
+                    {
+                        App.AppSettings.SidebarThemeMode = SidebarOpacity.AcrylicEnabled;
+                    }
+                    else
+                    {
+                        App.AppSettings.SidebarThemeMode = SidebarOpacity.Opaque;
+                    }
 	            };
             };
         }
 
-        private static ThemeValueClass tv = new ThemeValueClass();
-        public static ThemeValueClass TV { get { return tv; } }
-
     }
 
-    public class ThemeValueClass : INotifyPropertyChanged
-    {
-        public ApplicationTheme _ThemeValue;
-        public ApplicationTheme ThemeValue
-        {
-            get
-            {
-                return _ThemeValue;
-            }
-            set
-            {
-                if(value != _ThemeValue)
-                {
-                    _ThemeValue = value;
-                    NotifyPropertyChanged("ThemeValue");
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+   
 }

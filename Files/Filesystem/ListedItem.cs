@@ -109,7 +109,8 @@ namespace Files.Filesystem
         {
             Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
             var elapsed = DateTimeOffset.Now - d;
-            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values["datetimeformat"].ToString()) == TimeStyle.Application ? "D" : "g";
+
+            string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
 
             if (elapsed.TotalDays > 7)
             {

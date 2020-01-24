@@ -520,30 +520,8 @@
                                     </DataTemplate>
                                 </uilib:NavigationView.MenuItemTemplate>
                             </uilib:NavigationView>
-                            <TextBlock
-                                Margin="8,-16,0,0"
-                                Padding="0"
-                                VerticalAlignment="Stretch"
-                                FontSize="14"
-                                FontWeight="SemiBold"
-                                Text="Drives"
-                                Visibility="Visible" />
-                            <uilib:NavigationView
-                                x:Name="DrivesList"
-                                Padding="0"
-                                x:FieldModifier="public"
-                                IsBackButtonVisible="Collapsed"
-                                IsPaneOpen="True"
-                                IsPaneToggleButtonVisible="False"
-                                IsSettingsVisible="False"
-                                IsTitleBarAutoPaddingEnabled="False"
-                                ItemInvoked="DrivesList_ItemInvoked"
-                                MenuItemsSource="{x:Bind local:App.foundDrives}"
-                                OpenPaneLength="225"
-                                PaneDisplayMode="Left"
-                                PaneTitle="Drives"
-                                SelectionChanged="DrivesList_SelectionChanged"
-                                Style="{StaticResource NavigationViewStyle_Fixed}">
+                            <TextBlock Visibility="Visible" Margin="8,-16,0,0" Text="Drives" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
+                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Drives" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="DrivesList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.AppSettings.DrivesManager.Drives}" SelectionChanged="DrivesList_SelectionChanged" x:Name="DrivesList">
                                 <uilib:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local2:DriveItem">
                                         <uilib:NavigationViewItem Padding="0" Tag="{x:Bind tag}">
@@ -573,33 +551,8 @@
                                     </DataTemplate>
                                 </uilib:NavigationView.MenuItemTemplate>
                             </uilib:NavigationView>
-                            <TextBlock
-                                x:Name="LinuxHeader"
-                                Margin="8,-16,0,0"
-                                Padding="0"
-                                VerticalAlignment="Stretch"
-                                x:Load="{x:Bind local:App.areLinuxFilesSupported, Mode=OneWay}"
-                                FontSize="14"
-                                FontWeight="SemiBold"
-                                Text="Linux Files"
-                                Visibility="Visible" />
-                            <uilib:NavigationView
-                                x:Name="LinuxList"
-                                Padding="0"
-                                x:FieldModifier="public"
-                                x:Load="{x:Bind local:App.areLinuxFilesSupported, Mode=OneWay}"
-                                IsBackButtonVisible="Collapsed"
-                                IsPaneOpen="True"
-                                IsPaneToggleButtonVisible="False"
-                                IsSettingsVisible="False"
-                                IsTitleBarAutoPaddingEnabled="False"
-                                ItemInvoked="LinuxList_ItemInvoked"
-                                MenuItemsSource="{x:Bind local:App.linuxDistroItems, Mode=OneWay}"
-                                OpenPaneLength="225"
-                                PaneDisplayMode="Left"
-                                PaneTitle="Linux Files"
-                                SelectionChanged="LinuxList_SelectionChanged"
-                                Style="{StaticResource NavigationViewStyle_Fixed}">
+                            <TextBlock x:Name="LinuxHeader" x:Load="{x:Bind local:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" Visibility="Visible" Margin="8,-16,0,0" Text="Linux Files" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
+                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Linux Files" x:Load="{x:Bind local:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="LinuxList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.linuxDistroItems, Mode=OneWay}" SelectionChanged="LinuxList_SelectionChanged" x:Name="LinuxList">
                                 <uilib:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local:WSLDistroItem">
                                         <uilib:NavigationViewItem Padding="0" Tag="{x:Bind Path}">

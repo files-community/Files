@@ -875,25 +875,25 @@ namespace Files.Filesystem
             switch (Universal.path)
             {
                 case "Desktop":
-                    Universal.path = App.DesktopPath;
+                    Universal.path = App.AppSettings.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = App.DownloadsPath;
+                    Universal.path = App.AppSettings.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = App.DocumentsPath;
+                    Universal.path = App.AppSettings.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = App.PicturesPath;
+                    Universal.path = App.AppSettings.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = App.MusicPath;
+                    Universal.path = App.AppSettings.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = App.VideosPath;
+                    Universal.path = App.AppSettings.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = App.OneDrivePath;
+                    Universal.path = App.AppSettings.OneDrivePath;
                     break;
             }
 
