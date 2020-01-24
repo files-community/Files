@@ -582,7 +582,30 @@ namespace Files.Filesystem
             ObservableCollection<PartialStorageItem> partialFolders = null;
             var fetchOperation = Task.Run(async () => 
             {
-                _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                try
+                {
+                    _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    await App.consentDialog.ShowAsync();
+                }
+                catch (COMException e)
+                {
+                    Frame rootContentFrame = Window.Current.Content as Frame;
+                    MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
+                    await driveGone.ShowAsync();
+                    isLoadingItems = false;
+                    return;
+                }
+                catch (FileNotFoundException)
+                {
+                    Frame rootContentFrame = Window.Current.Content as Frame;
+                    MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
+                    await folderGone.ShowAsync();                    
+                    isLoadingItems = false;
+                    return;
+                }
 
                 QueryOptions options = new QueryOptions();
                 if (await _rootFolder.GetIndexedStateAsync() == IndexedState.FullyIndexed)
