@@ -45,6 +45,15 @@ namespace Files.Controls
                 SearchBoxResizer.Visibility = Visibility.Collapsed;
                 ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
             }
+
+            if (Window.Current.Bounds.Width >= 700)
+            {
+                RibbonViewModel.ShowAppBarSeparator();
+            }
+            else
+            {
+                RibbonViewModel.HideAppBarSeparator();
+            }
         }
 
         private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)

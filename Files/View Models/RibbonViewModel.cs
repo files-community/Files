@@ -10,6 +10,8 @@ namespace Files.Controls
         private bool _ShowRibbonContent = true;
         private string _ToggleRibbonIcon = "";
         private CommandBarLabelPosition _ItemLabelPosition = CommandBarLabelPosition.Default;
+        private Windows.UI.Xaml.Visibility _AppBarSeparatorVisibility = Windows.UI.Xaml.Visibility.Visible;
+
         public string ToggleRibbonIcon
         {
             get => _ToggleRibbonIcon;
@@ -26,6 +28,12 @@ namespace Files.Controls
         {
             get => _ItemLabelPosition;
             set => Set(ref _ItemLabelPosition, value);
+        }
+
+        public Windows.UI.Xaml.Visibility AppBarSeparatorVisibility
+        {
+            get => _AppBarSeparatorVisibility;
+            set => Set(ref _AppBarSeparatorVisibility, value);
         }
 
         private RelayCommand toggleRibbon;
@@ -67,6 +75,16 @@ namespace Files.Controls
         public void ShowItemLabels()
         {
             ItemLabelPosition = CommandBarLabelPosition.Default;
+        }
+
+        public void HideAppBarSeparator()
+        {
+            AppBarSeparatorVisibility = Windows.UI.Xaml.Visibility.Collapsed;
+        }
+
+        public void ShowAppBarSeparator()
+        {
+            AppBarSeparatorVisibility = Windows.UI.Xaml.Visibility.Visible;
         }
     }
 }
