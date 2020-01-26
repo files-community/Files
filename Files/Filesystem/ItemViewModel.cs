@@ -583,30 +583,42 @@ namespace Files.Filesystem
             var fetchOperation = Task.Run(async () => 
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
-                QueryOptions options = new QueryOptions()
+
+                QueryOptions options = new QueryOptions();
+                if (await _rootFolder.GetIndexedStateAsync() == IndexedState.FullyIndexed)
                 {
-                    IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties,
-                    FolderDepth = FolderDepth.Shallow
-                };
-                var query = _rootFolder.CreateItemQueryWithOptions(options);
+                    options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+                }
+                else
+                {
+                    options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
+                }
+                options.FolderDepth = FolderDepth.Shallow;
+
                 options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
                 options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
-                FileInformationFactory thumbnailFactory = new FileInformationFactory(query, ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached, false);
+                var query = _rootFolder.CreateItemQueryWithOptions(options);
+                var thumbnails = await query.GetItemsAsync(0, 250);
+                uint index = 0;
+                partialFiles = new ObservableCollection<PartialStorageItem>();
+                partialFolders = new ObservableCollection<PartialStorageItem>();
 
-                var singlePurposedFiles = await thumbnailFactory.GetFilesAsync();
-                partialFiles = new System.Collections.ObjectModel.ObservableCollection<PartialStorageItem>();
-                foreach (FileInformation info in singlePurposedFiles)
+                while (thumbnails.Count > 0)
                 {
-                    partialFiles.Add(new PartialStorageItem() { RelativeId = info.FolderRelativeId, Thumbnail = await info.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = info.Name, ContentType = info.DisplayType });
+                    foreach (IStorageItem item in thumbnails)
+                    {
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            partialFolders.Add(new PartialStorageItem() { RelativeId = ((StorageFolder)item).FolderRelativeId, ItemName = item.Name, ContentType = null, Thumbnail = null });
+                        }
+                        else
+                        {
+                            partialFiles.Add(new PartialStorageItem() { RelativeId = ((StorageFile)item).FolderRelativeId, Thumbnail = await ((StorageFile)item).GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = item.Name, ContentType = ((StorageFile)item).DisplayType });
+                        }
+                    }
+                    index += 250;
+                    thumbnails = await query.GetItemsAsync(index, 250);
                 }
-
-                var singlePurposedFolders = await thumbnailFactory.GetFoldersAsync();
-                partialFolders = new System.Collections.ObjectModel.ObservableCollection<PartialStorageItem>();
-                foreach (FolderInformation info in singlePurposedFolders)
-                {
-                    partialFolders.Add(new PartialStorageItem() { RelativeId = info.FolderRelativeId, ItemName = info.Name, ContentType = null, Thumbnail = null });
-                }
-
                 
             });
 
@@ -624,16 +636,20 @@ namespace Files.Filesystem
             {
                 do
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
                     {
-                        AddFile(findData, path, null);
-                        ++count;
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            AddFile(findData, path, null);
+                            ++count;
+                        }
+                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            AddFolder(findData, path, null);
+                            ++count;
+                        }
                     }
-                    else if(((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        AddFolder(findData, path, null);
-                        ++count;
-                    }
+                    
                 } while (FindNextFile(hFile, out findData));
 
                 FindClose(hFile);
