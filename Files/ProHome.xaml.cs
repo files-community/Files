@@ -86,14 +86,14 @@ namespace Files
             if (e.SelectedItem != null)
             {
                 LocationsList.SelectedItem = null;
-                if(LinuxList != null)
+                if (LinuxList != null)
                 {
                     LinuxList.SelectedItem = null;
                 }
             }
         }
 
-        
+
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             if (App.OccupiedInstance == null && ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().Equals(this))
@@ -155,7 +155,7 @@ namespace Files
 
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if(ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
                 App.OccupiedInstance.instanceInteraction.dataGridRows.Clear();
@@ -178,7 +178,7 @@ namespace Files
 
         private void LocationsList_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            
+
         }
 
         private void LocationsList_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -186,7 +186,7 @@ namespace Files
             if (args.SelectedItem != null)
             {
                 DrivesList.SelectedItem = null;
-                if(LinuxList != null)
+                if (LinuxList != null)
                 {
                     LinuxList.SelectedItem = null;
                 }
@@ -195,9 +195,6 @@ namespace Files
 
         private void LocationsList_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            var clickedItem = args.InvokedItem.ToString();
-            var clickedItemContainer = args.InvokedItemContainer;
-
             HomeItems.isEnabled = false;
             ShareItems.isEnabled = false;
             if (LinuxList != null)
@@ -208,7 +205,6 @@ namespace Files
                     LayoutItems.isEnabled = false;
                 }
             }
-            
 
             if (DrivesList.SelectedItem != null)
             {
@@ -216,77 +212,72 @@ namespace Files
                 LayoutItems.isEnabled = false;
             }
 
-            if (clickedItem == "Home")
+            switch (args.InvokedItem.ToString())
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
-                PathText.Text = "New tab";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                case "Home":
+                    ItemDisplayFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
+                    PathText.Text = "New tab";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = false;
-            }
-            else if (clickedItem == "Desktop")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "Desktop";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = false;
+                    break;
+                case "Desktop":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath, new SuppressNavigationTransitionInfo());
+                    PathText.Text = "Desktop";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem == "Downloads")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "Downloads";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = true;
+                    break;
+                case "Downloads":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath, new SuppressNavigationTransitionInfo());
+                    PathText.Text = "Downloads";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem == "Documents")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "Documents";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = true;
+                    break;
+                case "Documents":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath, new SuppressNavigationTransitionInfo());
+                    PathText.Text = "Documents";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem == "Pictures")
-            {
-                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "Pictures";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = true;
+                    break;
+                case "Pictures":
+                    ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath, new SuppressNavigationTransitionInfo());
+                    PathText.Text = "Pictures";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem == "Music")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "Music";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = true;
+                    break;
+                case "Music":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath, new SuppressNavigationTransitionInfo());
+                    PathText.Text = "Music";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem == "Videos")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "Videos";
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = true;
+                    break;
+                case "Videos":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath, new SuppressNavigationTransitionInfo());
+                    PathText.Text = "Videos";
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
-            }
-            else
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                PathText.Text = clickedItem;
-                HomeItems.isEnabled = false;
-                ShareItems.isEnabled = false;
+                    LayoutItems.isEnabled = true;
+                    break;
+                default:
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
+                    PathText.Text = args.InvokedItem.ToString();
+                    HomeItems.isEnabled = false;
+                    ShareItems.isEnabled = false;
 
-                LayoutItems.isEnabled = true;
+                    LayoutItems.isEnabled = true;
+                    break;
             }
         }
 
@@ -308,7 +299,7 @@ namespace Files
                     LayoutItems.isEnabled = false;
                 }
             }
-            
+
 
             var clickedItem = args.InvokedItemContainer;
 
@@ -366,7 +357,7 @@ namespace Files
             ProgressFlyoutProgressBar.Value = amountComplete;
             ProgressFlyoutProgressBar.Maximum = amountTotal;
 
-            if(amountComplete == amountTotal)
+            if (amountComplete == amountTotal)
             {
                 UnloadObject(ProgressFlyout);
             }
