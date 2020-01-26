@@ -322,11 +322,11 @@ namespace Files
             {
                 if (localSettings.Values["theme"].ToString() == "Light")
                 {
-                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
+                    SettingsPages.Appearance.TV.ThemeValue = ApplicationTheme.Light;
                 }
                 else if (localSettings.Values["theme"].ToString() == "Dark")
                 {
-                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
+                    SettingsPages.Appearance.TV.ThemeValue = ApplicationTheme.Dark;
                 }
                 else
                 {
@@ -334,16 +334,16 @@ namespace Files
                     var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
                     if (color == Colors.White)
                     {
-                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
+                        SettingsPages.Appearance.TV.ThemeValue = ApplicationTheme.Light;
                     }
                     else
                     {
-                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
+                        SettingsPages.Appearance.TV.ThemeValue = ApplicationTheme.Dark;
                     }
                 }
             }
 
-            this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
+            this.RequestedTheme = SettingsPages.Appearance.TV.ThemeValue;
         }
 
         private async void DetectCustomLocations()

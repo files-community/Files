@@ -217,8 +217,11 @@
     <Compile Include="SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\Personalization.xaml.cs">
-      <DependentUpon>Personalization.xaml</DependentUpon>
+    <Compile Include="SettingsPages\FilesAndFolders.xaml.cs">
+      <DependentUpon>FilesAndFolders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\Appearance.xaml.cs">
+      <DependentUpon>Appearance.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
@@ -337,7 +340,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPages\Personalization.xaml">
+    <Page Include="SettingsPages\FilesAndFolders.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsPages\Appearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -29,7 +29,7 @@
             </muxc:NavigationView.AutoSuggestBox>
 
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="Personalization" IsSelected="True">
+                <muxc:NavigationViewItem Content="Appearance" IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
                     </muxc:NavigationViewItem.Icon>
@@ -42,6 +42,11 @@
                 <muxc:NavigationViewItem Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem Content="Files and Folders">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xEC50;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem Content="About">

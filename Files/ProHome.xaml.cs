@@ -101,59 +101,57 @@ namespace Files
                 App.OccupiedInstance = this;
             }
 
-            if (NavParams == "Start" || NavParams == "New tab")
+            switch (NavParams)
             {
-                ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems[0];
-            }
-            else if (NavParams == "Desktop")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.DesktopPath, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (NavParams == "Downloads")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (NavParams == "Documents")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (NavParams == "Pictures" || NavParams == App.PicturesPath)
-            {
-                ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.PicturesPath, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (NavParams == "Music")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.MusicPath, StringComparison.OrdinalIgnoreCase));
-            }
-            else if (NavParams == "Videos")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath, new SuppressNavigationTransitionInfo());
-                LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.VideosPath, StringComparison.OrdinalIgnoreCase));
-            }
-            else
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
-                if (NavParams.Contains("C:", StringComparison.OrdinalIgnoreCase))
-                {
-                    DrivesList.SelectedItem = App.foundDrives.First(x => x.tag.ToString().Equals("C:\\", StringComparison.OrdinalIgnoreCase));
-                }
-                else
-                {
-                    DrivesList.SelectedItem = null;
-                }
+                case "Start":
+                    ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems[0];
+                    break;
+                case "New tab":
+                    ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems[0];
+                    break;
+                case "Desktop":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DesktopPath, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "Downloads":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DownloadsPath, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "Documents":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.DocumentsPath, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "Pictures":
+                    ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.PicturesPath, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "Music":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.MusicPath, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "Videos":
+                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.VideosPath, new SuppressNavigationTransitionInfo());
+                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+
+                default:
+                    if (NavParams.Contains("C:", StringComparison.OrdinalIgnoreCase))
+                    {
+                        DrivesList.SelectedItem = App.foundDrives.First(x => x.tag.ToString().Equals("C:\\", StringComparison.OrdinalIgnoreCase));
+                    }
+                    else
+                    {
+                        DrivesList.SelectedItem = null;
+                    }
+                    break;
+
             }
 
             this.Loaded -= Page_Loaded;
         }
 
-
-        
 
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
