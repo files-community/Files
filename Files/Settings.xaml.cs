@@ -56,6 +56,7 @@ namespace Files
             _= args.InvokedItem.ToString() switch
             {
                 "Appearance" => SettingsContentFrame.Navigate(typeof(Appearance)),
+                "On Startup" => SettingsContentFrame.Navigate(typeof(OnStartup)),               
                 "Preferences" => SettingsContentFrame.Navigate(typeof(Preferences)),
                 "Files and Folders" => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
                 "Page Layouts" => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),

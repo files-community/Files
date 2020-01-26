@@ -1,0 +1,51 @@
+﻿<Page
+    x:Class="Files.SettingsPages.OnStartup"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
+
+    <Grid>
+
+        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <StackPanel
+                Margin="12,12,8,8"
+                Orientation="Vertical"
+                Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+
+                <TextBlock FontSize="22" Text="On Startup" />
+
+                <RadioButton
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="Open a new tab"
+                    FontSize="16"
+                    IsChecked="True" />
+
+                <RadioButton
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="Continue where you left off"
+                    FontSize="16"
+                    IsEnabled="False" />
+
+                <RadioButton
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="Open a specific page or pages"
+                    FontSize="16"
+                    IsEnabled="False" />
+
+            </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+</Page>

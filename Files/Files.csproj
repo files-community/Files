@@ -217,6 +217,9 @@
     <Compile Include="SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SettingsPages\OnStartup.xaml.cs">
+      <DependentUpon>OnStartup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SettingsPages\FilesAndFolders.xaml.cs">
       <DependentUpon>FilesAndFolders.xaml</DependentUpon>
     </Compile>
@@ -339,6 +342,10 @@
     <Page Include="SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\OnStartup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPages\FilesAndFolders.xaml">
       <Generator>MSBuild:Compile</Generator>
