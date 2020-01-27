@@ -25,7 +25,7 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
 
-            if (App.AppSettings != null)
+            if (App.AppSettings != null && localSettings.Values["customLocationsSetting"] != null)
             {
                 if (localSettings.Values["customLocationsSetting"].Equals(true))
                 {
@@ -89,10 +89,6 @@ namespace Files.SettingsPages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
-            var terminals = App.AppSettings.Terminals;
-
-            foreach (var terminal in terminals) App.AppSettings.Terminals.Add(terminal);
 
             var terminalId = 1;
             if (localSettings.Values["terminal_id"] != null) terminalId = (int) localSettings.Values["terminal_id"];

@@ -31,10 +31,10 @@ namespace Files.View_Models
             DetectApplicationTheme();
             DetectDateTimeFormat();
             DetectSidebarOpacity();
-
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
+            LoadTerminalApps();
         }
 
         private void DetectSidebarOpacity()
