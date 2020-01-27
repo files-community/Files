@@ -9,9 +9,10 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
-    <Grid >
-        <ScrollViewer >
-            <StackPanel Margin="12,12,8,8"
+    <Grid>
+        <ScrollViewer>
+            <StackPanel
+                Margin="12,12,8,8"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Orientation="Vertical"
@@ -37,7 +38,7 @@
                             Padding="0,4"
                             FontSize="14"
                             Opacity=".5"
-                            Text="Version: 0.5.0" />
+                            Text="Version number" />
                     </StackPanel>
                 </StackPanel>
 
@@ -76,7 +77,14 @@
                 <TextBlock
                     Margin="0,16,0,0"
                     FontSize="18"
-                    Text="Third Party Licenses" />
+                    Text="Third Party Licenses">
+                    <TextBlock.Transitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                            <ReorderThemeTransition />
+                        </TransitionCollection>
+                    </TextBlock.Transitions>
+                </TextBlock>
 
                 <StackPanel Orientation="Horizontal">
                     <BitmapIcon

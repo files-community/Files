@@ -1440,7 +1440,7 @@
                                     CornerRadius="2"
                                     Icon="Add"
                                     IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    Label="New Item"
+                                    Label="New"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
                                 <AppBarSeparator
@@ -1850,7 +1850,7 @@
                         Padding="2.5,0,0,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        BorderBrush="{ThemeResource CustomInputFieldBorderBrush}"
+                        BorderBrush="{ThemeResource TextBoxBorderThemeBrush}"
                         BorderThickness="1"
                         CornerRadius="2"
                         PointerPressed="ManualPathEntryItem_Click">
@@ -1936,8 +1936,8 @@
                     PlaceholderText="Search"
                     QueryIcon="Find">
                     <AutoSuggestBox.Resources>
-                        <StaticResource x:Key="TextControlBorderBrush" ResourceKey="CustomInputFieldBorderBrush" />
-                        <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="CustomInputFieldBorderBrush" />
+                        <StaticResource x:Key="TextControlBorderBrush" ResourceKey="TextBoxBorderThemeBrush" />
+                        <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="TextBoxBorderThemeBrush" />
                     </AutoSuggestBox.Resources>
                     <AutoSuggestBox.KeyboardAccelerators>
                         <KeyboardAccelerator
