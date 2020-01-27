@@ -38,7 +38,7 @@
                             Padding="0,4"
                             FontSize="14"
                             Opacity=".5"
-                            Text="Version: 0.5.0" />
+                            Text="Version number" />
                     </StackPanel>
                 </StackPanel>
 
