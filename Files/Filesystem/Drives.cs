@@ -19,7 +19,7 @@ namespace Files.Filesystem
 	public class DrivesManager
 	{
 		public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
-
+		public bool ShowUserConsentOnInit { get; set; } = false;
 		private DeviceWatcher _deviceWatcher;
 
 		public DrivesManager()
@@ -31,8 +31,7 @@ namespace Files.Filesystem
 			}
 			catch (AggregateException e)
 			{
-				Console.WriteLine(e);
-				new Dialogs.ConsentDialog().ShowAsync();
+				ShowUserConsentOnInit = true;
 			}
 
 			_deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
