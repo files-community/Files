@@ -7,7 +7,6 @@ namespace Files.Controls
 {
     public class RibbonViewModel : ViewModelBase
     {
-        private bool _ShowRibbonContent = true;
         private string _ToggleRibbonIcon = "";
         private CommandBarLabelPosition _ItemLabelPosition = CommandBarLabelPosition.Default;
         private Windows.UI.Xaml.Visibility _AppBarSeparatorVisibility = Windows.UI.Xaml.Visibility.Visible;
@@ -16,12 +15,6 @@ namespace Files.Controls
         {
             get => _ToggleRibbonIcon;
             set => Set(ref _ToggleRibbonIcon, value);
-        }
-
-        public bool ShowRibbonContent
-        {
-            get => _ShowRibbonContent;
-            set => Set(ref _ShowRibbonContent, value);
         }
 
         public CommandBarLabelPosition ItemLabelPosition
@@ -39,7 +32,7 @@ namespace Files.Controls
         private RelayCommand toggleRibbon;
         public RelayCommand ToggleRibbon => toggleRibbon = new RelayCommand(() =>
         {
-            ShowRibbonContent = !ShowRibbonContent;
+            App.AppSettings.ShowRibbonContent = !App.AppSettings.ShowRibbonContent;
 
             UpdateToggleIcon();
         });
@@ -47,9 +40,9 @@ namespace Files.Controls
         private RelayCommand showRibbonCommand;
         public RelayCommand ShowRibbonCommand => showRibbonCommand = new RelayCommand(() =>
         {
-            if (ShowRibbonContent == false)
+            if (App.AppSettings.ShowRibbonContent == false)
             {
-                ShowRibbonContent = true;
+                App.AppSettings.ShowRibbonContent = true;
                 
                 UpdateToggleIcon();
             }
@@ -57,7 +50,7 @@ namespace Files.Controls
 
         public void UpdateToggleIcon()
         {
-            if (ShowRibbonContent)
+            if (App.AppSettings.ShowRibbonContent)
             {
                 ToggleRibbonIcon = ""; //This is the hide icon
             }

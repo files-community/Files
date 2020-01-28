@@ -162,6 +162,7 @@ namespace Files.View_Models
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
         private ThemeStyle _ThemeValue;
         private bool _AreLinuxFilesSupported = false;
+        private bool _ShowRibbonContent = true;
         private string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         private string _DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private string _DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -252,6 +253,12 @@ namespace Files.View_Models
         {
             get => _VideosPath;
             set => Set(ref _VideosPath, value);
+        }
+
+        public bool ShowRibbonContent
+        {
+            get => _ShowRibbonContent;
+            set => Set(ref _ShowRibbonContent, value);
         }
 
         public SidebarOpacity SidebarThemeMode

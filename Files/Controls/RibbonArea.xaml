@@ -8,7 +8,7 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-    xmlns:local1="using:Files"
+    xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="125"
@@ -1363,7 +1363,7 @@
                         <Custom:TabViewItem.Resources>
                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                         </Custom:TabViewItem.Resources>
-                        <controls:RibbonPage Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}">
+                        <controls:RibbonPage Visibility="{x:Bind local:App.AppSettings.ShowRibbonContent, Mode=OneWay}">
                             <controls:RibbonPage.PageContent>
                                 <AppBarButton
                                     x:Name="CutButton"
@@ -1392,7 +1392,7 @@
                                     Click="{x:Bind parentPage.instanceInteraction.PasteItem_ClickAsync}"
                                     CornerRadius="2"
                                     Icon="Paste"
-                                    IsEnabled="{x:Bind local1:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Paste"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1507,7 +1507,7 @@
                         <Custom:TabViewItem.Resources>
                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                         </Custom:TabViewItem.Resources>
-                        <controls:RibbonPage Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}">
+                        <controls:RibbonPage Visibility="{x:Bind local:App.AppSettings.ShowRibbonContent, Mode=OneWay}">
                             <controls:RibbonPage.PageContent>
                                 <AppBarButton
                                     x:Name="ShareButton"
@@ -1539,7 +1539,7 @@
                         <Custom:TabViewItem.Resources>
                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                         </Custom:TabViewItem.Resources>
-                        <controls:RibbonPage Visibility="{x:Bind RibbonViewModel.ShowRibbonContent, Mode=OneWay}">
+                        <controls:RibbonPage Visibility="{x:Bind local:App.AppSettings.ShowRibbonContent, Mode=OneWay}">
                             <controls:RibbonPage.PageContent>
                                 <AppBarButton
                                     x:Name="LayoutButton"
@@ -1749,7 +1749,7 @@
                         Margin="4,0,2,0"
                         x:FieldModifier="public"
                         Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Back_Click}"
+                        Click="{x:Bind local:NavigationActions.Back_Click}"
                         CornerRadius="2"
                         FontFamily="Segoe MDL2 Assets"
                         IsEnabled="{x:Bind parentPage.ItemDisplayFrame.CanGoBack, Mode=OneWay}"
@@ -1770,7 +1770,7 @@
                         Margin="2,0,2,0"
                         x:FieldModifier="public"
                         Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Forward_Click}"
+                        Click="{x:Bind local:NavigationActions.Forward_Click}"
                         CornerRadius="2"
                         FontFamily="Segoe MDL2 Assets"
                         IsEnabled="{x:Bind parentPage.ItemDisplayFrame.CanGoForward, Mode=OneWay}"
@@ -1790,7 +1790,7 @@
                         Margin="2,0,2,0"
                         x:FieldModifier="public"
                         Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Up_Click}"
+                        Click="{x:Bind local:NavigationActions.Up_Click}"
                         CornerRadius="2"
                         FontFamily="Segoe MDL2 Assets"
                         Style="{StaticResource ToolBarButtonStyle}"
@@ -1810,7 +1810,7 @@
                         Margin="2,0,0,0"
                         x:FieldModifier="public"
                         Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Refresh_Click}"
+                        Click="{x:Bind local:NavigationActions.Refresh_Click}"
                         CornerRadius="2"
                         FontFamily="Segoe MDL2 Assets"
                         Style="{StaticResource ToolBarButtonStyle}">
