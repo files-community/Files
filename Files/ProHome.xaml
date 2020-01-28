@@ -11,7 +11,7 @@
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="ProHomeInstance"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
@@ -81,14 +81,14 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            <Style x:Key="NavigationViewStyle_Fixed" TargetType="uilib:NavigationView">
+            <Style x:Key="NavigationViewStyle_Fixed" TargetType="muxc:NavigationView">
                 <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}" />
                 <Setter Property="IsTabStop" Value="False" />
                 <Setter Property="MinHeight" Value="0" />
                 <Setter Property="CompactPaneLength" Value="{ThemeResource NavigationViewCompactPaneLength}" />
                 <Setter Property="Template">
                     <Setter.Value>
-                        <ControlTemplate TargetType="uilib:NavigationView">
+                        <ControlTemplate TargetType="muxc:NavigationView">
                             <Grid x:Name="RootGrid">
                                 <Grid
                                     x:Name="PaneToggleButtonGrid"
@@ -170,7 +170,7 @@
                                                 HorizontalContentAlignment="Stretch"
                                                 VerticalContentAlignment="Stretch"
                                                 IsTabStop="False" />
-                                            <uilib:NavigationViewList
+                                            <muxc:NavigationViewList
                                                 x:Name="TopNavMenuItemsHost"
                                                 Grid.Column="3"
                                                 AutomationProperties.LandmarkType="Navigation"
@@ -186,15 +186,15 @@
                                                 ScrollViewer.VerticalScrollMode="Disabled"
                                                 SelectionMode="Single"
                                                 SingleSelectionFollowsFocus="{Binding TemplateSettings.SingleSelectionFollowsFocus, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                                <uilib:NavigationViewList.ItemsPanel>
+                                                <muxc:NavigationViewList.ItemsPanel>
                                                     <ItemsPanelTemplate>
                                                         <ItemsStackPanel Orientation="Horizontal" />
                                                     </ItemsPanelTemplate>
-                                                </uilib:NavigationViewList.ItemsPanel>
-                                                <uilib:NavigationViewList.ItemContainerTransitions>
+                                                </muxc:NavigationViewList.ItemsPanel>
+                                                <muxc:NavigationViewList.ItemContainerTransitions>
                                                     <TransitionCollection />
-                                                </uilib:NavigationViewList.ItemContainerTransitions>
-                                            </uilib:NavigationViewList>
+                                                </muxc:NavigationViewList.ItemContainerTransitions>
+                                            </muxc:NavigationViewList>
                                             <Button
                                                 x:Name="TopNavOverflowButton"
                                                 Grid.Column="4"
@@ -209,7 +209,7 @@
                                                                 <Setter Property="Margin" Value="0,-4,0,0" />
                                                             </Style>
                                                         </Flyout.FlyoutPresenterStyle>
-                                                        <uilib:NavigationViewList
+                                                        <muxc:NavigationViewList
                                                             x:Name="TopNavMenuItemsOverflowHost"
                                                             ElementSoundMode="{TemplateBinding ElementSoundMode}"
                                                             IsItemClickEnabled="True"
@@ -218,10 +218,10 @@
                                                             ItemTemplate="{TemplateBinding MenuItemTemplate}"
                                                             ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}"
                                                             SingleSelectionFollowsFocus="False">
-                                                            <uilib:NavigationViewList.ItemContainerTransitions>
+                                                            <muxc:NavigationViewList.ItemContainerTransitions>
                                                                 <TransitionCollection />
-                                                            </uilib:NavigationViewList.ItemContainerTransitions>
-                                                        </uilib:NavigationViewList>
+                                                            </muxc:NavigationViewList.ItemContainerTransitions>
+                                                        </muxc:NavigationViewList>
                                                     </Flyout>
                                                 </Button.Flyout>
                                             </Button>
@@ -250,11 +250,11 @@
                                                 VerticalContentAlignment="Stretch"
                                                 IsTabStop="False" />
                                             <Grid Grid.Column="8">
-                                                <uilib:NavigationViewItem x:Name="SettingsTopNavPaneItem" Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}">
-                                                    <uilib:NavigationViewItem.Icon>
+                                                <muxc:NavigationViewItem x:Name="SettingsTopNavPaneItem" Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}">
+                                                    <muxc:NavigationViewItem.Icon>
                                                         <SymbolIcon Symbol="Setting" />
-                                                    </uilib:NavigationViewItem.Icon>
-                                                </uilib:NavigationViewItem>
+                                                    </muxc:NavigationViewItem.Icon>
+                                                </muxc:NavigationViewItem>
                                             </Grid>
                                         </Grid>
                                         <Border x:Name="TopNavContentOverlayAreaGrid" Child="{TemplateBinding ContentOverlay}" />
@@ -292,7 +292,7 @@
                                                     HorizontalContentAlignment="Stretch"
                                                     VerticalContentAlignment="Stretch"
                                                     IsTabStop="False" />
-                                                <uilib:NavigationViewList
+                                                <muxc:NavigationViewList
                                                     x:Name="MenuItemsHost"
                                                     Grid.Row="6"
                                                     Margin="0,0,0,20"
@@ -475,7 +475,7 @@
                             <StackPanel.Resources>
                                 <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                             </StackPanel.Resources>
-                            <uilib:NavigationView
+                            <muxc:NavigationView
                                 x:Name="LocationsList"
                                 x:FieldModifier="public"
                                 IsBackButtonVisible="Collapsed"
@@ -490,7 +490,7 @@
                                 PaneDisplayMode="Left"
                                 SelectionChanged="LocationsList_SelectionChanged"
                                 Style="{StaticResource NavigationViewStyle_Fixed}">
-                                <uilib:NavigationView.Resources>
+                                <muxc:NavigationView.Resources>
                                     <ResourceDictionary>
                                         <ResourceDictionary.MergedDictionaries>
                                             <ResourceDictionary>
@@ -505,27 +505,27 @@
                                             </ResourceDictionary>
                                         </ResourceDictionary.MergedDictionaries>
                                     </ResourceDictionary>
-                                </uilib:NavigationView.Resources>
-                                <uilib:NavigationView.MenuItemTemplate>
+                                </muxc:NavigationView.Resources>
+                                <muxc:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local2:SidebarItem">
-                                        <uilib:NavigationViewItem
+                                        <muxc:NavigationViewItem
                                             Content="{x:Bind Text}"
                                             IsRightTapEnabled="True"
                                             RightTapped="NavigationViewItem_RightTapped"
                                             Tag="{x:Bind Path}">
-                                            <uilib:NavigationViewItem.Icon>
+                                            <muxc:NavigationViewItem.Icon>
                                                 <FontIcon Glyph="{x:Bind IconGlyph}" />
-                                            </uilib:NavigationViewItem.Icon>
-                                        </uilib:NavigationViewItem>
+                                            </muxc:NavigationViewItem.Icon>
+                                        </muxc:NavigationViewItem>
                                     </DataTemplate>
-                                </uilib:NavigationView.MenuItemTemplate>
-                            </uilib:NavigationView>
+                                </muxc:NavigationView.MenuItemTemplate>
+                            </muxc:NavigationView>
                             <TextBlock Visibility="Visible" Margin="8,-16,0,0" Text="Drives" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
-                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Drives" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="DrivesList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.AppSettings.DrivesManager.Drives}" SelectionChanged="DrivesList_SelectionChanged" x:Name="DrivesList">
-                                <uilib:NavigationView.MenuItemTemplate>
+                            <muxc:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Drives" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="DrivesList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.AppSettings.DrivesManager.Drives}" SelectionChanged="DrivesList_SelectionChanged" x:Name="DrivesList">
+                                <muxc:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local2:DriveItem">
-                                        <uilib:NavigationViewItem Padding="0" Tag="{x:Bind tag}">
-                                            <uilib:NavigationViewItem.Content>
+                                        <muxc:NavigationViewItem Padding="0" Tag="{x:Bind tag}">
+                                            <muxc:NavigationViewItem.Content>
                                                 <StackPanel
                                                     Margin="-4,0,0,0"
                                                     Orientation="Horizontal"
@@ -545,18 +545,18 @@
                                                     </Grid>
                                                     <TextBlock FontSize="14" Text="{Binding driveText}" />
                                                 </StackPanel>
-                                            </uilib:NavigationViewItem.Content>
-                                        </uilib:NavigationViewItem>
+                                            </muxc:NavigationViewItem.Content>
+                                        </muxc:NavigationViewItem>
 
                                     </DataTemplate>
-                                </uilib:NavigationView.MenuItemTemplate>
-                            </uilib:NavigationView>
+                                </muxc:NavigationView.MenuItemTemplate>
+                            </muxc:NavigationView>
                             <TextBlock x:Name="LinuxHeader" x:Load="{x:Bind local:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" Visibility="Visible" Margin="8,-16,0,0" Text="Linux Files" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
-                            <uilib:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Linux Files" x:Load="{x:Bind local:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="LinuxList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.linuxDistroItems, Mode=OneWay}" SelectionChanged="LinuxList_SelectionChanged" x:Name="LinuxList">
-                                <uilib:NavigationView.MenuItemTemplate>
+                            <muxc:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Linux Files" x:Load="{x:Bind local:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="LinuxList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.linuxDistroItems, Mode=OneWay}" SelectionChanged="LinuxList_SelectionChanged" x:Name="LinuxList">
+                                <muxc:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local:WSLDistroItem">
-                                        <uilib:NavigationViewItem Padding="0" Tag="{x:Bind Path}">
-                                            <uilib:NavigationViewItem.Content>
+                                        <muxc:NavigationViewItem Padding="0" Tag="{x:Bind Path}">
+                                            <muxc:NavigationViewItem.Content>
                                                 <StackPanel
                                                     Margin="-8,0,0,0"
                                                     Orientation="Horizontal"
@@ -571,12 +571,12 @@
                                                         FontSize="14"
                                                         Text="{x:Bind DistroName}" />
                                                 </StackPanel>
-                                            </uilib:NavigationViewItem.Content>
-                                        </uilib:NavigationViewItem>
+                                            </muxc:NavigationViewItem.Content>
+                                        </muxc:NavigationViewItem>
 
                                     </DataTemplate>
-                                </uilib:NavigationView.MenuItemTemplate>
-                            </uilib:NavigationView>
+                                </muxc:NavigationView.MenuItemTemplate>
+                            </muxc:NavigationView>
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>

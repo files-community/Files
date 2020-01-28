@@ -6,7 +6,7 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
-    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
     <Page.Resources>
@@ -82,14 +82,14 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="TabViewStyleFluent" TargetType="uilib:TabView">
+        <Style x:Key="TabViewStyleFluent" TargetType="muxc:TabView">
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
             <Setter Property="IsTabStop" Value="False" />
             <Setter Property="Background" Value="{ThemeResource BackgroundAcrylicBrush}" />
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="uilib:TabView">
+                    <ControlTemplate TargetType="muxc:TabView">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -175,7 +175,7 @@
     </Page.Resources>
 
     <Grid x:Name="rootGrid" Background="Transparent">
-        <uilib:TabView
+        <muxc:TabView
             x:Name="TabStrip"
             Grid.Row="0"
             VerticalAlignment="Stretch"
@@ -185,10 +185,10 @@
             Style="{ThemeResource TabViewStyleFluent}"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabWidthMode="Equal">
-            <uilib:TabView.Resources>
+            <muxc:TabView.Resources>
                 <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="RibbonBackgroundColor" />
-            </uilib:TabView.Resources>
-            <uilib:TabView.TabStripFooterTemplate>
+            </muxc:TabView.Resources>
+            <muxc:TabView.TabStripFooterTemplate>
                 <DataTemplate>
                     <Grid
                         x:Name="DragArea"
@@ -196,7 +196,19 @@
                         Background="Transparent"
                         Loaded="DragArea_Loaded" />
                 </DataTemplate>
-            </uilib:TabView.TabStripFooterTemplate>
-        </uilib:TabView>
+            </muxc:TabView.TabStripFooterTemplate>
+            <muxc:TabView.KeyboardAccelerators>
+                <KeyboardAccelerator Key="Number1" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number2" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number3" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number4" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number5" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number6" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number7" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number8" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+                <KeyboardAccelerator Key="Number9" Modifiers="Control" Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked" />
+            </muxc:TabView.KeyboardAccelerators>
+
+        </muxc:TabView>
     </Grid>
 </Page>

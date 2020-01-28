@@ -10,7 +10,7 @@
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="125"
     d:DesignWidth="1280"
     mc:Ignorable="d">
@@ -1588,28 +1588,28 @@
                                     Style="{StaticResource AppBarButtonRevealStyle}">
                                     <AppBarButton.Flyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
-                                            <uilib:RadioMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByName, Mode=TwoWay}"
                                                 Text="Name" />
-                                            <uilib:RadioMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByDate, Mode=TwoWay}"
                                                 Text="Date modified" />
-                                            <uilib:RadioMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByType, Mode=TwoWay}"
                                                 Text="Type" />
-                                            <uilib:RadioMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedBySize, Mode=TwoWay}"
                                                 Text="Size" />
                                             <MenuFlyoutSeparator />
-                                            <uilib:RadioMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortOrderGroup"
                                                 IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedAscending, Mode=TwoWay}"
                                                 Text="Ascending" />
-                                            <uilib:RadioMenuFlyoutItem
+                                            <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortOrderGroup"
                                                 IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedDescending, Mode=TwoWay}"
                                                 Text="Descending" />

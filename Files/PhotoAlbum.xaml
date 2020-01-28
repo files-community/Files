@@ -6,7 +6,7 @@
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     PointerPressed="PhotoAlbumViewer_PointerPressed"
@@ -17,28 +17,28 @@
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;" />
                 </MenuFlyoutSubItem.Icon>
-                <uilib:RadioMenuFlyoutItem
+                <muxc:RadioMenuFlyoutItem
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
                     Text="Name" />
-                <uilib:RadioMenuFlyoutItem
+                <muxc:RadioMenuFlyoutItem
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
-                <uilib:RadioMenuFlyoutItem
+                <muxc:RadioMenuFlyoutItem
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
                     Text="Type" />
-                <uilib:RadioMenuFlyoutItem
+                <muxc:RadioMenuFlyoutItem
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
                     Text="Size" />
                 <MenuFlyoutSeparator />
-                <uilib:RadioMenuFlyoutItem
+                <muxc:RadioMenuFlyoutItem
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
                     Text="Ascending" />
-                <uilib:RadioMenuFlyoutItem
+                <muxc:RadioMenuFlyoutItem
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
                     Text="Descending" />

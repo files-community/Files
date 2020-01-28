@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
-    xmlns:uilib="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"  NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
     <local:BaseLayout.Resources>
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
@@ -16,13 +16,13 @@
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;"/>
                 </MenuFlyoutSubItem.Icon>
-                <uilib:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"/>
-                <uilib:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"/>
-                <uilib:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"/>
-                <uilib:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"/>
+                <muxc:RadioMenuFlyoutItem Text="Name" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"/>
+                <muxc:RadioMenuFlyoutItem Text="Date modified" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"/>
+                <muxc:RadioMenuFlyoutItem Text="Type" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"/>
+                <muxc:RadioMenuFlyoutItem Text="Size" GroupName="SortGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"/>
                 <MenuFlyoutSeparator/>
-                <uilib:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"/>
-                <uilib:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"/>
+                <muxc:RadioMenuFlyoutItem Text="Ascending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"/>
+                <muxc:RadioMenuFlyoutItem Text="Descending" GroupName="SortOrderGroup" IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"/>
             </MenuFlyoutSubItem>
             <MenuFlyoutItem Text="Refresh" x:Name="RefreshEmptySpace" Click="{x:Bind local:NavigationActions.Refresh_Click}">
                 <MenuFlyoutItem.Icon>
