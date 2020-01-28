@@ -73,6 +73,18 @@ namespace Files
 
         }
 
+        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
+        {
+            if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            {
+                NavigationActions.Back_Click(null, null);
+            }
+            else if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            {
+                NavigationActions.Forward_Click(null, null);
+            }
+        }
+
         private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
         {
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
@@ -515,6 +527,7 @@ namespace Files
                 // Ensure the current window is active.
                 Window.Current.Activate();
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                 Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                 return;
             }
