@@ -68,37 +68,9 @@ namespace Files
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
             AppSettings = new SettingsViewModel();
-            SetPropertiesFromLocalSettings();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
-        }
 
-        public void CloseOpenPopups()
-        {
-            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
-            foreach (var popup in popups)
-            {
-                if(popup.Child is ContentDialog)
-                {
-                    (popup.Child as ContentDialog).Hide();
-                }
-            }
-        }
-
-        public Popup GetOpenPopupByDialog(ContentDialog dialog)
-        {
-            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
-            foreach (var popup in popups)
-            {
-                if (popup.Child is ContentDialog)
-                {
-                    if((popup.Child as ContentDialog) == dialog)
-                    {
-                        return popup;
-                    }
-                }
-            }
-            return null;
         }
 
         private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
@@ -249,15 +221,6 @@ namespace Files
                 // WSL Not Supported/Enabled
                 AppSettings.AreLinuxFilesSupported = false;
             }
-        }
-
-        private void SetPropertiesFromLocalSettings()
-        {
-
-
-
-            
-
         }
 
         public static List<string> LinesToRemoveFromFile = new List<string>();

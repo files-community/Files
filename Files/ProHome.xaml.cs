@@ -72,6 +72,16 @@ namespace Files
                 Application.Current.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
             }
 
+            if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
+            {
+                App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                DisplayFilesystemConsentDialog();
+            }
+        }
+
+        private async void DisplayFilesystemConsentDialog()
+        {
+            await App.consentDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 
         string NavParams = null;
