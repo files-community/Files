@@ -524,7 +524,7 @@
                             <muxc:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Drives" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="DrivesList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local:App.AppSettings.DrivesManager.Drives}" SelectionChanged="DrivesList_SelectionChanged" x:Name="DrivesList">
                                 <muxc:NavigationView.MenuItemTemplate>
                                     <DataTemplate x:DataType="local2:DriveItem">
-                                        <muxc:NavigationViewItem Padding="0" Tag="{x:Bind tag}">
+                                        <muxc:NavigationViewItem Padding="0" Tag="{x:Bind tag}" Visibility="{x:Bind itemVisibility}">
                                             <muxc:NavigationViewItem.Content>
                                                 <StackPanel
                                                     Margin="-4,0,0,0"

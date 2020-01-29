@@ -181,6 +181,7 @@ namespace Files.Filesystem
 				cloudGlyphVisibility = Visibility.Visible,
 				driveGlyphVisibility = Visibility.Collapsed,
 				Type = DriveType.VirtualDrive
+				//itemVisibility = App.AppSettings.PinOneDriveToSideBar
 			};
 
 			list.Add(oneDriveItem);

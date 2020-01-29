@@ -26,13 +26,39 @@
 
                 <TextBlock FontSize="22" Text="Preferences" />
 
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260" />
+                        <ColumnDefinition Width="*" MaxWidth="470" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Pin OneDrive to the sidebar" />
+
+                    <ToggleSwitch
+                            Grid.Column="2"
+                            Width="40"
+                            HorizontalAlignment="Right"
+                            OffContent=""
+                            OnContent=""
+                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay}"/>
+                </Grid>
+                
                 <StackPanel>
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <RepositionThemeTransition />
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
-
+                    
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="260" />

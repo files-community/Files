@@ -19,7 +19,7 @@ using Files.DataModels;
 
 namespace Files.View_Models
 {
-	public class SettingsViewModel : ViewModelBase
+    public class SettingsViewModel : ViewModelBase
     {
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
@@ -68,7 +68,7 @@ namespace Files.View_Models
             }
             else
             {
-	            localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
             }
         }
 
@@ -105,34 +105,34 @@ namespace Files.View_Models
 
         private void DetectApplicationTheme()
         {
-	        if (localSettings.Values["theme"] != null)
-	        {
-		        if (localSettings.Values["theme"].ToString() == "Light")
-		        {
-			        ThemeValue = ThemeStyle.Light;
-			        App.Current.RequestedTheme = ApplicationTheme.Light;
-			        return;
-		        }
-		        else if (localSettings.Values["theme"].ToString() == "Dark")
-		        {
-			        ThemeValue = ThemeStyle.Dark;
-			        App.Current.RequestedTheme = ApplicationTheme.Dark;
-			        return;
-		        }
-	        }
+            if (localSettings.Values["theme"] != null)
+            {
+                if (localSettings.Values["theme"].ToString() == "Light")
+                {
+                    ThemeValue = ThemeStyle.Light;
+                    App.Current.RequestedTheme = ApplicationTheme.Light;
+                    return;
+                }
+                else if (localSettings.Values["theme"].ToString() == "Dark")
+                {
+                    ThemeValue = ThemeStyle.Dark;
+                    App.Current.RequestedTheme = ApplicationTheme.Dark;
+                    return;
+                }
+            }
 
-	        var uiSettings = new UISettings();
-	        var color = uiSettings.GetColorValue(UIColorType.Background);
-		    if (color == Colors.White)
-		    {
-			    ThemeValue = ThemeStyle.System;
-			    App.Current.RequestedTheme = ApplicationTheme.Light;
-		    }
-		    else
-		    {
-			    ThemeValue = ThemeStyle.System;
-			    App.Current.RequestedTheme = ApplicationTheme.Dark;
-		    }
+            var uiSettings = new UISettings();
+            var color = uiSettings.GetColorValue(UIColorType.Background);
+            if (color == Colors.White)
+            {
+                ThemeValue = ThemeStyle.System;
+                App.Current.RequestedTheme = ApplicationTheme.Light;
+            }
+            else
+            {
+                ThemeValue = ThemeStyle.System;
+                App.Current.RequestedTheme = ApplicationTheme.Dark;
+            }
         }
 
         private async void LoadTerminalApps()
@@ -162,6 +162,7 @@ namespace Files.View_Models
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
         private ThemeStyle _ThemeValue;
         private bool _AreLinuxFilesSupported = false;
+        private bool _PinOneDriveToSideBar = true;
         private bool _ShowRibbonContent = true;
         private string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         private string _DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
@@ -189,7 +190,7 @@ namespace Files.View_Models
         public ThemeStyle ThemeValue
         {
             get => _ThemeValue;
-            set 
+            set
             {
                 Set(ref _ThemeValue, value);
                 if (value.Equals(ThemeStyle.System))
@@ -211,6 +212,12 @@ namespace Files.View_Models
         {
             get => _AreLinuxFilesSupported;
             set => Set(ref _AreLinuxFilesSupported, value);
+        }
+
+        public bool PinOneDriveToSideBar
+        {
+            get => _PinOneDriveToSideBar;
+            set => Set(ref _PinOneDriveToSideBar, value);
         }
 
         public string DesktopPath
@@ -264,7 +271,7 @@ namespace Files.View_Models
         public SidebarOpacity SidebarThemeMode
         {
             get => _SidebarThemeMode;
-            set 
+            set
             {
                 Set(ref _SidebarThemeMode, value);
                 if (value.Equals(SidebarOpacity.Opaque))
@@ -281,7 +288,7 @@ namespace Files.View_Models
         public TimeStyle DisplayedTimeStyle
         {
             get => _DisplayedTimeStyle;
-            set 
+            set
             {
                 Set(ref _DisplayedTimeStyle, value);
                 if (value.Equals(TimeStyle.Application))

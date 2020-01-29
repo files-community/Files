@@ -21,6 +21,7 @@ namespace Files.Filesystem
         public string spaceText { get; set; }
         public Visibility cloudGlyphVisibility { get; set; } = Visibility.Collapsed;
         public Visibility driveGlyphVisibility { get; set; } = Visibility.Visible;
+        public Visibility itemVisibility { get; set; } = Visibility.Visible;
         public DriveType Type { get; set; }
 
         private StorageFolder _root;
@@ -89,8 +90,6 @@ namespace Files.Filesystem
 			        throw new ArgumentOutOfRangeException(nameof(type), type, null);
 	        }
         }
-
-
     }
 
     public enum DriveType
