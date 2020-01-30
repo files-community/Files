@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.BulkAccess;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
@@ -27,6 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -38,7 +40,7 @@ namespace Files.Filesystem
         public ListedItem currentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
         public UniversalPath Universal { get; } = new UniversalPath();
-        private ObservableCollection<ListedItem> _filesAndFolders;
+        public ObservableCollection<ListedItem> _filesAndFolders;
         private StorageFolderQueryResult _folderQueryResult;
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
@@ -477,8 +479,65 @@ namespace Files.Filesystem
             return default;
         }
 
+        public enum FINDEX_INFO_LEVELS
+        {
+            FindExInfoStandard = 0,
+            FindExInfoBasic = 1
+        }
+
+        public enum FINDEX_SEARCH_OPS
+        {
+            FindExSearchNameMatch = 0,
+            FindExSearchLimitToDirectories = 1,
+            FindExSearchLimitToDevices = 2
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct WIN32_FIND_DATA
+        {
+            public uint dwFileAttributes;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
+            public uint nFileSizeHigh;
+            public uint nFileSizeLow;
+            public uint dwReserved0;
+            public uint dwReserved1;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string cFileName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
+            public string cAlternateFileName;
+        }
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindFirstFileExFromApp(
+            string lpFileName,
+            FINDEX_INFO_LEVELS fInfoLevelId,
+            out WIN32_FIND_DATA lpFindFileData,
+            FINDEX_SEARCH_OPS fSearchOp,
+            IntPtr lpSearchFilter,
+            int dwAdditionalFlags);
+
+        public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
+        public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+
+        [DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
+        static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
+
+        [DllImport("api-ms-win-core-file-l1-1-0.dll")]
+        static extern bool FindClose(IntPtr hFindFile);
+
         bool isLoadingItems = false;
-        public async void AddItemsToCollectionAsync(string path)
+
+        class PartialStorageItem
+        {
+            public string ItemName { get; set; }
+            public string ContentType { get; set; }
+            public StorageItemThumbnail Thumbnail { get; set; }
+            public string RelativeId { get; set; }
+        }
+
+        public async void RapidAddItemsToCollectionAsync(string path)
         {
             App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
 
@@ -498,25 +557,343 @@ namespace Files.Filesystem
             switch (Universal.path)
             {
                 case "Desktop":
-                    Universal.path = App.DesktopPath;
+                    Universal.path = App.AppSettings.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = App.DownloadsPath;
+                    Universal.path = App.AppSettings.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = App.DocumentsPath;
+                    Universal.path = App.AppSettings.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = App.PicturesPath;
+                    Universal.path = App.AppSettings.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = App.MusicPath;
+                    Universal.path = App.AppSettings.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = App.VideosPath;
+                    Universal.path = App.AppSettings.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = App.OneDrivePath;
+                    Universal.path = App.AppSettings.OneDrivePath;
+                    break;
+            }
+            ObservableCollection<PartialStorageItem> partialFiles = null;
+            ObservableCollection<PartialStorageItem> partialFolders = null;
+            var fetchOperation = Task.Run(async () => 
+            {
+                try
+                {
+                    _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    await App.consentDialog.ShowAsync();
+                }
+                catch (COMException e)
+                {
+                    Frame rootContentFrame = Window.Current.Content as Frame;
+                    MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
+                    await driveGone.ShowAsync();
+                    isLoadingItems = false;
+                    return;
+                }
+                catch (FileNotFoundException)
+                {
+                    Frame rootContentFrame = Window.Current.Content as Frame;
+                    MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
+                    await folderGone.ShowAsync();                    
+                    isLoadingItems = false;
+                    return;
+                }
+
+                QueryOptions options = new QueryOptions();
+                if (await _rootFolder.GetIndexedStateAsync() == IndexedState.FullyIndexed)
+                {
+                    options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+                }
+                else
+                {
+                    options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
+                }
+                options.FolderDepth = FolderDepth.Shallow;
+
+                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+                options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
+                var query = _rootFolder.CreateItemQueryWithOptions(options);
+                var thumbnails = await query.GetItemsAsync(0, 250);
+                uint index = 0;
+                partialFiles = new ObservableCollection<PartialStorageItem>();
+                partialFolders = new ObservableCollection<PartialStorageItem>();
+
+                while (thumbnails.Count > 0)
+                {
+                    foreach (IStorageItem item in thumbnails)
+                    {
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            partialFolders.Add(new PartialStorageItem() { RelativeId = ((StorageFolder)item).FolderRelativeId, ItemName = item.Name, ContentType = null, Thumbnail = null });
+                        }
+                        else
+                        {
+                            partialFiles.Add(new PartialStorageItem() { RelativeId = ((StorageFile)item).FolderRelativeId, Thumbnail = await ((StorageFile)item).GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = item.Name, ContentType = ((StorageFile)item).DisplayType });
+                        }
+                    }
+                    index += 250;
+                    thumbnails = await query.GetItemsAsync(index, 250);
+                }
+                
+            });
+
+
+            WIN32_FIND_DATA findData;
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoStandard;
+            int additionalFlags = 0;
+            findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            var count = 0;
+            if (hFile.ToInt64() != -1)
+            {
+                do
+                {
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                    {
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            AddFile(findData, path, null);
+                            ++count;
+                        }
+                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            AddFolder(findData, path, null);
+                            ++count;
+                        }
+                    }
+                    
+                } while (FindNextFile(hFile, out findData));
+
+                FindClose(hFile);
+            }
+            var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
+                {
+                    BitmapImage icon = null;
+                    var itemsCopy = FilesAndFolders.ToList();
+                    foreach (ListedItem item in itemsCopy)
+                    {
+                        if (item.FileType != "Folder")
+                        {
+                            icon = new BitmapImage();
+                            var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                            var matchingStorageItem = partialFiles.FirstOrDefault(x => x.ItemName == matchingItem.FileName);
+                            if (matchingItem != null && matchingStorageItem != null)
+                            {
+                                matchingItem.FileType = matchingStorageItem.ContentType;
+                                matchingItem.FolderRelativeId = matchingStorageItem.RelativeId;
+                                if (matchingStorageItem.Thumbnail != null)
+                                {
+                                    icon.DecodePixelWidth = 40;
+                                    icon.DecodePixelHeight = 40;
+                                    await icon.SetSourceAsync(matchingStorageItem.Thumbnail.CloneStream());
+                                    matchingItem.FileImg = icon;
+                                    matchingItem.EmptyImgVis = Visibility.Collapsed;
+                                    matchingItem.FileIconVis = Visibility.Visible;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                            var matchingStorageItem = partialFolders.FirstOrDefault(x => x.ItemName == matchingItem.FileName);
+                            if (matchingItem != null && matchingStorageItem != null)
+                            {
+                                matchingItem.FolderRelativeId = matchingStorageItem.RelativeId;
+                            }
+                        }
+                    }
+                });
+                
+            });
+            
+
+            if (FilesAndFolders.Count == 0)
+            {
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    isLoadingItems = false;
+                    return;
+                }
+                EmptyTextState.isVisible = Visibility.Visible;
+            }
+
+
+            OrderFiles();
+            stopwatch.Stop();
+            Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
+            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
+            LoadIndicator.isVisible = Visibility.Collapsed;
+            isLoadingItems = false;
+        }
+
+        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageItem)
+        {
+            if ((App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum)))
+            {
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    isLoadingItems = false;
+                    return;
+                }
+                var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long)(uint)findData.ftLastWriteTime.dwLowDateTime);
+                var itemPath = Path.Combine(pathRoot, findData.cFileName);
+
+                _filesAndFolders.Add(new ListedItem(partialStorageItem?.RelativeId)
+                {
+                    //FolderTooltipText = tooltipString,
+                    FileName = findData.cFileName,
+                    FileDateReal = itemDate,
+                    FileType = "Folder",    //TODO: Take a look at folder.DisplayType
+                    FolderImg = Visibility.Visible,
+                    FileImg = null,
+                    FileIconVis = Visibility.Collapsed,
+                    FilePath = itemPath,
+                    EmptyImgVis = Visibility.Collapsed,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                });
+
+                EmptyTextState.isVisible = Visibility.Collapsed;
+            }
+        }
+
+        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageFile)
+        {
+
+            var itemName = findData.cFileName;
+            var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long) (uint) findData.ftLastWriteTime.dwLowDateTime);
+            var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
+            var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
+            string itemType = "File";
+            if(partialStorageFile != null)
+            {
+                itemType = partialStorageFile.ContentType;
+            }
+            else
+            {
+                if (findData.cFileName.Contains('.'))
+                {
+                    itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
+                }
+            }
+
+            var itemFolderImgVis = Visibility.Collapsed;
+            string itemFileExtension = null;
+            if (findData.cFileName.Contains('.'))
+            {
+                itemFileExtension = findData.cFileName.Split('.')[1];
+            }
+
+            BitmapImage icon = new BitmapImage();
+            Visibility itemThumbnailImgVis;
+            Visibility itemEmptyImgVis;
+
+            try
+            {
+
+                var itemThumbnailImg = partialStorageFile != null ? partialStorageFile.Thumbnail.CloneStream() : null;
+                if (itemThumbnailImg != null)
+                {
+                    itemEmptyImgVis = Visibility.Collapsed;
+                    itemThumbnailImgVis = Visibility.Visible;
+                    icon.DecodePixelWidth = 40;
+                    icon.DecodePixelHeight = 40;
+                    await icon.SetSourceAsync(itemThumbnailImg);
+                }
+                else
+                {
+                    itemEmptyImgVis = Visibility.Visible;
+                    itemThumbnailImgVis = Visibility.Collapsed;
+                }
+            }
+            catch
+            {
+                itemEmptyImgVis = Visibility.Visible;
+                itemThumbnailImgVis = Visibility.Collapsed;
+                // Catch here to avoid crash
+                // TODO maybe some logging could be added in the future...
+            }
+            
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                isLoadingItems = false;
+                return;
+            }
+            _filesAndFolders.Add(new ListedItem(partialStorageFile?.RelativeId)
+            {
+                DotFileExtension = itemFileExtension,
+                EmptyImgVis = itemEmptyImgVis,
+                FileImg = icon,
+                FileIconVis = itemThumbnailImgVis,
+                FolderImg = itemFolderImgVis,
+                FileName = itemName,
+                FileDateReal = itemDate,
+                FileType = itemType,
+                FilePath = itemPath,
+                FileSize = itemSize,
+                FileSizeBytes = itemSizeBytes
+            });
+
+            EmptyTextState.isVisible = Visibility.Collapsed;
+        }
+
+        public async void AddItemsToCollectionAsync(string path)
+        {
+            RapidAddItemsToCollectionAsync(path);
+            return;
+
+            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
+            CancelLoadAndClearFiles();
+
+            isLoadingItems = true;
+            EmptyTextState.isVisible = Visibility.Collapsed;
+            Universal.path = path;
+            _filesAndFolders.Clear();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            LoadIndicator.isVisible = Visibility.Visible;
+
+            switch (Universal.path)
+            {
+                case "Desktop":
+                    Universal.path = App.AppSettings.DesktopPath;
+                    break;
+                case "Downloads":
+                    Universal.path = App.AppSettings.DownloadsPath;
+                    break;
+                case "Documents":
+                    Universal.path = App.AppSettings.DocumentsPath;
+                    break;
+                case "Pictures":
+                    Universal.path = App.AppSettings.PicturesPath;
+                    break;
+                case "Music":
+                    Universal.path = App.AppSettings.MusicPath;
+                    break;
+                case "Videos":
+                    Universal.path = App.AppSettings.VideosPath;
+                    break;
+                case "OneDrive":
+                    Universal.path = App.AppSettings.OneDrivePath;
                     break;
             }
 

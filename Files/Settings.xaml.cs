@@ -14,6 +14,7 @@ namespace Files
         public Settings()
         {
             this.InitializeComponent();
+
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             var titleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -45,31 +46,23 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 titleBar.BackgroundColor = Colors.Transparent;
             }
-            SettingsContentFrame.Navigate(typeof(Personalization));
+            SettingsContentFrame.Navigate(typeof(Appearance));
         }
 
         private void NavigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             var item = args.InvokedItem;
-            if (item.ToString() == "Personalization")
-            {
-                SettingsContentFrame.Navigate(typeof(Personalization));
 
-            }
-            else if (item.ToString() == "Preferences")
+            _= args.InvokedItem.ToString() switch
             {
-                SettingsContentFrame.Navigate(typeof(Preferences));
-            }
-            else if (item.ToString() == "About")
-            {
-                SettingsContentFrame.Navigate(typeof(About));
-            }
-            else if (item.ToString() == "Page Layouts")
-            {
-                SettingsContentFrame.Navigate(typeof(StartPageWidgets));
-            }
-
+                "Appearance" => SettingsContentFrame.Navigate(typeof(Appearance)),
+                "On Startup" => SettingsContentFrame.Navigate(typeof(OnStartup)),               
+                "Preferences" => SettingsContentFrame.Navigate(typeof(Preferences)),
+                "Files and Folders" => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
+                "Page Layouts" => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),
+                "About" => SettingsContentFrame.Navigate(typeof(About)),
+                _ => SettingsContentFrame.Navigate(typeof(Appearance))
+            };
         }
-
     }
 }

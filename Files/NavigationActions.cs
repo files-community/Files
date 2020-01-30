@@ -5,6 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Files.View_Models;
 
 namespace Files
 {
@@ -82,50 +83,50 @@ namespace Files
             else
             {
                 var CurrentTabInstance = App.OccupiedInstance;
-                if (Parameter.ToString() == App.DesktopPath)
+                if (Parameter.ToString() == App.AppSettings.DesktopPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     CurrentTabInstance.PathText.Text = "Desktop";
                 }
-                else if (Parameter.ToString() == App.DownloadsPath)
+                else if (Parameter.ToString() == App.AppSettings.DownloadsPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     CurrentTabInstance.PathText.Text = "Downloads";
                 }
-                else if (Parameter.ToString() == App.DocumentsPath)
+                else if (Parameter.ToString() == App.AppSettings.DocumentsPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     CurrentTabInstance.PathText.Text = "Documents";
                 }
-                else if (Parameter.ToString() == App.PicturesPath)
+                else if (Parameter.ToString() == App.AppSettings.PicturesPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     CurrentTabInstance.PathText.Text = "Pictures";
                 }
-                else if (Parameter.ToString() == App.MusicPath)
+                else if (Parameter.ToString() == App.AppSettings.MusicPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     CurrentTabInstance.PathText.Text = "Music";
                 }
-                else if (Parameter.ToString() == App.VideosPath)
+                else if (Parameter.ToString() == App.AppSettings.VideosPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     CurrentTabInstance.PathText.Text = "Videos";
                 }
-                else if (Parameter.ToString() == App.OneDrivePath)
+                else if (Parameter.ToString() == App.AppSettings.OneDrivePath)
                 {
-                    CurrentTabInstance.DrivesList.SelectedItem = App.foundDrives.Where(x => (x as DriveItem).tag == "OneDrive").First();
+                    CurrentTabInstance.DrivesList.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "OneDrive").First();
                     CurrentTabInstance.PathText.Text = "OneDrive";
                 }
                 else
                 {
                     if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                     {
-                        CurrentTabInstance.DrivesList.SelectedItem = App.foundDrives.Where(x => (x as DriveItem).tag == "C:\\").First();
+                        CurrentTabInstance.DrivesList.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "C:\\").First();
                     }
                     else
                     {
-                        foreach (DriveItem drive in App.foundDrives)
+                        foreach (DriveItem drive in SettingsViewModel.foundDrives)
                         {
                             if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                             {

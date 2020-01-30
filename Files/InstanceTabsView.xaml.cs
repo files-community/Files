@@ -14,6 +14,7 @@ using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -126,37 +127,37 @@ namespace Files
                         }
                     }
                 }
-                else if (path == App.DesktopPath)
+                else if (path == App.AppSettings.DesktopPath)
                 {
                     tabLocationHeader = "Desktop";
                     fontIconSource.Glyph = "\xE8FC";
                 }
-                else if (path == App.DownloadsPath)
+                else if (path == App.AppSettings.DownloadsPath)
                 {
                     tabLocationHeader = "Downloads";
                     fontIconSource.Glyph = "\xE896";
                 }
-                else if (path == App.DocumentsPath)
+                else if (path == App.AppSettings.DocumentsPath)
                 {
                     tabLocationHeader = "Documents";
                     fontIconSource.Glyph = "\xE8A5";
                 }
-                else if (path == App.PicturesPath)
+                else if (path == App.AppSettings.PicturesPath)
                 {
                     tabLocationHeader = "Pictures";
                     fontIconSource.Glyph = "\xEB9F";
                 }
-                else if (path == App.MusicPath)
+                else if (path == App.AppSettings.MusicPath)
                 {
                     tabLocationHeader = "Music";
                     fontIconSource.Glyph = "\xEC4F";
                 }
-                else if (path == App.VideosPath)
+                else if (path == App.AppSettings.VideosPath)
                 {
                     tabLocationHeader = "Videos";
                     fontIconSource.Glyph = "\xE8B2";
                 }
-                else if (path == App.OneDrivePath)
+                else if (path == App.AppSettings.OneDrivePath)
                 {
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xE753";
@@ -220,37 +221,37 @@ namespace Files
                 tabLocationHeader = "Start";
                 fontIconSource.Glyph = "\xE737";
             }
-            else if (currentPathForTabIcon == App.DesktopPath)
+            else if (currentPathForTabIcon == App.AppSettings.DesktopPath)
             {
                 tabLocationHeader = "Desktop";
                 fontIconSource.Glyph = "\xE8FC";
             }
-            else if (currentPathForTabIcon == App.DownloadsPath)
+            else if (currentPathForTabIcon == App.AppSettings.DownloadsPath)
             {
                 tabLocationHeader = "Downloads";
                 fontIconSource.Glyph = "\xE896";
             }
-            else if (currentPathForTabIcon == App.DocumentsPath)
+            else if (currentPathForTabIcon == App.AppSettings.DocumentsPath)
             {
                 tabLocationHeader = "Documents";
                 fontIconSource.Glyph = "\xE8A5";
             }
-            else if (currentPathForTabIcon == App.PicturesPath)
+            else if (currentPathForTabIcon == App.AppSettings.PicturesPath)
             {
                 tabLocationHeader = "Pictures";
                 fontIconSource.Glyph = "\xEB9F";
             }
-            else if (currentPathForTabIcon == App.MusicPath)
+            else if (currentPathForTabIcon == App.AppSettings.MusicPath)
             {
                 tabLocationHeader = "Music";
                 fontIconSource.Glyph = "\xEC4F";
             }
-            else if (currentPathForTabIcon == App.VideosPath)
+            else if (currentPathForTabIcon == App.AppSettings.VideosPath)
             {
                 tabLocationHeader = "Videos";
                 fontIconSource.Glyph = "\xE8B2";
             }
-            else if (currentPathForTabIcon == App.OneDrivePath)
+            else if (currentPathForTabIcon == App.AppSettings.OneDrivePath)
             {
                 tabLocationHeader = "OneDrive";
                 fontIconSource.Glyph = "\xE753";
@@ -314,8 +315,52 @@ namespace Files
                     .ToUpperInvariant();
                 }
             }
-            
-            
+        }
+
+        private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            var InvokedTabView = (args.Element as TabView);
+
+            int tabToSelect = 0;
+
+            switch (sender.Key)
+            {
+                case Windows.System.VirtualKey.Number1:
+                    tabToSelect = 0;
+                    break;
+                case Windows.System.VirtualKey.Number2:
+                    tabToSelect = 1;
+                    break;
+                case Windows.System.VirtualKey.Number3:
+                    tabToSelect = 2;
+                    break;
+                case Windows.System.VirtualKey.Number4:
+                    tabToSelect = 3;
+                    break;
+                case Windows.System.VirtualKey.Number5:
+                    tabToSelect = 4;
+                    break;
+                case Windows.System.VirtualKey.Number6:
+                    tabToSelect = 5;
+                    break;
+                case Windows.System.VirtualKey.Number7:
+                    tabToSelect = 6;
+                    break;
+                case Windows.System.VirtualKey.Number8:
+                    tabToSelect = 7;
+                    break;
+                case Windows.System.VirtualKey.Number9:
+                    // Select the last tab
+                    tabToSelect = InvokedTabView.TabItems.Count - 1;
+                    break;
+            }
+
+            // Only select the tab if it is in the list
+            if (tabToSelect < InvokedTabView.TabItems.Count)
+            {
+                InvokedTabView.SelectedIndex = tabToSelect;
+            }
+            args.Handled = true;
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)

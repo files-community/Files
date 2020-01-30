@@ -19,36 +19,16 @@ using Files.Filesystem;
 using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Portable;
-using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Primitives;
-using Files.Enums;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.Management.Deployment;
-using Windows.Storage.Streams;
 using Windows.System;
-using Microsoft.UI.Xaml.Controls;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.AppExtensions;
-using Files.CommandLine;
-using Files.DataModels;
-using Newtonsoft.Json;
+using Files.View_Models;
 
 namespace Files
 {
     sealed partial class App : Application
     {
-        public static bool areLinuxFilesSupported { get; set; } = false;
-        public static string DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        public static string DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static string DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        public static string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
-        public static string PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        public static string MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        public static string VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        
         private static ProHome occupiedInstance;
         public static ProHome OccupiedInstance
         {
@@ -58,9 +38,9 @@ namespace Files
             }
             set
             {
-                if (value != occupiedInstance)
+                if(value != occupiedInstance)
                 {
-                    occupiedInstance = value;
+                    occupiedInstance = value; 
                 }
             }
         }
@@ -69,16 +49,13 @@ namespace Files
         public static Dialogs.PropertiesDialog propertiesDialog { get; set; }
         public static Dialogs.LayoutDialog layoutDialog { get; set; }
         public static Dialogs.AddItemDialog addItemDialog { get; set; }
-        private DeviceWatcher watcher;
         public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
-        public static FormFactorMode FormFactor { get; set; } = FormFactorMode.Regular;
-        ApplicationDataContainer localSettings;
-        public static IList<TerminalModel> Terminals {get; set;}
+        public static SettingsViewModel AppSettings { get; set; }
 
         public App()
         {
-            this.InitializeComponent();
+	        this.InitializeComponent();
             this.Suspending += OnSuspending;
             consentDialog = new Dialogs.ConsentDialog();
             propertiesDialog = new Dialogs.PropertiesDialog();
@@ -89,65 +66,23 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
-            localSettings = ApplicationData.Current.LocalSettings;
-            SetPropertiesFromLocalSettings();
-            DetectCustomLocations();
+
+            AppSettings = new SettingsViewModel();
             PopulatePinnedSidebarItems();
             DetectWSLDistros();
-            QuickLookIntegration();
-            LoadTerminalApps();
+
         }
 
-        private async void LoadTerminalApps()
+        private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
-            var localFolder = ApplicationData.Current.LocalFolder;
-            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            StorageFile file;
-            try
+            if (args.CurrentPoint.Properties.IsXButton1Pressed)
             {
-                file = await localSettingsFolder.GetFileAsync("terminal.json");
+                NavigationActions.Back_Click(null, null);
             }
-            catch (FileNotFoundException ex)
+            else if (args.CurrentPoint.Properties.IsXButton1Pressed)
             {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
-
-                file = await localSettingsFolder.CreateFileAsync("terminal.json");
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+                NavigationActions.Forward_Click(null, null);
             }
-
-            var content = await FileIO.ReadTextAsync(file);
-
-            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
-
-            Terminals = terminals;
-        }
-
-        public void CloseOpenPopups()
-        {
-            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
-            foreach (var popup in popups)
-            {
-                if(popup.Child is ContentDialog)
-                {
-                    (popup.Child as ContentDialog).Hide();
-                }
-            }
-        }
-
-        public Popup GetOpenPopupByDialog(ContentDialog dialog)
-        {
-            var popups = VisualTreeHelper.GetOpenPopups(Window.Current);
-            foreach (var popup in popups)
-            {
-                if (popup.Child is ContentDialog)
-                {
-                    if((popup.Child as ContentDialog) == dialog)
-                    {
-                        return popup;
-                    }
-                }
-            }
-            return null;
         }
 
         private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
@@ -258,7 +193,7 @@ namespace Files
                 var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
                 if ((await distroFolder.GetFoldersAsync()).Count > 0)
                 {
-                    areLinuxFilesSupported = false;
+                    AppSettings.AreLinuxFilesSupported = false;
                 }
 
                 foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
@@ -296,292 +231,7 @@ namespace Files
             catch (Exception)
             {
                 // WSL Not Supported/Enabled
-                areLinuxFilesSupported = false;
-            }
-        }
-
-        private async void QuickLookIntegration()
-        {
-            localSettings.Values["Arguments"] = "CheckQuickLookAvailability";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
-        private void SetPropertiesFromLocalSettings()
-        {
-            if (localSettings.Values["theme"] == null)
-            {
-                localSettings.Values["theme"] = "Default";
-            }
-
-            if (localSettings.Values["datetimeformat"] == null)
-            {
-                localSettings.Values["datetimeformat"] = "Application";
-            }
-
-            if (localSettings.Values["theme"] != null)
-            {
-                if (localSettings.Values["theme"].ToString() == "Light")
-                {
-                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                }
-                else if (localSettings.Values["theme"].ToString() == "Dark")
-                {
-                    SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                }
-                else
-                {
-                    var uiSettings = new Windows.UI.ViewManagement.UISettings();
-                    var color = uiSettings.GetColorValue(Windows.UI.ViewManagement.UIColorType.Background);
-                    if (color == Colors.White)
-                    {
-                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Light;
-                    }
-                    else
-                    {
-                        SettingsPages.Personalization.TV.ThemeValue = ApplicationTheme.Dark;
-                    }
-                }
-            }
-
-            this.RequestedTheme = SettingsPages.Personalization.TV.ThemeValue;
-        }
-
-        private async void DetectCustomLocations()
-        {
-            // Detect custom locations set from Windows
-            localSettings.Values["Arguments"] = "DetectUserPaths";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync("UserFolderPathsGroup");
-
-            App.DesktopPath = localSettings.Values["DetectedDesktopLocation"] as string;
-            App.DownloadsPath = localSettings.Values["DetectedDownloadsLocation"] as string;
-            App.DocumentsPath = localSettings.Values["DetectedDocumentsLocation"] as string;
-            App.PicturesPath = localSettings.Values["DetectedPicturesLocation"] as string;
-            App.MusicPath = localSettings.Values["DetectedMusicLocation"] as string;
-            App.VideosPath = localSettings.Values["DetectedVideosLocation"] as string;
-            App.OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
-
-            // Overwrite paths for common locations if Custom Locations setting is enabled
-            if (localSettings.Values["customLocationsSetting"] != null)
-            {
-                if (localSettings.Values["customLocationsSetting"].Equals(true))
-                {
-                    App.DesktopPath = localSettings.Values["DesktopLocation"] as string;
-                    App.DownloadsPath = localSettings.Values["DownloadsLocation"] as string;
-                    App.DocumentsPath = localSettings.Values["DocumentsLocation"] as string;
-                    App.PicturesPath = localSettings.Values["PicturesLocation"] as string;
-                    App.MusicPath = localSettings.Values["MusicLocation"] as string;
-                    App.VideosPath = localSettings.Values["VideosLocation"] as string;
-                    App.OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
-                }
-            }
-        }
-
-        public void PopulateDrivesListWithLocalDisks()
-        {
-            var driveLetters = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
-            driveLetters.ForEach(async roots =>
-            {
-                try
-                {
-                    var content = string.Empty;
-                    string icon = null;
-                    if (!(await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.Path).ToList().Contains(roots.Name))
-                    {
-                        // TODO: Display Custom Names for Local Disks as well
-                        if(InstanceTabsView.NormalizePath(roots.Name) != InstanceTabsView.NormalizePath("A:") 
-                            && InstanceTabsView.NormalizePath(roots.Name) != InstanceTabsView.NormalizePath("B:"))
-                        {
-                            content = $"Local Disk ({roots.Name.TrimEnd('\\')})";
-                            icon = "\uEDA2";
-                        }
-                        else
-                        {
-                            content = $"Floppy Disk ({roots.Name.TrimEnd('\\')})";
-                            icon = "\uE74E";
-                        }
-
-
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-                        async () =>
-                        {
-                            Visibility capacityBarVis = Visibility.Visible;
-                            ulong totalSpaceProg = 0;
-                            ulong freeSpaceProg = 0;
-                            string free_space_text = "Unknown";
-                            string total_space_text = "Unknown";
-
-                            try
-                            {
-                                StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(roots.Name);
-                                var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-
-                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
-                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
-                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
-                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-                            catch (NullReferenceException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-
-                            App.foundDrives.Add(new DriveItem()
-                            {
-                                driveText = content,
-                                glyph = icon,
-                                maxSpace = totalSpaceProg,
-                                spaceUsed = totalSpaceProg - freeSpaceProg,
-                                tag = roots.Name,
-                                progressBarVisibility = capacityBarVis,
-                                spaceText = free_space_text + " free of " + total_space_text,
-                            });
-                        });
-                    }
-
-                }
-                catch (UnauthorizedAccessException e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-
-            });
-        }
-
-        private async void Watcher_EnumerationCompleted(DeviceWatcher sender, object args)
-        {
-            try
-            {
-                PopulateDrivesListWithLocalDisks();
-            }
-            catch (UnauthorizedAccessException)
-            {
-                await consentDialog.ShowAsync();
-            }
-            DeviceAdded(sender, null);
-
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-            () =>
-            {
-                App.foundDrives.Add(new DriveItem()
-                {
-                    driveText = "OneDrive",
-                    tag = "OneDrive",
-                    cloudGlyphVisibility = Visibility.Visible,
-                    driveGlyphVisibility = Visibility.Collapsed
-                });
-            });
-        }
-
-        private void DeviceUpdated(DeviceWatcher sender, DeviceInformationUpdate args)
-        {
-            Debug.WriteLine("Devices updated");
-        }
-
-
-        private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
-        {
-            var devices = DriveInfo.GetDrives().Select(x => x.RootDirectory.Root).ToList().OrderBy(x => x.Root.FullName).ToList();
-
-            foreach (DriveItem driveItem in foundDrives)
-            {
-                if (!driveItem.tag.Equals("OneDrive"))
-                {
-                    if (!devices.Any(x => x.Name == driveItem.tag) || devices.Equals(null))
-                    {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-                        () =>
-                        {
-                            foundDrives.Remove(driveItem);
-                        });
-                        return;
-
-                    }
-                }
-                
-            }
-        }
-
-        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
-        {
-            try
-            {
-                var devices = (await KnownFolders.RemovableDevices.GetFoldersAsync()).OrderBy(x => x.Path);
-                foreach (StorageFolder device in devices)
-                {
-                    var letter = device.Path;
-                    if (!foundDrives.Any(x => x.tag == letter))
-                    {
-                        var content = device.DisplayName;
-                        string icon = null;
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low,
-                        async () =>
-                        {
-                            if (content.Contains("DVD"))
-                            {
-                                icon = "\uE958";
-                            }
-                            else
-                            {
-                                icon = "\uE88E";
-                            }
-
-                            ulong totalSpaceProg = 0;
-                            ulong freeSpaceProg = 0;
-                            string free_space_text = "Unknown";
-                            string total_space_text = "Unknown";
-                            Visibility capacityBarVis = Visibility.Visible;
-                            try
-                            {
-                                StorageFolder drive = await StorageFolder.GetFolderFromPathAsync(letter);
-                                var retrivedProperties = await drive.Properties.RetrievePropertiesAsync(new string[] { "System.FreeSpace", "System.Capacity" });
-
-                                var sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).GigaBytes;
-                                freeSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                sizeAsGBString = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).GigaBytes;
-                                totalSpaceProg = Convert.ToUInt64(sizeAsGBString);
-
-                                free_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.FreeSpace"]).ToString();
-                                total_space_text = ByteSizeLib.ByteSize.FromBytes((ulong)retrivedProperties["System.Capacity"]).ToString();
-                            }
-                            catch (UnauthorizedAccessException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-                            catch (NullReferenceException)
-                            {
-                                capacityBarVis = Visibility.Collapsed;
-                            }
-
-                            if (!foundDrives.Any(x => x.tag == letter))
-                            {
-                                foundDrives.Add(new DriveItem()
-                                {
-                                    driveText = content,
-                                    glyph = icon,
-                                    maxSpace = totalSpaceProg,
-                                    spaceUsed = totalSpaceProg - freeSpaceProg,
-                                    tag = letter,
-                                    progressBarVisibility = capacityBarVis,
-                                    spaceText = free_space_text + " free of " + total_space_text,
-                                });
-                            }
-                        });
-
-                    }
-                }
-            }
-            catch (UnauthorizedAccessException)
-            {
-                await consentDialog.ShowAsync();
+                AppSettings.AreLinuxFilesSupported = false;
             }
         }
 
@@ -648,12 +298,12 @@ namespace Files
         private void AddDefaultLocations()
         {
             sideBarItems.Add(new SidebarItem() { Text = "Home", IconGlyph = "\uE737", isDefaultLocation = true, Path = "Home" });
-            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true, Path = DesktopPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true, Path = DownloadsPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true, Path = DocumentsPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true, Path = PicturesPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true, Path = MusicPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true, Path = VideosPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true, Path = AppSettings.DesktopPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true, Path = AppSettings.DownloadsPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true, Path = AppSettings.DocumentsPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true, Path = AppSettings.PicturesPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true, Path = AppSettings.MusicPath });
+            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true, Path = AppSettings.VideosPath });
         }
 
         public static async void RemoveStaleSidebarItems()
@@ -767,7 +417,6 @@ namespace Files
 
         public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
-        public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
@@ -815,12 +464,7 @@ namespace Files
 
 
                 }
-                watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                watcher.Added += DeviceAdded;
-                watcher.Removed += DeviceRemoved;
-                watcher.Updated += DeviceUpdated;
-                watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                watcher.Start();
+
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
@@ -872,69 +516,23 @@ namespace Files
                 case ActivationKind.Protocol:
                     var eventArgs = args as ProtocolActivatedEventArgs;
 
-                    if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
-                    {
-                        rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
-                    }
-                    else
-                    {
-                        var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                        rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
-                    }
-                    // Ensure the current window is active.
-                    watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                    watcher.Added += DeviceAdded;
-                    watcher.Removed += DeviceRemoved;
-                    watcher.Updated += DeviceUpdated;
-                    watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                    watcher.Start();
-                    Window.Current.Activate();
-                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-                    return;
-
-                case ActivationKind.CommandLineLaunch:
-                    var cmdLineArgs = args as CommandLineActivatedEventArgs;
-                    var operation = cmdLineArgs.Operation;
-                    var cmdLineString = operation.Arguments;
-                    var activationPath = operation.CurrentDirectoryPath;
-
-                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
-
-                    if (parsedCommands != null && parsedCommands.Count > 0)
-                    {
-	                    foreach (var command in parsedCommands)
-	                    {
-		                    switch (command.Type)
-		                    {
-			                    case ParsedCommandType.OpenDirectory:
-                                    // TODO Open Directory
-
-                                    rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
-
-                                    // Ensure the current window is active.
-                                    watcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-                                    watcher.Added += DeviceAdded;
-                                    watcher.Removed += DeviceRemoved;
-                                    watcher.Updated += DeviceUpdated;
-                                    watcher.EnumerationCompleted += Watcher_EnumerationCompleted;
-                                    watcher.Start();
-                                    Task.Delay(5000);
-                                    Window.Current.Activate();
-                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-                                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-
-                                    
-                                    return;
-			                    case ParsedCommandType.Unkwon:
-				                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
-                                    break;
-                            }
-	                    }
-                    }
-                    break;
+                if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+                {
+                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
+                    rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
+                }
+                // Ensure the current window is active.
+                Window.Current.Activate();
+                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                return;
             }
-
+            
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.
@@ -966,10 +564,7 @@ namespace Files
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            if(watcher.Status == DeviceWatcherStatus.Started || watcher.Status == DeviceWatcherStatus.EnumerationCompleted)
-            {
-                watcher.Stop();
-            }
+            AppSettings.Dispose();
             deferral.Complete();
         }
     }
