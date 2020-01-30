@@ -148,9 +148,10 @@ namespace Files
                     break;
 
                 default:
-                    if (NavParams.Contains("C:", StringComparison.OrdinalIgnoreCase))
+                    if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
-                        DrivesList.SelectedItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals("C:\\", StringComparison.OrdinalIgnoreCase));
+	                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
+                        DrivesList.SelectedItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else
                     {

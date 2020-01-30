@@ -22,6 +22,7 @@ using System.Collections.ObjectModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.System;
+using Files.CommandLine;
 using Files.View_Models;
 
 namespace Files
@@ -516,27 +517,69 @@ namespace Files
                 case ActivationKind.Protocol:
                     var eventArgs = args as ProtocolActivatedEventArgs;
 
-                if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
-                {
-                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                    rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
-                }
-                // Ensure the current window is active.
-                Window.Current.Activate();
-                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-                Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-                return;
+                    if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+                    {
+                        rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                    }
+                    else
+                    {
+                        var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
+                        rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
+                    }
+                    // Ensure the current window is active.
+                    Window.Current.Activate();
+                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                    return;
+
+                case ActivationKind.CommandLineLaunch:
+                    var cmdLineArgs = args as CommandLineActivatedEventArgs;
+                    var operation = cmdLineArgs.Operation;
+                    var cmdLineString = operation.Arguments;
+                    var activationPath = operation.CurrentDirectoryPath;
+
+                    var parsedCommands = CommandLineParser.ParseUntrustedCommands(cmdLineString);
+
+                    if (parsedCommands != null && parsedCommands.Count > 0)
+                    {
+                        foreach (var command in parsedCommands)
+                        {
+                            switch (command.Type)
+                            {
+                                case ParsedCommandType.OpenDirectory:
+                                    // TODO Open Directory
+
+                                    rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+
+                                    // Ensure the current window is active.
+                                    Window.Current.Activate();
+                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+
+                                    return;
+                                case ParsedCommandType.Unkwon:
+                                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                                    // Ensure the current window is active.
+                                    Window.Current.Activate();
+                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+                                    Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
+                                    return;
+                            }
+                        }
+                    }
+                    break;
             }
-            
+
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.
             Window.Current.Activate();
+            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
         }
 
         private void TryEnablePrelaunch()
