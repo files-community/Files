@@ -898,6 +898,7 @@
                 <Grid x:Name="RecentsListGrid" Grid.Column="0">
                     <StackPanel Orientation="Vertical">
                         <TextBlock
+                            x:Uid="RecentItems"
                             Margin="0,0,0,0"
                             HorizontalAlignment="Left"
                             FontFamily="Segoe UI"
@@ -905,6 +906,7 @@
                             FontWeight="Medium"
                             Text="Recent items" />
                         <TextBlock
+                            x:Uid="RecentItemDescription"
                             Margin="0,24,0,0"
                             HorizontalAlignment="Stretch"
                             FontSize="14"
@@ -937,14 +939,17 @@
                                             <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                                 <MenuFlyoutItem
                                                     x:Name="mfi_RemoveOneItem"
+                                                    x:Uid="RecentItemRemove"
                                                     Click="mfi_RemoveOneItem_Click"
                                                     Icon="Remove"
                                                     Text="Remove this item" />
                                                 <MenuFlyoutItem
+                                                    x:Uid="RecentItemClearAll"
                                                     Click="MenuFlyoutItem_Click"
                                                     Icon="Delete"
                                                     Text="Clear all items" />
                                                 <MenuFlyoutItem
+                                                    x:Uid="RecentItemOpenFileLocation"
                                                     Click="OpenFileLocation_Click"
                                                     Text="Open file location"
                                                     Visibility="{Binding isFile}">
