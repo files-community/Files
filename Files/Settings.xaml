@@ -12,6 +12,7 @@
     <Grid>
         <muxc:NavigationView
             x:Name="SettingsPane"
+            x:Uid="SettingsNav"
             Margin="0,8,0,0"
             IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="True"
@@ -22,6 +23,7 @@
             PaneTitle="Settings">
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
+                    x:Uid="SettingsNavSearch"
                     MinWidth="150"
                     AutomationProperties.Name="Search"
                     PlaceholderText="Search"
@@ -29,32 +31,41 @@
             </muxc:NavigationView.AutoSuggestBox>
 
             <muxc:NavigationView.MenuItems>
-                <muxc:NavigationViewItem Content="Appearance" IsSelected="True">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavAppearance"
+                    Content="Appearance"
+                    IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="On Startup" IsSelected="True">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavOnStartup"
+                    Content="On Startup"
+                    IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Page Layouts" Visibility="Collapsed">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavPageLayouts"
+                    Content="Page Layouts"
+                    Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE737;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Preferences">
+                <muxc:NavigationViewItem x:Uid="SettingsNavPreferences" Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="Files and Folders">
+                <muxc:NavigationViewItem x:Uid="SettingsNavFilesAndFolders" Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC50;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem Content="About">
+                <muxc:NavigationViewItem x:Uid="SettingsNavAbout" Content="About">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>

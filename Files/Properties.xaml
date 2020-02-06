@@ -49,6 +49,7 @@
                 </Custom:DockPanel>
                 <TextBox
                     x:Name="itemFileName"
+                    x:Uid="PropertiesItemFileName"
                     Grid.Column="1"
                     Margin="15,0,15,0"
                     Padding="10,4"
@@ -65,7 +66,7 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Item type:" />
+                <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
                 <TextBlock
                     x:Name="itemType"
                     Grid.Column="1"
@@ -77,7 +78,7 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Path:" />
+                <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
                 <TextBlock
                     x:Name="itemPath"
                     Grid.Column="2"
@@ -90,7 +91,7 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Size:" />
+                <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
                 <TextBlock
                     x:Name="itemSize"
                     Grid.Column="3"
@@ -103,7 +104,7 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Created:" />
+                <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
                 <TextBlock
                     x:Name="itemCreatedTimestamp"
                     Grid.Column="4"
@@ -115,7 +116,7 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="Modified:" />
+                <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
                 <TextBlock
                     x:Name="itemModifiedTimestamp"
                     Grid.Column="5"

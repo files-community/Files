@@ -117,6 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="PropertiesCreated.Text" xml:space="preserve">
+    <value>Created:</value>
+  </data>
+  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="PropertiesItemPath.Text" xml:space="preserve">
+    <value>Path:</value>
+  </data>
+  <data name="PropertiesItemSize.Text" xml:space="preserve">
+    <value>Size:</value>
+  </data>
+  <data name="PropertiesItemType.Text" xml:space="preserve">
+    <value>Item type:</value>
+  </data>
+  <data name="PropertiesModified.Text" xml:space="preserve">
+    <value>Modified:</value>
+  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
   </data>
@@ -131,5 +149,29 @@
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Recent items</value>
+  </data>
+  <data name="SettingsNav.PaneTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsNavAbout.Content" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsNavAppearance.Content" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
+    <value>Files and Folders</value>
+  </data>
+  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
+    <value>On Startup</value>
+  </data>
+  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
+    <value>Page Layouts</value>
+  </data>
+  <data name="SettingsNavPreferences.Content" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
   </data>
 </root>
