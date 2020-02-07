@@ -21,7 +21,10 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock FontSize="22" Text="Appearance" />
+                <TextBlock
+                    x:Uid="SettingsAppearanceTitle"
+                    FontSize="22"
+                    Text="Appearance" />
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -36,6 +39,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsAppearanceTheme"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
@@ -61,6 +65,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsAppearanceDateFormat"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
@@ -86,6 +91,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsAppearanceAcrylicSidebar"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"

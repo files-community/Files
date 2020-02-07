@@ -21,9 +21,13 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock FontSize="22" Text="On Startup" />
+                <TextBlock
+                    x:Uid="SettingsOnStartupTitle"
+                    FontSize="22"
+                    Text="On Startup" />
 
                 <RadioButton
+                    x:Uid="SettingsOnStartupOpenANewTab"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     Content="Open a new tab"
@@ -31,6 +35,7 @@
                     IsChecked="True" />
 
                 <RadioButton
+                    x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
@@ -38,6 +43,7 @@
                     IsEnabled="False" />
 
                 <RadioButton
+                    x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     Content="Open a specific page or pages"

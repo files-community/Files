@@ -24,7 +24,10 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock FontSize="22" Text="Preferences" />
+                <TextBlock
+                    x:Uid="SettingsPreferencesTitle"
+                    FontSize="22"
+                    Text="Preferences" />
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -38,28 +41,29 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            FontSize="16"
-                            Text="Pin OneDrive to the sidebar" />
+                        x:Uid="SettingsPreferencesPinOneDrive"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Pin OneDrive to the sidebar" />
 
                     <ToggleSwitch
-                            Grid.Column="2"
-                            Width="40"
-                            HorizontalAlignment="Right"
-                            IsEnabled="False"
-                            OffContent=""
-                            OnContent=""
-                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay}"/>
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsEnabled="False"
+                        IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay}"
+                        OffContent=""
+                        OnContent="" />
                 </Grid>
-                
+
                 <StackPanel>
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
                             <RepositionThemeTransition />
                         </TransitionCollection>
                     </StackPanel.ChildrenTransitions>
-                    
+
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="260" />
@@ -72,6 +76,7 @@
                         </Grid.ChildrenTransitions>
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesReplaceCommonLocations"
                             Grid.Column="0"
                             VerticalAlignment="Center"
                             FontSize="16"
@@ -109,6 +114,7 @@
                         </Grid.ChildrenTransitions>
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesDesktop"
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -116,6 +122,7 @@
                             Text="Desktop" />
                         <TextBox
                             x:Name="DesktopL"
+                            x:Uid="SettingsPreferencesDesktopLocation"
                             Grid.Row="0"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -124,6 +131,7 @@
 
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesDownloads"
                             Grid.Row="1"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -131,6 +139,7 @@
                             Text="Downloads" />
                         <TextBox
                             x:Name="DownloadsL"
+                            x:Uid="SettingsPreferencesDownloadsLocation"
                             Grid.Row="1"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -139,6 +148,7 @@
 
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesDocuments"
                             Grid.Row="2"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -146,6 +156,7 @@
                             Text="Documents" />
                         <TextBox
                             x:Name="DocumentsL"
+                            x:Uid="SettingsPreferencesDocumentsLocation"
                             Grid.Row="2"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -154,6 +165,7 @@
 
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesPictures"
                             Grid.Row="3"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -161,6 +173,7 @@
                             Text="Pictures" />
                         <TextBox
                             x:Name="PictureL"
+                            x:Uid="SettingsPreferencesPicturesLocation"
                             Grid.Row="3"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -169,6 +182,7 @@
 
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesMusic"
                             Grid.Row="4"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -176,6 +190,7 @@
                             Text="Music" />
                         <TextBox
                             x:Name="MusicL"
+                            x:Uid="SettingsPreferencesMusicLocation"
                             Grid.Row="4"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -183,6 +198,7 @@
                             PlaceholderText="Set custom mcusic location" />
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesVideo"
                             Grid.Row="5"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -190,6 +206,7 @@
                             Text="Video" />
                         <TextBox
                             x:Name="VideosL"
+                            x:Uid="SettingsPreferencesVideoLocation"
                             Grid.Row="5"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -198,6 +215,7 @@
 
 
                         <TextBlock
+                            x:Uid="SettingsPreferencesOneDrive"
                             Grid.Row="6"
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -205,6 +223,7 @@
                             Text="OneDrive" />
                         <TextBox
                             x:Name="OneDriveL"
+                            x:Uid="SettingsPreferencesOneDriveLocation"
                             Grid.Row="6"
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
@@ -213,6 +232,7 @@
 
                         <Button
                             x:Name="SaveCustomL"
+                            x:Uid="SettingsPreferencesSaveLocations"
                             Grid.Row="7"
                             Grid.Column="2"
                             HorizontalAlignment="Right"
@@ -236,6 +256,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsPreferencesTerminalApplications"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
