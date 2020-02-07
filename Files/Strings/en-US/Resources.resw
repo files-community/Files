@@ -150,6 +150,30 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Recent items</value>
   </data>
+  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+    <value>Files UWP</value>
+  </data>
+  <data name="SettingsAboutLicense.Text" xml:space="preserve">
+    <value>License: </value>
+  </data>
+  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
+    <value>Special thanks to:</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
+    <value>Submit Feedback</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
+    <value>Submit an issue report to provide the developers with information</value>
+  </data>
+  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
+    <value>Third Party Licenses</value>
+  </data>
+  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
+    <value>Website: </value>
+  </data>
   <data name="SettingsNav.PaneTitle" xml:space="preserve">
     <value>Settings</value>
   </data>

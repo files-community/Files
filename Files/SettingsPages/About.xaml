@@ -24,7 +24,10 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock FontSize="22" Text="About" />
+                <TextBlock
+                    x:Uid="SettingsAboutTitle"
+                    FontSize="22"
+                    Text="About" />
 
                 <StackPanel Orientation="Horizontal">
                     <Image
@@ -32,7 +35,10 @@
                         Source="/Assets/Files UWP Beta Icon.png"
                         Stretch="Uniform" />
                     <StackPanel Padding="12,0,0,0" Orientation="Vertical">
-                        <TextBlock FontSize="16" Text="Files UWP" />
+                        <TextBlock
+                            x:Uid="SettingsAboutAppName"
+                            FontSize="16"
+                            Text="Files UWP" />
                         <TextBlock
                             x:Name="VersionNumber"
                             Padding="0,4"
@@ -57,8 +63,9 @@
                             Spacing="14">
                             <FontIcon Glyph="&#xED15;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                <TextBlock Text="Submit Feedback" />
+                                <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
                                 <TextBlock
+                                    x:Uid="SettingsAboutSubmitFeedbackDescription"
                                     Foreground="Gray"
                                     Text="Submit an issue report to provide the developers with information"
                                     TextWrapping="Wrap" />
@@ -68,13 +75,17 @@
                 </ListView>
 
                 <StackPanel Spacing="4">
-                    <TextBlock FontSize="16" Text="Special thanks to:" />
+                    <TextBlock
+                        x:Uid="SettingsAboutSpecialThanks"
+                        FontSize="16"
+                        Text="Special thanks to:" />
                     <TextBlock Text="SOI7" />
                     <TextBlock Text="jeffsieu" />
                     <TextBlock Text="yaichenbaum" />
                 </StackPanel>
 
                 <TextBlock
+                    x:Uid="SettingsAboutThirdPartyLicenses"
                     Margin="0,16,0,0"
                     FontSize="18"
                     Text="Third Party Licenses">
@@ -87,12 +98,8 @@
                 </TextBlock>
 
                 <StackPanel Orientation="Horizontal">
-                    <BitmapIcon
-                        Width="16"
-                        VerticalAlignment="Center"
-                        UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                     <TextBlock
-                        Margin="2,0,16,0"
+                        Margin="0,0,16,0"
                         VerticalAlignment="Bottom"
                         FontSize="16"
                         Text="QuickLook" />
@@ -100,10 +107,10 @@
                         Margin="0,0,8,0"
                         VerticalAlignment="Bottom"
                         TextWrapping="WrapWholeWords">
-                        <Span xml:space="preserve"><Run>Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
+                        <Span xml:space="preserve"><Run x:Uid="SettingsAboutWebsite">Website: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook">Link</Hyperlink></Span>
                     </TextBlock>
                     <TextBlock VerticalAlignment="Bottom" TextWrapping="WrapWholeWords">
-                        <Span xml:space="preserve"><Run>License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">Link</Hyperlink></Span>
+                        <Span xml:space="preserve"><Run x:Uid="SettingsAboutLicense">License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">Link</Hyperlink></Span>
                     </TextBlock>
                 </StackPanel>
             </StackPanel>
