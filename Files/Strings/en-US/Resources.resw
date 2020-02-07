@@ -222,4 +222,16 @@
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Continue where you left off</value>
+  </data>
+  <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
+    <value>Open a new tab</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
+    <value>Open a specific page or pages</value>
+  </data>
+  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
+    <value>On Startup</value>
+  </data>
 </root>
