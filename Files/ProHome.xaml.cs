@@ -103,10 +103,9 @@ namespace Files
                 RibbonArea.VisiblePath.Text = value;
             }
         }
-        ObservableCollection<PathBoxItem> IShellPage.PathComponents => new ObservableCollection<PathBoxItem>();
+        private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
+        ObservableCollection<PathBoxItem> IShellPage.PathComponents => pathComponents;
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
-
-        ObservableCollection<INavigationControlItem> IShellPage.NavigationControlItems { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ProHome()
         {
@@ -153,7 +152,6 @@ namespace Files
         {
             if (App.CurrentInstance == null && ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().Equals(this))
             {
-                // TODO: Fix this page_loaded event
                 App.CurrentInstance = this as IShellPage;
             }
 

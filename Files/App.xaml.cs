@@ -71,9 +71,6 @@ namespace Files
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
             AppSettings = new SettingsViewModel();
-            PopulatePinnedSidebarItems();
-            DetectWSLDistros();
-
         }
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -189,171 +186,6 @@ namespace Files
             }
         }
 
-        private async void DetectWSLDistros()
-        {
-            try
-            {
-                var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
-                if ((await distroFolder.GetFoldersAsync()).Count > 0)
-                {
-                    AppSettings.AreLinuxFilesSupported = false;
-                }
-
-                foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
-                {
-                    Uri logoURI = null;
-                    if (folder.DisplayName.Contains("ubuntu", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
-                    }
-                    else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/kalipng.png");
-                    }
-                    else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/debianpng.png");
-                    }
-                    else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/opensusepng.png");
-                    }
-                    else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/alpinepng.png");
-                    }
-                    else
-                    {
-                        logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
-                    }
-
-
-                    linuxDistroItems.Add(new WSLDistroItem() { DistroName = folder.DisplayName, Path = folder.Path, Logo = logoURI });
-                }
-            }
-            catch (Exception)
-            {
-                // WSL Not Supported/Enabled
-                AppSettings.AreLinuxFilesSupported = false;
-            }
-        }
-
-        public static List<string> LinesToRemoveFromFile = new List<string>();
-
-        public async void PopulatePinnedSidebarItems()
-        {
-            AddDefaultLocations();
-
-            StorageFile ListFile;
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
-
-            if (ListFile != null)
-            {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string locationPath in ListFileLines)
-                {
-                    try
-                    {
-                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
-                        var name = fol.DisplayName;
-                        var content = name;
-                        var icon = "\uE8B7";
-
-                        bool isDuplicate = false;
-                        foreach (INavigationControlItem sbi in sideBarItems)
-                        {
-                            if(sbi is LocationItem)
-                            {
-                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
-                                {
-                                    if (sbi.Path.ToString() == locationPath)
-                                    {
-                                        isDuplicate = true;
-
-                                    }
-                                }
-                            }
-                            
-                        }
-
-                        if (!isDuplicate)
-                        {
-                            sideBarItems.Add(new LocationItem() { IsDefaultLocation = false, Text = name, Glyph = icon, Path = locationPath });
-                        }
-                    }
-                    catch (UnauthorizedAccessException e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(locationPath);
-                    }
-                    catch (System.Runtime.InteropServices.COMException e)
-                    {
-                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(locationPath);
-                    }
-                }
-
-                RemoveStaleSidebarItems();
-            }
-        }
-
-        private void AddDefaultLocations()
-        {
-            sideBarItems.Add(new LocationItem { Text = "Home", Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-            sideBarItems.Add(new LocationItem { Text = "Desktop", Glyph = "\uE8FC", IsDefaultLocation = true, Path = AppSettings.DesktopPath });
-            sideBarItems.Add(new LocationItem { Text = "Downloads", Glyph = "\uE896", IsDefaultLocation = true, Path = AppSettings.DownloadsPath });
-            sideBarItems.Add(new LocationItem { Text = "Documents", Glyph = "\uE8A5", IsDefaultLocation = true, Path = AppSettings.DocumentsPath });
-            sideBarItems.Add(new LocationItem { Text = "Pictures", Glyph = "\uEB9F", IsDefaultLocation = true, Path = AppSettings.PicturesPath });
-            sideBarItems.Add(new LocationItem { Text = "Music", Glyph = "\uEC4F", IsDefaultLocation = true, Path = AppSettings.MusicPath });
-            sideBarItems.Add(new LocationItem { Text = "Videos", Glyph = "\uE8B2", IsDefaultLocation = true, Path = AppSettings.VideosPath });
-        }
-
-        public static async void RemoveStaleSidebarItems()
-        {
-            StorageFile ListFile;
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
-
-            if (ListFile != null)
-            {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string path in LinesToRemoveFromFile)
-                {
-                    ListFileLines.Remove(path);
-                }
-
-                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
-                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-
-                // Remove unpinned items from sidebar
-                var sideBarItems_Copy = sideBarItems.ToList();
-                foreach (INavigationControlItem location in sideBarItems)
-                {
-                    if (location is LocationItem)
-                    {
-                        if (!(location as LocationItem).IsDefaultLocation)
-                        {
-                            if (!ListFileLines.Contains(location.Path.ToString()))
-                            {
-                                sideBarItems_Copy.Remove(location);
-                            }
-                        }
-                    }
-                }
-                sideBarItems.Clear();
-                foreach(INavigationControlItem correctItem in sideBarItems_Copy)
-                {
-                    sideBarItems.Add(correctItem);
-                }
-                LinesToRemoveFromFile.Clear();
-            }
-        }
-
         public static INavigationControlItem rightClickedItem;
 
         public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -365,8 +197,8 @@ namespace Files
             {
                 if (path == App.rightClickedItem.Path.ToString())
                 {
-                    App.LinesToRemoveFromFile.Add(path);
-                    RemoveStaleSidebarItems();
+                    App.AppSettings.LinesToRemoveFromFile.Add(path);
+                    App.AppSettings.RemoveStaleSidebarItems();
                     return;
                 }
             }

@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Files.Filesystem;
 using Newtonsoft.Json;
 using Files.DataModels;
+using System.Diagnostics;
 
 namespace Files.View_Models
 {
@@ -31,10 +32,215 @@ namespace Files.View_Models
             DetectApplicationTheme();
             DetectDateTimeFormat();
             DetectSidebarOpacity();
+            PinSidebarLocationItems();
+            DetectOneDrivePreference();
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
+            //DetectWSLDistros();
             LoadTerminalApps();
+        }
+
+        private void PinSidebarLocationItems()
+        {
+            AddDefaultLocations();
+            PopulatePinnedSidebarItems();
+        }
+
+        private void AddDefaultLocations()
+        {
+            App.sideBarItems.Add(new LocationItem { Text = "Home", Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            App.sideBarItems.Add(new LocationItem { Text = "Desktop", Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
+            App.sideBarItems.Add(new LocationItem { Text = "Downloads", Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
+            App.sideBarItems.Add(new LocationItem { Text = "Documents", Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
+            App.sideBarItems.Add(new LocationItem { Text = "Pictures", Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
+            App.sideBarItems.Add(new LocationItem { Text = "Music", Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
+            App.sideBarItems.Add(new LocationItem { Text = "Videos", Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
+        }
+
+        public List<string> LinesToRemoveFromFile = new List<string>();
+
+        private async void PopulatePinnedSidebarItems()
+        {
+            StorageFile ListFile;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
+
+            if (ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string locationPath in ListFileLines)
+                {
+                    try
+                    {
+                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
+                        var name = fol.DisplayName;
+                        var content = name;
+                        var icon = "\uE8B7";
+
+                        bool isDuplicate = false;
+                        foreach (INavigationControlItem sbi in App.sideBarItems)
+                        {
+                            if (sbi is LocationItem)
+                            {
+                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
+                                {
+                                    if (sbi.Path.ToString() == locationPath)
+                                    {
+                                        isDuplicate = true;
+
+                                    }
+                                }
+                            }
+
+                        }
+
+                        if (!isDuplicate)
+                        {
+                            int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
+                            App.sideBarItems.Insert(insertIndex, new LocationItem() { IsDefaultLocation = false, Text = name, Glyph = icon, Path = locationPath });
+                        }
+                    }
+                    catch (UnauthorizedAccessException e)
+                    {
+                        Debug.WriteLine(e.Message);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(locationPath);
+                    }
+                    catch (System.Runtime.InteropServices.COMException e)
+                    {
+                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
+                        LinesToRemoveFromFile.Add(locationPath);
+                    }
+                }
+
+                RemoveStaleSidebarItems();
+            }
+        }
+
+        private void RemoveAllSidebarItems(NavigationControlItemType type)
+        {
+            var itemsOfType = App.sideBarItems.TakeWhile(x => x.ItemType == type);
+            foreach(var item in itemsOfType)
+            {
+                App.sideBarItems.Remove(item);
+            }
+        }
+
+        public async void RemoveStaleSidebarItems()
+        {
+            StorageFile ListFile;
+            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
+            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
+
+            if (ListFile != null)
+            {
+                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+                foreach (string path in LinesToRemoveFromFile)
+                {
+                    ListFileLines.Remove(path);
+                }
+
+                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
+                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
+
+                // Remove unpinned items from sidebar
+                var sideBarItems_Copy = App.sideBarItems.ToList();
+                foreach (INavigationControlItem location in App.sideBarItems)
+                {
+                    if (location is LocationItem)
+                    {
+                        if (!(location as LocationItem).IsDefaultLocation)
+                        {
+                            if (!ListFileLines.Contains(location.Path.ToString()))
+                            {
+                                sideBarItems_Copy.Remove(location);
+                            }
+                        }
+                    }
+                }
+                App.sideBarItems.Clear();
+                foreach (INavigationControlItem correctItem in sideBarItems_Copy)
+                {
+                    App.sideBarItems.Add(correctItem);
+                }
+                LinesToRemoveFromFile.Clear();
+            }
+        }
+
+        private async void DetectWSLDistros()
+        {
+            try
+            {
+                var distroFolder = await StorageFolder.GetFolderFromPathAsync(@"\\wsl$\");
+                if ((await distroFolder.GetFoldersAsync()).Count > 0)
+                {
+                    AreLinuxFilesSupported = false;
+                }
+
+                foreach (StorageFolder folder in await distroFolder.GetFoldersAsync())
+                {
+                    Uri logoURI = null;
+                    if (folder.DisplayName.Contains("ubuntu", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/ubuntupng.png");
+                    }
+                    else if (folder.DisplayName.Contains("kali", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/kalipng.png");
+                    }
+                    else if (folder.DisplayName.Contains("debian", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/debianpng.png");
+                    }
+                    else if (folder.DisplayName.Contains("opensuse", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/opensusepng.png");
+                    }
+                    else if (folder.DisplayName.Contains("alpine", StringComparison.OrdinalIgnoreCase))
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/alpinepng.png");
+                    }
+                    else
+                    {
+                        logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
+                    }
+
+
+                    App.sideBarItems.Add(new WSLDistroItem() { DistroName = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                }
+            }
+            catch (Exception)
+            {
+                // WSL Not Supported/Enabled
+                AreLinuxFilesSupported = false;
+            }
+        }
+
+        private void DetectOneDrivePreference()
+        {
+            if (localSettings.Values["PinOneDrive"] == null) { PinOneDriveToSideBar = true; }
+
+            if ((bool)localSettings.Values["PinOneDrive"] == true)
+            {
+                PinOneDriveToSideBar = true;
+            }
+            else
+            {
+                PinOneDriveToSideBar = false;
+            }
+
+            try
+            {
+                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
+            }
+            catch (Exception)
+            {
+                PinOneDriveToSideBar = false;
+            }
         }
 
         private void DetectSidebarOpacity()
@@ -74,7 +280,7 @@ namespace Files.View_Models
 
         private async void DetectCustomLocations()
         {
-            // Detect custom locations set from Windows and QuickLook
+            // Detect custom locations set from Windows and detect QuickLook
             localSettings.Values["Arguments"] = "StartupTasks";
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
 
@@ -144,7 +350,7 @@ namespace Files.View_Models
             {
                 file = await localSettingsFolder.GetFileAsync("terminal.json");
             }
-            catch (FileNotFoundException ex)
+            catch (FileNotFoundException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
@@ -217,7 +423,35 @@ namespace Files.View_Models
         public bool PinOneDriveToSideBar
         {
             get => _PinOneDriveToSideBar;
-            set => Set(ref _PinOneDriveToSideBar, value);
+            set 
+            { 
+                Set(ref _PinOneDriveToSideBar, value);
+                if(value == true)
+                {
+                    localSettings.Values["PinOneDrive"] = true;
+                    var oneDriveItem = new DriveItem()
+                    {
+                        driveText = "OneDrive",
+                        tag = "OneDrive",
+                        cloudGlyphVisibility = Visibility.Visible,
+                        driveGlyphVisibility = Visibility.Collapsed,
+                        Type = Filesystem.DriveType.VirtualDrive,
+                        //itemVisibility = App.AppSettings.PinOneDriveToSideBar
+                    };
+                    App.sideBarItems.Add(oneDriveItem);
+                }
+                else
+                {
+                    localSettings.Values["PinOneDrive"] = false;
+                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                    {
+                        if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
+                        {
+                            App.sideBarItems.Remove(item);
+                        }
+                    }
+                }
+            }
         }
 
         public string DesktopPath

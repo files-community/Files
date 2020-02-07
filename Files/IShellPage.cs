@@ -23,9 +23,6 @@ namespace Files
         public bool CanGoForward { get; set; }
         public string PathControlDisplayText { get; set; }
         public ObservableCollection<PathBoxItem> PathComponents { get; }
-        //TODO: Modularize Sidebar and standardize its item types
-        //public SidebarItem SelectedSidebarLocation { get; set; }
-        public ObservableCollection<INavigationControlItem> NavigationControlItems { get; set; }
         public Type CurrentPageType { get; }
     }
 }

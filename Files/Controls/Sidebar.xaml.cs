@@ -24,7 +24,6 @@ namespace Files.Controls
         public Sidebar()
         {
             this.InitializeComponent();
-            SidebarNavView.SelectedItem = App.sideBarItems[0];
         }
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
@@ -103,7 +102,8 @@ namespace Files.Controls
                         break;
                 }
             }
-            else if ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType == NavigationControlItemType.Drive)
+            else if ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType == NavigationControlItemType.Drive || 
+                (args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType == NavigationControlItemType.OneDrive)
             {
                 var clickedItem = args.InvokedItemContainer;
 
@@ -166,6 +166,8 @@ namespace Files.Controls
                     case NavigationControlItemType.Location:
                         return LocationNavItemTemplate;
                     case NavigationControlItemType.Drive:
+                        return DriveNavItemTemplate;
+                    case NavigationControlItemType.OneDrive:
                         return DriveNavItemTemplate;
                     case NavigationControlItemType.LinuxDistro:
                         return LinuxNavItemTemplate;

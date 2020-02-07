@@ -26,14 +26,14 @@ namespace Files.Filesystem
         string INavigationControlItem.IconGlyph => glyph;
         string INavigationControlItem.Text => driveText;
         string INavigationControlItem.Path => tag;
-
-        NavigationControlItemType INavigationControlItem.ItemType => NavigationControlItemType.Drive;
+        private NavigationControlItemType NavItemType = NavigationControlItemType.Drive;
+        NavigationControlItemType INavigationControlItem.ItemType => NavItemType;
 
         private StorageFolder _root;
 
         public DriveItem()
         {
-
+            NavItemType = NavigationControlItemType.OneDrive;
         }
 
         public DriveItem(StorageFolder root, Visibility progressBarVisibility, DriveType type)

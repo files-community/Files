@@ -1867,7 +1867,7 @@
                             x:Name="PathViewInteract"
                             x:FieldModifier="public"
                             Margin="0"
-                            VerticalAlignment="Stretch"
+                            VerticalAlignment="Center"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             Background="{ThemeResource TextControlBackground}"

@@ -466,24 +466,12 @@
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </ResourceDictionary>
-                            
+
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </muxc:NavigationView.Resources>
 
             </muxc:NavigationView>
-            <!--<TextBlock Visibility="Visible" Margin="8,-16,0,0" Text="Drives" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
-            <muxc:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Drives" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="DrivesList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local1:App.AppSettings.DrivesManager.Drives}" SelectionChanged="DrivesList_SelectionChanged" x:Name="DrivesList">
-                <muxc:NavigationView.MenuItemTemplate>
-                    
-                </muxc:NavigationView.MenuItemTemplate>
-            </muxc:NavigationView>
-            <TextBlock x:Name="LinuxHeader" x:Load="{x:Bind local1:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" Visibility="Visible" Margin="8,-16,0,0" Text="Linux Files" FontSize="14" FontWeight="SemiBold" Padding="0" VerticalAlignment="Stretch"/>
-            <muxc:NavigationView Style="{StaticResource NavigationViewStyle_Fixed}" PaneTitle="Linux Files" x:Load="{x:Bind local1:App.AppSettings.AreLinuxFilesSupported, Mode=OneWay}" OpenPaneLength="225" Padding="0" IsTitleBarAutoPaddingEnabled="False" PaneDisplayMode="Left" ItemInvoked="LinuxList_ItemInvoked" x:FieldModifier="public" IsPaneOpen="True" IsSettingsVisible="False" IsPaneToggleButtonVisible="False" IsBackButtonVisible="Collapsed" MenuItemsSource="{x:Bind local1:App.linuxDistroItems, Mode=OneWay}" SelectionChanged="LinuxList_SelectionChanged" x:Name="LinuxList">
-                <muxc:NavigationView.MenuItemTemplate>
-                    
-                </muxc:NavigationView.MenuItemTemplate>
-            </muxc:NavigationView>-->
         </Grid>
     </Grid>
 </UserControl>

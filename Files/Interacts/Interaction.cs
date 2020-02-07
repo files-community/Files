@@ -163,7 +163,8 @@ namespace Files.Interacts
 
                             if (!isDuplicate)
                             {
-                                App.sideBarItems.Add(new LocationItem { Path = itemPath, Glyph = icon, IsDefaultLocation = false, Text = content });
+                                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
+                                App.sideBarItems.Insert(insertIndex, new LocationItem { Path = itemPath, Glyph = icon, IsDefaultLocation = false, Text = content });
                             }
                         }
                         catch (UnauthorizedAccessException ex)
@@ -173,17 +174,17 @@ namespace Files.Interacts
                         catch (FileNotFoundException ex)
                         {
                             Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                            App.LinesToRemoveFromFile.Add(itemPath);
+                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
                         }
                         catch (System.Runtime.InteropServices.COMException ex)
                         {
                             Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                            App.LinesToRemoveFromFile.Add(itemPath);
+                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
                         }
                     }
                 }
             }
-            App.RemoveStaleSidebarItems();
+            App.AppSettings.RemoveStaleSidebarItems();
         }
 
         public void GetPath_Click(object sender, RoutedEventArgs e)

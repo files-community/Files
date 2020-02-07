@@ -47,10 +47,12 @@
                             Grid.Column="2"
                             Width="40"
                             HorizontalAlignment="Right"
-                            IsEnabled="False"
+                            IsEnabled="True"
                             OffContent=""
                             OnContent=""
-                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay}"/>
+                            x:Name="OneDrivePin"
+                            Toggled="OneDrivePin_Toggled"
+                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
                 
                 <StackPanel>

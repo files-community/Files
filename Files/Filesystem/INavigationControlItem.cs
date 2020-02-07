@@ -21,6 +21,7 @@ namespace Files.Filesystem
         Header,
         Drive,
         LinuxDistro,
-        Location
+        Location,
+        OneDrive
     }
 }

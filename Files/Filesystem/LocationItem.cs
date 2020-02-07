@@ -24,11 +24,12 @@ namespace Files.Filesystem
 
     public class HeaderTextItem : INavigationControlItem
     {
-        string INavigationControlItem.IconGlyph => throw new NotImplementedException();
+        string INavigationControlItem.IconGlyph => null;
+        public string Text { get; set; }
 
-        string INavigationControlItem.Text => throw new NotImplementedException();
+        string INavigationControlItem.Text => Text;
 
-        string INavigationControlItem.Path => throw new NotImplementedException();
+        string INavigationControlItem.Path => null;
 
         NavigationControlItemType INavigationControlItem.ItemType => NavigationControlItemType.Header;
     }
