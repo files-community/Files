@@ -234,4 +234,61 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
   </data>
+  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom desktop location</value>
+  </data>
+  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom documents location</value>
+  </data>
+  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom downloads location</value>
+  </data>
+  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom mcusic location</value>
+  </data>
+  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
+    <value>OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom OneDrive location</value>
+  </data>
+  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
+  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom pictures location</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
+    <value>Pin OneDrive to the sidebar</value>
+  </data>
+  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
+    <value>Replace common locations</value>
+  </data>
+  <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
+    <value>Save Locations</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
+    <value>Terminal Applications</value>
+  </data>
+  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
+    <value>Preferences</value>
+  </data>
+  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
+    <value>Set custom video location</value>
+  </data>
 </root>
