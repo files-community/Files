@@ -21,7 +21,10 @@
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
-                <TextBlock FontSize="22" Text="Files and Folders" />
+                <TextBlock
+                    x:Uid="SettingsFilesAndFoldersTitle"
+                    FontSize="22"
+                    Text="Files and Folders" />
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
@@ -36,6 +39,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
@@ -63,6 +67,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsFilesAndFoldersShowFileExtensions"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
@@ -90,6 +95,7 @@
                     </Grid.ChildrenTransitions>
 
                     <TextBlock
+                        x:Uid="SettingsFilesAndFoldersShowDriveLetters"
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
