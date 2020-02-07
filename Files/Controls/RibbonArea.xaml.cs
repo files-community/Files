@@ -17,7 +17,6 @@ namespace Files.Controls
 {
     public sealed partial class RibbonArea : UserControl
     {
-        public ProHome parentPage { get; set; }
         public RibbonViewModel RibbonViewModel { get; } = new RibbonViewModel();
         public RibbonArea()
         {
@@ -62,25 +61,20 @@ namespace Files.Controls
             {
                 var PathBox = (sender as TextBox);
                 var CurrentInput = PathBox.Text;
-                if (parentPage.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                if (App.CurrentInstance.ContentPage != null)
                 {
-                    var contentInstance = parentPage.instanceViewModel;
+                    var contentInstance = App.CurrentInstance.ViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
-                else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
                 {
-                    var contentInstance = parentPage.instanceViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(YourHome))
-                {
-                    if (App.OccupiedInstance.instanceViewModel == null && App.OccupiedInstance.instanceInteraction == null)
-                    {
-                        App.OccupiedInstance.instanceViewModel = new ItemViewModel();
-                        App.OccupiedInstance.instanceInteraction = new Interaction();
-                    }
+                    //if (App.CurrentInstance.ViewModel == null && App.CurrentInstance.InteractionOperations == null)
+                    //{
+                    //    App.CurrentInstance.ViewModel = new ItemViewModel();
+                    //    App.CurrentInstance.InteractionOperations = new Interaction();
+                    //}
 
-                    var contentInstance = App.OccupiedInstance.instanceViewModel;
+                    var contentInstance = App.CurrentInstance.ViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
                 VisiblePath.Visibility = Visibility.Collapsed;
@@ -95,64 +89,64 @@ namespace Files.Controls
 
         public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
         {
-            if (CurrentInput != instance.Universal.path || parentPage.ItemDisplayFrame.CurrentSourcePageType == typeof(YourHome))
+            if (CurrentInput != instance.Universal.path || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
-                parentPage.HomeItems.isEnabled = false;
-                parentPage.ShareItems.isEnabled = false;
+                RibbonViewModel.HomeItems.isEnabled = false;
+                RibbonViewModel.ShareItems.isEnabled = false;
 
                 if (CurrentInput == "Favorites" || CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput == "favorites" || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(YourHome), "New tab");
-                    parentPage.PathText.Text = "New tab";
-                    parentPage.LayoutItems.isEnabled = false;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab");
+                    App.CurrentInstance.PathControlDisplayText = "New tab";
+                    RibbonViewModel.LayoutItems.isEnabled = false;
                 }
                 else if (CurrentInput.Equals("Start", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(YourHome), "Start");
-                    parentPage.PathText.Text = "Start";
-                    parentPage.LayoutItems.isEnabled = false;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "Start");
+                    App.CurrentInstance.PathControlDisplayText = "Start";
+                    RibbonViewModel.LayoutItems.isEnabled = false;
                 }
                 else if (CurrentInput.Equals("Desktop", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath);
-                    parentPage.PathText.Text = "Desktop";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath);
+                    App.CurrentInstance.PathControlDisplayText = "Desktop";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Documents", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                    parentPage.PathText.Text = "Documents";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
+                    App.CurrentInstance.PathControlDisplayText = "Documents";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Downloads", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                    parentPage.PathText.Text = "Downloads";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
+                    App.CurrentInstance.PathControlDisplayText = "Downloads";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Pictures", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                    parentPage.PathText.Text = "Pictures";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
+                    App.CurrentInstance.PathControlDisplayText = "Pictures";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Music", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                    parentPage.PathText.Text = "Music";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
+                    App.CurrentInstance.PathControlDisplayText = "Music";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Videos", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                    parentPage.PathText.Text = "Videos";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
+                    App.CurrentInstance.PathControlDisplayText = "Videos";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("OneDrive", StringComparison.OrdinalIgnoreCase))
                 {
-                    parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath);
-                    parentPage.PathText.Text = "OneDrive";
-                    parentPage.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath);
+                    App.CurrentInstance.PathControlDisplayText = "OneDrive";
+                    RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else
                 {
@@ -162,11 +156,11 @@ namespace Files.Controls
                         {
                             if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
                             {
-                                if (parentPage.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                                if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser))
                                 {
                                     await Interaction.InvokeWin32Component(CurrentInput);
                                 }
-                                else if (parentPage.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                                else if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum))
                                 {
                                     await Interaction.InvokeWin32Component(CurrentInput);
                                 }
@@ -184,7 +178,7 @@ namespace Files.Controls
                             try
                             {
                                 await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
                             }
                             catch (ArgumentException)
                             {
@@ -239,8 +233,8 @@ namespace Files.Controls
                         try
                         {
                             await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                            parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                            parentPage.LayoutItems.isEnabled = true;
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
+                            RibbonViewModel.LayoutItems.isEnabled = true;
                         }
                         catch (ArgumentException)
                         {
@@ -279,7 +273,7 @@ namespace Files.Controls
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
             if (itemTappedPath == "Start" || itemTappedPath == "New tab") { return; }
 
-            parentPage.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
+            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
@@ -314,8 +308,8 @@ namespace Files.Controls
 
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            App.propertiesDialog.accessiblePropertiesFrame.Tag = App.propertiesDialog;
-            App.propertiesDialog.accessiblePropertiesFrame.Navigate(typeof(Properties), (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
+            App.propertiesDialog.propertiesFrame.Tag = App.propertiesDialog;
+            App.propertiesDialog.propertiesFrame.Navigate(typeof(Properties), (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
             await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 

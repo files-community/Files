@@ -5,6 +5,7 @@ using Windows.UI.Xaml.Input;
 using Windows.System;
 using Interaction = Files.Interacts.Interaction;
 using Windows.UI.Core;
+using Files.Controls;
 
 namespace Files
 {
@@ -45,8 +46,8 @@ namespace Files
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
                 FileList.SelectedItem = null;
-                App.OccupiedInstance.HomeItems.isEnabled = false;
-                App.OccupiedInstance.ShareItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
@@ -54,14 +55,14 @@ namespace Files
         {
             if (e.AddedItems.Count > 0)
             {
-                App.OccupiedInstance.HomeItems.isEnabled = true;
-                App.OccupiedInstance.ShareItems.isEnabled = true;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
 
             }
             else if (FileList.SelectedItems.Count == 0)
             {
-                App.OccupiedInstance.HomeItems.isEnabled = false;
-                App.OccupiedInstance.ShareItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
@@ -118,7 +119,7 @@ namespace Files
             if (newName == null)
                 return;
 
-            await App.OccupiedInstance.instanceInteraction.RenameFileItem(selectedItem, currentName, newName);
+            await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, currentName, newName);
         }
 
         private void EndRename(TextBox textBox)
@@ -138,7 +139,7 @@ namespace Files
             {
                 if (!isRenamingItem)
                 {
-                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
                     e.Handled = true;
                 }
             }
@@ -150,9 +151,9 @@ namespace Files
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (App.OccupiedInstance != null)
+            if (App.CurrentInstance != null)
             {
-                if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                 {
                     base.Page_CharacterReceived(sender, args);
                     FileList.Focus(FocusState.Keyboard);

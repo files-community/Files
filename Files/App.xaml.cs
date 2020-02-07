@@ -24,24 +24,25 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.System;
 using Files.CommandLine;
 using Files.View_Models;
+using Files.Controls;
 
 namespace Files
 {
     sealed partial class App : Application
     {
         
-        private static ProHome occupiedInstance;
-        public static ProHome OccupiedInstance
+        private static IShellPage currentInstance;
+        public static IShellPage CurrentInstance
         {
             get
             {
-                return occupiedInstance;
+                return currentInstance;
             }
             set
             {
-                if(value != occupiedInstance)
+                if(value != currentInstance)
                 {
-                    occupiedInstance = value; 
+                    currentInstance = value; 
                 }
             }
         }
@@ -50,7 +51,8 @@ namespace Files
         public static Dialogs.PropertiesDialog propertiesDialog { get; set; }
         public static Dialogs.LayoutDialog layoutDialog { get; set; }
         public static Dialogs.AddItemDialog addItemDialog { get; set; }
-        public static ObservableCollection<SidebarItem> sideBarItems = new ObservableCollection<SidebarItem>();
+        public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
+        public static ObservableCollection<LocationItem> locationItems = new ObservableCollection<LocationItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
 
@@ -91,13 +93,13 @@ namespace Files
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu);
-            if (App.OccupiedInstance != null)
+            if (App.CurrentInstance != null)
             {
                 if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
                 {
                     if (shift.HasFlag(CoreVirtualKeyStates.Down))
                     {
-                        if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout) != null)
+                        if (App.CurrentInstance.ContentPage != null)
                         {
                             switch (args.VirtualKey)
                             {
@@ -111,21 +113,21 @@ namespace Files
                     }
                     else
                     {
-                        if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout) != null)
+                        if (App.CurrentInstance.ContentPage != null)
                         {
                             switch (args.VirtualKey)
                             {
                                 case VirtualKey.C:
-                                    App.OccupiedInstance.instanceInteraction.CopyItem_ClickAsync(null, null);
+                                    App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                                     break;
                                 case VirtualKey.X:
-                                    App.OccupiedInstance.instanceInteraction.CutItem_Click(null, null);
+                                    App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                                     break;
                                 case VirtualKey.V:
-                                    App.OccupiedInstance.instanceInteraction.PasteItem_ClickAsync(null, null);
+                                    App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                                     break;
                                 case VirtualKey.A:
-                                    App.OccupiedInstance.instanceInteraction.SelectAllItems();
+                                    App.CurrentInstance.InteractionOperations.SelectAllItems();
                                     break;
                             }
                         }
@@ -151,33 +153,33 @@ namespace Files
                 }
                 else if (ctrl.HasFlag(CoreVirtualKeyStates.None) && alt.HasFlag(CoreVirtualKeyStates.None))
                 {
-                    if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout) != null)
+                    if (App.CurrentInstance.ContentPage != null)
                     {
                         switch (args.VirtualKey)
                         {
                             case VirtualKey.Delete:
-                                App.OccupiedInstance.instanceInteraction.DeleteItem_Click(null, null);
+                                App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                                 break;
                             case VirtualKey.Enter:
-                                if ((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).IsQuickLookEnabled)
+                                if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
                                 {
-                                    App.OccupiedInstance.instanceInteraction.ToggleQuickLook();
+                                    App.CurrentInstance.InteractionOperations.ToggleQuickLook();
                                 }
                                 else
                                 {
-                                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
                                 }
                                 break;
                         }
 
-                        if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                        if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                         {
                             switch (args.VirtualKey)
                             {
                                 case VirtualKey.F2:
-                                    if((App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems.Count > 0)
+                                    if((App.CurrentInstance.ContentPage).SelectedItems.Count > 0)
                                     {
-                                        App.OccupiedInstance.instanceInteraction.RenameItem_Click(null, null);
+                                        App.CurrentInstance.InteractionOperations.RenameItem_Click(null, null);
                                     }
                                     break;
                             }
@@ -259,21 +261,25 @@ namespace Files
                         var icon = "\uE8B7";
 
                         bool isDuplicate = false;
-                        foreach (SidebarItem sbi in sideBarItems)
+                        foreach (INavigationControlItem sbi in sideBarItems)
                         {
-                            if (!string.IsNullOrWhiteSpace(sbi.Path) && !sbi.isDefaultLocation)
+                            if(sbi is LocationItem)
                             {
-                                if (sbi.Path.ToString() == locationPath)
+                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
                                 {
-                                    isDuplicate = true;
+                                    if (sbi.Path.ToString() == locationPath)
+                                    {
+                                        isDuplicate = true;
 
+                                    }
                                 }
                             }
+                            
                         }
 
                         if (!isDuplicate)
                         {
-                            sideBarItems.Add(new SidebarItem() { isDefaultLocation = false, Text = name, IconGlyph = icon, Path = locationPath });
+                            sideBarItems.Add(new LocationItem() { IsDefaultLocation = false, Text = name, Glyph = icon, Path = locationPath });
                         }
                     }
                     catch (UnauthorizedAccessException e)
@@ -298,13 +304,13 @@ namespace Files
 
         private void AddDefaultLocations()
         {
-            sideBarItems.Add(new SidebarItem() { Text = "Home", IconGlyph = "\uE737", isDefaultLocation = true, Path = "Home" });
-            sideBarItems.Add(new SidebarItem() { Text = "Desktop", IconGlyph = "\uE8FC", isDefaultLocation = true, Path = AppSettings.DesktopPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Downloads", IconGlyph = "\uE896", isDefaultLocation = true, Path = AppSettings.DownloadsPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Documents", IconGlyph = "\uE8A5", isDefaultLocation = true, Path = AppSettings.DocumentsPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Pictures", IconGlyph = "\uEB9F", isDefaultLocation = true, Path = AppSettings.PicturesPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Music", IconGlyph = "\uEC4F", isDefaultLocation = true, Path = AppSettings.MusicPath });
-            sideBarItems.Add(new SidebarItem() { Text = "Videos", IconGlyph = "\uE8B2", isDefaultLocation = true, Path = AppSettings.VideosPath });
+            sideBarItems.Add(new LocationItem { Text = "Home", Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            sideBarItems.Add(new LocationItem { Text = "Desktop", Glyph = "\uE8FC", IsDefaultLocation = true, Path = AppSettings.DesktopPath });
+            sideBarItems.Add(new LocationItem { Text = "Downloads", Glyph = "\uE896", IsDefaultLocation = true, Path = AppSettings.DownloadsPath });
+            sideBarItems.Add(new LocationItem { Text = "Documents", Glyph = "\uE8A5", IsDefaultLocation = true, Path = AppSettings.DocumentsPath });
+            sideBarItems.Add(new LocationItem { Text = "Pictures", Glyph = "\uEB9F", IsDefaultLocation = true, Path = AppSettings.PicturesPath });
+            sideBarItems.Add(new LocationItem { Text = "Music", Glyph = "\uEC4F", IsDefaultLocation = true, Path = AppSettings.MusicPath });
+            sideBarItems.Add(new LocationItem { Text = "Videos", Glyph = "\uE8B2", IsDefaultLocation = true, Path = AppSettings.VideosPath });
         }
 
         public static async void RemoveStaleSidebarItems()
@@ -326,19 +332,21 @@ namespace Files
 
                 // Remove unpinned items from sidebar
                 var sideBarItems_Copy = sideBarItems.ToList();
-                foreach (SidebarItem location in sideBarItems)
+                foreach (INavigationControlItem location in sideBarItems)
                 {
-                    if(!location.isDefaultLocation)
+                    if (location is LocationItem)
                     {
-                        if (!ListFileLines.Contains(location.Path.ToString()))
+                        if (!(location as LocationItem).IsDefaultLocation)
                         {
-                            sideBarItems_Copy.Remove(location);
+                            if (!ListFileLines.Contains(location.Path.ToString()))
+                            {
+                                sideBarItems_Copy.Remove(location);
+                            }
                         }
                     }
-                    
                 }
                 sideBarItems.Clear();
-                foreach(SidebarItem correctItem in sideBarItems_Copy)
+                foreach(INavigationControlItem correctItem in sideBarItems_Copy)
                 {
                     sideBarItems.Add(correctItem);
                 }
@@ -346,7 +354,7 @@ namespace Files
             }
         }
 
-        public static SidebarItem rightClickedItem;
+        public static INavigationControlItem rightClickedItem;
 
         public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -369,7 +377,7 @@ namespace Files
             try
             {
                 DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems) && App.OccupiedInstance.ItemDisplayFrame.SourcePageType != typeof(YourHome))
+                if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
                 {
                     App.PS.isEnabled = true;
                 }
@@ -488,16 +496,16 @@ namespace Files
                         NavigationActions.Forward_Click(null, null);
                         break;
                     case VirtualKey.F:
-                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 0;
+                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
                         break;
                     case VirtualKey.H:
-                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 1;
+                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
                         break;
                     case VirtualKey.S:
-                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 2;
+                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
                         break;
                     case VirtualKey.V:
-                        App.OccupiedInstance.RibbonArea.RibbonTabView.SelectedIndex = 3;
+                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
                         break;
                 }
             }
@@ -613,10 +621,18 @@ namespace Files
         }
     }
 
-    public class WSLDistroItem
+    public class WSLDistroItem : INavigationControlItem
     {
         public string DistroName { get; set; }
         public string Path { get; set; }
         public Uri Logo { get; set; }
+
+        string INavigationControlItem.IconGlyph => null;
+
+        string INavigationControlItem.Text => DistroName;
+
+        string INavigationControlItem.Path => Path;
+
+        NavigationControlItemType INavigationControlItem.ItemType => NavigationControlItemType.LinuxDistro;
     }
 }

@@ -254,7 +254,7 @@
             Margin="24,24,24,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
-            DoubleTapped="{x:Bind local:App.OccupiedInstance.instanceInteraction.List_ItemClick}"
+            DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
             IsDoubleTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"

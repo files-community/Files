@@ -149,6 +149,9 @@
     <Compile Include="Controls\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Sidebar.xaml.cs">
+      <DependentUpon>Sidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\TerminalModel.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
@@ -181,7 +184,8 @@
     <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
-    <Compile Include="Filesystem\SidebarItem.cs" />
+    <Compile Include="Filesystem\INavigationControlItem.cs" />
+    <Compile Include="Filesystem\LocationItem.cs" />
     <Compile Include="GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -194,6 +198,7 @@
     <Compile Include="Interacts\RibbonActions\Home.cs" />
     <Compile Include="Interacts\RibbonActions\Layout.cs" />
     <Compile Include="Interacts\RibbonActions\Share.cs" />
+    <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="NavigationActions.cs" />
     <Compile Include="Navigation\BackState.cs" />
@@ -284,6 +289,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\RibbonPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Sidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

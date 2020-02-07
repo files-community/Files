@@ -1368,20 +1368,20 @@
                                 <AppBarButton
                                     x:Name="CutButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.CutItem_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
                                     CornerRadius="2"
                                     Icon="Cut"
-                                    IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Cut"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
                                 <AppBarButton
                                     x:Name="CopyButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.CopyItem_ClickAsync}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}"
                                     CornerRadius="2"
                                     Icon="Copy"
-                                    IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Copy"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1389,7 +1389,7 @@
                                     x:Name="PasteButton"
                                     MinWidth="40"
                                     x:FieldModifier="public"
-                                    Click="{x:Bind parentPage.instanceInteraction.PasteItem_ClickAsync}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                                     CornerRadius="2"
                                     Icon="Paste"
                                     IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -1399,9 +1399,9 @@
                                 <AppBarButton
                                     x:Name="CopyPathButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.GetPath_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.GetPath_Click}"
                                     CornerRadius="2"
-                                    IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Copy Path"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}">
@@ -1416,20 +1416,20 @@
                                 <AppBarButton
                                     x:Name="DeleteButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.DeleteItem_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
                                     CornerRadius="2"
                                     Icon="Delete"
-                                    IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Delete"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
                                 <AppBarButton
                                     x:Name="RenameButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.RenameItem_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}"
                                     CornerRadius="2"
                                     Icon="Rename"
-                                    IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Rename"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1439,7 +1439,7 @@
                                     Click="AddItem_Click"
                                     CornerRadius="2"
                                     Icon="Add"
-                                    IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="New"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1452,7 +1452,7 @@
                                     MinWidth="40"
                                     Click="ShowPropertiesButton_Click"
                                     CornerRadius="2"
-                                    IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Properties"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}">
@@ -1463,10 +1463,10 @@
                                 <AppBarButton
                                     x:Name="OpenWithButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.OpenItem_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}"
                                     CornerRadius="2"
                                     Icon="OpenWith"
-                                    IsEnabled="{x:Bind parentPage.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Open With"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1477,9 +1477,9 @@
                                 <AppBarButton
                                     x:Name="ShowFolderPropertiesButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.ShowFolderPropertiesButton_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                                     CornerRadius="2"
-                                    IsEnabled="{x:Bind parentPage.AlwaysPresentCommands.isEnabled, Mode=OneWay}"
+                                    IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=OneWay}"
                                     Label="Folder Properties"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}">
@@ -1512,10 +1512,10 @@
                                 <AppBarButton
                                     x:Name="ShareButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.ShareItem_Click}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                                     CornerRadius="2"
                                     Icon="Share"
-                                    IsEnabled="{x:Bind parentPage.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Share"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1546,7 +1546,7 @@
                                     MinWidth="40"
                                     Click="LayoutButton_Click"
                                     CornerRadius="2"
-                                    IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Layout Mode"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}">
@@ -1557,20 +1557,20 @@
                                 <AppBarButton
                                     x:Name="SelectAllButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.SelectAllItems}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SelectAllItems}"
                                     CornerRadius="2"
                                     Icon="SelectAll"
-                                    IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Select All"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
                                 <AppBarButton
                                     x:Name="ClearAllButton"
                                     MinWidth="40"
-                                    Click="{x:Bind parentPage.instanceInteraction.ClearAllItems}"
+                                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ClearAllItems}"
                                     CornerRadius="2"
                                     Icon="ClearSelection"
-                                    IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Clear All"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}" />
@@ -1582,7 +1582,7 @@
                                     MinWidth="40"
                                     CornerRadius="2"
                                     Icon="Sort"
-                                    IsEnabled="{x:Bind parentPage.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     Label="Sort by"
                                     LabelPosition="{x:Bind RibbonViewModel.ItemLabelPosition, Mode=OneWay}"
                                     Style="{StaticResource AppBarButtonRevealStyle}">
@@ -1590,28 +1590,28 @@
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
-                                                IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByName, Mode=TwoWay}"
+                                                IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedByName, Mode=TwoWay}"
                                                 Text="Name" />
                                             <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
-                                                IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByDate, Mode=TwoWay}"
+                                                IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedByDate, Mode=TwoWay}"
                                                 Text="Date modified" />
                                             <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
-                                                IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedByType, Mode=TwoWay}"
+                                                IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedByType, Mode=TwoWay}"
                                                 Text="Type" />
                                             <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortGroup"
-                                                IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedBySize, Mode=TwoWay}"
+                                                IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedBySize, Mode=TwoWay}"
                                                 Text="Size" />
                                             <MenuFlyoutSeparator />
                                             <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortOrderGroup"
-                                                IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedAscending, Mode=TwoWay}"
+                                                IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedAscending, Mode=TwoWay}"
                                                 Text="Ascending" />
                                             <muxc:RadioMenuFlyoutItem
                                                 GroupName="SortOrderGroup"
-                                                IsChecked="{x:Bind parentPage.instanceViewModel.IsSortedDescending, Mode=TwoWay}"
+                                                IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedDescending, Mode=TwoWay}"
                                                 Text="Descending" />
                                         </MenuFlyout>
                                     </AppBarButton.Flyout>
@@ -1752,7 +1752,7 @@
                         Click="{x:Bind local:NavigationActions.Back_Click}"
                         CornerRadius="2"
                         FontFamily="Segoe MDL2 Assets"
-                        IsEnabled="{x:Bind parentPage.ItemDisplayFrame.CanGoBack, Mode=OneWay}"
+                        IsEnabled="{x:Bind local:App.CurrentInstance.CanGoBack, Mode=OneWay}"
                         Style="{StaticResource ToolBarButtonStyle}">
                         <Button.Content>
                             &#xE72B;
@@ -1773,7 +1773,7 @@
                         Click="{x:Bind local:NavigationActions.Forward_Click}"
                         CornerRadius="2"
                         FontFamily="Segoe MDL2 Assets"
-                        IsEnabled="{x:Bind parentPage.ItemDisplayFrame.CanGoForward, Mode=OneWay}"
+                        IsEnabled="{x:Bind local:App.CurrentInstance.CanGoForward, Mode=OneWay}"
                         Style="{StaticResource ToolBarButtonStyle}">
                         <Button.Content>
                             &#xE72A;
@@ -1842,7 +1842,7 @@
                         PlaceholderText="Enter a path"
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                        Text="{x:Bind parentPage.PathText.Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Text="{x:Bind local:App.CurrentInstance.PathControlDisplayText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="Collapsed" />
                     <Grid
                         x:Name="ClickablePath"
@@ -1865,6 +1865,7 @@
                         </Grid.ContextFlyout>
                         <ListView
                             x:Name="PathViewInteract"
+                            x:FieldModifier="public"
                             Margin="0"
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
@@ -1874,7 +1875,7 @@
                             IsItemClickEnabled="True"
                             ItemClick="PathViewInteract_ItemClick"
                             ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                            ItemsSource="{x:Bind parentPage.pathBoxItems}"
+                            ItemsSource="{x:Bind local:App.CurrentInstance.PathComponents}"
                             ScrollViewer.HorizontalScrollBarVisibility="Auto"
                             ScrollViewer.HorizontalScrollMode="Enabled"
                             ScrollViewer.VerticalScrollBarVisibility="Disabled"
