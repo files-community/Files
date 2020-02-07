@@ -31,6 +31,7 @@ namespace Files.Controls
         {
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
+            if(args.InvokedItem == null) { return; }
 
             if ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType == NavigationControlItemType.Location)
             {

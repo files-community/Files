@@ -238,7 +238,7 @@ namespace Files
                 {
                     //App.CurrentInstance.ViewModel = new ItemViewModel();
                     //App.CurrentInstance.InteractionOperations = new Interaction();
-                    Page_Loaded(null, null);
+                    //Page_Loaded(null, null);
                 }
             }
         }

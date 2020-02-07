@@ -28,9 +28,9 @@ namespace Files
     {
         Frame IShellPage.ContentFrame => ItemDisplayFrame;
 
-        Interaction IShellPage.InteractionOperations => new Interaction();
+        Interaction IShellPage.InteractionOperations => interactionOperation;
 
-        ItemViewModel IShellPage.ViewModel => new ItemViewModel();
+        ItemViewModel IShellPage.ViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
 
@@ -146,6 +146,8 @@ namespace Files
             NavParams = eventArgs.Parameter.ToString();
         }
 
+        private ItemViewModel viewModel = null;
+        private Interaction interactionOperation = null;
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -154,6 +156,9 @@ namespace Files
                 // TODO: Fix this page_loaded event
                 App.CurrentInstance = this as IShellPage;
             }
+
+            viewModel = new ItemViewModel();
+            interactionOperation = new Interaction();
 
             switch (NavParams)
             {

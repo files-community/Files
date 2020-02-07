@@ -17,7 +17,7 @@ namespace Files.Navigation
 
             set
             {
-                if(value != null)
+                if(!string.IsNullOrWhiteSpace(value))
                 {
                     _path = value;
                     NotifyPropertyChanged("path");
