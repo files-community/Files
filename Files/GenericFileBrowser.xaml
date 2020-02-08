@@ -9,7 +9,7 @@
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    mc:Ignorable="d"  NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d" NavigationCacheMode="Required" PointerReleased="GenericItemView_PointerReleased" Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
     <local:BaseLayout.Resources>
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem Text="Sort by" x:Name="SortByEmptySpace">

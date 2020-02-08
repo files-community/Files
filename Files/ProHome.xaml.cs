@@ -132,6 +132,8 @@ namespace Files
             }
 
             App.CurrentInstance = this as IShellPage;
+            App.CurrentInstance.CanGoBack = false;
+            App.CurrentInstance.CanGoForward = false;
         }
 
         private async void DisplayFilesystemConsentDialog()

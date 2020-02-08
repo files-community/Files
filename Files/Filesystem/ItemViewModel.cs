@@ -578,6 +578,10 @@ namespace Files.Filesystem
                     Universal.path = App.AppSettings.OneDrivePath;
                     break;
             }
+
+            App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+
             ObservableCollection<PartialStorageItem> partialFiles = null;
             ObservableCollection<PartialStorageItem> partialFolders = null;
             var fetchOperation = Task.Run(async () => 
