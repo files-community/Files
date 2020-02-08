@@ -130,6 +130,8 @@ namespace Files
                 App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
                 DisplayFilesystemConsentDialog();
             }
+
+            App.CurrentInstance = this as IShellPage;
         }
 
         private async void DisplayFilesystemConsentDialog()
@@ -150,10 +152,7 @@ namespace Files
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (App.CurrentInstance == null && ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().Equals(this))
-            {
-                App.CurrentInstance = this as IShellPage;
-            }
+
 
             viewModel = new ItemViewModel();
             interactionOperation = new Interaction();

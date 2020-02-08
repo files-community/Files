@@ -40,7 +40,7 @@ namespace Files
             }
             set
             {
-                if(value != currentInstance)
+                if(value != currentInstance && value != null)
                 {
                     currentInstance = value; 
                 }
