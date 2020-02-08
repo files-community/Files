@@ -235,7 +235,7 @@ namespace Files.View_Models
 
             try
             {
-                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
+                StorageFolder.GetFolderFromPathAsync(OneDrivePath);
             }
             catch (Exception)
             {
