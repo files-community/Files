@@ -101,7 +101,7 @@ namespace Files
             icon.Glyph = "\xE713";
             if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
             {
-                App.OccupiedInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
             }
         }
 
@@ -387,7 +387,7 @@ namespace Files
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
                 {
-                    App.OccupiedInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 }
             }
 

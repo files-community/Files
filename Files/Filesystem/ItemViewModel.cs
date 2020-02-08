@@ -196,13 +196,13 @@ namespace Files.Filesystem
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
                     var candidateItems = _filesAndFolders.Where(f => f.FileName.Length >= value.Length && f.FileName.Substring(0, value.Length).ToLower() == value);
-                    if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                    if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
-                        previouslySelectedItem = (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem as ListedItem;
+                        previouslySelectedItem = (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
                     }
-                    else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
-                        previouslySelectedItem = (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem as ListedItem;
+                        previouslySelectedItem = (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
                     }
 
                     // If the user is trying to cycle through items
@@ -217,15 +217,15 @@ namespace Files.Filesystem
 
                     if (jumpedToItem != null)
                     {
-                        if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                        if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                         {
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
+                            (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
+                            (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
                         }
-                        else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                        else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                         {
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
+                            (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
+                            (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
                         }
 
                     }
@@ -241,10 +241,10 @@ namespace Files.Filesystem
         {
             _filesAndFolders = new ObservableCollection<ListedItem>();
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
-            App.OccupiedInstance.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
-            App.OccupiedInstance.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
-            App.OccupiedInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
-            App.OccupiedInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
             _cancellationTokenSource = new CancellationTokenSource();
 
             Universal.PropertyChanged += Universal_PropertyChanged;
@@ -267,7 +267,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            App.OccupiedInstance.pathBoxItems.Clear();
+            App.CurrentInstance.PathComponents.Clear();
             // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -302,7 +302,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.OccupiedInstance.pathBoxItems.Add(item);
+                        App.CurrentInstance.PathComponents.Add(item);
                     }
                     else
                     {
@@ -322,7 +322,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.OccupiedInstance.pathBoxItems.Add(item);
+                        App.CurrentInstance.PathComponents.Add(item);
 
                     }
                     index++;
@@ -332,49 +332,49 @@ namespace Files.Filesystem
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(App.OccupiedInstance.AlwaysPresentCommands.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled == true)
             {
-                App.OccupiedInstance.AlwaysPresentCommands.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.AlwaysPresentCommands.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
             }
         }
 
         private void LayoutItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.OccupiedInstance.LayoutItems.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled == true)
             {
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.LayoutItems.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled = false;
             }
         }
 
         private void ShareItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.OccupiedInstance.ShareItems.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled == true)
             {
-                App.OccupiedInstance.ShareItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.ShareItems.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
         private void HomeItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.OccupiedInstance.HomeItems.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled == true)
             {
-                App.OccupiedInstance.HomeItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.HomeItems.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled = false;
             }
 
         }
@@ -405,9 +405,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.OccupiedInstance.RibbonArea.Back.IsEnabled = true;
-            App.OccupiedInstance.RibbonArea.Forward.IsEnabled = true;
-            App.OccupiedInstance.RibbonArea.Up.IsEnabled = true;
+            App.CurrentInstance.CanGoBack = true;
+            App.CurrentInstance.CanGoForward = true;
+            App.CurrentInstance.CanNavigateToParent = true;
 
         }
 
@@ -539,7 +539,7 @@ namespace Files.Filesystem
 
         public async void RapidAddItemsToCollectionAsync(string path)
         {
-            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
+            App.CurrentInstance.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -578,6 +578,10 @@ namespace Files.Filesystem
                     Universal.path = App.AppSettings.OneDrivePath;
                     break;
             }
+
+            App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+
             ObservableCollection<PartialStorageItem> partialFiles = null;
             ObservableCollection<PartialStorageItem> partialFolders = null;
             var fetchOperation = Task.Run(async () => 
@@ -735,14 +739,14 @@ namespace Files.Filesystem
             OrderFiles();
             stopwatch.Stop();
             Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
+            App.CurrentInstance.CanRefresh = true;
             LoadIndicator.isVisible = Visibility.Collapsed;
             isLoadingItems = false;
         }
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageItem)
         {
-            if ((App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -856,8 +860,8 @@ namespace Files.Filesystem
         {
             RapidAddItemsToCollectionAsync(path);
             return;
-
-            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
+            // Eventually add logic for user choice between item load methods
+            App.CurrentInstance.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -916,8 +920,8 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                App.OccupiedInstance.RibbonArea.Back.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoBack;
-                App.OccupiedInstance.RibbonArea.Forward.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoForward;
+                App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+                App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -925,12 +929,12 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                        if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
-                        else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                        else if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
@@ -941,12 +945,12 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                        if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
-                        else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                        else if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
@@ -1013,7 +1017,7 @@ namespace Files.Filesystem
                 OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
+                App.CurrentInstance.CanRefresh = true;
             }
             catch (UnauthorizedAccessException)
             {
@@ -1054,7 +1058,7 @@ namespace Files.Filesystem
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -1114,7 +1118,7 @@ namespace Files.Filesystem
             Visibility itemThumbnailImgVis;
             Visibility itemEmptyImgVis;
 
-            if (!(App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum)))
+            if (!(App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 try
                 {

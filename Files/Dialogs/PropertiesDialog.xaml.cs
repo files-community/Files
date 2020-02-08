@@ -19,12 +19,10 @@ namespace Files.Dialogs
 {
     public sealed partial class PropertiesDialog : ContentDialog
     {
-        public Frame accessiblePropertiesFrame;
 
         public PropertiesDialog()
         {
             this.InitializeComponent();
-            accessiblePropertiesFrame = propertiesFrame;
         }
 
     }

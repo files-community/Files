@@ -20,34 +20,87 @@ using Windows.UI.Xaml.Navigation;
 using Files.Enums;
 using System.Drawing;
 using Files.View_Models;
+using Files.Controls;
 
 namespace Files
 {
-    public sealed partial class ProHome : Page
+    public sealed partial class ProHome : Page, IShellPage
     {
-        public Grid deleteProgressBox;
-        public ProHome currentInstance;
-        public ProgressBar deleteProgressBoxIndicator;
-        public TextBlock deleteProgressBoxTitle;
-        public TextBlock deleteProgressBoxTextInfo;
-        public DisplayedPathText PathText { get; set; } = new DisplayedPathText();
-        public Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
-        public Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
-        public Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
-        public AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new AlwaysPresentCommandsState();
-        public ObservableCollection<PathBoxItem> pathBoxItems = new ObservableCollection<PathBoxItem>();
-        public Interaction instanceInteraction;
-        private ItemViewModel _instanceViewModel;
-        public ItemViewModel instanceViewModel
+        Frame IShellPage.ContentFrame => ItemDisplayFrame;
+
+        Interaction IShellPage.InteractionOperations => interactionOperation;
+
+        ItemViewModel IShellPage.ViewModel => viewModel;
+
+        BaseLayout IShellPage.ContentPage => GetContentOrNull();
+
+        private BaseLayout GetContentOrNull()
         {
+            if ((ItemDisplayFrame.Content as BaseLayout) != null)
+            {
+                return ItemDisplayFrame.Content as BaseLayout;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        Control IShellPage.OperationsControl => RibbonArea;
+
+        bool IShellPage.CanRefresh {
             get
             {
-                return _instanceViewModel;
+                return RibbonArea.Refresh.IsEnabled;
             }
             set
             {
-                _instanceViewModel = value;
-                Bindings.Update();
+                RibbonArea.Refresh.IsEnabled = value;
+            }
+        }
+        bool IShellPage.CanNavigateToParent
+        {
+            get
+            {
+                return RibbonArea.Up.IsEnabled;
+            }
+            set
+            {
+                RibbonArea.Up.IsEnabled = value;
+            }
+
+        }
+        bool IShellPage.CanGoBack
+        {
+            get
+            {
+                return RibbonArea.Back.IsEnabled;
+            }
+            set
+            {
+                RibbonArea.Back.IsEnabled = value;
+            }
+        }
+        bool IShellPage.CanGoForward
+        {
+            get
+            {
+                return RibbonArea.Forward.IsEnabled;
+            }
+            set
+            {
+                RibbonArea.Forward.IsEnabled = value;
+            }
+        }
+        string IShellPage.PathControlDisplayText
+        {
+            get
+            {
+                return RibbonArea.VisiblePath.Text;
+            }
+            set
+            {
+                RibbonArea.VisiblePath.Text = value;
             }
         }
         private bool _isSwiped;
@@ -75,14 +128,16 @@ namespace Files
         {
             _isSwiped = false;
         }
+
+        private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
+        ObservableCollection<PathBoxItem> IShellPage.PathComponents => pathComponents;
+        Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
+
         public ProHome()
         {
             this.InitializeComponent();
-            PathText.Text = "New tab";
-            deleteProgressBox = DeleteProgressFakeDialog;
-            deleteProgressBoxIndicator = deleteInfoCurrentIndicator;
-            deleteProgressBoxTitle = title;
-            deleteProgressBoxTextInfo = deleteInfoCurrentText;
+            RibbonArea.VisiblePath.Text = "New tab";
+            
             if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.ThemeShadow"))
             {
                 themeShadow.Receivers.Add(ShadowReceiver);
@@ -101,6 +156,10 @@ namespace Files
                 App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
                 DisplayFilesystemConsentDialog();
             }
+
+            App.CurrentInstance = this as IShellPage;
+            App.CurrentInstance.CanGoBack = false;
+            App.CurrentInstance.CanGoForward = false;
         }
 
         private async void DisplayFilesystemConsentDialog()
@@ -116,73 +175,62 @@ namespace Files
             NavParams = eventArgs.Parameter.ToString();
         }
 
-        private void DrivesList_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs e)
-        {
-            if (e.SelectedItem != null)
-            {
-                LocationsList.SelectedItem = null;
-                if (LinuxList != null)
-                {
-                    LinuxList.SelectedItem = null;
-                }
-            }
-        }
-
+        private ItemViewModel viewModel = null;
+        private Interaction interactionOperation = null;
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (App.OccupiedInstance == null && ItemViewModel.GetCurrentSelectedTabInstance<ProHome>().Equals(this))
-            {
-                App.OccupiedInstance = this;
-            }
+
+
+            viewModel = new ItemViewModel();
+            interactionOperation = new Interaction();
 
             switch (NavParams)
             {
                 case "Start":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems[0];
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems[0];
                     break;
                 case "New tab":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems[0];
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems[0];
                     break;
                 case "Desktop":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Downloads":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Documents":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Pictures":
                     ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Music":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Videos":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
-                    LocationsList.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
-	                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
-                        DrivesList.SelectedItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
+                        SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else
                     {
-                        DrivesList.SelectedItem = null;
+                        SidebarControl.SidebarNavView.SelectedItem = null;
                     }
                     break;
-
             }
 
             this.Loaded -= Page_Loaded;
@@ -194,9 +242,9 @@ namespace Files
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
-                App.OccupiedInstance.instanceInteraction.dataGridRows.Clear();
-                Interaction.FindChildren<DataGridRow>(App.OccupiedInstance.instanceInteraction.dataGridRows, (ItemDisplayFrame.Content as GenericFileBrowser).AllView);
-                foreach (DataGridRow dataGridRow in App.OccupiedInstance.instanceInteraction.dataGridRows)
+                App.CurrentInstance.InteractionOperations.dataGridRows.Clear();
+                Interaction.FindChildren<DataGridRow>(App.CurrentInstance.InteractionOperations.dataGridRows, (ItemDisplayFrame.Content as GenericFileBrowser).AllView);
+                foreach (DataGridRow dataGridRow in App.CurrentInstance.InteractionOperations.dataGridRows)
                 {
                     if ((ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity < 1)
                     {
@@ -205,174 +253,6 @@ namespace Files
                 }
             }
             RibbonArea.Focus(FocusState.Programmatic);
-        }
-
-        private void HideFakeDialogButton_Click(object sender, RoutedEventArgs e)
-        {
-            DeleteProgressFakeDialog.Visibility = Visibility.Collapsed;
-        }
-
-        private void LocationsList_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-
-        }
-
-        private void LocationsList_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
-        {
-            if (args.SelectedItem != null)
-            {
-                DrivesList.SelectedItem = null;
-                if (LinuxList != null)
-                {
-                    LinuxList.SelectedItem = null;
-                }
-            }
-        }
-
-        private void LocationsList_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
-        {
-            HomeItems.isEnabled = false;
-            ShareItems.isEnabled = false;
-            if (LinuxList != null)
-            {
-                if (LinuxList.SelectedItem != null)
-                {
-                    LinuxList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
-            }
-
-            if (DrivesList.SelectedItem != null)
-            {
-                DrivesList.SelectedItem = null;
-                LayoutItems.isEnabled = false;
-            }
-
-            switch (args.InvokedItem.ToString())
-            {
-                case "Home":
-                    ItemDisplayFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
-                    PathText.Text = "New tab";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = false;
-                    break;
-                case "Desktop":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
-                    PathText.Text = "Desktop";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-                case "Downloads":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
-                    PathText.Text = "Downloads";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-                case "Documents":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
-                    PathText.Text = "Documents";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-                case "Pictures":
-                    ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
-                    PathText.Text = "Pictures";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-                case "Music":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
-                    PathText.Text = "Music";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-                case "Videos":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
-                    PathText.Text = "Videos";
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-                default:
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                    PathText.Text = args.InvokedItem.ToString();
-                    HomeItems.isEnabled = false;
-                    ShareItems.isEnabled = false;
-
-                    LayoutItems.isEnabled = true;
-                    break;
-            }
-        }
-
-        private void DrivesList_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
-        {
-            HomeItems.isEnabled = false;
-            ShareItems.isEnabled = false;
-            if (LocationsList.SelectedItem != null)
-            {
-                LocationsList.SelectedItem = null;
-                LayoutItems.isEnabled = false;
-            }
-
-            if (LinuxList != null)
-            {
-                if (LinuxList.SelectedItem != null)
-                {
-                    LinuxList.SelectedItem = null;
-                    LayoutItems.isEnabled = false;
-                }
-            }
-
-
-            var clickedItem = args.InvokedItemContainer;
-
-            if (clickedItem.Tag.ToString() == "LocalDisk")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), @"C:\", new SuppressNavigationTransitionInfo());
-                PathText.Text = @"Local Disk (C:\)";
-                LayoutItems.isEnabled = true;
-            }
-            else if (clickedItem.Tag.ToString() == "OneDrive")
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
-                PathText.Text = "OneDrive";
-                LayoutItems.isEnabled = true;
-            }
-            else
-            {
-                ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                PathText.Text = clickedItem.Tag.ToString();
-                LayoutItems.isEnabled = true;
-            }
-        }
-
-        private void LocationsList_Loaded(object sender, RoutedEventArgs e)
-        {
-            LocationsList.SelectedItem = App.sideBarItems[0];
-        }
-
-        private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-        {
-            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebar = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
-            var item = ((FrameworkElement)e.OriginalSource).DataContext as SidebarItem;
-            if (!item.isDefaultLocation)
-            {
-                SideBarItemContextFlyout.ShowAt(sidebar, e.GetPosition(sidebar));
-                App.rightClickedItem = item;
-            }
         }
 
         public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
@@ -397,38 +277,6 @@ namespace Files
             {
                 UnloadObject(ProgressFlyout);
             }
-        }
-
-        private void LinuxList_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
-        {
-            if (args.SelectedItem != null)
-            {
-                DrivesList.SelectedItem = null;
-                LocationsList.SelectedItem = null;
-            }
-        }
-
-        private void LinuxList_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
-        {
-            HomeItems.isEnabled = false;
-            ShareItems.isEnabled = false;
-            if (LocationsList.SelectedItem != null)
-            {
-                LocationsList.SelectedItem = null;
-                LayoutItems.isEnabled = false;
-            }
-
-            if (DrivesList.SelectedItem != null)
-            {
-                DrivesList.SelectedItem = null;
-                LayoutItems.isEnabled = false;
-            }
-
-            var clickedItem = args.InvokedItemContainer;
-
-            ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-            PathText.Text = clickedItem.Tag.ToString();
-            LayoutItems.isEnabled = true;
         }
     }
 

@@ -44,7 +44,25 @@ namespace Files.Filesystem
 
 		private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
 		{
+			if(App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Drives") == null)
+			{
+				App.sideBarItems.Add(new HeaderTextItem() { Text = "Drives" });
+			}
+			foreach (DriveItem drive in Drives)
+			{
+				if (!App.sideBarItems.Contains(drive))
+				{
+					App.sideBarItems.Add(drive);
+				}
+			}
 
+			foreach(INavigationControlItem item in App.sideBarItems.ToList())
+			{
+				if(item is DriveItem && !Drives.Contains(item))
+				{
+					App.sideBarItems.Remove(item);
+				}
+			}
 		}
 
 		private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -180,11 +198,15 @@ namespace Files.Filesystem
 				tag = "OneDrive",
 				cloudGlyphVisibility = Visibility.Visible,
 				driveGlyphVisibility = Visibility.Collapsed,
-				Type = DriveType.VirtualDrive
+				Type = DriveType.VirtualDrive,
 				//itemVisibility = App.AppSettings.PinOneDriveToSideBar
 			};
 
-			list.Add(oneDriveItem);
+			var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
+			if (setting == null || (bool)setting == true)
+			{
+				list.Add(oneDriveItem);
+			}
 		}
 
 		public void Dispose()

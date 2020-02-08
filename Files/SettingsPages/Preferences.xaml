@@ -48,13 +48,15 @@
                         Text="Pin OneDrive to the sidebar" />
 
                     <ToggleSwitch
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsEnabled="False"
-                        IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay}"
-                        OffContent=""
-                        OnContent="" />
+                            Grid.Column="2"
+                            Width="40"
+                            HorizontalAlignment="Right"
+                            IsEnabled="True"
+                            OffContent=""
+                            OnContent=""
+                            x:Name="OneDrivePin"
+                            Toggled="OneDrivePin_Toggled"
+                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Grid>
 
                 <StackPanel>

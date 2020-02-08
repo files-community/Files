@@ -12,6 +12,7 @@ using Windows.System;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Core;
 using Windows.UI.Input;
+using Files.Controls;
 
 namespace Files
 {
@@ -29,15 +30,15 @@ namespace Files
             set
             {
                 if (value == nameColumn)
-                    App.OccupiedInstance.instanceViewModel.DirectorySortOption = SortOption.Name;
+                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.Name;
                 else if (value == dateColumn)
-                    App.OccupiedInstance.instanceViewModel.DirectorySortOption = SortOption.DateModified;
+                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.DateModified;
                 else if (value == typeColumn)
-                    App.OccupiedInstance.instanceViewModel.DirectorySortOption = SortOption.FileType;
+                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.FileType;
                 else if (value == sizeColumn)
-                    App.OccupiedInstance.instanceViewModel.DirectorySortOption = SortOption.Size;
+                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.Size;
                 else
-                    App.OccupiedInstance.instanceViewModel.DirectorySortOption = SortOption.Name;
+                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.Name;
 
                 if (value != _sortedColumn)
                 {
@@ -45,7 +46,7 @@ namespace Files
                     if (_sortedColumn != null)
                         _sortedColumn.SortDirection = null;
                 }
-                value.SortDirection = App.OccupiedInstance.instanceViewModel.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                value.SortDirection = App.CurrentInstance.ViewModel.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 _sortedColumn = value;
             }
         }
@@ -54,7 +55,7 @@ namespace Files
         {
             this.InitializeComponent();
 
-            switch (App.OccupiedInstance.instanceViewModel.DirectorySortOption)
+            switch (App.CurrentInstance.ViewModel.DirectorySortOption)
             {
                 case SortOption.Name:
                     SortedColumn = nameColumn;
@@ -70,14 +71,14 @@ namespace Files
                     break;
             }
 
-            App.OccupiedInstance.instanceViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
             {
-                switch (App.OccupiedInstance.instanceViewModel.DirectorySortOption)
+                switch (App.CurrentInstance.ViewModel.DirectorySortOption)
                 {
                     case SortOption.Name:
                         SortedColumn = nameColumn;
@@ -110,18 +111,18 @@ namespace Files
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                App.OccupiedInstance.instanceInteraction.itemsPasted = 0;
-                App.OccupiedInstance.instanceInteraction.ItemsToPaste = await e.DataView.GetStorageItemsAsync();
+                App.CurrentInstance.InteractionOperations.itemsPasted = 0;
+                App.CurrentInstance.InteractionOperations.ItemsToPaste = await e.DataView.GetStorageItemsAsync();
                 foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        App.OccupiedInstance.instanceInteraction.CloneDirectoryAsync((item as StorageFolder).Path, App.OccupiedInstance.instanceViewModel.Universal.path, (item as StorageFolder).DisplayName, false);
+                        App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.path, (item as StorageFolder).DisplayName, false);
                     }
                     else
                     {
-                        App.OccupiedInstance.UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.OccupiedInstance.instanceInteraction.itemsPasted, App.OccupiedInstance.instanceInteraction.ItemsToPaste.Count);
-                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.OccupiedInstance.instanceViewModel.Universal.path));
+                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
+                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.Universal.path));
                     }
                 }
             }
@@ -148,7 +149,7 @@ namespace Files
             string currentName = previousFileName;
             string newName = (e.EditingElement as TextBox).Text;
 
-            bool successful = await App.OccupiedInstance.instanceInteraction.RenameFileItem(selectedItem, currentName, newName);
+            bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, currentName, newName);
             if (!successful)
             {
                 selectedItem.FileName = currentName;
@@ -164,8 +165,8 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             AllView.SelectedItem = null;
-            App.OccupiedInstance.HomeItems.isEnabled = false;
-            App.OccupiedInstance.ShareItems.isEnabled = false;
+            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -173,13 +174,13 @@ namespace Files
             AllView.CommitEdit();
             if (e.AddedItems.Count > 0)
             {
-                App.OccupiedInstance.HomeItems.isEnabled = true;
-                App.OccupiedInstance.ShareItems.isEnabled = true;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
             }
             else if (AllView.SelectedItems.Count == 0)
             {
-                App.OccupiedInstance.HomeItems.isEnabled = false;
-                App.OccupiedInstance.ShareItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
@@ -191,7 +192,7 @@ namespace Files
         private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
-                App.OccupiedInstance.instanceViewModel.IsSortedAscending = !App.OccupiedInstance.instanceViewModel.IsSortedAscending;
+                App.CurrentInstance.ViewModel.IsSortedAscending = !App.CurrentInstance.ViewModel.IsSortedAscending;
             else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
         }
@@ -206,7 +207,7 @@ namespace Files
                 }
                 else
                 {
-                    App.OccupiedInstance.instanceInteraction.List_ItemClick(null, null);
+                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
                 }
                 e.Handled = true;
             }
@@ -218,9 +219,9 @@ namespace Files
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            if (App.OccupiedInstance != null)
+            if (App.CurrentInstance != null)
             {
-                if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
                     base.Page_CharacterReceived(sender, args);
                     AllView.Focus(FocusState.Keyboard);

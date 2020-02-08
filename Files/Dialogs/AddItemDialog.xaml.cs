@@ -48,15 +48,11 @@ namespace Files.Dialogs
 
         public static async void CreateFile(AddItemType fileType)
         {
-            var TabInstance = App.OccupiedInstance;
+            var TabInstance = App.CurrentInstance;
             string currentPath = null;
-            if (TabInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+            if (TabInstance.ContentPage != null)
             {
-                currentPath = TabInstance.instanceViewModel.Universal.path;
-            }
-            else if (TabInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
-            {
-                currentPath = TabInstance.instanceViewModel.Universal.path;
+                currentPath = TabInstance.ViewModel.Universal.path;
             }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();
@@ -75,7 +71,7 @@ namespace Files.Dialogs
                 {
                     folder = await folderToCreateItem.CreateFolderAsync("New Folder", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = folder.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = folder.Path });
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = folder.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = folder.Path });
             }
             else if (fileType == AddItemType.TextDocument)
             {
@@ -88,7 +84,7 @@ namespace Files.Dialogs
                 {
                     item = await folderToCreateItem.CreateFileAsync("New Text Document" + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
             }
             else if (fileType == AddItemType.BitmapImage)
             {
@@ -101,7 +97,7 @@ namespace Files.Dialogs
                 {
                     item = await folderToCreateItem.CreateFileAsync("New Bitmap Image" + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.instanceViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
             }
         }
     }

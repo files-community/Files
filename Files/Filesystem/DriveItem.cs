@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
-    public class DriveItem
+    public class DriveItem : INavigationControlItem
     {
         public string glyph { get; set; }
         public ulong maxSpace { get; set; } = 0;
@@ -23,12 +23,17 @@ namespace Files.Filesystem
         public Visibility driveGlyphVisibility { get; set; } = Visibility.Visible;
         public Visibility itemVisibility { get; set; } = Visibility.Visible;
         public DriveType Type { get; set; }
+        string INavigationControlItem.IconGlyph => glyph;
+        string INavigationControlItem.Text => driveText;
+        string INavigationControlItem.Path => tag;
+        private NavigationControlItemType NavItemType = NavigationControlItemType.Drive;
+        NavigationControlItemType INavigationControlItem.ItemType => NavItemType;
 
         private StorageFolder _root;
 
         public DriveItem()
         {
-
+            NavItemType = NavigationControlItemType.OneDrive;
         }
 
         public DriveItem(StorageFolder root, Visibility progressBarVisibility, DriveType type)

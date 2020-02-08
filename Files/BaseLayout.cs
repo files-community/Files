@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Controls;
+using Files.Filesystem;
 using Files.Interacts;
 using System;
 using System.Collections.Generic;
@@ -34,13 +35,13 @@ namespace Files
         { 
             get
             {
-                if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
-                    return (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItems.Cast<ListedItem>().ToList();
+                    return (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Cast<ListedItem>().ToList();
                 }
-                else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                 {
-                    return (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItems.Cast<ListedItem>().ToList();
+                    return (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItems.Cast<ListedItem>().ToList();
                 }
                 else
                 {
@@ -52,13 +53,13 @@ namespace Files
         {
             get
             {
-                if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
-                    return (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem as ListedItem;
+                    return (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
                 }
-                else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                 {
-                    return (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem as ListedItem;
+                    return (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
                 }
                 else
                 {
@@ -94,60 +95,60 @@ namespace Files
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
-            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
-            App.OccupiedInstance.AlwaysPresentCommands.isEnabled = true;
+            App.CurrentInstance.CanRefresh = true;
+            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
-            App.OccupiedInstance.instanceViewModel.Universal.path = parameters;
+            App.CurrentInstance.ViewModel.Universal.path = parameters;
             
-            if (App.OccupiedInstance.instanceViewModel.Universal.path == Path.GetPathRoot(App.OccupiedInstance.instanceViewModel.Universal.path))
+            if (App.CurrentInstance.ViewModel.Universal.path == Path.GetPathRoot(App.CurrentInstance.ViewModel.Universal.path))
             {
-                App.OccupiedInstance.RibbonArea.Up.IsEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).Up.IsEnabled = false;
             }
             else
             {
-                App.OccupiedInstance.RibbonArea.Up.IsEnabled = true;
+                (App.CurrentInstance.OperationsControl as RibbonArea).Up.IsEnabled = true;
             }
 
-            App.OccupiedInstance.instanceViewModel.AddItemsToCollectionAsync(App.OccupiedInstance.instanceViewModel.Universal.path);
+            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.Universal.path);
             App.Clipboard_ContentChanged(null, null);
 
             if (parameters.Equals(App.AppSettings.DesktopPath))
             {
-                App.OccupiedInstance.PathText.Text = "Desktop";
+                App.CurrentInstance.PathControlDisplayText = "Desktop";
             }
             else if (parameters.Equals(App.AppSettings.DocumentsPath))
             {
-                App.OccupiedInstance.PathText.Text = "Documents";
+                App.CurrentInstance.PathControlDisplayText = "Documents";
             }
             else if (parameters.Equals(App.AppSettings.DownloadsPath))
             {
-                App.OccupiedInstance.PathText.Text = "Downloads";
+                App.CurrentInstance.PathControlDisplayText = "Downloads";
             }
             else if (parameters.Equals(App.AppSettings.PicturesPath))
             {
-                App.OccupiedInstance.PathText.Text = "Pictures";
+                App.CurrentInstance.PathControlDisplayText = "Pictures";
             }
             else if (parameters.Equals(App.AppSettings.MusicPath))
             {
-                App.OccupiedInstance.PathText.Text = "Music";
+                App.CurrentInstance.PathControlDisplayText = "Music";
             }
             else if (parameters.Equals(App.AppSettings.OneDrivePath))
             {
-                App.OccupiedInstance.PathText.Text = "OneDrive";
+                App.CurrentInstance.PathControlDisplayText = "OneDrive";
             }
             else if (parameters.Equals(App.AppSettings.VideosPath))
             {
-                App.OccupiedInstance.PathText.Text = "Videos";
+                App.CurrentInstance.PathControlDisplayText = "Videos";
             }
             else
             {
                 if (parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
                 {
-                    App.OccupiedInstance.PathText.Text = @"Local Disk (C:\)";
+                    App.CurrentInstance.PathControlDisplayText = @"Local Disk (C:\)";
                 }
                 else
                 {
-                    App.OccupiedInstance.PathText.Text = parameters;
+                    App.CurrentInstance.PathControlDisplayText = parameters;
                 }
             }
         }
@@ -157,9 +158,9 @@ namespace Files
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            if (App.OccupiedInstance.instanceViewModel._fileQueryResult != null)
+            if (App.CurrentInstance.ViewModel._fileQueryResult != null)
             {
-                App.OccupiedInstance.instanceViewModel._fileQueryResult.ContentsChanged -= App.OccupiedInstance.instanceViewModel.FileContentsChanged;
+                App.CurrentInstance.ViewModel._fileQueryResult.ContentsChanged -= App.CurrentInstance.ViewModel.FileContentsChanged;
             }
         }
 
@@ -170,7 +171,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            var selectedFileSystemItems = (App.OccupiedInstance.ItemDisplayFrame.Content as BaseLayout).SelectedItems;
+            var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
 
             // Find selected items that are not folders
             if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
@@ -226,18 +227,18 @@ namespace Files
         {
             if (AssociatedViewModel == null && AssociatedInteractions == null)
             {
-                AssociatedViewModel = App.OccupiedInstance.instanceViewModel;
-                AssociatedInteractions = App.OccupiedInstance.instanceInteraction;
-                if (App.OccupiedInstance == null)
+                AssociatedViewModel = App.CurrentInstance.ViewModel;
+                AssociatedInteractions = App.CurrentInstance.InteractionOperations;
+                if (App.CurrentInstance == null)
                 {
-                    App.OccupiedInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 }
 
-                if (App.OccupiedInstance.instanceViewModel == null && App.OccupiedInstance.instanceInteraction == null)
+                if (App.CurrentInstance.ViewModel == null && App.CurrentInstance.InteractionOperations == null)
                 {
-                    App.OccupiedInstance.instanceViewModel = new ItemViewModel();
-                    App.OccupiedInstance.instanceInteraction = new Interaction();
-                    Page_Loaded(null, null);
+                    //App.CurrentInstance.ViewModel = new ItemViewModel();
+                    //App.CurrentInstance.InteractionOperations = new Interaction();
+                    //Page_Loaded(null, null);
                 }
             }
         }
@@ -249,7 +250,7 @@ namespace Files
                 return;
 
             char letterPressed = Convert.ToChar(args.KeyCode);
-            App.OccupiedInstance.instanceInteraction.PushJumpChar(letterPressed);
+            App.CurrentInstance.InteractionOperations.PushJumpChar(letterPressed);
         }
     }
 }

@@ -17,6 +17,7 @@ using System.Runtime.CompilerServices;
 using System.Linq;
 using Files.Filesystem;
 using Files.View_Models;
+using Files.Controls;
 
 namespace Files
 {
@@ -54,7 +55,7 @@ namespace Files
             {
                 var filePath = clickedOnItem.path;
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.name.Length);
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), folderPath);
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), folderPath);
             }
         }
 
@@ -70,14 +71,13 @@ namespace Files
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(parameters, null);
             instanceTabsView.TabStrip_SelectionChanged(null, null);
-            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
+            App.CurrentInstance.CanRefresh = false;
             App.PS.isEnabled = false;
-            App.OccupiedInstance.AlwaysPresentCommands.isEnabled = false;
-            App.OccupiedInstance.LayoutItems.isEnabled = false;
-            App.OccupiedInstance.RibbonArea.Up.IsEnabled = false;
+            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
+            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
+            App.CurrentInstance.CanNavigateToParent = false;
             // Clear the path UI and replace with Favorites
-            App.OccupiedInstance.pathBoxItems.Clear();
-            //Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
+            App.CurrentInstance.PathComponents.Clear();
 
             string componentLabel = parameters;
             string tag = parameters;
@@ -86,7 +86,7 @@ namespace Files
                 Title = componentLabel,
                 Path = tag,
             };
-            App.OccupiedInstance.pathBoxItems.Add(item);
+            App.CurrentInstance.PathComponents.Add(item);
 
 
             //SetPageContentVisibility(parameters);
@@ -98,7 +98,7 @@ namespace Files
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             if (parameters == "Start")
             {
-                App.OccupiedInstance.PathText.Text = "Start";
+                App.CurrentInstance.PathControlDisplayText = "Start";
                 if (localSettings.Values["FavoritesDisplayed_Start"] != null || localSettings.Values["RecentsDisplayed_Start"] != null || localSettings.Values["DrivesDisplayed_Start"] != null)
                 {
                     switch ((bool)localSettings.Values["FavoritesDisplayed_Start"])
@@ -134,7 +134,7 @@ namespace Files
             }
             else if (parameters == "New tab")
             {
-                App.OccupiedInstance.PathText.Text = "New tab";
+                App.CurrentInstance.PathControlDisplayText = "New tab";
                 if (localSettings.Values["FavoritesDisplayed_NewTab"] != null || localSettings.Values["RecentsDisplayed_NewTab"] != null || localSettings.Values["DrivesDisplayed_NewTab"] != null)
                 {
                     switch ((bool)localSettings.Values["FavoritesDisplayed_NewTab"])
@@ -176,36 +176,36 @@ namespace Files
 
         private void CardPressed(object sender, ItemClickEventArgs e)
         {
-            string BelowCardText = ((Locations.LocationItem)e.ClickedItem).Text;
+            string BelowCardText = ((Locations.FavoriteLocationItem)e.ClickedItem).Text;
             if (BelowCardText == "Downloads")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Documents")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Pictures")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Music")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (BelowCardText == "Videos")
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
         }
 
@@ -224,33 +224,33 @@ namespace Files
             var clickedButton = sender as Button;
             if (clickedButton.Tag.ToString() == "\xE896") // Downloads
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-                App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
             }
         }
         public static StorageFile RecentsFile;
@@ -330,8 +330,8 @@ namespace Files
             {
                 if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
                 {
-                    App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem) == App.sideBarItems[0]);
-                    App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), path);
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem) == App.sideBarItems[0]);
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
                 }
                 else
                 {
@@ -339,8 +339,8 @@ namespace Files
                     {
                         if (drive.tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
-                            App.OccupiedInstance.DrivesList.SelectedItem = drive;
-                            App.OccupiedInstance.ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), path);
+                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = drive;
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
                             return;
                         }
                     }

@@ -84,6 +84,16 @@ namespace Files.SettingsPages
                 OneDriveL.IsEnabled = false;
                 aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
+
+            try
+            {
+                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
+            }
+            catch (Exception)
+            {
+                App.AppSettings.PinOneDriveToSideBar = false;
+                OneDrivePin.IsEnabled = false;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -314,6 +324,13 @@ namespace Files.SettingsPages
             var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
 
             localSettings.Values["terminal_id"] = selectedTerminal.Id;
+        }
+
+        private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            OneDrivePin.IsEnabled = false;
+            App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
+            OneDrivePin.IsEnabled = true;
         }
     }
 }
