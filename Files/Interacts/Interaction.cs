@@ -26,6 +26,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Files.View_Models;
+using Windows.System.UserProfile;
 
 namespace Files.Interacts
 {
@@ -42,6 +43,14 @@ namespace Files.Interacts
         public void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
         {
             OpenSelectedItems(false);
+        }
+
+        public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
+        {
+            var item = (CurrentInstance.ContentPage as BaseLayout).SelectedItem;
+            StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+            UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
+            await profileSettings.TrySetWallpaperImageAsync(file);
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -73,16 +82,16 @@ namespace Files.Interacts
         public void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var CurrentSourceType = App.CurrentInstance.CurrentPageType;
-            if(CurrentSourceType == typeof(GenericFileBrowser))
+            if (CurrentSourceType == typeof(GenericFileBrowser))
             {
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
                     instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
                 }
-                
+
             }
-            else if(CurrentSourceType == typeof(PhotoAlbum))
+            else if (CurrentSourceType == typeof(PhotoAlbum))
             {
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
@@ -147,7 +156,7 @@ namespace Files.Interacts
                             bool isDuplicate = false;
                             foreach (INavigationControlItem sbi in App.sideBarItems)
                             {
-                                if(sbi is LocationItem)
+                                if (sbi is LocationItem)
                                 {
                                     if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
                                     {
@@ -158,7 +167,7 @@ namespace Files.Interacts
                                         }
                                     }
                                 }
-                                
+
                             }
 
                             if (!isDuplicate)
@@ -191,7 +200,7 @@ namespace Files.Interacts
         {
             Clipboard.Clear();
             DataPackage data = new DataPackage();
-            if(App.CurrentInstance.ContentPage != null)
+            if (App.CurrentInstance.ContentPage != null)
             {
                 data.SetText(CurrentInstance.ViewModel.Universal.path);
                 Clipboard.SetContent(data);
@@ -218,7 +227,7 @@ namespace Files.Interacts
         {
             dataGrid = (DataGrid)sender;
             var RowPressed = FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
-            if(RowPressed != null)
+            if (RowPressed != null)
             {
                 var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
                 // Check if RightTapped row is currently selected
@@ -229,7 +238,7 @@ namespace Files.Interacts
                 dataGrid.SelectedItems.Clear();
                 dataGrid.SelectedItems.Add(ObjectPressed);
             }
-            
+
         }
 
         public static void FindChildren<T>(List<T> results, DependencyObject startNode) where T : DependencyObject
@@ -263,7 +272,7 @@ namespace Files.Interacts
             }
             return parent;
         }
-        
+
         public void OpenItem_Click(object sender, RoutedEventArgs e)
         {
             OpenSelectedItems(true);
@@ -379,7 +388,7 @@ namespace Files.Interacts
                         }
                     }
                 }
-                else if(selectedItemCount > 1)
+                else if (selectedItemCount > 1)
                 {
                     foreach (ListedItem clickedOnItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
@@ -442,7 +451,7 @@ namespace Files.Interacts
         {
             DataRequestDeferral dataRequestDeferral = args.Request.GetDeferral();
             List<IStorageItem> items = new List<IStorageItem>();
-            if(App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+            if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
 
@@ -476,7 +485,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            
+
             DataRequest dataRequest = args.Request;
             dataRequest.Data.SetStorageItems(items);
             dataRequest.Data.Properties.Title = "Data Shared From Files";
@@ -622,7 +631,7 @@ namespace Files.Interacts
                 {
                     dataGridRows.Clear();
                     FindChildren<DataGridRow>(dataGridRows, (CurrentInstance.ContentPage as GenericFileBrowser).AllView);
-                    
+
                     // First, reset DataGrid Rows that may be in "cut" command mode
                     foreach (DataGridRow row in dataGridRows)
                     {
@@ -640,7 +649,7 @@ namespace Files.Interacts
                         {
                             index++;
                             var item = allItems.Current;
-                            if(item == StorItem)
+                            if (item == StorItem)
                             {
                                 DataGridRow dataGridRow = dataGridRows[index];
                                 (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
@@ -684,12 +693,12 @@ namespace Files.Interacts
 
                     foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        GridViewItem itemToDimForCut = (GridViewItem) (CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(StorItem);
+                        GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(StorItem);
                         List<Grid> itemContentGrids = new List<Grid>();
                         FindChildren<Grid>(itemContentGrids, (CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(itemToDimForCut.Content));
                         var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
                         imageOfItem.Opacity = 0.4;
-                    
+
                         App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
                         if (StorItem.FileType != "Folder")
                         {
@@ -779,7 +788,7 @@ namespace Files.Interacts
             DataPackageView packageView = Clipboard.GetContent();
             ItemsToPaste = await packageView.GetStorageItemsAsync();
             itemsPasted = 0;
-            if(ItemsToPaste.Count > 3)
+            if (ItemsToPaste.Count > 3)
             {
                 (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
             }
@@ -917,7 +926,7 @@ namespace Files.Interacts
 
         public void SelectAllItems()
         {
-            if(App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+            if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
                 foreach (ListedItem li in (CurrentInstance.ContentPage as GenericFileBrowser).AllView.ItemsSource)
@@ -928,7 +937,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if(App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
                 (CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectAll();
             }
@@ -980,10 +989,10 @@ namespace Files.Interacts
                 MessageDialog dialog = new MessageDialog("The file you are attempting to preview may have been moved or deleted.", "File Not Found");
                 var task = dialog.ShowAsync();
                 task.AsTask().Wait();
-                NavigationActions.Refresh_Click(null, null); 
+                NavigationActions.Refresh_Click(null, null);
             }
         }
-        
+
         public void PushJumpChar(char letter)
         {
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();

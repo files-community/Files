@@ -155,6 +155,14 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
+                x:Name="SetAsDesktopBackgroundItem"
+                Click="{x:Bind AssociatedInteractions.SetAsDesktopBackgroundItem_Click}"
+                Text="Set as desktop background">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7F4;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
                 x:Name="ShareItem"
                 Click="{x:Bind AssociatedInteractions.ShareItem_Click}"
                 Text="Share">
