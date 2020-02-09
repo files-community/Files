@@ -197,7 +197,7 @@
                             Grid.Column="1"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
-                            PlaceholderText="Set custom mcusic location" />
+                            PlaceholderText="Set custom music location" />
 
                         <TextBlock
                             x:Uid="SettingsPreferencesVideo"
