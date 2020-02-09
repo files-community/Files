@@ -466,7 +466,7 @@
                                         <MenuFlyoutItem
                                             x:Name="UnpinItem"
                                             Click="{x:Bind local1:App.FlyoutItem_Click}"
-                                            Text="Unpin from Sidebar" />
+                                            Text="Unpin from Sidebar" x:Uid="SideBarUnpinFromSideBar" />
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </ResourceDictionary>

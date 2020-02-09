@@ -238,6 +238,10 @@
           <source>Set custom video location</source>
           <target state="new">Set custom video location</target>
         </trans-unit>
+        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Sidebar</source>
+          <target state="new">Unpin from Sidebar</target>
+        </trans-unit>
       </group>
     </body>
   </file>

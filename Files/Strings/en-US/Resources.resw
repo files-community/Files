@@ -291,4 +291,7 @@
   <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
     <value>Set custom video location</value>
   </data>
+  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
+    <value>Unpin from Sidebar</value>
+  </data>
 </root>
