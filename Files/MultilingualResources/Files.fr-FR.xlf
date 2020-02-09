@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="fr-FR" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
+        <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
+          <source>Created:</source>
+          <target state="new">Created:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="new">Item Name</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Path:</source>
+          <target state="new">Path:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="new">Size:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type:</source>
+          <target state="new">Item type:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
+          <source>Modified:</source>
+          <target state="new">Modified:</target>
+        </trans-unit>
+        <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
+          <source>Clear all items</source>
+          <target state="new">Clear all items</target>
+        </trans-unit>
+        <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
+          <source>Files and folders you've previously accessed will show up here</source>
+          <target state="new">Files and folders you've previously accessed will show up here</target>
+        </trans-unit>
+        <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="new">Open file location</target>
+        </trans-unit>
+        <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove this item</source>
+          <target state="new">Remove this item</target>
+        </trans-unit>
+        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
+          <source>Recent items</source>
+          <target state="new">Recent items</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
+          <source>Files UWP</source>
+          <target state="new">Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
+          <source>License: </source>
+          <target state="new">License: </target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
+          <source>Special thanks to:</source>
+          <target state="new">Special thanks to:</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
+          <source>Submit Feedback</source>
+          <target state="new">Submit Feedback</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
+          <source>Submit an issue report to provide the developers with information</source>
+          <target state="new">Submit an issue report to provide the developers with information</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
+          <source>Third Party Licenses</source>
+          <target state="new">Third Party Licenses</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="new">About</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
+          <source>Website: </source>
+          <target state="new">Website: </target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="new">Acrylic sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="new">Date format</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
+          <source>Theme</source>
+          <target state="new">Theme</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="new">Appearance</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="new">Show drive letters</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="new">Show extensions for known file types</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="new">Show hidden files, folders, and drives</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="new">Files and Folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="new">About</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="new">Appearance</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="new">Files and Folders</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="new">On Startup</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
+          <source>Page Layouts</source>
+          <target state="new">Page Layouts</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="new">Preferences</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Search</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
+          <source>Continue where you left off</source>
+          <target state="new">Continue where you left off</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open a new tab</source>
+          <target state="new">Open a new tab</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
+          <source>Open a specific page or pages</source>
+          <target state="new">Open a specific page or pages</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="new">On Startup</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
+          <source>Desktop</source>
+          <target state="new">Desktop</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom desktop location</source>
+          <target state="new">Set custom desktop location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="new">Documents</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom documents location</source>
+          <target state="new">Set custom documents location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
+          <source>Downloads</source>
+          <target state="new">Downloads</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom downloads location</source>
+          <target state="new">Set custom downloads location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="new">Music</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom mcusic location</source>
+          <target state="new">Set custom mcusic location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>OneDrive</source>
+          <target state="new">OneDrive</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom OneDrive location</source>
+          <target state="new">Set custom OneDrive location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="new">Pictures</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom pictures location</source>
+          <target state="new">Set custom pictures location</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>Pin OneDrive to the sidebar</source>
+          <target state="new">Pin OneDrive to the sidebar</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
+          <source>Replace common locations</source>
+          <target state="new">Replace common locations</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesSaveLocations.Content" translate="yes" xml:space="preserve">
+          <source>Save Locations</source>
+          <target state="new">Save Locations</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="new">Terminal Applications</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="new">Preferences</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesVideo.Text" translate="yes" xml:space="preserve">
+          <source>Video</source>
+          <target state="new">Video</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesVideoLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom video location</source>
+          <target state="new">Set custom video location</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
