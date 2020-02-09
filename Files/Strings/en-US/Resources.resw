@@ -256,7 +256,7 @@
     <value>Music</value>
   </data>
   <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom mcusic location</value>
+    <value>Set custom music location</value>
   </data>
   <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
     <value>OneDrive</value>
