@@ -13,6 +13,10 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Core;
 using Windows.UI.Input;
 using Files.Controls;
+using Microsoft.Xaml.Interactivity;
+using System.Linq;
+using Microsoft.Toolkit.Uwp.UI.Behaviors;
+using Windows.Foundation;
 
 namespace Files
 {
@@ -247,6 +251,20 @@ namespace Files
             else
             {
                 SelectionRectangle.Width += (e.GetCurrentPoint(this).Position.X - startingPoint.Position.X);
+            }
+        }
+
+        private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        {
+            var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
+            if((!(parentRow.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            {
+                await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                { 
+                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
+                    (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
+                    //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
+                });
             }
         }
     }

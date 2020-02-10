@@ -8,7 +8,7 @@
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:interactivity="using:Microsoft.Xaml.Interactivity" xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     PointerReleased="GenericItemView_PointerReleased"
@@ -336,7 +336,7 @@
                     ToolTipService.ToolTip="{Binding FolderTooltipText}">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
-                            <Grid x:Name="Icon" Margin="0,0,0,0">
+                            <Grid x:Name="Icon" Margin="0,0,0,0" EffectiveViewportChanged="Icon_EffectiveViewportChanged">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
@@ -360,7 +360,7 @@
                                 <Image
                                     Width="20"
                                     Height="20"
-                                    Source="{x:Bind FileImg, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    Source="{x:Bind FileImg,Mode=OneWay}"
                                     Stretch="UniformToFill"
                                     Visibility="{x:Bind FileIconVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>

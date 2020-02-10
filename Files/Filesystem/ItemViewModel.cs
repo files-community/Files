@@ -537,6 +537,43 @@ namespace Files.Filesystem
             public string RelativeId { get; set; }
         }
 
+        public async void LoadExtendedItemProperties(ListedItem item)
+        {
+            if (!item.ItemPropertiesInitialized)
+            {
+                if (item.FileType != "Folder")
+                {
+                    BitmapImage icon = new BitmapImage();
+                    var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                    var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    if (matchingItem != null && matchingStorageItem != null)
+                    {
+                        matchingItem.FileType = matchingStorageItem.DisplayType;
+                        matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                        var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                        if (Thumbnail != null)
+                        {
+                            matchingItem.FileImg = icon;
+                            await icon.SetSourceAsync(Thumbnail);
+                            matchingItem.EmptyImgVis = Visibility.Collapsed;
+                            matchingItem.FileIconVis = Visibility.Visible;
+                        }
+                    }
+                }
+                else
+                {
+                    var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                    var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                    if (matchingItem != null && matchingStorageItem != null)
+                    {
+                        matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                    }
+                }
+
+                item.ItemPropertiesInitialized = true;
+            }
+        }
+
         public async void RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.CanRefresh = false;
@@ -672,8 +709,11 @@ namespace Files.Filesystem
                         }
                         else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                         {
-                            AddFolder(findData, path, null);
-                            ++count;
+                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            {
+                                AddFolder(findData, path, null);
+                                ++count;
+                            }
                         }
                     }
                     
@@ -681,47 +721,19 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
-            var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
-                {
-                    BitmapImage icon = null;
-                    var itemsCopy = FilesAndFolders.ToList();
-                    foreach (ListedItem item in itemsCopy)
-                    {
-                        if (item.FileType != "Folder")
-                        {
-                            icon = new BitmapImage();
-                            var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
-                            var matchingStorageItem = partialFiles.FirstOrDefault(x => x.ItemName == matchingItem.FileName);
-                            if (matchingItem != null && matchingStorageItem != null)
-                            {
-                                matchingItem.FileType = matchingStorageItem.ContentType;
-                                matchingItem.FolderRelativeId = matchingStorageItem.RelativeId;
-                                if (matchingStorageItem.Thumbnail != null)
-                                {
-                                    icon.DecodePixelWidth = 40;
-                                    icon.DecodePixelHeight = 40;
-                                    await icon.SetSourceAsync(matchingStorageItem.Thumbnail.CloneStream());
-                                    matchingItem.FileImg = icon;
-                                    matchingItem.EmptyImgVis = Visibility.Collapsed;
-                                    matchingItem.FileIconVis = Visibility.Visible;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
-                            var matchingStorageItem = partialFolders.FirstOrDefault(x => x.ItemName == matchingItem.FileName);
-                            if (matchingItem != null && matchingStorageItem != null)
-                            {
-                                matchingItem.FolderRelativeId = matchingStorageItem.RelativeId;
-                            }
-                        }
-                    }
-                });
+            //var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
+            //{
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
+            //    {
+            //        BitmapImage icon = null;
+            //        var itemsCopy = FilesAndFolders.ToList();
+            //        foreach (ListedItem item in itemsCopy)
+            //        {
+                        
+            //        }
+            //    });
                 
-            });
+            //});
             
 
             if (FilesAndFolders.Count == 0)
@@ -810,7 +822,7 @@ namespace Files.Filesystem
             try
             {
 
-                var itemThumbnailImg = partialStorageFile != null ? partialStorageFile.Thumbnail.CloneStream() : null;
+                var itemThumbnailImg = partialStorageFile != null ? partialStorageFile.Thumbnail : null;
                 if (itemThumbnailImg != null)
                 {
                     itemEmptyImgVis = Visibility.Collapsed;

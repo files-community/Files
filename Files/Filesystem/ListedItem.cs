@@ -8,6 +8,7 @@ namespace Files.Filesystem
 {
     public class ListedItem : INotifyPropertyChanged
     {
+        public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
         public Visibility FolderImg { get; set; }
