@@ -242,6 +242,10 @@
           <source>Unpin from Sidebar</source>
           <target state="translated">Desanclar de la barra lateral</target>
         </trans-unit>
+        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Flags</source>
+          <target state="new">Flags</target>
+        </trans-unit>
       </group>
     </body>
   </file>

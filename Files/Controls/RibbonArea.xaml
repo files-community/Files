@@ -1822,10 +1822,13 @@
                         </Button.KeyboardAccelerators>
                     </Button>
                 </StackPanel>
+                
+                
                 <Grid
                     Grid.Column="1"
-                    Padding="5,0,5,0"
+                    Padding="4,0,4,0" Height="34"
                     VerticalAlignment="Center">
+                    
                     <TextBox
                         x:Name="VisiblePath"
                         Padding="4"
@@ -1844,10 +1847,10 @@
                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
                         Text="{x:Bind local:App.CurrentInstance.PathControlDisplayText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="Collapsed" />
+                    
                     <Grid
                         x:Name="ClickablePath"
                         Height="32.5"
-                        Padding="2.5,0,0,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
                         BorderBrush="{ThemeResource TextBoxBorderThemeBrush}"
@@ -1863,10 +1866,10 @@
                                     Text="Edit address" />
                             </MenuFlyout>
                         </Grid.ContextFlyout>
+                        
                         <ListView
                             x:Name="PathViewInteract"
                             x:FieldModifier="public"
-                            Margin="0"
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
@@ -1904,17 +1907,12 @@
                                     <StackPanel Background="Transparent" Orientation="Horizontal" />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
-                            <!--<ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="Padding" Value="5,0,0,0"/>
-                                    <Setter Property="MinHeight" Value="20"/>
-                                    <Setter Property="MinWidth" Value="8"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                </Style>
-                            </ListView.ItemContainerStyle>-->
                         </ListView>
+                        
                     </Grid>
+                    
                 </Grid>
+                
                 <Custom:GridSplitter
                     x:Name="SearchBoxResizer"
                     Grid.Column="1"
