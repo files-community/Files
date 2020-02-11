@@ -1939,12 +1939,6 @@
                         <StaticResource x:Key="TextControlBorderBrush" ResourceKey="TextBoxBorderThemeBrush" />
                         <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="TextBoxBorderThemeBrush" />
                     </AutoSuggestBox.Resources>
-                    <AutoSuggestBox.KeyboardAccelerators>
-                        <KeyboardAccelerator
-                            Key="F"
-                            Invoked="KeyboardAccelerator_Invoked"
-                            Modifiers="Control" />
-                    </AutoSuggestBox.KeyboardAccelerators>
                 </AutoSuggestBox>
             </Grid>
         </StackPanel>

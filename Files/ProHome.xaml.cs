@@ -286,46 +286,55 @@ namespace Files
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
             {
-                case (true, true, false, true, VirtualKey.N):
+                case (true, true, false, true, VirtualKey.N): //ctrl + shift + n, new item
                     await App.addItemDialog.ShowAsync();
                     break;
-                case (true, false, false, true, VirtualKey.C):
+                case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
                     App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
-                case (true, false, false, true, VirtualKey.V):
+                case (true, false, false, true, VirtualKey.V): //ctrl + v, paste
                     App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                     break;
-                case (true, false, false, true, VirtualKey.X):
+                case (true, false, false, true, VirtualKey.X): //ctrl + x, cut
                     App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                     break;
-                case (true, false, false, true, VirtualKey.A):
+                case (true, false, false, true, VirtualKey.A): //ctrl + a, select all
                     App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
-                case (true, false, false, true, VirtualKey.N):
+                case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
                     App.CurrentInstance.InteractionOperations.LaunchNewWindow();
                     break;
-                case (true, false, false, true, VirtualKey.W):
+                case (true, false, false, true, VirtualKey.W): //ctrl + w, close tab
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
-                case (false, false, false, true, VirtualKey.Delete):
+                case (true, false, false, true, VirtualKey.F4): //ctrl + F4, close tab
+                    App.CurrentInstance.InteractionOperations.CloseTab();
+                    break;
+                case (false, false, false, true, VirtualKey.Delete): //delete, delete item
                     App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
-                case (false, false, false, true, VirtualKey.Enter):
+                case (false, false, false, true, VirtualKey.Enter): //enter, open item
                     App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
                     break;
-                case (false, false, false, true, VirtualKey.Space):
+                case (false, false, false, true, VirtualKey.Space): //space, quick look
                     if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
                     {
                         App.CurrentInstance.InteractionOperations.ToggleQuickLook();
                     }
                     break;
-                case (false, false, true, true, VirtualKey.Left):
+                case (false, false, true, true, VirtualKey.Left): //alt + back arrow, backward
                     NavigationActions.Back_Click(null, null);
                     break;
-                case (false, false, true, true, VirtualKey.Right):
+                case (false, false, true, true, VirtualKey.Right): //alt + right arrow, forward
                     NavigationActions.Forward_Click(null, null);
                     break;
-                case (false, false, true, true, VirtualKey.F):
+                case (true, false, false, true, VirtualKey.R): //ctrl + r, refresh
+                    NavigationActions.Refresh_Click(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    break;
+                case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
                     (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
                     break;
                 case (false, false, true, true, VirtualKey.H):
@@ -344,7 +353,7 @@ namespace Files
             {
                 switch (e.Key)
                 {
-                    case VirtualKey.F2:
+                    case VirtualKey.F2: //F2, rename
                         if ((App.CurrentInstance.ContentPage).SelectedItems.Count > 0)
                         {
                             App.CurrentInstance.InteractionOperations.RenameItem_Click(null, null);
