@@ -138,7 +138,9 @@ namespace Files
         {
             this.InitializeComponent();
             RibbonArea.VisiblePath.Text = "New tab";
-            
+
+            this.KeyUp += ProHomeInstance_KeyUp;
+
             // Acrylic sidebar
             var localSettings = ApplicationData.Current.LocalSettings;
             if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
@@ -310,6 +312,12 @@ namespace Files
                     break;
                 case (false, false, false, true, VirtualKey.Enter):
                     App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
+                    break;
+                case (false, false, false, true, VirtualKey.Space):
+                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    {
+                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                    }
                     break;
             };
 

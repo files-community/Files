@@ -14,7 +14,6 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="ProHomeInstance"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    KeyUp="ProHomeInstance_KeyUp"
     Loaded="Page_Loaded"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
