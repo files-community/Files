@@ -85,107 +85,6 @@ namespace Files
             }
         }
 
-        private async void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
-        {
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
-            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift);
-            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu);
-            if (App.CurrentInstance != null)
-            {
-                if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
-                {
-                    if (shift.HasFlag(CoreVirtualKeyStates.Down))
-                    {
-                        if (App.CurrentInstance.ContentPage != null)
-                        {
-                            switch (args.VirtualKey)
-                            {
-                                case VirtualKey.N:
-                                    Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
-                                    await App.addItemDialog.ShowAsync();
-                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
-                                    break;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (App.CurrentInstance.ContentPage != null)
-                        {
-                            switch (args.VirtualKey)
-                            {
-                                case VirtualKey.C:
-                                    App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
-                                    break;
-                                case VirtualKey.X:
-                                    App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
-                                    break;
-                                case VirtualKey.V:
-                                    App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
-                                    break;
-                                case VirtualKey.A:
-                                    App.CurrentInstance.InteractionOperations.SelectAllItems();
-                                    break;
-                            }
-                        }
-
-                        switch (args.VirtualKey)
-                        {
-                            case VirtualKey.N:
-                                var filesUWPUri = new Uri("files-uwp:");
-                                await Launcher.LaunchUriAsync(filesUWPUri);
-                                break;
-                            case VirtualKey.W:
-                                if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
-                                {
-                                    Application.Current.Exit();
-                                }
-                                else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
-                                {
-                                    ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
-                                }
-                                break;
-                        }
-                    }
-                }
-                else if (ctrl.HasFlag(CoreVirtualKeyStates.None) && alt.HasFlag(CoreVirtualKeyStates.None))
-                {
-                    if (App.CurrentInstance.ContentPage != null)
-                    {
-                        switch (args.VirtualKey)
-                        {
-                            case VirtualKey.Delete:
-                                App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
-                                break;
-                            case VirtualKey.Enter:
-                                if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
-                                {
-                                    App.CurrentInstance.InteractionOperations.ToggleQuickLook();
-                                }
-                                else
-                                {
-                                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
-                                }
-                                break;
-                        }
-
-                        if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                        {
-                            switch (args.VirtualKey)
-                            {
-                                case VirtualKey.F2:
-                                    if((App.CurrentInstance.ContentPage).SelectedItems.Count > 0)
-                                    {
-                                        App.CurrentInstance.InteractionOperations.RenameItem_Click(null, null);
-                                    }
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
         public static INavigationControlItem rightClickedItem;
 
         public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -308,7 +207,6 @@ namespace Files
 
                 // Ensure the current window is active
                 Window.Current.Activate();
-                Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                 Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
 
@@ -369,7 +267,6 @@ namespace Files
                     }
                     // Ensure the current window is active.
                     Window.Current.Activate();
-                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                     Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                     return;
@@ -395,7 +292,6 @@ namespace Files
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
-                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
 
@@ -404,7 +300,6 @@ namespace Files
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
-                                    Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                                     return;
@@ -418,7 +313,6 @@ namespace Files
 
             // Ensure the current window is active.
             Window.Current.Activate();
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
         }

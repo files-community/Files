@@ -21,6 +21,7 @@ using Files.Enums;
 using System.Drawing;
 using Files.View_Models;
 using Files.Controls;
+using Windows.UI.Core;
 
 namespace Files
 {
@@ -273,6 +274,77 @@ namespace Files
                 UnloadObject(ProgressFlyout);
             }
         }
+
+        private async void ProHomeInstance_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
+            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            var tabInstance = App.CurrentInstance != null;
+
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
+            {
+                case (true, true, false, true, VirtualKey.N):
+                    await App.addItemDialog.ShowAsync();
+                    break;
+                case (true, false, false, true, VirtualKey.C):
+                    App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.V):
+                    App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.X):
+                    App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.A):
+                    App.CurrentInstance.InteractionOperations.SelectAllItems();
+                    break;
+                case (true, false, false, true, VirtualKey.N):
+                    LaunchNewWindow();
+                    break;
+                case (true, false, false, true, VirtualKey.W):
+                    CloseTab();
+                    break;
+                case (false, false, false, true, VirtualKey.Delete):
+                    App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                    break;
+                case (false, false, false, true, VirtualKey.Enter):
+                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
+                    break;
+            };
+
+            if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            {
+                switch (e.Key)
+                {
+                    case VirtualKey.F2:
+                        if ((App.CurrentInstance.ContentPage).SelectedItems.Count > 0)
+                        {
+                            App.CurrentInstance.InteractionOperations.RenameItem_Click(null, null);
+                        }
+                        break;
+                }
+            }
+        }
+
+        private void CloseTab()
+        {
+            if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
+            {
+                Application.Current.Exit();
+            }
+            else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
+            {
+                ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
+            }
+        }
+
+        private async void LaunchNewWindow()
+        {
+            var filesUWPUri = new Uri("files-uwp:");
+            await Launcher.LaunchUriAsync(filesUWPUri);
+        }
+
     }
 
     public enum InteractionOperationType
