@@ -86,7 +86,7 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Padding="0,0,0,0">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -128,6 +128,7 @@
                 Navigated="ItemDisplayFrame_Navigated" />
 
         </SplitView>
+
         <FlyoutPresenter
             x:Name="ProgressFlyout"
             Grid.Row="1"
@@ -146,5 +147,6 @@
                 <ProgressBar x:Name="ProgressFlyoutProgressBar" VerticalAlignment="Center" />
             </StackPanel>
         </FlyoutPresenter>
+
     </Grid>
 </Page>

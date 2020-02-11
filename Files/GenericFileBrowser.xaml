@@ -15,12 +15,16 @@
     NavigationCacheMode="Required"
     PointerReleased="GenericItemView_PointerReleased"
     mc:Ignorable="d">
+
     <local:BaseLayout.Resources>
+
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
+
             <MenuFlyoutSubItem x:Name="SortByEmptySpace" Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;" />
                 </MenuFlyoutSubItem.Icon>
+
                 <muxc:RadioMenuFlyoutItem
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
@@ -47,6 +51,7 @@
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
                     Text="Descending" />
             </MenuFlyoutSubItem>
+
             <MenuFlyoutItem
                 x:Name="RefreshEmptySpace"
                 Click="{x:Bind local:NavigationActions.Refresh_Click}"
@@ -55,7 +60,9 @@
                     <FontIcon Glyph="&#xE72C;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutItem
                 x:Name="PasteEmptySpace"
                 Click="{x:Bind AssociatedInteractions.PasteItem_ClickAsync}"
@@ -65,7 +72,9 @@
                     <FontIcon Glyph="&#xE77F;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutItem
                 x:Name="OpenTerminal"
                 Click="{x:Bind AssociatedInteractions.OpenDirectoryInTerminal}"
@@ -75,11 +84,14 @@
                     <FontIcon Glyph="&#xE756;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutSubItem x:Name="NewEmptySpace" Text="New">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </MenuFlyoutSubItem.Icon>
+
                 <MenuFlyoutItem
                     x:Name="NewFolder"
                     Click="{x:Bind AssociatedInteractions.NewFolder_Click}"
@@ -88,7 +100,9 @@
                         <FontIcon Glyph="&#xE8B7;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+
                 <MenuFlyoutSeparator />
+
                 <MenuFlyoutItem
                     x:Name="NewBitmapImage"
                     Click="{x:Bind AssociatedInteractions.NewBitmapImage_Click}"
@@ -97,6 +111,7 @@
                         <FontIcon Glyph="&#xEB9F;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+
                 <MenuFlyoutItem
                     x:Name="NewTextDocument"
                     Click="{x:Bind AssociatedInteractions.NewTextDocument_Click}"
@@ -105,8 +120,11 @@
                         <FontIcon Glyph="&#xE8A5;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
+
             </MenuFlyoutSubItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutItem
                 x:Name="PropertiesFolder"
                 Click="{x:Bind AssociatedInteractions.ShowFolderPropertiesButton_Click}"
@@ -115,7 +133,9 @@
                     <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
         </MenuFlyout>
+
 
         <MenuFlyout x:Key="BaseLayoutItemContextFlyout" Opening="RightClickContextMenu_Opening">
             <MenuFlyoutItem
@@ -128,6 +148,7 @@
                     <FontIcon Glyph="&#xED25;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="OpenItem"
                 x:Load="False"
@@ -138,6 +159,7 @@
                     <FontIcon Glyph="&#xE7AC;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="OpenInNewTab"
                 x:Load="False"
@@ -148,6 +170,7 @@
                     <FontIcon Glyph="&#xE737;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="OpenInNewWindowItem"
                 x:Load="False"
@@ -158,6 +181,7 @@
                     <FontIcon Glyph="&#xE8A7;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="ShareItem"
                 Click="{x:Bind AssociatedInteractions.ShareItem_Click}"
@@ -166,7 +190,9 @@
                     <FontIcon Glyph="&#xE72D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutItem
                 x:Name="CutItem"
                 Click="{x:Bind AssociatedInteractions.CutItem_Click}"
@@ -175,6 +201,7 @@
                     <FontIcon Glyph="&#xE8C6;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="CopyItem"
                 Click="{x:Bind AssociatedInteractions.CopyItem_ClickAsync}"
@@ -183,7 +210,9 @@
                     <FontIcon Glyph="&#xE8C8;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutItem
                 x:Name="DeleteItem"
                 Click="{x:Bind AssociatedInteractions.DeleteItem_Click}"
@@ -192,6 +221,7 @@
                     <FontIcon Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="RenameItem"
                 Click="{x:Bind AssociatedInteractions.RenameItem_Click}"
@@ -200,7 +230,9 @@
                     <FontIcon Glyph="&#xE8AC;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutSeparator />
+
             <MenuFlyoutItem
                 x:Name="SidebarPinItem"
                 x:Load="False"
@@ -211,6 +243,7 @@
                     <SymbolIcon Symbol="Pin" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="PropertiesItem"
                 Click="{x:Bind AssociatedInteractions.ShowPropertiesButton_Click}"
@@ -219,6 +252,7 @@
                     <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
             <MenuFlyoutItem
                 x:Name="QuickLook"
                 Click="{x:Bind AssociatedInteractions.ToggleQuickLook_Click}"
@@ -228,8 +262,10 @@
                     <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+
         </MenuFlyout>
     </local:BaseLayout.Resources>
+
     <Grid
         x:Name="RootGrid"
         Background="Transparent"
@@ -254,6 +290,7 @@
             Text="This folder is empty."
             TextWrapping="Wrap"
             Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        
         <controls:DataGrid
             x:Name="AllView"
             Grid.Row="3"
