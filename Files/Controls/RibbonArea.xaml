@@ -1822,13 +1822,14 @@
                         </Button.KeyboardAccelerators>
                     </Button>
                 </StackPanel>
-                
-                
+
+
                 <Grid
                     Grid.Column="1"
-                    Padding="4,0,4,0" Height="34"
+                    Height="40"
+                    Padding="4,0,4,0"
                     VerticalAlignment="Center">
-                    
+
                     <TextBox
                         x:Name="VisiblePath"
                         Padding="4"
@@ -1847,7 +1848,7 @@
                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
                         Text="{x:Bind local:App.CurrentInstance.PathControlDisplayText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         Visibility="Collapsed" />
-                    
+
                     <Grid
                         x:Name="ClickablePath"
                         Height="32.5"
@@ -1866,13 +1867,13 @@
                                     Text="Edit address" />
                             </MenuFlyout>
                         </Grid.ContextFlyout>
-                        
+
                         <ListView
                             x:Name="PathViewInteract"
-                            x:FieldModifier="public"
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
+                            x:FieldModifier="public"
                             Background="{ThemeResource TextControlBackground}"
                             CanReorderItems="False"
                             IsItemClickEnabled="True"
@@ -1908,11 +1909,11 @@
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
                         </ListView>
-                        
+
                     </Grid>
-                    
+
                 </Grid>
-                
+
                 <Custom:GridSplitter
                     x:Name="SearchBoxResizer"
                     Grid.Column="1"

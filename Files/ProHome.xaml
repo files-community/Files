@@ -13,9 +13,9 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     x:Name="ProHomeInstance"
-    NavigationCacheMode="Disabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
+    NavigationCacheMode="Disabled"
     mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
@@ -82,7 +82,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-            
+
         </ResourceDictionary>
     </Page.Resources>
 
@@ -92,29 +92,15 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Vertical">
-            <controls:RibbonArea
-                x:Name="RibbonArea"
-                x:FieldModifier="public"
-                />
-            <Windows10version1903:Grid>
-                <Grid.Resources>
-                    <Windows10version1903:ThemeShadow x:Name="themeShadow" />
-                </Grid.Resources>
-                <Grid
-                    x:Name="ShadowReceiver"
-                    Height="8"
-                    Background="Transparent" />
-                <Grid
-                    x:Name="ShadowCaster"
-                    Height="4"
-                    VerticalAlignment="Top"
-                    Windows10version1903:Shadow="{x:Bind themeShadow}"
-                    Background="{ThemeResource RibbonBackgroundColor}"
-                    Canvas.ZIndex="2"
-                    Translation="0,0,4" />
-            </Windows10version1903:Grid>
-        </StackPanel>
+        <Custom:DropShadowPanel
+            Height="Auto"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            Canvas.ZIndex="100"
+            OffsetY="3"
+            ShadowOpacity=".1">
+            <controls:RibbonArea x:Name="RibbonArea" x:FieldModifier="public" />
+        </Custom:DropShadowPanel>
 
         <SplitView
             x:Name="splitView"
@@ -128,7 +114,7 @@
             PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
             <SplitView.Pane>
                 <ScrollViewer Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
-                    <controls:Sidebar x:FieldModifier="public" x:Name="SidebarControl"/>
+                    <controls:Sidebar x:Name="SidebarControl" x:FieldModifier="public" />
                 </ScrollViewer>
             </SplitView.Pane>
 

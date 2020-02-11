@@ -138,11 +138,6 @@ namespace Files
             this.InitializeComponent();
             RibbonArea.VisiblePath.Text = "New tab";
             
-            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.ThemeShadow"))
-            {
-                themeShadow.Receivers.Add(ShadowReceiver);
-            }
-
             // Acrylic sidebar
             var localSettings = ApplicationData.Current.LocalSettings;
             if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
