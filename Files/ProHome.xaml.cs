@@ -319,7 +319,26 @@ namespace Files
                         App.CurrentInstance.InteractionOperations.ToggleQuickLook();
                     }
                     break;
+                case (false, false, true, true, VirtualKey.Left):
+                    NavigationActions.Back_Click(null, null);
+                    break;
+                case (false, false, true, true, VirtualKey.Right):
+                    NavigationActions.Forward_Click(null, null);
+                    break;
+                case (false, false, true, true, VirtualKey.F):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    break;
+                case (false, false, true, true, VirtualKey.H):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
+                    break;
+                case (false, false, true, true, VirtualKey.S):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
+                    break;
+                case (false, false, true, true, VirtualKey.V):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
+                    break;
             };
+
 
             if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {

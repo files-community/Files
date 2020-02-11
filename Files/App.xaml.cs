@@ -208,36 +208,6 @@ namespace Files
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-
-            }
-        }
-
-        private void Dispatcher_AcceleratorKeyActivated(CoreDispatcher sender, AcceleratorKeyEventArgs args)
-        {
-            if (args.KeyStatus.IsMenuKeyDown)
-            {
-                switch (args.VirtualKey)
-                {
-                    case VirtualKey.Left:
-                        NavigationActions.Back_Click(null, null);
-                        break;
-                    case VirtualKey.Right:
-                        NavigationActions.Forward_Click(null, null);
-                        break;
-                    case VirtualKey.F:
-                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-                        break;
-                    case VirtualKey.H:
-                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
-                        break;
-                    case VirtualKey.S:
-                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
-                        break;
-                    case VirtualKey.V:
-                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
-                        break;
-                }
             }
         }
 
@@ -268,7 +238,6 @@ namespace Files
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                     return;
 
                 case ActivationKind.CommandLineLaunch:
@@ -293,15 +262,12 @@ namespace Files
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
-
                                     return;
                                 case ParsedCommandType.Unkwon:
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-                                    Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
                                     return;
                             }
                         }
@@ -314,7 +280,6 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
-            Window.Current.CoreWindow.Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
         }
 
         private void TryEnablePrelaunch()
