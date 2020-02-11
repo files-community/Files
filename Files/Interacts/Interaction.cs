@@ -426,6 +426,24 @@ namespace Files.Interacts
             }
         }
 
+        public void CloseTab()
+        {
+            if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
+            {
+                Application.Current.Exit();
+            }
+            else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
+            {
+                ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
+            }
+        }
+
+        public async void LaunchNewWindow()
+        {
+            var filesUWPUri = new Uri("files-uwp:");
+            await Launcher.LaunchUriAsync(filesUWPUri);
+        }
+
         public void ShareItem_Click(object sender, RoutedEventArgs e)
         {
             DataTransferManager manager = DataTransferManager.GetForCurrentView();

@@ -302,10 +302,10 @@ namespace Files
                     App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
                 case (true, false, false, true, VirtualKey.N):
-                    LaunchNewWindow();
+                    App.CurrentInstance.InteractionOperations.LaunchNewWindow();
                     break;
                 case (true, false, false, true, VirtualKey.W):
-                    CloseTab();
+                    App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
                 case (false, false, false, true, VirtualKey.Delete):
                     App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
@@ -353,25 +353,6 @@ namespace Files
                 }
             }
         }
-
-        private void CloseTab()
-        {
-            if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
-            {
-                Application.Current.Exit();
-            }
-            else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
-            {
-                ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
-            }
-        }
-
-        private async void LaunchNewWindow()
-        {
-            var filesUWPUri = new Uri("files-uwp:");
-            await Launcher.LaunchUriAsync(filesUWPUri);
-        }
-
     }
 
     public enum InteractionOperationType
