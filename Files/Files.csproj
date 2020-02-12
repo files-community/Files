@@ -146,9 +146,6 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
-    <Compile Include="Controls\FileViewControl.xaml.cs">
-      <DependentUpon>FileViewControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
@@ -192,7 +189,7 @@
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
-    <Compile Include="GenericFileBrowser.xaml.cs">
+    <Compile Include="Controls\Layout Modes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="InstanceTabsView.xaml.cs">
@@ -210,7 +207,7 @@
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />
-    <Compile Include="PhotoAlbum.xaml.cs">
+    <Compile Include="Controls\Layout Modes\PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
@@ -251,8 +248,8 @@
     </Compile>
     <Compile Include="View Models\RibbonViewModel.cs" />
     <Compile Include="View Models\SettingsViewModel.cs" />
-    <Compile Include="WindowDisplayInfo.cs" />
-    <Compile Include="WindowDisplayMode.cs" />
+    <Compile Include="Helpers\WindowDisplayInfo.cs" />
+    <Compile Include="Helpers\WindowDisplayMode.cs" />
     <Compile Include="YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>
@@ -294,10 +291,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\FileViewControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\RibbonArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -338,7 +331,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GenericFileBrowser.xaml">
+    <Page Include="Controls\Layout Modes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -346,7 +339,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PhotoAlbum.xaml">
+    <Page Include="Controls\Layout Modes\PhotoAlbum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
