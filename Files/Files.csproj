@@ -146,13 +146,13 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
-    <Compile Include="Controls\RibbonArea.xaml.cs">
+    <Compile Include="UserControls\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RibbonPage.xaml.cs">
+    <Compile Include="UserControls\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Sidebar.xaml.cs">
+    <Compile Include="UserControls\Sidebar.xaml.cs">
       <DependentUpon>Sidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
@@ -189,10 +189,10 @@
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
-    <Compile Include="Controls\Layout Modes\GenericFileBrowser.xaml.cs">
+    <Compile Include="UserControls\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InstanceTabsView.xaml.cs">
+    <Compile Include="Views\Layouts\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\EmptyFolderTextState.cs" />
@@ -207,11 +207,14 @@
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />
-    <Compile Include="Controls\Layout Modes\PhotoAlbum.xaml.cs">
+    <Compile Include="UserControls\PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
-    <Compile Include="ProHome.xaml.cs">
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ProHome.xaml.cs">
       <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties.xaml.cs">
@@ -222,7 +225,7 @@
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Settings.xaml.cs">
+    <Compile Include="Views\Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsPages\About.xaml.cs">
@@ -291,15 +294,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\RibbonArea.xaml">
+    <Page Include="UserControls\RibbonArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\RibbonPage.xaml">
+    <Page Include="UserControls\RibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Sidebar.xaml">
+    <Page Include="UserControls\Sidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -331,19 +334,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Layout Modes\GenericFileBrowser.xaml">
+    <Page Include="UserControls\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InstanceTabsView.xaml">
+    <Page Include="Views\Layouts\InstanceTabsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Layout Modes\PhotoAlbum.xaml">
+    <Page Include="UserControls\PhotoAlbum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProHome.xaml">
+    <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\ProHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -355,7 +362,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Views\Pages\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
