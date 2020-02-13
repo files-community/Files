@@ -17,6 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.Storage.BulkAccess;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
@@ -27,6 +28,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -38,7 +40,7 @@ namespace Files.Filesystem
         public ListedItem currentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
         public UniversalPath Universal { get; } = new UniversalPath();
-        private ObservableCollection<ListedItem> _filesAndFolders;
+        public ObservableCollection<ListedItem> _filesAndFolders;
         private StorageFolderQueryResult _folderQueryResult;
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
@@ -194,13 +196,13 @@ namespace Files.Filesystem
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
                     var candidateItems = _filesAndFolders.Where(f => f.FileName.Length >= value.Length && f.FileName.Substring(0, value.Length).ToLower() == value);
-                    if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                    if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
-                        previouslySelectedItem = (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem as ListedItem;
+                        previouslySelectedItem = (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
                     }
-                    else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
-                        previouslySelectedItem = (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem as ListedItem;
+                        previouslySelectedItem = (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
                     }
 
                     // If the user is trying to cycle through items
@@ -215,15 +217,15 @@ namespace Files.Filesystem
 
                     if (jumpedToItem != null)
                     {
-                        if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+                        if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                         {
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
+                            (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
+                            (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
                         }
-                        else if (App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                        else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                         {
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
-                            (App.OccupiedInstance.ItemDisplayFrame.Content as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
+                            (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
+                            (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
                         }
 
                     }
@@ -239,10 +241,10 @@ namespace Files.Filesystem
         {
             _filesAndFolders = new ObservableCollection<ListedItem>();
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
-            App.OccupiedInstance.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
-            App.OccupiedInstance.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
-            App.OccupiedInstance.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
-            App.OccupiedInstance.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.PropertyChanged += HomeItems_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
+            (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
             _cancellationTokenSource = new CancellationTokenSource();
 
             Universal.PropertyChanged += Universal_PropertyChanged;
@@ -265,7 +267,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            App.OccupiedInstance.pathBoxItems.Clear();
+            App.CurrentInstance.PathComponents.Clear();
             // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -300,7 +302,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.OccupiedInstance.pathBoxItems.Add(item);
+                        App.CurrentInstance.PathComponents.Add(item);
                     }
                     else
                     {
@@ -320,7 +322,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.OccupiedInstance.pathBoxItems.Add(item);
+                        App.CurrentInstance.PathComponents.Add(item);
 
                     }
                     index++;
@@ -330,49 +332,49 @@ namespace Files.Filesystem
 
         private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(App.OccupiedInstance.AlwaysPresentCommands.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled == true)
             {
-                App.OccupiedInstance.AlwaysPresentCommands.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.AlwaysPresentCommands.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
             }
         }
 
         private void LayoutItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.OccupiedInstance.LayoutItems.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled == true)
             {
-                App.OccupiedInstance.LayoutItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.LayoutItems.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled = false;
             }
         }
 
         private void ShareItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.OccupiedInstance.ShareItems.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled == true)
             {
-                App.OccupiedInstance.ShareItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.ShareItems.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
         private void HomeItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (App.OccupiedInstance.HomeItems.isEnabled == true)
+            if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled == true)
             {
-                App.OccupiedInstance.HomeItems.isEnabled = true;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled = true;
             }
             else
             {
-                App.OccupiedInstance.HomeItems.isEnabled = false;
+                (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled = false;
             }
 
         }
@@ -403,9 +405,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.OccupiedInstance.RibbonArea.Back.IsEnabled = true;
-            App.OccupiedInstance.RibbonArea.Forward.IsEnabled = true;
-            App.OccupiedInstance.RibbonArea.Up.IsEnabled = true;
+            App.CurrentInstance.CanGoBack = true;
+            App.CurrentInstance.CanGoForward = true;
+            App.CurrentInstance.CanNavigateToParent = true;
 
         }
 
@@ -477,10 +479,104 @@ namespace Files.Filesystem
             return default;
         }
 
-        bool isLoadingItems = false;
-        public async void AddItemsToCollectionAsync(string path)
+        public enum FINDEX_INFO_LEVELS
         {
-            App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = false;
+            FindExInfoStandard = 0,
+            FindExInfoBasic = 1
+        }
+
+        public enum FINDEX_SEARCH_OPS
+        {
+            FindExSearchNameMatch = 0,
+            FindExSearchLimitToDirectories = 1,
+            FindExSearchLimitToDevices = 2
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        public struct WIN32_FIND_DATA
+        {
+            public uint dwFileAttributes;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftCreationTime;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastAccessTime;
+            public System.Runtime.InteropServices.ComTypes.FILETIME ftLastWriteTime;
+            public uint nFileSizeHigh;
+            public uint nFileSizeLow;
+            public uint dwReserved0;
+            public uint dwReserved1;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+            public string cFileName;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
+            public string cAlternateFileName;
+        }
+
+        [DllImport("api-ms-win-core-file-fromapp-l1-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr FindFirstFileExFromApp(
+            string lpFileName,
+            FINDEX_INFO_LEVELS fInfoLevelId,
+            out WIN32_FIND_DATA lpFindFileData,
+            FINDEX_SEARCH_OPS fSearchOp,
+            IntPtr lpSearchFilter,
+            int dwAdditionalFlags);
+
+        public const int FIND_FIRST_EX_CASE_SENSITIVE = 1;
+        public const int FIND_FIRST_EX_LARGE_FETCH = 2;
+
+        [DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
+        static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
+
+        [DllImport("api-ms-win-core-file-l1-1-0.dll")]
+        static extern bool FindClose(IntPtr hFindFile);
+
+        bool isLoadingItems = false;
+
+        class PartialStorageItem
+        {
+            public string ItemName { get; set; }
+            public string ContentType { get; set; }
+            public StorageItemThumbnail Thumbnail { get; set; }
+            public string RelativeId { get; set; }
+        }
+
+        public async void LoadExtendedItemProperties(ListedItem item)
+        {
+            if (!item.ItemPropertiesInitialized)
+            {
+                if (item.FileType != "Folder")
+                {
+                    BitmapImage icon = new BitmapImage();
+                    var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                    var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                    if (matchingItem != null && matchingStorageItem != null)
+                    {
+                        matchingItem.FileType = matchingStorageItem.DisplayType;
+                        matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                        var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                        if (Thumbnail != null)
+                        {
+                            matchingItem.FileImg = icon;
+                            await icon.SetSourceAsync(Thumbnail);
+                            matchingItem.EmptyImgVis = Visibility.Collapsed;
+                            matchingItem.FileIconVis = Visibility.Visible;
+                        }
+                    }
+                }
+                else
+                {
+                    var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
+                    var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                    if (matchingItem != null && matchingStorageItem != null)
+                    {
+                        matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                    }
+                }
+
+                item.ItemPropertiesInitialized = true;
+            }
+        }
+
+        public async void RapidAddItemsToCollectionAsync(string path)
+        {
+            App.CurrentInstance.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -498,25 +594,322 @@ namespace Files.Filesystem
             switch (Universal.path)
             {
                 case "Desktop":
-                    Universal.path = App.DesktopPath;
+                    Universal.path = App.AppSettings.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = App.DownloadsPath;
+                    Universal.path = App.AppSettings.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = App.DocumentsPath;
+                    Universal.path = App.AppSettings.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = App.PicturesPath;
+                    Universal.path = App.AppSettings.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = App.MusicPath;
+                    Universal.path = App.AppSettings.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = App.VideosPath;
+                    Universal.path = App.AppSettings.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = App.OneDrivePath;
+                    Universal.path = App.AppSettings.OneDrivePath;
+                    break;
+            }
+
+            App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+
+            ObservableCollection<PartialStorageItem> partialFiles = null;
+            ObservableCollection<PartialStorageItem> partialFolders = null;
+            var fetchOperation = Task.Run(async () => 
+            {
+                try
+                {
+                    _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    await App.consentDialog.ShowAsync();
+                }
+                catch (COMException e)
+                {
+                    Frame rootContentFrame = Window.Current.Content as Frame;
+                    MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
+                    await driveGone.ShowAsync();
+                    isLoadingItems = false;
+                    return;
+                }
+                catch (FileNotFoundException)
+                {
+                    Frame rootContentFrame = Window.Current.Content as Frame;
+                    MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
+                    await folderGone.ShowAsync();                    
+                    isLoadingItems = false;
+                    return;
+                }
+
+                QueryOptions options = new QueryOptions();
+                if (await _rootFolder.GetIndexedStateAsync() == IndexedState.FullyIndexed)
+                {
+                    options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
+                }
+                else
+                {
+                    options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
+                }
+                options.FolderDepth = FolderDepth.Shallow;
+
+                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+                options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
+                var query = _rootFolder.CreateItemQueryWithOptions(options);
+                var thumbnails = await query.GetItemsAsync(0, 250);
+                uint index = 0;
+                partialFiles = new ObservableCollection<PartialStorageItem>();
+                partialFolders = new ObservableCollection<PartialStorageItem>();
+
+                while (thumbnails.Count > 0)
+                {
+                    foreach (IStorageItem item in thumbnails)
+                    {
+                        if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            partialFolders.Add(new PartialStorageItem() { RelativeId = ((StorageFolder)item).FolderRelativeId, ItemName = item.Name, ContentType = null, Thumbnail = null });
+                        }
+                        else
+                        {
+                            partialFiles.Add(new PartialStorageItem() { RelativeId = ((StorageFile)item).FolderRelativeId, Thumbnail = await ((StorageFile)item).GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = item.Name, ContentType = ((StorageFile)item).DisplayType });
+                        }
+                    }
+                    index += 250;
+                    thumbnails = await query.GetItemsAsync(index, 250);
+                }
+                
+            });
+
+
+            WIN32_FIND_DATA findData;
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoStandard;
+            int additionalFlags = 0;
+            findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            var count = 0;
+            if (hFile.ToInt64() != -1)
+            {
+                do
+                {
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                    {
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            AddFile(findData, path, null);
+                            ++count;
+                        }
+                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            {
+                                AddFolder(findData, path, null);
+                                ++count;
+                            }
+                        }
+                    }
+                    
+                } while (FindNextFile(hFile, out findData));
+
+                FindClose(hFile);
+            }
+            //var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
+            //{
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
+            //    {
+            //        BitmapImage icon = null;
+            //        var itemsCopy = FilesAndFolders.ToList();
+            //        foreach (ListedItem item in itemsCopy)
+            //        {
+                        
+            //        }
+            //    });
+                
+            //});
+            
+
+            if (FilesAndFolders.Count == 0)
+            {
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    isLoadingItems = false;
+                    return;
+                }
+                EmptyTextState.isVisible = Visibility.Visible;
+            }
+
+
+            OrderFiles();
+            stopwatch.Stop();
+            Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
+            App.CurrentInstance.CanRefresh = true;
+            LoadIndicator.isVisible = Visibility.Collapsed;
+            isLoadingItems = false;
+        }
+
+        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageItem)
+        {
+            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
+            {
+                if (_cancellationTokenSource.IsCancellationRequested)
+                {
+                    isLoadingItems = false;
+                    return;
+                }
+                var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long)(uint)findData.ftLastWriteTime.dwLowDateTime);
+                var itemPath = Path.Combine(pathRoot, findData.cFileName);
+
+                _filesAndFolders.Add(new ListedItem(partialStorageItem?.RelativeId)
+                {
+                    //FolderTooltipText = tooltipString,
+                    FileName = findData.cFileName,
+                    FileDateReal = itemDate,
+                    FileType = "Folder",    //TODO: Take a look at folder.DisplayType
+                    FolderImg = Visibility.Visible,
+                    FileImg = null,
+                    FileIconVis = Visibility.Collapsed,
+                    FilePath = itemPath,
+                    EmptyImgVis = Visibility.Collapsed,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                });
+
+                EmptyTextState.isVisible = Visibility.Collapsed;
+            }
+        }
+
+        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageFile)
+        {
+
+            var itemName = findData.cFileName;
+            var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long) (uint) findData.ftLastWriteTime.dwLowDateTime);
+            var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
+            var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
+            string itemType = "File";
+            if(partialStorageFile != null)
+            {
+                itemType = partialStorageFile.ContentType;
+            }
+            else
+            {
+                if (findData.cFileName.Contains('.'))
+                {
+                    itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
+                }
+            }
+
+            var itemFolderImgVis = Visibility.Collapsed;
+            string itemFileExtension = null;
+            if (findData.cFileName.Contains('.'))
+            {
+                itemFileExtension = findData.cFileName.Split('.')[1];
+            }
+
+            BitmapImage icon = new BitmapImage();
+            Visibility itemThumbnailImgVis;
+            Visibility itemEmptyImgVis;
+
+            try
+            {
+
+                var itemThumbnailImg = partialStorageFile != null ? partialStorageFile.Thumbnail : null;
+                if (itemThumbnailImg != null)
+                {
+                    itemEmptyImgVis = Visibility.Collapsed;
+                    itemThumbnailImgVis = Visibility.Visible;
+                    icon.DecodePixelWidth = 40;
+                    icon.DecodePixelHeight = 40;
+                    await icon.SetSourceAsync(itemThumbnailImg);
+                }
+                else
+                {
+                    itemEmptyImgVis = Visibility.Visible;
+                    itemThumbnailImgVis = Visibility.Collapsed;
+                }
+            }
+            catch
+            {
+                itemEmptyImgVis = Visibility.Visible;
+                itemThumbnailImgVis = Visibility.Collapsed;
+                // Catch here to avoid crash
+                // TODO maybe some logging could be added in the future...
+            }
+            
+            if (_cancellationTokenSource.IsCancellationRequested)
+            {
+                isLoadingItems = false;
+                return;
+            }
+            _filesAndFolders.Add(new ListedItem(partialStorageFile?.RelativeId)
+            {
+                DotFileExtension = itemFileExtension,
+                EmptyImgVis = itemEmptyImgVis,
+                FileImg = icon,
+                FileIconVis = itemThumbnailImgVis,
+                FolderImg = itemFolderImgVis,
+                FileName = itemName,
+                FileDateReal = itemDate,
+                FileType = itemType,
+                FilePath = itemPath,
+                FileSize = itemSize,
+                FileSizeBytes = itemSizeBytes
+            });
+
+            EmptyTextState.isVisible = Visibility.Collapsed;
+        }
+
+        public async void AddItemsToCollectionAsync(string path)
+        {
+            RapidAddItemsToCollectionAsync(path);
+            return;
+            // Eventually add logic for user choice between item load methods
+            App.CurrentInstance.CanRefresh = false;
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
+            CancelLoadAndClearFiles();
+
+            isLoadingItems = true;
+            EmptyTextState.isVisible = Visibility.Collapsed;
+            Universal.path = path;
+            _filesAndFolders.Clear();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            LoadIndicator.isVisible = Visibility.Visible;
+
+            switch (Universal.path)
+            {
+                case "Desktop":
+                    Universal.path = App.AppSettings.DesktopPath;
+                    break;
+                case "Downloads":
+                    Universal.path = App.AppSettings.DownloadsPath;
+                    break;
+                case "Documents":
+                    Universal.path = App.AppSettings.DocumentsPath;
+                    break;
+                case "Pictures":
+                    Universal.path = App.AppSettings.PicturesPath;
+                    break;
+                case "Music":
+                    Universal.path = App.AppSettings.MusicPath;
+                    break;
+                case "Videos":
+                    Universal.path = App.AppSettings.VideosPath;
+                    break;
+                case "OneDrive":
+                    Universal.path = App.AppSettings.OneDrivePath;
                     break;
             }
 
@@ -539,8 +932,8 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                App.OccupiedInstance.RibbonArea.Back.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoBack;
-                App.OccupiedInstance.RibbonArea.Forward.IsEnabled = App.OccupiedInstance.ItemDisplayFrame.CanGoForward;
+                App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+                App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -548,12 +941,12 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                        if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.Size", "System.FileExtension" });
                         }
-                        else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                        else if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
@@ -564,12 +957,12 @@ namespace Files.Filesystem
                         _options = new QueryOptions();
                         _options.FolderDepth = FolderDepth.Shallow;
 
-                        if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser))
+                        if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.DateModified", "System.ContentType", "System.ItemPathDisplay", "System.Size", "System.FileExtension" });
                         }
-                        else if (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum))
+                        else if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum))
                         {
                             _options.SetThumbnailPrefetch(ThumbnailMode.ListView, 80, ThumbnailOptions.ResizeThumbnail);
                             _options.SetPropertyPrefetch(PropertyPrefetchOptions.BasicProperties, new string[] { "System.FileExtension" });
@@ -636,7 +1029,7 @@ namespace Files.Filesystem
                 OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.OccupiedInstance.RibbonArea.Refresh.IsEnabled = true;
+                App.CurrentInstance.CanRefresh = true;
             }
             catch (UnauthorizedAccessException)
             {
@@ -677,7 +1070,7 @@ namespace Files.Filesystem
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -737,7 +1130,7 @@ namespace Files.Filesystem
             Visibility itemThumbnailImgVis;
             Visibility itemEmptyImgVis;
 
-            if (!(App.OccupiedInstance.ItemDisplayFrame.SourcePageType == typeof(PhotoAlbum)))
+            if (!(App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 try
                 {

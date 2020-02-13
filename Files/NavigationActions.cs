@@ -5,6 +5,8 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
+using Files.View_Models;
+using Files.Controls;
 
 namespace Files
 {
@@ -14,18 +16,18 @@ namespace Files
         {
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var ContentOwnedViewModelInstance = App.OccupiedInstance.instanceViewModel;
+                var ContentOwnedViewModelInstance = App.CurrentInstance.ViewModel;
                 ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.path);
             });
         }
 
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            App.OccupiedInstance.RibbonArea.Back.IsEnabled = false;
-            Frame instanceContentFrame = App.OccupiedInstance.ItemDisplayFrame;
+            App.CurrentInstance.CanGoBack = false;
+            Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
             if (instanceContentFrame.CanGoBack)
             {
-                App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].Parameter;
 
@@ -36,26 +38,26 @@ namespace Files
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            App.OccupiedInstance.RibbonArea.Forward.IsEnabled = false;
-            Frame instanceContentFrame = App.OccupiedInstance.ItemDisplayFrame;
+            App.CurrentInstance.CanGoForward = false;
+            Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
 
             if (instanceContentFrame.CanGoForward)
             {
-                App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(Parameter.ToString(), incomingSourcePageType);
-                App.OccupiedInstance.instanceViewModel.Universal.path = Parameter.ToString();
+                App.CurrentInstance.ViewModel.Universal.path = Parameter.ToString();
                 instanceContentFrame.GoForward();
             }
         }
 
         public static void Up_Click(object sender, RoutedEventArgs e)
         {
-            App.OccupiedInstance.RibbonArea.Up.IsEnabled = false;
-            Frame instanceContentFrame = App.OccupiedInstance.ItemDisplayFrame;
-            App.OccupiedInstance.instanceViewModel.CancelLoadAndClearFiles();
-            var instance = App.OccupiedInstance.instanceViewModel;
+            App.CurrentInstance.CanNavigateToParent = false;
+            Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
+            App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
+            var instance = App.CurrentInstance.ViewModel;
             string parentDirectoryOfPath;
             // Check that there isn't a slash at the end
             if ((instance.Universal.path.Count() - 1) - instance.Universal.path.LastIndexOf("\\") > 0)
@@ -69,73 +71,73 @@ namespace Files
             }
 
             SelectSidebarItemFromPath(parentDirectoryOfPath, null);
-            instanceContentFrame.Navigate(App.OccupiedInstance.ItemDisplayFrame.CurrentSourcePageType, parentDirectoryOfPath, new SuppressNavigationTransitionInfo());
+            instanceContentFrame.Navigate(App.CurrentInstance.CurrentPageType, parentDirectoryOfPath, new SuppressNavigationTransitionInfo());
         }
 
         private static void SelectSidebarItemFromPath(string Parameter, Type incomingSourcePageType)
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
-                App.OccupiedInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem) == App.sideBarItems[0]);
-                App.OccupiedInstance.PathText.Text = "New tab";
+                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem) == App.sideBarItems[0]);
+                App.CurrentInstance.PathControlDisplayText = "New tab";
             }
             else
             {
-                var CurrentTabInstance = App.OccupiedInstance;
-                if (Parameter.ToString() == App.DesktopPath)
+                var CurrentTabInstance = App.CurrentInstance;
+                if (Parameter.ToString() == App.AppSettings.DesktopPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DesktopPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathText.Text = "Desktop";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.PathControlDisplayText = "Desktop";
                 }
-                else if (Parameter.ToString() == App.DownloadsPath)
+                else if (Parameter.ToString() == App.AppSettings.DownloadsPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathText.Text = "Downloads";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.PathControlDisplayText = "Downloads";
                 }
-                else if (Parameter.ToString() == App.DocumentsPath)
+                else if (Parameter.ToString() == App.AppSettings.DocumentsPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathText.Text = "Documents";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.PathControlDisplayText = "Documents";
                 }
-                else if (Parameter.ToString() == App.PicturesPath)
+                else if (Parameter.ToString() == App.AppSettings.PicturesPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathText.Text = "Pictures";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.PathControlDisplayText = "Pictures";
                 }
-                else if (Parameter.ToString() == App.MusicPath)
+                else if (Parameter.ToString() == App.AppSettings.MusicPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.MusicPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathText.Text = "Music";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.PathControlDisplayText = "Music";
                 }
-                else if (Parameter.ToString() == App.VideosPath)
+                else if (Parameter.ToString() == App.AppSettings.VideosPath)
                 {
-                    CurrentTabInstance.LocationsList.SelectedItem = App.sideBarItems.First(x => (x as SidebarItem).Path.Equals(App.VideosPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathText.Text = "Videos";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    CurrentTabInstance.PathControlDisplayText = "Videos";
                 }
-                else if (Parameter.ToString() == App.OneDrivePath)
+                else if (Parameter.ToString() == App.AppSettings.OneDrivePath)
                 {
-                    CurrentTabInstance.DrivesList.SelectedItem = App.foundDrives.Where(x => (x as DriveItem).tag == "OneDrive").First();
-                    CurrentTabInstance.PathText.Text = "OneDrive";
+                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "OneDrive").First();
+                    CurrentTabInstance.PathControlDisplayText = "OneDrive";
                 }
                 else
                 {
                     if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
                     {
-                        CurrentTabInstance.DrivesList.SelectedItem = App.foundDrives.Where(x => (x as DriveItem).tag == "C:\\").First();
+                        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "C:\\").First();
                     }
                     else
                     {
-                        foreach (DriveItem drive in App.foundDrives)
+                        foreach (DriveItem drive in SettingsViewModel.foundDrives)
                         {
                             if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
                             {
-                                CurrentTabInstance.DrivesList.SelectedItem = drive;
+                                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = drive;
                                 break;
                             }
                         }
 
                     }
-                    CurrentTabInstance.PathText.Text = Parameter.ToString();
+                    CurrentTabInstance.PathControlDisplayText = Parameter.ToString();
                 }
             }
         }

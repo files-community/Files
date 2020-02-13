@@ -2,55 +2,292 @@
     x:Class="Files.SettingsPages.Preferences"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.SettingsPages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:datamodels="using:Files.DataModels"
+    xmlns:local="using:Files.SettingsPages"
+    xmlns:local2="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    mc:Ignorable="d">
 
-    <Grid Padding="24,24,0,0">
+    <Grid>
         <ScrollViewer>
-            <StackPanel Spacing="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                <Grid x:Name="CustomLibraries">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock FontSize="20" Text="Custom Locations"/>
-                        <TextBlock Text="Replaces common locations with those of your choice. You'll need to restart Files after saving your settings or disabling custom locations."/>
-                        <ToggleSwitch IsEnabled="True" Toggled="ToggleSwitch_Toggled" x:Name="CustomLocationToggle" VerticalAlignment="Top"/>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="Desktop" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="DesktopL" PlaceholderText="Set Custom Desktop Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
-                        </Grid>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="Downloads" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="DownloadsL" PlaceholderText="Set Custom Downloads Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
-                        </Grid>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="Documents" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="DocumentsL" PlaceholderText="Set Custom Documents Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500" />
-                        </Grid>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="Pictures" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="PictureL" PlaceholderText="Set Custom Pictures Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
-                        </Grid>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="Music" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="MusicL" PlaceholderText="Set Custom Music Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
-                        </Grid>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="Videos" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="VideosL" PlaceholderText="Set Custom Videos Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
-                        </Grid>
-                        <Grid Margin="0, 0, 0, 12.5">
-                            <TextBlock Text="OneDrive" VerticalAlignment="Center" Margin="0,0,25,0" HorizontalAlignment="Left"/>
-                            <TextBox CornerRadius="2" Name="OneDriveL" PlaceholderText="Set Custom OneDrive Location" HorizontalAlignment="Left" Margin="125,0,0,0" Width="500"/>
-                        </Grid>
-                        <StackPanel Orientation="Horizontal">
-                            <Button CornerRadius="2" Content="Save Locations" x:Name="SaveCustomL" HorizontalAlignment="Left" Click="SaveCustomL_Click" />
-                            <StackPanel x:Name="SuccessMark" Orientation="Horizontal" Spacing="15">
-                                <FontIcon Glyph="&#xE73E;"  Margin="25,0,0,0"/>
-                                <TextBlock VerticalAlignment="Center" Text="Restart the app for these changes to take effect."/>
-                            </StackPanel>
-                        </StackPanel>
+            <StackPanel
+                Margin="12,12,8,8"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
+
+                <TextBlock
+                    x:Uid="SettingsPreferencesTitle"
+                    FontSize="22"
+                    Text="Preferences" />
+
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="260" />
+                        <ColumnDefinition Width="*" MaxWidth="470" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsPreferencesPinOneDrive"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Pin OneDrive to the sidebar" />
+
+                    <ToggleSwitch
+                            Grid.Column="2"
+                            Width="40"
+                            HorizontalAlignment="Right"
+                            IsEnabled="True"
+                            OffContent=""
+                            OnContent=""
+                            x:Name="OneDrivePin"
+                            Toggled="OneDrivePin_Toggled"
+                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+
+                <StackPanel>
+                    <StackPanel.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </StackPanel.ChildrenTransitions>
+
+                    <Grid HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="260" />
+                            <ColumnDefinition Width="*" MaxWidth="470" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.ChildrenTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition />
+                            </TransitionCollection>
+                        </Grid.ChildrenTransitions>
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesReplaceCommonLocations"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Replace common locations" />
+
+                        <ToggleSwitch
+                            x:Name="CustomLocationToggle"
+                            Grid.Column="2"
+                            Width="40"
+                            HorizontalAlignment="Right"
+                            OffContent=""
+                            OnContent=""
+                            Toggled="CustomLocationToggle_Toggled" />
+                    </Grid>
+
+                    <Grid x:Name="aaaa" HorizontalAlignment="Stretch">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="260" />
+                            <ColumnDefinition Width="*" MaxWidth="470" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                            <RowDefinition Height="44" />
+                        </Grid.RowDefinitions>
+                        <Grid.ChildrenTransitions>
+                            <TransitionCollection>
+                                <RepositionThemeTransition />
+                            </TransitionCollection>
+                        </Grid.ChildrenTransitions>
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesDesktop"
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Desktop" />
+                        <TextBox
+                            x:Name="DesktopL"
+                            x:Uid="SettingsPreferencesDesktopLocation"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom desktop location" />
+
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesDownloads"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Downloads" />
+                        <TextBox
+                            x:Name="DownloadsL"
+                            x:Uid="SettingsPreferencesDownloadsLocation"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom downloads location" />
+
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesDocuments"
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Documents" />
+                        <TextBox
+                            x:Name="DocumentsL"
+                            x:Uid="SettingsPreferencesDocumentsLocation"
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom documents location" />
+
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesPictures"
+                            Grid.Row="3"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Pictures" />
+                        <TextBox
+                            x:Name="PictureL"
+                            x:Uid="SettingsPreferencesPicturesLocation"
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom pictures location" />
+
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesMusic"
+                            Grid.Row="4"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Music" />
+                        <TextBox
+                            x:Name="MusicL"
+                            x:Uid="SettingsPreferencesMusicLocation"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom music location" />
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesVideo"
+                            Grid.Row="5"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="Video" />
+                        <TextBox
+                            x:Name="VideosL"
+                            x:Uid="SettingsPreferencesVideoLocation"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom video location" />
+
+
+                        <TextBlock
+                            x:Uid="SettingsPreferencesOneDrive"
+                            Grid.Row="6"
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            FontSize="16"
+                            Text="OneDrive" />
+                        <TextBox
+                            x:Name="OneDriveL"
+                            x:Uid="SettingsPreferencesOneDriveLocation"
+                            Grid.Row="6"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            PlaceholderText="Set custom OneDrive location" />
+
+                        <Button
+                            x:Name="SaveCustomL"
+                            x:Uid="SettingsPreferencesSaveLocations"
+                            Grid.Row="7"
+                            Grid.Column="2"
+                            HorizontalAlignment="Right"
+                            Click="SaveCustomL_Click"
+                            Content="Save Locations"
+                            CornerRadius="2" />
+
+                    </Grid>
+                </StackPanel>
+
+
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" MaxWidth="530" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsPreferencesTerminalApplications"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Terminal Applications" />
+
+                    <StackPanel
+                        Grid.Column="2"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                        <HyperlinkButton
+                            Margin="0,0,16,0"
+                            Click="EditTerminalApplications_Click"
+                            Content=""
+                            FontFamily="Segoe MDL2 Assets"
+                            Style="{ThemeResource TextBlockButtonStyle}" />
+
+                        <ComboBox
+                            x:Name="TerminalApplicationsComboBox"
+                            Width="130"
+                            ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
+                            SelectionChanged="TerminalApp_SelectionChanged">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="datamodels:TerminalModel">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{x:Bind Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
                     </StackPanel>
                 </Grid>
             </StackPanel>

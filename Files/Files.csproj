@@ -131,20 +131,32 @@
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
+  <PropertyGroup Label="MultilingualAppToolkit">
+    <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+    <MultilingualFallbackLanguage>en-US</MultilingualFallbackLanguage>
+    <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+    <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BaseLayout.cs" />
-    <Compile Include="Controls\FileViewControl.xaml.cs">
-      <DependentUpon>FileViewControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\RibbonArea.xaml.cs">
+    <Compile Include="CommandLine\CommandLineParser.cs" />
+    <Compile Include="CommandLine\ParsedCommand.cs" />
+    <Compile Include="CommandLine\ParsedCommands.cs" />
+    <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="UserControls\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\RibbonPage.xaml.cs">
+    <Compile Include="UserControls\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Sidebar.xaml.cs">
+      <DependentUpon>Sidebar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataModels\TerminalFileModel.cs" />
+    <Compile Include="DataModels\TerminalModel.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
@@ -167,17 +179,20 @@
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
+    <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\ThemeStyle.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
+    <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="Filesystem\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
-    <Compile Include="Filesystem\SidebarItem.cs" />
-    <Compile Include="GenericFileBrowser.xaml.cs">
+    <Compile Include="Filesystem\INavigationControlItem.cs" />
+    <Compile Include="Filesystem\LocationItem.cs" />
+    <Compile Include="UserControls\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InstanceTabsView.xaml.cs">
+    <Compile Include="Views\Layouts\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\EmptyFolderTextState.cs" />
@@ -186,16 +201,20 @@
     <Compile Include="Interacts\RibbonActions\Home.cs" />
     <Compile Include="Interacts\RibbonActions\Layout.cs" />
     <Compile Include="Interacts\RibbonActions\Share.cs" />
+    <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="NavigationActions.cs" />
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />
-    <Compile Include="PhotoAlbum.xaml.cs">
+    <Compile Include="UserControls\PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
-    <Compile Include="ProHome.xaml.cs">
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Pages\ProHome.xaml.cs">
       <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties.xaml.cs">
@@ -205,14 +224,24 @@
     <Compile Include="Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Settings.xaml.cs">
+    <Compile Include="Settings.cs" />
+    <Compile Include="Views\Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\Personalization.xaml.cs">
-      <DependentUpon>Personalization.xaml</DependentUpon>
+    <Compile Include="SettingsPages\OnStartup.xaml.cs">
+      <DependentUpon>OnStartup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\FilesAndFolders.xaml.cs">
+      <DependentUpon>FilesAndFolders.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\Appearance.xaml.cs">
+      <DependentUpon>Appearance.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsPages\Flags.xaml.cs">
+      <DependentUpon>Flags.xaml</DependentUpon>
     </Compile>
     <Compile Include="SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
@@ -221,18 +250,23 @@
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\RibbonViewModel.cs" />
-    <Compile Include="WindowDisplayInfo.cs" />
-    <Compile Include="WindowDisplayMode.cs" />
+    <Compile Include="View Models\SettingsViewModel.cs" />
+    <Compile Include="Helpers\WindowDisplayInfo.cs" />
+    <Compile Include="Helpers\WindowDisplayMode.cs" />
     <Compile Include="YourHome.xaml.cs">
       <DependentUpon>YourHome.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Files UWP Beta Icon.png" />
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FilesDrive.png" />
     <Content Include="Assets\FolderIcon.svg" />
     <Content Include="Assets\logo.bmp" />
+    <None Include="Assets\terminal\terminal.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
     <Content Include="Assets\StoreLogo.png" />
@@ -249,21 +283,26 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\zh-Hans\Resources.resw" />
+    <PRIResource Include="Strings\de-DE\Resources.resw" />
+    <PRIResource Include="Strings\es-ES\Resources.resw" />
+    <PRIResource Include="Strings\fr-FR\Resources.resw" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\FileViewControl.xaml">
+    <Page Include="UserControls\RibbonArea.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\RibbonArea.xaml">
+    <Page Include="UserControls\RibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\RibbonPage.xaml">
+    <Page Include="UserControls\Sidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -295,19 +334,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GenericFileBrowser.xaml">
+    <Page Include="UserControls\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InstanceTabsView.xaml">
+    <Page Include="Views\Layouts\InstanceTabsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PhotoAlbum.xaml">
+    <Page Include="UserControls\PhotoAlbum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ProHome.xaml">
+    <Page Include="Views\MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\ProHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -319,7 +362,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Settings.xaml">
+    <Page Include="Views\Pages\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -327,9 +370,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPages\Personalization.xaml">
+    <Page Include="SettingsPages\OnStartup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsPages\FilesAndFolders.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SettingsPages\Appearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsPages\Flags.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SettingsPages\Preferences.xaml">
       <SubType>Designer</SubType>
@@ -385,6 +440,9 @@
     <PackageReference Include="MvvmLight">
       <Version>5.4.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.18362.0">
@@ -396,10 +454,20 @@
       <SubType>Designer</SubType>
     </AppxManifest>
   </ItemGroup>
+  <ItemGroup>
+    <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
+    <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
+    <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
+    <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.PriResources.targets')" />
+  <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.PriResources.targets')" Label="MultilingualAppToolkit">
+    <Warning Text="$(MSBuildProjectFile) is Multilingual build enabled, but the Multilingual App Toolkit is unavailable during the build. If building with Visual Studio, please check to ensure that toolkit is properly installed." />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

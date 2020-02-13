@@ -5,19 +5,27 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using System.IO;
 using Files.Filesystem;
+using Newtonsoft.Json;
+using Files.DataModels;
+using System.Collections.ObjectModel;
+using Windows.System;
+using Windows.UI.Xaml.Navigation;
+using System.Linq;
 
 namespace Files.SettingsPages
 {
     
     public sealed partial class Preferences : Page
     {
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+
         public Preferences()
         {
             this.InitializeComponent();
 
-            if (localSettings.Values["customLocationsSetting"] != null)
+            if (App.AppSettings != null && localSettings.Values["customLocationsSetting"] != null)
             {
                 if (localSettings.Values["customLocationsSetting"].Equals(true))
                 {
@@ -45,6 +53,8 @@ namespace Files.SettingsPages
                     OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
 
                     SaveCustomL.IsEnabled = true;
+                    aaaa.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
                 }
                 else
                 {
@@ -57,6 +67,8 @@ namespace Files.SettingsPages
                     VideosL.IsEnabled = false;
                     SaveCustomL.IsEnabled = false;
                     OneDriveL.IsEnabled = false;
+                    aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
                 }
             }
             else
@@ -70,36 +82,56 @@ namespace Files.SettingsPages
                 VideosL.IsEnabled = false;
                 SaveCustomL.IsEnabled = false;
                 OneDriveL.IsEnabled = false;
+                aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
-            SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
+            try
+            {
+                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
+            }
+            catch (Exception)
+            {
+                App.AppSettings.PinOneDriveToSideBar = false;
+                OneDrivePin.IsEnabled = false;
+            }
         }
 
-        private void ToggleSwitch_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            var terminalId = 1;
+            if (localSettings.Values["terminal_id"] != null) terminalId = (int) localSettings.Values["terminal_id"];
+
+            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+        }
+
+        private void CustomLocationToggle_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             if ((sender as ToggleSwitch).IsOn)
             {
                 localSettings.Values["customLocationsSetting"] = true;
 
                 DesktopL.IsEnabled = true;
-                localSettings.Values["DesktopLocation"] = App.DesktopPath;
+                localSettings.Values["DesktopLocation"] = App.AppSettings.DesktopPath;
 
                 DownloadsL.IsEnabled = true;
-                localSettings.Values["DownloadsLocation"] = App.DownloadsPath;
+                localSettings.Values["DownloadsLocation"] = App.AppSettings.DownloadsPath;
 
                 DocumentsL.IsEnabled = true;
-                localSettings.Values["DocumentsLocation"] = App.DocumentsPath;
+                localSettings.Values["DocumentsLocation"] = App.AppSettings.DocumentsPath;
 
                 PictureL.IsEnabled = true;
-                localSettings.Values["PicturesLocation"] = App.PicturesPath;
+                localSettings.Values["PicturesLocation"] = App.AppSettings.PicturesPath;
 
                 MusicL.IsEnabled = true;
-                localSettings.Values["MusicLocation"] = App.MusicPath;
+                localSettings.Values["MusicLocation"] = App.AppSettings.MusicPath;
 
                 VideosL.IsEnabled = true;
-                localSettings.Values["VideosLocation"] = App.VideosPath;
+                localSettings.Values["VideosLocation"] = App.AppSettings.VideosPath;
 
                 OneDriveL.IsEnabled = true;
-                localSettings.Values["OneDriveLocation"] = App.OneDrivePath;
+                localSettings.Values["OneDriveLocation"] = App.AppSettings.OneDrivePath;
 
                 DesktopL.Text = localSettings.Values["DesktopLocation"].ToString();
                 DownloadsL.Text = localSettings.Values["DownloadsLocation"].ToString();
@@ -108,6 +140,7 @@ namespace Files.SettingsPages
                 MusicL.Text = localSettings.Values["MusicLocation"].ToString();
                 VideosL.Text = localSettings.Values["VideosLocation"].ToString();
                 OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
+                aaaa.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
                 SaveCustomL.IsEnabled = true;
             }
@@ -122,6 +155,8 @@ namespace Files.SettingsPages
                 VideosL.IsEnabled = false;
                 OneDriveL.IsEnabled = false;
                 SaveCustomL.IsEnabled = false;
+                aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+
             }
         }
 
@@ -270,11 +305,32 @@ namespace Files.SettingsPages
                     isFlawless = false;
                 }
             }
+        }
 
-            if (isFlawless)
-            {
-                SuccessMark.Visibility = Windows.UI.Xaml.Visibility.Visible;
-            }
+        private async void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            LaunchTerminalsConfigFile();
+        }
+
+        private async void LaunchTerminalsConfigFile()
+        {
+            Launcher.LaunchFileAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+        }
+
+        private void TerminalApp_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var comboBox = (ComboBox)sender;
+
+            var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
+
+            localSettings.Values["terminal_id"] = selectedTerminal.Id;
+        }
+
+        private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            OneDrivePin.IsEnabled = false;
+            App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
+            OneDrivePin.IsEnabled = true;
         }
     }
 }
