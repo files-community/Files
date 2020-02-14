@@ -268,7 +268,17 @@ namespace Files
             Visibility ItemFolderImgVis;
             Visibility ItemEmptyImgVis;
             Visibility ItemFileIconVis;
-            if (mostRecentlyUsed.Entries.Count == 0)
+            bool IsRecentsListEmpty = true;
+            foreach(var entry in mostRecentlyUsed.Entries)
+            {
+                var item = await mostRecentlyUsed.GetItemAsync(entry.Token);
+                if (item.IsOfType(StorageItemTypes.File))
+                {
+                    IsRecentsListEmpty = false;
+                }
+            }
+
+            if (IsRecentsListEmpty)
             {
                 Empty.Visibility = Visibility.Visible;
             }
@@ -276,6 +286,7 @@ namespace Files
             {
                 Empty.Visibility = Visibility.Collapsed;
             }
+
             foreach (Windows.Storage.AccessCache.AccessListEntry entry in mostRecentlyUsed.Entries)
             {
                 string mruToken = entry.Token;
@@ -312,6 +323,11 @@ namespace Files
                 {
                     // Skip item until consent is provided
                 }
+            }
+
+            if(recentItemsCollection.Count == 0)
+            {
+                Empty.Visibility = Visibility.Visible;
             }
         }
 
