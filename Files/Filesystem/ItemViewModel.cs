@@ -545,29 +545,57 @@ namespace Files.Filesystem
                 {
                     BitmapImage icon = new BitmapImage();
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
-                    var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.FilePath);
-                    if (matchingItem != null && matchingStorageItem != null)
+                    try
                     {
-                        matchingItem.FileType = matchingStorageItem.DisplayType;
-                        matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                        var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
-                        if (Thumbnail != null)
+                        var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        if (matchingItem != null && matchingStorageItem != null)
                         {
-                            matchingItem.FileImg = icon;
-                            await icon.SetSourceAsync(Thumbnail);
-                            matchingItem.EmptyImgVis = Visibility.Collapsed;
-                            matchingItem.FileIconVis = Visibility.Visible;
+                            matchingItem.FileType = matchingStorageItem.DisplayType;
+                            matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            if (Thumbnail != null)
+                            {
+                                matchingItem.FileImg = icon;
+                                await icon.SetSourceAsync(Thumbnail);
+                                matchingItem.EmptyImgVis = Visibility.Collapsed;
+                                matchingItem.FileIconVis = Visibility.Visible;
+                            }
                         }
                     }
+                    catch (UnauthorizedAccessException)
+                    {
+                        await App.consentDialog.ShowAsync();
+                        return;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        item.ItemPropertiesInitialized = true;
+                        return;
+                    }
+                    
                 }
                 else
                 {
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
-                    var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
-                    if (matchingItem != null && matchingStorageItem != null)
+                    try
                     {
-                        matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                        var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                        if (matchingItem != null && matchingStorageItem != null)
+                        {
+                            matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                        }
                     }
+                    catch (UnauthorizedAccessException)
+                    {
+                        await App.consentDialog.ShowAsync();
+                        return;
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        item.ItemPropertiesInitialized = true;
+                        return;
+                    }
+                    
                 }
 
                 item.ItemPropertiesInitialized = true;
@@ -630,6 +658,7 @@ namespace Files.Filesystem
                 catch (UnauthorizedAccessException)
                 {
                     await App.consentDialog.ShowAsync();
+                    return;
                 }
                 catch (COMException e)
                 {
