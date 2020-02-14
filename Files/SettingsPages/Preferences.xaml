@@ -47,6 +47,7 @@
                             Grid.Column="2"
                             Width="40"
                             HorizontalAlignment="Right"
+                            IsEnabled="False"
                             OffContent=""
                             OnContent=""
                             IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay}"/>
