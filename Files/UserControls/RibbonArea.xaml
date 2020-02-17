@@ -1268,7 +1268,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Orientation="Vertical">
-            <Grid Height="Auto">
+            <Grid Height="Auto" Visibility="Visible">
                 <Custom:TabView
                     x:Name="RibbonTabView"
                     x:FieldModifier="public"
@@ -1740,6 +1740,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition MinWidth="285" MaxWidth="485" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" Orientation="Horizontal">
                     <Button
@@ -1912,7 +1913,25 @@
 
                     </Grid>
 
+
                 </Grid>
+                
+                <Button
+                    Grid.Column="3"
+                    Margin="0,0,4,0"
+                    Background="Transparent"
+                    Content=""
+                    FontFamily="Segoe MDL2 Assets" Visibility="Collapsed">
+                    <Button.Flyout>
+                        <MenuFlyout Placement="BottomEdgeAlignedRight">
+                            <MenuFlyoutItem Text="New Tab" />
+                            <MenuFlyoutItem Text="New Window" />
+                            <MenuFlyoutSeparator />
+                            <MenuFlyoutItem Text="Settings" />
+                        </MenuFlyout>
+                    </Button.Flyout>
+
+                </Button>
 
                 <Custom:GridSplitter
                     x:Name="SearchBoxResizer"
@@ -1942,6 +1961,7 @@
                 </AutoSuggestBox>
             </Grid>
         </StackPanel>
+
     </Grid>
 
     <VisualStateManager.VisualStateGroups>

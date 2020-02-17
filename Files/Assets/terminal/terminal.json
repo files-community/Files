@@ -15,6 +15,13 @@
       "path": "pwsh.exe",
       "arguments": "-WorkingDirectory \"{0}\"",
       "icon": ""
+    },
+    {
+      "id": 3,
+      "name": "Windows Terminal",
+      "path": "wt.exe",
+      "arguments": "-d \"{0}\"",
+      "icon": ""
     }
     */
   ]

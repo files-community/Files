@@ -31,26 +31,26 @@ namespace Files.Controls
             if(Window.Current.Bounds.Width >= 1050)
             {
                 RibbonViewModel.ShowItemLabels();
-                SearchReigon.Visibility = Visibility.Visible;
-                ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
-                SearchBoxResizer.Visibility = Visibility.Visible;
-                ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
             }
             else
             {
                 RibbonViewModel.HideItemLabels();
-                SearchReigon.Visibility = Visibility.Collapsed;
-                ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
-                SearchBoxResizer.Visibility = Visibility.Collapsed;
-                ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
             }
 
             if (Window.Current.Bounds.Width >= 700)
             {
+                SearchReigon.Visibility = Visibility.Visible;
+                ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
+                SearchBoxResizer.Visibility = Visibility.Visible;
+                ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
                 RibbonViewModel.ShowAppBarSeparator();
             }
             else
             {
+                SearchReigon.Visibility = Visibility.Collapsed;
+                ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
+                SearchBoxResizer.Visibility = Visibility.Collapsed;
+                ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
                 RibbonViewModel.HideAppBarSeparator();
             }
         }
