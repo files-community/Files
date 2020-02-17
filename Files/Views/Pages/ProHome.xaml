@@ -97,8 +97,8 @@
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Stretch"
             Canvas.ZIndex="100"
-            OffsetY="3"
-            ShadowOpacity=".1">
+            OffsetY="4"
+            ShadowOpacity=".07">
             <controls:RibbonArea x:Name="RibbonArea" x:FieldModifier="public" />
         </Custom:DropShadowPanel>
 
