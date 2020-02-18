@@ -17,6 +17,8 @@ using Microsoft.Xaml.Interactivity;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Windows.Foundation;
+using Windows.UI.Xaml.Media;
+using System.Collections.Generic;
 
 namespace Files
 {
@@ -78,7 +80,7 @@ namespace Files
             App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
-        private void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
             {
@@ -102,6 +104,26 @@ namespace Files
             {
                 // Swap arrows
                 SortedColumn = _sortedColumn;
+            }
+            else if (e.PropertyName == "isLoadingItems")
+            {
+                if (!AssociatedViewModel.isLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
+                {
+                    var allRows = new List<DataGridRow>();
+
+                    Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
+                    foreach(DataGridRow row in allRows.Take(20))
+                    {
+                        if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
+                        {
+                            await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                            {
+                                App.CurrentInstance.ViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
+                                (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
+                            });
+                        }
+                    }
+                }
             }
         }
 

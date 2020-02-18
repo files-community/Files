@@ -526,8 +526,22 @@ namespace Files.Filesystem
 
         [DllImport("api-ms-win-core-file-l1-1-0.dll")]
         static extern bool FindClose(IntPtr hFindFile);
-
-        bool isLoadingItems = false;
+        private bool _isLoadingItems = false;
+        public bool isLoadingItems
+        {
+            get
+            {
+                return _isLoadingItems;
+            }
+            internal set
+            {
+                if(_isLoadingItems != value)
+                {
+                    _isLoadingItems = value;
+                    NotifyPropertyChanged("isLoadingItems");
+                }
+            }
+        }
 
         class PartialStorageItem
         {
@@ -564,7 +578,7 @@ namespace Files.Filesystem
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        await App.consentDialog.ShowAsync();
+                        item.ItemPropertiesInitialized = true;
                         return;
                     }
                     catch (FileNotFoundException)
@@ -587,7 +601,7 @@ namespace Files.Filesystem
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        await App.consentDialog.ShowAsync();
+                        item.ItemPropertiesInitialized = true;
                         return;
                     }
                     catch (FileNotFoundException)

@@ -241,6 +241,22 @@ namespace Files.Interacts
 
         }
 
+        public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(startNode);
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+                if ((current.GetType()).Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
+                {
+                    T asType = (T)current;
+                    return asType;
+                }
+                FindChild<T>(current);
+            }
+            return null;
+        }
+
         public static void FindChildren<T>(List<T> results, DependencyObject startNode) where T : DependencyObject
         {
             int count = VisualTreeHelper.GetChildrenCount(startNode);
