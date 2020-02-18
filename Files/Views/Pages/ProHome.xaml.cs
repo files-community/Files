@@ -313,9 +313,6 @@ namespace Files
                 case (false, false, false, true, VirtualKey.Delete): //delete, delete item
                     App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
-                case (false, false, false, true, VirtualKey.Enter): //enter, open item
-                    App.CurrentInstance.InteractionOperations.List_ItemClick(null, null);
-                    break;
                 case (false, false, false, true, VirtualKey.Space): //space, quick look
                     if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
                     {
