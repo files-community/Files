@@ -543,14 +543,6 @@ namespace Files.Filesystem
             }
         }
 
-        class PartialStorageItem
-        {
-            public string ItemName { get; set; }
-            public string ContentType { get; set; }
-            public StorageItemThumbnail Thumbnail { get; set; }
-            public string RelativeId { get; set; }
-        }
-
         public async void LoadExtendedItemProperties(ListedItem item)
         {
             if (!item.ItemPropertiesInitialized)
@@ -661,10 +653,6 @@ namespace Files.Filesystem
             App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
             App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
-            ObservableCollection<PartialStorageItem> partialFiles = null;
-            ObservableCollection<PartialStorageItem> partialFolders = null;
-            var fetchOperation = Task.Run(async () => 
-            {
                 try
                 {
                     _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
@@ -691,45 +679,6 @@ namespace Files.Filesystem
                     return;
                 }
 
-                QueryOptions options = new QueryOptions();
-                if (await _rootFolder.GetIndexedStateAsync() == IndexedState.FullyIndexed)
-                {
-                    options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
-                }
-                else
-                {
-                    options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
-                }
-                options.FolderDepth = FolderDepth.Shallow;
-
-                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
-                options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
-                var query = _rootFolder.CreateItemQueryWithOptions(options);
-                var thumbnails = await query.GetItemsAsync(0, 250);
-                uint index = 0;
-                partialFiles = new ObservableCollection<PartialStorageItem>();
-                partialFolders = new ObservableCollection<PartialStorageItem>();
-
-                while (thumbnails.Count > 0)
-                {
-                    foreach (IStorageItem item in thumbnails)
-                    {
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            partialFolders.Add(new PartialStorageItem() { RelativeId = ((StorageFolder)item).FolderRelativeId, ItemName = item.Name, ContentType = null, Thumbnail = null });
-                        }
-                        else
-                        {
-                            partialFiles.Add(new PartialStorageItem() { RelativeId = ((StorageFile)item).FolderRelativeId, Thumbnail = await ((StorageFile)item).GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = item.Name, ContentType = ((StorageFile)item).DisplayType });
-                        }
-                    }
-                    index += 250;
-                    thumbnails = await query.GetItemsAsync(index, 250);
-                }
-                
-            });
-
-
             WIN32_FIND_DATA findData;
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoStandard;
             int additionalFlags = 0;
@@ -747,14 +696,14 @@ namespace Files.Filesystem
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            AddFile(findData, path, null);
+                            AddFile(findData, path);
                             ++count;
                         }
                         else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                         {
                             if (findData.cFileName != "." && findData.cFileName != "..")
                             {
-                                AddFolder(findData, path, null);
+                                AddFolder(findData, path);
                                 ++count;
                             }
                         }
@@ -764,20 +713,6 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
-            //var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
-            //{
-            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
-            //    {
-            //        BitmapImage icon = null;
-            //        var itemsCopy = FilesAndFolders.ToList();
-            //        foreach (ListedItem item in itemsCopy)
-            //        {
-                        
-            //        }
-            //    });
-                
-            //});
-            
 
             if (FilesAndFolders.Count == 0)
             {
@@ -799,7 +734,7 @@ namespace Files.Filesystem
             isLoadingItems = false;
         }
 
-        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageItem)
+        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
             if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
             {
@@ -811,7 +746,7 @@ namespace Files.Filesystem
                 var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long)(uint)findData.ftLastWriteTime.dwLowDateTime);
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-                _filesAndFolders.Add(new ListedItem(partialStorageItem?.RelativeId)
+                _filesAndFolders.Add(new ListedItem(null)
                 {
                     //FolderTooltipText = tooltipString,
                     FileName = findData.cFileName,
@@ -830,7 +765,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageFile)
+        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot)
         {
 
             var itemName = findData.cFileName;
@@ -839,16 +774,10 @@ namespace Files.Filesystem
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
             string itemType = "File";
-            if(partialStorageFile != null)
+
+            if (findData.cFileName.Contains('.'))
             {
-                itemType = partialStorageFile.ContentType;
-            }
-            else
-            {
-                if (findData.cFileName.Contains('.'))
-                {
-                    itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
-                }
+                itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
             }
 
             var itemFolderImgVis = Visibility.Collapsed;
@@ -862,38 +791,16 @@ namespace Files.Filesystem
             Visibility itemThumbnailImgVis;
             Visibility itemEmptyImgVis;
 
-            try
-            {
+            itemEmptyImgVis = Visibility.Visible;
+            itemThumbnailImgVis = Visibility.Collapsed;
 
-                var itemThumbnailImg = partialStorageFile != null ? partialStorageFile.Thumbnail : null;
-                if (itemThumbnailImg != null)
-                {
-                    itemEmptyImgVis = Visibility.Collapsed;
-                    itemThumbnailImgVis = Visibility.Visible;
-                    icon.DecodePixelWidth = 40;
-                    icon.DecodePixelHeight = 40;
-                    await icon.SetSourceAsync(itemThumbnailImg);
-                }
-                else
-                {
-                    itemEmptyImgVis = Visibility.Visible;
-                    itemThumbnailImgVis = Visibility.Collapsed;
-                }
-            }
-            catch
-            {
-                itemEmptyImgVis = Visibility.Visible;
-                itemThumbnailImgVis = Visibility.Collapsed;
-                // Catch here to avoid crash
-                // TODO maybe some logging could be added in the future...
-            }
             
             if (_cancellationTokenSource.IsCancellationRequested)
             {
                 isLoadingItems = false;
                 return;
             }
-            _filesAndFolders.Add(new ListedItem(partialStorageFile?.RelativeId)
+            _filesAndFolders.Add(new ListedItem(null)
             {
                 DotFileExtension = itemFileExtension,
                 EmptyImgVis = itemEmptyImgVis,
