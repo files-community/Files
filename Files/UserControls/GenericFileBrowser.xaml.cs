@@ -215,12 +215,30 @@ namespace Files
             args.DragUI.SetContentFromDataPackage();
         }
         
-        private void AllView_Sorting(object sender, DataGridColumnEventArgs e)
+        private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
                 App.CurrentInstance.ViewModel.IsSortedAscending = !App.CurrentInstance.ViewModel.IsSortedAscending;
             else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
+
+            if (!AssociatedViewModel.isLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
+            {
+                var allRows = new List<DataGridRow>();
+
+                Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
+                foreach (DataGridRow row in allRows.Take(20))
+                {
+                    if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
+                    {
+                        await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                        {
+                            App.CurrentInstance.ViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
+                            (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
+                        });
+                    }
+                }
+            }
         }
 
         private void AllView_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
