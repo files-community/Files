@@ -696,8 +696,11 @@ namespace Files.Filesystem
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            AddFile(findData, path);
-                            ++count;
+                            if (!findData.cFileName.EndsWith(".lnk"))
+                            {
+                                AddFile(findData, path);
+                                ++count;
+                            }
                         }
                         else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                         {
