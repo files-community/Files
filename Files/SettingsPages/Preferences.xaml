@@ -31,8 +31,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="260" />
-                        <ColumnDefinition Width="*" MaxWidth="470" />
+                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="*" MaxWidth="450" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
                         <TransitionCollection>
@@ -48,15 +48,15 @@
                         Text="Pin OneDrive to the sidebar" />
 
                     <ToggleSwitch
-                            Grid.Column="2"
-                            Width="40"
-                            HorizontalAlignment="Right"
-                            IsEnabled="True"
-                            OffContent=""
-                            OnContent=""
-                            x:Name="OneDrivePin"
-                            Toggled="OneDrivePin_Toggled"
-                            IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        x:Name="OneDrivePin"
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsEnabled="True"
+                        IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        OffContent=""
+                        OnContent=""
+                        Toggled="OneDrivePin_Toggled" />
                 </Grid>
 
                 <StackPanel>
@@ -68,8 +68,8 @@
 
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="260" />
-                            <ColumnDefinition Width="*" MaxWidth="470" />
+                            <ColumnDefinition Width="280" />
+                            <ColumnDefinition Width="*" MaxWidth="450" />
                         </Grid.ColumnDefinitions>
                         <Grid.ChildrenTransitions>
                             <TransitionCollection>
@@ -96,8 +96,8 @@
 
                     <Grid x:Name="aaaa" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="260" />
-                            <ColumnDefinition Width="*" MaxWidth="470" />
+                            <ColumnDefinition Width="300" />
+                            <ColumnDefinition Width="*" MaxWidth="430" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="44" />
@@ -120,7 +120,7 @@
                             Grid.Row="0"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="Desktop" />
                         <TextBox
                             x:Name="DesktopL"
@@ -137,7 +137,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="Downloads" />
                         <TextBox
                             x:Name="DownloadsL"
@@ -154,7 +154,7 @@
                             Grid.Row="2"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="Documents" />
                         <TextBox
                             x:Name="DocumentsL"
@@ -171,7 +171,7 @@
                             Grid.Row="3"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="Pictures" />
                         <TextBox
                             x:Name="PictureL"
@@ -188,7 +188,7 @@
                             Grid.Row="4"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="Music" />
                         <TextBox
                             x:Name="MusicL"
@@ -204,7 +204,7 @@
                             Grid.Row="5"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="Video" />
                         <TextBox
                             x:Name="VideosL"
@@ -221,7 +221,7 @@
                             Grid.Row="6"
                             Grid.Column="0"
                             VerticalAlignment="Center"
-                            FontSize="16"
+                            FontSize="14"
                             Text="OneDrive" />
                         <TextBox
                             x:Name="OneDriveL"
@@ -248,8 +248,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200" />
-                        <ColumnDefinition Width="*" MaxWidth="530" />
+                        <ColumnDefinition Width="220" />
+                        <ColumnDefinition Width="*" MaxWidth="510" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
                         <TransitionCollection>
@@ -277,7 +277,7 @@
 
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
-                            Width="130"
+                            Width="120"
                             ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>

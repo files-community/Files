@@ -28,8 +28,7 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="320" />
-                        <ColumnDefinition Width="*" MaxWidth="300" />
+                        <ColumnDefinition Width="*" MaxWidth="620" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
@@ -46,7 +45,7 @@
                         Text="Show hidden files, folders, and drives" />
 
                     <ToggleSwitch
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="False"
@@ -56,8 +55,7 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="320" />
-                        <ColumnDefinition Width="*" MaxWidth="300" />
+                        <ColumnDefinition Width="*" MaxWidth="620" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
@@ -74,7 +72,7 @@
                         Text="Show extensions for known file types" />
 
                     <ToggleSwitch
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="False"
@@ -84,8 +82,7 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="320" />
-                        <ColumnDefinition Width="*" MaxWidth="300" />
+                        <ColumnDefinition Width="*" MaxWidth="620" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
@@ -102,14 +99,13 @@
                         Text="Show drive letters" />
 
                     <ToggleSwitch
-                        Grid.Column="2"
+                        Grid.Column="1"
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="False"
                         OffContent=""
                         OnContent="" />
                 </Grid>
-
 
             </StackPanel>
         </ScrollViewer>
