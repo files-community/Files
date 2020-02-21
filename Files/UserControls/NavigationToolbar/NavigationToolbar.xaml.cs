@@ -1,58 +1,158 @@
-﻿using Files.Filesystem;
+﻿using Files.Controls;
+using Files.Filesystem;
 using Files.Interacts;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using Windows.UI.Xaml.Navigation;
 
 
-namespace Files.Controls
+namespace Files.UserControls
 {
-    public sealed partial class RibbonArea : UserControl
+    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar
     {
-        public RibbonViewModel RibbonViewModel { get; } = new RibbonViewModel();
-        public RibbonArea()
+        private bool ManualEntryBoxLoaded { get; set; } = false;
+        private bool ClickablePathLoaded { get; set; } = true;
+        private bool SearchBoxLoaded { get; set; }
+        private string PathText { get; set; }
+
+        public NavigationToolbar()
         {
             this.InitializeComponent();
-            Window.Current.SizeChanged += Current_SizeChanged;
-            Current_SizeChanged(null, null);
+            if (Window.Current.Bounds.Width >= 800)
+            {
+                (this as INavigationToolbar).IsSearchReigonVisible = true;
+            }
+            else
+            {
+                (this as INavigationToolbar).IsSearchReigonVisible = false;
+            }
         }
 
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        bool INavigationToolbar.IsSearchReigonVisible
         {
-            
-            if(Window.Current.Bounds.Width >= 1050)
+            get
             {
-                RibbonViewModel.ShowItemLabels();
+                return SearchBoxLoaded;
             }
-            else
+            set
             {
-                RibbonViewModel.HideItemLabels();
+                if (value)
+                {
+                    ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
+                    SearchBoxResizer.Visibility = Visibility.Visible;
+                    ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
+                    SearchBoxLoaded = true;
+                }
+                else
+                {
+                    ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
+                    SearchBoxResizer.Visibility = Visibility.Collapsed;
+                    ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
+                    SearchBoxLoaded = false;
+                }
+            }
+        }
+        bool INavigationToolbar.IsEditModeEnabled 
+        {
+            get
+            {
+                return VisiblePath.IsLoaded;
+            }
+            set
+            {
+                if (value)
+                {
+                    ManualEntryBoxLoaded = true;
+                    ClickablePathLoaded = false;
+                }
+                else
+                {
+                    ManualEntryBoxLoaded = false;
+                    ClickablePathLoaded = true;
+                }
+            } 
+        }
+        bool INavigationToolbar.CanRefresh
+        {
+            get
+            {
+                return Refresh.IsEnabled;
+            }
+            set
+            {
+                Refresh.IsEnabled = value;
+            }
+        }
+        bool INavigationToolbar.CanNavigateToParent
+        {
+            get
+            {
+                return Up.IsEnabled;
+            }
+            set
+            {
+                Up.IsEnabled = value;
             }
 
-            if (Window.Current.Bounds.Width >= 700)
+        }
+        bool INavigationToolbar.CanGoBack
+        {
+            get
             {
-                SearchReigon.Visibility = Visibility.Visible;
-                ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
-                SearchBoxResizer.Visibility = Visibility.Visible;
-                ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
-                RibbonViewModel.ShowAppBarSeparator();
+                return Back.IsEnabled;
             }
-            else
+            set
             {
-                SearchReigon.Visibility = Visibility.Collapsed;
-                ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
-                SearchBoxResizer.Visibility = Visibility.Collapsed;
-                ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
-                RibbonViewModel.HideAppBarSeparator();
+                Back.IsEnabled = value;
             }
+        }
+        bool INavigationToolbar.CanGoForward
+        {
+            get
+            {
+                return Forward.IsEnabled;
+            }
+            set
+            {
+                Forward.IsEnabled = value;
+            }
+        }
+        string INavigationToolbar.PathControlDisplayText
+        {
+            get
+            {
+                return PathText;
+            }
+            set
+            {
+                PathText = value;
+            }
+        }
+        private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
+        ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
+
+        private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
+        {
+            VisiblePath.Visibility = Visibility.Visible;
+            ClickablePath.Visibility = Visibility.Collapsed;
+            VisiblePath.Focus(FocusState.Programmatic);
+            VisiblePath.SelectAll();
         }
 
         private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
@@ -77,13 +177,12 @@ namespace Files.Controls
                     var contentInstance = App.CurrentInstance.ViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
-                VisiblePath.Visibility = Visibility.Collapsed;
-                ClickablePath.Visibility = Visibility.Visible;
+                App.CurrentInstance.NavigationControl.IsEditModeEnabled = true;
+
             }
             else if (e.Key == VirtualKey.Escape)
             {
-                VisiblePath.Visibility = Visibility.Collapsed;
-                ClickablePath.Visibility = Visibility.Visible;
+                App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
             }
         }
 
@@ -91,62 +190,62 @@ namespace Files.Controls
         {
             if (CurrentInput != instance.Universal.path || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
-                RibbonViewModel.HomeItems.isEnabled = false;
-                RibbonViewModel.ShareItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
                 if (CurrentInput == "Favorites" || CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput == "favorites" || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab");
-                    App.CurrentInstance.PathControlDisplayText = "New tab";
-                    RibbonViewModel.LayoutItems.isEnabled = false;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
                 }
                 else if (CurrentInput.Equals("Start", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "Start");
-                    App.CurrentInstance.PathControlDisplayText = "Start";
-                    RibbonViewModel.LayoutItems.isEnabled = false;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Start";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
                 }
                 else if (CurrentInput.Equals("Desktop", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath);
-                    App.CurrentInstance.PathControlDisplayText = "Desktop";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Documents", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                    App.CurrentInstance.PathControlDisplayText = "Documents";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Downloads", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                    App.CurrentInstance.PathControlDisplayText = "Downloads";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Pictures", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                    App.CurrentInstance.PathControlDisplayText = "Pictures";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Music", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                    App.CurrentInstance.PathControlDisplayText = "Music";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("Videos", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                    App.CurrentInstance.PathControlDisplayText = "Videos";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (CurrentInput.Equals("OneDrive", StringComparison.OrdinalIgnoreCase))
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath);
-                    App.CurrentInstance.PathControlDisplayText = "OneDrive";
-                    RibbonViewModel.LayoutItems.isEnabled = true;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else
                 {
@@ -165,7 +264,7 @@ namespace Files.Controls
                                     await Interaction.InvokeWin32Component(CurrentInput);
                                 }
 
-                                VisiblePath.Text = instance.Universal.path;
+                                App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                             }
                             else
                             {
@@ -209,7 +308,7 @@ namespace Files.Controls
 
                                 };
                                 await Launcher.LaunchFileAsync(file, options);
-                                VisiblePath.Text = instance.Universal.path;
+                                App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                             }
                             catch (ArgumentException)
                             {
@@ -234,7 +333,7 @@ namespace Files.Controls
                         {
                             await StorageFolder.GetFolderFromPathAsync(CurrentInput);
                             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                            RibbonViewModel.LayoutItems.isEnabled = true;
+                            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                         }
                         catch (ArgumentException)
                         {
@@ -259,13 +358,7 @@ namespace Files.Controls
         }
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
-            VisiblePath.Visibility = Visibility.Collapsed;
-            ClickablePath.Visibility = Visibility.Visible;
-        }
-
-        private void ClickablePathView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            PathViewInteract.SelectedIndex = -1;
+            App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
         }
 
         private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
@@ -274,90 +367,6 @@ namespace Files.Controls
             if (itemTappedPath == "Start" || itemTappedPath == "New tab") { return; }
 
             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
-        }
-
-        private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
-        {
-            VisiblePath.Visibility = Visibility.Visible;
-            ClickablePath.Visibility = Visibility.Collapsed;
-            VisiblePath.Focus(FocusState.Programmatic);
-            VisiblePath.SelectAll();
-        }
-
-        private void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            (args.Element as AutoSuggestBox).Focus(FocusState.Programmatic);
-        }
-
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.AddNewTab(typeof(Settings), "Settings");
-        }
-
-        private async void AddItem_Click(object sender, RoutedEventArgs e)
-        {
-            await App.addItemDialog.ShowAsync();
-        }
-
-        private async void LayoutButton_Click(object sender, RoutedEventArgs e)
-        {
-            await App.layoutDialog.ShowAsync();
-        }
-
-        public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
-        {
-            App.propertiesDialog.propertiesFrame.Tag = App.propertiesDialog;
-            App.propertiesDialog.propertiesFrame.Navigate(typeof(Properties), (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
-            await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
-        }
-
-        private async void NewWindowButton_Click(object sender, RoutedEventArgs e)
-        {
-            var filesUWPUri = new Uri("files-uwp:");
-            var options = new LauncherOptions()
-            {
-                DisplayApplicationPicker = false
-            };
-            await Launcher.LaunchUriAsync(filesUWPUri);
-        }
-
-        private void TabViewItem_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            FlyoutBase.ShowAttachedFlyout(sender as TabViewItem);
-            //((sender as TabViewItem).Resources["FileClickFlyout"] as FlyoutPresenter).ShowAt((sender as TabViewItem));
-        }
-
-        private void MenuFlyout_Closed(object sender, object e)
-        {
-            HomeRibbonItem.IsSelected = true;
-        }
-
-        private void ExitButton_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Exit();
-        }
-
-        private void RibbonItem_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
-        {
-            var itemTapped = sender as TabViewItem;
-            if(RibbonTabView.SelectedItem != null)
-            {
-                RibbonTabView.SelectedItem = null;
-            }
-            else
-            {
-                itemTapped.IsSelected = true;
-            }
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if(e.AddedItems.Count > 0)
-            {
-                (sender as ListView).SelectedItem = null;
-            }
         }
     }
 }

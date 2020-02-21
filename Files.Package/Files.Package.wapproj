@@ -59,7 +59,7 @@
     <GenerateTestArtifacts>False</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>10EF406F2BC44E3C8E8F85988D53990173626FC1</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>72235815D2912224F3229AE45F9386420BE848AA</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>

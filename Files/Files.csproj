@@ -146,10 +146,21 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
-    <Compile Include="UserControls\RibbonArea.xaml.cs">
+    <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
+    <Compile Include="UserControls\NavigationToolbar\NavigationToolbar.xaml.cs">
+      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Ribbon\IRibbonItem.cs" />
+    <Compile Include="UserControls\Ribbon\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\RibbonPage.xaml.cs">
+    <Compile Include="UserControls\Ribbon\RibbonCommandItem.xaml.cs">
+      <DependentUpon>RibbonCommandItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Ribbon\RibbonDividerItem.xaml.cs">
+      <DependentUpon>RibbonDividerItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Ribbon\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Sidebar.xaml.cs">
@@ -295,11 +306,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UserControls\RibbonArea.xaml">
+    <Page Include="UserControls\NavigationToolbar\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\RibbonPage.xaml">
+    <Page Include="UserControls\Ribbon\RibbonArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Ribbon\RibbonCommandItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Ribbon\RibbonDividerItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Ribbon\RibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

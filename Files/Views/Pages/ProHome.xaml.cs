@@ -22,6 +22,7 @@ using System.Drawing;
 using Files.View_Models;
 using Files.Controls;
 using Windows.UI.Core;
+using Files.UserControls;
 
 namespace Files
 {
@@ -49,61 +50,7 @@ namespace Files
 
         Control IShellPage.OperationsControl => RibbonArea;
 
-        bool IShellPage.CanRefresh {
-            get
-            {
-                return RibbonArea.Refresh.IsEnabled;
-            }
-            set
-            {
-                RibbonArea.Refresh.IsEnabled = value;
-            }
-        }
-        bool IShellPage.CanNavigateToParent
-        {
-            get
-            {
-                return RibbonArea.Up.IsEnabled;
-            }
-            set
-            {
-                RibbonArea.Up.IsEnabled = value;
-            }
-
-        }
-        bool IShellPage.CanGoBack
-        {
-            get
-            {
-                return RibbonArea.Back.IsEnabled;
-            }
-            set
-            {
-                RibbonArea.Back.IsEnabled = value;
-            }
-        }
-        bool IShellPage.CanGoForward
-        {
-            get
-            {
-                return RibbonArea.Forward.IsEnabled;
-            }
-            set
-            {
-                RibbonArea.Forward.IsEnabled = value;
-            }
-        }
-        string IShellPage.PathControlDisplayText
-        {
-            get
-            {
-                return RibbonArea.VisiblePath.Text;
-            }
-            set
-            {
-                RibbonArea.VisiblePath.Text = value;
-            }
-        }
+        
         private bool _isSwiped;
         private void SwipeablePage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
@@ -130,15 +77,14 @@ namespace Files
             _isSwiped = false;
         }
 
-        private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
-        ObservableCollection<PathBoxItem> IShellPage.PathComponents => pathComponents;
+        
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
+
+        INavigationToolbar IShellPage.NavigationControl => NavToolbar;
 
         public ProHome()
         {
             this.InitializeComponent();
-            RibbonArea.VisiblePath.Text = "New tab";
-
             this.KeyUp += ProHomeInstance_KeyUp;
 
             // Acrylic sidebar
@@ -156,8 +102,9 @@ namespace Files
             }
 
             App.CurrentInstance = this as IShellPage;
-            App.CurrentInstance.CanGoBack = false;
-            App.CurrentInstance.CanGoForward = false;
+            App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
+            App.CurrentInstance.NavigationControl.CanGoBack = false;
+            App.CurrentInstance.NavigationControl.CanGoForward = false;
         }
 
         private async void DisplayFilesystemConsentDialog()

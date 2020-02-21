@@ -12,6 +12,7 @@
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:controls1="using:Files.UserControls"
     x:Name="ProHomeInstance"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
@@ -99,7 +100,10 @@
             Canvas.ZIndex="100"
             OffsetY="4"
             ShadowOpacity=".07">
-            <controls:RibbonArea x:Name="RibbonArea" x:FieldModifier="public" />
+            <StackPanel Background="{ThemeResource RibbonBackgroundColor}" Orientation="Vertical">
+                <controls:RibbonArea x:Name="RibbonArea" x:FieldModifier="public" />
+                <controls1:NavigationToolbar x:Name="NavToolbar" x:FieldModifier="public" />
+            </StackPanel>
         </Custom:DropShadowPanel>
 
         <SplitView

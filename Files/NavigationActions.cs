@@ -23,7 +23,7 @@ namespace Files
 
         public static void Back_Click(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.CanGoBack = false;
+            App.CurrentInstance.NavigationControl.CanGoBack = false;
             Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
             if (instanceContentFrame.CanGoBack)
             {
@@ -38,7 +38,7 @@ namespace Files
 
         public static void Forward_Click(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.CanGoForward = false;
+            App.CurrentInstance.NavigationControl.CanGoForward = false;
             Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
 
             if (instanceContentFrame.CanGoForward)
@@ -54,7 +54,7 @@ namespace Files
 
         public static void Up_Click(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.CanNavigateToParent = false;
+            App.CurrentInstance.NavigationControl.CanNavigateToParent = false;
             Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
             App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
             var instance = App.CurrentInstance.ViewModel;
@@ -79,7 +79,7 @@ namespace Files
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
                 (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem) == App.sideBarItems[0]);
-                App.CurrentInstance.PathControlDisplayText = "New tab";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
             }
             else
             {
@@ -87,37 +87,37 @@ namespace Files
                 if (Parameter.ToString() == App.AppSettings.DesktopPath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathControlDisplayText = "Desktop";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "Desktop";
                 }
                 else if (Parameter.ToString() == App.AppSettings.DownloadsPath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathControlDisplayText = "Downloads";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "Downloads";
                 }
                 else if (Parameter.ToString() == App.AppSettings.DocumentsPath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathControlDisplayText = "Documents";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "Documents";
                 }
                 else if (Parameter.ToString() == App.AppSettings.PicturesPath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathControlDisplayText = "Pictures";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "Pictures";
                 }
                 else if (Parameter.ToString() == App.AppSettings.MusicPath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathControlDisplayText = "Music";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "Music";
                 }
                 else if (Parameter.ToString() == App.AppSettings.VideosPath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-                    CurrentTabInstance.PathControlDisplayText = "Videos";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "Videos";
                 }
                 else if (Parameter.ToString() == App.AppSettings.OneDrivePath)
                 {
                     (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "OneDrive").First();
-                    CurrentTabInstance.PathControlDisplayText = "OneDrive";
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = "OneDrive";
                 }
                 else
                 {
@@ -137,7 +137,7 @@ namespace Files
                         }
 
                     }
-                    CurrentTabInstance.PathControlDisplayText = Parameter.ToString();
+                    CurrentTabInstance.NavigationControl.PathControlDisplayText = Parameter.ToString();
                 }
             }
         }

@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.UserControls;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,12 +18,7 @@ namespace Files
         public ItemViewModel ViewModel { get; }
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
-        public bool CanRefresh { get; set; }
-        public bool CanNavigateToParent { get; set; }
-        public bool CanGoBack { get; set; }
-        public bool CanGoForward { get; set; }
-        public string PathControlDisplayText { get; set; }
-        public ObservableCollection<PathBoxItem> PathComponents { get; }
         public Type CurrentPageType { get; }
+        public INavigationToolbar NavigationControl { get; }
     }
 }

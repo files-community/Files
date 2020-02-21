@@ -267,7 +267,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            App.CurrentInstance.PathComponents.Clear();
+            App.CurrentInstance.NavigationControl.PathComponents.Clear();
             // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -302,7 +302,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.CurrentInstance.PathComponents.Add(item);
+                        App.CurrentInstance.NavigationControl.PathComponents.Add(item);
                     }
                     else
                     {
@@ -322,7 +322,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.CurrentInstance.PathComponents.Add(item);
+                        App.CurrentInstance.NavigationControl.PathComponents.Add(item);
 
                     }
                     index++;
@@ -405,9 +405,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.CurrentInstance.CanGoBack = true;
-            App.CurrentInstance.CanGoForward = true;
-            App.CurrentInstance.CanNavigateToParent = true;
+            App.CurrentInstance.NavigationControl.CanGoBack = true;
+            App.CurrentInstance.NavigationControl.CanGoForward = true;
+            App.CurrentInstance.NavigationControl.CanNavigateToParent = true;
 
         }
 
@@ -610,7 +610,7 @@ namespace Files.Filesystem
 
         public async void RapidAddItemsToCollectionAsync(string path)
         {
-            App.CurrentInstance.CanRefresh = false;
+            App.CurrentInstance.NavigationControl.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -650,8 +650,8 @@ namespace Files.Filesystem
                     break;
             }
 
-            App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-            App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+            App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
                 try
                 {
@@ -732,7 +732,7 @@ namespace Files.Filesystem
             OrderFiles();
             stopwatch.Stop();
             Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-            App.CurrentInstance.CanRefresh = true;
+            App.CurrentInstance.NavigationControl.CanRefresh = true;
             LoadIndicator.isVisible = Visibility.Collapsed;
             isLoadingItems = false;
         }
@@ -826,7 +826,7 @@ namespace Files.Filesystem
             RapidAddItemsToCollectionAsync(path);
             return;
             // Eventually add logic for user choice between item load methods
-            App.CurrentInstance.CanRefresh = false;
+            App.CurrentInstance.NavigationControl.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -885,8 +885,8 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-                App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+                App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+                App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -982,7 +982,7 @@ namespace Files.Filesystem
                 OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.CurrentInstance.CanRefresh = true;
+                App.CurrentInstance.NavigationControl.CanRefresh = true;
             }
             catch (UnauthorizedAccessException)
             {

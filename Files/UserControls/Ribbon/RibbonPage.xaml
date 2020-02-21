@@ -86,5 +86,5 @@
         </Style>
     </UserControl.Resources>
 
-    <controls:WrapPanel x:Name="PageContentPanel" Orientation="Horizontal" />
+    <StackPanel x:Name="PageContentPanel" Orientation="Horizontal" />
 </UserControl>
