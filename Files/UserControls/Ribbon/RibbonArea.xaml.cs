@@ -29,36 +29,6 @@ namespace Files.Controls
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
-            
-            
-
-            // Ignore selected File Menu (index 0)
-            if (RibbonTabView.SelectedIndex > 0 && RibbonTabView.IsLoaded)
-            {
-                double totalWidth = 0;
-                var allItems = ((RibbonTabView.Items[RibbonTabView.SelectedIndex] as TabViewItem).Content as RibbonPage).PageContent;
-                var RibbonItems = allItems.Where(x => x.DisplayMode != RibbonItemDisplayMode.Divider);
-                foreach(IRibbonItem item in RibbonItems)
-                {
-                    totalWidth += item.EstimatedWidth;
-                }
-                double averageItemWidth = 145;
-                int visibleItemCapacity = int.Parse(Math.Round(Window.Current.Bounds.Width / averageItemWidth).ToString());
-                int totalRibbonCommandItemsCount = RibbonItems.Count();
-                var itemsToShow = RibbonItems.Take(visibleItemCapacity);
-                var itemsToMakeCompact = RibbonItems.TakeLast(totalRibbonCommandItemsCount - itemsToShow.Count());
-                foreach (RibbonCommandItem item in itemsToShow)
-                {
-                    item.DisplayMode = RibbonItemDisplayMode.Tall; // TODO: Implement Tall Ribbon Items AppSetting
-                }
-
-                foreach (RibbonCommandItem itemToCollapse in itemsToMakeCompact)
-                {
-                    itemToCollapse.DisplayMode = RibbonItemDisplayMode.Compact;
-                }
-            }
-
-
             if (Window.Current.Bounds.Width >= 800)
             {
                 if (App.CurrentInstance != null)
@@ -72,6 +42,45 @@ namespace Files.Controls
                     App.CurrentInstance.NavigationControl.IsSearchReigonVisible = false;
 
                 RibbonViewModel.HideAppBarSeparator();
+            }
+
+            // Ignore selected File Menu (index 0)
+            if (RibbonTabView.SelectedIndex > 0 && RibbonTabView.IsLoaded)
+            {
+                var freeSpaceWidth = ((RibbonTabView.Items[RibbonTabView.SelectedIndex] as TabViewItem).Content as RibbonPage).FreeSpaceGrid.ActualWidth;
+                if (freeSpaceWidth <= 10)
+                {
+                    var allItems = ((RibbonTabView.Items[RibbonTabView.SelectedIndex] as TabViewItem).Content as RibbonPage).PageContent;
+                    var RibbonItems = allItems.Where(x => x.DisplayMode != RibbonItemDisplayMode.Divider && x.DisplayMode != RibbonItemDisplayMode.Compact);
+                    if(RibbonItems.Count() > 0)
+                    {
+                        var itemToMakeCompact = RibbonItems.Last();
+                        itemToMakeCompact.DisplayMode = RibbonItemDisplayMode.Compact;
+                        freeSpaceWidth = ((RibbonTabView.Items[RibbonTabView.SelectedIndex] as TabViewItem).Content as RibbonPage).FreeSpaceGrid.ActualWidth;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    
+                }
+
+                if (freeSpaceWidth >= 125)
+                {
+                    var allItems = ((RibbonTabView.Items[RibbonTabView.SelectedIndex] as TabViewItem).Content as RibbonPage).PageContent;
+                    var RibbonItems = allItems.Where(x => x.DisplayMode != RibbonItemDisplayMode.Divider && x.DisplayMode == RibbonItemDisplayMode.Compact);
+                    if(RibbonItems.Count() > 0)
+                    {
+                        var itemToMakeFullSize = RibbonItems.First();
+                        itemToMakeFullSize.DisplayMode = RibbonItemDisplayMode.Wide;
+                        freeSpaceWidth = ((RibbonTabView.Items[RibbonTabView.SelectedIndex] as TabViewItem).Content as RibbonPage).FreeSpaceGrid.ActualWidth;
+                    }
+                    else
+                    {
+                        return;
+                    }
+                    
+                }
             }
         }
 

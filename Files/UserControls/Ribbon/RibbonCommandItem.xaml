@@ -34,7 +34,7 @@
                             CornerRadius="{TemplateBinding CornerRadius}">
                             <Grid
                                 x:Name="ContentRoot"
-                                MinHeight="{ThemeResource AppBarThemeMinHeight}"
+                                MinHeight="40"
                                 Margin="-1,0">
 
                                 <Grid.ColumnDefinitions>
@@ -139,9 +139,9 @@
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextLabel" Storyboard.TargetProperty="Visibility">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                                             </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
+                                            <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentViewbox" Storyboard.TargetProperty="Margin">
                                                 <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AppBarButtonContentViewboxCompactMargin}" />
-                                            </ObjectAnimationUsingKeyFrames>
+                                            </ObjectAnimationUsingKeyFrames>-->
                                         </Storyboard>
                                     </VisualState>
                                     <VisualState x:Name="LabelOnRight">

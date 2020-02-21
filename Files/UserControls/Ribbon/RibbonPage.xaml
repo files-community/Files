@@ -86,5 +86,12 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel x:Name="PageContentPanel" Orientation="Horizontal" />
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" x:Name="PageContentPanel" Orientation="Horizontal" />
+        <Grid x:Name="FreeSpaceGrid" x:FieldModifier="public" Grid.Column="1"/>
+    </Grid>
 </UserControl>

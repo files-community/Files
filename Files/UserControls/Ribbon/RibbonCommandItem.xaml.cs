@@ -27,6 +27,26 @@ namespace Files.UserControls.Ribbon
         public RibbonCommandItem()
         {
             this.InitializeComponent();
+            this.Loaded += RibbonCommandItem_Loaded;
+        }
+
+        private void RibbonCommandItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            switch (ItemDisplayMode)
+            {
+                case RibbonItemDisplayMode.Wide:
+                    VisualStateManager.GoToState(rootAppBarButton, "LabelOnRight", true);
+                    break;
+                case RibbonItemDisplayMode.Tall:
+                    VisualStateManager.GoToState(rootAppBarButton, "FullSize", true);
+                    break;
+                case RibbonItemDisplayMode.Compact:
+                    VisualStateManager.GoToState(rootAppBarButton, "Compact", true);
+                    break;
+                case RibbonItemDisplayMode.Divider:
+                    throw new NotSupportedException();
+                    break;
+            }
         }
 
         public IconElement Icon { get; set; }
