@@ -6,6 +6,7 @@ using Windows.System;
 using Interaction = Files.Interacts.Interaction;
 using Windows.UI.Core;
 using Files.Controls;
+using System;
 
 namespace Files
 {
@@ -158,6 +159,19 @@ namespace Files
                     base.Page_CharacterReceived(sender, args);
                     FileList.Focus(FocusState.Keyboard);
                 }
+            }
+        }
+
+        private async void Grid_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        {
+            if (sender.DataContext != null && (!(sender.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            {
+                await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
+                {
+                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, 80);
+                    (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
+                    //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
+                });
             }
         }
     }

@@ -276,6 +276,8 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
                     <Grid
+                        DataContext="{x:Bind}"
+                        EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                         Width="125"
                         Height="Auto"
                         Margin="0,0,0,0"
@@ -300,8 +302,8 @@
                                 Padding="12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Visibility="{x:Bind FileIconVis}">
-                                <Image Source="{x:Bind FileImg}" Stretch="Uniform" />
+                                Visibility="{x:Bind FileIconVis, Mode=OneWay}">
+                                <Image Source="{x:Bind FileImg, Mode=OneWay}" Stretch="Uniform" />
                             </Grid>
                             <Image
                                 HorizontalAlignment="Stretch"
@@ -318,7 +320,7 @@
                             <Grid
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Visibility="{x:Bind EmptyImgVis}">
+                                Visibility="{x:Bind EmptyImgVis, Mode=OneWay}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon
                                         FontFamily="Segoe MDL2 Assets"

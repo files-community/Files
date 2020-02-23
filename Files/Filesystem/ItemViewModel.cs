@@ -543,7 +543,7 @@ namespace Files.Filesystem
             }
         }
 
-        public async void LoadExtendedItemProperties(ListedItem item)
+        public async void LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
             if (!item.ItemPropertiesInitialized)
             {
@@ -558,7 +558,7 @@ namespace Files.Filesystem
                         {
                             matchingItem.FileType = matchingStorageItem.DisplayType;
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (Thumbnail != null)
                             {
                                 matchingItem.FileImg = icon;

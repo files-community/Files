@@ -107,10 +107,17 @@ namespace Files
         {
             try
             {
-                DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
+                if (App.CurrentInstance != null)
                 {
-                    App.PS.isEnabled = true;
+                    DataPackageView packageView = Clipboard.GetContent();
+                    if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
+                    {
+                        App.PS.isEnabled = true;
+                    }
+                    else
+                    {
+                        App.PS.isEnabled = false;
+                    }
                 }
                 else
                 {
