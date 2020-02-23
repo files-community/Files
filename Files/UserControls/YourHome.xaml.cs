@@ -75,6 +75,8 @@ namespace Files
             App.PS.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
+            App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
             App.CurrentInstance.NavigationControl.CanNavigateToParent = false;
             // Clear the path UI and replace with Favorites
             App.CurrentInstance.NavigationControl.PathComponents.Clear();
