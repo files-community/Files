@@ -280,7 +280,6 @@
     </None>
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\WSL\alpine.svg" />
     <Content Include="Assets\WSL\alpinepng.png" />
     <Content Include="Assets\WSL\debian.svg" />
