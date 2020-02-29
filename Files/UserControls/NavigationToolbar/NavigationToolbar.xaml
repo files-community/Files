@@ -515,7 +515,7 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
                         Text="{x:Bind PathText, Mode=OneWay}"
-                        Visibility="Collapsed" />
+                        />
 
             <Grid
                         x:Name="ClickablePath"

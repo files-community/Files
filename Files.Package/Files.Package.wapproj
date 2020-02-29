@@ -59,7 +59,7 @@
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>4BCB7C3E4C2C60760763F4E78EDEC8AA61CF3209</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>A39FADAB27AA0D6B900C9AFEF1543130F695B0F6</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -153,6 +153,7 @@
     <Content Include="Assets\WSL\kali.svg" />
     <Content Include="Assets\WSL\opensuse.svg" />
     <Content Include="Assets\WSL\ubuntu.svg" />
+    <None Include="Files.Package_TemporaryKey.pfx" />
     <None Include="FilesUwp.Package_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
     <None Include="FilesUwp.Package_TemporaryKey.pfx" />

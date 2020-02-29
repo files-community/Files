@@ -4,8 +4,10 @@ using Files.Interacts;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -24,10 +26,42 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar
+    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
-        private bool ManualEntryBoxLoaded { get; set; } = false;
-        private bool ClickablePathLoaded { get; set; } = true;
+        private bool manualEntryBoxLoaded = false;
+        private bool ManualEntryBoxLoaded
+        {
+            get
+            {
+                return manualEntryBoxLoaded;
+            }
+            set
+            {
+                if(value != manualEntryBoxLoaded)
+                {
+                    manualEntryBoxLoaded = value;
+                    NotifyPropertyChanged("ManualEntryBoxLoaded");
+                }
+            }
+        }
+
+        private bool clickablePathLoaded = true;
+        private bool ClickablePathLoaded
+        {
+            get
+            {
+                return clickablePathLoaded;
+            }
+            set
+            {
+                if(value != clickablePathLoaded)
+                {
+                    clickablePathLoaded = value;
+                    NotifyPropertyChanged("ClickablePathLoaded");
+                }
+            }
+        }
+
         private bool SearchBoxLoaded { get; set; }
         private string PathText { get; set; }
 
@@ -72,7 +106,7 @@ namespace Files.UserControls
         {
             get
             {
-                return VisiblePath.IsLoaded;
+                return ManualEntryBoxLoaded;
             }
             set
             {
@@ -142,15 +176,22 @@ namespace Files.UserControls
             set
             {
                 PathText = value;
+                NotifyPropertyChanged("PathText");
             }
         }
         private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
 
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
-            VisiblePath.Visibility = Visibility.Visible;
-            ClickablePath.Visibility = Visibility.Collapsed;
+            (this as INavigationToolbar).IsEditModeEnabled = true;
             VisiblePath.Focus(FocusState.Programmatic);
             VisiblePath.SelectAll();
         }
