@@ -41,7 +41,7 @@
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#191919" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919"/>
                             <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636"/>
-                            <SolidColorBrush x:Key="TextControlBorderBrush" Color="#FF363636"/>
+                            <!--<SolidColorBrush x:Key="TextControlBorderBrush" Color="#FF363636"/>-->
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313"/>
                             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor"/>
                         </ResourceDictionary>
