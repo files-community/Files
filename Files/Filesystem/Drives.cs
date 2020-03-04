@@ -13,11 +13,14 @@ using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using NLog;
 
 namespace Files.Filesystem
 {
 	public class DrivesManager
 	{
+		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
 		public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
 		public bool ShowUserConsentOnInit { get; set; } = false;
 		private DeviceWatcher _deviceWatcher;
@@ -90,6 +93,8 @@ namespace Files.Filesystem
 				Visibility.Visible,
 				type);
 
+			Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
+
 			// Update the collection on the ui-thread.
 			try
 			{
@@ -116,6 +121,8 @@ namespace Files.Filesystem
 				{
 					continue;
 				}
+
+				Logger.Info($"Drive removed: {drive.tag}");
 
 				// Update the collection on the ui-thread.
 				try
@@ -210,6 +217,8 @@ namespace Files.Filesystem
 					folder,
 					Visibility.Visible,
 					type);
+
+				Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
 
 				list.Add(driveItem);
 			}
