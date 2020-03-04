@@ -87,7 +87,7 @@ namespace Files.Filesystem
 				Visibility.Visible,
 				type);
 
-			Logger.Info($"Drive added: {driveItem.tag}");
+			Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
 
 			// Update the collection on the ui-thread.
 			try
@@ -193,7 +193,7 @@ namespace Files.Filesystem
 					Visibility.Visible,
 					type);
 
-				Logger.Info($"Drive added: {driveItem.tag}");
+				Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
 
 				list.Add(driveItem);
 			}
