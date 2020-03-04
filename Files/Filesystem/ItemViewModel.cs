@@ -653,31 +653,30 @@ namespace Files.Filesystem
             App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
             App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
-                try
-                {
-                    _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.consentDialog.ShowAsync();
-                    return;
-                }
-                catch (COMException e)
-                {
-                    Frame rootContentFrame = Window.Current.Content as Frame;
-                    MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
-                    await driveGone.ShowAsync();
-                    isLoadingItems = false;
-                    return;
-                }
-                catch (FileNotFoundException)
-                {
-                    Frame rootContentFrame = Window.Current.Content as Frame;
-                    MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
-                    await folderGone.ShowAsync();                    
-                    isLoadingItems = false;
-                    return;
-                }
+            try
+            {
+                _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await App.consentDialog.ShowAsync();
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
+                await folderGone.ShowAsync();
+                isLoadingItems = false;
+                return;
+            }
+            catch (Exception e)
+            {
+                MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
+                await driveGone.ShowAsync();
+                isLoadingItems = false;
+                return;
+            }
+
 
             WIN32_FIND_DATA findData;
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoStandard;
