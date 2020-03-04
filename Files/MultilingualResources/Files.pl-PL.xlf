@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="pl-PL" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
+        <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
+          <source>Created:</source>
+          <target state="translated">Utworzony:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="translated">Nazwa pliku</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Path:</source>
+          <target state="translated">Lokalizacja:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="translated">Rozmiar:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type:</source>
+          <target state="translated">Typ pliku:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
+          <source>Modified:</source>
+          <target state="translated">Zmodyfikowany:</target>
+        </trans-unit>
+        <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
+          <source>Clear all items</source>
+          <target state="translated">Wyczyść całą listę</target>
+        </trans-unit>
+        <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
+          <source>Files and folders you've previously accessed will show up here</source>
+          <target state="translated">Tutaj pojawią się ostatnio otwierane przez Ciebie pliki i foldery</target>
+        </trans-unit>
+        <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Otwórz lokalizację pliku</target>
+        </trans-unit>
+        <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove this item</source>
+          <target state="translated">Usuń z listy</target>
+        </trans-unit>
+        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
+          <source>Recent items</source>
+          <target state="translated">Niedawno używane pliki</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
+          <source>Files UWP</source>
+          <target state="translated">Pliki UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
+          <source>License: </source>
+          <target state="translated">Licencja: </target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
+          <source>Special thanks to:</source>
+          <target state="translated">Podziękowania:</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
+          <source>Submit Feedback</source>
+          <target state="translated">Prześlij opinię</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
+          <source>Submit an issue report to provide the developers with information</source>
+          <target state="translated">Wyślij raport o problemie prosto do developera aplikacji</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
+          <source>Third Party Licenses</source>
+          <target state="translated">Licencje firm trzecich</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">O programie</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
+          <source>Website: </source>
+          <target state="translated">Strona: </target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="translated">Przezroczysty pasek boczny</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">Format daty</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
+          <source>Theme</source>
+          <target state="translated">Motyw</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">Wygląd</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="translated">Pokaż litery dysków</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">Pokaż rozszerzenia znanych typów plików</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="translated">Pokaż ukryte pliki, foldery i dyski</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">Pliki i foldery</target>
+        </trans-unit>
+        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Flags</source>
+          <target state="translated">Flags</target>
+        </trans-unit>
+        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">Ustawienia</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">O programie</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">Wygląd</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">Pliki i foldery</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">Po uruchomienu</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
+          <source>Page Layouts</source>
+          <target state="translated">Układ strony</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">Opcje</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated">Szukaj</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
+          <source>Continue where you left off</source>
+          <target state="translated">Kontynuuj poprzednią sejsę</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open a new tab</source>
+          <target state="translated">Otwórz nową kartę</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
+          <source>Open a specific page or pages</source>
+          <target state="translated">Otwórz konkretną kartę lub karty</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">Po uruchomienu</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
+          <source>Desktop</source>
+          <target state="translated">Pulpit</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom desktop location</source>
+          <target state="translated">Ustaw własną lokalizację folderu Pulpit</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="translated">Dokumenty</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom documents location</source>
+          <target state="translated">Ustaw własną lokalizację folderu Dokumenty</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
+          <source>Downloads</source>
+          <target state="translated">Pobrane</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom downloads location</source>
+          <target state="translated">Ustaw własną lokalizację folderu Pobrane</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Muzyka</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom music location</source>
+          <target state="translated">Ustaw własną lokalizację folderu Muzyka</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>OneDrive</source>
+          <target state="translated">OneDrive</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom OneDrive location</source>
+          <target state="translated">Ustaw własną lokalizację folderu OneDrive</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Obrazy</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom pictures location</source>
+          <target state="translated">Ustaw własną lokalizację folderu Obrazy</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>Pin OneDrive to the sidebar</source>
+          <target state="translated">Przypnij OneDrive do paska bocznego</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
+          <source>Replace common locations</source>
+          <target state="translated">Zmień lokalizację folderów</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesSaveLocations.Content" translate="yes" xml:space="preserve">
+          <source>Save Locations</source>
+          <target state="translated">Zapisz lokalizację</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">Aplikacja wiersza poleceń</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">Opcje</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesVideo.Text" translate="yes" xml:space="preserve">
+          <source>Video</source>
+          <target state="translated">Wideo</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesVideoLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom video location</source>
+          <target state="translated">Ustaw własną lokalizację folderu Wideo</target>
+        </trans-unit>
+        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Sidebar</source>
+          <target state="translated">Odepnij od paska bocznego</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

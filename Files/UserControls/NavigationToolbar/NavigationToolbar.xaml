@@ -397,6 +397,64 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style x:Key="AutoSuggestBoxTextBoxStyleFixed" TargetType="TextBox" BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}">
+            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
+            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
+            <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
+            <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}"/>
+            <Setter Property="Opacity" Value="1"/>
+            <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
+            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
+        </Style>
+        <Style x:Key="ListViewStyleNoAnimation" TargetType="ListView">
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="TabNavigation" Value="Once"/>
+            <Setter Property="IsSwipeEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="ItemContainerTransitions">
+                <Setter.Value>
+                    <TransitionCollection>
+                    </TransitionCollection>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListView">
+                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}">
+                            <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ItemsPresenter Footer="{TemplateBinding Footer}" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Padding="{TemplateBinding Padding}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        
     </UserControl.Resources>
     <Grid
                 x:Name="ToolbarGrid"
@@ -504,7 +562,7 @@
                         Padding="4"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
-                        BorderBrush="{ThemeResource CustomInputFieldBorderBrush}"
+                        BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                         FocusDisengaged="VisiblePath_LostFocus"
                         FontFamily="Segoe UI"
                         FontSize="14"
@@ -515,21 +573,20 @@
                         ScrollViewer.HorizontalScrollBarVisibility="Auto"
                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
                         Text="{x:Bind PathText, Mode=OneWay}"
-                        Visibility="Collapsed" />
+                        />
 
             <Grid
                         x:Name="ClickablePath"
-                        Height="32.5"
+                        MinHeight="32"
+                        x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        BorderBrush="{ThemeResource TextBoxBorderThemeBrush}"
+                        BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
                         BorderThickness="1"
                         CornerRadius="2"
-                        PointerPressed="ManualPathEntryItem_Click">
+                        PointerPressed="ManualPathEntryItem_Click" VerticalAlignment="Center">
 
-                <ListView
+                <ListView Style="{StaticResource ListViewStyleNoAnimation}"
                             x:Name="PathViewInteract"
-                            x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
                             VerticalAlignment="Stretch"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
@@ -604,7 +661,7 @@
                     ResizeDirection="Columns"
                     Style="{StaticResource GridSplitterStyle_Invisible}" />
         <AutoSuggestBox
-                    x:Name="SearchReigon"
+                    x:Name="SearchReigon" TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
                     x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
                     Grid.Column="2"
                     MaxWidth="485"
@@ -612,10 +669,6 @@
                     VerticalAlignment="Center"
                     PlaceholderText="Search"
                     QueryIcon="Find">
-            <AutoSuggestBox.Resources>
-                <StaticResource x:Key="TextControlBorderBrush" ResourceKey="TextBoxBorderThemeBrush" />
-                <StaticResource x:Key="TextControlBorderBrushPointerOver" ResourceKey="TextBoxBorderThemeBrush" />
-            </AutoSuggestBox.Resources>
         </AutoSuggestBox>
     </Grid>
     <VisualStateManager.VisualStateGroups>

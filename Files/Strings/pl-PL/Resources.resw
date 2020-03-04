@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="PropertiesCreated.Text" xml:space="preserve">
+    <value>Utworzony:</value>
+  </data>
+  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
+    <value>Nazwa pliku</value>
+  </data>
+  <data name="PropertiesItemPath.Text" xml:space="preserve">
+    <value>Lokalizacja:</value>
+  </data>
+  <data name="PropertiesItemSize.Text" xml:space="preserve">
+    <value>Rozmiar:</value>
+  </data>
+  <data name="PropertiesItemType.Text" xml:space="preserve">
+    <value>Typ pliku:</value>
+  </data>
+  <data name="PropertiesModified.Text" xml:space="preserve">
+    <value>Zmodyfikowany:</value>
+  </data>
+  <data name="RecentItemClearAll.Text" xml:space="preserve">
+    <value>Wyczyść całą listę</value>
+  </data>
+  <data name="RecentItemDescription.Text" xml:space="preserve">
+    <value>Tutaj pojawią się ostatnio otwierane przez Ciebie pliki i foldery</value>
+  </data>
+  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
+    <value>Otwórz lokalizację pliku</value>
+  </data>
+  <data name="RecentItemRemove.Text" xml:space="preserve">
+    <value>Usuń z listy</value>
+  </data>
+  <data name="RecentItems.Text" xml:space="preserve">
+    <value>Niedawno używane pliki</value>
+  </data>
+  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+    <value>Pliki UWP</value>
+  </data>
+  <data name="SettingsAboutLicense.Text" xml:space="preserve">
+    <value>Licencja: </value>
+  </data>
+  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
+    <value>Podziękowania:</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
+    <value>Prześlij opinię</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
+    <value>Wyślij raport o problemie prosto do developera aplikacji</value>
+  </data>
+  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
+    <value>Licencje firm trzecich</value>
+  </data>
+  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+    <value>O programie</value>
+  </data>
+  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
+    <value>Strona: </value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
+    <value>Przezroczysty pasek boczny</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
+    <value>Format daty</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
+    <value>Motyw</value>
+  </data>
+  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+    <value>Wygląd</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
+    <value>Pokaż litery dysków</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
+    <value>Pokaż rozszerzenia znanych typów plików</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
+    <value>Pokaż ukryte pliki, foldery i dyski</value>
+  </data>
+  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
+    <value>Pliki i foldery</value>
+  </data>
+  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
+    <value>Flags</value>
+  </data>
+  <data name="SettingsNav.PaneTitle" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="SettingsNavAbout.Content" xml:space="preserve">
+    <value>O programie</value>
+  </data>
+  <data name="SettingsNavAppearance.Content" xml:space="preserve">
+    <value>Wygląd</value>
+  </data>
+  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
+    <value>Pliki i foldery</value>
+  </data>
+  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
+    <value>Po uruchomienu</value>
+  </data>
+  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
+    <value>Układ strony</value>
+  </data>
+  <data name="SettingsNavPreferences.Content" xml:space="preserve">
+    <value>Opcje</value>
+  </data>
+  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
+    <value>Szukaj</value>
+  </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Kontynuuj poprzednią sejsę</value>
+  </data>
+  <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
+    <value>Otwórz nową kartę</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
+    <value>Otwórz konkretną kartę lub karty</value>
+  </data>
+  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
+    <value>Po uruchomienu</value>
+  </data>
+  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
+    <value>Pulpit</value>
+  </data>
+  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu Pulpit</value>
+  </data>
+  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
+    <value>Dokumenty</value>
+  </data>
+  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu Dokumenty</value>
+  </data>
+  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
+    <value>Pobrane</value>
+  </data>
+  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu Pobrane</value>
+  </data>
+  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
+    <value>Muzyka</value>
+  </data>
+  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu Muzyka</value>
+  </data>
+  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
+    <value>OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
+    <value>Obrazy</value>
+  </data>
+  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu Obrazy</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
+    <value>Przypnij OneDrive do paska bocznego</value>
+  </data>
+  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
+    <value>Zmień lokalizację folderów</value>
+  </data>
+  <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
+    <value>Zapisz lokalizację</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
+    <value>Aplikacja wiersza poleceń</value>
+  </data>
+  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
+    <value>Opcje</value>
+  </data>
+  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
+    <value>Wideo</value>
+  </data>
+  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
+    <value>Ustaw własną lokalizację folderu Wideo</value>
+  </data>
+  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
+    <value>Odepnij od paska bocznego</value>
+  </data>
+</root>
