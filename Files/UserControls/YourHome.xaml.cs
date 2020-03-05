@@ -71,13 +71,15 @@ namespace Files
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
             instanceTabsView.SetSelectedTabInfo(parameters, null);
             instanceTabsView.TabStrip_SelectionChanged(null, null);
-            App.CurrentInstance.CanRefresh = false;
+            App.CurrentInstance.NavigationControl.CanRefresh = false;
             App.PS.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
-            App.CurrentInstance.CanNavigateToParent = false;
+            App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+            App.CurrentInstance.NavigationControl.CanNavigateToParent = false;
             // Clear the path UI and replace with Favorites
-            App.CurrentInstance.PathComponents.Clear();
+            App.CurrentInstance.NavigationControl.PathComponents.Clear();
 
             string componentLabel = parameters;
             string tag = parameters;
@@ -86,7 +88,7 @@ namespace Files
                 Title = componentLabel,
                 Path = tag,
             };
-            App.CurrentInstance.PathComponents.Add(item);
+            App.CurrentInstance.NavigationControl.PathComponents.Add(item);
 
 
             //SetPageContentVisibility(parameters);
@@ -98,7 +100,7 @@ namespace Files
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             if (parameters == "Start")
             {
-                App.CurrentInstance.PathControlDisplayText = "Start";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Start";
                 if (localSettings.Values["FavoritesDisplayed_Start"] != null || localSettings.Values["RecentsDisplayed_Start"] != null || localSettings.Values["DrivesDisplayed_Start"] != null)
                 {
                     switch ((bool)localSettings.Values["FavoritesDisplayed_Start"])
@@ -134,7 +136,7 @@ namespace Files
             }
             else if (parameters == "New tab")
             {
-                App.CurrentInstance.PathControlDisplayText = "New tab";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
                 if (localSettings.Values["FavoritesDisplayed_NewTab"] != null || localSettings.Values["RecentsDisplayed_NewTab"] != null || localSettings.Values["DrivesDisplayed_NewTab"] != null)
                 {
                     switch ((bool)localSettings.Values["FavoritesDisplayed_NewTab"])

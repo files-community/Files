@@ -295,7 +295,7 @@
             x:Name="AllView"
             Grid.Row="3"
             Margin="12,12,0,0"
-            HorizontalAlignment="Stretch"
+            HorizontalAlignment="Left"
             x:FieldModifier="public"
             AllowDrop="True"
             AutoGenerateColumns="False"

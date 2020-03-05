@@ -28,8 +28,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="*" MaxWidth="400" />
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="*" MaxWidth="360" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
@@ -54,8 +54,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="*" MaxWidth="400" />
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="*" MaxWidth="360" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
@@ -80,8 +80,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="*" MaxWidth="400" />
+                        <ColumnDefinition Width="160" />
+                        <ColumnDefinition Width="*" MaxWidth="360" />
                         <ColumnDefinition Width="200" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>

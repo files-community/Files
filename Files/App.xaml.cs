@@ -25,6 +25,7 @@ using Windows.System;
 using Files.CommandLine;
 using Files.View_Models;
 using Files.Controls;
+using NLog;
 
 namespace Files
 {
@@ -56,21 +57,38 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public App()
         {
 	        this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            // Initialize NLog
+            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+
+            RegisterUncaughtExceptionLogger();
+
             consentDialog = new Dialogs.ConsentDialog();
             propertiesDialog = new Dialogs.PropertiesDialog();
             layoutDialog = new Dialogs.LayoutDialog();
             addItemDialog = new Dialogs.AddItemDialog();
             exceptionDialog = new Dialogs.ExceptionDialog();
-            //this.UnhandledException += App_UnhandledException;
+            // this.UnhandledException += App_UnhandledException;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
             AppSettings = new SettingsViewModel();
+        }
+
+        private void RegisterUncaughtExceptionLogger()
+        {
+	        UnhandledException += (sender, args) =>
+	        {
+		        Logger.Error(args.Exception, args.Message);
+	        };
         }
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -107,10 +125,17 @@ namespace Files
         {
             try
             {
-                DataPackageView packageView = Clipboard.GetContent();
-                if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
+                if (App.CurrentInstance != null)
                 {
-                    App.PS.isEnabled = true;
+                    DataPackageView packageView = Clipboard.GetContent();
+                    if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
+                    {
+                        App.PS.isEnabled = true;
+                    }
+                    else
+                    {
+                        App.PS.isEnabled = false;
+                    }
                 }
                 else
                 {
@@ -165,7 +190,9 @@ namespace Files
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+            Logger.Info("App launched");
+
+	        bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             Frame rootFrame = Window.Current.Content as Frame;
 
@@ -213,6 +240,8 @@ namespace Files
 
         protected override void OnActivated(IActivatedEventArgs args)
         {
+            Logger.Info("App activated");
+
             // Window management
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)

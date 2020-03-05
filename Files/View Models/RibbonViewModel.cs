@@ -9,7 +9,6 @@ namespace Files.Controls
     public class RibbonViewModel : ViewModelBase
     {
         private string _ToggleRibbonIcon = "";
-        private CommandBarLabelPosition _ItemLabelPosition = CommandBarLabelPosition.Default;
         private Windows.UI.Xaml.Visibility _AppBarSeparatorVisibility = Windows.UI.Xaml.Visibility.Visible;
         public Interacts.Home.HomeItemsState HomeItems { get; set; } = new Interacts.Home.HomeItemsState();
         public Interacts.Share.ShareItemsState ShareItems { get; set; } = new Interacts.Share.ShareItemsState();
@@ -22,11 +21,7 @@ namespace Files.Controls
             set => Set(ref _ToggleRibbonIcon, value);
         }
 
-        public CommandBarLabelPosition ItemLabelPosition
-        {
-            get => _ItemLabelPosition;
-            set => Set(ref _ItemLabelPosition, value);
-        }
+
 
         public Windows.UI.Xaml.Visibility AppBarSeparatorVisibility
         {
@@ -65,14 +60,14 @@ namespace Files.Controls
             }
         }
 
-        public void HideItemLabels()
+        public void HideEachItemLabel()
         {
-            ItemLabelPosition = CommandBarLabelPosition.Collapsed;
+            throw new NotImplementedException();
         }
 
-        public void ShowItemLabels()
+        public void ShowEachItemLabel()
         {
-            ItemLabelPosition = CommandBarLabelPosition.Default;
+            throw new NotImplementedException();
         }
 
         public void HideAppBarSeparator()

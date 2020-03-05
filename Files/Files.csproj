@@ -146,10 +146,21 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
-    <Compile Include="UserControls\RibbonArea.xaml.cs">
+    <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
+    <Compile Include="UserControls\NavigationToolbar\NavigationToolbar.xaml.cs">
+      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Ribbon\IRibbonItem.cs" />
+    <Compile Include="UserControls\Ribbon\RibbonArea.xaml.cs">
       <DependentUpon>RibbonArea.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\RibbonPage.xaml.cs">
+    <Compile Include="UserControls\Ribbon\RibbonCommandItem.xaml.cs">
+      <DependentUpon>RibbonCommandItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Ribbon\RibbonDividerItem.xaml.cs">
+      <DependentUpon>RibbonDividerItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Ribbon\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Sidebar.xaml.cs">
@@ -267,9 +278,11 @@
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
-    <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\WSL\alpine.svg" />
     <Content Include="Assets\WSL\alpinepng.png" />
     <Content Include="Assets\WSL\debian.svg" />
@@ -283,6 +296,7 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\pl-PL\Resources.resw" />
     <PRIResource Include="Strings\nl-NL\Resources.resw" />
     <PRIResource Include="Strings\zh-Hans\Resources.resw" />
     <PRIResource Include="Strings\de-DE\Resources.resw" />
@@ -295,11 +309,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="UserControls\RibbonArea.xaml">
+    <Page Include="UserControls\NavigationToolbar\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\RibbonPage.xaml">
+    <Page Include="UserControls\Ribbon\RibbonArea.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Ribbon\RibbonCommandItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Ribbon\RibbonDividerItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Ribbon\RibbonPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -444,6 +470,12 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>12.0.3</Version>
     </PackageReference>
+    <PackageReference Include="NLog">
+      <Version>4.6.8</Version>
+    </PackageReference>
+    <PackageReference Include="NLog.Schema">
+      <Version>4.6.8</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="WindowsDesktop, Version=10.0.18362.0">
@@ -460,6 +492,7 @@
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
+    <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

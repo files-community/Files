@@ -1,6 +1,15 @@
-<h1>Files UWP</h1>
-<p>Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should</b> be.</p>
-<a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Download Files UWP from the Microsoft Store.</a>
+## Files UWP
+Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should</b> be.
 <br/><br/>
+<a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Download Files UWP from the Microsoft Store.</a>
+
+## Building Files UWP from the source code
+- Install Visual Studio 2019 & UWP Development Kit link.
+- Clone the source and open the Files.sln in VS.
+- VS installs all missing dependencies for you.
+- Make sure you are on the develop branch if you want the latest, otherwise you can use master for the stable version.
+- Launch the package project.
+
+## Screenshots
 <img src="Files/Assets/FilesHome.png" width="600px">
 <img src="Files/Assets/FilesDrive.png" width="600px">

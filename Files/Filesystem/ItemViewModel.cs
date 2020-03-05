@@ -267,7 +267,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            App.CurrentInstance.PathComponents.Clear();
+            App.CurrentInstance.NavigationControl.PathComponents.Clear();
             // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -302,7 +302,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.CurrentInstance.PathComponents.Add(item);
+                        App.CurrentInstance.NavigationControl.PathComponents.Add(item);
                     }
                     else
                     {
@@ -322,7 +322,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.CurrentInstance.PathComponents.Add(item);
+                        App.CurrentInstance.NavigationControl.PathComponents.Add(item);
 
                     }
                     index++;
@@ -405,9 +405,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.CurrentInstance.CanGoBack = true;
-            App.CurrentInstance.CanGoForward = true;
-            App.CurrentInstance.CanNavigateToParent = true;
+            App.CurrentInstance.NavigationControl.CanGoBack = true;
+            App.CurrentInstance.NavigationControl.CanGoForward = true;
+            App.CurrentInstance.NavigationControl.CanNavigateToParent = true;
 
         }
 
@@ -526,18 +526,24 @@ namespace Files.Filesystem
 
         [DllImport("api-ms-win-core-file-l1-1-0.dll")]
         static extern bool FindClose(IntPtr hFindFile);
-
-        bool isLoadingItems = false;
-
-        class PartialStorageItem
+        private bool _isLoadingItems = false;
+        public bool isLoadingItems
         {
-            public string ItemName { get; set; }
-            public string ContentType { get; set; }
-            public StorageItemThumbnail Thumbnail { get; set; }
-            public string RelativeId { get; set; }
+            get
+            {
+                return _isLoadingItems;
+            }
+            internal set
+            {
+                if(_isLoadingItems != value)
+                {
+                    _isLoadingItems = value;
+                    NotifyPropertyChanged("isLoadingItems");
+                }
+            }
         }
 
-        public async void LoadExtendedItemProperties(ListedItem item)
+        public async void LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
             if (!item.ItemPropertiesInitialized)
             {
@@ -552,7 +558,7 @@ namespace Files.Filesystem
                         {
                             matchingItem.FileType = matchingStorageItem.DisplayType;
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, 20, ThumbnailOptions.UseCurrentScale);
+                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (Thumbnail != null)
                             {
                                 matchingItem.FileImg = icon;
@@ -564,7 +570,7 @@ namespace Files.Filesystem
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        await App.consentDialog.ShowAsync();
+                        item.ItemPropertiesInitialized = true;
                         return;
                     }
                     catch (FileNotFoundException)
@@ -587,7 +593,7 @@ namespace Files.Filesystem
                     }
                     catch (UnauthorizedAccessException)
                     {
-                        await App.consentDialog.ShowAsync();
+                        item.ItemPropertiesInitialized = true;
                         return;
                     }
                     catch (FileNotFoundException)
@@ -604,7 +610,7 @@ namespace Files.Filesystem
 
         public async void RapidAddItemsToCollectionAsync(string path)
         {
-            App.CurrentInstance.CanRefresh = false;
+            App.CurrentInstance.NavigationControl.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -644,76 +650,32 @@ namespace Files.Filesystem
                     break;
             }
 
-            App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-            App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+            App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
-            ObservableCollection<PartialStorageItem> partialFiles = null;
-            ObservableCollection<PartialStorageItem> partialFolders = null;
-            var fetchOperation = Task.Run(async () => 
+            try
             {
-                try
-                {
-                    _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
-                }
-                catch (UnauthorizedAccessException)
-                {
-                    await App.consentDialog.ShowAsync();
-                    return;
-                }
-                catch (COMException e)
-                {
-                    Frame rootContentFrame = Window.Current.Content as Frame;
-                    MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
-                    await driveGone.ShowAsync();
-                    isLoadingItems = false;
-                    return;
-                }
-                catch (FileNotFoundException)
-                {
-                    Frame rootContentFrame = Window.Current.Content as Frame;
-                    MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
-                    await folderGone.ShowAsync();                    
-                    isLoadingItems = false;
-                    return;
-                }
-
-                QueryOptions options = new QueryOptions();
-                if (await _rootFolder.GetIndexedStateAsync() == IndexedState.FullyIndexed)
-                {
-                    options.IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties;
-                }
-                else
-                {
-                    options.IndexerOption = IndexerOption.UseIndexerWhenAvailable;
-                }
-                options.FolderDepth = FolderDepth.Shallow;
-
-                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
-                options.SetThumbnailPrefetch(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached);
-                var query = _rootFolder.CreateItemQueryWithOptions(options);
-                var thumbnails = await query.GetItemsAsync(0, 250);
-                uint index = 0;
-                partialFiles = new ObservableCollection<PartialStorageItem>();
-                partialFolders = new ObservableCollection<PartialStorageItem>();
-
-                while (thumbnails.Count > 0)
-                {
-                    foreach (IStorageItem item in thumbnails)
-                    {
-                        if (item.IsOfType(StorageItemTypes.Folder))
-                        {
-                            partialFolders.Add(new PartialStorageItem() { RelativeId = ((StorageFolder)item).FolderRelativeId, ItemName = item.Name, ContentType = null, Thumbnail = null });
-                        }
-                        else
-                        {
-                            partialFiles.Add(new PartialStorageItem() { RelativeId = ((StorageFile)item).FolderRelativeId, Thumbnail = await ((StorageFile)item).GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.ReturnOnlyIfCached), ItemName = item.Name, ContentType = ((StorageFile)item).DisplayType });
-                        }
-                    }
-                    index += 250;
-                    thumbnails = await query.GetItemsAsync(index, 250);
-                }
-                
-            });
+                _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                await App.consentDialog.ShowAsync();
+                return;
+            }
+            catch (FileNotFoundException)
+            {
+                MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
+                await folderGone.ShowAsync();
+                isLoadingItems = false;
+                return;
+            }
+            catch (Exception e)
+            {
+                MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
+                await driveGone.ShowAsync();
+                isLoadingItems = false;
+                return;
+            }
 
 
             WIN32_FIND_DATA findData;
@@ -733,14 +695,17 @@ namespace Files.Filesystem
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            AddFile(findData, path, null);
-                            ++count;
+                            if (!findData.cFileName.EndsWith(".lnk"))
+                            {
+                                AddFile(findData, path);
+                                ++count;
+                            }
                         }
                         else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
                         {
                             if (findData.cFileName != "." && findData.cFileName != "..")
                             {
-                                AddFolder(findData, path, null);
+                                AddFolder(findData, path);
                                 ++count;
                             }
                         }
@@ -750,20 +715,6 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
-            //var populateFetchedProperties = await fetchOperation.ContinueWith(async (i) =>
-            //{
-            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () => 
-            //    {
-            //        BitmapImage icon = null;
-            //        var itemsCopy = FilesAndFolders.ToList();
-            //        foreach (ListedItem item in itemsCopy)
-            //        {
-                        
-            //        }
-            //    });
-                
-            //});
-            
 
             if (FilesAndFolders.Count == 0)
             {
@@ -780,12 +731,12 @@ namespace Files.Filesystem
             OrderFiles();
             stopwatch.Stop();
             Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-            App.CurrentInstance.CanRefresh = true;
+            App.CurrentInstance.NavigationControl.CanRefresh = true;
             LoadIndicator.isVisible = Visibility.Collapsed;
             isLoadingItems = false;
         }
 
-        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageItem)
+        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
             if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
             {
@@ -797,7 +748,7 @@ namespace Files.Filesystem
                 var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long)(uint)findData.ftLastWriteTime.dwLowDateTime);
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
-                _filesAndFolders.Add(new ListedItem(partialStorageItem?.RelativeId)
+                _filesAndFolders.Add(new ListedItem(null)
                 {
                     //FolderTooltipText = tooltipString,
                     FileName = findData.cFileName,
@@ -816,7 +767,7 @@ namespace Files.Filesystem
             }
         }
 
-        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot, PartialStorageItem partialStorageFile)
+        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot)
         {
 
             var itemName = findData.cFileName;
@@ -825,16 +776,10 @@ namespace Files.Filesystem
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
             string itemType = "File";
-            if(partialStorageFile != null)
+
+            if (findData.cFileName.Contains('.'))
             {
-                itemType = partialStorageFile.ContentType;
-            }
-            else
-            {
-                if (findData.cFileName.Contains('.'))
-                {
-                    itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
-                }
+                itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
             }
 
             var itemFolderImgVis = Visibility.Collapsed;
@@ -848,38 +793,16 @@ namespace Files.Filesystem
             Visibility itemThumbnailImgVis;
             Visibility itemEmptyImgVis;
 
-            try
-            {
+            itemEmptyImgVis = Visibility.Visible;
+            itemThumbnailImgVis = Visibility.Collapsed;
 
-                var itemThumbnailImg = partialStorageFile != null ? partialStorageFile.Thumbnail : null;
-                if (itemThumbnailImg != null)
-                {
-                    itemEmptyImgVis = Visibility.Collapsed;
-                    itemThumbnailImgVis = Visibility.Visible;
-                    icon.DecodePixelWidth = 40;
-                    icon.DecodePixelHeight = 40;
-                    await icon.SetSourceAsync(itemThumbnailImg);
-                }
-                else
-                {
-                    itemEmptyImgVis = Visibility.Visible;
-                    itemThumbnailImgVis = Visibility.Collapsed;
-                }
-            }
-            catch
-            {
-                itemEmptyImgVis = Visibility.Visible;
-                itemThumbnailImgVis = Visibility.Collapsed;
-                // Catch here to avoid crash
-                // TODO maybe some logging could be added in the future...
-            }
             
             if (_cancellationTokenSource.IsCancellationRequested)
             {
                 isLoadingItems = false;
                 return;
             }
-            _filesAndFolders.Add(new ListedItem(partialStorageFile?.RelativeId)
+            _filesAndFolders.Add(new ListedItem(null)
             {
                 DotFileExtension = itemFileExtension,
                 EmptyImgVis = itemEmptyImgVis,
@@ -902,7 +825,7 @@ namespace Files.Filesystem
             RapidAddItemsToCollectionAsync(path);
             return;
             // Eventually add logic for user choice between item load methods
-            App.CurrentInstance.CanRefresh = false;
+            App.CurrentInstance.NavigationControl.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -961,8 +884,8 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                App.CurrentInstance.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-                App.CurrentInstance.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+                App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+                App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -1058,7 +981,7 @@ namespace Files.Filesystem
                 OrderFiles();
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.CurrentInstance.CanRefresh = true;
+                App.CurrentInstance.NavigationControl.CanRefresh = true;
             }
             catch (UnauthorizedAccessException)
             {

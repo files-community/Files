@@ -24,7 +24,7 @@ namespace Files
     /// <summary>
     /// The base class which every layout page must derive from
     /// </summary>
-    public class BaseLayout : Page
+    public abstract class BaseLayout : Page
     {
         public bool IsQuickLookEnabled { get; set; } = false;
 
@@ -95,18 +95,18 @@ namespace Files
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
-            App.CurrentInstance.CanRefresh = true;
+            App.CurrentInstance.NavigationControl.CanRefresh = true;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.Universal.path = parameters;
             
             if (App.CurrentInstance.ViewModel.Universal.path == Path.GetPathRoot(App.CurrentInstance.ViewModel.Universal.path))
             {
-                (App.CurrentInstance.OperationsControl as RibbonArea).Up.IsEnabled = false;
+                App.CurrentInstance.NavigationControl.CanNavigateToParent = false;
             }
             else
             {
-                (App.CurrentInstance.OperationsControl as RibbonArea).Up.IsEnabled = true;
+                App.CurrentInstance.NavigationControl.CanNavigateToParent = true;
             }
 
             App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.Universal.path);
@@ -114,41 +114,41 @@ namespace Files
 
             if (parameters.Equals(App.AppSettings.DesktopPath))
             {
-                App.CurrentInstance.PathControlDisplayText = "Desktop";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
             }
             else if (parameters.Equals(App.AppSettings.DocumentsPath))
             {
-                App.CurrentInstance.PathControlDisplayText = "Documents";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
             }
             else if (parameters.Equals(App.AppSettings.DownloadsPath))
             {
-                App.CurrentInstance.PathControlDisplayText = "Downloads";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
             }
             else if (parameters.Equals(App.AppSettings.PicturesPath))
             {
-                App.CurrentInstance.PathControlDisplayText = "Pictures";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
             }
             else if (parameters.Equals(App.AppSettings.MusicPath))
             {
-                App.CurrentInstance.PathControlDisplayText = "Music";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
             }
             else if (parameters.Equals(App.AppSettings.OneDrivePath))
             {
-                App.CurrentInstance.PathControlDisplayText = "OneDrive";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
             }
             else if (parameters.Equals(App.AppSettings.VideosPath))
             {
-                App.CurrentInstance.PathControlDisplayText = "Videos";
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
             }
             else
             {
                 if (parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
                 {
-                    App.CurrentInstance.PathControlDisplayText = @"Local Disk (C:\)";
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = @"Local Disk (C:\)";
                 }
                 else
                 {
-                    App.CurrentInstance.PathControlDisplayText = parameters;
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = parameters;
                 }
             }
         }

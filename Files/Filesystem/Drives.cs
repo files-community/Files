@@ -13,33 +13,42 @@ using Windows.Devices.Portable;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using NLog;
 
 namespace Files.Filesystem
 {
 	public class DrivesManager
 	{
+		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
 		public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
 		public bool ShowUserConsentOnInit { get; set; } = false;
 		private DeviceWatcher _deviceWatcher;
 
 		public DrivesManager()
 		{
+			Task findDrivesTask = null;
 			try
 			{
-				GetDrives(Drives);
-				GetVirtualDrivesList(Drives);
+				findDrivesTask = GetDrives(Drives);
 			}
 			catch (AggregateException e)
 			{
 				ShowUserConsentOnInit = true;
 			}
 
-			_deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-			_deviceWatcher.Added += DeviceAdded;
-			_deviceWatcher.Removed += DeviceRemoved;
-			_deviceWatcher.Updated += DeviceUpdated;
-			_deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
-			_deviceWatcher.Start();
+			findDrivesTask.ContinueWith((x) => 
+			{
+				GetVirtualDrivesList(Drives);
+
+				_deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+				_deviceWatcher.Added += DeviceAdded;
+				_deviceWatcher.Removed += DeviceRemoved;
+				_deviceWatcher.Updated += DeviceUpdated;
+				_deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
+				_deviceWatcher.Start();
+			});
+			
 		}
 
 		private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
@@ -84,10 +93,16 @@ namespace Files.Filesystem
 				Visibility.Visible,
 				type);
 
+			Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
+
 			// Update the collection on the ui-thread.
 			try
 			{
-				CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => { Drives.Add(driveItem); });
+				CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
+				{
+					Drives.Add(driveItem);
+					DeviceWatcher_EnumerationCompleted(null, null);
+				});
 			}
 			catch (Exception e)
 			{
@@ -107,10 +122,16 @@ namespace Files.Filesystem
 					continue;
 				}
 
+				Logger.Info($"Drive removed: {drive.tag}");
+
 				// Update the collection on the ui-thread.
 				try
 				{
-					CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => { Drives.Remove(drive); });
+					CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
+					{ 
+						Drives.Remove(drive);
+						DeviceWatcher_EnumerationCompleted(null, null);
+					});
 				}
 				catch (Exception e)
 				{
@@ -126,9 +147,20 @@ namespace Files.Filesystem
 			Debug.WriteLine("Devices updated");
 		}
 
-		private void GetDrives(IList<DriveItem> list)
+		private async Task GetDrives(IList<DriveItem> list)
 		{
-			var drives = DriveInfo.GetDrives();
+			var drives = DriveInfo.GetDrives().ToList();
+
+			var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
+			var supportedDevicesNames = remDevices.Select(x => StorageDevice.FromId(x.Id).Name);
+			foreach (DriveInfo driveInfo in drives.ToList())
+			{
+				if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
+				{
+					drives.Remove(driveInfo);
+				}
+			}
+
 
 			foreach (var drive in drives)
 			{
@@ -185,6 +217,8 @@ namespace Files.Filesystem
 					folder,
 					Visibility.Visible,
 					type);
+
+				Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
 
 				list.Add(driveItem);
 			}

@@ -241,6 +241,22 @@ namespace Files.Interacts
 
         }
 
+        public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
+        {
+            int count = VisualTreeHelper.GetChildrenCount(startNode);
+            for (int i = 0; i < count; i++)
+            {
+                DependencyObject current = VisualTreeHelper.GetChild(startNode, i);
+                if ((current.GetType()).Equals(typeof(T)) || (current.GetType().GetTypeInfo().IsSubclassOf(typeof(T))))
+                {
+                    T asType = (T)current;
+                    return asType;
+                }
+                FindChild<T>(current);
+            }
+            return null;
+        }
+
         public static void FindChildren<T>(List<T> results, DependencyObject startNode) where T : DependencyObject
         {
             int count = VisualTreeHelper.GetChildrenCount(startNode);
@@ -303,49 +319,49 @@ namespace Files.Interacts
                         mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(selectedItemPath));
 
                         CurrentInstance.ViewModel.Universal.path = selectedItemPath;
-                        CurrentInstance.PathControlDisplayText = selectedItemPath;
+                        CurrentInstance.NavigationControl.PathControlDisplayText = selectedItemPath;
 
                         (CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
                         if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
                         {
-                            CurrentInstance.PathControlDisplayText = "Desktop";
+                            CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
 
                         }
                         else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
                         {
-                            CurrentInstance.PathControlDisplayText = "Documents";
+                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (selectedItemPath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
                         {
-                            CurrentInstance.PathControlDisplayText = "Downloads";
+                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
                         {
-                            CurrentInstance.PathControlDisplayText = "Pictures";
+                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
                         {
-                            CurrentInstance.PathControlDisplayText = "Music";
+                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
                         }
                         else if (selectedItemPath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
                         {
-                            CurrentInstance.PathControlDisplayText = "OneDrive";
+                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.First(x => (x as DriveItem).tag.ToString().Equals("OneDrive", StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
                         }
                         else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
                         {
-                            CurrentInstance.PathControlDisplayText = "Videos";
+                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
                             (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                             CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
                         }
@@ -565,7 +581,7 @@ namespace Files.Interacts
 
                     CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
                 }
-                App.CurrentInstance.CanGoForward = false;
+                App.CurrentInstance.NavigationControl.CanGoForward = false;
 
             }
             catch (UnauthorizedAccessException)
@@ -630,7 +646,7 @@ namespace Files.Interacts
                 await itemAlreadyExistsDialog.ShowAsync();
                 return false;
             }
-            CurrentInstance.CanGoForward = false;
+            CurrentInstance.NavigationControl.CanGoForward = false;
             return true;
         }
 

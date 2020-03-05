@@ -52,14 +52,13 @@
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxPackageDir>C:\Users\explo\OneDrive\Desktop\package\</AppxPackageDir>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <GenerateTestArtifacts>False</GenerateTestArtifacts>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
-    <PackageCertificateThumbprint>10EF406F2BC44E3C8E8F85988D53990173626FC1</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
     <AppxBundle>Always</AppxBundle>
@@ -153,6 +152,7 @@
     <Content Include="Assets\WSL\kali.svg" />
     <Content Include="Assets\WSL\opensuse.svg" />
     <Content Include="Assets\WSL\ubuntu.svg" />
+    <None Include="Files.Package_TemporaryKey.pfx" />
     <None Include="FilesUwp.Package_StoreKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
     <None Include="FilesUwp.Package_TemporaryKey.pfx" />

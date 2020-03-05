@@ -38,7 +38,7 @@ namespace Files.Controls
                 {
                     case "Home":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "New tab";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -46,7 +46,7 @@ namespace Files.Controls
                         break;
                     case "Desktop":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "Desktop";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -54,7 +54,7 @@ namespace Files.Controls
                         break;
                     case "Downloads":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "Downloads";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -62,7 +62,7 @@ namespace Files.Controls
                         break;
                     case "Documents":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "Documents";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -70,7 +70,7 @@ namespace Files.Controls
                         break;
                     case "Pictures":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "Pictures";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -78,7 +78,7 @@ namespace Files.Controls
                         break;
                     case "Music":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "Music";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -86,7 +86,7 @@ namespace Files.Controls
                         break;
                     case "Videos":
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = "Videos";
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -94,7 +94,7 @@ namespace Files.Controls
                         break;
                     default:
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.PathControlDisplayText = args.InvokedItem.ToString();
+                        App.CurrentInstance.NavigationControl.PathControlDisplayText = args.InvokedItem.ToString();
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -110,19 +110,19 @@ namespace Files.Controls
                 if (clickedItem.Tag.ToString() == "LocalDisk")
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\", new SuppressNavigationTransitionInfo());
-                    App.CurrentInstance.PathControlDisplayText = @"Local Disk (C:\)";
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = @"Local Disk (C:\)";
                     (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else if (clickedItem.Tag.ToString() == "OneDrive")
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
-                    App.CurrentInstance.PathControlDisplayText = "OneDrive";
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
                     (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
                 else
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                    App.CurrentInstance.PathControlDisplayText = clickedItem.Tag.ToString();
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = clickedItem.Tag.ToString();
                     (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
             }
@@ -131,7 +131,7 @@ namespace Files.Controls
                 var clickedItem = args.InvokedItemContainer;
 
                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                App.CurrentInstance.PathControlDisplayText = clickedItem.Tag.ToString();
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = clickedItem.Tag.ToString();
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
 
             }
