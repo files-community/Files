@@ -35,13 +35,13 @@ namespace Files.UserControls.Ribbon
             switch (ItemDisplayMode)
             {
                 case RibbonItemDisplayMode.Wide:
-                    VisualStateManager.GoToState(rootAppBarButton, "LabelOnRight", true);
+                    this.rootAppBarButton.Style = this.Resources["WideRibbonCommandItemStyle"] as Style;
                     break;
                 case RibbonItemDisplayMode.Tall:
-                    VisualStateManager.GoToState(rootAppBarButton, "FullSize", true);
+                    this.rootAppBarButton.Style = this.Resources["TallRibbonCommandItemStyle"] as Style;
                     break;
                 case RibbonItemDisplayMode.Compact:
-                    VisualStateManager.GoToState(rootAppBarButton, "Compact", true);
+                    this.rootAppBarButton.Style = this.Resources["CompactRibbonCommandItemStyle"] as Style;
                     break;
                 case RibbonItemDisplayMode.Divider:
                     throw new NotSupportedException();
@@ -61,13 +61,13 @@ namespace Files.UserControls.Ribbon
                 switch(value)
                 {
                     case RibbonItemDisplayMode.Wide:
-                        VisualStateManager.GoToState(rootAppBarButton, "LabelOnRight", true);
+                        this.rootAppBarButton.Style = this.Resources["WideRibbonCommandItemStyle"] as Style;
                         break;
                     case RibbonItemDisplayMode.Tall:
-                        VisualStateManager.GoToState(rootAppBarButton, "FullSize", true);
+                        this.rootAppBarButton.Style = this.Resources["TallRibbonCommandItemStyle"] as Style;
                         break;
                     case RibbonItemDisplayMode.Compact:
-                        VisualStateManager.GoToState(rootAppBarButton, "Compact", true);
+                        this.rootAppBarButton.Style = this.Resources["CompactRibbonCommandItemStyle"] as Style;
                         break;
                     case RibbonItemDisplayMode.Divider:
                         throw new NotSupportedException();
