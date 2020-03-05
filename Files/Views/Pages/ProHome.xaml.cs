@@ -125,8 +125,6 @@ namespace Files
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
-
             viewModel = new ItemViewModel();
             interactionOperation = new Interaction();
 
@@ -237,16 +235,20 @@ namespace Files
                     await App.addItemDialog.ShowAsync();
                     break;
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
-                    App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
+                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.V): //ctrl + v, paste
-                    App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
+                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.X): //ctrl + x, cut
-                    App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
+                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.A): //ctrl + a, select all
-                    App.CurrentInstance.InteractionOperations.SelectAllItems();
+                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
                 case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
                     App.CurrentInstance.InteractionOperations.LaunchNewWindow();
@@ -258,12 +260,16 @@ namespace Files
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
                 case (false, false, false, true, VirtualKey.Delete): //delete, delete item
-                    App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (false, false, false, true, VirtualKey.Space): //space, quick look
-                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
                     {
-                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                        if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                        {
+                            App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                        }
                     }
                     break;
                 case (false, false, true, true, VirtualKey.Left): //alt + back arrow, backward

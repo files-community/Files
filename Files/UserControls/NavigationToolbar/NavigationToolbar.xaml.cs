@@ -399,7 +399,15 @@ namespace Files.UserControls
         }
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
+            var element = FocusManager.GetFocusedElement() as Control;
+            if(element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
+            {
+                App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
+            }
+            else
+            {
+                this.VisiblePath.Focus(FocusState.Programmatic);
+            }
         }
 
         private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
