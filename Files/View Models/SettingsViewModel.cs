@@ -425,29 +425,32 @@ namespace Files.View_Models
             get => _PinOneDriveToSideBar;
             set 
             { 
-                Set(ref _PinOneDriveToSideBar, value);
-                if(value == true)
+                if(value != _PinOneDriveToSideBar)
                 {
-                    localSettings.Values["PinOneDrive"] = true;
-                    var oneDriveItem = new DriveItem()
+                    Set(ref _PinOneDriveToSideBar, value);
+                    if (value == true)
                     {
-                        driveText = "OneDrive",
-                        tag = "OneDrive",
-                        cloudGlyphVisibility = Visibility.Visible,
-                        driveGlyphVisibility = Visibility.Collapsed,
-                        Type = Filesystem.DriveType.VirtualDrive,
-                        //itemVisibility = App.AppSettings.PinOneDriveToSideBar
-                    };
-                    App.sideBarItems.Add(oneDriveItem);
-                }
-                else
-                {
-                    localSettings.Values["PinOneDrive"] = false;
-                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
-                    {
-                        if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
+                        localSettings.Values["PinOneDrive"] = true;
+                        var oneDriveItem = new DriveItem()
                         {
-                            App.sideBarItems.Remove(item);
+                            driveText = "OneDrive",
+                            tag = "OneDrive",
+                            cloudGlyphVisibility = Visibility.Visible,
+                            driveGlyphVisibility = Visibility.Collapsed,
+                            Type = Filesystem.DriveType.VirtualDrive,
+                            //itemVisibility = App.AppSettings.PinOneDriveToSideBar
+                        };
+                        App.sideBarItems.Add(oneDriveItem);
+                    }
+                    else
+                    {
+                        localSettings.Values["PinOneDrive"] = false;
+                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        {
+                            if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
+                            {
+                                App.sideBarItems.Remove(item);
+                            }
                         }
                     }
                 }
