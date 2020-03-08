@@ -246,6 +246,130 @@
           <source>Unpin from Sidebar</source>
           <target state="translated">Losmaken van zijbalk</target>
         </trans-unit>
+        <trans-unit id="RibbonAreaFile.Header" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaHome.Header" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="new">Home</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShare.Header" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="new">Share</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaView.Header" translate="yes" xml:space="preserve">
+          <source>View</source>
+          <target state="new">View</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileCloseDescription.Text" translate="yes" xml:space="preserve">
+          <source>Closes this window</source>
+          <target state="new">Closes this window</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileCloseTitle.Text" translate="yes" xml:space="preserve">
+          <source>Close Files</source>
+          <target state="new">Close Files</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileOpenNewWindowDescription.Text" translate="yes" xml:space="preserve">
+          <source>Creates a new instance of Files</source>
+          <target state="new">Creates a new instance of Files</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileOpenNewWindowTitle.Text" translate="yes" xml:space="preserve">
+          <source>Open new window</source>
+          <target state="new">Open new window</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileSettingsDescription.Text" translate="yes" xml:space="preserve">
+          <source>Make changes to app preferences</source>
+          <target state="new">Make changes to app preferences</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCutButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Cut</source>
+          <target state="new">Cut</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCopyButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaAddItemButton.LabelText" translate="yes" xml:space="preserve">
+          <source>New</source>
+          <target state="new">New</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCopyPathButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Copy Path</source>
+          <target state="new">Copy Path</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaDeleteButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFolderProperties.LabelText" translate="yes" xml:space="preserve">
+          <source>Folder Properties</source>
+          <target state="new">Folder Properties</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaOpenWithButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Open With</source>
+          <target state="new">Open With</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaPasteButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaRenameButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="new">Rename</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShowPropertiesButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShareButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="new">Share</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaClearAllButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Clear All</source>
+          <target state="new">Clear All</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaLayoutButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Layout Mode</source>
+          <target state="new">Layout Mode</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSelectAllButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <target state="new">Select All</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Sort By</source>
+          <target state="new">Sort By</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">Ascending</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByDate.Text" translate="yes" xml:space="preserve">
+          <source>Date Modified</source>
+          <target state="new">Date Modified</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">Descending</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortBySize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
       </group>
     </body>
   </file>

@@ -34,6 +34,7 @@ namespace Files.View_Models
             DetectSidebarOpacity();
             PinSidebarLocationItems();
             DetectOneDrivePreference();
+            DetectRibbonPreference();
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
@@ -243,6 +244,20 @@ namespace Files.View_Models
             }
         }
 
+        private void DetectRibbonPreference()
+        {
+            if (localSettings.Values["ShowRibbonContent"] == null) { ShowRibbonContent = true; }
+
+            if ((bool)localSettings.Values["ShowRibbonContent"] == true)
+            {
+                ShowRibbonContent = true;
+            }
+            else
+            {
+                ShowRibbonContent = false;
+            }
+        }
+
         private void DetectSidebarOpacity()
         {
             if (localSettings.Values["acrylicSidebar"] != null)
@@ -377,6 +392,10 @@ namespace Files.View_Models
         private string _PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         private string _MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         private string _VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+        private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         private IList<TerminalModel> _Terminals = null;
@@ -425,33 +444,60 @@ namespace Files.View_Models
             get => _PinOneDriveToSideBar;
             set 
             { 
-                Set(ref _PinOneDriveToSideBar, value);
-                if(value == true)
+                if(value != _PinOneDriveToSideBar)
                 {
-                    localSettings.Values["PinOneDrive"] = true;
-                    var oneDriveItem = new DriveItem()
+                    Set(ref _PinOneDriveToSideBar, value);
+                    if (value == true)
                     {
-                        driveText = "OneDrive",
-                        tag = "OneDrive",
-                        cloudGlyphVisibility = Visibility.Visible,
-                        driveGlyphVisibility = Visibility.Collapsed,
-                        Type = Filesystem.DriveType.VirtualDrive,
-                        //itemVisibility = App.AppSettings.PinOneDriveToSideBar
-                    };
-                    App.sideBarItems.Add(oneDriveItem);
-                }
-                else
-                {
-                    localSettings.Values["PinOneDrive"] = false;
-                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
-                    {
-                        if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
+                        localSettings.Values["PinOneDrive"] = true;
+                        var oneDriveItem = new DriveItem()
                         {
-                            App.sideBarItems.Remove(item);
+                            driveText = "OneDrive",
+                            tag = "OneDrive",
+                            cloudGlyphVisibility = Visibility.Visible,
+                            driveGlyphVisibility = Visibility.Collapsed,
+                            Type = Filesystem.DriveType.VirtualDrive,
+                            //itemVisibility = App.AppSettings.PinOneDriveToSideBar
+                        };
+                        App.sideBarItems.Add(oneDriveItem);
+                    }
+                    else
+                    {
+                        localSettings.Values["PinOneDrive"] = false;
+                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        {
+                            if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
+                            {
+                                App.sideBarItems.Remove(item);
+                            }
                         }
                     }
                 }
             }
+        }
+
+        public string TempPath
+        {
+            get => _TempPath;
+            set => Set(ref _TempPath, value);
+        }
+
+        public string AppDataPath
+        {
+            get => _AppDataPath;
+            set => Set(ref _AppDataPath, value);
+        }
+
+        public string HomePath
+        {
+            get => _HomePath;
+            set => Set(ref _HomePath, value);
+        }
+
+        public string WinDirPath
+        {
+            get => _WinDirPath;
+            set => Set(ref _WinDirPath, value);
         }
 
         public string DesktopPath
@@ -499,7 +545,21 @@ namespace Files.View_Models
         public bool ShowRibbonContent
         {
             get => _ShowRibbonContent;
-            set => Set(ref _ShowRibbonContent, value);
+            set
+            {
+                if (value != _ShowRibbonContent)
+                {
+                    Set(ref _ShowRibbonContent, value);
+                    if (value == true)
+                    {
+                        localSettings.Values["ShowRibbonContent"] = true;
+                    }
+                    else
+                    {
+                        localSettings.Values["ShowRibbonContent"] = false;
+                    }
+                }
+            }
         }
 
         public SidebarOpacity SidebarThemeMode

@@ -233,13 +233,6 @@ namespace Files
                 {
                     App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
                 }
-
-                if (App.CurrentInstance.ViewModel == null && App.CurrentInstance.InteractionOperations == null)
-                {
-                    //App.CurrentInstance.ViewModel = new ItemViewModel();
-                    //App.CurrentInstance.InteractionOperations = new Interaction();
-                    //Page_Loaded(null, null);
-                }
             }
         }
 

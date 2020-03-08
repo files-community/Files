@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -479,6 +480,32 @@ namespace Files.Filesystem
             return default;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        private struct SYSTEMTIME
+        {
+            [MarshalAs(UnmanagedType.U2)] public short Year;
+            [MarshalAs(UnmanagedType.U2)] public short Month;
+            [MarshalAs(UnmanagedType.U2)] public short DayOfWeek;
+            [MarshalAs(UnmanagedType.U2)] public short Day;
+            [MarshalAs(UnmanagedType.U2)] public short Hour;
+            [MarshalAs(UnmanagedType.U2)] public short Minute;
+            [MarshalAs(UnmanagedType.U2)] public short Second;
+            [MarshalAs(UnmanagedType.U2)] public short Milliseconds;
+
+            public SYSTEMTIME(DateTime dt)
+            {
+                dt = dt.ToUniversalTime();  // SetSystemTime expects the SYSTEMTIME in UTC
+                Year = (short)dt.Year;
+                Month = (short)dt.Month;
+                DayOfWeek = (short)dt.DayOfWeek;
+                Day = (short)dt.Day;
+                Hour = (short)dt.Hour;
+                Minute = (short)dt.Minute;
+                Second = (short)dt.Second;
+                Milliseconds = (short)dt.Millisecond;
+            }
+        }
+
         public enum FINDEX_INFO_LEVELS
         {
             FindExInfoStandard = 0,
@@ -526,6 +553,10 @@ namespace Files.Filesystem
 
         [DllImport("api-ms-win-core-file-l1-1-0.dll")]
         static extern bool FindClose(IntPtr hFindFile);
+
+        [DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
+        static extern bool FileTimeToSystemTime(ref FILETIME lpFileTime, out SYSTEMTIME lpSystemTime);
+
         private bool _isLoadingItems = false;
         public bool isLoadingItems
         {
@@ -745,7 +776,15 @@ namespace Files.Filesystem
                     isLoadingItems = false;
                     return;
                 }
-                var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long)(uint)findData.ftLastWriteTime.dwLowDateTime);
+                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+                var itemDate = new DateTime(
+                    systemTimeOutput.Year,
+                    systemTimeOutput.Month,
+                    systemTimeOutput.Day,
+                    systemTimeOutput.Hour,
+                    systemTimeOutput.Minute,
+                    systemTimeOutput.Second,
+                    systemTimeOutput.Milliseconds);
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
                 _filesAndFolders.Add(new ListedItem(null)
@@ -767,11 +806,18 @@ namespace Files.Filesystem
             }
         }
 
-        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot)
+        private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
         {
-
             var itemName = findData.cFileName;
-            var itemDate = DateTime.FromFileTimeUtc((findData.ftLastWriteTime.dwHighDateTime << 32) + (long) (uint) findData.ftLastWriteTime.dwLowDateTime);
+            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+            var itemDate = new DateTime(
+                systemTimeOutput.Year,
+                systemTimeOutput.Month,
+                systemTimeOutput.Day,
+                systemTimeOutput.Hour,
+                systemTimeOutput.Minute,
+                systemTimeOutput.Second,
+                systemTimeOutput.Milliseconds);
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
@@ -796,7 +842,7 @@ namespace Files.Filesystem
             itemEmptyImgVis = Visibility.Visible;
             itemThumbnailImgVis = Visibility.Collapsed;
 
-            
+
             if (_cancellationTokenSource.IsCancellationRequested)
             {
                 isLoadingItems = false;

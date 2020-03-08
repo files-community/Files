@@ -288,6 +288,26 @@ namespace Files.UserControls
                     App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
                     (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
+                else if (CurrentInput.Equals("%temp%", StringComparison.OrdinalIgnoreCase))
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.TempPath);
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+                }
+                else if (CurrentInput.Equals("%AppData%", StringComparison.OrdinalIgnoreCase))
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.AppDataPath);
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+                }
+                else if (CurrentInput.Equals("%HOMEPATH%", StringComparison.OrdinalIgnoreCase))
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.HomePath);
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+                }
+                else if (CurrentInput.Equals("%WinDir%", StringComparison.OrdinalIgnoreCase))
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.WinDirPath);
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+                }
                 else
                 {
                     if (CurrentInput.Contains("."))

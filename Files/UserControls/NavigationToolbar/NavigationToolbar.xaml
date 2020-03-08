@@ -2,14 +2,14 @@
     x:Class="Files.UserControls.NavigationToolbar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:Files.UserControls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
-    mc:Ignorable="d"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="80"
-    d:DesignWidth="800">
+    d:DesignWidth="800"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <Style x:Key="NavigationButtonNormalStyle" TargetType="Button">
             <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
@@ -397,70 +397,97 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        <Style x:Key="AutoSuggestBoxTextBoxStyleFixed" TargetType="TextBox" BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}">
-            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}"/>
-            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}"/>
-            <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
-            <Setter Property="Background" Value="{ThemeResource TextControlBackground}"/>
-            <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}"/>
-            <Setter Property="Opacity" Value="1"/>
-            <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
-            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
-            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
-            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
+        <Style
+            x:Key="AutoSuggestBoxTextBoxStyleFixed"
+            BasedOn="{StaticResource AutoSuggestBoxTextBoxStyle}"
+            TargetType="TextBox">
+            <Setter Property="MinWidth" Value="{ThemeResource TextControlThemeMinWidth}" />
+            <Setter Property="MinHeight" Value="{ThemeResource TextControlThemeMinHeight}" />
+            <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}" />
+            <Setter Property="Background" Value="{ThemeResource TextControlBackground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemBaseMediumLowColor}" />
+            <Setter Property="Opacity" Value="1" />
+            <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}" />
         </Style>
         <Style x:Key="ListViewStyleNoAnimation" TargetType="ListView">
-            <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="TabNavigation" Value="Once"/>
-            <Setter Property="IsSwipeEnabled" Value="True"/>
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
-            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False"/>
-            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled"/>
-            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
-            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled"/>
-            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
-            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="TabNavigation" Value="Once" />
+            <Setter Property="IsSwipeEnabled" Value="True" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Enabled" />
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
             <Setter Property="ItemContainerTransitions">
                 <Setter.Value>
-                    <TransitionCollection>
-                    </TransitionCollection>
+                    <TransitionCollection />
                 </Setter.Value>
             </Setter>
             <Setter Property="ItemsPanel">
                 <Setter.Value>
                     <ItemsPanelTemplate>
-                        <ItemsStackPanel Orientation="Vertical"/>
+                        <ItemsStackPanel Orientation="Vertical" />
                     </ItemsPanelTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListView">
-                        <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding CornerRadius}">
-                            <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}" TabNavigation="{TemplateBinding TabNavigation}" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                                <ItemsPresenter Footer="{TemplateBinding Footer}" FooterTransitions="{TemplateBinding FooterTransitions}" FooterTemplate="{TemplateBinding FooterTemplate}" Header="{TemplateBinding Header}" HeaderTransitions="{TemplateBinding HeaderTransitions}" HeaderTemplate="{TemplateBinding HeaderTemplate}" Padding="{TemplateBinding Padding}"/>
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding CornerRadius}">
+                            <ScrollViewer
+                                x:Name="ScrollViewer"
+                                AutomationProperties.AccessibilityView="Raw"
+                                BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                                HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                                IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                                IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                TabNavigation="{TemplateBinding TabNavigation}"
+                                VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ItemsPresenter
+                                    Padding="{TemplateBinding Padding}"
+                                    Footer="{TemplateBinding Footer}"
+                                    FooterTemplate="{TemplateBinding FooterTemplate}"
+                                    FooterTransitions="{TemplateBinding FooterTransitions}"
+                                    Header="{TemplateBinding Header}"
+                                    HeaderTemplate="{TemplateBinding HeaderTemplate}"
+                                    HeaderTransitions="{TemplateBinding HeaderTransitions}" />
                             </ScrollViewer>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-        
+
     </UserControl.Resources>
     <Grid
-                x:Name="ToolbarGrid"
-                Padding="0,4,0,0"
-                VerticalAlignment="Stretch"
-                ColumnSpacing="0">
+        x:Name="ToolbarGrid"
+        Padding="0,4,0,0"
+        VerticalAlignment="Stretch"
+        ColumnSpacing="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -469,17 +496,17 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Orientation="Horizontal">
             <Button
-                        x:Name="Back"
-                        Width="34"
-                        Height="30"
-                        Margin="4,0,2,0"
-                        x:FieldModifier="public"
-                        Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Back_Click}"
-                        CornerRadius="2"
-                        FontFamily="Segoe MDL2 Assets"
-                        IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationControl.CanGoBack, Mode=OneWay}"
-                        Style="{StaticResource ToolBarButtonStyle}">
+                x:Name="Back"
+                Width="34"
+                Height="30"
+                Margin="4,0,2,0"
+                x:FieldModifier="public"
+                Background="Transparent"
+                Click="{x:Bind local1:NavigationActions.Back_Click}"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationControl.CanGoBack, Mode=OneWay}"
+                Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72B;
                 </Button.Content>
@@ -490,17 +517,17 @@
             </Button>
 
             <Button
-                        x:Name="Forward"
-                        Width="34"
-                        Height="30"
-                        Margin="2,0,2,0"
-                        x:FieldModifier="public"
-                        Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Forward_Click}"
-                        CornerRadius="2"
-                        FontFamily="Segoe MDL2 Assets"
-                        IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationControl.CanGoForward, Mode=OneWay}"
-                        Style="{StaticResource ToolBarButtonStyle}">
+                x:Name="Forward"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                x:FieldModifier="public"
+                Background="Transparent"
+                Click="{x:Bind local1:NavigationActions.Forward_Click}"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationControl.CanGoForward, Mode=OneWay}"
+                Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72A;
                 </Button.Content>
@@ -510,17 +537,17 @@
             </Button>
 
             <Button
-                        x:Name="Up"
-                        Width="34"
-                        Height="30"
-                        Margin="2,0,2,0"
-                        x:FieldModifier="public"
-                        Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Up_Click}"
-                        CornerRadius="2"
-                        FontFamily="Segoe MDL2 Assets"
-                        Style="{StaticResource ToolBarButtonStyle}"
-                        Visibility="Visible">
+                x:Name="Up"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                x:FieldModifier="public"
+                Background="Transparent"
+                Click="{x:Bind local1:NavigationActions.Up_Click}"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                Style="{StaticResource ToolBarButtonStyle}"
+                Visibility="Visible">
                 <Button.Content>
                     &#xE74A;
                 </Button.Content>
@@ -530,16 +557,16 @@
             </Button>
 
             <Button
-                        x:Name="Refresh"
-                        Width="34"
-                        Height="30"
-                        Margin="2,0,0,0"
-                        x:FieldModifier="public"
-                        Background="Transparent"
-                        Click="{x:Bind local1:NavigationActions.Refresh_Click}"
-                        CornerRadius="2"
-                        FontFamily="Segoe MDL2 Assets"
-                        Style="{StaticResource ToolBarButtonStyle}">
+                x:Name="Refresh"
+                Width="34"
+                Height="30"
+                Margin="2,0,0,0"
+                x:FieldModifier="public"
+                Background="Transparent"
+                Click="{x:Bind local1:NavigationActions.Refresh_Click}"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72C;
                 </Button.Content>
@@ -551,68 +578,69 @@
 
 
         <Grid
-                    Grid.Column="1"
-                    Height="40"
-                    Padding="4,0,4,0"
-                    VerticalAlignment="Center">
+            Grid.Column="1"
+            Height="40"
+            Padding="4,0,4,0"
+            VerticalAlignment="Center">
 
             <TextBox
-                        x:Name="VisiblePath"
-                        x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
-                        Padding="4"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-                        FocusDisengaged="VisiblePath_LostFocus"
-                        FontFamily="Segoe UI"
-                        FontSize="14"
-                        FontWeight="SemiBold"
-                        KeyDown="VisiblePath_TextChanged"
-                        LostFocus="VisiblePath_LostFocus"
-                        PlaceholderText="Enter a path"
-                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                        ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                        Text="{x:Bind PathText, Mode=OneWay}"
-                        />
+                x:Name="VisiblePath"
+                Padding="4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
+                BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+                FocusDisengaged="VisiblePath_LostFocus"
+                FontFamily="Segoe UI"
+                FontSize="14"
+                FontWeight="SemiBold"
+                KeyDown="VisiblePath_TextChanged"
+                LostFocus="VisiblePath_LostFocus"
+                PlaceholderText="Enter a path"
+                ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                Text="{x:Bind PathText, Mode=OneWay}" />
 
             <Grid
-                        x:Name="ClickablePath"
-                        MinHeight="32"
-                        x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                        HorizontalAlignment="Stretch"
-                        BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-                        BorderThickness="1"
-                        CornerRadius="2"
-                        PointerPressed="ManualPathEntryItem_Click" VerticalAlignment="Center">
+                x:Name="ClickablePath"
+                MinHeight="32"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
+                BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+                BorderThickness="1"
+                CornerRadius="2"
+                PointerPressed="ManualPathEntryItem_Click">
 
-                <ListView Style="{StaticResource ListViewStyleNoAnimation}"
-                            x:Name="PathViewInteract"
-                            VerticalAlignment="Stretch"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            Background="{ThemeResource TextControlBackground}"
-                            CanReorderItems="False"
-                            IsItemClickEnabled="True"
-                            ItemClick="PathViewInteract_ItemClick"
-                            ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                            ItemsSource="{x:Bind local1:App.CurrentInstance.NavigationControl.PathComponents, Mode=OneWay}"
-                            ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                            ScrollViewer.HorizontalScrollMode="Enabled"
-                            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                            ScrollViewer.VerticalScrollMode="Disabled"
-                            SelectionMode="None">
+                <ListView
+                    x:Name="PathViewInteract"
+                    VerticalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="Stretch"
+                    Background="{ThemeResource TextControlBackground}"
+                    CanReorderItems="False"
+                    IsItemClickEnabled="True"
+                    ItemClick="PathViewInteract_ItemClick"
+                    ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
+                    ItemsSource="{x:Bind local1:App.CurrentInstance.NavigationControl.PathComponents, Mode=OneWay}"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollMode="Enabled"
+                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                    ScrollViewer.VerticalScrollMode="Disabled"
+                    SelectionMode="None"
+                    Style="{StaticResource ListViewStyleNoAnimation}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid
-                                        x:Name="ListViewItemContentGrid"
-                                        Background="Transparent"
-                                        Tag="{Binding Path}">
+                                x:Name="ListViewItemContentGrid"
+                                Background="Transparent"
+                                Tag="{Binding Path}">
                                 <StackPanel Orientation="Horizontal" Spacing="5">
                                     <TextBlock
-                                                Margin="0,0,0,4"
-                                                FontSize="14"
-                                                FontWeight="Medium"
-                                                Text="{Binding Title}" />
+                                        Margin="0,0,0,4"
+                                        FontSize="14"
+                                        FontWeight="Medium"
+                                        Text="{Binding Title}" />
                                     <FontIcon FontSize="8" Glyph="&#xE76C;" />
                                 </StackPanel>
                             </Grid>
@@ -631,11 +659,12 @@
         </Grid>
 
         <Button
-                    Grid.Column="3"
-                    Margin="0,0,4,0"
-                    Background="Transparent"
-                    Content=""
-                    FontFamily="Segoe MDL2 Assets" Visibility="Collapsed">
+            Grid.Column="3"
+            Margin="0,0,4,0"
+            Background="Transparent"
+            Content=""
+            FontFamily="Segoe MDL2 Assets"
+            Visibility="Collapsed">
             <Button.Flyout>
                 <MenuFlyout Placement="BottomEdgeAlignedRight">
                     <MenuFlyoutItem Text="New Tab" />
@@ -648,28 +677,28 @@
         </Button>
 
         <Custom:GridSplitter
-                    x:Name="SearchBoxResizer"
-                    Grid.Column="1"
-                    Width="4"
-                    MinWidth="4"
-                    HorizontalAlignment="Right"
-                    Background="Transparent"
-                    Element="{x:Null}"
-                    GripperCursor="SizeWestEast"
-                    GripperForeground="Transparent"
-                    ResizeBehavior="CurrentAndNext"
-                    ResizeDirection="Columns"
-                    Style="{StaticResource GridSplitterStyle_Invisible}" />
+            x:Name="SearchBoxResizer"
+            Grid.Column="1"
+            Width="4"
+            MinWidth="4"
+            HorizontalAlignment="Right"
+            Background="Transparent"
+            Element="{x:Null}"
+            GripperCursor="SizeWestEast"
+            GripperForeground="Transparent"
+            ResizeBehavior="CurrentAndNext"
+            ResizeDirection="Columns"
+            Style="{StaticResource GridSplitterStyle_Invisible}" />
         <AutoSuggestBox
-                    x:Name="SearchReigon" TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
-                    x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
-                    Grid.Column="2"
-                    MaxWidth="485"
-                    Margin="0,0,4,0"
-                    VerticalAlignment="Center"
-                    PlaceholderText="Search"
-                    QueryIcon="Find">
-        </AutoSuggestBox>
+            x:Name="SearchReigon"
+            Grid.Column="2"
+            MaxWidth="485"
+            Margin="0,0,4,0"
+            VerticalAlignment="Center"
+            x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
+            PlaceholderText="Search"
+            QueryIcon="Find"
+            TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
     </Grid>
     <VisualStateManager.VisualStateGroups>
         <VisualStateGroup>
