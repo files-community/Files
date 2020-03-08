@@ -77,8 +77,16 @@ namespace Files.Filesystem
 		private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
 		{
 			var deviceId = args.Id;
-
-			var root = StorageDevice.FromId(deviceId);
+			StorageFolder root = null;
+			try
+			{
+				root = StorageDevice.FromId(deviceId);
+			}
+			catch (UnauthorizedAccessException)
+			{
+				Logger.Warn($"UnauthorizedAccessException: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
+				return;
+			}
 
 			// If drive already in list, skip.
 			if (Drives.Any(x => x.tag == root.Name))
