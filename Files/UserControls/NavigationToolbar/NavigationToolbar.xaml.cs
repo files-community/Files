@@ -288,6 +288,11 @@ namespace Files.UserControls
                     App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
                     (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                 }
+                else if (CurrentInput.Equals("%temp%", StringComparison.OrdinalIgnoreCase))
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null));
+                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+                }
                 else
                 {
                     if (CurrentInput.Contains("."))
