@@ -595,6 +595,74 @@ namespace Files.Interacts
             }
         }
 
+        public async void PermanentDelete(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var CurrentInstance = App.CurrentInstance;
+                List<ListedItem> selectedItems = new List<ListedItem>();
+                foreach (ListedItem selectedItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
+                {
+                    selectedItems.Add(selectedItem);
+                }
+                int itemsDeleted = 0;
+                if (selectedItems.Count > 3)
+                {
+                    (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
+                }
+
+                foreach (ListedItem storItem in selectedItems)
+                {
+                    if (selectedItems.Count > 3) { (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
+
+                    try
+                    {
+                        if (storItem.FileType != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                        }
+                    }
+                    catch (FileLoadException)
+                    {
+                        // try again
+                        if (storItem.FileType != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+
+                        }
+                    }
+
+                    CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
+                }
+                App.CurrentInstance.NavigationControl.CanGoForward = false;
+
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
+                await AccessDeniedDialog.ShowAsync();
+            }
+            catch (FileNotFoundException)
+            {
+                Debug.WriteLine("Attention: Tried to delete an item that could be found");
+            }
+        }
+
         public void RenameItem_Click(object sender, RoutedEventArgs e)
         {
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
