@@ -15,13 +15,16 @@ namespace Files.Controls
         public Interacts.Layout.LayoutItemsState LayoutItems { get; set; } = new Interacts.Layout.LayoutItemsState();
         public AlwaysPresentCommandsState AlwaysPresentCommands { get; set; } = new AlwaysPresentCommandsState();
 
+        public RibbonViewModel()
+        {
+            UpdateToggleIcon(); //Get the correct icon for the ribbon toggle
+        }
+
         public string ToggleRibbonIcon
         {
             get => _ToggleRibbonIcon;
             set => Set(ref _ToggleRibbonIcon, value);
         }
-
-
 
         public Windows.UI.Xaml.Visibility AppBarSeparatorVisibility
         {

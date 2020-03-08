@@ -34,6 +34,7 @@ namespace Files.View_Models
             DetectSidebarOpacity();
             PinSidebarLocationItems();
             DetectOneDrivePreference();
+            DetectRibbonPreference();
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
@@ -240,6 +241,20 @@ namespace Files.View_Models
             catch (Exception)
             {
                 PinOneDriveToSideBar = false;
+            }
+        }
+
+        private void DetectRibbonPreference()
+        {
+            if (localSettings.Values["ShowRibbonContent"] == null) { ShowRibbonContent = true; }
+
+            if ((bool)localSettings.Values["ShowRibbonContent"] == true)
+            {
+                ShowRibbonContent = true;
+            }
+            else
+            {
+                ShowRibbonContent = false;
             }
         }
 
@@ -530,7 +545,21 @@ namespace Files.View_Models
         public bool ShowRibbonContent
         {
             get => _ShowRibbonContent;
-            set => Set(ref _ShowRibbonContent, value);
+            set
+            {
+                if (value != _ShowRibbonContent)
+                {
+                    Set(ref _ShowRibbonContent, value);
+                    if (value == true)
+                    {
+                        localSettings.Values["ShowRibbonContent"] = true;
+                    }
+                    else
+                    {
+                        localSettings.Values["ShowRibbonContent"] = false;
+                    }
+                }
+            }
         }
 
         public SidebarOpacity SidebarThemeMode
