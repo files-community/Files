@@ -153,6 +153,9 @@
   <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
     <value>New</value>
   </data>
+  <data name="RibbonAreaClearAllButton.LabelText" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
   <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
     <value>Copy</value>
   </data>
@@ -192,6 +195,9 @@
   <data name="RibbonAreaHome.Header" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="RibbonAreaLayoutButton.LabelText" xml:space="preserve">
+    <value>Layout Mode</value>
+  </data>
   <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
     <value>Open With</value>
   </data>
@@ -201,6 +207,9 @@
   <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
     <value>Rename</value>
   </data>
+  <data name="RibbonAreaSelectAllButton.LabelText" xml:space="preserve">
+    <value>Select All</value>
+  </data>
   <data name="RibbonAreaShare.Header" xml:space="preserve">
     <value>Share</value>
   </data>
@@ -209,6 +218,27 @@
   </data>
   <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="RibbonAreaSortByAscending.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="RibbonAreaSortByButton.LabelText" xml:space="preserve">
+    <value>Sort By</value>
+  </data>
+  <data name="RibbonAreaSortByDate.Text" xml:space="preserve">
+    <value>Date Modified</value>
+  </data>
+  <data name="RibbonAreaSortByDescending.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="RibbonAreaSortByName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="RibbonAreaSortBySize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="RibbonAreaSortByType.Text" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="RibbonAreaView.Header" xml:space="preserve">
     <value>View</value>

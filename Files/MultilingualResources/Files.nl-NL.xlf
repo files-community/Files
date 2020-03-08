@@ -330,6 +330,46 @@
           <source>Share</source>
           <target state="new">Share</target>
         </trans-unit>
+        <trans-unit id="RibbonAreaClearAllButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Clear All</source>
+          <target state="new">Clear All</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaLayoutButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Layout Mode</source>
+          <target state="new">Layout Mode</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSelectAllButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <target state="new">Select All</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Sort By</source>
+          <target state="new">Sort By</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">Ascending</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByDate.Text" translate="yes" xml:space="preserve">
+          <source>Date Modified</source>
+          <target state="new">Date Modified</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">Descending</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Name</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortBySize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Size</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Type</target>
+        </trans-unit>
       </group>
     </body>
   </file>

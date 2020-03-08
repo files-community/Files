@@ -782,6 +782,7 @@
 
                         </controls:RibbonPage>
                     </Custom:TabViewItem>
+
                     <Custom:TabViewItem
                         x:Uid="RibbonAreaShare"
                         Width="Auto"
@@ -816,6 +817,7 @@
                             </controls:RibbonPage.PageContent>
                         </controls:RibbonPage>
                     </Custom:TabViewItem>
+
                     <Custom:TabViewItem
                         x:Uid="RibbonAreaView"
                         Width="Auto"
@@ -836,8 +838,10 @@
                         </Custom:TabViewItem.Resources>
                         <controls:RibbonPage Visibility="{x:Bind local:App.AppSettings.ShowRibbonContent, Mode=OneWay}">
                             <controls:RibbonPage.PageContent>
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="LayoutButton"
+                                    x:Uid="RibbonAreaLayoutButton"
                                     MinWidth="40"
                                     CornerRadius="2"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -847,59 +851,73 @@
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF0E2;" />
                                     </ribbon:RibbonCommandItem.Icon>
                                 </ribbon:RibbonCommandItem>
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="SelectAllButton"
+                                    x:Uid="RibbonAreaSelectAllButton"
                                     MinWidth="40"
                                     CornerRadius="2"
                                     Icon="SelectAll"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Select All"
                                     Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.SelectAllItems}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="ClearAllButton"
+                                    x:Uid="RibbonAreaClearAllButton"
                                     MinWidth="40"
                                     CornerRadius="2"
                                     Icon="ClearSelection"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Clear All"
                                     Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ClearAllItems}" />
+
                                 <ribbon:RibbonDividerItem Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+
                                 <ribbon:RibbonCommandItem
+                                    x:Uid="RibbonAreaSortByButton"
                                     MinWidth="40"
                                     CornerRadius="2"
                                     Icon="Sort"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    LabelText="Sort by">
+                                    LabelText="Sort By">
                                     <FlyoutBase.AttachedFlyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <muxc:RadioMenuFlyoutItem
+                                                x:Uid="RibbonAreaSortByName"
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedByName, Mode=TwoWay}"
                                                 Text="Name" />
                                             <muxc:RadioMenuFlyoutItem
+                                                x:Uid="RibbonAreaSortByDate"
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedByDate, Mode=TwoWay}"
-                                                Text="Date modified" />
+                                                Text="Date Modified" />
                                             <muxc:RadioMenuFlyoutItem
+                                                x:Uid="RibbonAreaSortByType"
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedByType, Mode=TwoWay}"
                                                 Text="Type" />
                                             <muxc:RadioMenuFlyoutItem
+                                                x:Uid="RibbonAreaSortBySize"
                                                 GroupName="SortGroup"
                                                 IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedBySize, Mode=TwoWay}"
                                                 Text="Size" />
                                             <MenuFlyoutSeparator />
                                             <muxc:RadioMenuFlyoutItem
+                                                x:Uid="RibbonAreaSortByAscending"
                                                 GroupName="SortOrderGroup"
                                                 IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedAscending, Mode=TwoWay}"
                                                 Text="Ascending" />
                                             <muxc:RadioMenuFlyoutItem
+                                                x:Uid="RibbonAreaSortByDescending"
                                                 GroupName="SortOrderGroup"
                                                 IsChecked="{x:Bind local:App.CurrentInstance.ViewModel.IsSortedDescending, Mode=TwoWay}"
                                                 Text="Descending" />
                                         </MenuFlyout>
                                     </FlyoutBase.AttachedFlyout>
                                 </ribbon:RibbonCommandItem>
+
                             </controls:RibbonPage.PageContent>
                         </controls:RibbonPage>
                     </Custom:TabViewItem>
