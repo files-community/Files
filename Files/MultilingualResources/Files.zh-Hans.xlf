@@ -326,6 +326,10 @@
           <source>Properties</source>
           <target state="new">Properties</target>
         </trans-unit>
+        <trans-unit id="RibbonAreaShareButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="new">Share</target>
+        </trans-unit>
       </group>
     </body>
   </file>

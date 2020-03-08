@@ -745,7 +745,6 @@
                                     x:Name="ShowPropertiesButton"
                                     x:Uid="RibbonAreaShowPropertiesButton"
                                     MinWidth="40"
-                                    MinHeight="40"
                                     CornerRadius="2"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Properties"
@@ -803,14 +802,17 @@
                         </Custom:TabViewItem.Resources>
                         <controls:RibbonPage Visibility="{x:Bind local:App.AppSettings.ShowRibbonContent, Mode=OneWay}">
                             <controls:RibbonPage.PageContent>
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="ShareButton"
+                                    x:Uid="RibbonAreaShareButton"
                                     MinWidth="40"
                                     CornerRadius="2"
                                     Icon="Share"
                                     IsEnabled="{x:Bind RibbonViewModel.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Share"
                                     Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}" />
+
                             </controls:RibbonPage.PageContent>
                         </controls:RibbonPage>
                     </Custom:TabViewItem>

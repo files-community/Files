@@ -204,6 +204,9 @@
   <data name="RibbonAreaShare.Header" xml:space="preserve">
     <value>Share</value>
   </data>
+  <data name="RibbonAreaShareButton.LabelText" xml:space="preserve">
+    <value>Share</value>
+  </data>
   <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
     <value>Properties</value>
   </data>
