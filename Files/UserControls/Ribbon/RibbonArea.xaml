@@ -577,6 +577,7 @@
                         MinWidth="48"
                         MinHeight="32"
                         BorderThickness="0"
+                        x:Uid="RibbonAreaFile"
                         Header="File"
                         Tapped="TabViewItem_Tapped"
                         Template="{StaticResource TabViewItemFluentTemplate}">
@@ -595,8 +596,9 @@
                                                     <TextBlock
                                                         FontSize="14"
                                                         FontWeight="Medium"
+                                                        x:Uid="RibbonAreaFileOpenNewWindowTitle"
                                                         Text="Open new window" />
-                                                    <TextBlock Text="Creates a new instance of Files" />
+                                                    <TextBlock Text="Creates a new instance of Files" x:Uid="RibbonAreaFileOpenNewWindowDescription"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </ListViewItem>
@@ -610,9 +612,10 @@
                                                 <StackPanel Orientation="Vertical">
                                                     <TextBlock
                                                         FontSize="14"
+                                                        x:Uid="RibbonAreaFileSettingsTitle"
                                                         FontWeight="Medium"
                                                         Text="Settings" />
-                                                    <TextBlock Text="Make changes to app preferences" />
+                                                    <TextBlock Text="Make changes to app preferences" x:Uid="RibbonAreaFileSettingsDescription"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </ListViewItem>
@@ -627,8 +630,8 @@
                                                     <TextBlock
                                                         FontSize="14"
                                                         FontWeight="Medium"
-                                                        Text="Close Files" />
-                                                    <TextBlock Text="Closes this window" />
+                                                        Text="Close Files" x:Uid="RibbonAreaFileCloseTitle"/>
+                                                    <TextBlock Text="Closes this window" x:Uid="RibbonAreaFileCloseDescription"/>
                                                 </StackPanel>
                                             </StackPanel>
                                         </ListViewItem>
@@ -639,6 +642,7 @@
                         </FlyoutBase.AttachedFlyout>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem
+                        x:Uid="RibbonAreaHome"
                         x:Name="HomeRibbonItem"
                         Width="Auto"
                         MinWidth="48"
@@ -779,6 +783,7 @@
                         MinHeight="32"
                         BorderThickness="0"
                         DoubleTapped="RibbonItem_DoubleTapped"
+                        x:Uid="RibbonAreaShare"
                         Header="Share"
                         IsDoubleTapEnabled="True"
                         Template="{StaticResource TabViewItemFluentTemplate}">
@@ -808,6 +813,7 @@
                     <Custom:TabViewItem
                         Width="Auto"
                         MinWidth="48"
+                        x:Uid="RibbonAreaView"
                         MinHeight="32"
                         BorderThickness="0"
                         DoubleTapped="RibbonItem_DoubleTapped"

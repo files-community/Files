@@ -150,6 +150,36 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Recent items</value>
   </data>
+  <data name="RibbonAreaFile.Header" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="RibbonAreaFileCloseDescription.Text" xml:space="preserve">
+    <value>Closes this window</value>
+  </data>
+  <data name="RibbonAreaFileCloseTitle.Text" xml:space="preserve">
+    <value>Close Files</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowDescription.Text" xml:space="preserve">
+    <value>Creates a new instance of Files</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowTitle.Text" xml:space="preserve">
+    <value>Open new window</value>
+  </data>
+  <data name="RibbonAreaFileSettingsDescription.Text" xml:space="preserve">
+    <value>Make changes to app preferences</value>
+  </data>
+  <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="RibbonAreaHome.Header" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="RibbonAreaShare.Header" xml:space="preserve">
+    <value>Share</value>
+  </data>
+  <data name="RibbonAreaView.Header" xml:space="preserve">
+    <value>View</value>
+  </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
