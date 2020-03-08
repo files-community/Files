@@ -290,22 +290,22 @@ namespace Files.UserControls
                 }
                 else if (CurrentInput.Equals("%temp%", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null));
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.TempPath);
                     App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                 }
                 else if (CurrentInput.Equals("%AppData%", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.AppDataPath);
                     App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                 }
                 else if (CurrentInput.Equals("%HOMEPATH%", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), Environment.GetFolderPath(Environment.SpecialFolder.UserProfile));
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.HomePath);
                     App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                 }
                 else if (CurrentInput.Equals("%WinDir%", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), Environment.GetFolderPath(Environment.SpecialFolder.Windows));
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.WinDirPath);
                     App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                 }
                 else

@@ -377,6 +377,10 @@ namespace Files.View_Models
         private string _PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         private string _MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         private string _VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
+        private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+        private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+        private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         private IList<TerminalModel> _Terminals = null;
@@ -455,6 +459,30 @@ namespace Files.View_Models
                     }
                 }
             }
+        }
+
+        public string TempPath
+        {
+            get => _TempPath;
+            set => Set(ref _TempPath, value);
+        }
+
+        public string AppDataPath
+        {
+            get => _AppDataPath;
+            set => Set(ref _AppDataPath, value);
+        }
+
+        public string HomePath
+        {
+            get => _HomePath;
+            set => Set(ref _HomePath, value);
+        }
+
+        public string WinDirPath
+        {
+            get => _WinDirPath;
+            set => Set(ref _WinDirPath, value);
         }
 
         public string DesktopPath
