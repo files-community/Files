@@ -150,6 +150,21 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Recent items</value>
   </data>
+  <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="RibbonAreaCopyPathButton.LabelText" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="RibbonAreaCutButton.LabelText" xml:space="preserve">
+    <value>Cut</value>
+  </data>
+  <data name="RibbonAreaDeleteButton.LabelText" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="RibbonAreaFile.Header" xml:space="preserve">
     <value>File</value>
   </data>
@@ -171,11 +186,26 @@
   <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="RibbonAreaFolderProperties.LabelText" xml:space="preserve">
+    <value>Folder Properties</value>
+  </data>
   <data name="RibbonAreaHome.Header" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
+    <value>Open With</value>
+  </data>
+  <data name="RibbonAreaPasteButton.LabelText" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
+    <value>Rename</value>
+  </data>
   <data name="RibbonAreaShare.Header" xml:space="preserve">
     <value>Share</value>
+  </data>
+  <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
+    <value>Properties</value>
   </data>
   <data name="RibbonAreaView.Header" xml:space="preserve">
     <value>View</value>

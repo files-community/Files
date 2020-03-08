@@ -286,6 +286,46 @@
           <source>Settings</source>
           <target state="new">Settings</target>
         </trans-unit>
+        <trans-unit id="RibbonAreaCutButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Cut</source>
+          <target state="new">Cut</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCopyButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Copy</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaAddItemButton.LabelText" translate="yes" xml:space="preserve">
+          <source>New</source>
+          <target state="new">New</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCopyPathButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Copy Path</source>
+          <target state="new">Copy Path</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaDeleteButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFolderProperties.LabelText" translate="yes" xml:space="preserve">
+          <source>Folder Properties</source>
+          <target state="new">Folder Properties</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaOpenWithButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Open With</source>
+          <target state="new">Open With</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaPasteButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaRenameButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="new">Rename</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShowPropertiesButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
       </group>
     </body>
   </file>

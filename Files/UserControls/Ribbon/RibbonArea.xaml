@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controls="using:Files.Controls"
+    xmlns:controls1="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -11,13 +12,12 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controls1="using:Files.UserControls"
     xmlns:ribbon="using:Files.UserControls.Ribbon"
     d:DesignHeight="125"
     d:DesignWidth="1280"
     mc:Ignorable="d">
     <UserControl.Resources>
-        
+
 
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="{StaticResource SystemChromeLowColor}" />
         <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="{StaticResource SystemChromeLowColor}" />
@@ -456,7 +456,7 @@
             </Grid>
         </ControlTemplate>
 
-        
+
         <Style x:Name="TabViewButtonStyle" TargetType="Button">
             <Setter Property="FontSize" Value="12" />
             <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
@@ -546,8 +546,8 @@
                 Spacing="0" />
         </ItemsPanelTemplate>
 
-        
-        
+
+
 
     </UserControl.Resources>
 
@@ -573,11 +573,11 @@
                         <TransitionCollection />
                     </Custom:TabView.ItemContainerTransitions>
                     <Custom:TabViewItem
+                        x:Uid="RibbonAreaFile"
                         Width="Auto"
                         MinWidth="48"
                         MinHeight="32"
                         BorderThickness="0"
-                        x:Uid="RibbonAreaFile"
                         Header="File"
                         Tapped="TabViewItem_Tapped"
                         Template="{StaticResource TabViewItemFluentTemplate}">
@@ -594,11 +594,11 @@
                                                 <FontIcon Glyph="&#xE78B;" />
                                                 <StackPanel Orientation="Vertical">
                                                     <TextBlock
+                                                        x:Uid="RibbonAreaFileOpenNewWindowTitle"
                                                         FontSize="14"
                                                         FontWeight="Medium"
-                                                        x:Uid="RibbonAreaFileOpenNewWindowTitle"
                                                         Text="Open new window" />
-                                                    <TextBlock Text="Creates a new instance of Files" x:Uid="RibbonAreaFileOpenNewWindowDescription"/>
+                                                    <TextBlock x:Uid="RibbonAreaFileOpenNewWindowDescription" Text="Creates a new instance of Files" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </ListViewItem>
@@ -611,11 +611,11 @@
                                                 <FontIcon Glyph="&#xE713;" />
                                                 <StackPanel Orientation="Vertical">
                                                     <TextBlock
-                                                        FontSize="14"
                                                         x:Uid="RibbonAreaFileSettingsTitle"
+                                                        FontSize="14"
                                                         FontWeight="Medium"
                                                         Text="Settings" />
-                                                    <TextBlock Text="Make changes to app preferences" x:Uid="RibbonAreaFileSettingsDescription"/>
+                                                    <TextBlock x:Uid="RibbonAreaFileSettingsDescription" Text="Make changes to app preferences" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </ListViewItem>
@@ -628,10 +628,11 @@
                                                 <FontIcon Glyph="&#xE8BB;" />
                                                 <StackPanel Orientation="Vertical">
                                                     <TextBlock
+                                                        x:Uid="RibbonAreaFileCloseTitle"
                                                         FontSize="14"
                                                         FontWeight="Medium"
-                                                        Text="Close Files" x:Uid="RibbonAreaFileCloseTitle"/>
-                                                    <TextBlock Text="Closes this window" x:Uid="RibbonAreaFileCloseDescription"/>
+                                                        Text="Close Files" />
+                                                    <TextBlock x:Uid="RibbonAreaFileCloseDescription" Text="Closes this window" />
                                                 </StackPanel>
                                             </StackPanel>
                                         </ListViewItem>
@@ -642,8 +643,8 @@
                         </FlyoutBase.AttachedFlyout>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem
-                        x:Uid="RibbonAreaHome"
                         x:Name="HomeRibbonItem"
+                        x:Uid="RibbonAreaHome"
                         Width="Auto"
                         MinWidth="48"
                         MinHeight="32"
@@ -662,128 +663,133 @@
                         </Custom:TabViewItem.Resources>
                         <controls:RibbonPage Visibility="{x:Bind local:App.AppSettings.ShowRibbonContent, Mode=OneWay}">
                             <controls:RibbonPage.PageContent>
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="CutButton"
+                                    x:Uid="RibbonAreaCutButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
                                     CornerRadius="2"
                                     Icon="Cut"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Cut"
-                                    />
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="CopyButton"
+                                    x:Uid="RibbonAreaCopyButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}"
                                     CornerRadius="2"
                                     Icon="Copy"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Copy"
-                                    />
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="PasteButton"
+                                    x:Uid="RibbonAreaPasteButton"
                                     MinWidth="40"
-                                    x:FieldModifier="public"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                                     CornerRadius="2"
                                     Icon="Paste"
                                     IsEnabled="{x:Bind local:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Paste"
-                                    />
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="CopyPathButton"
+                                    x:Uid="RibbonAreaCopyPathButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.GetPath_Click}"
                                     CornerRadius="2"
                                     IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Copy Path"
-                                    >
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.GetPath_Click}">
                                     <ribbon:RibbonCommandItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF271;" />
                                     </ribbon:RibbonCommandItem.Icon>
                                 </ribbon:RibbonCommandItem>
-                                <ribbon:RibbonDividerItem
-                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+
+                                <ribbon:RibbonDividerItem Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="DeleteButton"
+                                    x:Uid="RibbonAreaDeleteButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
                                     CornerRadius="2"
                                     Icon="Delete"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Delete"
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}" />
 
-                                    />
                                 <ribbon:RibbonCommandItem
                                     x:Name="RenameButton"
+                                    x:Uid="RibbonAreaRenameButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}"
                                     CornerRadius="2"
                                     Icon="Rename"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Rename"
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}" />
 
-                                    />
                                 <ribbon:RibbonCommandItem
                                     x:Name="addItemButton"
+                                    x:Uid="RibbonAreaAddItemButton"
                                     MinWidth="40"
-                                    Tapped="AddItem_Click"
                                     CornerRadius="2"
                                     Icon="Add"
                                     IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="New"
+                                    Tapped="AddItem_Click" />
 
-                                    />
-                                <ribbon:RibbonDividerItem
-                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+                                <ribbon:RibbonDividerItem Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="ShowPropertiesButton"
+                                    x:Uid="RibbonAreaShowPropertiesButton"
                                     MinWidth="40"
-                                    Tapped="ShowPropertiesButton_Click"
+                                    MinHeight="40"
                                     CornerRadius="2"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Properties"
-
-                                    >
+                                    Tapped="ShowPropertiesButton_Click">
                                     <ribbon:RibbonCommandItem.Icon>
                                         <FontIcon Glyph="&#xE946;" />
                                     </ribbon:RibbonCommandItem.Icon>
                                 </ribbon:RibbonCommandItem>
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="OpenWithButton"
+                                    x:Uid="RibbonAreaOpenWithButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}"
                                     CornerRadius="2"
                                     Icon="OpenWith"
                                     IsEnabled="{x:Bind RibbonViewModel.HomeItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Open With"
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}" />
 
-                                    />
-                                <ribbon:RibbonDividerItem
-                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+                                <ribbon:RibbonDividerItem Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+
                                 <ribbon:RibbonCommandItem
                                     x:Name="ShowFolderPropertiesButton"
+                                    x:Uid="RibbonAreaFolderProperties"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                                     CornerRadius="2"
                                     IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=OneWay}"
                                     LabelText="Folder Properties"
-
-                                    >
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}">
                                     <ribbon:RibbonCommandItem.Icon>
                                         <FontIcon Glyph="&#xF12B;" />
                                     </ribbon:RibbonCommandItem.Icon>
                                 </ribbon:RibbonCommandItem>
                             </controls:RibbonPage.PageContent>
+
                         </controls:RibbonPage>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem
+                        x:Uid="RibbonAreaShare"
                         Width="Auto"
                         MinWidth="48"
                         MinHeight="32"
                         BorderThickness="0"
                         DoubleTapped="RibbonItem_DoubleTapped"
-                        x:Uid="RibbonAreaShare"
                         Header="Share"
                         IsDoubleTapEnabled="True"
                         Template="{StaticResource TabViewItemFluentTemplate}">
@@ -800,20 +806,18 @@
                                 <ribbon:RibbonCommandItem
                                     x:Name="ShareButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                                     CornerRadius="2"
                                     Icon="Share"
                                     IsEnabled="{x:Bind RibbonViewModel.ShareItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Share"
-
-                                    />
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}" />
                             </controls:RibbonPage.PageContent>
                         </controls:RibbonPage>
                     </Custom:TabViewItem>
                     <Custom:TabViewItem
+                        x:Uid="RibbonAreaView"
                         Width="Auto"
                         MinWidth="48"
-                        x:Uid="RibbonAreaView"
                         MinHeight="32"
                         BorderThickness="0"
                         DoubleTapped="RibbonItem_DoubleTapped"
@@ -833,12 +837,10 @@
                                 <ribbon:RibbonCommandItem
                                     x:Name="LayoutButton"
                                     MinWidth="40"
-                                    Tapped="LayoutButton_Click"
                                     CornerRadius="2"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Layout Mode"
-
-                                    >
+                                    Tapped="LayoutButton_Click">
                                     <ribbon:RibbonCommandItem.Icon>
                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xF0E2;" />
                                     </ribbon:RibbonCommandItem.Icon>
@@ -846,33 +848,26 @@
                                 <ribbon:RibbonCommandItem
                                     x:Name="SelectAllButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.SelectAllItems}"
                                     CornerRadius="2"
                                     Icon="SelectAll"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Select All"
-
-                                    />
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.SelectAllItems}" />
                                 <ribbon:RibbonCommandItem
                                     x:Name="ClearAllButton"
                                     MinWidth="40"
-                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ClearAllItems}"
                                     CornerRadius="2"
                                     Icon="ClearSelection"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Clear All"
-
-                                    />
-                                <ribbon:RibbonDividerItem
-                                    Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
+                                    Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.ClearAllItems}" />
+                                <ribbon:RibbonDividerItem Visibility="{x:Bind RibbonViewModel.AppBarSeparatorVisibility, Mode=OneWay}" />
                                 <ribbon:RibbonCommandItem
                                     MinWidth="40"
                                     CornerRadius="2"
                                     Icon="Sort"
                                     IsEnabled="{x:Bind RibbonViewModel.LayoutItems.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    LabelText="Sort by"
-
-                                    >
+                                    LabelText="Sort by">
                                     <FlyoutBase.AttachedFlyout>
                                         <MenuFlyout Placement="BottomEdgeAlignedLeft">
                                             <muxc:RadioMenuFlyoutItem
