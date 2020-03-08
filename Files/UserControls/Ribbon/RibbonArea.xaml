@@ -1017,6 +1017,7 @@
                         </controls:RibbonPage>
                     </Custom:TabViewItem>-->
                 </Custom:TabView>
+
                 <Button
                     x:Name="ToggleRibbon"
                     Grid.Column="1"
