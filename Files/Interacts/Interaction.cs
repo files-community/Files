@@ -34,6 +34,7 @@ namespace Files.Interacts
     {
         private IShellPage CurrentInstance;
         InstanceTabsView instanceTabsView;
+        string DeleteType;
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -552,14 +553,28 @@ namespace Files.Interacts
                         if (storItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
-
+                            
+                            if (DeleteType == "Perm")
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
                         }
                         else
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
 
+                            if (DeleteType == "Perm")
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
                         }
                     }
                     catch (FileLoadException)
@@ -568,14 +583,28 @@ namespace Files.Interacts
                         if (storItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
 
+                            if (DeleteType == "Perm")
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
                         }
                         else
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                            await item.DeleteAsync(StorageDeleteOption.Default);
-
+                            
+                            if (DeleteType == "Perm")
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
                         }
                     }
 
@@ -593,6 +622,14 @@ namespace Files.Interacts
             {
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
             }
+
+            DeleteType = "Default";
+        }
+
+        public void PermanentDelete(object sender, RoutedEventArgs e)
+        {
+            DeleteType = "Perm";
+            DeleteItem_Click(null, null);
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)

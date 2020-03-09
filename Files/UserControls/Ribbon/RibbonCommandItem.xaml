@@ -18,13 +18,11 @@
                             x:Name="Root"
                             MinWidth="{TemplateBinding MinWidth}"
                             MaxWidth="{TemplateBinding MaxWidth}"
-                            Margin="1,0"
                             Background="{TemplateBinding Background}"
                             CornerRadius="{TemplateBinding CornerRadius}">
                             <Grid
                                 x:Name="ContentRoot"
-                                MinHeight="40"
-                                Margin="-1,0">
+                                MinHeight="40">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
