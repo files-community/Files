@@ -28,3 +28,11 @@ steps:
     solution: '$(solution)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+    
+- task: store-publish@0
+  inputs:
+    serviceEndpoint: 'Files'
+    appId: '9NGHP3DX8HDX'
+    packagePath: 
+    force: true
+    skipPolling: false
