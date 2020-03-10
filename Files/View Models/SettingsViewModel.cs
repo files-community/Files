@@ -223,7 +223,7 @@ namespace Files.View_Models
 
         private void DetectOneDrivePreference()
         {
-            if (localSettings.Values["PinOneDrive"] == null) { PinOneDriveToSideBar = true; }
+            if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
 
             if ((bool)localSettings.Values["PinOneDrive"] == true)
             {
@@ -246,7 +246,7 @@ namespace Files.View_Models
 
         private void DetectRibbonPreference()
         {
-            if (localSettings.Values["ShowRibbonContent"] == null) { ShowRibbonContent = true; }
+            if (localSettings.Values["ShowRibbonContent"] == null) { localSettings.Values["ShowRibbonContent"] = true; }
 
             if ((bool)localSettings.Values["ShowRibbonContent"] == true)
             {
