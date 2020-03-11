@@ -273,11 +273,15 @@ namespace Files
             bool IsRecentsListEmpty = true;
             foreach(var entry in mostRecentlyUsed.Entries)
             {
-                var item = await mostRecentlyUsed.GetItemAsync(entry.Token);
-                if (item.IsOfType(StorageItemTypes.File))
+                try
                 {
-                    IsRecentsListEmpty = false;
+                    var item = await mostRecentlyUsed.GetItemAsync(entry.Token);
+                    if (item.IsOfType(StorageItemTypes.File))
+                    {
+                        IsRecentsListEmpty = false;
+                    }
                 }
+                catch (Exception){}
             }
 
             if (IsRecentsListEmpty)

@@ -31,7 +31,10 @@ namespace Files.Dialogs
         public ConfirmDeleteDialog()
         {
             this.InitializeComponent();
-            this.Result = MyResult.Nothing;
+
+            chkPermanentlyDelete.Focus(FocusState.Pointer); //Remove focus from check box
+
+            this.Result = MyResult.Nothing; //clear the result in case the value is set from last time
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

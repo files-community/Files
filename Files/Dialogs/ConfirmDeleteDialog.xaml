@@ -8,7 +8,6 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Delete Item(s)"
-    Grid.RowSpan="4"
     CornerRadius="4"
     mc:Ignorable="d">
 
@@ -16,9 +15,9 @@
         <TextBlock Text="Are you sure you want to delete the selected item(s)?" TextWrapping="WrapWholeWords" />
 
         <CheckBox
+            x:Name="chkPermanentlyDelete"
             Content="Permanently delete"
-            IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay}"
-            TabIndex="2" />
+            IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay}" />
 
         <StackPanel
             HorizontalAlignment="Right"
@@ -29,15 +28,13 @@
             <Button
                 x:Name="btnCancel"
                 Click="btnCancel_Click"
-                Content="Cancel"
-                TabIndex="1" />
+                Content="Cancel" />
 
             <Button
                 x:Name="btnDelete"
                 Background="{ThemeResource SystemAccentColor}"
                 Click="btnDelete_Click"
-                Content="Delete"
-                TabIndex="0" />
+                Content="Delete" />
 
         </StackPanel>
 
