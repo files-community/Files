@@ -206,6 +206,7 @@
     <Compile Include="UserControls\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View Models\InteractionViewModel.cs" />
     <Compile Include="Views\Layouts\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
