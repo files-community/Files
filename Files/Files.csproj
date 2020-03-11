@@ -146,6 +146,9 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Dialogs\ConfirmDelete.xaml.cs">
+      <DependentUpon>ConfirmDelete.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
     <Compile Include="UserControls\NavigationToolbar\NavigationToolbar.xaml.cs">
       <DependentUpon>NavigationToolbar.xaml</DependentUpon>
@@ -309,6 +312,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\ConfirmDelete.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\NavigationToolbar\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
