@@ -370,6 +370,26 @@
           <source>Type</source>
           <target state="new">Type</target>
         </trans-unit>
+        <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Delete Item(s)</source>
+          <target state="new">Delete Item(s)</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Cancel</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Delete</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogHeader.Text" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete the selected item(s)?</source>
+          <target state="new">Are you sure you want to delete the selected item(s)?</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
+          <source>Permanently delete</source>
+          <target state="new">Permanently delete</target>
+        </trans-unit>
       </group>
     </body>
   </file>

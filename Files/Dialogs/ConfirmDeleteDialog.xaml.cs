@@ -32,8 +32,6 @@ namespace Files.Dialogs
         {
             this.InitializeComponent();
 
-            chkPermanentlyDelete.Focus(FocusState.Pointer); //Remove focus from check box
-
             this.Result = MyResult.Nothing; //clear the result in case the value is set from last time
         }
 
