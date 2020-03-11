@@ -236,7 +236,8 @@ namespace Files
                     break;
                 case (true, true, false, true, VirtualKey.Delete): //ctrl + shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
-                        App.CurrentInstance.InteractionOperations.PermanentDelete(null, null);
+                        App.InteractionViewModel.PermanentlyDelete = true;
+                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
                     if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)

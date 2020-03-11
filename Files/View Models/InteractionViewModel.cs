@@ -8,17 +8,17 @@ namespace Files.Controls
 {
     public class InteractionViewModel : ViewModelBase
     {
-        private string _ToggleRibbonIcon = "";
+        private bool _PermanentlyDelete = false;
 
         public InteractionViewModel()
         {
 
         }
 
-        public string ToggleRibbonIcon
+        public bool PermanentlyDelete
         {
-            get => _ToggleRibbonIcon;
-            set => Set(ref _ToggleRibbonIcon, value);
+            get => _PermanentlyDelete;
+            set => Set(ref _PermanentlyDelete, value);
         }
 
        

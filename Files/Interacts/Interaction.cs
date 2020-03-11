@@ -34,7 +34,6 @@ namespace Files.Interacts
     {
         private IShellPage CurrentInstance;
         InstanceTabsView instanceTabsView;
-        string DeleteType;
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -554,7 +553,7 @@ namespace Files.Interacts
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
                             
-                            if (DeleteType == "Perm")
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -567,7 +566,7 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
 
-                            if (DeleteType == "Perm")
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -584,7 +583,7 @@ namespace Files.Interacts
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
 
-                            if (DeleteType == "Perm")
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -597,7 +596,7 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
                             
-                            if (DeleteType == "Perm")
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -623,13 +622,7 @@ namespace Files.Interacts
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
             }
 
-            DeleteType = "Default";
-        }
-
-        public void PermanentDelete(object sender, RoutedEventArgs e)
-        {
-            DeleteType = "Perm";
-            DeleteItem_Click(null, null);
+            App.InteractionViewModel.PermanentlyDelete = false;
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
