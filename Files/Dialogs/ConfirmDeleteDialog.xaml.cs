@@ -18,11 +18,32 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Dialogs
 {
-    public sealed partial class ConfirmDialog : ContentDialog
+    public sealed partial class ConfirmDeleteDialog : ContentDialog
     {
-        public ConfirmDialog()
+        public MyResult Result { get; set; }
+        public enum MyResult
+        {
+            Delete,
+            Cancel,
+            Nothing
+        }
+
+        public ConfirmDeleteDialog()
         {
             this.InitializeComponent();
+            this.Result = MyResult.Nothing;
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            Result = MyResult.Delete;
+            Hide();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            Result = MyResult.Cancel;
+            Hide();
         }
     }
 }
