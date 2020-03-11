@@ -390,6 +390,9 @@
   <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
     <value>Save Locations</value>
   </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
+    <value>Show a confirmation dialog when deleting files or folders</value>
+  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applications</value>
   </data>

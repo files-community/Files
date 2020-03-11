@@ -59,6 +59,35 @@
                         Toggled="OneDrivePin_Toggled" />
                 </Grid>
 
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="280" />
+                        <ColumnDefinition Width="*" MaxWidth="450" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Show a confirmation dialog when deleting files or folders" TextWrapping="WrapWholeWords"/>
+
+                    <ToggleSwitch
+                        x:Name="ShowConfirmDeleteDialog"
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsEnabled="True"
+                        IsOn="{x:Bind local2:App.AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        OffContent=""
+                        OnContent=""/>
+                </Grid>
+
                 <StackPanel>
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>

@@ -390,6 +390,10 @@
           <source>Permanently delete</source>
           <target state="new">Permanently delete</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Show a confirmation dialog when deleting files or folders</target>
+        </trans-unit>
       </group>
     </body>
   </file>

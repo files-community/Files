@@ -36,11 +36,26 @@ namespace Files.View_Models
             PinSidebarLocationItems();
             DetectOneDrivePreference();
             DetectRibbonPreference();
+            DetectConfirmDeletePreference();
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
             //DetectWSLDistros();
             LoadTerminalApps();
+        }
+
+        private void DetectConfirmDeletePreference()
+        {
+            if (localSettings.Values["ShowConfirmDeleteDialog"] == null) { localSettings.Values["ShowConfirmDeleteDialog"] = true; }
+
+            if ((bool)localSettings.Values["ShowConfirmDeleteDialog"] == true)
+            {
+                ShowConfirmDeleteDialog = true;
+            }
+            else
+            {
+                ShowConfirmDeleteDialog = false;
+            }
         }
 
         private void DetectStorageItemPreferences()
@@ -412,6 +427,7 @@ namespace Files.View_Models
         private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        private bool _ShowConfirmDeleteDialog = true;
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         private IList<TerminalModel> _Terminals = null;
@@ -476,6 +492,33 @@ namespace Files.View_Models
                         else
                         {
                             localSettings.Values["ShowFileExtensions"] = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool ShowConfirmDeleteDialog
+        {
+            get => _ShowConfirmDeleteDialog;
+            set
+            {
+                if (localSettings.Values["ShowConfirmDeleteDialog"] == null)
+                {
+                    localSettings.Values["ShowConfirmDeleteDialog"] = value;
+                }
+                else
+                {
+                    if (value != _ShowConfirmDeleteDialog)
+                    {
+                        Set(ref _ShowConfirmDeleteDialog, value);
+                        if (value == true)
+                        {
+                            localSettings.Values["ShowConfirmDeleteDialog"] = true;
+                        }
+                        else
+                        {
+                            localSettings.Values["ShowConfirmDeleteDialog"] = false;
                         }
                     }
                 }

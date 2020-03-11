@@ -530,106 +530,111 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new ConfirmDeleteDialog();
-            var result = await dialog.ShowAsync();
-
-            if (dialog.Result == MyResult.Delete) //delete selected  item(s) if the result is yes
+            if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
+                var dialog = new ConfirmDeleteDialog();
+                var result = await dialog.ShowAsync();
+
+                if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
-                    try
-                    {
-                        var CurrentInstance = App.CurrentInstance;
-                        List<ListedItem> selectedItems = new List<ListedItem>();
-                        foreach (ListedItem selectedItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
-                        {
-                            selectedItems.Add(selectedItem);
-                        }
-                        int itemsDeleted = 0;
-                        if (selectedItems.Count > 3)
-                        {
-                            (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
-                        }
-
-                        foreach (ListedItem storItem in selectedItems)
-                        {
-                            if (selectedItems.Count > 3) { (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
-
-                            try
-                            {
-                                if (storItem.FileType != "Folder")
-                                {
-                                    var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-
-                                    if (App.InteractionViewModel.PermanentlyDelete)
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                                    }
-                                    else
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.Default);
-                                    }
-                                }
-                                else
-                                {
-                                    var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-
-                                    if (App.InteractionViewModel.PermanentlyDelete)
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                                    }
-                                    else
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.Default);
-                                    }
-                                }
-                            }
-                            catch (FileLoadException)
-                            {
-                                // try again
-                                if (storItem.FileType != "Folder")
-                                {
-                                    var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-
-                                    if (App.InteractionViewModel.PermanentlyDelete)
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                                    }
-                                    else
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.Default);
-                                    }
-                                }
-                                else
-                                {
-                                    var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-
-                                    if (App.InteractionViewModel.PermanentlyDelete)
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                                    }
-                                    else
-                                    {
-                                        await item.DeleteAsync(StorageDeleteOption.Default);
-                                    }
-                                }
-                            }
-
-                            CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
-                        }
-                        App.CurrentInstance.NavigationControl.CanGoForward = false;
-
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
-                        await AccessDeniedDialog.ShowAsync();
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        Debug.WriteLine("Attention: Tried to delete an item that could be found");
-                    }
+                    return; //return if the result isn't delete
                 }
             }
+
+            try
+            {
+                var CurrentInstance = App.CurrentInstance;
+                List<ListedItem> selectedItems = new List<ListedItem>();
+                foreach (ListedItem selectedItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
+                {
+                    selectedItems.Add(selectedItem);
+                }
+                int itemsDeleted = 0;
+                if (selectedItems.Count > 3)
+                {
+                    (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
+                }
+
+                foreach (ListedItem storItem in selectedItems)
+                {
+                    if (selectedItems.Count > 3) { (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
+
+                    try
+                    {
+                        if (storItem.FileType != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+
+                            if (App.InteractionViewModel.PermanentlyDelete)
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+
+                            if (App.InteractionViewModel.PermanentlyDelete)
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
+                        }
+                    }
+                    catch (FileLoadException)
+                    {
+                        // try again
+                        if (storItem.FileType != "Folder")
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+
+                            if (App.InteractionViewModel.PermanentlyDelete)
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+
+                            if (App.InteractionViewModel.PermanentlyDelete)
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            }
+                            else
+                            {
+                                await item.DeleteAsync(StorageDeleteOption.Default);
+                            }
+                        }
+                    }
+
+                    CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
+                }
+                App.CurrentInstance.NavigationControl.CanGoForward = false;
+
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
+                await AccessDeniedDialog.ShowAsync();
+            }
+            catch (FileNotFoundException)
+            {
+                Debug.WriteLine("Attention: Tried to delete an item that could be found");
+            }
+
+
 
             App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
         }
