@@ -37,7 +37,7 @@
                 Content="Cancel" />
 
             <Button
-                x:Name="btnDelete"
+                x:Name="btnDelete" TabIndex="0"
                 x:Uid="ConfirmDeleteDialogDeleteButton"
                 Background="{ThemeResource SystemAccentColor}"
                 Click="btnDelete_Click"
