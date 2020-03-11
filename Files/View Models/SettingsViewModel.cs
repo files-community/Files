@@ -31,6 +31,7 @@ namespace Files.View_Models
             DetectCustomLocations();
             DetectApplicationTheme();
             DetectDateTimeFormat();
+            DetectStorageItemPreferences();
             DetectSidebarOpacity();
             PinSidebarLocationItems();
             DetectOneDrivePreference();
@@ -40,6 +41,20 @@ namespace Files.View_Models
             foundDrives = DrivesManager.Drives;
             //DetectWSLDistros();
             LoadTerminalApps();
+        }
+
+        private void DetectStorageItemPreferences()
+        {
+            if (localSettings.Values["ShowFileExtensions"] == null) { ShowFileExtensions = true; }
+
+            if ((bool)localSettings.Values["ShowFileExtensions"] == true)
+            {
+                ShowFileExtensions = true;
+            }
+            else
+            {
+                ShowFileExtensions = false;
+            }
         }
 
         private void PinSidebarLocationItems()
@@ -385,6 +400,7 @@ namespace Files.View_Models
         private bool _AreLinuxFilesSupported = false;
         private bool _PinOneDriveToSideBar = true;
         private bool _ShowRibbonContent = true;
+        private bool _ShowFileExtensions = true;
         private string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         private string _DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         private string _DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
@@ -437,6 +453,33 @@ namespace Files.View_Models
         {
             get => _AreLinuxFilesSupported;
             set => Set(ref _AreLinuxFilesSupported, value);
+        }
+
+        public bool ShowFileExtensions
+        {
+            get => _ShowFileExtensions;
+            set
+            {
+                if (localSettings.Values["ShowFileExtensions"] == null)
+                {
+                    localSettings.Values["ShowFileExtensions"] = value;
+                }
+                else
+                {
+                    if (value != _ShowFileExtensions)
+                    {
+                        Set(ref _ShowFileExtensions, value);
+                        if (value == true)
+                        {
+                            localSettings.Values["ShowFileExtensions"] = true;
+                        }
+                        else
+                        {
+                            localSettings.Values["ShowFileExtensions"] = false;
+                        }
+                    }
+                }
+            }
         }
 
         public bool PinOneDriveToSideBar
@@ -547,16 +590,23 @@ namespace Files.View_Models
             get => _ShowRibbonContent;
             set
             {
-                if (value != _ShowRibbonContent)
+                if (localSettings.Values["ShowRibbonContent"] == null)
                 {
-                    Set(ref _ShowRibbonContent, value);
-                    if (value == true)
+                    localSettings.Values["ShowRibbonContent"] = value;
+                }
+                else
+                {
+                    if (value != _ShowRibbonContent)
                     {
-                        localSettings.Values["ShowRibbonContent"] = true;
-                    }
-                    else
-                    {
-                        localSettings.Values["ShowRibbonContent"] = false;
+                        Set(ref _ShowRibbonContent, value);
+                        if (value == true)
+                        {
+                            localSettings.Values["ShowRibbonContent"] = true;
+                        }
+                        else
+                        {
+                            localSettings.Values["ShowRibbonContent"] = false;
+                        }
                     }
                 }
             }

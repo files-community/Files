@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Files"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -74,8 +75,10 @@
                     <ToggleSwitch
                         Grid.Column="1"
                         Width="40"
+                        x:Name="FileExtensionsToggle"
                         HorizontalAlignment="Right"
-                        IsEnabled="False"
+                        IsOn="{x:Bind local:App.AppSettings.ShowFileExtensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Toggled="FileExtensionsToggle_Toggled"
                         OffContent=""
                         OnContent="" />
                 </Grid>

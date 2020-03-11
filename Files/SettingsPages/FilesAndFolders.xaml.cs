@@ -16,5 +16,12 @@ namespace Files.SettingsPages
         {
             InitializeComponent();
         }
+
+        private void FileExtensionsToggle_Toggled(object sender, RoutedEventArgs e)
+        {
+            FileExtensionsToggle.IsEnabled = false;
+            App.AppSettings.ShowFileExtensions = FileExtensionsToggle.IsOn;
+            FileExtensionsToggle.IsEnabled = true;
+        }
     }
 }
