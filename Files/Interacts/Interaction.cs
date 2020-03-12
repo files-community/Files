@@ -632,9 +632,7 @@ namespace Files.Interacts
             catch (FileNotFoundException)
             {
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
-            }
-
-
+            }        
 
             App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
         }
