@@ -808,7 +808,14 @@ namespace Files.Filesystem
 
         private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
         {
-            var itemName = findData.cFileName;
+            var itemPath = Path.Combine(pathRoot, findData.cFileName);
+
+            string itemName = null;
+            if (App.AppSettings.ShowFileExtensions)
+                itemName = findData.cFileName;
+            else
+                itemName = Path.GetFileNameWithoutExtension(itemPath);
+
             FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
             var itemDate = new DateTime(
                 systemTimeOutput.Year,
@@ -818,7 +825,6 @@ namespace Files.Filesystem
                 systemTimeOutput.Minute,
                 systemTimeOutput.Second,
                 systemTimeOutput.Milliseconds);
-            var itemPath = Path.Combine(pathRoot, findData.cFileName);
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
             string itemType = "File";
