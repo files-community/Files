@@ -58,7 +58,7 @@
     <value>Feedback geben</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Stelle den Entwicklern Informationen zur Verfügung durch das Erstellen eines Fehlerberichts</value>
+    <value>Stelle den Entwicklern Informationen zur Verfügung durch das Erstellen eines Fehlerberichtes</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Drittanbieter Lizenzen</value>
@@ -151,7 +151,7 @@
     <value>Musik</value>
   </data>
   <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom music location</value>
+    <value>Benutzerdefinierten Pfad zum Musikordner festlegen</value>
   </data>
   <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
     <value>OneDrive</value>
@@ -169,7 +169,7 @@
     <value>OneDrive an die Seitenleiste anheften</value>
   </data>
   <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>Standarpfade ersetzen</value>
+    <value>Standardpfade ersetzen</value>
   </data>
   <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
     <value>Pfade speichern</value>
@@ -187,6 +187,6 @@
     <value>Benutzerdefinierten Pfad zum Videoordner festlegen</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Unpin from Sidebar</value>
+    <value>Von Seitenleiste entfernen</value>
   </data>
 </root>

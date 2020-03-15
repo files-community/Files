@@ -56,9 +56,9 @@ namespace Files
             {
                 0 => SettingsContentFrame.Navigate(typeof(Appearance)),
                 1 => SettingsContentFrame.Navigate(typeof(OnStartup)),
-                2 => SettingsContentFrame.Navigate(typeof(Preferences)),
+                //2 => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),
+                3 => SettingsContentFrame.Navigate(typeof(Preferences)),
                 4 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
-                3 => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),
                 5 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
