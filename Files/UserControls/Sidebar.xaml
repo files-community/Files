@@ -103,6 +103,11 @@
                 MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
                 OpenPaneLength="225"
                 PaneDisplayMode="Left">
+                <muxc:NavigationView.MenuItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderThickness" Value=".8"/>
+                    </Style>
+                </muxc:NavigationView.MenuItemContainerStyle>
                 <muxc:NavigationView.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -120,7 +125,7 @@
                                     </MenuFlyout.Items>
                                 </MenuFlyout>
                             </ResourceDictionary>
-
+                            
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </muxc:NavigationView.Resources>
