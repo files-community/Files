@@ -218,10 +218,6 @@
           <source>Replace common locations</source>
           <target state="translated">Reemplazar direcciones comúnes</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesSaveLocations.Content" translate="yes" xml:space="preserve">
-          <source>Save Locations</source>
-          <target state="translated">Guardar direcciones</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
           <target state="translated">Aplicaciones del terminal</target>

@@ -137,7 +137,6 @@
                             <RowDefinition Height="44" />
                             <RowDefinition Height="44" />
                             <RowDefinition Height="44" />
-                            <RowDefinition Height="44" />
                         </Grid.RowDefinitions>
                         <Grid.ChildrenTransitions>
                             <TransitionCollection>
@@ -161,15 +160,19 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom desktop location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom desktop location"
+                                Text="{x:Bind local2:App.AppSettings.DesktopPath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="1" />
                         </Grid>
 
                         <TextBlock
@@ -188,15 +191,19 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom downloads location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom downloads location"
+                                Text="{x:Bind local2:App.AppSettings.DownloadsPath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="2" />
                         </Grid>
 
                         <TextBlock
@@ -215,15 +222,19 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom documents location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom documents location"
+                                Text="{x:Bind local2:App.AppSettings.DocumentsPath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="3" />
                         </Grid>
 
                         <TextBlock
@@ -242,15 +253,19 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom pictures location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom pictures location"
+                                Text="{x:Bind local2:App.AppSettings.PicturesPath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="4" />
                         </Grid>
 
                         <TextBlock
@@ -269,15 +284,19 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom music location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom music location"
+                                Text="{x:Bind local2:App.AppSettings.MusicPath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="5" />
                         </Grid>
 
                         <TextBlock
@@ -296,15 +315,19 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom video location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom video location"
+                                Text="{x:Bind local2:App.AppSettings.VideosPath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="6" />
                         </Grid>
 
                         <TextBlock
@@ -323,27 +346,20 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1,1,0,1"
                                 CornerRadius="2,0,0,2"
-                                PlaceholderText="Set custom OneDrive location" />
+                                IsEnabled="False"
+                                PlaceholderText="Set custom OneDrive location"
+                                Text="{x:Bind local2:App.AppSettings.OneDrivePath, Mode=OneWay}" />
                             <Button
                                 Width="40"
                                 Height="32.5"
                                 HorizontalAlignment="Right"
                                 Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
                                 Content="&#xED25;"
                                 CornerRadius="0,2,2,0"
-                                FontFamily="Segoe MDL2 Assets" />
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="7" />
                         </Grid>
-
-                        <Button
-                            x:Name="SaveCustomL"
-                            x:Uid="SettingsPreferencesSaveLocations"
-                            Grid.Row="7"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="3"
-                            HorizontalAlignment="Right"
-                            Click="SaveCustomL_Click"
-                            Content="Save Locations"
-                            CornerRadius="2" />
 
                     </Grid>
                 </StackPanel>

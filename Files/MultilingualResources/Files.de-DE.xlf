@@ -218,10 +218,6 @@
           <source>Replace common locations</source>
           <target state="translated">Standardpfade ersetzen</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesSaveLocations.Content" translate="yes" xml:space="preserve">
-          <source>Save Locations</source>
-          <target state="translated">Pfade speichern</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>
           <target state="translated">Terminal Anwendung</target>
@@ -384,7 +380,8 @@
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogHeader.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete the selected item(s)?</source>
-          <target state="new">Sind Sie sicher, dass sie die ausgewählten Dateien löschen möchten?</target> <!--This doesn't work in German. If multiply items are selected, the whole sentence needs to change. Maybe I find a better solution at some point-->
+          <target state="new">Sind Sie sicher, dass sie die ausgewählten Dateien löschen möchten?</target>
+          <!--This doesn't work in German. If multiply items are selected, the whole sentence needs to change. Maybe I find a better solution at some point-->
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>

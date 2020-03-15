@@ -171,9 +171,6 @@
   <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
     <value>Remplacer les emplacements courants</value>
   </data>
-  <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
-    <value>Sauvegarder les emplacements</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Applications en ligne de commandes</value>
   </data>

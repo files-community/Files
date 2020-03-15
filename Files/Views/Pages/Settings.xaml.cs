@@ -51,7 +51,6 @@ namespace Files
 
         private void NavigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            var item = args.InvokedItemContainer.Tag;
             _ = SettingsPane.MenuItems.IndexOf(SettingsPane.SelectedItem) switch
             {
                 0 => SettingsContentFrame.Navigate(typeof(Appearance)),

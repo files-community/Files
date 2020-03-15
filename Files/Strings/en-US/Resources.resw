@@ -387,9 +387,6 @@
   <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
     <value>Replace common locations</value>
   </data>
-  <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
-    <value>Save Locations</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>

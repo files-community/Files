@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace Files.SettingsPages
 {
-    
+
     public sealed partial class Preferences : Page
     {
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -29,59 +29,16 @@ namespace Files.SettingsPages
             {
                 if (localSettings.Values["customLocationsSetting"].Equals(true))
                 {
-                    CustomLocationToggle.IsOn = true;
-
-                    DesktopL.IsEnabled = true;
-                    DesktopL.Text = localSettings.Values["DesktopLocation"].ToString();
-
-                    DownloadsL.IsEnabled = true;
-                    DownloadsL.Text = localSettings.Values["DownloadsLocation"].ToString();
-
-                    DocumentsL.IsEnabled = true;
-                    DocumentsL.Text = localSettings.Values["DocumentsLocation"].ToString();
-
-                    PictureL.IsEnabled = true;
-                    PictureL.Text = localSettings.Values["PicturesLocation"].ToString();
-
-                    MusicL.IsEnabled = true;
-                    MusicL.Text = localSettings.Values["MusicLocation"].ToString();
-
-                    VideosL.IsEnabled = true;
-                    VideosL.Text = localSettings.Values["VideosLocation"].ToString();
-
-                    OneDriveL.IsEnabled = true;
-                    OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
-
-                    SaveCustomL.IsEnabled = true;
-                    aaaa.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
+                    CustomLocationToggle.IsOn = true;                
                 }
                 else
                 {
-                    CustomLocationToggle.IsOn = false;
-                    DesktopL.IsEnabled = false;
-                    DownloadsL.IsEnabled = false;
-                    DocumentsL.IsEnabled = false;
-                    PictureL.IsEnabled = false;
-                    MusicL.IsEnabled = false;
-                    VideosL.IsEnabled = false;
-                    SaveCustomL.IsEnabled = false;
-                    OneDriveL.IsEnabled = false;
                     aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-
                 }
             }
             else
             {
                 CustomLocationToggle.IsOn = false;
-                DesktopL.IsEnabled = false;
-                DownloadsL.IsEnabled = false;
-                DocumentsL.IsEnabled = false;
-                PictureL.IsEnabled = false;
-                MusicL.IsEnabled = false;
-                VideosL.IsEnabled = false;
-                SaveCustomL.IsEnabled = false;
-                OneDriveL.IsEnabled = false;
                 aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
 
@@ -101,7 +58,7 @@ namespace Files.SettingsPages
             base.OnNavigatedTo(e);
 
             var terminalId = 1;
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int) localSettings.Values["terminal_id"];
+            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
 
             TerminalApplicationsComboBox.SelectedItem = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
         }
@@ -112,198 +69,28 @@ namespace Files.SettingsPages
             {
                 localSettings.Values["customLocationsSetting"] = true;
 
-                DesktopL.IsEnabled = true;
                 localSettings.Values["DesktopLocation"] = App.AppSettings.DesktopPath;
 
-                DownloadsL.IsEnabled = true;
                 localSettings.Values["DownloadsLocation"] = App.AppSettings.DownloadsPath;
 
-                DocumentsL.IsEnabled = true;
                 localSettings.Values["DocumentsLocation"] = App.AppSettings.DocumentsPath;
 
-                PictureL.IsEnabled = true;
                 localSettings.Values["PicturesLocation"] = App.AppSettings.PicturesPath;
 
-                MusicL.IsEnabled = true;
                 localSettings.Values["MusicLocation"] = App.AppSettings.MusicPath;
 
-                VideosL.IsEnabled = true;
                 localSettings.Values["VideosLocation"] = App.AppSettings.VideosPath;
 
-                OneDriveL.IsEnabled = true;
                 localSettings.Values["OneDriveLocation"] = App.AppSettings.OneDrivePath;
 
-                DesktopL.Text = localSettings.Values["DesktopLocation"].ToString();
-                DownloadsL.Text = localSettings.Values["DownloadsLocation"].ToString();
-                DocumentsL.Text = localSettings.Values["DocumentsLocation"].ToString();
-                PictureL.Text = localSettings.Values["PicturesLocation"].ToString();
-                MusicL.Text = localSettings.Values["MusicLocation"].ToString();
-                VideosL.Text = localSettings.Values["VideosLocation"].ToString();
-                OneDriveL.Text = localSettings.Values["OneDriveLocation"].ToString();
                 aaaa.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
-                SaveCustomL.IsEnabled = true;
             }
             else
             {
                 localSettings.Values["customLocationsSetting"] = false;
-                DesktopL.IsEnabled = false;
-                DownloadsL.IsEnabled = false;
-                DocumentsL.IsEnabled = false;
-                PictureL.IsEnabled = false;
-                MusicL.IsEnabled = false;
-                VideosL.IsEnabled = false;
-                OneDriveL.IsEnabled = false;
-                SaveCustomL.IsEnabled = false;
+
                 aaaa.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
 
-            }
-        }
-
-        private async void SaveCustomL_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            StorageFolder newLocationSetting;
-            bool isFlawless = true;
-
-            if (!string.IsNullOrEmpty(DesktopL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(DesktopL.Text);
-                    localSettings.Values["DesktopLocation"] = DesktopL.Text;
-                    DesktopL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (ArgumentException)
-                {
-                    DesktopL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    DesktopL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(DownloadsL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(DownloadsL.Text);
-                    localSettings.Values["DownloadsLocation"] = DownloadsL.Text;
-                    DownloadsL.BorderBrush = new SolidColorBrush(Colors.Black);
-
-                }
-                catch (ArgumentException)
-                {
-                    DownloadsL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    DownloadsL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(DocumentsL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(DocumentsL.Text);
-                    localSettings.Values["DocumentsLocation"] = DocumentsL.Text;
-                    DocumentsL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (ArgumentException)
-                {
-                    DocumentsL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    DocumentsL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(PictureL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(PictureL.Text);
-                    localSettings.Values["PicturesLocation"] = PictureL.Text;
-                    PictureL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (ArgumentException)
-                {
-                    PictureL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    PictureL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(MusicL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(MusicL.Text);
-                    localSettings.Values["MusicLocation"] = MusicL.Text;
-                    MusicL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (ArgumentException)
-                {
-                    MusicL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    MusicL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(VideosL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(VideosL.Text);
-                    localSettings.Values["VideosLocation"] = VideosL.Text;
-                    VideosL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (ArgumentException)
-                {
-                    VideosL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    VideosL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-            }
-
-            if (!string.IsNullOrEmpty(OneDriveL.Text))
-            {
-                try
-                {
-                    newLocationSetting = await StorageFolder.GetFolderFromPathAsync(OneDriveL.Text);
-                    localSettings.Values["OneDriveLocation"] = OneDriveL.Text;
-                    OneDriveL.BorderBrush = new SolidColorBrush(Colors.Black);
-                }
-                catch (ArgumentException)
-                {
-                    OneDriveL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
-                catch (FileNotFoundException)
-                {
-                    OneDriveL.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    isFlawless = false;
-                }
             }
         }
 
@@ -331,6 +118,69 @@ namespace Files.SettingsPages
             OneDrivePin.IsEnabled = false;
             App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
             OneDrivePin.IsEnabled = true;
+        }
+
+        private async void btnBrowse_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            var folderPicker = new Windows.Storage.Pickers.FolderPicker();
+            folderPicker.SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop;
+            folderPicker.FileTypeFilter.Add("*");
+
+            Windows.Storage.StorageFolder folder = await folderPicker.PickSingleFolderAsync();
+            if (folder != null)
+            {
+                // Application now has read/write access to all contents in the picked folder
+                // (including other sub-folder contents)
+                Windows.Storage.AccessCache.StorageApplicationPermissions.
+                FutureAccessList.AddOrReplace("PickedFolderToken", folder);
+
+                var item = ((Button)sender).Tag;
+                switch (item)
+                {
+                    case "1":
+                        {
+                            localSettings.Values["DesktopLocation"] = folder.Name;
+                            App.AppSettings.DesktopPath = folder.Name;
+                            break;
+                        }
+                    case "2":
+                        {
+                            localSettings.Values["DownloadsLocation"] = folder.Name;
+                            App.AppSettings.DownloadsPath = folder.Name;
+                            break;
+                        }
+                    case "3":
+                        {
+                            localSettings.Values["DocumentsLocation"] = folder.Name;
+                            App.AppSettings.DocumentsPath = folder.Name;
+                            break;
+                        }
+                    case "4":
+                        {
+                            localSettings.Values["PicturesLocation"] = folder.Name;
+                            App.AppSettings.PicturesPath = folder.Name;
+                            break;
+                        }
+                    case "5":
+                        {
+                            localSettings.Values["MusicLocation"] = folder.Name;
+                            App.AppSettings.MusicPath = folder.Name;
+                            break;
+                        }
+                    case "6":
+                        {
+                            localSettings.Values["VideosLocation"] = folder.Name;
+                            App.AppSettings.VideosPath = folder.Name;
+                            break;
+                        }
+                    case "7":
+                        {
+                            localSettings.Values["OneDriveLocation"] = folder.Name;
+                            App.AppSettings.OneDrivePath = folder.Name;
+                            break;
+                        }
+                }
+            }
         }
     }
 }

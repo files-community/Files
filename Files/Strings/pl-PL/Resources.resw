@@ -174,9 +174,6 @@
   <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
     <value>Zmień lokalizację folderów</value>
   </data>
-  <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
-    <value>Zapisz lokalizację</value>
-  </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Aplikacja wiersza poleceń</value>
   </data>
