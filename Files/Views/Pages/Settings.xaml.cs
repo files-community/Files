@@ -52,17 +52,17 @@ namespace Files
         private void NavigationView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
             var item = args.InvokedItemContainer.Tag;
-
-            _= args.InvokedItem.ToString() switch
+            _= SettingsPane.MenuItems.IndexOf(SettingsPane.SelectedItem) switch 
             {
-                "Appearance" => SettingsContentFrame.Navigate(typeof(Appearance)),
-                "On Startup" => SettingsContentFrame.Navigate(typeof(OnStartup)),               
-                "Preferences" => SettingsContentFrame.Navigate(typeof(Preferences)),
-                "Files and Folders" => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
-                "Page Layouts" => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),
-                "About" => SettingsContentFrame.Navigate(typeof(About)),
+                0=>SettingsContentFrame.Navigate(typeof(Appearance)),
+                1 => SettingsContentFrame.Navigate(typeof(OnStartup)),
+                2 => SettingsContentFrame.Navigate(typeof(Preferences)),
+                4 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
+                3 => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),
+                5 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
+           
         }
     }
 }
