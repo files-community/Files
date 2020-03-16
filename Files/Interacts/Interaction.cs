@@ -52,15 +52,18 @@ namespace Files.Interacts
             StorageFile sourceFile = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.FilePath);
 
             // Get the app's local folder to use as the destination folder.
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+            StorageFolder localCacheFolder = ApplicationData.Current.LocalCacheFolder;
 
             // Copy the file to the destination folder.
             // Replace the existing file if the file already exists.
-            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
+            StorageFile file = await sourceFile.CopyAsync(localCacheFolder, "Background.png", NameCollisionOption.ReplaceExisting);
 
             // Set the desktop background
             UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
             await profileSettings.TrySetWallpaperImageAsync(file);
+
+            // Delete the temp file
+            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
