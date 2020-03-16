@@ -48,8 +48,7 @@ namespace Files.Interacts
 
         public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            var item = (CurrentInstance.ContentPage as BaseLayout).SelectedItem;
-            StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+            StorageFile file = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.FilePath);
             UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
             await profileSettings.TrySetWallpaperImageAsync(file);
         }
