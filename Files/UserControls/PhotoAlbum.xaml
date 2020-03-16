@@ -12,7 +12,7 @@
     PointerPressed="PhotoAlbumViewer_PointerPressed"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="{x:Bind local:App.InteractionViewModel.CheckForImage, Mode=OneWay}">
             <MenuFlyoutSubItem x:Name="SortByEmptySpace" Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;" />

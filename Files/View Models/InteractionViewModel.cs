@@ -28,8 +28,7 @@ namespace Files.Controls
             set => Set(ref _IsSelectedItemImage, value);
         }
 
-        private RelayCommand checkForImage;
-        public RelayCommand CheckForImage => checkForImage = new RelayCommand(() =>
+        public void CheckForImage()
         {
             //check if the selected file is an image file
             try
@@ -46,7 +45,7 @@ namespace Files.Controls
                 }
             }
             catch (Exception) { }
-        });
+        }
 
     }
 }

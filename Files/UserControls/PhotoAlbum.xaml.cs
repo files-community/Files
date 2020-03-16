@@ -65,8 +65,6 @@ namespace Files
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             }
-
-            App.InteractionViewModel.CheckForImage.Execute(null);
         }
 
         private ListedItem renamingItem;

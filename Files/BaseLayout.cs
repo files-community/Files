@@ -220,6 +220,8 @@ namespace Files
                 }
 
             }
+
+            App.InteractionViewModel.CheckForImage();
         }
 
 
