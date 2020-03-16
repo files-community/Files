@@ -36,7 +36,7 @@ namespace Files.Controls
             {
                 string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.DotFileExtension;
 
-                if (ItemExtension == "png" || ItemExtension == "jpg" || ItemExtension == "bmp" || ItemExtension == "jpg")
+                if (ItemExtension == "png" || ItemExtension == "jpg" || ItemExtension == "bmp" || ItemExtension == "jpeg")
                 {
                     App.InteractionViewModel.IsSelectedItemImage = true;
                 }
