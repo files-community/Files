@@ -183,6 +183,16 @@
             </MenuFlyoutItem>
 
             <MenuFlyoutItem
+                x:Name="SetAsDesktopBackgroundItem"
+                Click="{x:Bind AssociatedInteractions.SetAsDesktopBackgroundItem_Click}"
+                Text="Set as desktop background"
+                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7F4;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+
+            <MenuFlyoutItem
                 x:Name="ShareItem"
                 Click="{x:Bind AssociatedInteractions.ShareItem_Click}"
                 Text="Share">
@@ -290,7 +300,7 @@
             Text="This folder is empty."
             TextWrapping="Wrap"
             Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        
+
         <controls:DataGrid
             x:Name="AllView"
             Grid.Row="3"
