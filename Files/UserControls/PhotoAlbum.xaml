@@ -155,7 +155,7 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                x:Name="SetAsDesktopBackgroundItem"
+                x:Name="SetAsDesktopBackgroundItem" Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}"
                 Click="{x:Bind AssociatedInteractions.SetAsDesktopBackgroundItem_Click}"
                 Text="Set as desktop background">
                 <MenuFlyoutItem.Icon>
