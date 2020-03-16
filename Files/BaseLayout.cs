@@ -221,6 +221,7 @@ namespace Files
 
             }
 
+            //check if the selected file is an image
             App.InteractionViewModel.CheckForImage();
         }
 
