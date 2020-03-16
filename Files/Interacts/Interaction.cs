@@ -48,7 +48,17 @@ namespace Files.Interacts
 
         public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            StorageFile file = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.FilePath);
+            // Get the path of the selected file
+            StorageFile newFile = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.FilePath);
+
+            // Get the app's local folder to use as the destination folder.
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            // Copy the file to the destination folder.
+            // Replace the existing file if the file already exists.
+            StorageFile file = await newFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
+
+            // Set the desktop background
             UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
             await profileSettings.TrySetWallpaperImageAsync(file);
         }
