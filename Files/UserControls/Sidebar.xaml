@@ -18,6 +18,7 @@
             <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
                 <muxc:NavigationViewItem
                     Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
                     IsRightTapEnabled="True"
                     RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}">
@@ -30,11 +31,13 @@
             <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
                 <muxc:NavigationViewItem
                     Padding="0"
+                    DataContext="{x:Bind}"
                     Tag="{x:Bind tag}"
                     Visibility="{x:Bind itemVisibility}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
                             Margin="-4,0,0,0"
+                            DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="12"
                             ToolTipService.ToolTip="{Binding spaceText}">
@@ -58,10 +61,14 @@
             </DataTemplate>
 
             <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
-                <muxc:NavigationViewItem Padding="0" Tag="{x:Bind Path}">
+                <muxc:NavigationViewItem 
+                    DataContext="{x:Bind}"
+                    Padding="0" 
+                    Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
                             Margin="-8,0,0,0"
+                            DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="6">
                             <BitmapIcon
@@ -95,6 +102,7 @@
                 x:FieldModifier="public"
                 IsBackButtonVisible="Collapsed"
                 IsPaneOpen="True"
+                MaxWidth="225"
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
                 IsTitleBarAutoPaddingEnabled="False"
@@ -105,7 +113,7 @@
                 PaneDisplayMode="Left">
                 <muxc:NavigationView.MenuItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="BorderThickness" Value=".8"/>
+                        <Setter Property="BorderThickness" Value="0.8"/>
                     </Style>
                 </muxc:NavigationView.MenuItemContainerStyle>
                 <muxc:NavigationView.Resources>
