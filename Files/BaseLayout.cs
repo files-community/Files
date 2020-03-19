@@ -31,8 +31,8 @@ namespace Files
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
         public bool isRenamingItem = false;
-        public List<ListedItem> SelectedItems 
-        { 
+        public List<ListedItem> SelectedItems
+        {
             get
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
@@ -99,7 +99,7 @@ namespace Files
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.Universal.path = parameters;
-            
+
             if (App.CurrentInstance.ViewModel.Universal.path == Path.GetPathRoot(App.CurrentInstance.ViewModel.Universal.path))
             {
                 App.CurrentInstance.NavigationControl.CanNavigateToParent = false;
@@ -112,45 +112,7 @@ namespace Files
             App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.Universal.path);
             App.Clipboard_ContentChanged(null, null);
 
-            if (parameters.Equals(App.AppSettings.DesktopPath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
-            }
-            else if (parameters.Equals(App.AppSettings.DocumentsPath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
-            }
-            else if (parameters.Equals(App.AppSettings.DownloadsPath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
-            }
-            else if (parameters.Equals(App.AppSettings.PicturesPath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
-            }
-            else if (parameters.Equals(App.AppSettings.MusicPath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
-            }
-            else if (parameters.Equals(App.AppSettings.OneDrivePath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
-            }
-            else if (parameters.Equals(App.AppSettings.VideosPath))
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
-            }
-            else
-            {
-                if (parameters.Equals(@"C:\") || parameters.Equals(@"c:\"))
-                {
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = @"Local Disk (C:\)";
-                }
-                else
-                {
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = parameters;
-                }
-            }
+            App.CurrentInstance.NavigationControl.PathControlDisplayText = parameters;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
