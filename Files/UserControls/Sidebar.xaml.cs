@@ -31,7 +31,7 @@ namespace Files.Controls
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
-            if (args.InvokedItem == null) 
+            if (args.InvokedItem == null)
             {
                 return;
             }
@@ -172,21 +172,21 @@ namespace Files.Controls
                         break;
                     }
             }
-    }
+        }
 
-    private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
-    {
-        Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
-        var item = ((FrameworkElement)e.OriginalSource).DataContext as LocationItem;
-        if (!item.IsDefaultLocation)
+        private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
-            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-            App.rightClickedItem = item;
+            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+            var item = ((FrameworkElement)e.OriginalSource).DataContext as LocationItem;
+            if (!item.IsDefaultLocation)
+            {
+                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+                App.rightClickedItem = item;
+            }
         }
     }
-}
 
-public class NavItemDataTemplateSelector : DataTemplateSelector
+    public class NavItemDataTemplateSelector : DataTemplateSelector
 {
     public DataTemplate LocationNavItemTemplate { get; set; }
     public DataTemplate DriveNavItemTemplate { get; set; }
