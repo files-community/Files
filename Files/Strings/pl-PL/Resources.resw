@@ -16,7 +16,7 @@
     <value>Utworzony:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Nazwa pliku</value>
+    <value>Nazwa</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
     <value>Lokalizacja:</value>
@@ -25,7 +25,7 @@
     <value>Rozmiar:</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Typ pliku:</value>
+    <value>Typ:</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Zmodyfikowany:</value>
@@ -188,5 +188,116 @@
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Odepnij od paska bocznego</value>
+  </data>
+  <data name="RibbonAreaFile.Header" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="RibbonAreaHome.Header" xml:space="preserve">
+    <value>Główne</value>
+  </data>
+  <data name="RibbonAreaShare.Header" xml:space="preserve">
+    <value>Udostępnianie</value>
+  </data>
+  <data name="RibbonAreaView.Header" xml:space="preserve">
+    <value>Widok</value>
+  </data>
+  <data name="RibbonAreaFileCloseDescription.Text" xml:space="preserve">
+    <value>Zamyka to okno</value>
+  </data>
+  <data name="RibbonAreaFileCloseTitle.Text" xml:space="preserve">
+    <value>Zamknij aplikację</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowDescription.Text" xml:space="preserve">
+    <value>Tworzy nową instancję aplikacji</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowTitle.Text" xml:space="preserve">
+    <value>Otwórz nowe okno</value>
+  </data>
+  <data name="RibbonAreaFileSettingsDescription.Text" xml:space="preserve">
+    <value>Zmienia ustawienia aplikacji</value>
+  </data>
+  <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="RibbonAreaCutButton.LabelText" xml:space="preserve">
+    <value>Wytnij</value>
+  </data>
+  <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
+    <value>Kopiuj</value>
+  </data>
+  <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
+    <value>Nowy</value>
+  </data>
+  <data name="RibbonAreaCopyPathButton.LabelText" xml:space="preserve">
+    <value>Kopiuj ścieżkę</value>
+  </data>
+  <data name="RibbonAreaDeleteButton.LabelText" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="RibbonAreaFolderProperties.LabelText" xml:space="preserve">
+    <value>Właściwości folderu</value>
+  </data>
+  <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
+    <value>Otwórz za pomocą</value>
+  </data>
+  <data name="RibbonAreaPasteButton.LabelText" xml:space="preserve">
+    <value>Wklej</value>
+  </data>
+  <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
+    <value>Zmień nazwę</value>
+  </data>
+  <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
+    <value>Właściwości</value>
+  </data>
+  <data name="RibbonAreaShareButton.LabelText" xml:space="preserve">
+    <value>Udostępnij</value>
+  </data>
+  <data name="RibbonAreaClearAllButton.LabelText" xml:space="preserve">
+    <value>Wyczyść zaznaczenie</value>
+  </data>
+  <data name="RibbonAreaLayoutButton.LabelText" xml:space="preserve">
+    <value>Widok</value>
+  </data>
+  <data name="RibbonAreaSelectAllButton.LabelText" xml:space="preserve">
+    <value>Zaznacz wszystko</value>
+  </data>
+  <data name="RibbonAreaSortByButton.LabelText" xml:space="preserve">
+    <value>Sortuj według</value>
+  </data>
+  <data name="RibbonAreaSortByAscending.Text" xml:space="preserve">
+    <value>Rosnąco</value>
+  </data>
+  <data name="RibbonAreaSortByDate.Text" xml:space="preserve">
+    <value>Data modyfikacji</value>
+  </data>
+  <data name="RibbonAreaSortByDescending.Text" xml:space="preserve">
+    <value>Malejąco</value>
+  </data>
+  <data name="RibbonAreaSortByName.Text" xml:space="preserve">
+    <value>Nazwa</value>
+  </data>
+  <data name="RibbonAreaSortBySize.Text" xml:space="preserve">
+    <value>Rozmiar</value>
+  </data>
+  <data name="RibbonAreaSortByType.Text" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Usuwanie elementów</value>
+  </data>
+  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
+    <value>Usuń</value>
+  </data>
+  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
+    <value>Czy na pewno chcesz usunąć wybrane elementy?</value>
+  </data>
+  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Usuń trwale</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
+    <value>Pokaż okno potwierdzenia podczas usuwania plików i folderów</value>
   </data>
 </root>
