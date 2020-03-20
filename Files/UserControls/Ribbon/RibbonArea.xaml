@@ -699,7 +699,7 @@
                                     x:Uid="RibbonAreaCopyPathButton"
                                     MinWidth="40"
                                     CornerRadius="2"
-                                    IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                    IsEnabled="{x:Bind RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                     LabelText="Copy Path"
                                     Tapped="{x:Bind local:App.CurrentInstance.InteractionOperations.GetPath_Click}">
                                     <ribbon:RibbonCommandItem.Icon>

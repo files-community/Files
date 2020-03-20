@@ -208,13 +208,16 @@ namespace Files.Interacts
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.Clear();
-            DataPackage data = new DataPackage();
+            
             if (App.CurrentInstance.ContentPage != null)
             {
+                (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = false;
+                Clipboard.Clear();
+                DataPackage data = new DataPackage();
                 data.SetText(CurrentInstance.ViewModel.Universal.path);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
+                (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = true;
             }
         }
 

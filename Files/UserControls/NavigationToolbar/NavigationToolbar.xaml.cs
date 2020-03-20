@@ -209,12 +209,6 @@ namespace Files.UserControls
                 }
                 else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
                 {
-                    //if (App.CurrentInstance.ViewModel == null && App.CurrentInstance.InteractionOperations == null)
-                    //{
-                    //    App.CurrentInstance.ViewModel = new ItemViewModel();
-                    //    App.CurrentInstance.InteractionOperations = new Interaction();
-                    //}
-
                     var contentInstance = App.CurrentInstance.ViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
