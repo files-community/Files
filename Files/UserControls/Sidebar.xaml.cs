@@ -61,44 +61,7 @@ namespace Files.Controls
                         }
                         break;
                     }
-                case NavigationControlItemType.Drive:
-                    {
-                        var clickedItem = args.InvokedItemContainer;
-
-                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.NavigationControl.PathControlDisplayText = clickedItem.Tag.ToString();
-                        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-
-                        break;
-                    }
-
-                case NavigationControlItemType.OneDrive:
-                    {
-                        var clickedItem = args.InvokedItemContainer;
-
-                        if (clickedItem.Tag.ToString() == "LocalDisk")
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), @"C:\", new SuppressNavigationTransitionInfo());
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = @"Local Disk (C:\)";
-                            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                        }
-                        else if (clickedItem.Tag.ToString() == "OneDrive")
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
-                            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                        }
-                        else
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = clickedItem.Tag.ToString();
-                            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                        }
-
-                        break;
-                    }
-
-                case NavigationControlItemType.LinuxDistro:
+                default:
                     {
                         var clickedItem = args.InvokedItemContainer;
 

@@ -37,7 +37,7 @@ namespace Files.UserControls
             }
             set
             {
-                if(value != manualEntryBoxLoaded)
+                if (value != manualEntryBoxLoaded)
                 {
                     manualEntryBoxLoaded = value;
                     NotifyPropertyChanged("ManualEntryBoxLoaded");
@@ -54,7 +54,7 @@ namespace Files.UserControls
             }
             set
             {
-                if(value != clickablePathLoaded)
+                if (value != clickablePathLoaded)
                 {
                     clickablePathLoaded = value;
                     NotifyPropertyChanged("ClickablePathLoaded");
@@ -102,7 +102,7 @@ namespace Files.UserControls
                 }
             }
         }
-        bool INavigationToolbar.IsEditModeEnabled 
+        bool INavigationToolbar.IsEditModeEnabled
         {
             get
             {
@@ -120,7 +120,7 @@ namespace Files.UserControls
                     ManualEntryBoxLoaded = false;
                     ClickablePathLoaded = true;
                 }
-            } 
+            }
         }
         bool INavigationToolbar.CanRefresh
         {
@@ -234,193 +234,66 @@ namespace Files.UserControls
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
-                if (CurrentInput == "Favorites" || CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput == "favorites" || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
+                if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab");
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
-                }
-                else if (CurrentInput.Equals("Start", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "Start");
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Start";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
-                }
-                else if (CurrentInput.Equals("Desktop", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("Documents", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("Downloads", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("Pictures", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("Music", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("Videos", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("OneDrive", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                }
-                else if (CurrentInput.Equals("%temp%", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.TempPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
-                }
-                else if (CurrentInput.Equals("%AppData%", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.AppDataPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
-                }
-                else if (CurrentInput.Equals("%HOMEPATH%", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.HomePath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
-                }
-                else if (CurrentInput.Equals("%WinDir%", StringComparison.OrdinalIgnoreCase))
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.WinDirPath);
-                    App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), null);
                 }
                 else
                 {
-                    if (CurrentInput.Contains("."))
+                    switch (CurrentInput.ToLower())
                     {
-                        if (CurrentInput.Contains(".exe") || CurrentInput.Contains(".EXE"))
-                        {
-                            if (StorageFile.GetFileFromPathAsync(CurrentInput) != null)
+                        case "%temp%":
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.TempPath);
+                            break;
+                        case "%appdata":
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.AppDataPath);
+                            break;
+                        case "%homepath%":
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.HomePath);
+                            break;
+                        case "%windir%":
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.WinDirPath);
+                            break;
+
+                        default:
                             {
-                                if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser))
+                                try
                                 {
-                                    await Interaction.InvokeWin32Component(CurrentInput);
+                                    await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
                                 }
-                                else if (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum))
+                                catch (Exception) // Not a folder or inaccessible 
                                 {
-                                    await Interaction.InvokeWin32Component(CurrentInput);
+                                    try
+                                    {
+                                        await StorageFile.GetFileFromPathAsync(CurrentInput);
+                                        await Interaction.InvokeWin32Component(CurrentInput);
+                                    }
+                                    catch (Exception ex) // Not a file or not accessible
+                                    {
+                                        var dialog = new ContentDialog()
+                                        {
+                                            Title = "Invalid item",
+                                            Content = "The item referenced is either invalid or inaccessible.\nMessage:\n" + ex.Message,
+                                            CloseButtonText = "OK"
+                                        };
+
+                                        await dialog.ShowAsync();
+
+                                    }
                                 }
-
-                                App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
                             }
-                            else
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                        }
-                        else if (StorageFolder.GetFolderFromPathAsync(CurrentInput) != null)
-                        {
-                            try
-                            {
-                                await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                            catch (FileNotFoundException)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                            catch (Exception)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-
-                        }
-                        else
-                        {
-                            try
-                            {
-                                await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                var options = new LauncherOptions
-                                {
-                                    DisplayApplicationPicker = false
-
-                                };
-                                await Launcher.LaunchFileAsync(file, options);
-                                App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
-                            }
-                            catch (ArgumentException)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                            catch (FileNotFoundException)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                            catch (Exception)
-                            {
-                                MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                                await dialog.ShowAsync();
-                            }
-                        }
+                            break;
                     }
-                    else
-                    {
-                        try
-                        {
-                            await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput);
-                            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-                        }
-                        catch (ArgumentException)
-                        {
-                            MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                            await dialog.ShowAsync();
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                            await dialog.ShowAsync();
-                        }
-                        catch (System.Exception)
-                        {
-                            MessageDialog dialog = new MessageDialog("The path typed was not correct. Please try again.", "Invalid Path");
-                            await dialog.ShowAsync();
-                        }
-
-                    }
-
                 }
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
             }
         }
+
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
             var element = FocusManager.GetFocusedElement() as Control;
-            if(element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
+            if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
             {
                 App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
             }
