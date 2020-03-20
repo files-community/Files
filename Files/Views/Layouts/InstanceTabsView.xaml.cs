@@ -90,7 +90,7 @@ namespace Files
 
             if (string.IsNullOrEmpty(navArgs))
             {
-                AddNewTab(typeof(ProHome), "Start");
+                AddNewTab(typeof(ProHome), "New tab");
             }
             else
             {
@@ -162,12 +162,6 @@ namespace Files
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xE753";
                 }
-                
-                else if (path == "Start")
-                {
-                    tabLocationHeader = "Start";
-                    fontIconSource.Glyph = "\xE737";
-                }
                 else if (path == "New tab")
                 {
                     tabLocationHeader = "New tab";
@@ -214,11 +208,6 @@ namespace Files
             else if (currentPathForTabIcon == null && text == "New tab")
             {
                 tabLocationHeader = "New tab";
-                fontIconSource.Glyph = "\xE737";
-            }
-            else if (currentPathForTabIcon == null && text == "Start")
-            {
-                tabLocationHeader = "Start";
                 fontIconSource.Glyph = "\xE737";
             }
             else if (currentPathForTabIcon == App.AppSettings.DesktopPath)

@@ -308,7 +308,8 @@ namespace Files.UserControls
         private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
-            if (itemTappedPath == "Start" || itemTappedPath == "New tab") { return; }
+            if (itemTappedPath == "Home" || itemTappedPath == "New tab")
+                return; 
 
             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }
