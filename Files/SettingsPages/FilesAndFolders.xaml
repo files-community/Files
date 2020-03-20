@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Files"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
@@ -76,6 +77,7 @@
                         x:Name="FileExtensionsToggle"
                         Grid.Column="1"
                         Width="40"
+                        x:Name="FileExtensionsToggle"
                         HorizontalAlignment="Right"
                         IsOn="{x:Bind local:App.AppSettings.ShowFileExtensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         OffContent=""

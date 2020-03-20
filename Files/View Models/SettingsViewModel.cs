@@ -58,6 +58,7 @@ namespace Files.View_Models
             }
         }
 
+
         private void DetectStorageItemPreferences()
         {
             if (localSettings.Values["ShowFileExtensions"] == null) { ShowFileExtensions = true; }
