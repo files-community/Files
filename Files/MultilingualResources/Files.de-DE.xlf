@@ -397,7 +397,7 @@
         </trans-unit>
         <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
           <source>Documents</source>
-          <target state="new">Documents</target>
+          <target state="new">Dokumente</target>
         </trans-unit>
         <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
@@ -409,11 +409,11 @@
         </trans-unit>
         <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
           <source>Music</source>
-          <target state="new">Music</target>
+          <target state="new">Musik</target>
         </trans-unit>
         <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
           <source>Pictures</source>
-          <target state="new">Pictures</target>
+          <target state="new">Bilder</target>
         </trans-unit>
         <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
           <source>Videos</source>
