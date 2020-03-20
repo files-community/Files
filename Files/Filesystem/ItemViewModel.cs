@@ -599,17 +599,11 @@ namespace Files.Filesystem
                             }
                         }
                     }
-                    catch (UnauthorizedAccessException)
+                    catch (Exception)
                     {
                         item.ItemPropertiesInitialized = true;
                         return;
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        item.ItemPropertiesInitialized = true;
-                        return;
-                    }
-                    
+                    }                    
                 }
                 else
                 {
@@ -622,17 +616,11 @@ namespace Files.Filesystem
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                         }
                     }
-                    catch (UnauthorizedAccessException)
+                    catch (Exception)
                     {
                         item.ItemPropertiesInitialized = true;
                         return;
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        item.ItemPropertiesInitialized = true;
-                        return;
-                    }
-                    
+                    }       
                 }
 
                 item.ItemPropertiesInitialized = true;
