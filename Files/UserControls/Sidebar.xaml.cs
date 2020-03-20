@@ -44,21 +44,24 @@ namespace Files.Controls
                         {
                             case "Home":
                                 App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
-                                App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
+
                                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-
                                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
                                 break;
                             default:
                                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                                App.CurrentInstance.NavigationControl.PathControlDisplayText = args.InvokedItem.ToString();
+
                                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-
                                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                                 break;
                         }
+                        break;
+                    }
+                case NavigationControlItemType.OneDrive:
+                    {
+                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
                         break;
                     }
                 default:
@@ -72,6 +75,8 @@ namespace Files.Controls
                         break;
                     }
             }
+
+            App.CurrentInstance.NavigationControl.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.path;
         }
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)

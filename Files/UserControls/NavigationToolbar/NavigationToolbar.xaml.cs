@@ -236,7 +236,8 @@ namespace Files.UserControls
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), null);
+                    App.CurrentInstance.ViewModel.Universal.path = "New tab";
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
@@ -274,7 +275,7 @@ namespace Files.UserControls
                                         var dialog = new ContentDialog()
                                         {
                                             Title = "Invalid item",
-                                            Content = "The item referenced is either invalid or inaccessible.\nMessage:\n" + ex.Message,
+                                            Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
                                             CloseButtonText = "OK"
                                         };
 
@@ -286,7 +287,8 @@ namespace Files.UserControls
                             break;
                     }
                 }
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = instance.Universal.path;
+
+                App.CurrentInstance.NavigationControl.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.path;
             }
         }
 
