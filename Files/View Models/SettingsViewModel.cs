@@ -80,13 +80,14 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            App.sideBarItems.Add(new LocationItem { Text = "Home", Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-            App.sideBarItems.Add(new LocationItem { Text = "Desktop", Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Downloads", Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Documents", Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Pictures", Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Music", Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Videos", Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
+            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDesktop"), Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDownloads"), Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDocuments"), Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
         }
 
         public List<string> LinesToRemoveFromFile = new List<string>();

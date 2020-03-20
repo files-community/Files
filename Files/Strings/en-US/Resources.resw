@@ -402,7 +402,28 @@
   <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
     <value>Set custom video location</value>
   </data>
+  <data name="SidebarDesktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="SidebarDocuments" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="SidebarDownloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Unpin from Sidebar</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Videos</value>
   </data>
 </root>
