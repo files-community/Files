@@ -82,7 +82,7 @@ namespace Files.Controls
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
-            var item = ((FrameworkElement)e.OriginalSource).DataContext as LocationItem;
+            var item = sidebarItem.DataContext as LocationItem;
             if (!item.IsDefaultLocation)
             {
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
