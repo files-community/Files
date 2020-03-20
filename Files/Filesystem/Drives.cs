@@ -53,24 +53,35 @@ namespace Files.Filesystem
 
 		private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
 		{
-			if(App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Drives") == null)
+			// Only update collection from UI-thread
+			try
 			{
-				App.sideBarItems.Add(new HeaderTextItem() { Text = "Drives" });
-			}
-			foreach (DriveItem drive in Drives)
-			{
-				if (!App.sideBarItems.Contains(drive))
+				await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
 				{
-					App.sideBarItems.Add(drive);
-				}
-			}
+					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Drives") == null)
+					{
+						App.sideBarItems.Add(new HeaderTextItem() { Text = "Drives" });
+					}
+					foreach (DriveItem drive in Drives)
+					{
+						if (!App.sideBarItems.Contains(drive))
+						{
+							App.sideBarItems.Add(drive);
+						}
+					}
 
-			foreach(INavigationControlItem item in App.sideBarItems.ToList())
+					foreach (INavigationControlItem item in App.sideBarItems.ToList())
+					{
+						if (item is DriveItem && !Drives.Contains(item))
+						{
+							App.sideBarItems.Remove(item);
+						}
+					}
+				});
+			}
+			catch (Exception)
 			{
-				if(item is DriveItem && !Drives.Contains(item))
-				{
-					App.sideBarItems.Remove(item);
-				}
+				// UI thread not created yet?
 			}
 		}
 
