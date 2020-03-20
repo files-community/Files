@@ -12,7 +12,7 @@
     PointerPressed="PhotoAlbumViewer_PointerPressed"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="{x:Bind local:App.InteractionViewModel.CheckForImage, Mode=OneWay}">
             <MenuFlyoutSubItem x:Name="SortByEmptySpace" Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;" />
@@ -157,7 +157,8 @@
             <MenuFlyoutItem
                 x:Name="SetAsDesktopBackgroundItem"
                 Click="{x:Bind AssociatedInteractions.SetAsDesktopBackgroundItem_Click}"
-                Text="Set as desktop background">
+                Text="Set as desktop background"
+                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7F4;" />
                 </MenuFlyoutItem.Icon>
@@ -276,8 +277,6 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
                     <Grid
-                        DataContext="{x:Bind}"
-                        EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                         Width="125"
                         Height="Auto"
                         Margin="0,0,0,0"
@@ -285,6 +284,8 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="Transparent"
+                        DataContext="{x:Bind}"
+                        EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                         IsRightTapEnabled="True"
                         RightTapped="StackPanel_RightTapped"
                         ToolTipService.ToolTip="{Binding FileName}">

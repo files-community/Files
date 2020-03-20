@@ -146,6 +146,9 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
+      <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
     <Compile Include="UserControls\NavigationToolbar\NavigationToolbar.xaml.cs">
       <DependentUpon>NavigationToolbar.xaml</DependentUpon>
@@ -203,6 +206,7 @@
     <Compile Include="UserControls\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View Models\InteractionViewModel.cs" />
     <Compile Include="Views\Layouts\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
@@ -309,6 +313,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\NavigationToolbar\NavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -432,13 +440,13 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="ByteSize">
-      <Version>1.3.0</Version>
+      <Version>2.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>2.6.4</Version>
+      <Version>3.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>2.6.4</Version>
+      <Version>3.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
@@ -462,7 +470,7 @@
       <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.3.191211002</Version>
+      <Version>2.4.0-prerelease.200203002</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>4.7.0</Version>
@@ -474,10 +482,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.6.8</Version>
+      <Version>4.7.0-rc1</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.6.8</Version>
+      <Version>4.7.0-rc1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

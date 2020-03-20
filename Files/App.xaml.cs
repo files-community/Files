@@ -56,6 +56,7 @@ namespace Files
         public static ObservableCollection<LocationItem> locationItems = new ObservableCollection<LocationItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
+        public static InteractionViewModel InteractionViewModel { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -81,6 +82,7 @@ namespace Files
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
             AppSettings = new SettingsViewModel();
+            InteractionViewModel = new InteractionViewModel();
         }
 
         private void RegisterUncaughtExceptionLogger()

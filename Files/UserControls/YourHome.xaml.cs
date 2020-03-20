@@ -95,83 +95,6 @@ namespace Files
             
         }
 
-        private void SetPageContentVisibility(string parameters)
-        {
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if (parameters == "Start")
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "Start";
-                if (localSettings.Values["FavoritesDisplayed_Start"] != null || localSettings.Values["RecentsDisplayed_Start"] != null || localSettings.Values["DrivesDisplayed_Start"] != null)
-                {
-                    switch ((bool)localSettings.Values["FavoritesDisplayed_Start"])
-                    {
-                        case true:
-                            favoritesCardsVis = true;
-                            break;
-                        case false:
-                            favoritesCardsVis = false;
-                            break;
-                    }
-
-                    switch ((bool)localSettings.Values["RecentsDisplayed_Start"])
-                    {
-                        case true:
-                            recentsListVis = true;
-                            break;
-                        case false:
-                            recentsListVis = false;
-                            break;
-                    }
-
-                    switch ((bool)localSettings.Values["DrivesDisplayed_Start"])
-                    {
-                        case true:
-                            drivesListVis = true;
-                            break;
-                        case false:
-                            drivesListVis = false;
-                            break;
-                    }
-                }
-            }
-            else if (parameters == "New tab")
-            {
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
-                if (localSettings.Values["FavoritesDisplayed_NewTab"] != null || localSettings.Values["RecentsDisplayed_NewTab"] != null || localSettings.Values["DrivesDisplayed_NewTab"] != null)
-                {
-                    switch ((bool)localSettings.Values["FavoritesDisplayed_NewTab"])
-                    {
-                        case true:
-                            favoritesCardsVis = true;
-                            break;
-                        case false:
-                            favoritesCardsVis = false;
-                            break;
-                    }
-
-                    switch ((bool)localSettings.Values["RecentsDisplayed_NewTab"])
-                    {
-                        case true:
-                            recentsListVis = true;
-                            break;
-                        case false:
-                            recentsListVis = false;
-                            break;
-                    }
-
-                    switch ((bool)localSettings.Values["DrivesDisplayed_NewTab"])
-                    {
-                        case true:
-                            drivesListVis = true;
-                            break;
-                        case false:
-                            drivesListVis = false;
-                            break;
-                    }
-                }
-            }
-        }
-
         public bool favoritesCardsVis { get; set; } = true;
         public bool recentsListVis { get; set; } = true;
         public bool drivesListVis { get; set; } = false;
@@ -273,11 +196,15 @@ namespace Files
             bool IsRecentsListEmpty = true;
             foreach(var entry in mostRecentlyUsed.Entries)
             {
-                var item = await mostRecentlyUsed.GetItemAsync(entry.Token);
-                if (item.IsOfType(StorageItemTypes.File))
+                try
                 {
-                    IsRecentsListEmpty = false;
+                    var item = await mostRecentlyUsed.GetItemAsync(entry.Token);
+                    if (item.IsOfType(StorageItemTypes.File))
+                    {
+                        IsRecentsListEmpty = false;
+                    }
                 }
+                catch (Exception){}
             }
 
             if (IsRecentsListEmpty)

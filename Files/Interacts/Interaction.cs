@@ -27,6 +27,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Files.View_Models;
 using Windows.System.UserProfile;
+using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Interacts
 {
@@ -34,7 +35,6 @@ namespace Files.Interacts
     {
         private IShellPage CurrentInstance;
         InstanceTabsView instanceTabsView;
-        string DeleteType;
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -48,8 +48,17 @@ namespace Files.Interacts
 
         public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            var item = (CurrentInstance.ContentPage as BaseLayout).SelectedItem;
-            StorageFile file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+            // Get the path of the selected file
+            StorageFile sourceFile = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.FilePath);
+
+            // Get the app's local folder to use as the destination folder.
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            // Copy the file to the destination folder.
+            // Replace the existing file if the file already exists.
+            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
+
+            // Set the desktop background
             UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
             await profileSettings.TrySetWallpaperImageAsync(file);
         }
@@ -199,13 +208,16 @@ namespace Files.Interacts
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
         {
-            Clipboard.Clear();
-            DataPackage data = new DataPackage();
+            
             if (App.CurrentInstance.ContentPage != null)
             {
+                (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = false;
+                Clipboard.Clear();
+                DataPackage data = new DataPackage();
                 data.SetText(CurrentInstance.ViewModel.Universal.path);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
+                (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = true;
             }
         }
 
@@ -530,6 +542,17 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
+            if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
+            {
+                var dialog = new ConfirmDeleteDialog();
+                var result = await dialog.ShowAsync();
+
+                if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
+                {
+                    return; //return if the result isn't delete
+                }
+            }
+
             try
             {
                 var CurrentInstance = App.CurrentInstance;
@@ -553,8 +576,8 @@ namespace Files.Interacts
                         if (storItem.FileType != "Folder")
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
-                            
-                            if (DeleteType == "Perm")
+
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -567,7 +590,7 @@ namespace Files.Interacts
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
 
-                            if (DeleteType == "Perm")
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -584,7 +607,7 @@ namespace Files.Interacts
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
 
-                            if (DeleteType == "Perm")
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -596,8 +619,8 @@ namespace Files.Interacts
                         else
                         {
                             var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
-                            
-                            if (DeleteType == "Perm")
+
+                            if (App.InteractionViewModel.PermanentlyDelete)
                             {
                                 await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
@@ -621,15 +644,9 @@ namespace Files.Interacts
             catch (FileNotFoundException)
             {
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
-            }
+            }        
 
-            DeleteType = "Default";
-        }
-
-        public void PermanentDelete(object sender, RoutedEventArgs e)
-        {
-            DeleteType = "Perm";
-            DeleteItem_Click(null, null);
+            App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)

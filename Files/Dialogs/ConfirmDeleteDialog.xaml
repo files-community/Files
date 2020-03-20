@@ -1,0 +1,49 @@
+﻿<ContentDialog
+    x:Class="Files.Dialogs.ConfirmDeleteDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.Dialogs"
+    xmlns:local1="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Uid="ConfirmDeleteDialog"
+    Title="Delete Item(s)"
+    CornerRadius="4"
+    mc:Ignorable="d">
+
+    <Grid>
+        <TextBlock
+            x:Uid="ConfirmDeleteDialogHeader"
+            Text="Are you sure you want to delete the selected item(s)?"
+            TextWrapping="WrapWholeWords" />
+
+        <CheckBox
+            x:Name="chkPermanentlyDelete"
+            x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
+            Content="Permanently delete"
+            IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay}" />
+
+        <StackPanel
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Orientation="Horizontal"
+            Spacing="10">
+
+            <Button
+                x:Name="btnCancel"
+                x:Uid="ConfirmDeleteDialogCancelButton"
+                Click="btnCancel_Click"
+                Content="Cancel" />
+
+            <Button
+                x:Name="btnDelete" TabIndex="0"
+                x:Uid="ConfirmDeleteDialogDeleteButton"
+                Background="{ThemeResource SystemAccentColor}"
+                Click="btnDelete_Click"
+                Content="Delete" />
+
+        </StackPanel>
+
+    </Grid>
+</ContentDialog>

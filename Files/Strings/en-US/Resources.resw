@@ -117,6 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Delete Item(s)</value>
+  </data>
+  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
+    <value>Are you sure you want to delete the selected item(s)?</value>
+  </data>
+  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Permanently delete</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Created:</value>
   </data>
@@ -372,8 +387,8 @@
   <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
     <value>Replace common locations</value>
   </data>
-  <data name="SettingsPreferencesSaveLocations.Content" xml:space="preserve">
-    <value>Save Locations</value>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
+    <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Applications</value>
@@ -387,7 +402,28 @@
   <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
     <value>Set custom video location</value>
   </data>
+  <data name="SidebarDesktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="SidebarDocuments" xml:space="preserve">
+    <value>Documents</value>
+  </data>
+  <data name="SidebarDownloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Music</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Pictures</value>
+  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Unpin from Sidebar</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Videos</value>
   </data>
 </root>

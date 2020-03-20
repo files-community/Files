@@ -20,7 +20,8 @@
             ItemInvoked="NavigationView_ItemInvoked"
             OpenPaneLength="250"
             PaneDisplayMode="Top"
-            PaneTitle="Settings">
+            PaneTitle="Settings"
+            SelectionChanged="SettingsPane_SelectionChanged">
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     x:Uid="SettingsNavSearch"

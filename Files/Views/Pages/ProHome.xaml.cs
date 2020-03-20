@@ -234,9 +234,10 @@ namespace Files
                 case (true, true, false, true, VirtualKey.N): //ctrl + shift + n, new item
                     await App.addItemDialog.ShowAsync();
                     break;
-                case (true, true, false, true, VirtualKey.Delete): //ctrl + shift + delete, PermanentDelete
+                case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
-                        App.CurrentInstance.InteractionOperations.PermanentDelete(null, null);
+                        App.InteractionViewModel.PermanentlyDelete = true;
+                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
                     if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)

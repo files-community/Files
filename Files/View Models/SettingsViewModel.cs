@@ -36,12 +36,28 @@ namespace Files.View_Models
             PinSidebarLocationItems();
             DetectOneDrivePreference();
             DetectRibbonPreference();
+            DetectConfirmDeletePreference();
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
             //DetectWSLDistros();
             LoadTerminalApps();
         }
+
+        private void DetectConfirmDeletePreference()
+        {
+            if (localSettings.Values["ShowConfirmDeleteDialog"] == null) { localSettings.Values["ShowConfirmDeleteDialog"] = true; }
+
+            if ((bool)localSettings.Values["ShowConfirmDeleteDialog"] == true)
+            {
+                ShowConfirmDeleteDialog = true;
+            }
+            else
+            {
+                ShowConfirmDeleteDialog = false;
+            }
+        }
+
 
         private void DetectStorageItemPreferences()
         {
@@ -65,13 +81,14 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            App.sideBarItems.Add(new LocationItem { Text = "Home", Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-            App.sideBarItems.Add(new LocationItem { Text = "Desktop", Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Downloads", Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Documents", Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Pictures", Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Music", Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
-            App.sideBarItems.Add(new LocationItem { Text = "Videos", Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
+            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDesktop"), Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDownloads"), Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDocuments"), Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
+            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
         }
 
         public List<string> LinesToRemoveFromFile = new List<string>();
@@ -412,6 +429,7 @@ namespace Files.View_Models
         private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+        private bool _ShowConfirmDeleteDialog = true;
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         private IList<TerminalModel> _Terminals = null;
@@ -476,6 +494,33 @@ namespace Files.View_Models
                         else
                         {
                             localSettings.Values["ShowFileExtensions"] = false;
+                        }
+                    }
+                }
+            }
+        }
+
+        public bool ShowConfirmDeleteDialog
+        {
+            get => _ShowConfirmDeleteDialog;
+            set
+            {
+                if (localSettings.Values["ShowConfirmDeleteDialog"] == null)
+                {
+                    localSettings.Values["ShowConfirmDeleteDialog"] = value;
+                }
+                else
+                {
+                    if (value != _ShowConfirmDeleteDialog)
+                    {
+                        Set(ref _ShowConfirmDeleteDialog, value);
+                        if (value == true)
+                        {
+                            localSettings.Values["ShowConfirmDeleteDialog"] = true;
+                        }
+                        else
+                        {
+                            localSettings.Values["ShowConfirmDeleteDialog"] = false;
                         }
                     }
                 }

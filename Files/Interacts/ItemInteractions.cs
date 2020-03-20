@@ -59,9 +59,38 @@ namespace Files.Interacts
         }
     }
 
+    public class CopyPathCommandState : INotifyPropertyChanged
+    {
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
     public class AlwaysPresentCommandsState : INotifyPropertyChanged
     {
-        public bool _isEnabled;
+        private bool isCopyPathCommandEnabled;
+        public bool IsCopyPathCommandEnabled
+        {
+            get
+            {
+                return isCopyPathCommandEnabled;
+            }
+            set
+            {
+                if (value != isCopyPathCommandEnabled)
+                {
+                    isCopyPathCommandEnabled = value;
+                    NotifyPropertyChanged("IsCopyPathCommandEnabled");
+                }
+            }
+        }
+
+
+        private bool _isEnabled;
         public bool isEnabled
         {
             get
@@ -74,6 +103,7 @@ namespace Files.Interacts
                 if (value != _isEnabled)
                 {
                     _isEnabled = value;
+                    IsCopyPathCommandEnabled = value;
                     NotifyPropertyChanged("isEnabled");
                 }
             }

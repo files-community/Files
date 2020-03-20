@@ -31,8 +31,8 @@
 
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="280" />
-                        <ColumnDefinition Width="*" MaxWidth="450" />
+                        <ColumnDefinition Width="270" />
+                        <ColumnDefinition Width="*" MaxWidth="460" />
                     </Grid.ColumnDefinitions>
                     <Grid.ChildrenTransitions>
                         <TransitionCollection>
@@ -59,6 +59,36 @@
                         Toggled="OneDrivePin_Toggled" />
                 </Grid>
 
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="270" />
+                        <ColumnDefinition Width="*" MaxWidth="460" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Show a confirmation dialog when deleting files or folders"
+                        TextWrapping="WrapWholeWords" />
+
+                    <ToggleSwitch
+                        x:Name="ShowConfirmDeleteDialog"
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsEnabled="True"
+                        IsOn="{x:Bind local2:App.AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        OffContent=""
+                        OnContent="" />
+                </Grid>
+
                 <StackPanel>
                     <StackPanel.ChildrenTransitions>
                         <TransitionCollection>
@@ -68,8 +98,8 @@
 
                     <Grid HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="280" />
-                            <ColumnDefinition Width="*" MaxWidth="450" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" MaxWidth="460" />
                         </Grid.ColumnDefinitions>
                         <Grid.ChildrenTransitions>
                             <TransitionCollection>
@@ -96,11 +126,10 @@
 
                     <Grid x:Name="aaaa" HorizontalAlignment="Stretch">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300" />
-                            <ColumnDefinition Width="*" MaxWidth="430" />
+                            <ColumnDefinition Width="270" />
+                            <ColumnDefinition Width="*" MaxWidth="460" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="44" />
                             <RowDefinition Height="44" />
                             <RowDefinition Height="44" />
                             <RowDefinition Height="44" />
@@ -122,15 +151,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="Desktop" />
-                        <TextBox
-                            x:Name="DesktopL"
-                            x:Uid="SettingsPreferencesDesktopLocation"
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom desktop location" />
-
+                        <Grid Grid.Row="0" Grid.Column="1">
+                            <TextBox
+                                x:Name="DesktopL"
+                                x:Uid="SettingsPreferencesDesktopLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom desktop location"
+                                Text="{x:Bind local2:App.AppSettings.DesktopPath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="1" />
+                        </Grid>
 
                         <TextBlock
                             x:Uid="SettingsPreferencesDownloads"
@@ -139,15 +182,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="Downloads" />
-                        <TextBox
-                            x:Name="DownloadsL"
-                            x:Uid="SettingsPreferencesDownloadsLocation"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom downloads location" />
-
+                        <Grid Grid.Row="1" Grid.Column="1">
+                            <TextBox
+                                x:Name="DownloadsL"
+                                x:Uid="SettingsPreferencesDownloadsLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom downloads location"
+                                Text="{x:Bind local2:App.AppSettings.DownloadsPath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="2" />
+                        </Grid>
 
                         <TextBlock
                             x:Uid="SettingsPreferencesDocuments"
@@ -156,15 +213,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="Documents" />
-                        <TextBox
-                            x:Name="DocumentsL"
-                            x:Uid="SettingsPreferencesDocumentsLocation"
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom documents location" />
-
+                        <Grid Grid.Row="2" Grid.Column="1">
+                            <TextBox
+                                x:Name="DocumentsL"
+                                x:Uid="SettingsPreferencesDocumentsLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom documents location"
+                                Text="{x:Bind local2:App.AppSettings.DocumentsPath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="3" />
+                        </Grid>
 
                         <TextBlock
                             x:Uid="SettingsPreferencesPictures"
@@ -173,15 +244,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="Pictures" />
-                        <TextBox
-                            x:Name="PictureL"
-                            x:Uid="SettingsPreferencesPicturesLocation"
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom pictures location" />
-
+                        <Grid Grid.Row="3" Grid.Column="1">
+                            <TextBox
+                                x:Name="PictureL"
+                                x:Uid="SettingsPreferencesPicturesLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom pictures location"
+                                Text="{x:Bind local2:App.AppSettings.PicturesPath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="4" />
+                        </Grid>
 
                         <TextBlock
                             x:Uid="SettingsPreferencesMusic"
@@ -190,14 +275,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="Music" />
-                        <TextBox
-                            x:Name="MusicL"
-                            x:Uid="SettingsPreferencesMusicLocation"
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom music location" />
+                        <Grid Grid.Row="4" Grid.Column="1">
+                            <TextBox
+                                x:Name="MusicL"
+                                x:Uid="SettingsPreferencesMusicLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom music location"
+                                Text="{x:Bind local2:App.AppSettings.MusicPath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="5" />
+                        </Grid>
 
                         <TextBlock
                             x:Uid="SettingsPreferencesVideo"
@@ -206,15 +306,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="Video" />
-                        <TextBox
-                            x:Name="VideosL"
-                            x:Uid="SettingsPreferencesVideoLocation"
-                            Grid.Row="5"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom video location" />
-
+                        <Grid Grid.Row="5" Grid.Column="1">
+                            <TextBox
+                                x:Name="VideosL"
+                                x:Uid="SettingsPreferencesVideoLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom video location"
+                                Text="{x:Bind local2:App.AppSettings.VideosPath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="6" />
+                        </Grid>
 
                         <TextBlock
                             x:Uid="SettingsPreferencesOneDrive"
@@ -223,24 +337,29 @@
                             VerticalAlignment="Center"
                             FontSize="14"
                             Text="OneDrive" />
-                        <TextBox
-                            x:Name="OneDriveL"
-                            x:Uid="SettingsPreferencesOneDriveLocation"
-                            Grid.Row="6"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Center"
-                            PlaceholderText="Set custom OneDrive location" />
-
-                        <Button
-                            x:Name="SaveCustomL"
-                            x:Uid="SettingsPreferencesSaveLocations"
-                            Grid.Row="7"
-                            Grid.Column="2"
-                            HorizontalAlignment="Right"
-                            Click="SaveCustomL_Click"
-                            Content="Save Locations"
-                            CornerRadius="2" />
+                        <Grid Grid.Row="6" Grid.Column="1">
+                            <TextBox
+                                x:Name="OneDriveL"
+                                x:Uid="SettingsPreferencesOneDriveLocation"
+                                Margin="0,0,40,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                BorderThickness="1,1,0,1"
+                                CornerRadius="2,0,0,2"
+                                IsEnabled="False"
+                                PlaceholderText="Set custom OneDrive location"
+                                Text="{x:Bind local2:App.AppSettings.OneDrivePath, Mode=OneWay}" />
+                            <Button
+                                Width="40"
+                                Height="32.5"
+                                HorizontalAlignment="Right"
+                                Background="{ThemeResource SystemAccentColor}"
+                                Click="btnBrowse_Click"
+                                Content="&#xED25;"
+                                CornerRadius="0,2,2,0"
+                                FontFamily="Segoe MDL2 Assets"
+                                Tag="7" />
+                        </Grid>
 
                     </Grid>
                 </StackPanel>
