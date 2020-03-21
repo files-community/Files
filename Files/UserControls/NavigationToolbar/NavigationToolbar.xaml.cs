@@ -212,25 +212,25 @@ namespace Files.UserControls
                     var contentInstance = App.CurrentInstance.ViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
-                App.CurrentInstance.NavigationControl.IsEditModeEnabled = true;
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
 
             }
             else if (e.Key == VirtualKey.Escape)
             {
-                App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
         }
 
         public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
         {
-            if (CurrentInput != instance.Universal.path || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (CurrentInput != instance.Universal.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ViewModel.Universal.path = "New tab";
+                    App.CurrentInstance.ViewModel.Universal.WorkingDirectory = "New tab";
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -282,7 +282,7 @@ namespace Files.UserControls
                     }
                 }
 
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.path;
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
             }
         }
 
@@ -291,7 +291,7 @@ namespace Files.UserControls
             var element = FocusManager.GetFocusedElement() as Control;
             if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
             {
-                App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else
             {

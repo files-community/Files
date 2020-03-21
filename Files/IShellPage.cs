@@ -19,6 +19,7 @@ namespace Files
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
         public Type CurrentPageType { get; }
-        public INavigationToolbar NavigationControl { get; }
+        public INavigationControlItem SidebarSelectedItem { get; set; }
+        public INavigationToolbar NavigationToolbar { get; }
     }
 }

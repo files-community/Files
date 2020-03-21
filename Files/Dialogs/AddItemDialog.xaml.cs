@@ -52,7 +52,7 @@ namespace Files.Dialogs
             string currentPath = null;
             if (TabInstance.ContentPage != null)
             {
-                currentPath = TabInstance.ViewModel.Universal.path;
+                currentPath = TabInstance.ViewModel.Universal.WorkingDirectory;
             }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();

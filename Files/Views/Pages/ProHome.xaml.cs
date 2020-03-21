@@ -80,7 +80,9 @@ namespace Files
         
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
 
-        INavigationToolbar IShellPage.NavigationControl => NavToolbar;
+        INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
+
+        INavigationControlItem IShellPage.SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
 
         public ProHome()
         {
@@ -102,9 +104,9 @@ namespace Files
             }
 
             App.CurrentInstance = this as IShellPage;
-            App.CurrentInstance.NavigationControl.PathControlDisplayText = "New tab";
-            App.CurrentInstance.NavigationControl.CanGoBack = false;
-            App.CurrentInstance.NavigationControl.CanGoForward = false;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
+            App.CurrentInstance.NavigationToolbar.CanGoBack = false;
+            App.CurrentInstance.NavigationToolbar.CanGoForward = false;
         }
 
         private async void DisplayFilesystemConsentDialog()
@@ -132,46 +134,46 @@ namespace Files
             {
                 case "Start":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems[0];
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
                 case "New tab":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems[0];
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
                 case "Desktop":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Downloads":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Documents":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Pictures":
                     ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Music":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Videos":
                     ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
                         ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
-                        SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else
                     {
-                        SidebarControl.SidebarNavView.SelectedItem = null;
+                        SidebarControl.SelectedSidebarItem = null;
                     }
                     break;
             }
@@ -235,24 +237,24 @@ namespace Files
                     await App.addItemDialog.ShowAsync();
                     break;
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.InteractionViewModel.PermanentlyDelete = true;
                         App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.V): //ctrl + v, paste
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.X): //ctrl + x, cut
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.A): //ctrl + a, select all
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
                 case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
@@ -265,11 +267,11 @@ namespace Files
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
                 case (false, false, false, true, VirtualKey.Delete): //delete, delete item
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (false, false, false, true, VirtualKey.Space): //space, quick look
-                    if (!App.CurrentInstance.NavigationControl.IsEditModeEnabled)
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                     {
                         if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
                         {
