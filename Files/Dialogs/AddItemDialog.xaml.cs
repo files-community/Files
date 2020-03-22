@@ -65,7 +65,7 @@ namespace Files.Dialogs
                 StorageFolder folder;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.FailIfExists);
+                    folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
@@ -78,7 +78,7 @@ namespace Files.Dialogs
                 StorageFile item;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    item = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.FailIfExists);
+                    item = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace Files.Dialogs
                 StorageFile item;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    item = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.FailIfExists);
+                    item = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
