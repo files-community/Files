@@ -614,37 +614,69 @@ namespace Files.Interacts
         {
             if (oldName == newName)
                 return true;
-            bool isRenamedSameNameDiffCase = oldName.ToLower() == newName.ToLower();
-            try
+
+            if (newName != "")
             {
-                if (newName != "")
+                try
                 {
                     if (item.FileType == "Folder")
                     {
                         var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
-                        if (isRenamedSameNameDiffCase)
-                            throw new InvalidOperationException();
-                        //await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
-                        else
-                            await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                        await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                     else
                     {
                         var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
-                        if (isRenamedSameNameDiffCase)
-                            throw new InvalidOperationException();
-                        //await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                    }
+                }
+
+                catch (Exception)
+                
+                {
+                    var dialog = new ContentDialog()
+                    {
+                        Title = "Item already exists",
+                        Content = "An item with this name already exists in this folder.",
+                        PrimaryButtonText = "Generate new name",
+                        SecondaryButtonText = "Replace existing item"
+                    };
+
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        if (item.FileType == "Folder")
+                        {
+                            var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+
+                            await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                        }
                         else
-                            await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                        {
+                            var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                            await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                        }
+                    }
+                    else if (result == ContentDialogResult.Secondary)
+                    {
+                        if (item.FileType == "Folder")
+                        {
+                            var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+
+                            await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        }
+                        else
+                        {
+                            var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                            await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        }
                     }
                 }
             }
-            catch (Exception)
-            {
-                MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
-                await itemAlreadyExistsDialog.ShowAsync();
-                return false;
-            }
+            
             CurrentInstance.NavigationToolbar.CanGoForward = false;
             return true;
         }
