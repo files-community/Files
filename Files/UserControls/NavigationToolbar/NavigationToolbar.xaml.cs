@@ -238,48 +238,45 @@ namespace Files.UserControls
                     switch (CurrentInput.ToLower())
                     {
                         case "%temp%":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.TempPath);
+                            CurrentInput = App.AppSettings.TempPath;
                             break;
                         case "%appdata":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.AppDataPath);
+                            CurrentInput = App.AppSettings.AppDataPath;
                             break;
                         case "%homepath%":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.HomePath);
+                            CurrentInput = App.AppSettings.HomePath;
                             break;
                         case "%windir%":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.WinDirPath);
-                            break;
-
-                        default:
-                            {
-                                try
-                                {
-                                    await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
-                                }
-                                catch (Exception) // Not a folder or inaccessible 
-                                {
-                                    try
-                                    {
-                                        await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                        await Interaction.InvokeWin32Component(CurrentInput);
-                                    }
-                                    catch (Exception ex) // Not a file or not accessible
-                                    {
-                                        var dialog = new ContentDialog()
-                                        {
-                                            Title = "Invalid item",
-                                            Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                            CloseButtonText = "OK"
-                                        };
-
-                                        await dialog.ShowAsync();
-
-                                    }
-                                }
-                            }
+                            CurrentInput = App.AppSettings.WinDirPath;
                             break;
                     }
+
+                    try
+                    {
+                        await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
+                    }
+                    catch (Exception) // Not a folder or inaccessible 
+                    {
+                        try
+                        {
+                            await StorageFile.GetFileFromPathAsync(CurrentInput);
+                            await Interaction.InvokeWin32Component(CurrentInput);
+                        }
+                        catch (Exception ex) // Not a file or not accessible
+                        {
+                            var dialog = new ContentDialog()
+                            {
+                                Title = "Invalid item",
+                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
+                                CloseButtonText = "OK"
+                            };
+
+                            await dialog.ShowAsync();
+
+                        }
+                    }            
+                    
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
