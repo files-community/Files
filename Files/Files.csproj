@@ -199,15 +199,15 @@
     <Compile Include="Enums\TimeStyle.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
-    <Compile Include="Filesystem\ItemViewModel.cs" />
+    <Compile Include="View Models\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
-    <Compile Include="UserControls\GenericFileBrowser.xaml.cs">
+    <Compile Include="UserControls\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\InteractionViewModel.cs" />
-    <Compile Include="Views\Layouts\InstanceTabsView.xaml.cs">
+    <Compile Include="Views\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\EmptyFolderTextState.cs" />
@@ -222,13 +222,10 @@
     <Compile Include="Navigation\BackState.cs" />
     <Compile Include="Navigation\ForwardState.cs" />
     <Compile Include="Navigation\UniversalPath.cs" />
-    <Compile Include="UserControls\PhotoAlbum.xaml.cs">
+    <Compile Include="UserControls\LayoutModes\PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
-    <Compile Include="Views\MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Pages\ProHome.xaml.cs">
       <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>
@@ -243,25 +240,25 @@
     <Compile Include="Views\Pages\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\About.xaml.cs">
+    <Compile Include="Views\SettingsPages\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\OnStartup.xaml.cs">
+    <Compile Include="Views\SettingsPages\OnStartup.xaml.cs">
       <DependentUpon>OnStartup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\FilesAndFolders.xaml.cs">
+    <Compile Include="Views\SettingsPages\FilesAndFolders.xaml.cs">
       <DependentUpon>FilesAndFolders.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\Appearance.xaml.cs">
+    <Compile Include="Views\SettingsPages\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\Flags.xaml.cs">
+    <Compile Include="Views\SettingsPages\Flags.xaml.cs">
       <DependentUpon>Flags.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\Preferences.xaml.cs">
+    <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SettingsPages\StartPageWidgets.xaml.cs">
+    <Compile Include="Views\SettingsPages\StartPageWidgets.xaml.cs">
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\RibbonViewModel.cs" />
@@ -369,19 +366,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\GenericFileBrowser.xaml">
+    <Page Include="UserControls\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Layouts\InstanceTabsView.xaml">
+    <Page Include="Views\InstanceTabsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\PhotoAlbum.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\MainPage.xaml">
+    <Page Include="UserControls\LayoutModes\PhotoAlbum.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -401,31 +394,31 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPages\About.xaml">
+    <Page Include="Views\SettingsPages\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPages\OnStartup.xaml">
+    <Page Include="Views\SettingsPages\OnStartup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SettingsPages\FilesAndFolders.xaml">
+    <Page Include="Views\SettingsPages\FilesAndFolders.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SettingsPages\Appearance.xaml">
+    <Page Include="Views\SettingsPages\Appearance.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPages\Flags.xaml">
+    <Page Include="Views\SettingsPages\Flags.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SettingsPages\Preferences.xaml">
+    <Page Include="Views\SettingsPages\Preferences.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsPages\StartPageWidgets.xaml">
+    <Page Include="Views\SettingsPages\StartPageWidgets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
