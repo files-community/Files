@@ -101,7 +101,7 @@ namespace Files
 
         private void CardPressed(object sender, ItemClickEventArgs e)
         {
-            string BelowCardText = ((Locations.FavoriteLocationItem)e.ClickedItem).Text;
+            string BelowCardText = ((Locations.FavoriteLocationItem)e.ClickedItem).Tag;
             if (BelowCardText == "Downloads")
             {
                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
