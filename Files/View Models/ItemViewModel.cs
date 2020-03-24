@@ -816,18 +816,15 @@ namespace Files.Filesystem
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
             string itemType = "File";
+            string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
             {
-                itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
+                itemFileExtension = Path.GetExtension(itemPath);
+                itemType = itemFileExtension + " File";
             }
 
             var itemFolderImgVis = Visibility.Collapsed;
-            string itemFileExtension = null;
-            if (findData.cFileName.Contains('.'))
-            {
-                itemFileExtension = findData.cFileName.Split('.')[1];
-            }
 
             BitmapImage icon = new BitmapImage();
             Visibility itemThumbnailImgVis;
