@@ -14,7 +14,7 @@ variables:
   buildPlatform: 'x86|x64|ARM|arm64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
-  projectToBuild: '**/Files.Package.wapproj'
+  projectToBuild: '**/*.sln'
 
 steps:
 - task: NuGetToolInstaller@1
