@@ -25,7 +25,7 @@ steps:
 
 - task: VSBuild@1
   inputs:
-    platform: 'AnyCPU'
+    platform: 'x64'
     solution: '$(projectToBuild)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
