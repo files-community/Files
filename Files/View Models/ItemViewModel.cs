@@ -268,7 +268,7 @@ namespace Files.Filesystem
         private void Universal_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Clear the path UI
-            App.CurrentInstance.NavigationControl.PathComponents.Clear();
+            App.CurrentInstance.NavigationToolbar.PathComponents.Clear();
             // Style tabStyleFixed = App.selectedTabInstance.accessiblePathTabView.Resources["PathSectionTabStyle"] as Style;
             FontWeight weight = new FontWeight()
             {
@@ -280,7 +280,7 @@ namespace Files.Filesystem
                 // If path is a library, simplify it
 
                 // If path is found to not be a library
-                pathComponents =  Universal.path.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                pathComponents =  Universal.WorkingDirectory.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
                 int index = 0;
                 foreach(string s in pathComponents)
                 {
@@ -303,7 +303,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.CurrentInstance.NavigationControl.PathComponents.Add(item);
+                        App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
                     }
                     else
                     {
@@ -323,7 +323,7 @@ namespace Files.Filesystem
                             Title = componentLabel,
                             Path = tag,
                         };
-                        App.CurrentInstance.NavigationControl.PathComponents.Add(item);
+                        App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
 
                     }
                     index++;
@@ -406,9 +406,9 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            App.CurrentInstance.NavigationControl.CanGoBack = true;
-            App.CurrentInstance.NavigationControl.CanGoForward = true;
-            App.CurrentInstance.NavigationControl.CanNavigateToParent = true;
+            App.CurrentInstance.NavigationToolbar.CanGoBack = true;
+            App.CurrentInstance.NavigationToolbar.CanGoForward = true;
+            App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
 
         }
 
@@ -629,7 +629,7 @@ namespace Files.Filesystem
 
         public async void RapidAddItemsToCollectionAsync(string path)
         {
-            App.CurrentInstance.NavigationControl.CanRefresh = false;
+            App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -638,39 +638,39 @@ namespace Files.Filesystem
 
             isLoadingItems = true;
             EmptyTextState.isVisible = Visibility.Collapsed;
-            Universal.path = path;
+            Universal.WorkingDirectory = path;
             _filesAndFolders.Clear();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             LoadIndicator.isVisible = Visibility.Visible;
 
-            switch (Universal.path)
+            switch (Universal.WorkingDirectory)
             {
                 case "Desktop":
-                    Universal.path = App.AppSettings.DesktopPath;
+                    Universal.WorkingDirectory = App.AppSettings.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = App.AppSettings.DownloadsPath;
+                    Universal.WorkingDirectory = App.AppSettings.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = App.AppSettings.DocumentsPath;
+                    Universal.WorkingDirectory = App.AppSettings.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = App.AppSettings.PicturesPath;
+                    Universal.WorkingDirectory = App.AppSettings.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = App.AppSettings.MusicPath;
+                    Universal.WorkingDirectory = App.AppSettings.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = App.AppSettings.VideosPath;
+                    Universal.WorkingDirectory = App.AppSettings.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = App.AppSettings.OneDrivePath;
+                    Universal.WorkingDirectory = App.AppSettings.OneDrivePath;
                     break;
             }
 
-            App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-            App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+            App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+            App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
             try
             {
@@ -749,8 +749,8 @@ namespace Files.Filesystem
 
             OrderFiles();
             stopwatch.Stop();
-            Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-            App.CurrentInstance.NavigationControl.CanRefresh = true;
+            Debug.WriteLine("Loading of items in " + Universal.WorkingDirectory + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
+            App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             LoadIndicator.isVisible = Visibility.Collapsed;
             isLoadingItems = false;
         }
@@ -816,18 +816,15 @@ namespace Files.Filesystem
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
             string itemType = "File";
+            string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
             {
-                itemType = findData.cFileName.Split('.')[1].ToUpper() + " File";
+                itemFileExtension = Path.GetExtension(itemPath);
+                itemType = itemFileExtension + " File";
             }
 
             var itemFolderImgVis = Visibility.Collapsed;
-            string itemFileExtension = null;
-            if (findData.cFileName.Contains('.'))
-            {
-                itemFileExtension = findData.cFileName.Split('.')[1];
-            }
 
             BitmapImage icon = new BitmapImage();
             Visibility itemThumbnailImgVis;
@@ -865,7 +862,7 @@ namespace Files.Filesystem
             RapidAddItemsToCollectionAsync(path);
             return;
             // Eventually add logic for user choice between item load methods
-            App.CurrentInstance.NavigationControl.CanRefresh = false;
+            App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
             Frame rootFrame = Window.Current.Content as Frame;
             var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -874,40 +871,40 @@ namespace Files.Filesystem
 
             isLoadingItems = true;
             EmptyTextState.isVisible = Visibility.Collapsed;
-            Universal.path = path;
+            Universal.WorkingDirectory = path;
             _filesAndFolders.Clear();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             LoadIndicator.isVisible = Visibility.Visible;
 
-            switch (Universal.path)
+            switch (Universal.WorkingDirectory)
             {
                 case "Desktop":
-                    Universal.path = App.AppSettings.DesktopPath;
+                    Universal.WorkingDirectory = App.AppSettings.DesktopPath;
                     break;
                 case "Downloads":
-                    Universal.path = App.AppSettings.DownloadsPath;
+                    Universal.WorkingDirectory = App.AppSettings.DownloadsPath;
                     break;
                 case "Documents":
-                    Universal.path = App.AppSettings.DocumentsPath;
+                    Universal.WorkingDirectory = App.AppSettings.DocumentsPath;
                     break;
                 case "Pictures":
-                    Universal.path = App.AppSettings.PicturesPath;
+                    Universal.WorkingDirectory = App.AppSettings.PicturesPath;
                     break;
                 case "Music":
-                    Universal.path = App.AppSettings.MusicPath;
+                    Universal.WorkingDirectory = App.AppSettings.MusicPath;
                     break;
                 case "Videos":
-                    Universal.path = App.AppSettings.VideosPath;
+                    Universal.WorkingDirectory = App.AppSettings.VideosPath;
                     break;
                 case "OneDrive":
-                    Universal.path = App.AppSettings.OneDrivePath;
+                    Universal.WorkingDirectory = App.AppSettings.OneDrivePath;
                     break;
             }
 
             try
             {
-                _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.path);
+                _rootFolder = await StorageFolder.GetFolderFromPathAsync(Universal.WorkingDirectory);
                 var rootFolderProperties = await _rootFolder.GetBasicPropertiesAsync();
 
                 _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
@@ -924,8 +921,8 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                App.CurrentInstance.NavigationControl.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-                App.CurrentInstance.NavigationControl.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+                App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+                App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
                 switch (await _rootFolder.GetIndexedStateAsync())
                 {
@@ -1020,8 +1017,8 @@ namespace Files.Filesystem
 
                 OrderFiles();
                 stopwatch.Stop();
-                Debug.WriteLine("Loading of items in " + Universal.path + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-                App.CurrentInstance.NavigationControl.CanRefresh = true;
+                Debug.WriteLine("Loading of items in " + Universal.WorkingDirectory + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
+                App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             }
             catch (UnauthorizedAccessException)
             {

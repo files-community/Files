@@ -505,7 +505,7 @@
                 Click="{x:Bind local1:NavigationActions.Back_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationControl.CanGoBack, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72B;
@@ -526,7 +526,7 @@
                 Click="{x:Bind local1:NavigationActions.Forward_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationControl.CanGoForward, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72A;
@@ -622,7 +622,7 @@
                     IsItemClickEnabled="True"
                     ItemClick="PathViewInteract_ItemClick"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
-                    ItemsSource="{x:Bind local1:App.CurrentInstance.NavigationControl.PathComponents, Mode=OneWay}"
+                    ItemsSource="{x:Bind local1:App.CurrentInstance.NavigationToolbar.PathComponents, Mode=OneWay}"
                     ScrollViewer.HorizontalScrollBarVisibility="Auto"
                     ScrollViewer.HorizontalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"

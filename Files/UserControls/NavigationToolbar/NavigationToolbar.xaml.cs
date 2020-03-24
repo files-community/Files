@@ -212,25 +212,25 @@ namespace Files.UserControls
                     var contentInstance = App.CurrentInstance.ViewModel;
                     CheckPathInput(contentInstance, CurrentInput);
                 }
-                App.CurrentInstance.NavigationControl.IsEditModeEnabled = true;
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
 
             }
             else if (e.Key == VirtualKey.Escape)
             {
-                App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
         }
 
         public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
         {
-            if (CurrentInput != instance.Universal.path || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (CurrentInput != instance.Universal.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ViewModel.Universal.path = "New tab";
+                    App.CurrentInstance.ViewModel.Universal.WorkingDirectory = "New tab";
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -238,51 +238,48 @@ namespace Files.UserControls
                     switch (CurrentInput.ToLower())
                     {
                         case "%temp%":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.TempPath);
+                            CurrentInput = App.AppSettings.TempPath;
                             break;
                         case "%appdata":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.AppDataPath);
+                            CurrentInput = App.AppSettings.AppDataPath;
                             break;
                         case "%homepath%":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.HomePath);
+                            CurrentInput = App.AppSettings.HomePath;
                             break;
                         case "%windir%":
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.WinDirPath);
-                            break;
-
-                        default:
-                            {
-                                try
-                                {
-                                    await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
-                                }
-                                catch (Exception) // Not a folder or inaccessible 
-                                {
-                                    try
-                                    {
-                                        await StorageFile.GetFileFromPathAsync(CurrentInput);
-                                        await Interaction.InvokeWin32Component(CurrentInput);
-                                    }
-                                    catch (Exception ex) // Not a file or not accessible
-                                    {
-                                        var dialog = new ContentDialog()
-                                        {
-                                            Title = "Invalid item",
-                                            Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                            CloseButtonText = "OK"
-                                        };
-
-                                        await dialog.ShowAsync();
-
-                                    }
-                                }
-                            }
+                            CurrentInput = App.AppSettings.WinDirPath;
                             break;
                     }
+
+                    try
+                    {
+                        await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
+                    }
+                    catch (Exception) // Not a folder or inaccessible 
+                    {
+                        try
+                        {
+                            await StorageFile.GetFileFromPathAsync(CurrentInput);
+                            await Interaction.InvokeWin32Component(CurrentInput);
+                        }
+                        catch (Exception ex) // Not a file or not accessible
+                        {
+                            var dialog = new ContentDialog()
+                            {
+                                Title = "Invalid item",
+                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
+                                CloseButtonText = "OK"
+                            };
+
+                            await dialog.ShowAsync();
+
+                        }
+                    }            
+                    
                 }
 
-                App.CurrentInstance.NavigationControl.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.path;
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
             }
         }
 
@@ -291,7 +288,7 @@ namespace Files.UserControls
             var element = FocusManager.GetFocusedElement() as Control;
             if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
             {
-                App.CurrentInstance.NavigationControl.IsEditModeEnabled = false;
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else
             {

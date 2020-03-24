@@ -122,7 +122,7 @@ namespace Files.Interacts
             var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
 
             localSettings.Values["Application"] = terminal.Path;
-            localSettings.Values["Arguments"] = String.Format(terminal.arguments, CurrentInstance.ViewModel.Universal.path);
+            localSettings.Values["Arguments"] = String.Format(terminal.arguments, CurrentInstance.ViewModel.Universal.WorkingDirectory);
 
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
@@ -214,7 +214,7 @@ namespace Files.Interacts
                 (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = false;
                 Clipboard.Clear();
                 DataPackage data = new DataPackage();
-                data.SetText(CurrentInstance.ViewModel.Universal.path);
+                data.SetText(CurrentInstance.ViewModel.Universal.WorkingDirectory);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
                 (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = true;
@@ -304,7 +304,7 @@ namespace Files.Interacts
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
         {
-            OpenSelectedItems(true);
+            OpenSelectedItems(false);
         }
 
         private async void OpenSelectedItems(bool displayApplicationPicker)
@@ -331,89 +331,34 @@ namespace Files.Interacts
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(selectedItemPath));
 
-                        CurrentInstance.ViewModel.Universal.path = selectedItemPath;
-                        CurrentInstance.NavigationControl.PathControlDisplayText = selectedItemPath;
+                        CurrentInstance.ViewModel.Universal.WorkingDirectory = selectedItemPath;
+                        CurrentInstance.NavigationToolbar.PathControlDisplayText = selectedItemPath;
 
                         (CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
-                        if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory))
+                        App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(selectedItemPath, StringComparison.OrdinalIgnoreCase));
+                        if (App.CurrentInstance.SidebarSelectedItem == null)
                         {
-                            CurrentInstance.NavigationControl.PathControlDisplayText = "Desktop";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
+                            App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(selectedItemPath), StringComparison.OrdinalIgnoreCase));
+                        }
+                        CurrentInstance.ContentFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
 
-                        }
-                        else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments))
-                        {
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Documents";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
-                        }
-                        else if (selectedItemPath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads"))
-                        {
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Downloads";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
-                        }
-                        else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyPictures))
-                        {
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Pictures";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
-                        }
-                        else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyMusic))
-                        {
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Music";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
-                        }
-                        else if (selectedItemPath == (Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\OneDrive"))
-                        {
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "OneDrive";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.First(x => (x as DriveItem).tag.ToString().Equals("OneDrive", StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
-                        }
-                        else if (selectedItemPath == Environment.GetFolderPath(Environment.SpecialFolder.MyVideos))
-                        {
-                            App.CurrentInstance.NavigationControl.PathControlDisplayText = "Videos";
-                            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
-                        }
-                        else
-                        {
-                            if (selectedItemPath.Split(@"\")[0].Contains("C:"))
-                            {
-                                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "C:\\").First();
-                            }
-                            else
-                            {
-                                (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag.Contains(selectedItemPath.Split(@"\")[0])).First();
-                            }
-                            CurrentInstance.ContentFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
-                        }
                     }
                     else
                     {
-                        if (clickedOnItem.FileType == "Folder")
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
+                        if (displayApplicationPicker)
                         {
-                            instanceTabsView.AddNewTab(typeof(ProHome), clickedOnItem.FilePath);
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                            var options = new LauncherOptions
+                            {
+                                DisplayApplicationPicker = true
+                            };
+                            await Launcher.LaunchFileAsync(file, options);
                         }
                         else
                         {
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
-                            if (displayApplicationPicker)
-                            {
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
-                                var options = new LauncherOptions
-                                {
-                                    DisplayApplicationPicker = true
-                                };
-                                await Launcher.LaunchFileAsync(file, options);
-                            }
-                            else
-                            {
-                                await InvokeWin32Component(clickedOnItem.FilePath);
-                            }
+                            await InvokeWin32Component(clickedOnItem.FilePath);
                         }
                     }
                 }
@@ -633,7 +578,7 @@ namespace Files.Interacts
 
                     CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
                 }
-                App.CurrentInstance.NavigationControl.CanGoForward = false;
+                App.CurrentInstance.NavigationToolbar.CanGoForward = false;
 
             }
             catch (UnauthorizedAccessException)
@@ -669,38 +614,70 @@ namespace Files.Interacts
         {
             if (oldName == newName)
                 return true;
-            bool isRenamedSameNameDiffCase = oldName.ToLower() == newName.ToLower();
-            try
+
+            if (newName != "")
             {
-                if (newName != "")
+                try
                 {
                     if (item.FileType == "Folder")
                     {
                         var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
-                        if (isRenamedSameNameDiffCase)
-                            throw new InvalidOperationException();
-                        //await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
-                        else
-                            await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                        await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                     else
                     {
                         var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
-                        if (isRenamedSameNameDiffCase)
-                            throw new InvalidOperationException();
-                        //await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                    }
+                }
+
+                catch (Exception)
+                
+                {
+                    var dialog = new ContentDialog()
+                    {
+                        Title = "Item already exists",
+                        Content = "An item with this name already exists in this folder.",
+                        PrimaryButtonText = "Generate new name",
+                        SecondaryButtonText = "Replace existing item"
+                    };
+
+                    ContentDialogResult result = await dialog.ShowAsync();
+
+                    if (result == ContentDialogResult.Primary)
+                    {
+                        if (item.FileType == "Folder")
+                        {
+                            var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+
+                            await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                        }
                         else
-                            await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
+                        {
+                            var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                            await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+                        }
+                    }
+                    else if (result == ContentDialogResult.Secondary)
+                    {
+                        if (item.FileType == "Folder")
+                        {
+                            var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+
+                            await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        }
+                        else
+                        {
+                            var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+
+                            await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+                        }
                     }
                 }
             }
-            catch (Exception)
-            {
-                MessageDialog itemAlreadyExistsDialog = new MessageDialog("An item with this name already exists in this folder", "Try again");
-                await itemAlreadyExistsDialog.ShowAsync();
-                return false;
-            }
-            CurrentInstance.NavigationControl.CanGoForward = false;
+            
+            CurrentInstance.NavigationToolbar.CanGoForward = false;
             return true;
         }
 
@@ -818,7 +795,7 @@ namespace Files.Interacts
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
-                CopySourcePath = CurrentInstance.ViewModel.Universal.path;
+                CopySourcePath = CurrentInstance.ViewModel.Universal.WorkingDirectory;
 
                 if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
                 {
@@ -839,7 +816,7 @@ namespace Files.Interacts
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
-                CopySourcePath = CurrentInstance.ViewModel.Universal.path;
+                CopySourcePath = CurrentInstance.ViewModel.Universal.WorkingDirectory;
 
                 if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
                 {
@@ -870,7 +847,7 @@ namespace Files.Interacts
 
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            string DestinationPath = CurrentInstance.ViewModel.Universal.path;
+            string DestinationPath = CurrentInstance.ViewModel.Universal.WorkingDirectory;
             int oldCount = CurrentInstance.ViewModel.FilesAndFolders.Count;
 
             DataPackageView packageView = Clipboard.GetContent();
@@ -974,7 +951,7 @@ namespace Files.Interacts
                 selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.FileList.SelectedIndex].FilePath);
             }
 
-            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.Universal.path);
+            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.Universal.WorkingDirectory);
             await extractFilesDialog.ShowAsync();
             if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
             {

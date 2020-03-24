@@ -55,6 +55,7 @@
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <EntryPointProjectUniqueName>..\Files\Files.csproj</EntryPointProjectUniqueName>
   </PropertyGroup>

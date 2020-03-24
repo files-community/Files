@@ -1,8 +1,10 @@
 ﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -19,16 +21,38 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.Controls
 {
-    public sealed partial class Sidebar : UserControl
+    public sealed partial class Sidebar : UserControl, INotifyPropertyChanged
     {
+        private INavigationControlItem _SelectedSidebarItem;
+        public INavigationControlItem SelectedSidebarItem
+        {
+            get
+            {
+                return _SelectedSidebarItem;
+            }
+            set
+            {
+                if (value != _SelectedSidebarItem)
+                {
+                    _SelectedSidebarItem = value;
+                    NotifyPropertyChanged("SelectedSidebarItem");
+                }
+            }
+        }
+
         public Sidebar()
         {
             this.InitializeComponent();
         }
-       
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
@@ -81,14 +105,14 @@ namespace Files.Controls
                         var clickedItem = args.InvokedItemContainer;
 
                         App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                        App.CurrentInstance.NavigationControl.PathControlDisplayText = clickedItem.Tag.ToString();
+                        App.CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedItem.Tag.ToString();
                         (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
 
                         break;
                     }
             }
 
-            App.CurrentInstance.NavigationControl.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.path;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
         }
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)

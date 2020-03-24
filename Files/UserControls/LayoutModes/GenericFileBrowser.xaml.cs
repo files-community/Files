@@ -143,12 +143,12 @@ namespace Files
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.path, (item as StorageFolder).DisplayName, false);
+                        App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.WorkingDirectory, (item as StorageFolder).DisplayName, false);
                     }
                     else
                     {
                         (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
-                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.Universal.path));
+                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.Universal.WorkingDirectory));
                     }
                 }
             }

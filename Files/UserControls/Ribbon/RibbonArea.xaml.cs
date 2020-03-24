@@ -32,14 +32,14 @@ namespace Files.Controls
             if (Window.Current.Bounds.Width >= 800)
             {
                 if (App.CurrentInstance != null)
-                    App.CurrentInstance.NavigationControl.IsSearchReigonVisible = true;
+                    App.CurrentInstance.NavigationToolbar.IsSearchReigonVisible = true;
 
                 RibbonViewModel.ShowAppBarSeparator();
             }
             else
             {
                 if (App.CurrentInstance != null)
-                    App.CurrentInstance.NavigationControl.IsSearchReigonVisible = false;
+                    App.CurrentInstance.NavigationToolbar.IsSearchReigonVisible = false;
 
                 RibbonViewModel.HideAppBarSeparator();
             }

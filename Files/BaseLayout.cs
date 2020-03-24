@@ -95,24 +95,24 @@ namespace Files
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
-            App.CurrentInstance.NavigationControl.CanRefresh = true;
+            App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
-            App.CurrentInstance.ViewModel.Universal.path = parameters;
+            App.CurrentInstance.ViewModel.Universal.WorkingDirectory = parameters;
 
-            if (App.CurrentInstance.ViewModel.Universal.path == Path.GetPathRoot(App.CurrentInstance.ViewModel.Universal.path))
+            if (App.CurrentInstance.ViewModel.Universal.WorkingDirectory == Path.GetPathRoot(App.CurrentInstance.ViewModel.Universal.WorkingDirectory))
             {
-                App.CurrentInstance.NavigationControl.CanNavigateToParent = false;
+                App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             }
             else
             {
-                App.CurrentInstance.NavigationControl.CanNavigateToParent = true;
+                App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
 
-            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.Universal.path);
+            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.Universal.WorkingDirectory);
             App.Clipboard_ContentChanged(null, null);
 
-            App.CurrentInstance.NavigationControl.PathControlDisplayText = parameters;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
