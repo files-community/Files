@@ -418,6 +418,10 @@
           <source>Videos</source>
           <target state="new">Videos</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New Tab</source>
+          <target state="new">New Tab</target>
+        </trans-unit>
       </group>
     </body>
   </file>

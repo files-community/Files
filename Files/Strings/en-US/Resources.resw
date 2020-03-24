@@ -132,6 +132,9 @@
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>
   </data>
+  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Created:</value>
   </data>

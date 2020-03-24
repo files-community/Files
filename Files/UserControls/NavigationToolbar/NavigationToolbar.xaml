@@ -668,7 +668,7 @@
             Visibility="Collapsed">
             <Button.Flyout>
                 <MenuFlyout Placement="BottomEdgeAlignedRight">
-                    <MenuFlyoutItem Text="New Tab" />
+                    <MenuFlyoutItem x:Uid="NavigationToolbarNewTab" Text="New Tab" />
                     <MenuFlyoutItem Text="New Window" />
                     <MenuFlyoutSeparator />
                     <MenuFlyoutItem Text="Settings" />
