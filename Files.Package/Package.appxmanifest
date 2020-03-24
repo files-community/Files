@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
-  <Identity Name="49306atecsolution.FilesUWP" Publisher="CN=Luke Blevins" Version="0.7.2.0" />
+  <Identity Name="FilesUWP" Publisher="CN=Luke Blevins" Version="0.7.2.0" />
   <Properties>
     <DisplayName>Files UWP - Preview</DisplayName>
-    <PublisherDisplayName>Yair A</PublisherDisplayName>
+    <PublisherDisplayName>FilesUWP</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>
