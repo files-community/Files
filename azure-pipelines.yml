@@ -20,7 +20,7 @@ steps:
 - task: MSBuild@1
   inputs:
     platform: 'x86'
-    solution: '**/Package.wapproj'
+    solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
     
