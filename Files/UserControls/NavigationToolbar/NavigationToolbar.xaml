@@ -619,6 +619,7 @@
                     VerticalContentAlignment="Stretch"
                     Background="{ThemeResource TextControlBackground}"
                     CanReorderItems="False"
+                    CornerRadius="2"
                     IsItemClickEnabled="True"
                     ItemClick="PathViewInteract_ItemClick"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
