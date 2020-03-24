@@ -28,6 +28,6 @@ steps:
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
-    packagePath: 
+    packagePath: '$(appxPackageDir)'
     force: true
     skipPolling: false
