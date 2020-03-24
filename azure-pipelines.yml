@@ -14,6 +14,7 @@ variables:
   buildPlatform: 'x86|x64|ARM|arm64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  projectToBuild: '**/Files.Package.wapproj'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -25,7 +26,7 @@ steps:
 - task: VSBuild@1
   inputs:
     platform: 'x86'
-    solution: '$(solution)'
+    solution: '$(projectToBuild)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
     
