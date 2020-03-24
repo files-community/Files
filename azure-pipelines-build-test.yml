@@ -1,6 +1,6 @@
 trigger:
 - master
-pr: none
+- develop
 
 pool:
   vmImage: 'windows-latest'
@@ -24,11 +24,3 @@ steps:
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
-    
-- task: store-publish@0
-  inputs:
-    serviceEndpoint: 'Files'
-    appId: '9NGHP3DX8HDX'
-    packagePath: '$(appxPackageDir)'
-    force: true
-    skipPolling: false
