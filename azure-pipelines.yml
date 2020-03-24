@@ -10,10 +10,11 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.wapproj'
+  solution: '**/*.sln'
   buildPlatform: 'x86|x64|ARM|arm64'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  projectToBuild: '**/*.sln'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -22,10 +23,10 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: MSBuild@1
+- task: VSBuild@1
   inputs:
     platform: 'x86'
-    solution: '$(solution)'
+    solution: '$(projectToBuild)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
     
