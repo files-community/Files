@@ -27,9 +27,9 @@ namespace Files.Controls
             //check if the selected item is an image file
             try
             {
-                string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.DotFileExtension.ToLower();
+                string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.DotFileExtension;
 
-                if (ItemExtension == "png" || ItemExtension == "jpg" || ItemExtension == "bmp" || ItemExtension == "jpeg")
+                if (ItemExtension == ".png" || ItemExtension == ".jpg" || ItemExtension == ".bmp" || ItemExtension == ".jpeg")
                 {
                     // Since item is an image, set the IsSelectedItemImage property to true
                     App.InteractionViewModel.IsSelectedItemImage = true;
