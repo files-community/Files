@@ -149,7 +149,7 @@ namespace Files
                     if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                     {
                         UnloadMenuFlyoutItemByName("OpenItem");
-                        UnloadMenuFlyoutItemByName("UnzipItem");
+                        this.FindName("UnzipItem");
                     }
                     else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                     {
