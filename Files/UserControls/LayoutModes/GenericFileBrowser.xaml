@@ -17,14 +17,11 @@
     mc:Ignorable="d">
 
     <local:BaseLayout.Resources>
-
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
-
+        <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="{x:Bind local:App.InteractionViewModel.CheckForImage, Mode=OneWay}">
             <MenuFlyoutSubItem x:Name="SortByEmptySpace" Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;" />
                 </MenuFlyoutSubItem.Icon>
-
                 <muxc:RadioMenuFlyoutItem
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
@@ -51,7 +48,6 @@
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
                     Text="Descending" />
             </MenuFlyoutSubItem>
-
             <MenuFlyoutItem
                 x:Name="RefreshEmptySpace"
                 Click="{x:Bind local:NavigationActions.Refresh_Click}"
@@ -60,219 +56,188 @@
                     <FontIcon Glyph="&#xE72C;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutItem
                 x:Name="PasteEmptySpace"
-                Click="{x:Bind AssociatedInteractions.PasteItem_ClickAsync}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                 IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutItem
                 x:Name="OpenTerminal"
-                Click="{x:Bind AssociatedInteractions.OpenDirectoryInTerminal}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
                 IsEnabled="True"
                 Text="Open in Terminal...">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE756;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutSubItem x:Name="NewEmptySpace" Text="New">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </MenuFlyoutSubItem.Icon>
-
                 <MenuFlyoutItem
                     x:Name="NewFolder"
-                    Click="{x:Bind AssociatedInteractions.NewFolder_Click}"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
                     Text="Folder">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8B7;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-
                 <MenuFlyoutSeparator />
-
                 <MenuFlyoutItem
                     x:Name="NewBitmapImage"
-                    Click="{x:Bind AssociatedInteractions.NewBitmapImage_Click}"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xEB9F;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-
                 <MenuFlyoutItem
                     x:Name="NewTextDocument"
-                    Click="{x:Bind AssociatedInteractions.NewTextDocument_Click}"
+                    Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8A5;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-
             </MenuFlyoutSubItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutItem
                 x:Name="PropertiesFolder"
-                Click="{x:Bind AssociatedInteractions.ShowFolderPropertiesButton_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
         </MenuFlyout>
-
 
         <MenuFlyout x:Key="BaseLayoutItemContextFlyout" Opening="RightClickContextMenu_Opening">
             <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Load="False"
-                Click="{x:Bind AssociatedInteractions.ExtractItems_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ExtractItems_Click}"
                 Tag="Extract_FlyoutItem"
                 Text="Extract">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xED25;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="OpenItem"
                 x:Load="False"
-                Click="{x:Bind AssociatedInteractions.OpenItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}"
                 Tag="Open_FlyoutItem"
                 Text="Open with...">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7AC;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="OpenInNewTab"
                 x:Load="False"
-                Click="{x:Bind AssociatedInteractions.OpenDirectoryInNewTab_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
                 Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE737;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="OpenInNewWindowItem"
                 x:Load="False"
-                Click="{x:Bind AssociatedInteractions.OpenInNewWindowItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenInNewWindowItem_Click}"
                 Tag="OpenWindow_FlyoutItem"
                 Text="Open in new window">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8A7;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="SetAsDesktopBackgroundItem"
-                Click="{x:Bind AssociatedInteractions.SetAsDesktopBackgroundItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                 Text="Set as desktop background"
                 Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7F4;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="ShareItem"
-                Click="{x:Bind AssociatedInteractions.ShareItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                 Text="Share">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE72D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutItem
                 x:Name="CutItem"
-                Click="{x:Bind AssociatedInteractions.CutItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
                 Text="Cut">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C6;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="CopyItem"
-                Click="{x:Bind AssociatedInteractions.CopyItem_ClickAsync}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}"
                 Text="Copy">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C8;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutItem
                 x:Name="DeleteItem"
-                Click="{x:Bind AssociatedInteractions.DeleteItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
                 Text="Delete">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE74D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="RenameItem"
-                Click="{x:Bind AssociatedInteractions.RenameItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}"
                 Text="Rename">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8AC;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutSeparator />
-
             <MenuFlyoutItem
                 x:Name="SidebarPinItem"
                 x:Load="False"
-                Click="{x:Bind AssociatedInteractions.PinItem_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinItem_Click}"
                 Tag="PinItem_FlyoutItem"
                 Text="Pin to sidebar">
                 <MenuFlyoutItem.Icon>
                     <SymbolIcon Symbol="Pin" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="PropertiesItem"
-                Click="{x:Bind AssociatedInteractions.ShowPropertiesButton_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
             <MenuFlyoutItem
                 x:Name="QuickLook"
-                Click="{x:Bind AssociatedInteractions.ToggleQuickLook_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook_Click}"
                 Text="QuickLook"
                 Visibility="{x:Bind IsQuickLookEnabled}">
                 <MenuFlyoutItem.Icon>
                     <BitmapIcon UriSource="ms-appx:///Assets/QuickLook/quicklook_icon_black.png" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-
         </MenuFlyout>
     </local:BaseLayout.Resources>
 
