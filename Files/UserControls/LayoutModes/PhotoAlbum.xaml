@@ -135,6 +135,7 @@
         <MenuFlyout x:Key="BaseLayoutItemContextFlyout" Opening="RightClickContextMenu_Opening">
             <MenuFlyoutItem
                 x:Name="UnzipItem"
+                x:Uid="BaseLayoutItemContextFlyoutExtract"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ExtractItems_Click}"
                 Tag="Extract_FlyoutItem"
@@ -145,6 +146,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="OpenItem"
+                x:Uid="BaseLayoutItemContextFlyoutOpenWith"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}"
                 Tag="Open_FlyoutItem"
@@ -155,6 +157,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="OpenInNewTab"
+                x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
@@ -165,6 +168,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="OpenInNewWindowItem"
+                x:Uid="BaseLayoutItemContextFlyoutOpenInNewWindow"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenInNewWindowItem_Click}"
                 Tag="OpenWindow_FlyoutItem"
@@ -175,6 +179,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="SetAsDesktopBackgroundItem"
+                x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                 Text="Set as desktop background"
                 Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
@@ -184,6 +189,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="ShareItem"
+                x:Uid="BaseLayoutItemContextFlyoutShare"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                 Text="Share">
                 <MenuFlyoutItem.Icon>
@@ -193,6 +199,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="CutItem"
+                x:Uid="BaseLayoutItemContextFlyoutCut"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
                 Text="Cut">
                 <MenuFlyoutItem.Icon>
@@ -201,6 +208,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="CopyItem"
+                x:Uid="BaseLayoutItemContextFlyoutCopy"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}"
                 Text="Copy">
                 <MenuFlyoutItem.Icon>
@@ -210,6 +218,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="DeleteItem"
+                x:Uid="BaseLayoutItemContextFlyoutDelete"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
                 Text="Delete">
                 <MenuFlyoutItem.Icon>
@@ -218,6 +227,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="RenameItem"
+                x:Uid="BaseLayoutItemContextFlyoutRename"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}"
                 Text="Rename">
                 <MenuFlyoutItem.Icon>
@@ -227,6 +237,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="SidebarPinItem"
+                x:Uid="BaseLayoutItemContextFlyoutPinToSidebar"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinItem_Click}"
                 Tag="PinItem_FlyoutItem"
@@ -237,6 +248,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="PropertiesItem"
+                x:Uid="BaseLayoutItemContextFlyoutProperties"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
@@ -245,6 +257,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="QuickLook"
+                x:Uid="BaseLayoutItemContextFlyoutQuickLook"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook_Click}"
                 Text="QuickLook"
                 Visibility="{x:Bind IsQuickLookEnabled}">

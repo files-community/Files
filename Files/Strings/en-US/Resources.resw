@@ -489,4 +489,43 @@
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
+    <value>Open with...</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+    <value>Set as desktop background</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+    <value>Pin to sidebar</value>
+  </data>
+    <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+    <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+    <value>QuickLook</value>
+  </data> 
 </root>
