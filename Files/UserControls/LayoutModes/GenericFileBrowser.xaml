@@ -18,38 +18,48 @@
 
     <local:BaseLayout.Resources>
         <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="{x:Bind local:App.InteractionViewModel.CheckForImage, Mode=OneWay}">
-            <MenuFlyoutSubItem x:Name="SortByEmptySpace" Text="Sort by">
+            <MenuFlyoutSubItem
+                x:Name="SortByEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutSortBy"
+                Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE8CB;" />
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByName"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDate"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
                     Text="Date modified" />
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByType"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
                     Text="Type" />
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortBySize"
                     GroupName="SortGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
                     Text="Size" />
                 <MenuFlyoutSeparator />
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByAscending"
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
                     Text="Ascending" />
                 <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDescending"
                     GroupName="SortOrderGroup"
                     IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
                     Text="Descending" />
             </MenuFlyoutSubItem>
             <MenuFlyoutItem
                 x:Name="RefreshEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutRefresh"
                 Click="{x:Bind local:NavigationActions.Refresh_Click}"
                 Text="Refresh">
                 <MenuFlyoutItem.Icon>
@@ -59,6 +69,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PasteEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                 IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
@@ -69,6 +80,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="OpenTerminal"
+                x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
                 IsEnabled="True"
                 Text="Open in Terminal...">
@@ -77,12 +89,16 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
-            <MenuFlyoutSubItem x:Name="NewEmptySpace" Text="New">
+            <MenuFlyoutSubItem
+                x:Name="NewEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutNew"
+                Text="New">
                 <MenuFlyoutSubItem.Icon>
                     <FontIcon Glyph="&#xE710;" />
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
                     x:Name="NewFolder"
+                    x:Uid="BaseLayoutContextFlyoutNewFolder"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
                     Text="Folder">
                     <MenuFlyoutItem.Icon>
@@ -92,6 +108,7 @@
                 <MenuFlyoutSeparator />
                 <MenuFlyoutItem
                     x:Name="NewBitmapImage"
+                    x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
@@ -100,6 +117,7 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
                     x:Name="NewTextDocument"
+                    x:Uid="BaseLayoutContextFlyoutNewTextDocument"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
@@ -110,6 +128,7 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PropertiesFolder"
+                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
