@@ -17,7 +17,7 @@
     mc:Ignorable="d">
 
     <local:BaseLayout.Resources>
-        <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="{x:Bind local:App.InteractionViewModel.CheckForImage, Mode=OneWay}">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
