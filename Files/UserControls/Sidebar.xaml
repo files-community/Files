@@ -11,70 +11,6 @@
     d:DesignHeight="1080"
     d:DesignWidth="320"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <Style x:Key="NavigationBackButtonNormalStyle" TargetType="Button">
-            <Setter Property="Background" Value="{ThemeResource NavigationViewBackButtonBackground}" />
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-            <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Height" Value="{ThemeResource NavigationBackButtonHeight}" />
-            <Setter Property="Width" Value="{ThemeResource NavigationBackButtonWidth}" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
-            <Setter Property="Content" Value="&#xE72B;" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
-                            <FontIcon
-                                x:Name="Content"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                AutomationProperties.AccessibilityView="Raw"
-                                FontFamily="{TemplateBinding FontFamily}"
-                                FontSize="{TemplateBinding FontSize}"
-                                Foreground="{TemplateBinding Foreground}"
-                                Glyph="{TemplateBinding Content}"
-                                MirroredWhenRightToLeft="True" />
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal" />
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonForegroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonForegroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Content" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource NavigationViewButtonForegroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </UserControl.Resources>
 
     <Grid>
         <Grid.Resources>
@@ -94,13 +30,11 @@
 
             <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
                 <muxc:NavigationViewItem
-                    Padding="0"
                     DataContext="{x:Bind}"
                     Tag="{x:Bind tag}"
                     Visibility="{x:Bind itemVisibility}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
-                            Margin="-4,0,0,0"
                             DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="12"
@@ -126,12 +60,10 @@
 
             <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
                 <muxc:NavigationViewItem
-                    Padding="0"
                     DataContext="{x:Bind}"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
-                            Margin="-8,0,0,0"
                             DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="6">
@@ -180,6 +112,11 @@
                 MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
                 OpenPaneLength="225"
                 PaneDisplayMode="Left">
+                <muxc:NavigationView.MenuItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderThickness" Value=".8"/>
+                    </Style>
+                </muxc:NavigationView.MenuItemContainerStyle>
                 <muxc:NavigationView.Resources>
                     <ResourceDictionary>
                         <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
