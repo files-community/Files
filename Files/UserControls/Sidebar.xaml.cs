@@ -33,6 +33,11 @@ namespace Files.Controls
                 this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
                 SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
             }
+            else
+            {
+                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
+                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
+            }
         }
 
         private INavigationControlItem _SelectedSidebarItem;
