@@ -89,14 +89,6 @@ namespace Files
             this.InitializeComponent();
             this.KeyUp += ProHomeInstance_KeyUp;
 
-            // Acrylic sidebar
-            var localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["acrylicSidebar"] != null && localSettings.Values["acrylicSidebar"].Equals(true))
-            {
-                splitView.PaneBackground = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
-                Application.Current.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
-            }
-
             if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
             {
                 App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;

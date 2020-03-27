@@ -444,4 +444,88 @@
   <data name="SidebarVideos" xml:space="preserve">
     <value>Videos</value>
   </data>
+  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
+    <value>Sort by</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
+    <value>Date modified</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
+    <value>Open in Terminal...</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
+    <value>Bitmap Image</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
+    <value>Text Document</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
+    <value>Extract</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
+    <value>Open with...</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+    <value>Set as desktop background</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+    <value>Share</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+    <value>Text</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+    <value>Pin to sidebar</value>
+  </data>
+    <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+    <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+    <value>QuickLook</value>
+  </data> 
 </root>
