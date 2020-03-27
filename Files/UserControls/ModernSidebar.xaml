@@ -1,0 +1,158 @@
+﻿<UserControl
+    x:Class="Files.Controls.ModernSidebar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.Controls"
+    xmlns:local1="using:Files"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    d:DesignHeight="768"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
+                    <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
+                    <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
+                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
+                    <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
+                    <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="Black"/>
+                    <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
+                    <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
+                    <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="HighContrast">
+                    <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
+                <muxc:NavigationViewItem
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    IsRightTapEnabled="True"
+                    RightTapped="NavigationViewItem_RightTapped"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
+                <muxc:NavigationViewItem
+                    Padding="0"
+                    DataContext="{x:Bind}"
+                    Tag="{x:Bind tag}"
+                    Visibility="{x:Bind itemVisibility}">
+                    <muxc:NavigationViewItem.Content>
+                        <StackPanel
+                            Margin="-4,0,0,0"
+                            DataContext="{x:Bind}"
+                            Orientation="Horizontal"
+                            Spacing="12"
+                            ToolTipService.ToolTip="{Binding spaceText}">
+                            <Grid>
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="18"
+                                    Glyph="{Binding glyph}"
+                                    Visibility="{Binding driveGlyphVisibility}" />
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="18"
+                                    Glyph="&#xE753;"
+                                    Visibility="{Binding cloudGlyphVisibility}" />
+                            </Grid>
+                            <TextBlock FontSize="14" Text="{Binding driveText}" />
+                        </StackPanel>
+                    </muxc:NavigationViewItem.Content>
+                </muxc:NavigationViewItem>
+
+            </DataTemplate>
+
+            <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
+                <muxc:NavigationViewItem
+                    Padding="0"
+                    DataContext="{x:Bind}"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Content>
+                        <StackPanel
+                            Margin="-8,0,0,0"
+                            DataContext="{x:Bind}"
+                            Orientation="Horizontal"
+                            Spacing="6">
+                            <BitmapIcon
+                                Width="30"
+                                Height="30"
+                                ShowAsMonochrome="False"
+                                UriSource="{x:Bind Logo}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                Text="{x:Bind DistroName}" />
+                        </StackPanel>
+                    </muxc:NavigationViewItem.Content>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
+                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
+            </DataTemplate>
+
+            <local:NavItemDataTemplateSelector
+                x:Key="NavItemSelector"
+                DriveNavItemTemplate="{StaticResource DriveNavItem}"
+                HeaderNavItemTemplate="{StaticResource HeaderItem}"
+                LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
+                LocationNavItemTemplate="{StaticResource LocationNavItem}" />
+        </Grid.Resources>
+        <Grid>
+
+            <muxc:NavigationView
+                x:Name="SidebarNavView"
+                IsBackButtonVisible="Collapsed"
+                IsPaneOpen="True"
+                IsPaneToggleButtonVisible="False"
+                IsSettingsVisible="True"
+                IsTitleBarAutoPaddingEnabled="False"
+                SelectionFollowsFocus="Enabled"
+                AllowFocusOnInteraction="False"
+                ItemInvoked="Sidebar_ItemInvoked"
+                SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                MenuItemTemplateSelector="{StaticResource NavItemSelector}"
+                MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
+                OpenPaneLength="200"
+                PaneDisplayMode="Left">
+                <muxc:NavigationView.Resources>
+                    <ResourceDictionary>
+                        <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
+                            <MenuFlyout.Items>
+                                <MenuFlyoutItem
+                                            x:Name="UnpinItem"
+                                            x:Uid="SideBarUnpinFromSideBar"
+                                            Click="{x:Bind local1:App.FlyoutItem_Click}"
+                                            Text="Unpin from Sidebar" />
+                            </MenuFlyout.Items>
+                        </MenuFlyout>
+                    </ResourceDictionary>
+                </muxc:NavigationView.Resources>
+
+            </muxc:NavigationView>
+        </Grid>
+    </Grid>
+</UserControl>

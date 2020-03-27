@@ -166,6 +166,9 @@
     <Compile Include="UserControls\Ribbon\RibbonPage.xaml.cs">
       <DependentUpon>RibbonPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\ModernSidebar.xaml.cs">
+      <DependentUpon>ModernSidebar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\Sidebar.xaml.cs">
       <DependentUpon>Sidebar.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,9 @@
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
+    <Compile Include="Views\Pages\ModernShellPage.xaml.cs">
+      <DependentUpon>ModernShellPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\ProHome.xaml.cs">
       <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>
@@ -384,6 +390,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\ModernSidebar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="UserControls\Sidebar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -425,6 +435,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\LayoutModes\PhotoAlbum.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\ModernShellPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
