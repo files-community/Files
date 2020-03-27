@@ -257,7 +257,7 @@ namespace Files
                         if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
                         {
                             fontIconSource.Glyph = "\xEDA2";
-                            tabLocationHeader = "Local Disk (" + NormalizePath(currentPathForTabIcon) + ")";
+                            tabLocationHeader = NormalizePath(currentPathForTabIcon);
                         }
                         else
                         {
@@ -268,7 +268,7 @@ namespace Files
                     else
                     {
                         fontIconSource.Glyph = "\xE74E";
-                        tabLocationHeader = "Floppy Disk (" + NormalizePath(currentPathForTabIcon) + ")";
+                        tabLocationHeader = NormalizePath(currentPathForTabIcon);
                     }
                 }
                 else

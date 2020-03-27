@@ -288,9 +288,9 @@ namespace Files.Filesystem
                     string tag = "";
                     if (s.Contains(":"))
                     {
-                        if (s == @"C:" || s == @"c:")
+                        if(App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
                         {
-                            componentLabel = @"Local Disk (C:\)";
+                            componentLabel = App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
                         }
                         else
                         {
