@@ -6,13 +6,13 @@
     xmlns:Windows10version1809="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 7)"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Files.Controls"
+    xmlns:controls1="using:Files.UserControls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:controls1="using:Files.UserControls"
     x:Name="ProHomeInstance"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
@@ -106,32 +106,42 @@
             </StackPanel>
         </Custom:DropShadowPanel>
 
-        <SplitView
+        <Grid
             x:Name="splitView"
             Grid.Row="1"
             Grid.RowSpan="1"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
-            DisplayMode="Inline"
-            IsPaneOpen="True"
-            OpenPaneLength="225"
-            PaneBackground="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-            <SplitView.Pane>
-                <ScrollViewer Margin="0,0,0,0" VerticalScrollBarVisibility="Auto">
-                    <controls:Sidebar x:Name="SidebarControl" x:FieldModifier="public" />
-                </ScrollViewer>
-            </SplitView.Pane>
+            
+            VerticalAlignment="Stretch">
 
-            <Frame
-                x:Name="ItemDisplayFrame"
-                x:FieldModifier="public"
-                Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
-                ManipulationCompleted="SwipeablePage_ManipulationCompleted"
-                ManipulationDelta="SwipeablePage_ManipulationDelta"
-                ManipulationMode="TranslateX,TranslateInertia,System"
-                Navigated="ItemDisplayFrame_Navigated" />
+            <ScrollViewer
+                Width="225"
+                Margin="0,0,0,0" HorizontalAlignment="Left"
+                VerticalScrollBarVisibility="Auto">
+                <controls:Sidebar
+                    x:Name="SidebarControl"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    x:FieldModifier="public" />
+            </ScrollViewer>
 
-        </SplitView>
+
+            <Custom:DropShadowPanel
+                HorizontalContentAlignment="Stretch"
+                 
+                HorizontalAlignment="Stretch" Margin="225,0,0,0"
+                Canvas.ZIndex="100"
+                ShadowOpacity=".07" OffsetX="-4">
+                <Frame
+                    x:Name="ItemDisplayFrame"
+                    x:FieldModifier="public"
+                    Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                    ManipulationCompleted="SwipeablePage_ManipulationCompleted"
+                    ManipulationDelta="SwipeablePage_ManipulationDelta"
+                    ManipulationMode="TranslateX,TranslateInertia,System"
+                    Navigated="ItemDisplayFrame_Navigated" />
+            </Custom:DropShadowPanel>
+
+        </Grid>
 
         <FlyoutPresenter
             x:Name="ProgressFlyout"
