@@ -1,5 +1,6 @@
 ﻿using Files.Controls;
 using Files.Filesystem;
+using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -372,7 +373,9 @@ namespace Files
 
         public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(TabStrip.SelectedItem == null)
+
+
+            if (TabStrip.SelectedItem == null)
             {
                 if(e.RemovedItems.Count > 0)
                 {
@@ -385,6 +388,17 @@ namespace Files
             }
             else
             {
+                if ((tabView.SelectedItem as TabViewItem).Header.ToString() == "Settings")
+                {
+                    App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
+                    App.InteractionViewModel.DragAreaWidth = 0;
+                }
+                else
+                {
+                    App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
+                    App.InteractionViewModel.DragAreaWidth = 200;
+                }
+
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
@@ -409,7 +423,7 @@ namespace Files
             
         }
 
-        private void TabStrip_AddTabButtonClick(TabView sender, object args)
+        private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
             AddNewTab(typeof(ModernShellPage), "New tab");
         }

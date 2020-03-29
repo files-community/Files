@@ -9,194 +9,51 @@
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
-    <Page.Resources>
-        <Style x:Name="TabViewButtonStyle1" TargetType="Button">
-            <Setter Property="Background" Value="{ThemeResource TabViewItemHeaderBackground}" />
-            <Setter Property="Foreground" Value="{ThemeResource SystemControlBackgroundBaseMediumBrush}" />
-            <Setter Property="CornerRadius" Value="{Binding Converter={StaticResource TopCornerRadiusFilterConverter}, Source={ThemeResource OverlayCornerRadius}}" />
-            <Setter Property="FontSize" Value="11" />
-            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
-            <Setter Property="Margin" Value="0,8,0,0" />
-            <Setter Property="Padding" Value="10" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <ContentPresenter
-                            x:Name="ContentPresenter"
-                            Padding="{TemplateBinding Padding}"
-                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                            AutomationProperties.AccessibilityView="Raw"
-                            Background="{TemplateBinding Background}"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                            CornerRadius="{TemplateBinding CornerRadius}"
-                            FontFamily="{TemplateBinding FontFamily}"
-                            FontSize="{TemplateBinding FontSize}"
-                            FontWeight="SemiLight">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal">
-                                        <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="PointerOver">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewItemHeaderBackgroundPointerOver}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource TabViewItemHeaderBackgroundPressed}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="ContentPresenter" />
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}" />
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                        </ContentPresenter>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style x:Key="TabViewStyleFluent" TargetType="muxc:TabView">
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
-            <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="muxc:TabView">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <Grid
-                                x:Name="TabContainerGrid"
-                                Margin="200,0,0,0"
-                                Background="{TemplateBinding Background}"
-                                Canvas.ZIndex="100"
-                                XYFocusKeyboardNavigation="Enabled">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition x:Name="LeftContentColumn" Width="Auto" />
-                                    <ColumnDefinition x:Name="TabColumn" Width="Auto" />
-                                    <ColumnDefinition x:Name="AddButtonColumn" Width="Auto" />
-                                    <ColumnDefinition
-                                        x:Name="RightContentColumn"
-                                        Width="*"
-                                        MinWidth="175" />
-                                    <ColumnDefinition x:Name="CaptionButtonColumn" Width="175" />
-                                </Grid.ColumnDefinitions>
-                                <ContentPresenter
-                                    x:Name="LeftContentPresenter"
-                                    Grid.Column="0"
-                                    Content="{TemplateBinding TabStripHeader}"
-                                    ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" />
-                                <Grid x:Name="ShadowReceiver" Grid.ColumnSpan="5" />
-                                <primitives:TabViewListView
-                                    x:Name="TabListView"
-                                    Grid.Column="1"
-                                    Padding="{x:Bind local:InstanceTabsView.WindowProperties.TabListPadding, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    VerticalAlignment="Stretch"
-                                    AllowDrop="{TemplateBinding AllowDropTabs}"
-                                    CanDragItems="{TemplateBinding CanDragTabs}"
-                                    CanReorderItems="{TemplateBinding CanReorderTabs}"
-                                    ItemTemplate="{TemplateBinding TabItemTemplate}"
-                                    ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
-                                    ItemsSource="{TemplateBinding TabItemsSource}">
-                                    <primitives:TabViewListView.ItemContainerTransitions>
-                                        <TransitionCollection>
-                                            <ReorderThemeTransition />
-                                        </TransitionCollection>
-                                    </primitives:TabViewListView.ItemContainerTransitions>
-                                </primitives:TabViewListView>
-                                <Button
-                                    x:Name="AddButton"
-                                    Grid.Column="2"
-                                    Margin="{x:Bind local:InstanceTabsView.WindowProperties.TabAddButtonMargin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                    VerticalAlignment="Stretch"
-                                    Command="{TemplateBinding AddTabButtonCommand}"
-                                    CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
-                                    Content="&#xE710;"
-                                    IsTextScaleFactorEnabled="False"
-                                    Style="{StaticResource TabViewButtonStyle1}"
-                                    Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource Mode=TemplatedParent}}">
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="T" Modifiers="Control" />
-                                    </Button.KeyboardAccelerators>
-                                </Button>
-                                <ContentPresenter
-                                    x:Name="RightContentPresenter"
-                                    Grid.Column="3"
-                                    HorizontalAlignment="Stretch"
-                                    Content="{TemplateBinding TabStripFooter}"
-                                    ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
-                            </Grid>
-                            <Grid
-                                x:Name="ShadowCaster"
-                                Grid.Row="0"
-                                Height="10"
-                                Margin="0,0,0,-10"
-                                VerticalAlignment="Bottom"
-                                Background="Transparent" />
-                            <ContentPresenter
-                                x:Name="TabContentPresenter"
-                                Grid.Row="1"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                ContentTransitions="{x:Null}" />
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Page.Resources>
 
     <Grid x:Name="rootGrid" Background="Transparent">
         <muxc:TabView
             x:Name="TabStrip"
             Grid.Row="0"
+            Padding="0"
+            IsAddTabButtonVisible="False"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
-            AddTabButtonClick="TabStrip_AddTabButtonClick"
             SelectionChanged="TabStrip_SelectionChanged"
-            Style="{ThemeResource TabViewStyleFluent}"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabWidthMode="Equal">
             <muxc:TabView.Resources>
                 <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="RibbonBackgroundColor" />
+                <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
             </muxc:TabView.Resources>
-            <muxc:TabView.TabStripFooterTemplate>
+            <muxc:TabView.TabStripHeaderTemplate>
                 <DataTemplate>
                     <Grid
-                        x:Name="DragArea"
-                        MinWidth="375"
+                        x:Name="DragArea2"
                         Background="Transparent"
+                        Width="{x:Bind local:App.InteractionViewModel.DragAreaWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        />
+                </DataTemplate>
+            </muxc:TabView.TabStripHeaderTemplate>
+            <muxc:TabView.TabStripFooterTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Click="AddTabButton_Click" x:Name="AddTabButton" Margin="2,0" Background="Transparent" Width="28" Height="28">
+                            <Button.Content>
+                                <FontIcon FontSize="10" Glyph="&#xE710;"/>
+                            </Button.Content>
+                        </Button>
+                        <Grid
+                        x:Name="DragArea"
+                        Background="Transparent"
+                        MinWidth="175"
+                            Grid.Column="1"
                         Loaded="DragArea_Loaded" />
+                    </Grid>
+                    
                 </DataTemplate>
             </muxc:TabView.TabStripFooterTemplate>
             <muxc:TabView.KeyboardAccelerators>

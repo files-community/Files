@@ -3,11 +3,26 @@ using GalaSoft.MvvmLight.Command;
 using Windows.UI.Xaml.Controls;
 using System;
 using Files.Interacts;
+using Windows.UI.Xaml;
 
 namespace Files.Controls
 {
     public class InteractionViewModel : ViewModelBase
     {
+        private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
+        public Thickness TabsLeftMargin
+        {
+            get => _TabsLeftMargin;
+            set => Set(ref _TabsLeftMargin, value);
+        }
+
+        private double _DragAreaWidth = 200;
+        public double DragAreaWidth
+        {
+            get => _DragAreaWidth;
+            set => Set(ref _DragAreaWidth, value);
+        }
+
         private bool _PermanentlyDelete = false;
         public bool PermanentlyDelete
         {
