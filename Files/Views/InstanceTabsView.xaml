@@ -95,7 +95,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Grid
+                            <Grid Margin="200,0,0,0" Canvas.ZIndex="100"
                                 x:Name="TabContainerGrid"
                                 Background="{TemplateBinding Background}"
                                 XYFocusKeyboardNavigation="Enabled">

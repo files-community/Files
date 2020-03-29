@@ -61,7 +61,6 @@
                     Visibility="{x:Bind itemVisibility}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
-                            Margin="-4,0,0,0"
                             DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="12"
@@ -92,7 +91,6 @@
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
-                            Margin="-8,0,0,0"
                             DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="6">
@@ -140,6 +138,11 @@
                 Width="200"
                 HorizontalAlignment="Stretch"
                 PaneDisplayMode="Left">
+                <muxc:NavigationView.MenuItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="BorderThickness" Value=".8"/>
+                    </Style>
+                </muxc:NavigationView.MenuItemContainerStyle>
                 <muxc:NavigationView.Resources>
                     <ResourceDictionary>
                         <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
