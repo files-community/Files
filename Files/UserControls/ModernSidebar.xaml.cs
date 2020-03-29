@@ -38,15 +38,11 @@ namespace Files.Controls
             }
             set
             {
-                if(!(value as INavigationControlItem).Equals(null))
+                if (value != _SelectedSidebarItem)
                 {
-                    if (value != _SelectedSidebarItem)
-                    {
-                        _SelectedSidebarItem = value;
-                        NotifyPropertyChanged("SelectedSidebarItem");
-                    }
+                    _SelectedSidebarItem = value;
+                    NotifyPropertyChanged("SelectedSidebarItem");
                 }
-                
             }
         }
 

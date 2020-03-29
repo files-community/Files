@@ -25,15 +25,14 @@
                 <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="RibbonBackgroundColor" />
                 <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
             </muxc:TabView.Resources>
-            <muxc:TabView.TabStripHeaderTemplate>
-                <DataTemplate>
+            <muxc:TabView.TabStripHeader>
                     <Grid
                         x:Name="DragArea2"
                         Background="Transparent"
-                        Width="{x:Bind local:App.InteractionViewModel.DragAreaWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Width="200"
+                        Visibility="{x:Bind local:App.InteractionViewModel.LeftMarginLoaded, Mode=OneWay}"
                         />
-                </DataTemplate>
-            </muxc:TabView.TabStripHeaderTemplate>
+            </muxc:TabView.TabStripHeader>
             <muxc:TabView.TabStripFooterTemplate>
                 <DataTemplate>
                     <Grid>

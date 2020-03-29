@@ -16,11 +16,11 @@ namespace Files.Controls
             set => Set(ref _TabsLeftMargin, value);
         }
 
-        private double _DragAreaWidth = 200;
-        public double DragAreaWidth
+        private bool _LeftMarginLoaded = true;
+        public bool LeftMarginLoaded
         {
-            get => _DragAreaWidth;
-            set => Set(ref _DragAreaWidth, value);
+            get => _LeftMarginLoaded;
+            set => Set(ref _LeftMarginLoaded, value);
         }
 
         private bool _PermanentlyDelete = false;

@@ -391,12 +391,12 @@ namespace Files
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() == "Settings")
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
-                    App.InteractionViewModel.DragAreaWidth = 0;
+                    App.InteractionViewModel.LeftMarginLoaded = false;
                 }
                 else
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
-                    App.InteractionViewModel.DragAreaWidth = 200;
+                    App.InteractionViewModel.LeftMarginLoaded = true;
                 }
 
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
