@@ -244,7 +244,15 @@ namespace Files.UserControls
                     try
                     {
                         await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
+
+                        if (App.AppSettings.LayoutMode == 0) // List View
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
+                        }
+                        else
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), CurrentInput); // navigate to folder
+                        }
                     }
                     catch (Exception) // Not a folder or inaccessible 
                     {
@@ -292,7 +300,14 @@ namespace Files.UserControls
             if (itemTappedPath == "Home" || itemTappedPath == "New tab")
                 return;
 
-            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
+            if (App.AppSettings.LayoutMode == 0) // List View
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath); // navigate to folder
+            }
+            else
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), itemTappedPath); // navigate to folder
+            }
         }
     }
 }

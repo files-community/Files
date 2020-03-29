@@ -76,19 +76,16 @@ namespace Files.Controls
                             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
                             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
                         }
-                        else if (ItemPath.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase)) // Photo item
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-
-                        }
                         else // Any other item
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-
+                            if (App.AppSettings.LayoutMode == 0) // List View
+                            {
+                                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
+                            }
+                            else
+                            {
+                                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
+                            }
                             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
                             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
@@ -98,14 +95,29 @@ namespace Files.Controls
                     }
                 case NavigationControlItemType.OneDrive:
                     {
-                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
+                        if (App.AppSettings.LayoutMode == 0) // List View
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
+                        }
+                        else
+                        {
+                        App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
+                        }
                         break;
                     }
                 default:
                     {
                         var clickedItem = args.InvokedItemContainer;
 
-                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
+                        if (App.AppSettings.LayoutMode == 0) // List View
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
+                        }
+                        else
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
+                        }
+
                         App.CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedItem.Tag.ToString();
                         //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
 

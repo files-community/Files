@@ -1,8 +1,13 @@
-﻿using Files.Enums;
+﻿using Files.DataModels;
+using Files.Enums;
+using Files.Filesystem;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel;
@@ -10,11 +15,6 @@ using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Files.Filesystem;
-using Newtonsoft.Json;
-using Files.DataModels;
-using System.Diagnostics;
-using GalaSoft.MvvmLight.Command;
 
 namespace Files.View_Models
 {
@@ -153,7 +153,7 @@ namespace Files.View_Models
         private void RemoveAllSidebarItems(NavigationControlItemType type)
         {
             var itemsOfType = App.sideBarItems.TakeWhile(x => x.ItemType == type);
-            foreach(var item in itemsOfType)
+            foreach (var item in itemsOfType)
             {
                 App.sideBarItems.Remove(item);
             }
@@ -394,7 +394,7 @@ namespace Files.View_Models
         }
 
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
-        
+
         private IList<TerminalModel> _Terminals = null;
         public IList<TerminalModel> Terminals
         {
@@ -498,9 +498,9 @@ namespace Files.View_Models
         public bool PinOneDriveToSideBar
         {
             get => _PinOneDriveToSideBar;
-            set 
-            { 
-                if(value != _PinOneDriveToSideBar)
+            set
+            {
+                if (value != _PinOneDriveToSideBar)
                 {
                     Set(ref _PinOneDriveToSideBar, value);
                     if (value == true)
@@ -637,14 +637,14 @@ namespace Files.View_Models
             }
         }
 
-        private string _ToggleLayoutModeIcon = ""; // Grid View
+        private string _ToggleLayoutModeIcon = ""; // List View
         public string ToggleLayoutModeIcon
         {
             get => _ToggleLayoutModeIcon;
             set => Set(ref _ToggleLayoutModeIcon, value);
         }
 
-        private Int16 _LayoutMode = 0; // Grid View
+        private Int16 _LayoutMode = 0; // List View
         public Int16 LayoutMode
         {
             get => _LayoutMode;
@@ -654,13 +654,13 @@ namespace Files.View_Models
         private RelayCommand toggleLayoutMode;
         public RelayCommand ToggleLayoutMode => toggleLayoutMode = new RelayCommand(() =>
         {
-            if (LayoutMode == 0) // Grid View
+            if (LayoutMode == 0) // List View
             {
-                LayoutMode = 1; // List View
+                LayoutMode = 1; // Grid View
             }
             else
             {
-                LayoutMode = 0; // Grid View
+                LayoutMode = 0; // List View
             }
 
             UpdateToggleLayouModeIcon();
@@ -668,13 +668,13 @@ namespace Files.View_Models
 
         public void UpdateToggleLayouModeIcon()
         {
-            if (LayoutMode == 0) // Grid View
+            if (LayoutMode == 0) // List View
             {
-                ToggleLayoutModeIcon = ""; // Grid View;
+                ToggleLayoutModeIcon = ""; // List View;
             }
             else // List View
             {
-                ToggleLayoutModeIcon = ""; // List View
+                ToggleLayoutModeIcon = ""; // Grid View
             }
         }
 
