@@ -1,33 +1,26 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 
 namespace Files.UserControls
 {
     public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        public ModernNavigationToolbar()
+        {
+            this.InitializeComponent();
+        }
+
         private bool manualEntryBoxLoaded = false;
         private bool ManualEntryBoxLoaded
         {
@@ -44,7 +37,6 @@ namespace Files.UserControls
                 }
             }
         }
-
         private bool clickablePathLoaded = true;
         private bool ClickablePathLoaded
         {
@@ -61,15 +53,8 @@ namespace Files.UserControls
                 }
             }
         }
-
         private bool SearchBoxLoaded { get; set; } = false;
         private string PathText { get; set; }
-
-        public ModernNavigationToolbar()
-        {
-            this.InitializeComponent();
-        }
-
         bool INavigationToolbar.IsSearchReigonVisible
         {
             get
@@ -169,6 +154,7 @@ namespace Files.UserControls
                 NotifyPropertyChanged("PathText");
             }
         }
+
         private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -271,10 +257,8 @@ namespace Files.UserControls
                             };
 
                             await dialog.ShowAsync();
-
                         }
                     }
-
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
