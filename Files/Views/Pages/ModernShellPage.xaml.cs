@@ -74,32 +74,6 @@ namespace Files.Views.Pages
             }
         }
 
-
-        private bool _isSwiped;
-        private void SwipeablePage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            if (e.IsInertial && !_isSwiped)
-            {
-                var swipedDistance = e.Cumulative.Translation.X;
-
-                if (Math.Abs(swipedDistance) <= 2) return;
-
-                if (swipedDistance > 0)
-                {
-                    NavigationActions.Back_Click(null, null);
-                }
-                else
-                {
-                    NavigationActions.Forward_Click(null, null);
-                }
-                _isSwiped = true;
-            }
-        }
-
-        private void SwipeablePage_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            _isSwiped = false;
-        }
         private async void DisplayFilesystemConsentDialog()
         {
             await App.consentDialog.ShowAsync(ContentDialogPlacement.Popup);

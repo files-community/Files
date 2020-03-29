@@ -653,11 +653,6 @@
                         Header="Home"
                         IsSelected="True"
                         Template="{StaticResource TabViewItemFluentTemplate}">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Tapped">
-                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>
                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                         </Custom:TabViewItem.Resources>
@@ -793,11 +788,6 @@
                         Header="Share"
                         IsDoubleTapEnabled="True"
                         Template="{StaticResource TabViewItemFluentTemplate}">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Tapped">
-                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>
                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                         </Custom:TabViewItem.Resources>
@@ -828,11 +818,6 @@
                         Header="View"
                         IsDoubleTapEnabled="True"
                         Template="{StaticResource TabViewItemFluentTemplate}">
-                        <interactivity:Interaction.Behaviors>
-                            <core:EventTriggerBehavior EventName="Tapped">
-                                <core:InvokeCommandAction Command="{x:Bind RibbonViewModel.ShowRibbonCommand}" />
-                            </core:EventTriggerBehavior>
-                        </interactivity:Interaction.Behaviors>
                         <Custom:TabViewItem.Resources>
                             <ResourceDictionary Source="ms-appx:///Microsoft.UI.Xaml/DensityStyles/Compact.xaml" />
                         </Custom:TabViewItem.Resources>
@@ -1017,21 +1002,6 @@
                         </controls:RibbonPage>
                     </Custom:TabViewItem>-->
                 </Custom:TabView>
-
-                <Button
-                    x:Name="ToggleRibbon"
-                    Grid.Column="1"
-                    Width="35"
-                    Height="25"
-                    Margin="0,4,4,0"
-                    HorizontalAlignment="Right"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    Command="{x:Bind RibbonViewModel.ToggleRibbon}"
-                    Content="{x:Bind RibbonViewModel.ToggleRibbonIcon, Mode=OneWay}"
-                    CornerRadius="2"
-                    FontFamily="Segoe MDL2 Assets"
-                    Style="{StaticResource ToolBarButtonStyle}" />
             </Grid>
 
         </StackPanel>

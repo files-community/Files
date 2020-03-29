@@ -133,13 +133,13 @@
     <value>Permanently delete</value>
   </data>
   <data name="ExtractFilesDialog.Title" xml:space="preserve">
-      <value>Extract Compressed Archive</value>
+    <value>Extract Compressed Archive</value>
   </data>
   <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-      <value>Cancel</value>
+    <value>Cancel</value>
   </data>
   <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-      <value>Extract</value>
+    <value>Extract</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>New Tab</value>
@@ -182,99 +182,6 @@
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
     <value>Recent items</value>
-  </data>
-  <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="RibbonAreaClearAllButton.LabelText" xml:space="preserve">
-    <value>Clear All</value>
-  </data>
-  <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="RibbonAreaCopyPathButton.LabelText" xml:space="preserve">
-    <value>Copy Path</value>
-  </data>
-  <data name="RibbonAreaCutButton.LabelText" xml:space="preserve">
-    <value>Cut</value>
-  </data>
-  <data name="RibbonAreaDeleteButton.LabelText" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="RibbonAreaFile.Header" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="RibbonAreaFileCloseDescription.Text" xml:space="preserve">
-    <value>Closes this window</value>
-  </data>
-  <data name="RibbonAreaFileCloseTitle.Text" xml:space="preserve">
-    <value>Close Files</value>
-  </data>
-  <data name="RibbonAreaFileOpenNewWindowDescription.Text" xml:space="preserve">
-    <value>Creates a new instance of Files</value>
-  </data>
-  <data name="RibbonAreaFileOpenNewWindowTitle.Text" xml:space="preserve">
-    <value>Open new window</value>
-  </data>
-  <data name="RibbonAreaFileSettingsDescription.Text" xml:space="preserve">
-    <value>Make changes to app preferences</value>
-  </data>
-  <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
-    <value>Settings</value>
-  </data>
-  <data name="RibbonAreaFolderProperties.LabelText" xml:space="preserve">
-    <value>Folder Properties</value>
-  </data>
-  <data name="RibbonAreaHome.Header" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="RibbonAreaLayoutButton.LabelText" xml:space="preserve">
-    <value>Layout Mode</value>
-  </data>
-  <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
-    <value>Open With</value>
-  </data>
-  <data name="RibbonAreaPasteButton.LabelText" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
-    <value>Rename</value>
-  </data>
-  <data name="RibbonAreaSelectAllButton.LabelText" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="RibbonAreaShare.Header" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="RibbonAreaShareButton.LabelText" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="RibbonAreaSortByAscending.Text" xml:space="preserve">
-    <value>Ascending</value>
-  </data>
-  <data name="RibbonAreaSortByButton.LabelText" xml:space="preserve">
-    <value>Sort By</value>
-  </data>
-  <data name="RibbonAreaSortByDate.Text" xml:space="preserve">
-    <value>Date Modified</value>
-  </data>
-  <data name="RibbonAreaSortByDescending.Text" xml:space="preserve">
-    <value>Descending</value>
-  </data>
-  <data name="RibbonAreaSortByName.Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="RibbonAreaSortBySize.Text" xml:space="preserve">
-    <value>Size</value>
-  </data>
-  <data name="RibbonAreaSortByType.Text" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="RibbonAreaView.Header" xml:space="preserve">
-    <value>View</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
@@ -492,40 +399,40 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extract</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
     <value>Open with...</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Open in new tab</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
     <value>Open in new window</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
     <value>Set as desktop background</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Share</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
     <value>Text</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
     <value>Copy</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
     <value>Delete</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
     <value>Rename</value>
   </data>
-   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
     <value>Pin to sidebar</value>
   </data>
-    <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
-    <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
-  </data> 
+  </data>
 </root>

@@ -1,28 +1,34 @@
 ﻿using Files.Filesystem;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
-
-
 
 namespace Files.Controls
 {
     public sealed partial class ModernSidebar : UserControl, INotifyPropertyChanged
     {
+        public ModernSidebar()
+        {
+            this.InitializeComponent();
+
+            // Check if the acrylic sidebar setting is on
+            if (App.AppSettings.SidebarThemeMode == Enums.SidebarOpacity.AcrylicEnabled)
+            {
+                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
+            }
+            else
+            {
+                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
+                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
+            }
+        }
+
         private INavigationControlItem _SelectedSidebarItem;
         public INavigationControlItem SelectedSidebarItem
         {
@@ -41,23 +47,6 @@ namespace Files.Controls
                     }
                 }
                 
-            }
-        }
-
-        public ModernSidebar()
-        {
-            this.InitializeComponent();
-
-            // Check if the acrylic sidebar setting is on
-            if (App.AppSettings.SidebarThemeMode == Enums.SidebarOpacity.AcrylicEnabled)
-            {
-                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
-                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
-            }
-            else
-            {
-                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
-                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
             }
         }
 

@@ -382,9 +382,7 @@
                     ToolTipService.ToolTip="{Binding FolderTooltipText}">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
-                            <Grid
-                                x:Name="Icon"
-                                EffectiveViewportChanged="Icon_EffectiveViewportChanged">
+                            <Grid x:Name="Icon" EffectiveViewportChanged="Icon_EffectiveViewportChanged">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
