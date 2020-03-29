@@ -157,13 +157,14 @@
                     </Style>
                 </muxc:NavigationView.MenuItemContainerStyle>
                 <muxc:NavigationView.PaneFooter>
-                    <Grid Width="200" >
-                        <Button BorderBrush="{ThemeResource ButtonRevealBorderBrush}"
+                    <Grid Width="200">
+                        <Button
                             x:Name="SettingsButton"
                             Width="200"
                             Height="40"
                             HorizontalAlignment="Left"
                             Background="Transparent"
+                            BorderBrush="{ThemeResource ButtonRevealBorderBrush}"
                             Click="SettingsButton_Click"
                             CornerRadius="0">
                             <Button.Content>
@@ -172,8 +173,15 @@
                                         <ColumnDefinition Width="34" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <FontIcon Glyph="&#xE713;" FontSize="18" VerticalAlignment="Center"/>
-                                    <TextBlock Grid.Column="1" Text="Settings" Padding="2,0,0,0" VerticalAlignment="Center"/>
+                                    <FontIcon
+                                        VerticalAlignment="Center"
+                                        FontSize="18"
+                                        Glyph="&#xE713;" />
+                                    <TextBlock
+                                        Grid.Column="1"
+                                        Padding="2,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="Settings" />
                                 </Grid>
                             </Button.Content>
                         </Button>
