@@ -485,7 +485,6 @@
     </UserControl.Resources>
     <Grid
         x:Name="ToolbarGrid"
-        Padding="0,0,0,0"
         VerticalAlignment="Stretch"
         ColumnSpacing="0">
         <Grid.RowDefinitions>
@@ -493,6 +492,7 @@
             <RowDefinition Height="*" />
 
         </Grid.RowDefinitions>
+
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
                 x:Name="Back"
@@ -575,7 +575,6 @@
             </Button>
         </StackPanel>
 
-
         <Grid
             Grid.Row="0"
             Height="35"
@@ -583,14 +582,14 @@
             VerticalAlignment="Center">
 
             <TextBox
-                BorderThickness="0"
-                Background="Transparent"
                 x:Name="VisiblePath"
                 Padding="4"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ManualEntryBoxLoaded, Mode=OneWay}"
+                Background="Transparent"
                 BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
+                BorderThickness="0"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontFamily="Segoe UI"
                 FontSize="20"
@@ -620,7 +619,6 @@
                     VerticalContentAlignment="Stretch"
                     Background="{ThemeResource TextControlBackground}"
                     CanReorderItems="False"
-                    CornerRadius="2"
                     IsItemClickEnabled="True"
                     ItemClick="PathViewInteract_ItemClick"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
@@ -654,33 +652,34 @@
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
                 </ListView>
-
             </Grid>
-
-
         </Grid>
-        <StackPanel HorizontalAlignment="Right" Grid.Row="2" Orientation="Horizontal">
-            <AutoSuggestBox
-            x:Name="SearchReigon"
+
+        <StackPanel
             Grid.Row="2"
-            Grid.Column="2"
-            Width="300"
-            Margin="0,0,4,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
-            PlaceholderText="Search"
-            QueryIcon="Find"
-            TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
-            
+            Orientation="Horizontal">
+            <AutoSuggestBox
+                x:Name="SearchReigon"
+                Grid.Row="2"
+                Grid.Column="2"
+                Width="300"
+                Margin="0,0,4,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
+                PlaceholderText="Search"
+                QueryIcon="Find"
+                TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
+
             <Button
-            HorizontalAlignment="Right"
-            Grid.Row="3"
-            Margin="0,0,4,0"
-            Background="Transparent"
-            Content=""
-            FontFamily="Segoe MDL2 Assets"
-            Visibility="Visible">
+                Grid.Row="3"
+                Margin="0,0,4,0"
+                HorizontalAlignment="Right"
+                Background="Transparent"
+                Content=""
+                FontFamily="Segoe MDL2 Assets"
+                Visibility="Visible">
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem x:Uid="NavigationToolbarNewTab" Text="New Tab" />
@@ -691,9 +690,6 @@
                 </Button.Flyout>
 
             </Button>
-
-            
         </StackPanel>
-        
     </Grid>
 </UserControl>

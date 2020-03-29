@@ -24,10 +24,8 @@
 
         <Grid Grid.Column="1">
 
-
             <Custom:DropShadowPanel
                 Grid.Row="1"
-                Margin="-4,0,0,0"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 Canvas.ZIndex="100"
@@ -37,7 +35,9 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    
                     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
@@ -45,6 +45,7 @@
                             Margin="10,4"
                             x:FieldModifier="public" />
                     </Grid>
+                    
                     <Frame
                         x:Name="ItemDisplayFrame"
                         Grid.Row="1"
@@ -54,9 +55,10 @@
                         ManipulationDelta="SwipeablePage_ManipulationDelta"
                         ManipulationMode="TranslateX,TranslateInertia,System"
                         Navigated="ItemDisplayFrame_Navigated" />
+
+                    <controls1:StatusBarControl Grid.Row="2"/>
                 </Grid>
             </Custom:DropShadowPanel>
-
 
             <FlyoutPresenter
                 x:Name="ProgressFlyout"
