@@ -2,12 +2,13 @@
     x:Class="Files.Controls.ModernSidebar"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Controls"
     xmlns:local1="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="768"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -18,7 +19,13 @@
                     <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
-                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="White"/>
+                    <AcrylicBrush
+                        x:Key="BackgroundAcrylicBrush"
+                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{StaticResource SystemListLowColor}"
+                        TintColor="White"
+                        TintOpacity="0.7" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
@@ -26,13 +33,19 @@
                     <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush x:Key="BackgroundAcrylicBrush" FallbackColor="{StaticResource SystemListLowColor}" BackgroundSource="HostBackdrop" TintOpacity="0.7" Windows10version1903:TintLuminosityOpacity="0.9" TintColor="Black"/>
+                    <AcrylicBrush
+                        x:Key="BackgroundAcrylicBrush"
+                        Windows10version1903:TintLuminosityOpacity="0.9"
+                        BackgroundSource="HostBackdrop"
+                        FallbackColor="{StaticResource SystemListLowColor}"
+                        TintColor="Black"
+                        TintOpacity="0.7" />
                     <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
-                    <!-- This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode. -->
+                    <!--  This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode.  -->
                 </ResourceDictionary>
             </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
@@ -123,31 +136,45 @@
 
             <muxc:NavigationView
                 x:Name="SidebarNavView"
+                Width="200"
+                HorizontalAlignment="Stretch"
+                AllowFocusOnInteraction="False"
                 IsBackButtonVisible="Collapsed"
                 IsPaneOpen="True"
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
                 IsTitleBarAutoPaddingEnabled="False"
-                SelectionFollowsFocus="Enabled"
-                AllowFocusOnInteraction="False"
                 ItemInvoked="Sidebar_ItemInvoked"
-                SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 MenuItemTemplateSelector="{StaticResource NavItemSelector}"
                 MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
                 OpenPaneLength="200"
-                Width="200"
-                HorizontalAlignment="Stretch"
-                PaneDisplayMode="Left">
+                PaneDisplayMode="Left"
+                SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                SelectionFollowsFocus="Enabled">
                 <muxc:NavigationView.MenuItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="BorderThickness" Value=".8"/>
+                        <Setter Property="BorderThickness" Value=".8" />
                     </Style>
                 </muxc:NavigationView.MenuItemContainerStyle>
                 <muxc:NavigationView.PaneFooter>
-                    <Grid>
-                        <Button x:Name="SettingsButton" Click="SettingsButton_Click" Background="Transparent" Width="40" Height="40">
+                    <Grid Width="200" >
+                        <Button BorderBrush="{ThemeResource ButtonRevealBorderBrush}"
+                            x:Name="SettingsButton"
+                            Width="200"
+                            Height="40"
+                            HorizontalAlignment="Left"
+                            Background="Transparent"
+                            Click="SettingsButton_Click"
+                            CornerRadius="0">
                             <Button.Content>
-                                <FontIcon Glyph="&#xE713;"/>
+                                <Grid Width="200">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="34" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <FontIcon Glyph="&#xE713;" FontSize="18" VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1" Text="Settings" Padding="2,0,0,0" VerticalAlignment="Center"/>
+                                </Grid>
                             </Button.Content>
                         </Button>
                     </Grid>
@@ -157,10 +184,10 @@
                         <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                             <MenuFlyout.Items>
                                 <MenuFlyoutItem
-                                            x:Name="UnpinItem"
-                                            x:Uid="SideBarUnpinFromSideBar"
-                                            Click="{x:Bind local1:App.FlyoutItem_Click}"
-                                            Text="Unpin from Sidebar" />
+                                    x:Name="UnpinItem"
+                                    x:Uid="SideBarUnpinFromSideBar"
+                                    Click="{x:Bind local1:App.FlyoutItem_Click}"
+                                    Text="Unpin from Sidebar" />
                             </MenuFlyout.Items>
                         </MenuFlyout>
                     </ResourceDictionary>
