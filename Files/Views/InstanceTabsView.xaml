@@ -13,11 +13,10 @@
     <Grid x:Name="rootGrid" Background="Transparent">
         <muxc:TabView
             x:Name="TabStrip"
-            Grid.Row="0"
-            Padding="0"
-            IsAddTabButtonVisible="False"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
+            Background="Transparent"
+            IsAddTabButtonVisible="False"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabWidthMode="Equal">
@@ -37,22 +36,27 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button Click="AddTabButton_Click" x:Name="AddTabButton" Margin="2,0" Background="Transparent" Width="28" Height="28">
+                        <Button
+                            x:Name="AddTabButton"
+                            Width="28"
+                            Height="28"
+                            Margin="2,0"
+                            Background="Transparent"
+                            Click="AddTabButton_Click">
                             <Button.Content>
-                                <FontIcon FontSize="10" Glyph="&#xE710;"/>
+                                <FontIcon FontSize="10" Glyph="&#xE710;" />
                             </Button.Content>
                         </Button>
                         <Grid
-                        x:Name="DragArea"
-                        Background="Transparent"
-                        MinWidth="175"
+                            x:Name="DragArea"
                             Grid.Column="1"
-                        Loaded="DragArea_Loaded" />
+                            MinWidth="175"
+                            Background="Transparent"
+                            Loaded="DragArea_Loaded" />
                     </Grid>
-                    
                 </DataTemplate>
             </muxc:TabView.TabStripFooterTemplate>
             <muxc:TabView.KeyboardAccelerators>
