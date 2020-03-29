@@ -56,6 +56,7 @@ namespace Files.Controls
         {
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
+            string NaviagtionPath = ""; // path to navigate
 
             if (args.InvokedItem == null)
             {
@@ -78,51 +79,36 @@ namespace Files.Controls
                         }
                         else // Any other item
                         {
-                            if (App.AppSettings.LayoutMode == 0) // List View
-                            {
-                                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                            }
-                            else
-                            {
-                                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), args.InvokedItemContainer.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                            }
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
+                            NaviagtionPath = args.InvokedItemContainer.Tag.ToString();
                         }
 
                         break;
                     }
                 case NavigationControlItemType.OneDrive:
                     {
-                        if (App.AppSettings.LayoutMode == 0) // List View
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
-                        }
-                        else
-                        {
-                        App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.OneDrivePath, new SuppressNavigationTransitionInfo());
-                        }
+                        NaviagtionPath = App.AppSettings.OneDrivePath;
                         break;
                     }
                 default:
                     {
                         var clickedItem = args.InvokedItemContainer;
 
-                        if (App.AppSettings.LayoutMode == 0) // List View
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                        }
-                        else
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), clickedItem.Tag.ToString(), new SuppressNavigationTransitionInfo());
-                        }
+                        NaviagtionPath = clickedItem.Tag.ToString();
 
                         App.CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedItem.Tag.ToString();
                         //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
 
                         break;
                     }
+            }
+
+            if (App.AppSettings.LayoutMode == 0) // List View
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NaviagtionPath, new SuppressNavigationTransitionInfo());
+            }
+            else
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NaviagtionPath, new SuppressNavigationTransitionInfo());
             }
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
