@@ -126,7 +126,7 @@
                 IsBackButtonVisible="Collapsed"
                 IsPaneOpen="True"
                 IsPaneToggleButtonVisible="False"
-                IsSettingsVisible="True"
+                IsSettingsVisible="False"
                 IsTitleBarAutoPaddingEnabled="False"
                 SelectionFollowsFocus="Enabled"
                 AllowFocusOnInteraction="False"
@@ -143,6 +143,15 @@
                         <Setter Property="BorderThickness" Value=".8"/>
                     </Style>
                 </muxc:NavigationView.MenuItemContainerStyle>
+                <muxc:NavigationView.PaneFooter>
+                    <Grid>
+                        <Button x:Name="SettingsButton" Click="SettingsButton_Click" Background="Transparent" Width="40" Height="40">
+                            <Button.Content>
+                                <FontIcon Glyph="&#xE713;"/>
+                            </Button.Content>
+                        </Button>
+                    </Grid>
+                </muxc:NavigationView.PaneFooter>
                 <muxc:NavigationView.Resources>
                     <ResourceDictionary>
                         <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">

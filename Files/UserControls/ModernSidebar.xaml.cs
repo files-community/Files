@@ -32,11 +32,15 @@ namespace Files.Controls
             }
             set
             {
-                if (value != _SelectedSidebarItem)
+                if(!(value as INavigationControlItem).Equals(null))
                 {
-                    _SelectedSidebarItem = value;
-                    NotifyPropertyChanged("SelectedSidebarItem");
+                    if (value != _SelectedSidebarItem)
+                    {
+                        _SelectedSidebarItem = value;
+                        NotifyPropertyChanged("SelectedSidebarItem");
+                    }
                 }
+                
             }
         }
 
@@ -72,15 +76,6 @@ namespace Files.Controls
             {
                 return;
             }
-
-            //if (args.IsSettingsInvoked == true)
-            //{
-            //    Frame rootFrame = Window.Current.Content as Frame;
-            //    var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            //    instanceTabsView.AddNewTab(typeof(Settings), "Settings");
-
-            //    return;
-            //}
 
             switch ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType)
             {
@@ -145,6 +140,15 @@ namespace Files.Controls
                 SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
                 App.rightClickedItem = item;
             }
+        }
+
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            instanceTabsView.AddNewTab(typeof(Settings), "Settings");
+
+            return;
         }
     }
 }
