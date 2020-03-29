@@ -384,7 +384,6 @@
                         <DataTemplate x:DataType="local2:ListedItem">
                             <Grid
                                 x:Name="Icon"
-                                Margin="0,0,0,0"
                                 EffectiveViewportChanged="Icon_EffectiveViewportChanged">
                                 <Rectangle
                                     x:Name="CutIndicator"
@@ -467,7 +466,6 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
-
 
     </Grid>
 </local:BaseLayout>
