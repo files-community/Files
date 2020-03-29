@@ -35,7 +35,6 @@ namespace Files.View_Models
             DetectSidebarOpacity();
             PinSidebarLocationItems();
             DetectOneDrivePreference();
-            DetectRibbonPreference();
             DetectConfirmDeletePreference();
             DrivesManager = new DrivesManager();
 
@@ -57,7 +56,6 @@ namespace Files.View_Models
                 ShowConfirmDeleteDialog = false;
             }
         }
-
 
         private void DetectStorageItemPreferences()
         {
@@ -276,20 +274,6 @@ namespace Files.View_Models
             }
         }
 
-        private void DetectRibbonPreference()
-        {
-            if (localSettings.Values["ShowRibbonContent"] == null) { localSettings.Values["ShowRibbonContent"] = true; }
-
-            if ((bool)localSettings.Values["ShowRibbonContent"] == true)
-            {
-                ShowRibbonContent = true;
-            }
-            else
-            {
-                ShowRibbonContent = false;
-            }
-        }
-
         private void DetectSidebarOpacity()
         {
             if (localSettings.Values["acrylicSidebar"] != null)
@@ -354,7 +338,6 @@ namespace Files.View_Models
                 }
             }
         }
-
 
         private void DetectApplicationTheme()
         {
