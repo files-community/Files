@@ -29,6 +29,7 @@
                 HorizontalContentAlignment="Stretch"
                 Canvas.ZIndex="100"
                 OffsetX="-4"
+                OffsetY="10"
                 ShadowOpacity=".07">
                 <Grid>
                     <Grid.RowDefinitions>
