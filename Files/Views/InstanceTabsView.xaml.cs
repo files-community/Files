@@ -73,13 +73,13 @@ namespace Files
         {
             if (Huyn.WindowDisplayInfo.GetForCurrentView().ToString() == "Maximized")
             {
-                WindowProperties.TabListPadding = new Thickness(8, 0, 0, 0);
+                WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
                 
             }
             else
             {
-                WindowProperties.TabListPadding = new Thickness(8, 0, 0, 0);
+                WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
 
             }
