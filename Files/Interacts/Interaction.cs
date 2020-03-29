@@ -30,6 +30,7 @@ using Windows.System.UserProfile;
 using static Files.Dialogs.ConfirmDeleteDialog;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Files.Views.Pages;
 
 namespace Files.Interacts
 {
@@ -99,7 +100,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
+                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.FilePath);
                 }
 
             }
@@ -108,7 +109,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
+                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.FilePath);
                 }
             }
         }
@@ -371,7 +372,7 @@ namespace Files.Interacts
 
                         if (clickedOnItem.FileType == "Folder")
                         {
-                            instanceTabsView.AddNewTab(typeof(ProHome), clickedOnItem.FilePath);
+                            instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.FilePath);
                         }
                         else
                         {
@@ -511,12 +512,12 @@ namespace Files.Interacts
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
-                    (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
+                    (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
                 }
 
                 foreach (ListedItem storItem in selectedItems)
                 {
-                    if (selectedItems.Count > 3) { (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
+                    if (selectedItems.Count > 3) { (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
 
                     try
                     {
@@ -857,7 +858,7 @@ namespace Files.Interacts
             itemsPasted = 0;
             if (ItemsToPaste.Count > 3)
             {
-                (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
+                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
             }
 
             foreach (IStorageItem item in ItemsToPaste)
@@ -871,7 +872,7 @@ namespace Files.Interacts
                 {
                     if (ItemsToPaste.Count > 3)
                     {
-                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
                     }
                     StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                     await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
@@ -910,7 +911,7 @@ namespace Files.Interacts
                 {
                     if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
                     }
                 }
 
@@ -922,7 +923,7 @@ namespace Files.Interacts
                 {
                     if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
                     }
                 }
 
@@ -1004,7 +1005,7 @@ namespace Files.Interacts
                         {
                             Frame rootFrame = Window.Current.Content as Frame;
                             var instanceTabsView = rootFrame.Content as InstanceTabsView;
-                            instanceTabsView.AddNewTab(typeof(ProHome), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                            instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                         });
                     });
                     

@@ -1,6 +1,7 @@
 ﻿using Files.Controls;
 using Files.Filesystem;
 using Files.Interacts;
+using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -96,7 +97,7 @@ namespace Files
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
-            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
+            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.Universal.WorkingDirectory = parameters;
 
@@ -196,7 +197,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

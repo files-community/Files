@@ -22,6 +22,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
+
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.Views.Pages
@@ -34,23 +35,45 @@ namespace Files.Views.Pages
         public ModernShellPage()
         {
             this.InitializeComponent();
+            if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
+            {
+                App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                DisplayFilesystemConsentDialog();
+            }
+
+            App.CurrentInstance = this as IShellPage;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
+            App.CurrentInstance.NavigationToolbar.CanGoBack = false;
+            App.CurrentInstance.NavigationToolbar.CanGoForward = false;
         }
 
-        Frame IShellPage.ContentFrame => throw new NotImplementedException();
+        Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
 
-        Interaction IShellPage.InteractionOperations => throw new NotImplementedException();
+        INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
 
-        ItemViewModel IShellPage.ViewModel => throw new NotImplementedException();
+        INavigationControlItem IShellPage.SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
 
-        BaseLayout IShellPage.ContentPage => throw new NotImplementedException();
+        Frame IShellPage.ContentFrame => ItemDisplayFrame;
 
-        Control IShellPage.OperationsControl => throw new NotImplementedException();
+        Interaction IShellPage.InteractionOperations => interactionOperation;
 
-        Type IShellPage.CurrentPageType => throw new NotImplementedException();
+        ItemViewModel IShellPage.ViewModel => viewModel;
 
-        INavigationControlItem IShellPage.SidebarSelectedItem { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        BaseLayout IShellPage.ContentPage => GetContentOrNull();
+        Control IShellPage.OperationsControl => null;
 
-        INavigationToolbar IShellPage.NavigationToolbar => throw new NotImplementedException();
+        private BaseLayout GetContentOrNull()
+        {
+            if ((ItemDisplayFrame.Content as BaseLayout) != null)
+            {
+                return ItemDisplayFrame.Content as BaseLayout;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         private bool _isSwiped;
         private void SwipeablePage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -165,7 +188,7 @@ namespace Files.Views.Pages
                     }
                 }
             }
-            RibbonArea.Focus(FocusState.Programmatic);
+            //RibbonArea.Focus(FocusState.Programmatic);
         }
 
         public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
@@ -287,12 +310,6 @@ namespace Files.Views.Pages
                 }
             }
         }
-    }
-
-    public enum InteractionOperationType
-    {
-        PasteItems = 0,
-        DeleteItems = 1,
     }
 }
 

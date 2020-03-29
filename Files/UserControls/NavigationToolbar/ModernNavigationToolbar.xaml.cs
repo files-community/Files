@@ -26,7 +26,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
+    public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
         private bool manualEntryBoxLoaded = false;
         private bool ManualEntryBoxLoaded
@@ -62,20 +62,12 @@ namespace Files.UserControls
             }
         }
 
-        private bool SearchBoxLoaded { get; set; }
+        private bool SearchBoxLoaded { get; set; } = false;
         private string PathText { get; set; }
 
-        public NavigationToolbar()
+        public ModernNavigationToolbar()
         {
             this.InitializeComponent();
-            if (Window.Current.Bounds.Width >= 800)
-            {
-                (this as INavigationToolbar).IsSearchReigonVisible = true;
-            }
-            else
-            {
-                (this as INavigationToolbar).IsSearchReigonVisible = false;
-            }
         }
 
         bool INavigationToolbar.IsSearchReigonVisible
@@ -89,14 +81,12 @@ namespace Files.UserControls
                 if (value)
                 {
                     ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
-                    SearchBoxResizer.Visibility = Visibility.Visible;
                     ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
                     SearchBoxLoaded = true;
                 }
                 else
                 {
                     ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
-                    SearchBoxResizer.Visibility = Visibility.Collapsed;
                     ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
                     SearchBoxLoaded = false;
                 }
@@ -275,8 +265,8 @@ namespace Files.UserControls
                             await dialog.ShowAsync();
 
                         }
-                    }            
-                    
+                    }
+
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
@@ -300,7 +290,7 @@ namespace Files.UserControls
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
             if (itemTappedPath == "Home" || itemTappedPath == "New tab")
-                return; 
+                return;
 
             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
         }

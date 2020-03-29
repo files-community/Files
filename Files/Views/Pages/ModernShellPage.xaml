@@ -4,31 +4,38 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Files.Views.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Files.Controls" xmlns:controls1="using:Files.UserControls" xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:controls="using:Files.Controls" xmlns:controls1="using:Files.UserControls" xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
+    Loaded="Page_Loaded"
+    NavigationCacheMode="Disabled"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <SplitView OpenPaneLength="200" DisplayMode="Inline" IsPaneOpen="True">
-            <SplitView.Pane>
-                <controls:ModernSidebar x:Name="SidebarControl"/>
-            </SplitView.Pane>
-            <SplitView.Content>
-                <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <controls:ModernSidebar x:Name="SidebarControl"/>
+
+        <Grid Grid.Column="1">
+
+
+            <Custom:DropShadowPanel
+                        Grid.Row="1"
+                HorizontalContentAlignment="Stretch"
+                 Margin="-4,0,0,0"
+                HorizontalAlignment="Stretch"
+                Canvas.ZIndex="100"
+                ShadowOpacity=".07" OffsetX="-4">
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <controls1:NavigationToolbar Grid.Column="0" x:Name="NavToolbar" x:FieldModifier="public" />
-                        <controls:RibbonArea Grid.Column="1" x:Name="RibbonArea" x:FieldModifier="public" />
+                    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <controls1:ModernNavigationToolbar Margin="10,4" Grid.Column="0" x:Name="NavToolbar" x:FieldModifier="public" />
                     </Grid>
-
                     <Frame
                 x:Name="ItemDisplayFrame"
                         Grid.Row="1"
@@ -38,10 +45,11 @@
                 ManipulationDelta="SwipeablePage_ManipulationDelta"
                 ManipulationMode="TranslateX,TranslateInertia,System"
                 Navigated="ItemDisplayFrame_Navigated" />
+                </Grid>
+            </Custom:DropShadowPanel>
 
-                    
 
-                    <FlyoutPresenter
+            <FlyoutPresenter
             x:Name="ProgressFlyout"
             Grid.Row="1"
             Margin="0,4,0,0"
@@ -51,17 +59,15 @@
             x:Load="False"
             Background="{ThemeResource UnmodifiedSystemPageColor}"
             Canvas.ZIndex="4">
-                        <StackPanel Orientation="Vertical" Spacing="8">
-                            <TextBlock
+                <StackPanel Orientation="Vertical" Spacing="8">
+                    <TextBlock
                     x:Name="ProgressFlyoutTextBlock"
                     Margin="0,0,48,0"
                     Text="Completing operation (1/1)..." />
-                            <ProgressBar x:Name="ProgressFlyoutProgressBar" VerticalAlignment="Center" />
-                        </StackPanel>
-                    </FlyoutPresenter>
+                    <ProgressBar x:Name="ProgressFlyoutProgressBar" VerticalAlignment="Center" />
+                </StackPanel>
+            </FlyoutPresenter>
 
-                </Grid>
-            </SplitView.Content>
-        </SplitView>
+        </Grid>
     </Grid>
 </Page>

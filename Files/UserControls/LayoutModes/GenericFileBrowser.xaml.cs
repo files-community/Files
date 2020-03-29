@@ -19,6 +19,7 @@ using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
 using System.Collections.Generic;
+using Files.Views.Pages;
 
 namespace Files
 {
@@ -143,11 +144,11 @@ namespace Files
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.WorkingDirectory, (item as StorageFolder).DisplayName, false);
+                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.WorkingDirectory, (item as StorageFolder).DisplayName, false);
                     }
                     else
                     {
-                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
                         await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.Universal.WorkingDirectory));
                     }
                 }
@@ -191,23 +192,23 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             AllView.SelectedItem = null;
-            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
+            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
-            if (e.AddedItems.Count > 0)
-            {
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
-            }
-            else if (AllView.SelectedItems.Count == 0)
-            {
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            }
+            //if (e.AddedItems.Count > 0)
+            //{
+            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
+            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
+            //}
+            //else if (AllView.SelectedItems.Count == 0)
+            //{
+            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
+            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
+            //}
         }
 
         private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)

@@ -19,7 +19,7 @@
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="{StaticResource SystemListLowColor}"
                                 TintColor="White"
-                                TintOpacity="0.7" />
+                                TintOpacity="0.9" />
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White" />
                             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
                         </ResourceDictionary>
@@ -28,9 +28,9 @@
                                 x:Key="BackgroundAcrylicBrush"
                                 Windows10version1903:TintLuminosityOpacity="0.9"
                                 BackgroundSource="HostBackdrop"
-                                FallbackColor="{StaticResource SystemListLowColor}"
+                                FallbackColor="{StaticResource SystemChromeWhiteColor}"
                                 TintColor="White"
-                                TintOpacity="0.7" />
+                                TintOpacity="0.9" />
                             <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White" />
                             <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White" />
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White" />

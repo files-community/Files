@@ -78,69 +78,9 @@ namespace Files
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
-                (App.CurrentInstance as ProHome).SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals("Home"));
+                App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.First(x => x.Path.Equals("Home"));
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
             }
-
-            //else
-            //{
-            //    var CurrentTabInstance = App.CurrentInstance;
-            //    if (Parameter.ToString() == App.AppSettings.DesktopPath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "Desktop";
-            //    }
-            //    else if (Parameter.ToString() == App.AppSettings.DownloadsPath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "Downloads";
-            //    }
-            //    else if (Parameter.ToString() == App.AppSettings.DocumentsPath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "Documents";
-            //    }
-            //    else if (Parameter.ToString() == App.AppSettings.PicturesPath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "Pictures";
-            //    }
-            //    else if (Parameter.ToString() == App.AppSettings.MusicPath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "Music";
-            //    }
-            //    else if (Parameter.ToString() == App.AppSettings.VideosPath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = App.sideBarItems.First(x => (x as INavigationControlItem).Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "Videos";
-            //    }
-            //    else if (Parameter.ToString() == App.AppSettings.OneDrivePath)
-            //    {
-            //        (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "OneDrive").First();
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = "OneDrive";
-            //    }
-            //    else
-            //    {
-            //        if (Parameter.ToString().Contains("C:\\") || Parameter.ToString().Contains("c:\\"))
-            //        {
-            //            (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = SettingsViewModel.foundDrives.Where(x => (x as DriveItem).tag == "C:\\").First();
-            //        }
-            //        else
-            //        {
-            //            foreach (DriveItem drive in SettingsViewModel.foundDrives)
-            //            {
-            //                if (drive.tag.ToString().Contains(Parameter.ToString().Split("\\")[0]))
-            //                {
-            //                    (App.CurrentInstance as ProHome).SidebarControl.SidebarNavView.SelectedItem = drive;
-            //                    break;
-            //                }
-            //            }
-
-            //        }
-            //        CurrentTabInstance.NavigationToolbar.PathControlDisplayText = Parameter.ToString();
-            //    }
-            //}
         }
     }
 }

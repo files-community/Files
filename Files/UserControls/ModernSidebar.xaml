@@ -137,6 +137,8 @@
                 MenuItemTemplateSelector="{StaticResource NavItemSelector}"
                 MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
                 OpenPaneLength="200"
+                Width="200"
+                HorizontalAlignment="Stretch"
                 PaneDisplayMode="Left">
                 <muxc:NavigationView.Resources>
                     <ResourceDictionary>

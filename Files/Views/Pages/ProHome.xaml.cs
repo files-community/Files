@@ -28,6 +28,12 @@ namespace Files
 {
     public sealed partial class ProHome : Page, IShellPage
     {
+        Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
+
+        INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
+
+        INavigationControlItem IShellPage.SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
+
         Frame IShellPage.ContentFrame => ItemDisplayFrame;
 
         Interaction IShellPage.InteractionOperations => interactionOperation;
@@ -35,6 +41,8 @@ namespace Files
         ItemViewModel IShellPage.ViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
+        Control IShellPage.OperationsControl => RibbonArea;
+
 
         private BaseLayout GetContentOrNull()
         {
@@ -48,7 +56,6 @@ namespace Files
             }
         }
 
-        Control IShellPage.OperationsControl => RibbonArea;
 
         
         private bool _isSwiped;
@@ -78,12 +85,7 @@ namespace Files
         }
 
         
-        Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
-
-        INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
-
-        INavigationControlItem IShellPage.SidebarSelectedItem { get => SidebarControl.SelectedSidebarItem; set => SidebarControl.SelectedSidebarItem = value; }
-
+        
         public ProHome()
         {
             this.InitializeComponent();

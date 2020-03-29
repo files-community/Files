@@ -150,6 +150,9 @@
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
+    <Compile Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml.cs">
+      <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\NavigationToolbar\NavigationToolbar.xaml.cs">
       <DependentUpon>NavigationToolbar.xaml</DependentUpon>
     </Compile>
@@ -369,6 +372,10 @@
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\NavigationToolbar\NavigationToolbar.xaml">
       <SubType>Designer</SubType>

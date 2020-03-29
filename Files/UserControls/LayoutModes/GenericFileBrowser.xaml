@@ -301,8 +301,8 @@
         <controls:DataGrid
             x:Name="AllView"
             Grid.Row="3"
-            Margin="12,12,0,0"
-            HorizontalAlignment="Left"
+            Margin="12"
+            HorizontalAlignment="Stretch"
             x:FieldModifier="public"
             AllowDrop="True"
             AutoGenerateColumns="False"

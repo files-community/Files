@@ -1,5 +1,6 @@
 ﻿using Files.Controls;
 using Files.Filesystem;
+using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -78,8 +79,8 @@ namespace Files
             }
             else
             {
-                WindowProperties.TabListPadding = new Thickness(8, 8, 0, 0);
-                WindowProperties.TabAddButtonMargin = new Thickness(0, 8, 0, 0);
+                WindowProperties.TabListPadding = new Thickness(8, 0, 0, 0);
+                WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
 
             }
         }
@@ -90,18 +91,18 @@ namespace Files
 
             if (string.IsNullOrEmpty(navArgs))
             {
-                AddNewTab(typeof(ProHome), "New tab");
+                AddNewTab(typeof(ModernShellPage), "New tab");
             }
             else
             {
-                AddNewTab(typeof(ProHome), navArgs);
+                AddNewTab(typeof(ModernShellPage), navArgs);
             }
 
             Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
             icon.Glyph = "\xE713";
             if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
             {
-                App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
             }
         }
 
@@ -376,7 +377,7 @@ namespace Files
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
 
@@ -398,7 +399,7 @@ namespace Files
 
         private void TabStrip_AddTabButtonClick(TabView sender, object args)
         {
-            AddNewTab(typeof(ProHome), "New tab");
+            AddNewTab(typeof(ModernShellPage), "New tab");
         }
     }
 
