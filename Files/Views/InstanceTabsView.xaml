@@ -95,7 +95,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Grid Margin="200,0,0,0" Canvas.ZIndex="100"
+                            <Grid Margin="196,0,0,0" Canvas.ZIndex="100"
                                 x:Name="TabContainerGrid"
                                 Background="{TemplateBinding Background}"
                                 XYFocusKeyboardNavigation="Enabled">
@@ -192,7 +192,7 @@
                 <DataTemplate>
                     <Grid
                         x:Name="DragArea"
-                        MinWidth="175"
+                        MinWidth="375"
                         Background="Transparent"
                         Loaded="DragArea_Loaded" />
                 </DataTemplate>
