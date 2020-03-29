@@ -16,6 +16,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -63,6 +64,17 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 //titleBar.BackgroundColor = Colors.Transparent;
             }
+
+            // Check if the acrylic sidebar setting is on
+            if (App.AppSettings.SidebarThemeMode == Enums.SidebarOpacity.AcrylicEnabled)
+            {
+                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+            }
+            else
+            {
+                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
+            }
+
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
         }

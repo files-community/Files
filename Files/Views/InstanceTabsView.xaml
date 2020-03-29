@@ -86,7 +86,7 @@
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
             <Setter Property="IsTabStop" Value="False" />
-            <Setter Property="Background" Value="{ThemeResource BackgroundAcrylicBrush}" />
+            <Setter Property="Background" Value="Transparent" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="muxc:TabView">
