@@ -14,6 +14,7 @@ using Files.Filesystem;
 using Newtonsoft.Json;
 using Files.DataModels;
 using System.Diagnostics;
+using GalaSoft.MvvmLight.Command;
 
 namespace Files.View_Models
 {
@@ -392,40 +393,23 @@ namespace Files.View_Models
             Terminals = terminals;
         }
 
-        private FormFactorMode _FormFactor = FormFactorMode.Regular;
-        private ThemeStyle _ThemeValue;
-        private bool _AreLinuxFilesSupported = false;
-        private bool _PinOneDriveToSideBar = true;
-        private bool _ShowRibbonContent = true;
-        private bool _ShowFileExtensions = true;
-        private string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-        private string _DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        private string _DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
-        private string _OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
-        private string _PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        private string _MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        private string _VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
-        private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
-        private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-        private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
-        private bool _ShowConfirmDeleteDialog = true;
         private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
-        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+        
         private IList<TerminalModel> _Terminals = null;
-
         public IList<TerminalModel> Terminals
         {
             get => _Terminals;
             set => Set(ref _Terminals, value);
         }
 
+        private FormFactorMode _FormFactor = FormFactorMode.Regular;
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
             set => Set(ref _FormFactor, value);
         }
 
+        private ThemeStyle _ThemeValue;
         public ThemeStyle ThemeValue
         {
             get => _ThemeValue;
@@ -447,12 +431,14 @@ namespace Files.View_Models
             }
         }
 
+        private bool _AreLinuxFilesSupported = false;
         public bool AreLinuxFilesSupported
         {
             get => _AreLinuxFilesSupported;
             set => Set(ref _AreLinuxFilesSupported, value);
         }
 
+        private bool _ShowFileExtensions = true;
         public bool ShowFileExtensions
         {
             get => _ShowFileExtensions;
@@ -480,6 +466,7 @@ namespace Files.View_Models
             }
         }
 
+        private bool _ShowConfirmDeleteDialog = true;
         public bool ShowConfirmDeleteDialog
         {
             get => _ShowConfirmDeleteDialog;
@@ -507,6 +494,7 @@ namespace Files.View_Models
             }
         }
 
+        private bool _PinOneDriveToSideBar = true;
         public bool PinOneDriveToSideBar
         {
             get => _PinOneDriveToSideBar;
@@ -544,72 +532,84 @@ namespace Files.View_Models
             }
         }
 
+        private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
         public string TempPath
         {
             get => _TempPath;
             set => Set(ref _TempPath, value);
         }
 
+        private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
         public string AppDataPath
         {
             get => _AppDataPath;
             set => Set(ref _AppDataPath, value);
         }
 
+        private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
         public string HomePath
         {
             get => _HomePath;
             set => Set(ref _HomePath, value);
         }
 
+        private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
         public string WinDirPath
         {
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
 
+        private string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public string DesktopPath
         {
             get => _DesktopPath;
             set => Set(ref _DesktopPath, value);
         }
 
+        private string _DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public string DocumentsPath
         {
             get => _DocumentsPath;
             set => Set(ref _DocumentsPath, value);
         }
 
+        private string _DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
         public string DownloadsPath
         {
             get => _DownloadsPath;
             set => Set(ref _DownloadsPath, value);
         }
 
+        private string _OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
         public string OneDrivePath
         {
             get => _OneDrivePath;
             set => Set(ref _OneDrivePath, value);
         }
 
+        private string _PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public string PicturesPath
         {
             get => _PicturesPath;
             set => Set(ref _PicturesPath, value);
         }
 
+        private string _MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public string MusicPath
         {
             get => _MusicPath;
             set => Set(ref _MusicPath, value);
         }
 
+        private string _VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         public string VideosPath
         {
             get => _VideosPath;
             set => Set(ref _VideosPath, value);
         }
 
+        private bool _ShowRibbonContent = true;
         public bool ShowRibbonContent
         {
             get => _ShowRibbonContent;
@@ -637,6 +637,47 @@ namespace Files.View_Models
             }
         }
 
+        private string _ToggleLayoutModeIcon = ""; // Grid View
+        public string ToggleLayoutModeIcon
+        {
+            get => _ToggleLayoutModeIcon;
+            set => Set(ref _ToggleLayoutModeIcon, value);
+        }
+
+        private Int16 _LayoutMode = 0; // Grid View
+        public Int16 LayoutMode
+        {
+            get => _LayoutMode;
+            set => Set(ref _LayoutMode, value);
+        }
+
+        private RelayCommand toggleLayoutMode;
+        public RelayCommand ToggleLayoutMode => toggleLayoutMode = new RelayCommand(() =>
+        {
+            if (LayoutMode == 0) // Grid View
+            {
+                LayoutMode = 1; // List View
+            }
+            else
+            {
+                LayoutMode = 0; // Grid View
+            }
+
+            UpdateToggleLayouModeIcon();
+        });
+
+        public void UpdateToggleLayouModeIcon()
+        {
+            if (LayoutMode == 0) // Grid View
+            {
+                ToggleLayoutModeIcon = ""; // Grid View;
+            }
+            else // List View
+            {
+                ToggleLayoutModeIcon = ""; // List View
+            }
+        }
+
         public SidebarOpacity SidebarThemeMode
         {
             get => _SidebarThemeMode;
@@ -654,6 +695,7 @@ namespace Files.View_Models
             }
         }
 
+        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         public TimeStyle DisplayedTimeStyle
         {
             get => _DisplayedTimeStyle;

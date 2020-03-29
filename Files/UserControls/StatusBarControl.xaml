@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
+    xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="40"
     d:DesignWidth="400"
@@ -32,18 +33,16 @@
                 </Button.Content>
             </Button>
 
-            <ToggleButton
+            <Button
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
                 Background="Transparent"
+                Command="{x:Bind local1:App.AppSettings.ToggleLayoutMode}"
+                Content="{x:Bind local1:App.AppSettings.ToggleLayoutModeIcon, Mode=OneWay}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                FontSize="16">
-                <ToggleButton.Content>
-                    &#xF0E2;
-                </ToggleButton.Content>
-            </ToggleButton>
+                FontSize="16" />
         </StackPanel>
 
     </Grid>
