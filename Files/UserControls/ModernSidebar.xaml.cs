@@ -73,6 +73,15 @@ namespace Files.Controls
                 return;
             }
 
+            //if (args.IsSettingsInvoked == true)
+            //{
+            //    Frame rootFrame = Window.Current.Content as Frame;
+            //    var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            //    instanceTabsView.AddNewTab(typeof(Settings), "Settings");
+
+            //    return;
+            //}
+
             switch ((args.InvokedItemContainer.DataContext as INavigationControlItem).ItemType)
             {
                 case NavigationControlItemType.Location:
