@@ -617,7 +617,7 @@
                     VerticalAlignment="Stretch"
                     HorizontalContentAlignment="Stretch"
                     VerticalContentAlignment="Stretch"
-                    Background="{ThemeResource TextControlBackground}"
+                    Background="Transparent"
                     CanReorderItems="False"
                     IsItemClickEnabled="True"
                     ItemClick="PathViewInteract_ItemClick"
@@ -659,6 +659,35 @@
             Grid.Row="2"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
+
+            <Button
+                Grid.Row="3"
+                Margin="0,0,4,0"
+                HorizontalAlignment="Right"
+                Background="Transparent"
+                FontFamily="Segoe MDL2 Assets"
+                Visibility="Visible">
+                <Button.Content>
+                    <FontIcon FontSize="14" Glyph="&#xE710;"/>
+                </Button.Content>
+
+
+            </Button>
+
+            <Button
+                Grid.Row="3"
+                Margin="0,0,4,0"
+                HorizontalAlignment="Right"
+                Background="Transparent"
+                FontFamily="Segoe MDL2 Assets"
+                Visibility="Visible">
+                <Button.Content>
+                    <FontIcon FontSize="14" Glyph="&#xE721;"/>
+                </Button.Content>
+
+
+            </Button>
+
             <AutoSuggestBox
                 x:Name="SearchReigon"
                 Grid.Row="2"
@@ -684,8 +713,10 @@
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem x:Uid="NavigationToolbarNewTab" Text="New Tab" />
                         <MenuFlyoutItem Text="New Window" />
+                        <MenuFlyoutItem Text="Copy Path" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem Text="Settings" />
+                        <MenuFlyoutItem Text="Paste" />
+                        <MenuFlyoutItem Text="Open in Terminal..." />
                     </MenuFlyout>
                 </Button.Flyout>
 
