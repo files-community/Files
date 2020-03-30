@@ -1,0 +1,429 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Удалить элемент(ы)</value>
+  </data>
+  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить выбранный элемент(ы)?</value>
+  </data>
+  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Удалить безвозвратно</value>
+  </data>
+  <data name="PropertiesCreated.Text" xml:space="preserve">
+    <value>Создано:</value>
+  </data>
+  <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
+    <value>Имя:</value>
+  </data>
+  <data name="PropertiesItemPath.Text" xml:space="preserve">
+    <value>Расположение:</value>
+  </data>
+  <data name="PropertiesItemSize.Text" xml:space="preserve">
+    <value>Размер:</value>
+  </data>
+  <data name="PropertiesItemType.Text" xml:space="preserve">
+    <value>Тип:</value>
+  </data>
+  <data name="PropertiesModified.Text" xml:space="preserve">
+    <value>Изменено:</value>
+  </data>
+  <data name="RecentItemClearAll.Text" xml:space="preserve">
+    <value>Очистить все</value>
+  </data>
+  <data name="RecentItemDescription.Text" xml:space="preserve">
+    <value>Файлы и папки, с которыми вы ранее взаимодействовали будут отображатся сдесь</value>
+  </data>
+  <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
+    <value>Открыть разположение файла</value>
+  </data>
+  <data name="RecentItemRemove.Text" xml:space="preserve">
+    <value>Убрать из списка</value>
+  </data>
+  <data name="RecentItems.Text" xml:space="preserve">
+    <value>Последние файлы</value>
+  </data>
+  <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="RibbonAreaClearAllButton.LabelText" xml:space="preserve">
+    <value>Очистить всё</value>
+  </data>
+  <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="RibbonAreaCopyPathButton.LabelText" xml:space="preserve">
+    <value>Копировать путь</value>
+  </data>
+  <data name="RibbonAreaCutButton.LabelText" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="RibbonAreaDeleteButton.LabelText" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="RibbonAreaFile.Header" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="RibbonAreaFileCloseDescription.Text" xml:space="preserve">
+    <value>Закрыть это окно</value>
+  </data>
+  <data name="RibbonAreaFileCloseTitle.Text" xml:space="preserve">
+    <value>Закрыть Files</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowDescription.Text" xml:space="preserve">
+    <value>Создать новый экземпляр Files</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowTitle.Text" xml:space="preserve">
+    <value>Открыть в новом окне</value>
+  </data>
+  <data name="RibbonAreaFileSettingsDescription.Text" xml:space="preserve">
+    <value>Изменить параметры приложения</value>
+  </data>
+  <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="RibbonAreaFolderProperties.LabelText" xml:space="preserve">
+    <value>Свойства папки</value>
+  </data>
+  <data name="RibbonAreaHome.Header" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="RibbonAreaLayoutButton.LabelText" xml:space="preserve">
+    <value>Структура</value>
+  </data>
+  <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
+    <value>Открыть с помощью</value>
+  </data>
+  <data name="RibbonAreaPasteButton.LabelText" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
+    <value>Переименовать</value>
+  </data>
+  <data name="RibbonAreaSelectAllButton.LabelText" xml:space="preserve">
+    <value>Выбрать всё</value>
+  </data>
+  <data name="RibbonAreaShare.Header" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
+  <data name="RibbonAreaShareButton.LabelText" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
+  <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="RibbonAreaSortByAscending.Text" xml:space="preserve">
+    <value>По возрастанию</value>
+  </data>
+  <data name="RibbonAreaSortByButton.LabelText" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="RibbonAreaSortByDate.Text" xml:space="preserve">
+    <value>Дата изменения</value>
+  </data>
+  <data name="RibbonAreaSortByDescending.Text" xml:space="preserve">
+    <value>По убыванию</value>
+  </data>
+  <data name="RibbonAreaSortByName.Text" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="RibbonAreaSortBySize.Text" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="RibbonAreaSortByType.Text" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="RibbonAreaView.Header" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+    <value>Files UWP</value>
+  </data>
+  <data name="SettingsAboutLicense.Text" xml:space="preserve">
+    <value>Лицензия: </value>
+  </data>
+  <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
+    <value>Особые благодарности:</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
+    <value>Отправить отчет</value>
+  </data>
+  <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
+    <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
+  </data>
+  <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
+    <value>Лицензия третих лиц</value>
+  </data>
+  <data name="SettingsAboutTitle.Text" xml:space="preserve">
+    <value>О приложении</value>
+  </data>
+  <data name="SettingsAboutWebsite.Text" xml:space="preserve">
+    <value>Сайт: </value>
+  </data>
+  <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
+    <value>Боковая панель с эффектом акрила</value>
+  </data>
+  <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
+    <value>Формат даты</value>
+  </data>
+  <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
+    <value>Тема</value>
+  </data>
+  <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
+    <value>Показывать буквы разделов</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
+    <value>Показать расширения файла для известных типов файлов</value>
+  </data>
+  <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
+    <value>Показывать скрытые файлы, папки, разделы</value>
+  </data>
+  <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
+    <value>Файлы и папки</value>
+  </data>
+  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
+    <value>Flags</value>
+  </data>
+  <data name="SettingsNav.PaneTitle" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="SettingsNavAbout.Content" xml:space="preserve">
+    <value>О приложении</value>
+  </data>
+  <data name="SettingsNavAppearance.Content" xml:space="preserve">
+    <value>Внешний вид</value>
+  </data>
+  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
+    <value>Файлы и папки</value>
+  </data>
+  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
+    <value>При запуске</value>
+  </data>
+  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
+    <value>Макеты страницы</value>
+  </data>
+  <data name="SettingsNavPreferences.Content" xml:space="preserve">
+    <value>Предпочтения</value>
+  </data>
+  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Продолжить, где вы остановились</value>
+  </data>
+  <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
+    <value>Откроть новую вкладку</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
+    <value>Открыть определенную страницу(ы)</value>
+  </data>
+  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
+    <value>При запуске</value>
+  </data>
+  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
+    <value>Рабочий стол</value>
+  </data>
+  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение рабочего стола</value>
+  </data>
+  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
+    <value>Документы</value>
+  </data>
+  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение документов</value>
+  </data>
+  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
+    <value>Загрузки</value>
+  </data>
+  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение загрузок</value>
+  </data>
+  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение музыки</value>
+  </data>
+  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
+    <value>OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение изображений</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
+    <value>Закрепить OneDrive в боковой панели</value>
+  </data>
+  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
+    <value>Заменить стандартные пути</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
+    <value>Показать диалог при удалении файлов или папок</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
+    <value>Стандартный терминал</value>
+  </data>
+  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
+    <value>Предпочтения</value>
+  </data>
+  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение для видео</value>
+  </data>
+  <data name="SidebarDesktop" xml:space="preserve">
+    <value>Рабочий стол</value>
+  </data>
+  <data name="SidebarDocuments" xml:space="preserve">
+    <value>Документы</value>
+  </data>
+  <data name="SidebarDownloads" xml:space="preserve">
+    <value>Загрузки</value>
+  </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
+    <value>Открепить от боковой панели</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+</root>
