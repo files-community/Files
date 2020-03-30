@@ -378,6 +378,30 @@
           <source>QuickLook</source>
           <target state="new">QuickLook</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>New Window</source>
+          <target state="new">New Window</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
+          <source>Copy Path</source>
+          <target state="new">Copy Path</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Paste</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
+          <source>Open in Terminal...</source>
+          <target state="new">Open in Terminal...</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter a path</source>
+          <target state="new">Enter a path</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="new">Search</target>
+        </trans-unit>
       </group>
     </body>
   </file>

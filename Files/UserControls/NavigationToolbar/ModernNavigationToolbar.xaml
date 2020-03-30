@@ -4,9 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:helpers="using:Files.Helpers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="80"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -514,6 +515,7 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
+    
     <Grid
         x:Name="ToolbarGrid"
         VerticalAlignment="Stretch"
@@ -614,6 +616,7 @@
 
             <TextBox
                 x:Name="VisiblePath"
+                x:Uid="NavigationToolbarVisiblePath"
                 Padding="4"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
@@ -685,10 +688,8 @@
                 FontFamily="Segoe MDL2 Assets"
                 Visibility="Visible">
                 <Button.Content>
-                    <FontIcon FontSize="14" Glyph="&#xE710;"/>
+                    <FontIcon FontSize="14" Glyph="&#xE710;" />
                 </Button.Content>
-
-
             </Button>
 
             <Button
@@ -699,14 +700,13 @@
                 FontFamily="Segoe MDL2 Assets"
                 Visibility="Visible">
                 <Button.Content>
-                    <FontIcon FontSize="14" Glyph="&#xE721;"/>
+                    <FontIcon FontSize="14" Glyph="&#xE721;" />
                 </Button.Content>
-
-
             </Button>
 
             <AutoSuggestBox
                 x:Name="SearchReigon"
+                x:Uid="NavigationToolbarSearchReigon"
                 Grid.Row="2"
                 Grid.Column="2"
                 Width="300"
@@ -729,14 +729,13 @@
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem x:Uid="NavigationToolbarNewTab" Text="New Tab" />
-                        <MenuFlyoutItem Text="New Window" />
-                        <MenuFlyoutItem Text="Copy Path" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarNewWindow" Text="New Window" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarCopyPath" Text="Copy Path" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem Text="Paste" />
-                        <MenuFlyoutItem Text="Open in Terminal..." />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarPaste" Text="Paste" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarOpenInTerminal" Text="Open in Terminal..." />
                     </MenuFlyout>
                 </Button.Flyout>
-
             </Button>
         </StackPanel>
     </Grid>

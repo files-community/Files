@@ -144,6 +144,18 @@
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
     <value>New Tab</value>
   </data>
+  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
+    <value>New Window</value>
+  </data>
+  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
+    <value>Copy Path</value>
+  </data>
+  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
+    <value>Paste</value>
+  </data>
+  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
+    <value>Open in Terminal...</value>
+  </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Created:</value>
   </data>
@@ -170,6 +182,12 @@
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
+  </data>  
+  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
+    <value>Enter a path</value>
+  </data>
+  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
     <value>Files and folders you've previously accessed will show up here</value>
