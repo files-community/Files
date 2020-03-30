@@ -30,13 +30,15 @@ namespace Files.View_Models
 
         public SettingsViewModel()
         {
+            _roamingSettings = ApplicationData.Current.RoamingSettings;
+
             DetectCustomLocations();
             DetectApplicationTheme();
+            DetectOneDrivePreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
-            DrivesManager = new DrivesManager();
 
-            _roamingSettings = ApplicationData.Current.RoamingSettings;
+            DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
             //DetectWSLDistros();
@@ -370,31 +372,26 @@ namespace Files.View_Models
             set => Set(ref _AreLinuxFilesSupported, value);
         }
 
-        private bool _ShowConfirmDeleteDialog = true;
-        public bool ShowConfirmDeleteDialog
+        private void DetectOneDrivePreference()
         {
-            get => _ShowConfirmDeleteDialog;
-            set
+            if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
+
+            if ((bool)localSettings.Values["PinOneDrive"] == true)
             {
-                if (localSettings.Values["ShowConfirmDeleteDialog"] == null)
-                {
-                    localSettings.Values["ShowConfirmDeleteDialog"] = value;
-                }
-                else
-                {
-                    if (value != _ShowConfirmDeleteDialog)
-                    {
-                        Set(ref _ShowConfirmDeleteDialog, value);
-                        if (value == true)
-                        {
-                            localSettings.Values["ShowConfirmDeleteDialog"] = true;
-                        }
-                        else
-                        {
-                            localSettings.Values["ShowConfirmDeleteDialog"] = false;
-                        }
-                    }
-                }
+                PinOneDriveToSideBar = true;
+            }
+            else
+            {
+                PinOneDriveToSideBar = false;
+            }
+
+            try
+            {
+                StorageFolder.GetFolderFromPathAsync(OneDrivePath);
+            }
+            catch (Exception)
+            {
+                PinOneDriveToSideBar = false;
             }
         }
 
@@ -513,71 +510,6 @@ namespace Files.View_Models
             set => Set(ref _VideosPath, value);
         }
 
-        private bool _ShowRibbonContent = true;
-        public bool ShowRibbonContent
-        {
-            get => _ShowRibbonContent;
-            set
-            {
-                if (localSettings.Values["ShowRibbonContent"] == null)
-                {
-                    localSettings.Values["ShowRibbonContent"] = value;
-                }
-                else
-                {
-                    if (value != _ShowRibbonContent)
-                    {
-                        Set(ref _ShowRibbonContent, value);
-                        if (value == true)
-                        {
-                            localSettings.Values["ShowRibbonContent"] = true;
-                        }
-                        else
-                        {
-                            localSettings.Values["ShowRibbonContent"] = false;
-                        }
-                    }
-                }
-            }
-        }
-        public string ToggleLayoutModeIcon
-        {
-            get => Get(""); // List View;
-            set => Set(value);
-        }
-        public Int32 LayoutMode
-        {
-            get => Get(0); // List View
-            set => Set(value);
-        }
-
-        private RelayCommand toggleLayoutMode;
-        public RelayCommand ToggleLayoutMode => toggleLayoutMode = new RelayCommand(() =>
-        {
-            if (LayoutMode == 0) // List View
-            {
-                LayoutMode = 1; // Grid View
-            }
-            else
-            {
-                LayoutMode = 0; // List View
-            }
-
-            UpdateToggleLayouModeIcon();
-        });
-
-        public void UpdateToggleLayouModeIcon()
-        {
-            if (LayoutMode == 0) // List View
-            {
-                ToggleLayoutModeIcon = ""; // List View;
-            }
-            else // List View
-            {
-                ToggleLayoutModeIcon = ""; // Grid View
-            }
-        }
-
         public bool AcrylicSidebar
         {
             get => Get(false);
@@ -589,6 +521,47 @@ namespace Files.View_Models
             get => Get(true);
             set => Set(value);
         }
+        
+        public bool ShowConfirmDeleteDialog
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+        
+        public bool ShowRibbonContent
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public Int32 LayoutMode
+        {
+            get => Get(0); // List View
+            set => Set(value);
+        }
+
+        public string ToggleLayoutModeIcon
+        {
+            get => Get(""); // List View;
+            set => Set(value);
+        }
+
+        private RelayCommand toggleLayoutMode;
+        public RelayCommand ToggleLayoutMode => toggleLayoutMode = new RelayCommand(() =>
+        {
+            if (LayoutMode == 0) // List View
+            {
+                LayoutMode = 1; // Grid View
+
+                ToggleLayoutModeIcon = "";
+            }
+            else //Grid View
+            {
+                LayoutMode = 0; // List View
+
+                ToggleLayoutModeIcon = "";
+            }
+        });
 
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         public TimeStyle DisplayedTimeStyle
