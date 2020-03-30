@@ -68,24 +68,6 @@ namespace Files.SettingsPages
 					//await TimeFormatReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
 				};
 			};
-
-			
-			AcrylicSidebarSwitch.IsOn = App.AppSettings.SidebarThemeMode.Equals(SidebarOpacity.Opaque) ? false : true;
-
-			AcrylicSidebarSwitch.Loaded += (sender, args) =>
-			{
-				AcrylicSidebarSwitch.Toggled += (o, eventArgs) =>
-				{
-					if (((ToggleSwitch)o).IsOn)
-					{
-						App.AppSettings.SidebarThemeMode = SidebarOpacity.AcrylicEnabled;
-					}
-					else
-					{
-						App.AppSettings.SidebarThemeMode = SidebarOpacity.Opaque;
-					}
-				};
-			};
 		}
 
 	}

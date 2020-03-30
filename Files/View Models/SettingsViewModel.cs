@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI;
@@ -20,20 +22,22 @@ namespace Files.View_Models
 {
     public class SettingsViewModel : ViewModelBase
     {
+        private readonly ApplicationDataContainer _roamingSettings;
+
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public DrivesManager DrivesManager { get; }
 
         public SettingsViewModel()
         {
+            _roamingSettings = ApplicationData.Current.RoamingSettings;
+
             DetectCustomLocations();
             DetectApplicationTheme();
-            DetectDateTimeFormat();
-            DetectStorageItemPreferences();
-            DetectSidebarOpacity();
-            PinSidebarLocationItems();
             DetectOneDrivePreference();
-            DetectConfirmDeletePreference();
+            DetectDateTimeFormat();
+            PinSidebarLocationItems();
+
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
@@ -41,40 +45,11 @@ namespace Files.View_Models
             LoadTerminalApps();
         }
 
-        private void DetectConfirmDeletePreference()
-        {
-            if (localSettings.Values["ShowConfirmDeleteDialog"] == null) { localSettings.Values["ShowConfirmDeleteDialog"] = true; }
-
-            if ((bool)localSettings.Values["ShowConfirmDeleteDialog"] == true)
-            {
-                ShowConfirmDeleteDialog = true;
-            }
-            else
-            {
-                ShowConfirmDeleteDialog = false;
-            }
-        }
-
-        private void DetectStorageItemPreferences()
-        {
-            if (localSettings.Values["ShowFileExtensions"] == null) { ShowFileExtensions = true; }
-
-            if ((bool)localSettings.Values["ShowFileExtensions"] == true)
-            {
-                ShowFileExtensions = true;
-            }
-            else
-            {
-                ShowFileExtensions = false;
-            }
-        }
-
         private void PinSidebarLocationItems()
         {
             AddDefaultLocations();
             PopulatePinnedSidebarItems();
         }
-
         private void AddDefaultLocations()
         {
             var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
@@ -249,45 +224,6 @@ namespace Files.View_Models
             }
         }
 
-        private void DetectOneDrivePreference()
-        {
-            if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
-
-            if ((bool)localSettings.Values["PinOneDrive"] == true)
-            {
-                PinOneDriveToSideBar = true;
-            }
-            else
-            {
-                PinOneDriveToSideBar = false;
-            }
-
-            try
-            {
-                StorageFolder.GetFolderFromPathAsync(OneDrivePath);
-            }
-            catch (Exception)
-            {
-                PinOneDriveToSideBar = false;
-            }
-        }
-
-        private void DetectSidebarOpacity()
-        {
-            if (localSettings.Values["acrylicSidebar"] != null)
-            {
-                switch (localSettings.Values["acrylicSidebar"])
-                {
-                    case true:
-                        SidebarThemeMode = SidebarOpacity.AcrylicEnabled;
-                        break;
-                    case false:
-                        SidebarThemeMode = SidebarOpacity.Opaque;
-                        break;
-                }
-            }
-        }
-
         private void DetectDateTimeFormat()
         {
             if (localSettings.Values[LocalSettings.DateTimeFormat] != null)
@@ -337,6 +273,23 @@ namespace Files.View_Models
             }
         }
 
+        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+        public TimeStyle DisplayedTimeStyle
+        {
+            get => _DisplayedTimeStyle;
+            set
+            {
+                Set(ref _DisplayedTimeStyle, value);
+                if (value.Equals(TimeStyle.Application))
+                {
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                }
+                else if (value.Equals(TimeStyle.System))
+                {
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
+                }
+            }
+        }
         private void DetectApplicationTheme()
         {
             if (localSettings.Values["theme"] != null)
@@ -393,8 +346,6 @@ namespace Files.View_Models
             Terminals = terminals;
         }
 
-        private SidebarOpacity _SidebarThemeMode = SidebarOpacity.Opaque;
-
         private IList<TerminalModel> _Terminals = null;
         public IList<TerminalModel> Terminals
         {
@@ -431,66 +382,26 @@ namespace Files.View_Models
             }
         }
 
-        private bool _AreLinuxFilesSupported = false;
-        public bool AreLinuxFilesSupported
+        private void DetectOneDrivePreference()
         {
-            get => _AreLinuxFilesSupported;
-            set => Set(ref _AreLinuxFilesSupported, value);
-        }
+            if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
 
-        private bool _ShowFileExtensions = true;
-        public bool ShowFileExtensions
-        {
-            get => _ShowFileExtensions;
-            set
+            if ((bool)localSettings.Values["PinOneDrive"] == true)
             {
-                if (localSettings.Values["ShowFileExtensions"] == null)
-                {
-                    localSettings.Values["ShowFileExtensions"] = value;
-                }
-                else
-                {
-                    if (value != _ShowFileExtensions)
-                    {
-                        Set(ref _ShowFileExtensions, value);
-                        if (value == true)
-                        {
-                            localSettings.Values["ShowFileExtensions"] = true;
-                        }
-                        else
-                        {
-                            localSettings.Values["ShowFileExtensions"] = false;
-                        }
-                    }
-                }
+                PinOneDriveToSideBar = true;
             }
-        }
-
-        private bool _ShowConfirmDeleteDialog = true;
-        public bool ShowConfirmDeleteDialog
-        {
-            get => _ShowConfirmDeleteDialog;
-            set
+            else
             {
-                if (localSettings.Values["ShowConfirmDeleteDialog"] == null)
-                {
-                    localSettings.Values["ShowConfirmDeleteDialog"] = value;
-                }
-                else
-                {
-                    if (value != _ShowConfirmDeleteDialog)
-                    {
-                        Set(ref _ShowConfirmDeleteDialog, value);
-                        if (value == true)
-                        {
-                            localSettings.Values["ShowConfirmDeleteDialog"] = true;
-                        }
-                        else
-                        {
-                            localSettings.Values["ShowConfirmDeleteDialog"] = false;
-                        }
-                    }
-                }
+                PinOneDriveToSideBar = false;
+            }
+
+            try
+            {
+                StorageFolder.GetFolderFromPathAsync(OneDrivePath);
+            }
+            catch (Exception)
+            {
+                PinOneDriveToSideBar = false;
             }
         }
 
@@ -609,46 +520,46 @@ namespace Files.View_Models
             set => Set(ref _VideosPath, value);
         }
 
-        private bool _ShowRibbonContent = true;
+        public bool AcrylicSidebar
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
+        public bool ShowFileExtensions
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+        
+        public bool ShowConfirmDeleteDialog
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+        
         public bool ShowRibbonContent
         {
-            get => _ShowRibbonContent;
-            set
-            {
-                if (localSettings.Values["ShowRibbonContent"] == null)
-                {
-                    localSettings.Values["ShowRibbonContent"] = value;
-                }
-                else
-                {
-                    if (value != _ShowRibbonContent)
-                    {
-                        Set(ref _ShowRibbonContent, value);
-                        if (value == true)
-                        {
-                            localSettings.Values["ShowRibbonContent"] = true;
-                        }
-                        else
-                        {
-                            localSettings.Values["ShowRibbonContent"] = false;
-                        }
-                    }
-                }
-            }
+            get => Get(true);
+            set => Set(value);
         }
 
-        private string _ToggleLayoutModeIcon = ""; // List View
+        public bool AreLinuxFilesSupported
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public Int32 LayoutMode
+        {
+            get => Get(0); // List View
+            set => Set(value);
+        }
+
         public string ToggleLayoutModeIcon
         {
-            get => _ToggleLayoutModeIcon;
-            set => Set(ref _ToggleLayoutModeIcon, value);
-        }
-
-        private Int16 _LayoutMode = 0; // List View
-        public Int16 LayoutMode
-        {
-            get => _LayoutMode;
-            set => Set(ref _LayoutMode, value);
+            get => Get(""); // List View;
+            set => Set(value);
         }
 
         private RelayCommand toggleLayoutMode;
@@ -657,61 +568,16 @@ namespace Files.View_Models
             if (LayoutMode == 0) // List View
             {
                 LayoutMode = 1; // Grid View
+
+                ToggleLayoutModeIcon = "";
             }
-            else
+            else //Grid View
             {
                 LayoutMode = 0; // List View
-            }
 
-            UpdateToggleLayouModeIcon();
+                ToggleLayoutModeIcon = "";
+            }
         });
-
-        public void UpdateToggleLayouModeIcon()
-        {
-            if (LayoutMode == 0) // List View
-            {
-                ToggleLayoutModeIcon = ""; // List View;
-            }
-            else // List View
-            {
-                ToggleLayoutModeIcon = ""; // Grid View
-            }
-        }
-
-        public SidebarOpacity SidebarThemeMode
-        {
-            get => _SidebarThemeMode;
-            set
-            {
-                Set(ref _SidebarThemeMode, value);
-                if (value.Equals(SidebarOpacity.Opaque))
-                {
-                    localSettings.Values["acrylicSidebar"] = false;
-                }
-                else
-                {
-                    localSettings.Values["acrylicSidebar"] = true;
-                }
-            }
-        }
-
-        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
-        public TimeStyle DisplayedTimeStyle
-        {
-            get => _DisplayedTimeStyle;
-            set
-            {
-                Set(ref _DisplayedTimeStyle, value);
-                if (value.Equals(TimeStyle.Application))
-                {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
-                }
-                else if (value.Equals(TimeStyle.System))
-                {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
-                }
-            }
-        }
 
         [Obsolete]
         public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
@@ -720,5 +586,72 @@ namespace Files.View_Models
         {
             DrivesManager.Dispose();
         }
+
+        public bool Set<TValue>(TValue value, [CallerMemberName] string propertyName = null)
+        {
+            propertyName = propertyName != null && propertyName.StartsWith("set_", StringComparison.InvariantCultureIgnoreCase)
+                ? propertyName.Substring(4)
+                : propertyName;
+
+            TValue originalValue = default;
+
+            if (_roamingSettings.Values.ContainsKey(propertyName))
+            {
+                originalValue = Get(originalValue, propertyName);
+
+                if (!base.Set(ref originalValue, value, propertyName)) return false;
+            }
+
+            _roamingSettings.Values[propertyName] = value;
+
+            return true;
+        }
+
+        public TValue Get<TValue>(TValue defaultValue, [CallerMemberName] string propertyName = null)
+        {
+            var name = propertyName ??
+                       throw new ArgumentNullException(nameof(propertyName), "Cannot store property of unnamed.");
+
+            name = name.StartsWith("get_", StringComparison.InvariantCultureIgnoreCase)
+                ? propertyName.Substring(4)
+                : propertyName;
+
+            if (_roamingSettings.Values.ContainsKey(name))
+            {
+                var value = _roamingSettings.Values[name];
+
+                if (!(value is TValue tValue))
+                {
+                    if (value is IConvertible)
+                    {
+                        tValue = (TValue)Convert.ChangeType(value, typeof(TValue));
+                    }
+                    else
+                    {
+                        var valueType = value.GetType();
+                        var tryParse = typeof(TValue).GetMethod("TryParse", BindingFlags.Instance | BindingFlags.Public);
+
+                        if (tryParse == null) return default;
+
+                        var stringValue = value.ToString();
+                        tValue = default;
+
+                        var tryParseDelegate =
+                            (TryParseDelegate<TValue>)Delegate.CreateDelegate(valueType, tryParse, false);
+
+                        tValue = (tryParseDelegate?.Invoke(stringValue, out tValue) ?? false) ? tValue : default;
+                    }
+
+                    Set(tValue, propertyName); // Put the corrected value in settings.
+                    return tValue;
+                }
+
+                return tValue;
+            }
+
+            return defaultValue;
+        }
+
+        delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
     }
 }

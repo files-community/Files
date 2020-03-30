@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:helpers="using:Files.Helpers"
     d:DesignHeight="80"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -482,6 +482,37 @@
             </Setter>
         </Style>
 
+        <DataTemplate x:Name="ParentItems">
+            <Grid
+                x:Name="ListViewItemContentGrid"
+                Background="Transparent"
+                Tag="{Binding Path}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        FontSize="18"
+                        FontWeight="Normal"
+                        Text="{Binding Title}" />
+                    <FontIcon FontSize="10" Glyph="&#xE76C;" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="CurrentItem">
+            <Grid
+                x:Name="ListViewItemContentGrid"
+                Background="Transparent"
+                Tag="{Binding Path}">
+                <StackPanel Orientation="Horizontal" Spacing="5">
+                    <TextBlock
+                        Margin="0,0,0,4"
+                        FontSize="18"
+                        FontWeight="Medium"
+                        Text="{Binding Title}" />
+                    <FontIcon FontSize="10" Glyph="&#xE76C;" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid
         x:Name="ToolbarGrid"
@@ -577,7 +608,7 @@
 
         <Grid
             Grid.Row="0"
-            Height="35"
+            Height="34"
             Margin="4,4"
             VerticalAlignment="Center">
 
@@ -592,7 +623,7 @@
                 BorderThickness="0"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontFamily="Segoe UI"
-                FontSize="20"
+                FontSize="18"
                 FontWeight="SemiBold"
                 KeyDown="VisiblePath_TextChanged"
                 LostFocus="VisiblePath_LostFocus"
@@ -629,28 +660,14 @@
                     ScrollViewer.VerticalScrollMode="Disabled"
                     SelectionMode="None"
                     Style="{StaticResource ListViewStyleNoAnimation}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid
-                                x:Name="ListViewItemContentGrid"
-                                Background="Transparent"
-                                Tag="{Binding Path}">
-                                <StackPanel Orientation="Horizontal" Spacing="5">
-                                    <TextBlock
-                                        Margin="0,0,0,4"
-                                        FontSize="20"
-                                        FontWeight="Medium"
-                                        Text="{Binding Title}" />
-                                    <FontIcon FontSize="10" Glyph="&#xE76C;" />
-                                </StackPanel>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <StackPanel Background="Transparent" Orientation="Horizontal" />
                         </ItemsPanelTemplate>
                     </ListView.ItemsPanel>
+                    <ListView.ItemTemplateSelector>
+                        <helpers:ItemsDataTemplateSelector CurrentItem="{StaticResource CurrentItem}" ParentItems="{StaticResource ParentItems}" />
+                    </ListView.ItemTemplateSelector>
                 </ListView>
             </Grid>
         </Grid>
