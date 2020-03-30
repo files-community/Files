@@ -21,7 +21,7 @@
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabWidthMode="Equal">
             <muxc:TabView.Resources>
-                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="RibbonBackgroundColor" />
+                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
                 <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
             </muxc:TabView.Resources>
             <muxc:TabView.TabStripHeader>
@@ -49,6 +49,9 @@
                             <Button.Content>
                                 <FontIcon FontSize="10" Glyph="&#xE710;" />
                             </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="T"/>
+                            </Button.KeyboardAccelerators>
                         </Button>
                         <Grid
                             x:Name="DragArea"
