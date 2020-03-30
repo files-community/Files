@@ -22,6 +22,26 @@
             PaneDisplayMode="Top"
             PaneTitle="Settings"
             SelectionChanged="SettingsPane_SelectionChanged">
+            <muxc:NavigationView.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast">
+                            
+                        </ResourceDictionary>
+                    </ResourceDictionary.ThemeDictionaries>
+                </ResourceDictionary>
+            </muxc:NavigationView.Resources>
+            
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     x:Uid="SettingsNavSearch"
