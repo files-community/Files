@@ -273,6 +273,23 @@ namespace Files.View_Models
             }
         }
 
+        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+        public TimeStyle DisplayedTimeStyle
+        {
+            get => _DisplayedTimeStyle;
+            set
+            {
+                Set(ref _DisplayedTimeStyle, value);
+                if (value.Equals(TimeStyle.Application))
+                {
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
+                }
+                else if (value.Equals(TimeStyle.System))
+                {
+                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
+                }
+            }
+        }
         private void DetectApplicationTheme()
         {
             if (localSettings.Values["theme"] != null)
@@ -363,13 +380,6 @@ namespace Files.View_Models
                     localSettings.Values["theme"] = "Dark";
                 }
             }
-        }
-
-        private bool _AreLinuxFilesSupported = false;
-        public bool AreLinuxFilesSupported
-        {
-            get => _AreLinuxFilesSupported;
-            set => Set(ref _AreLinuxFilesSupported, value);
         }
 
         private void DetectOneDrivePreference()
@@ -534,6 +544,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AreLinuxFilesSupported
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         public Int32 LayoutMode
         {
             get => Get(0); // List View
@@ -562,24 +578,6 @@ namespace Files.View_Models
                 ToggleLayoutModeIcon = "";
             }
         });
-
-        private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
-        public TimeStyle DisplayedTimeStyle
-        {
-            get => _DisplayedTimeStyle;
-            set
-            {
-                Set(ref _DisplayedTimeStyle, value);
-                if (value.Equals(TimeStyle.Application))
-                {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "Application";
-                }
-                else if (value.Equals(TimeStyle.System))
-                {
-                    localSettings.Values[LocalSettings.DateTimeFormat] = "System";
-                }
-            }
-        }
 
         [Obsolete]
         public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
