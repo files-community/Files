@@ -27,17 +27,6 @@ namespace Files.Controls
         {
             this.InitializeComponent();
 
-            // Check if the acrylic sidebar setting is on
-            if (App.AppSettings.SidebarThemeMode == Enums.SidebarOpacity.AcrylicEnabled)
-            {
-                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
-                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = Application.Current.Resources["BackgroundAcrylicBrush"];
-            }
-            else
-            {
-                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
-                SidebarNavView.Resources["NavigationViewExpandedPaneBackground"] = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
-            }
         }
 
         private INavigationControlItem _SelectedSidebarItem;

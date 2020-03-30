@@ -67,7 +67,7 @@ namespace Files
             }
 
             // Check if the acrylic sidebar setting is on
-            if (App.AppSettings.SidebarThemeMode == Enums.SidebarOpacity.AcrylicEnabled)
+            if (App.AppSettings.AcrylicSidebar == true)
             {
                 this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
             }

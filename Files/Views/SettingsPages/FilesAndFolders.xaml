@@ -77,10 +77,9 @@
                         Grid.Column="1"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.ShowFileExtensions, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsOn="{x:Bind local:App.AppSettings.ShowFileExtensions, Mode=TwoWay}"
                         OffContent=""
-                        OnContent=""
-                        Toggled="FileExtensionsToggle_Toggled" />
+                        OnContent="" />
                 </Grid>
 
                 <Grid HorizontalAlignment="Stretch">
