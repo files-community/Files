@@ -32,7 +32,6 @@ namespace Files.View_Models
         {
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            DetectCustomLocations();
             DetectApplicationTheme();
             DetectOneDrivePreference();
             DetectDateTimeFormat();
@@ -243,36 +242,6 @@ namespace Files.View_Models
             }
         }
 
-        private async void DetectCustomLocations()
-        {
-            // Detect custom locations set from Windows and detect QuickLook
-            localSettings.Values["Arguments"] = "StartupTasks";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
-            DesktopPath = localSettings.Values["DetectedDesktopLocation"] as string;
-            DownloadsPath = localSettings.Values["DetectedDownloadsLocation"] as string;
-            DocumentsPath = localSettings.Values["DetectedDocumentsLocation"] as string;
-            PicturesPath = localSettings.Values["DetectedPicturesLocation"] as string;
-            MusicPath = localSettings.Values["DetectedMusicLocation"] as string;
-            VideosPath = localSettings.Values["DetectedVideosLocation"] as string;
-            OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
-
-            // Overwrite paths for common locations if Custom Locations setting is enabled
-            if (localSettings.Values["customLocationsSetting"] != null)
-            {
-                if (localSettings.Values["customLocationsSetting"].Equals(true))
-                {
-                    DesktopPath = localSettings.Values["DesktopLocation"] as string;
-                    DownloadsPath = localSettings.Values["DownloadsLocation"] as string;
-                    DocumentsPath = localSettings.Values["DocumentsLocation"] as string;
-                    PicturesPath = localSettings.Values["PicturesLocation"] as string;
-                    MusicPath = localSettings.Values["MusicLocation"] as string;
-                    VideosPath = localSettings.Values["VideosLocation"] as string;
-                    OneDrivePath = localSettings.Values["DetectedOneDriveLocation"] as string;
-                }
-            }
-        }
-
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
         public TimeStyle DisplayedTimeStyle
         {
@@ -471,53 +440,46 @@ namespace Files.View_Models
             set => Set(ref _WinDirPath, value);
         }
 
-        private string _DesktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
         public string DesktopPath
         {
-            get => _DesktopPath;
-            set => Set(ref _DesktopPath, value);
+            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            set => Set(value);
         }
 
-        private string _DocumentsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public string DocumentsPath
         {
-            get => _DocumentsPath;
-            set => Set(ref _DocumentsPath, value);
+            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            set => Set(value);
         }
 
-        private string _DownloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads";
         public string DownloadsPath
         {
-            get => _DownloadsPath;
-            set => Set(ref _DownloadsPath, value);
+            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads");
+            set => Set(value);
         }
 
-        private string _OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
-        public string OneDrivePath
-        {
-            get => _OneDrivePath;
-            set => Set(ref _OneDrivePath, value);
-        }
-
-        private string _PicturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
         public string PicturesPath
         {
-            get => _PicturesPath;
-            set => Set(ref _PicturesPath, value);
+            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
+            set => Set(value);
         }
 
-        private string _MusicPath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
         public string MusicPath
         {
-            get => _MusicPath;
-            set => Set(ref _MusicPath, value);
+            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+            set => Set(value);
         }
 
-        private string _VideosPath = Environment.GetFolderPath(Environment.SpecialFolder.MyVideos);
         public string VideosPath
         {
-            get => _VideosPath;
-            set => Set(ref _VideosPath, value);
+            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
+            set => Set(value);
+        }
+
+        public string OneDrivePath
+        {
+            get => Get(Environment.GetEnvironmentVariable("OneDrive"));
+            set => Set(value);
         }
 
         public bool AcrylicSidebar

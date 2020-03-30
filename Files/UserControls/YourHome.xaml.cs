@@ -29,22 +29,6 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-
-            // Overwrite paths for common locations if Custom Locations setting is enabled
-            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-            if (localSettings.Values["customLocationsSetting"] != null)
-            {
-                if (localSettings.Values["customLocationsSetting"].Equals(true))
-                {
-                    App.AppSettings.DesktopPath = localSettings.Values["DesktopLocation"].ToString();
-                    App.AppSettings.DownloadsPath = localSettings.Values["DownloadsLocation"].ToString();
-                    App.AppSettings.DocumentsPath = localSettings.Values["DocumentsLocation"].ToString();
-                    App.AppSettings.PicturesPath = localSettings.Values["PicturesLocation"].ToString();
-                    App.AppSettings.MusicPath = localSettings.Values["MusicLocation"].ToString();
-                    App.AppSettings.VideosPath = localSettings.Values["VideosLocation"].ToString();
-                    App.AppSettings.OneDrivePath = localSettings.Values["OneDriveLocation"].ToString();
-                }
-            }
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)

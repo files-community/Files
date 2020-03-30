@@ -162,61 +162,9 @@
           <source>On Startup</source>
           <target state="translated">En el inicio</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
-          <source>Desktop</source>
-          <target state="translated">Escritorio</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom desktop location</source>
-          <target state="translated">Establecer nueva dirección de escritorio</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
-          <source>Documents</source>
-          <target state="translated">Documentos</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom documents location</source>
-          <target state="translated">Establecer nueva dirección de documentos</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
-          <source>Downloads</source>
-          <target state="translated">Descargas</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom downloads location</source>
-          <target state="translated">Establecer nueva dirección de descargas</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Música</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom music location</source>
-          <target state="translated">Establecer nueva dirección de música</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>OneDrive</source>
-          <target state="translated">OneDrive</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom OneDrive location</source>
-          <target state="translated">Establecer nueva dirección de OneDrive</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Imágenes</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom pictures location</source>
-          <target state="translated">Establecer nueva dirección de imágenes</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">Anclar OneDrive a la barra lateral</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
-          <source>Replace common locations</source>
-          <target state="translated">Reemplazar direcciones comúnes</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>

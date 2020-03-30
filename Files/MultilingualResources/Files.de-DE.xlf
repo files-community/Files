@@ -162,61 +162,9 @@
           <source>On Startup</source>
           <target state="translated">Beim Start</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
-          <source>Desktop</source>
-          <target state="translated">Desktop</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom desktop location</source>
-          <target state="translated">Benutzerdefinierten Pfad zum Desktopordner festlegen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
-          <source>Documents</source>
-          <target state="translated">Dokumente</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom documents location</source>
-          <target state="translated">Benutzerdefinierten Pfad zum Dokumentenordner festlegen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
-          <source>Downloads</source>
-          <target state="translated">Downloads</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom downloads location</source>
-          <target state="translated">Benutzerdefinierten Pfad zum Downloadordner festlegen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Musik</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom music location</source>
-          <target state="translated">Benutzerdefinierten Pfad zum Musikordner festlegen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>OneDrive</source>
-          <target state="translated">OneDrive</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom OneDrive location</source>
-          <target state="translated">Benutzerdefinierten Pfad zum OneDriveordner festlegen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Bilder</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom pictures location</source>
-          <target state="translated">Benutzerdefinierten Pfad zum Bilderordner festlegen</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">OneDrive an die Seitenleiste anheften</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
-          <source>Replace common locations</source>
-          <target state="translated">Standardpfade ersetzen</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>

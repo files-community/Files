@@ -129,47 +129,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Au démarrage</value>
   </data>
-  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
-    <value>Bureau</value>
-  </data>
-  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement du Bureau</value>
-  </data>
-  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
-    <value>Documents</value>
-  </data>
-  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement des Documents</value>
-  </data>
-  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
-    <value>Téléchargements</value>
-  </data>
-  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement des Téléchargements</value>
-  </data>
-  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
-    <value>Musique</value>
-  </data>
-  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement de la Musique</value>
-  </data>
-  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
-    <value>OneDrive</value>
-  </data>
-  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement de OneDrive</value>
-  </data>
-  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
-    <value>Images</value>
-  </data>
-  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement des Images</value>
-  </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Épingler OneDrive à la barre latérale</value>
-  </data>
-  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>Remplacer les emplacements courants</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Applications en ligne de commandes</value>

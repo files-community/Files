@@ -166,61 +166,9 @@
           <source>On Startup</source>
           <target state="translated">启动时</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
-          <source>Desktop</source>
-          <target state="translated">桌面</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom desktop location</source>
-          <target state="translated">自定义桌面位置</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
-          <source>Documents</source>
-          <target state="translated">文档</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom documents location</source>
-          <target state="translated">自定义文档位置</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
-          <source>Downloads</source>
-          <target state="translated">下载</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom downloads location</source>
-          <target state="translated">自定义下载位置</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">音乐</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom music location</source>
-          <target state="translated">自定义音乐位置</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>OneDrive</source>
-          <target state="new">OneDrive</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom OneDrive location</source>
-          <target state="translated">自定义 OneDrive 本地文件位置</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">图片</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom pictures location</source>
-          <target state="translated">自定义图片位置</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">固定 OneDrive 到侧边栏</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
-          <source>Replace common locations</source>
-          <target state="translated">自定义常用文件夹位置</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>

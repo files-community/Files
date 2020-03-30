@@ -166,61 +166,9 @@
           <source>On Startup</source>
           <target state="translated">Bij het opstarten</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
-          <source>Desktop</source>
-          <target state="translated">Bureaublad</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom desktop location</source>
-          <target state="translated">Stel bureaublad locatie in</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
-          <source>Documents</source>
-          <target state="translated">Documenten</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom documents location</source>
-          <target state="translated">Stel documenten locatie in</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
-          <source>Downloads</source>
-          <target state="new">Downloads</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom downloads location</source>
-          <target state="translated">Stel download locatie in</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Muziek</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom music location</source>
-          <target state="translated">Stel muziek locatie in</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>OneDrive</source>
-          <target state="new">OneDrive</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom OneDrive location</source>
-          <target state="translated">Stel OneDrive locatie in</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Afbeeldingen</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom pictures location</source>
-          <target state="translated">Stel afbeelding locatie in</target>
-        </trans-unit>
         <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
           <source>Pin OneDrive to the sidebar</source>
           <target state="translated">Pin OneDrive aan de zijbalk</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
-          <source>Replace common locations</source>
-          <target state="translated">Vervang vaak gebruikte locaties</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
           <source>Terminal Applications</source>

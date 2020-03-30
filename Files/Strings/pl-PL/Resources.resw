@@ -132,47 +132,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Po uruchomienu</value>
   </data>
-  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
-    <value>Pulpit</value>
-  </data>
-  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
-    <value>Ustaw własną lokalizację folderu Pulpit</value>
-  </data>
-  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
-    <value>Dokumenty</value>
-  </data>
-  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
-    <value>Ustaw własną lokalizację folderu Dokumenty</value>
-  </data>
-  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
-    <value>Pobrane</value>
-  </data>
-  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
-    <value>Ustaw własną lokalizację folderu Pobrane</value>
-  </data>
-  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
-    <value>Muzyka</value>
-  </data>
-  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>Ustaw własną lokalizację folderu Muzyka</value>
-  </data>
-  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
-    <value>OneDrive</value>
-  </data>
-  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
-    <value>Ustaw własną lokalizację folderu OneDrive</value>
-  </data>
-  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
-    <value>Obrazy</value>
-  </data>
-  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
-    <value>Ustaw własną lokalizację folderu Obrazy</value>
-  </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Przypnij OneDrive do paska bocznego</value>
-  </data>
-  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>Zmień lokalizację folderów</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Aplikacja wiersza poleceń</value>

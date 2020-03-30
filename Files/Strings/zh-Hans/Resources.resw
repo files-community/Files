@@ -132,44 +132,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>启动时</value>
   </data>
-  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
-    <value>桌面</value>
-  </data>
-  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义桌面位置</value>
-  </data>
-  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
-    <value>文档</value>
-  </data>
-  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义文档位置</value>
-  </data>
-  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
-    <value>下载</value>
-  </data>
-  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义下载位置</value>
-  </data>
-  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
-    <value>音乐</value>
-  </data>
-  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义音乐位置</value>
-  </data>
-  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义 OneDrive 本地文件位置</value>
-  </data>
-  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
-    <value>图片</value>
-  </data>
-  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义图片位置</value>
-  </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>固定 OneDrive 到侧边栏</value>
-  </data>
-  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>自定义常用文件夹位置</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>终端</value>
