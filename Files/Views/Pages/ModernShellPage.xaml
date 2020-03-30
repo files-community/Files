@@ -11,6 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
+    KeyUp="ModernShellPage_KeyUp"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
 

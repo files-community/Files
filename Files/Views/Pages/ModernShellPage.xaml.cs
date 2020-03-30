@@ -189,86 +189,86 @@ namespace Files.Views.Pages
             }
         }
 
-        private async void ProHomeInstance_KeyUp(object sender, KeyRoutedEventArgs e)
+        private async void ModernShellPage_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = App.CurrentInstance != null;
 
-            //switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
-            //{
-            //    case (true, true, false, true, VirtualKey.N): //ctrl + shift + n, new item
-            //        await App.addItemDialog.ShowAsync();
-            //        break;
-            //    case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //            App.InteractionViewModel.PermanentlyDelete = true;
-            //        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
-            //        break;
-            //    case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //            App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
-            //        break;
-            //    case (true, false, false, true, VirtualKey.V): //ctrl + v, paste
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //            App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
-            //        break;
-            //    case (true, false, false, true, VirtualKey.X): //ctrl + x, cut
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //            App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
-            //        break;
-            //    case (true, false, false, true, VirtualKey.A): //ctrl + a, select all
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //            App.CurrentInstance.InteractionOperations.SelectAllItems();
-            //        break;
-            //    case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
-            //        App.CurrentInstance.InteractionOperations.LaunchNewWindow();
-            //        break;
-            //    case (true, false, false, true, VirtualKey.W): //ctrl + w, close tab
-            //        App.CurrentInstance.InteractionOperations.CloseTab();
-            //        break;
-            //    case (true, false, false, true, VirtualKey.F4): //ctrl + F4, close tab
-            //        App.CurrentInstance.InteractionOperations.CloseTab();
-            //        break;
-            //    case (false, false, false, true, VirtualKey.Delete): //delete, delete item
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //            App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
-            //        break;
-            //    case (false, false, false, true, VirtualKey.Space): //space, quick look
-            //        if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-            //        {
-            //            if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
-            //            {
-            //                App.CurrentInstance.InteractionOperations.ToggleQuickLook();
-            //            }
-            //        }
-            //        break;
-            //    case (false, false, true, true, VirtualKey.Left): //alt + back arrow, backward
-            //        NavigationActions.Back_Click(null, null);
-            //        break;
-            //    case (false, false, true, true, VirtualKey.Right): //alt + right arrow, forward
-            //        NavigationActions.Forward_Click(null, null);
-            //        break;
-            //    case (true, false, false, true, VirtualKey.R): //ctrl + r, refresh
-            //        NavigationActions.Refresh_Click(null, null);
-            //        break;
-            //    case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
-            //        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-            //        break;
-            //    case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
-            //        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-            //        break;
-            //    case (false, false, true, true, VirtualKey.H):
-            //        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
-            //        break;
-            //    case (false, false, true, true, VirtualKey.S):
-            //        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
-            //        break;
-            //    case (false, false, true, true, VirtualKey.V):
-            //        (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
-            //        break;
-            //};
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
+            {
+                case (true, true, false, true, VirtualKey.N): //ctrl + shift + n, new item
+                    await App.addItemDialog.ShowAsync();
+                    break;
+                case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                        App.InteractionViewModel.PermanentlyDelete = true;
+                    App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.V): //ctrl + v, paste
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.X): //ctrl + x, cut
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.A): //ctrl + a, select all
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.SelectAllItems();
+                    break;
+                case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
+                    App.CurrentInstance.InteractionOperations.LaunchNewWindow();
+                    break;
+                case (true, false, false, true, VirtualKey.W): //ctrl + w, close tab
+                    App.CurrentInstance.InteractionOperations.CloseTab();
+                    break;
+                case (true, false, false, true, VirtualKey.F4): //ctrl + F4, close tab
+                    App.CurrentInstance.InteractionOperations.CloseTab();
+                    break;
+                case (false, false, false, true, VirtualKey.Delete): //delete, delete item
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                    break;
+                case (false, false, false, true, VirtualKey.Space): //space, quick look
+                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    {
+                        if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                        {
+                            App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                        }
+                    }
+                    break;
+                case (false, false, true, true, VirtualKey.Left): //alt + back arrow, backward
+                    NavigationActions.Back_Click(null, null);
+                    break;
+                case (false, false, true, true, VirtualKey.Right): //alt + right arrow, forward
+                    NavigationActions.Forward_Click(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.R): //ctrl + r, refresh
+                    NavigationActions.Refresh_Click(null, null);
+                    break;
+                case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    break;
+                case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    break;
+                case (false, false, true, true, VirtualKey.H):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
+                    break;
+                case (false, false, true, true, VirtualKey.S):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
+                    break;
+                case (false, false, true, true, VirtualKey.V):
+                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
+                    break;
+            };
 
 
             if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))

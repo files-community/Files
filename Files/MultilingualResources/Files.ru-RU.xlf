@@ -375,8 +375,8 @@
           <target state="new">Share</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
-          <source>Text</source>
-          <target state="new">Text</target>
+          <source>Cut</source>
+          <target state="new">Cut</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
           <source>Copy</source>
