@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="es-ES" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
+        <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
+          <source>Created:</source>
+          <target state="translated">Создано:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="translated">Имя</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Path:</source>
+          <target state="translated">Расположение:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="translated">Размер:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type:</source>
+          <target state="translated">Тип:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
+          <source>Modified:</source>
+          <target state="translated">Измененo:</target>
+        </trans-unit>
+        <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
+          <source>Clear all items</source>
+          <target state="translated">Очистить все</target>
+        </trans-unit>
+        <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
+          <source>Files and folders you've previously accessed will show up here</source>
+          <target state="translated">Файлы и папки, с которыми вы ранее взаимодействовали будут отображатся сдесь</target>
+        </trans-unit>
+        <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Открыть разположение файла</target>
+        </trans-unit>
+        <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove this item</source>
+          <target state="translated">Убрать из списка</target>
+        </trans-unit>
+        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
+          <source>Recent items</source>
+          <target state="translated">Последние файлы</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
+          <source>Files UWP</source>
+          <target state="translated">Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
+          <source>License: </source>
+          <target state="translated">Лицензия: </target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
+          <source>Special thanks to:</source>
+          <target state="translated">Особые благодарности:</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
+          <source>Submit Feedback</source>
+          <target state="translated">Отправить отзыв</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
+          <source>Submit an issue report to provide the developers with information</source>
+          <target state="translated">Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
+          <source>Third Party Licenses</source>
+          <target state="translated">Third Party Licenses</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">О приложении</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
+          <source>Website: </source>
+          <target state="translated">Сайт: </target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="translated">Боковая панель с эффектом акрила</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">Формат даты</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
+          <source>Theme</source>
+          <target state="translated">Тема</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">Внешний вид</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="translated">Показывать буквы разделов</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">Показать расширения файла для известных типов файлов</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="translated">Показывать скрытые файлы, папки, разделы</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">Файлы и папки</target>
+        </trans-unit>
+        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">Параметры</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">О приложении</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">Внешний вид</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">Файлы и папки</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">При запуске</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
+          <source>Page Layouts</source>
+          <target state="translated">Структура страницы</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">Предпочтения</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated">Поиск</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
+          <source>Continue where you left off</source>
+          <target state="translated">Продолжить, где вы остановились</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open a new tab</source>
+          <target state="translated">Откроть новую вкладку</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
+          <source>Open a specific page or pages</source>
+          <target state="translated">Открыть определенную страницу(ы)</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">При запуске</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDesktop.Text" translate="yes" xml:space="preserve">
+          <source>Desktop</source>
+          <target state="translated">Рабочий стол</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDesktopLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom desktop location</source>
+          <target state="translated">Задать свое расположение рабочего стола</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDocuments.Text" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="translated">Документы</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDocumentsLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom documents location</source>
+          <target state="translated">Задать свое расположение документов</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDownloads.Text" translate="yes" xml:space="preserve">
+          <source>Загрузки</source>
+          <target state="translated">Загрузки</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesDownloadsLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom downloads location</source>
+          <target state="translated">Задать свое расположение загрузок</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesMusic.Text" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Музыка</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesMusicLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom music location</source>
+          <target state="translated">Задать свое расположение музыки</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>OneDrive</source>
+          <target state="translated">OneDrive</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesOneDriveLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom OneDrive location</source>
+          <target state="translated">Задать свое расположение OneDrive</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPictures.Text" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Изображения</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPicturesLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom pictures location</source>
+          <target state="translated">Задать свое расположение изображений</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>Pin OneDrive to the sidebar</source>
+          <target state="translated">Закрепить OneDrive в боковой панели</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesReplaceCommonLocations.Text" translate="yes" xml:space="preserve">
+          <source>Replace common locations</source>
+          <target state="translated">Заменить стандартные пути</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">Стандартный терминал</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">Предпочтения</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesVideo.Text" translate="yes" xml:space="preserve">
+          <source>Video</source>
+          <target state="translated">Видео</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesVideoLocation.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Set custom video location</source>
+          <target state="translated">Задать свое расположение для видео</target>
+        </trans-unit>
+        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Sidebar</source>
+          <target state="translated">Открепить от боковой панели</target>
+        </trans-unit>
+        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Flags</source>
+          <target state="new">Flags</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFile.Header" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">Файл</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaHome.Header" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="new">Главная</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShare.Header" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="new">Поделиться</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaView.Header" translate="yes" xml:space="preserve">
+          <source>View</source>
+          <target state="new">Вид</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileCloseDescription.Text" translate="yes" xml:space="preserve">
+          <source>Closes this window</source>
+          <target state="new">Закрыть это окно</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileCloseTitle.Text" translate="yes" xml:space="preserve">
+          <source>Close Files</source>
+          <target state="new">Закрыть Files</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileOpenNewWindowDescription.Text" translate="yes" xml:space="preserve">
+          <source>Creates a new instance of Files</source>
+          <target state="new">Создать новый экземпляр Files</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileOpenNewWindowTitle.Text" translate="yes" xml:space="preserve">
+          <source>Open new window</source>
+          <target state="new">Открыть в новом окне</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileSettingsDescription.Text" translate="yes" xml:space="preserve">
+          <source>Make changes to app preferences</source>
+          <target state="new">Изменить параметры приложения</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFileSettingsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Параметры</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCutButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Cut</source>
+          <target state="new">Вырезать</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCopyButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="new">Копировать</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaAddItemButton.LabelText" translate="yes" xml:space="preserve">
+          <source>New</source>
+          <target state="new">Создать</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaCopyPathButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Copy Path</source>
+          <target state="new">Скопировать путь</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaDeleteButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Удалить</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaFolderProperties.LabelText" translate="yes" xml:space="preserve">
+          <source>Folder Properties</source>
+          <target state="new">Свойства папки</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaOpenWithButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Open With</source>
+          <target state="new">Открыть с помощью</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaPasteButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="new">Вставить</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaRenameButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="new">Переименовать</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShowPropertiesButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Свойства</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaShareButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="new">Поделиться</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaClearAllButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Clear All</source>
+          <target state="new">Очистить всё</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaLayoutButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Layout Mode</source>
+          <target state="new">Структура</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSelectAllButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <target state="new">Выбрать всё</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByButton.LabelText" translate="yes" xml:space="preserve">
+          <source>Sort By</source>
+          <target state="new">Сортировка</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="new">По возрастанию</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByDate.Text" translate="yes" xml:space="preserve">
+          <source>Date Modified</source>
+          <target state="new">Дата изменения</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="new">По убыванию</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="new">Имя</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortBySize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="new">Размер</target>
+        </trans-unit>
+        <trans-unit id="RibbonAreaSortByType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="new">Тип</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Delete Item(s)</source>
+          <target state="new">Удалить элемент(ы)</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="new">Отменить</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="new">Удалить</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogHeader.Text" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete the selected item(s)?</source>
+          <target state="new">Вы уверены, что хотите удалить выбранный элемент(ы)?</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
+          <source>Permanently delete</source>
+          <target state="new">Удалить безвозвратно</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="new">Показать диалог при удалении файлов или папок</target>
+        </trans-unit>
+        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+          <source>Desktop</source>
+          <target state="new">Рабочий стол</target>
+        </trans-unit>
+        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="new">Документы</target>
+        </trans-unit>
+        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+          <source>Downloads</source>
+          <target state="new">Загрузки</target>
+        </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="new">Главная</target>
+        </trans-unit>
+        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="new">Музыка</target>
+        </trans-unit>
+        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="new">Изображения</target>
+        </trans-unit>
+        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="new">Видео</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
