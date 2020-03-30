@@ -49,6 +49,9 @@
                             <Button.Content>
                                 <FontIcon FontSize="10" Glyph="&#xE710;" />
                             </Button.Content>
+                            <Button.KeyboardAccelerators>
+                                <KeyboardAccelerator Modifiers="Control" Key="T"/>
+                            </Button.KeyboardAccelerators>
                         </Button>
                         <Grid
                             x:Name="DragArea"
