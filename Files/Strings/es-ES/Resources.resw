@@ -13,138 +13,138 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Creado:</value>
+    <value>Создано:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Nombre</value>
+    <value>Имя</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Destino:</value>
+    <value>Расположение:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Tamaño:</value>
+    <value>Размер:</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Tipo:</value>
+    <value>Тип:</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modificado:</value>
+    <value>Измененo:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Borrar todo</value>
+    <value>Очистить все</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Los archivos y carpetas a los que hayas accedido anteriormente aparecerán aquí</value>
+    <value>Файлы и папки, с которыми вы ранее взаимодействовали будут отображатся сдесь</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Abrir ubicación del archivo</value>
+    <value>Открыть разположение файла</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Quitar</value>
+    <value>Убрать из списка</value>
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
-    <value>Recientes</value>
+    <value>Последние файлы</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Archivos UWP</value>
+    <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Licencia: </value>
+    <value>Лицензия: </value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Agradecimientos especiales a:</value>
+    <value>Особые благодарности:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Envíar opiniones</value>
+    <value>Отправить отзыв</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Envía un informe de fallos a los desarrolladores</value>
+    <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Licencias de terceros</value>
+    <value>Third Party Licenses</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>Sobre nosotros</value>
+    <value>О приложении</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Sitio web: </value>
+    <value>Сайт: </value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Barra lateral acrílica</value>
+    <value>Боковая панель с эффектом акрила</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Formato de fecha</value>
+    <value>Формат даты</value>
   </data>
   <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Tema</value>
+    <value>Тема</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
-    <value>Apariencia</value>
+    <value>Внешний вид</value>
   </data>
   <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Mostrar letras de discos duros</value>
+    <value>Показывать буквы разделов</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Mostrar extensiones de tipos de archivo conocidos</value>
+    <value>Показать расширения файла для известных типов файлов</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Mostrar archivos, carpetas y discos duros ocultos</value>
+    <value>Показывать скрытые файлы, папки, разделы</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Carpetas y archivos</value>
+    <value>Файлы и папки</value>
   </data>
   <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>Ajustes</value>
+    <value>Параметры</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Sobre nosotros</value>
+    <value>О приложении</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Apariencia</value>
+    <value>Внешний вид</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Archivos y carpetas</value>
+    <value>Файлы и папки</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>En el inicio</value>
+    <value>При запуске</value>
   </data>
   <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Diseño de páginas</value>
+    <value>Структура страницы</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Preferencias</value>
+    <value>Предпочтения</value>
   </data>
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Búsqueda</value>
+    <value>Поиск</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continúa por donde lo has dejado</value>
+    <value>Продолжить, где вы остановились</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Abrir una nueva ventana</value>
+    <value>Откроть новую вкладку</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abrir en una página específica o páginas</value>
+    <value>Открыть определенную страницу(ы)</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>En el inicio</value>
+    <value>При запуске</value>
   </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Anclar OneDrive a la barra lateral</value>
+    <value>Закрепить OneDrive в боковой панели</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Aplicaciones del terminal</value>
+    <value>Стандартный терминал</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferencias</value>
+    <value>Предпочтения</value>
   </data>
   <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
-    <value>Vídeos</value>
+    <value>Видео</value>
   </data>
   <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>Establecer nueva dirección de vídeos</value>
+    <value>Задать свое расположение для видео</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Desanclar de la barra lateral</value>
+    <value>Открепить от боковой панели</value>
   </data>
 </root>
