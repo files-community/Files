@@ -297,7 +297,6 @@
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -360,7 +359,6 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
-    <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <PRIResource Include="Strings\pl-PL\Resources.resw" />
     <PRIResource Include="Strings\nl-NL\Resources.resw" />
     <PRIResource Include="Strings\zh-Hans\Resources.resw" />
