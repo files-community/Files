@@ -1,24 +1,15 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -253,21 +244,21 @@ namespace Files.Views.Pages
                 case (true, false, false, true, VirtualKey.R): //ctrl + r, refresh
                     NavigationActions.Refresh_Click(null, null);
                     break;
-                case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-                    break;
-                case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-                    break;
-                case (false, false, true, true, VirtualKey.H):
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
-                    break;
-                case (false, false, true, true, VirtualKey.S):
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
-                    break;
-                case (false, false, true, true, VirtualKey.V):
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
-                    break;
+                    //case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    //    break;
+                    //case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    //    break;
+                    //case (false, false, true, true, VirtualKey.H):
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
+                    //    break;
+                    //case (false, false, true, true, VirtualKey.S):
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
+                    //    break;
+                    //case (false, false, true, true, VirtualKey.V):
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
+                    //    break;
             };
 
 
