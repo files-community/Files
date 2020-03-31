@@ -10,8 +10,8 @@
     xmlns:local="using:Files.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded"
     KeyUp="ModernShellPage_KeyUp"
+    Loaded="Page_Loaded"
     NavigationCacheMode="Disabled"
     mc:Ignorable="d">
 

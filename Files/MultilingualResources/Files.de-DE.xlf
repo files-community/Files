@@ -403,6 +403,14 @@
           <source>Search</source>
           <target state="new">Search</target>
         </trans-unit>
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <target state="new">Select All</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+          <source>Clear Selection</source>
+          <target state="new">Clear Selection</target>
+        </trans-unit>
       </group>
     </body>
   </file>

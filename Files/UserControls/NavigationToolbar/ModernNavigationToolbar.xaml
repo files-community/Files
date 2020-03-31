@@ -515,7 +515,7 @@
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
-    
+
     <Grid
         x:Name="ToolbarGrid"
         VerticalAlignment="Stretch"

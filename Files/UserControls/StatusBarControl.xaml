@@ -24,13 +24,17 @@
                 Height="30"
                 Margin="2,0,2,0"
                 Background="Transparent"
+                Content="&#xE762;"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}">
-                <Button.Content>
-                    &#xE762;
-                </Button.Content>
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem x:Uid="StatusBarControlSelectAll" Text="Select All" />
+                        <MenuFlyoutItem x:Uid="StatusBarControlClearSelection" Text="Clear Selection" />
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
 
             <Button
