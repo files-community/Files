@@ -7,6 +7,7 @@ using Interaction = Files.Interacts.Interaction;
 using Windows.UI.Core;
 using Files.Controls;
 using System;
+using System.Linq;
 
 namespace Files
 {
@@ -47,24 +48,13 @@ namespace Files
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
                 FileList.SelectedItem = null;
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //if (e.AddedItems.Count > 0)
-            //{
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
-
-            //}
-            //else if (FileList.SelectedItems.Count == 0)
-            //{
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            //}
+            base.SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
+            base.SelectedItem = FileList.SelectedItem as ListedItem;
         }
 
         private ListedItem renamingItem;

@@ -4,8 +4,10 @@ using Files.Interacts;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -25,49 +27,73 @@ namespace Files
     /// <summary>
     /// The base class which every layout page must derive from
     /// </summary>
-    public abstract class BaseLayout : Page
+    public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
         public bool IsQuickLookEnabled { get; set; } = false;
 
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
         public bool isRenamingItem = false;
+
+        private bool isItemSelected = false;
+        public bool IsItemSelected
+        {
+            get
+            {
+                return isItemSelected;
+            }
+            internal set
+            {
+                if (value != isItemSelected)
+                {
+                    isItemSelected = value;
+                    NotifyPropertyChanged("IsItemSelected");
+                }
+            }
+        }
+
+        private List<ListedItem> _SelectedItems;
         public List<ListedItem> SelectedItems
         {
             get
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+                return _SelectedItems;
+            }
+            set
+            {
+                if(value != _SelectedItems)
                 {
-                    return (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Cast<ListedItem>().ToList();
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                {
-                    return (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItems.Cast<ListedItem>().ToList();
-                }
-                else
-                {
-                    return new List<ListedItem>();
+                    _SelectedItems = value;
+                    if(value == null)
+                    {
+                        IsItemSelected = false;
+                    }
+                    NotifyPropertyChanged("SelectedItems");
                 }
             }
         }
+
+        private ListedItem _SelectedItem;
         public ListedItem SelectedItem
         {
             get
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+                return _SelectedItem;
+            }
+            set
+            {
+                if (value != _SelectedItem)
                 {
-                    return (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                {
-                    return (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
-                }
-                else
-                {
-                    return null;
+                    _SelectedItem = value;
+                    if (value == null)
+                    {
+                        IsItemSelected = false;
+                    }
+                    NotifyPropertyChanged("SelectedItem");
                 }
             }
         }
+
 
         public BaseLayout()
         {
@@ -84,6 +110,12 @@ namespace Files
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
@@ -97,7 +129,7 @@ namespace Files
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
-            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
+            IsItemSelected = false;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.Universal.WorkingDirectory = parameters;
 

@@ -192,23 +192,13 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             AllView.SelectedItem = null;
-            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
-            //if (e.AddedItems.Count > 0)
-            //{
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
-            //}
-            //else if (AllView.SelectedItems.Count == 0)
-            //{
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            //}
+            base.SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            base.SelectedItem = AllView.SelectedItem as ListedItem;
         }
 
         private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)

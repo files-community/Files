@@ -331,55 +331,6 @@ namespace Files.Filesystem
             }
         }
 
-        //private void AlwaysPresentCommands_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled == true)
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
-        //    }
-        //    else
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
-        //    }
-        //}
-
-        //private void LayoutItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled == true)
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled = true;
-        //    }
-        //    else
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.isEnabled = false;
-        //    }
-        //}
-
-        //private void ShareItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled == true)
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled = true;
-        //    }
-        //    else
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.isEnabled = false;
-        //    }
-        //}
-
-        //private void HomeItems_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        //{
-        //    if ((App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled == true)
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled = true;
-        //    }
-        //    else
-        //    {
-        //        (App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.HomeItems.isEnabled = false;
-        //    }
-
-        //}
-
         public void AddFileOrFolder(ListedItem item)
         {
             _filesAndFolders.Add(item);
@@ -1143,7 +1094,6 @@ namespace Files.Filesystem
                     itemEmptyImgVis = Visibility.Visible;
                     itemThumbnailImgVis = Visibility.Collapsed;
                     // Catch here to avoid crash
-                    // TODO maybe some logging could be added in the future...
                 }
             }
             else
