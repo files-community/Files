@@ -83,36 +83,6 @@ namespace Files
         public bool recentsListVis { get; set; } = true;
         public bool drivesListVis { get; set; } = false;
 
-        private void CardPressed(object sender, ItemClickEventArgs e)
-        {
-            string BelowCardText = ((Locations.FavoriteLocationItem)e.ClickedItem).Tag;
-            if (BelowCardText == "Downloads")
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (BelowCardText == "Documents")
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (BelowCardText == "Pictures")
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (BelowCardText == "Music")
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (BelowCardText == "Videos")
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-        }
-
         private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             (sender as DropShadowPanel).ShadowOpacity = 0.25;
@@ -125,31 +95,41 @@ namespace Files
 
         private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            var clickedButton = sender as Button;
-            if (clickedButton.Tag.ToString() == "\xE896") // Downloads
+            string NaviagtionPath = ""; // path to navigate
+            string ClickedCard = (sender as Button).Tag.ToString();
+
+            switch (ClickedCard)
             {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
+                case "Downloads":
+                    NaviagtionPath = App.AppSettings.DownloadsPath;
+                    break;
+
+                case "Documents":
+                    NaviagtionPath = App.AppSettings.DocumentsPath;
+                    break;
+
+                case "Pictures":
+                    NaviagtionPath = App.AppSettings.PicturesPath;
+                    break;
+
+                case "Music":
+                    NaviagtionPath = App.AppSettings.MusicPath;
+                    break;
+
+                case ("Videos"):
+                    NaviagtionPath = App.AppSettings.VideosPath;
+                    break;
             }
-            else if (clickedButton.Tag.ToString() == "\xE8A5") // Documents
+
+
+            switch (App.AppSettings.LayoutMode)
             {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (clickedButton.Tag.ToString() == "\xEB9F") // Pictures
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (clickedButton.Tag.ToString() == "\xEC4F") // Music
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
-            }
-            else if (clickedButton.Tag.ToString() == "\xE8B2") // Videos
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath);
-                //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
+                case 0:
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NaviagtionPath); // List View
+                    break;
+                case 1:
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NaviagtionPath); // Grid View
+                    break;
             }
         }
         public static StorageFile RecentsFile;
