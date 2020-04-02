@@ -292,7 +292,7 @@
 
         <GridView
             x:Name="FileList"
-            Margin="24,24,24,0"
+            Margin="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
             DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
