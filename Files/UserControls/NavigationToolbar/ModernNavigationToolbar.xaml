@@ -690,6 +690,35 @@
                 <Button.Content>
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
                 </Button.Content>
+                <Button.Flyout>
+                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                        <MenuFlyoutItem
+                            x:Uid="ModernNavigationToolbaNewFolder"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
+                            Text="Folder">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8B7;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutSeparator />
+                        <MenuFlyoutItem
+                            x:Uid="ModernNavigationToolbaNewBitmapImage"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
+                            Text="Bitmap Image">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEB9F;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="ModernNavigationToolbaNewTextDocument"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
+                            Text="Text Document">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8A5;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
             </Button>
 
             <Button
@@ -732,8 +761,14 @@
                         <MenuFlyoutItem x:Uid="NavigationToolbarNewWindow" Text="New Window" />
                         <MenuFlyoutItem x:Uid="NavigationToolbarCopyPath" Text="Copy Path" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem x:Uid="NavigationToolbarPaste" Text="Paste" />
-                        <MenuFlyoutItem x:Uid="NavigationToolbarOpenInTerminal" Text="Open in Terminal..." />
+                        <MenuFlyoutItem
+                            x:Uid="NavigationToolbarPaste"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
+                            Text="Paste" />
+                        <MenuFlyoutItem
+                            x:Uid="NavigationToolbarOpenInTerminal"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
+                            Text="Open in Terminal..." />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

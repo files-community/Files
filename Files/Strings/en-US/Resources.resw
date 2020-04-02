@@ -147,6 +147,15 @@
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
     <value>New Window</value>
   </data>
+  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
+    <value>Bitmap Image</value>
+  </data>
+  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
+    <value>Text Documnet</value>
+  </data> 
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
     <value>Copy Path</value>
   </data>

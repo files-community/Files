@@ -410,6 +410,18 @@
           <source>Clear Selection</source>
           <target state="new">Clear Selection</target>
         </trans-unit>
+        <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="new">Folder</target>
+        </trans-unit>
+        <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
+          <source>Bitmap Image</source>
+          <target state="new">Bitmap Image</target>
+        </trans-unit>
+        <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
+          <source>Text Documnet</source>
+          <target state="new">Text Documnet</target>
+        </trans-unit>
       </group>
     </body>
   </file>
