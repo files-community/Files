@@ -68,6 +68,10 @@ namespace Files
                     {
                         IsItemSelected = false;
                     }
+                    else
+                    {
+                        IsItemSelected = true;
+                    }
                     NotifyPropertyChanged("SelectedItems");
                 }
             }
@@ -88,6 +92,10 @@ namespace Files
                     if (value == null)
                     {
                         IsItemSelected = false;
+                    }
+                    else
+                    {
+                        IsItemSelected = true;
                     }
                     NotifyPropertyChanged("SelectedItem");
                 }
