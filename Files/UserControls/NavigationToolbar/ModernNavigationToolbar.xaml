@@ -761,10 +761,7 @@
                         <MenuFlyoutItem x:Uid="NavigationToolbarNewWindow" Text="New Window" />
                         <MenuFlyoutItem x:Uid="NavigationToolbarCopyPath" Text="Copy Path" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem
-                            x:Uid="NavigationToolbarPaste"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                            Text="Paste" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarPaste" Text="Paste" />
                         <MenuFlyoutItem
                             x:Uid="NavigationToolbarOpenInTerminal"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
