@@ -1,25 +1,20 @@
+using Files.Enums;
+using Files.Filesystem;
+using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Files.Enums;
-using Files.Filesystem;
 using Windows.System;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Core;
 using Windows.UI.Input;
-using Files.Controls;
-using Microsoft.Xaml.Interactivity;
-using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Behaviors;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using System.Collections.Generic;
-using Files.Views.Pages;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -113,7 +108,7 @@ namespace Files
                     var allRows = new List<DataGridRow>();
 
                     Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach(DataGridRow row in allRows.Take(20))
+                    foreach (DataGridRow row in allRows.Take(20))
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                         {
@@ -205,7 +200,7 @@ namespace Files
         {
             args.DragUI.SetContentFromDataPackage();
         }
-        
+
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
@@ -270,12 +265,12 @@ namespace Files
             startingPoint = e.GetCurrentPoint(this);
             IsSelectionRectangleDisplayed = true;
             SelectionRectangle.Margin = new Thickness(e.GetCurrentPoint(this).Position.X, e.GetCurrentPoint(this).Position.Y, 0, 0);
-            
+
         }
 
         private void BaseLayout_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if(e.GetCurrentPoint(this).Position.X < startingPoint.Position.X)
+            if (e.GetCurrentPoint(this).Position.X < startingPoint.Position.X)
             {
                 SelectionRectangle.Width -= e.GetCurrentPoint(this).Position.X;
             }
@@ -288,10 +283,10 @@ namespace Files
         private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
         {
             var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
-            if((!(parentRow.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            if ((!(parentRow.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
-                { 
+                {
                     App.CurrentInstance.ViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
                     (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
                     //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;

@@ -12,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -487,19 +486,19 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-        
+
         public bool ShowFileExtensions
         {
             get => Get(true);
             set => Set(value);
         }
-        
+
         public bool ShowConfirmDeleteDialog
         {
             get => Get(true);
             set => Set(value);
         }
-        
+
         public bool ShowRibbonContent
         {
             get => Get(true);

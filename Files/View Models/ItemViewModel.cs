@@ -18,7 +18,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.Storage.BulkAccess;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
@@ -280,15 +279,15 @@ namespace Files.Filesystem
                 // If path is a library, simplify it
 
                 // If path is found to not be a library
-                pathComponents =  Universal.WorkingDirectory.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                pathComponents = Universal.WorkingDirectory.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
                 int index = 0;
-                foreach(string s in pathComponents)
+                foreach (string s in pathComponents)
                 {
                     string componentLabel = null;
                     string tag = "";
                     if (s.Contains(":"))
                     {
-                        if(App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
+                        if (App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
                         {
                             componentLabel = App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
                         }
@@ -313,7 +312,7 @@ namespace Files.Filesystem
                         {
                             tag = tag + part + @"\";
                         }
-                        if(index == 0)
+                        if (index == 0)
                         {
                             tag = "\\\\" + tag;
                         }
@@ -425,7 +424,7 @@ namespace Files.Filesystem
             {
                 if (uiElement.GetType() == typeof(Frame))
                 {
-                    return (T) ((uiElement as Frame).Content);
+                    return (T)((uiElement as Frame).Content);
                 }
             }
             return default;
@@ -517,7 +516,7 @@ namespace Files.Filesystem
             }
             internal set
             {
-                if(_isLoadingItems != value)
+                if (_isLoadingItems != value)
                 {
                     _isLoadingItems = value;
                     NotifyPropertyChanged("isLoadingItems");
@@ -554,7 +553,7 @@ namespace Files.Filesystem
                     {
                         item.ItemPropertiesInitialized = true;
                         return;
-                    }                    
+                    }
                 }
                 else
                 {
@@ -571,7 +570,7 @@ namespace Files.Filesystem
                     {
                         item.ItemPropertiesInitialized = true;
                         return;
-                    }       
+                    }
                 }
 
                 item.ItemPropertiesInitialized = true;
@@ -680,7 +679,7 @@ namespace Files.Filesystem
                             }
                         }
                     }
-                    
+
                 } while (FindNextFile(hFile, out findData));
 
                 FindClose(hFile);
@@ -954,7 +953,7 @@ namespace Files.Filesystem
                     storageFiles = await _fileQueryResult.GetFilesAsync(index, _step);
                 }
 
-                if(FilesAndFolders.Count == 0)
+                if (FilesAndFolders.Count == 0)
                 {
                     if (_cancellationTokenSource.IsCancellationRequested)
                     {
@@ -964,7 +963,7 @@ namespace Files.Filesystem
                     }
                     EmptyTextState.isVisible = Visibility.Visible;
                 }
-                
+
 
                 OrderFiles();
                 stopwatch.Stop();
@@ -1002,7 +1001,7 @@ namespace Files.Filesystem
             }
 
             LoadIndicator.isVisible = Visibility.Collapsed;
-            
+
             isLoadingItems = false;
         }
 
@@ -1048,7 +1047,7 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 });
-                
+
                 EmptyTextState.isVisible = Visibility.Collapsed;
             }
         }

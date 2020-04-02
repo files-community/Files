@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Files.Interacts;
+using System;
+using Windows.ApplicationModel;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Files.Interacts;
-using Files.Filesystem;
-using Windows.ApplicationModel;
 
 namespace Files.SettingsPages
 {

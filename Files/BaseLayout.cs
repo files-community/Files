@@ -1,5 +1,4 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.Views.Pages;
 using System;
@@ -8,17 +7,11 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -61,12 +54,16 @@ namespace Files
             }
             set
             {
-                if(value != _SelectedItems)
+                if (value != _SelectedItems)
                 {
                     _SelectedItems = value;
-                    if(value == null)
+                    if (value == null)
                     {
                         IsItemSelected = false;
+                    }
+                    else
+                    {
+                        IsItemSelected = true;
                     }
                     NotifyPropertyChanged("SelectedItems");
                 }
@@ -88,6 +85,10 @@ namespace Files
                     if (value == null)
                     {
                         IsItemSelected = false;
+                    }
+                    else
+                    {
+                        IsItemSelected = true;
                     }
                     NotifyPropertyChanged("SelectedItem");
                 }

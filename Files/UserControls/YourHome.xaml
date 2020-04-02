@@ -832,7 +832,6 @@
                     Padding="0,0,0,0"
                     DesiredWidth="175"
                     IsItemClickEnabled="True"
-                    ItemClick="CardPressed"
                     ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}"
                     ItemHeight="100"
                     ItemsSource="{x:Bind list:ItemLoader.itemsAdded}"
@@ -866,7 +865,7 @@
                                                 BorderThickness="1"
                                                 IsTapEnabled="True"
                                                 Style="{ThemeResource ButtonRevealStyle}"
-                                                Tag="{Binding Icon}"
+                                                Tag="{Binding Tag}"
                                                 Tapped="Button_Tapped">
                                                 <StackPanel Orientation="Vertical" Spacing="10">
                                                     <TextBlock

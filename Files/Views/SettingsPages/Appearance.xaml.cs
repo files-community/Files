@@ -1,10 +1,6 @@
 ﻿using Files.Enums;
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 
@@ -38,7 +34,7 @@ namespace Files.SettingsPages
 							App.AppSettings.ThemeValue = ThemeStyle.Dark;
 							break;
 					}
-					
+
 					//await RestartReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
 					//await RestartReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
 				};
@@ -72,5 +68,5 @@ namespace Files.SettingsPages
 
 	}
 
-   
+
 }

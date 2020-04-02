@@ -1,37 +1,33 @@
-﻿using Files.Interacts;
+﻿using Files.CommandLine;
+using Files.Controls;
+using Files.Filesystem;
+using Files.Interacts;
+using Files.View_Models;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using NLog;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Microsoft.AppCenter;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
-using Windows.UI.Xaml.Media;
-using Files.Filesystem;
-using System.IO;
-using System.Linq;
-using System.Collections.ObjectModel;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.System;
-using Files.CommandLine;
-using Files.View_Models;
-using Files.Controls;
-using NLog;
 
 namespace Files
 {
     sealed partial class App : Application
     {
-        
+
         private static IShellPage currentInstance;
         public static IShellPage CurrentInstance
         {
@@ -41,9 +37,9 @@ namespace Files
             }
             set
             {
-                if(value != currentInstance && value != null)
+                if (value != currentInstance && value != null)
                 {
-                    currentInstance = value; 
+                    currentInstance = value;
                 }
             }
         }
@@ -62,7 +58,7 @@ namespace Files
 
         public App()
         {
-	        this.InitializeComponent();
+            this.InitializeComponent();
             this.Suspending += OnSuspending;
 
             // Initialize NLog
@@ -87,10 +83,10 @@ namespace Files
 
         private void RegisterUncaughtExceptionLogger()
         {
-	        UnhandledException += (sender, args) =>
-	        {
-		        Logger.Error(args.Exception, args.Message);
-	        };
+            UnhandledException += (sender, args) =>
+            {
+                Logger.Error(args.Exception, args.Message);
+            };
         }
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -153,7 +149,7 @@ namespace Files
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }
-        
+
 
 
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
@@ -161,7 +157,7 @@ namespace Files
             e.Handled = true;
             exceptionInfo = e;
             exceptionStackTrace = e.Exception.StackTrace;
-            await exceptionDialog.ShowAsync(ContentDialogPlacement.Popup); 
+            await exceptionDialog.ShowAsync(ContentDialogPlacement.Popup);
         }
 
         public static IReadOnlyList<ContentDialog> FindDisplayedContentDialogs<T>()
@@ -170,7 +166,7 @@ namespace Files
             List<ContentDialog> dialogs = new List<ContentDialog>();
             List<ContentDialog> openDialogs = new List<ContentDialog>();
             Interaction.FindChildren<ContentDialog>(dialogs, Window.Current.Content.XamlRoot.Content as DependencyObject);
-            foreach(var dialog in dialogs)
+            foreach (var dialog in dialogs)
             {
                 var popups = new List<Popup>();
                 Interaction.FindChildren<Popup>(popups, dialog);
@@ -194,7 +190,7 @@ namespace Files
         {
             Logger.Info("App launched");
 
-	        bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
+            bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
             Frame rootFrame = Window.Current.Content as Frame;
 
