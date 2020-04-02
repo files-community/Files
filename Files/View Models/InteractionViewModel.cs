@@ -1,8 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using Windows.UI.Xaml.Controls;
 using System;
-using Files.Interacts;
 using Windows.UI.Xaml;
 
 namespace Files.Controls

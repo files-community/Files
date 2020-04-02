@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Storage;
+﻿using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 
 namespace Files.SettingsPages
@@ -25,12 +13,12 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
             localSettings = ApplicationData.Current.LocalSettings;
-            if(localSettings.Values["FavoritesDisplayed_Start"] == null)
+            if (localSettings.Values["FavoritesDisplayed_Start"] == null)
             {
                 localSettings.Values["FavoritesDisplayed_Start"] = true;
                 FavoritesCheck.IsChecked = true;
             }
-            else if(localSettings.Values["FavoritesDisplayed_Start"] != null)
+            else if (localSettings.Values["FavoritesDisplayed_Start"] != null)
             {
                 switch ((bool)localSettings.Values["FavoritesDisplayed_Start"])
                 {

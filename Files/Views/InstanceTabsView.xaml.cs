@@ -1,16 +1,11 @@
-﻿using Files.Controls;
-using Files.Filesystem;
-using Files.Interacts;
+﻿using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -88,7 +83,7 @@ namespace Files
             {
                 WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-                
+
             }
             else
             {
@@ -186,7 +181,7 @@ namespace Files
                     tabLocationHeader = Path.GetDirectoryName(path);
                     fontIconSource.Glyph = "\xE8B7";
                 }
-            }    
+            }
 
             tabIcon = fontIconSource;
             Grid gr = new Grid();
@@ -202,7 +197,7 @@ namespace Files
             };
             tabView.TabItems.Add(tvi);
             TabStrip.SelectedItem = TabStrip.TabItems[TabStrip.TabItems.Count - 1];
-            if(tabView.SelectedItem == tvi)
+            if (tabView.SelectedItem == tvi)
             {
                 (((tabView.SelectedItem as TabViewItem).Content as Grid).Children[0] as Frame).Navigate(t, path);
             }
@@ -373,11 +368,9 @@ namespace Files
 
         public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-
             if (TabStrip.SelectedItem == null)
             {
-                if(e.RemovedItems.Count > 0)
+                if (e.RemovedItems.Count > 0)
                 {
                     var itemToReselect = e.RemovedItems[0];
                     if (TabStrip.TabItems.Contains(itemToReselect))
@@ -415,12 +408,12 @@ namespace Files
             {
                 Application.Current.Exit();
             }
-            else if(TabStrip.TabItems.Count > 1)
+            else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-            
+
         }
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)

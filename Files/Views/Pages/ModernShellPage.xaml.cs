@@ -137,7 +137,6 @@ namespace Files.Views.Pages
             this.Loaded -= Page_Loaded;
         }
 
-
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
@@ -223,7 +222,7 @@ namespace Files.Views.Pages
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
                 case (false, false, false, true, VirtualKey.Delete): //delete, delete item
-                    if (App.CurrentInstance.ContentPage.IsItemSelected)
+                    if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (false, false, false, true, VirtualKey.Space): //space, quick look

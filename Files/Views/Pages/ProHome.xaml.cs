@@ -1,28 +1,18 @@
-﻿using Files.Filesystem;
+﻿using Files.Controls;
+using Files.Filesystem;
 using Files.Interacts;
-using Files.Navigation;
+using Files.UserControls;
+using Files.View_Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using Windows.Foundation.Metadata;
-using Windows.Storage;
 using Windows.System;
-using Windows.UI.Popups;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-using Files.Enums;
-using System.Drawing;
-using Files.View_Models;
-using Files.Controls;
-using Windows.UI.Core;
-using Files.UserControls;
 
 namespace Files
 {
@@ -57,7 +47,7 @@ namespace Files
         }
 
 
-        
+
         private bool _isSwiped;
         private void SwipeablePage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
@@ -84,8 +74,7 @@ namespace Files
             _isSwiped = false;
         }
 
-        
-        
+
         public ProHome()
         {
             this.InitializeComponent();
@@ -233,7 +222,7 @@ namespace Files
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.InteractionViewModel.PermanentlyDelete = true;
-                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                    App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)

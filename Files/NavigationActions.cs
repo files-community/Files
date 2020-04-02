@@ -1,12 +1,9 @@
 ﻿using System;
-using Files.Filesystem;
 using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
-using Files.View_Models;
-using Files.Controls;
 
 namespace Files
 {
