@@ -66,6 +66,11 @@ namespace Files.Interacts
             await profileSettings.TrySetWallpaperImageAsync(file);
         }
 
+        public void OpenNewTab()
+        {
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), "New tab");
+        }
+
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
         {
             var CurrentSourceType = App.CurrentInstance.CurrentPageType;

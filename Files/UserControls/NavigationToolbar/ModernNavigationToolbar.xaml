@@ -682,6 +682,7 @@
 
             <Button
                 Grid.Row="3"
+                x:Name="NewItemButton"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 Background="Transparent"
@@ -724,6 +725,7 @@
             <Button
                 Grid.Row="3"
                 Margin="0,0,4,0"
+                x:Name="SearchButton"
                 HorizontalAlignment="Right"
                 Background="Transparent"
                 FontFamily="Segoe MDL2 Assets"
@@ -757,11 +759,11 @@
                 Visibility="Visible">
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
-                        <MenuFlyoutItem x:Uid="NavigationToolbarNewTab" Text="New Tab" />
-                        <MenuFlyoutItem x:Uid="NavigationToolbarNewWindow" Text="New Window" />
-                        <MenuFlyoutItem x:Uid="NavigationToolbarCopyPath" Text="Copy Path" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarNewTab" Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}" Text="New Tab" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarNewWindow" Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.LaunchNewWindow}" Text="New Window" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarCopyPath" Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}" Text="Copy Path" />
                         <MenuFlyoutSeparator />
-                        <MenuFlyoutItem x:Uid="NavigationToolbarPaste" Text="Paste" />
+                        <MenuFlyoutItem x:Uid="NavigationToolbarPaste" Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}" Text="Paste" />
                         <MenuFlyoutItem
                             x:Uid="NavigationToolbarOpenInTerminal"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"

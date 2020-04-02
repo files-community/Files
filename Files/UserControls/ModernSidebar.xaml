@@ -74,6 +74,7 @@
                     Visibility="{x:Bind itemVisibility}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
+                            Margin="-4,0,0,0"
                             DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="12"
