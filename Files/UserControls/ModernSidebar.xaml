@@ -90,7 +90,7 @@
                                     Glyph="&#xE753;"
                                     Visibility="{Binding cloudGlyphVisibility}" />
                             </Grid>
-                            <TextBlock FontSize="14" Text="{Binding driveText}" />
+                            <TextBlock TextTrimming="CharacterEllipsis" FontSize="14" Text="{Binding driveText}" />
                         </StackPanel>
                     </muxc:NavigationViewItem.Content>
                 </muxc:NavigationViewItem>

@@ -222,7 +222,6 @@ namespace Files.Filesystem
 						break;
 					case System.IO.DriveType.Removable:
 						type = DriveType.Removable;
-
 						break;
 					case System.IO.DriveType.Unknown:
 						type = DriveType.Unkown;
