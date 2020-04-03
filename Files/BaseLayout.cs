@@ -116,6 +116,8 @@ namespace Files
             if (App.CurrentInstance.ContentPage != null)
             {
                 App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.ViewModel.isLoadingItems = true;
+                App.CurrentInstance.ViewModel.isLoadingItems = false;
                 if (App.AppSettings.LayoutMode == 0)
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
@@ -124,7 +126,6 @@ namespace Files
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
                 }
-                App.CurrentInstance.ViewModel.isLoadingItems = false;
             }
 
         }
