@@ -34,6 +34,13 @@ namespace Files.Controls
             set => Set(ref _IsSelectedItemImage, value);
         }
 
+        private bool _IsPageTypeNotHome = false;
+        public bool IsPageTypeNotHome
+        {
+            get => _IsPageTypeNotHome;
+            set => Set(ref _IsPageTypeNotHome, value);
+        }
+
         public void CheckForImage()
         {
             //check if the selected item is an image file

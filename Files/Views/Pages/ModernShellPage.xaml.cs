@@ -151,9 +151,16 @@ namespace Files.Views.Pages
                         (ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                     }
                 }
+                App.InteractionViewModel.IsPageTypeNotHome = true;
             }
-
-            //RibbonArea.Focus(FocusState.Programmatic);
+            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            {
+                App.InteractionViewModel.IsPageTypeNotHome = true;
+            }
+            else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
+            {
+                App.InteractionViewModel.IsPageTypeNotHome = false;
+            }
         }
 
         public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)

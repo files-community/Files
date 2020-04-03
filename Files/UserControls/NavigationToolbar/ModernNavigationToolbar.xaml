@@ -683,6 +683,7 @@
             <Button
                 x:Name="NewItemButton"
                 Grid.Row="3"
+                x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 Background="Transparent"
@@ -769,16 +770,23 @@
                             Text="New Window" />
                         <MenuFlyoutItem
                             x:Uid="NavigationToolbarCopyPath"
+                            x:Name="CopyPathButton"
+                            x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
                             Text="Copy Path" />
-                        <MenuFlyoutSeparator />
+                        <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                         <MenuFlyoutItem
+                            x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
+                            x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            IsEnabled="{x:Bind local1:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                             Text="Paste" />
                         <MenuFlyoutItem
+                            x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
+                            x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Text="Open in Terminal..." />
                     </MenuFlyout>
                 </Button.Flyout>
