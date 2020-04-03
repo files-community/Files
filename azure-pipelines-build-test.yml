@@ -1,5 +1,4 @@
 trigger:
-- master
 - develop
 
 pool:
