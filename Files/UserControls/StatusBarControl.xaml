@@ -31,8 +31,14 @@
                 Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Flyout>
                     <MenuFlyout>
-                        <MenuFlyoutItem x:Uid="StatusBarControlSelectAll" Text="Select All" />
-                        <MenuFlyoutItem x:Uid="StatusBarControlClearSelection" Text="Clear Selection" />
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlSelectAll"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
+                            Text="Select All" />
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlClearSelection"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
+                            Text="Clear Selection" />
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
