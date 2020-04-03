@@ -190,6 +190,18 @@ namespace Files
             //start tracking app usage
             SystemInformation.TrackAppUse(e);
 
+            if (SystemInformation.IsAppUpdated)
+            {
+                var dialog = new ContentDialog()
+                {
+                    Title = "What's new in v0.7.3",
+                    Content = "• We are starting to test a brand new design, this is still in the early stages so make sure to send us any feedback on GitHub. \n• We fixed an issue where a swipe gesture was having unexpected side effects. \n• We started work on layout modes, it is not fully functional yet and we will improve it in future updates.",
+                    PrimaryButtonText = "Lets go!"
+                };
+
+                dialog.ShowAsync();
+            }
+
             Logger.Info("App launched");
 
             bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");

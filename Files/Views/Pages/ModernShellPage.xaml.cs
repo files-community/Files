@@ -2,7 +2,6 @@
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Linq;
@@ -37,18 +36,6 @@ namespace Files.Views.Pages
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
             App.CurrentInstance.NavigationToolbar.CanGoBack = false;
             App.CurrentInstance.NavigationToolbar.CanGoForward = false;
-
-            if (SystemInformation.IsAppUpdated)
-            {
-                var dialog = new ContentDialog()
-                {
-                    Title = "What's new in v0.7.3",
-                    Content = "• We are starting to test a brand new design, this is still in the early stages so make sure to send us any feedback on GitHub. \n• We fixed an issue where a swipe gesture was having unexpected side effects. \n• We started work on layout modes, it is not fully functional yet and we will improve it in future updates.",
-                    PrimaryButtonText = "Lets go!"
-                };
-
-                dialog.ShowAsync();
-            }
         }
 
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
