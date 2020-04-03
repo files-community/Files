@@ -8,6 +8,7 @@
 *.user
 *.userosscache
 *.sln.docstates
+FilesUWP.code-workspace
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
