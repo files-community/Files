@@ -46,23 +46,6 @@ namespace Files.Controls
 
         }
 
-        private INavigationControlItem _SelectedSidebarItem;
-        public INavigationControlItem SelectedSidebarItem
-        {
-            get
-            {
-                return _SelectedSidebarItem;
-            }
-            set
-            {
-                if (value != _SelectedSidebarItem)
-                {
-                    _SelectedSidebarItem = value;
-                    NotifyPropertyChanged("SelectedSidebarItem");
-                }
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
