@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -35,12 +36,20 @@ namespace Files.View_Models
             DetectOneDrivePreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
+            DetectQuickLook();
 
             DrivesManager = new DrivesManager();
 
             foundDrives = DrivesManager.Drives;
             //DetectWSLDistros();
             LoadTerminalApps();
+        }
+
+        public async void DetectQuickLook()
+        {
+            // Detect QuickLook
+            localSettings.Values["Arguments"] = "StartupTasks";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void PinSidebarLocationItems()
