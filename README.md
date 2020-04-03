@@ -3,6 +3,8 @@ Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should<
 <br/><br/>
 <a href="https://www.microsoft.com/store/apps/9NGHP3DX8HDX">Download Files UWP from the Microsoft Store.</a>
 
+[![Build Status](https://dev.azure.com/lukeblevins150823/Files%20UWP/_apis/build/status/duke7553.files-uwp%20(1)?branchName=develop)](https://dev.azure.com/lukeblevins150823/Files%20UWP/_build/latest?definitionId=2&branchName=develop)
+
 ## Building Files UWP from the source code
 - Install Visual Studio 2019 & UWP Development Kit link.
 - Clone the source and open the Files.sln in VS.

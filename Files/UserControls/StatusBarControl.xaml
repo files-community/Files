@@ -1,0 +1,79 @@
+﻿<UserControl
+    x:Class="Files.UserControls.StatusBarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.UserControls"
+    xmlns:local1="using:Files"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="40"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
+
+    <Grid
+        Height="40"
+        HorizontalAlignment="Stretch"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel
+            Grid.Row="1"
+            Padding="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                Background="Transparent"
+                Content="&#xE762;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlSelectAll"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
+                            Text="Select All" />
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlClearSelection"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
+                            Text="Clear Selection" />
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+
+            <Button
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                Background="Transparent"
+                Content="&#xE152;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridView}"
+                            Text="Grid View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xF0E2;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlListView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
+                            Text="List View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE14C;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -13,22 +13,22 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>新建:</value>
+    <value>新建：</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>文件名</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>位置:</value>
+    <value>位置：</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>大小:</value>
+    <value>大小：</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>文件类型:</value>
+    <value>文件类型：</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>修改时间:</value>
+    <value>修改时间：</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>清空所有文件</value>
@@ -45,11 +45,14 @@
   <data name="RecentItems.Text" xml:space="preserve">
     <value>最近使用的文件</value>
   </data>
+  <data name="SettingsAboutAppName.Text" xml:space="preserve">
+    <value>资源管理器</value>
+  </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>许可证: </value>
+    <value>许可证：</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>特别感谢:</value>
+    <value>特别感谢：</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>提交反馈</value>
@@ -67,7 +70,7 @@
     <value>网站: </value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>侧边栏亚克力模糊</value>
+    <value>透明效果</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
     <value>日期格式</value>
@@ -129,44 +132,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>启动时</value>
   </data>
-  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
-    <value>桌面</value>
-  </data>
-  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义桌面位置</value>
-  </data>
-  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
-    <value>文档</value>
-  </data>
-  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义文档位置</value>
-  </data>
-  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
-    <value>下载</value>
-  </data>
-  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义下载位置</value>
-  </data>
-  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
-    <value>音乐</value>
-  </data>
-  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义音乐位置</value>
-  </data>
-  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义 OneDrive 本地文件位置</value>
-  </data>
-  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
-    <value>图片</value>
-  </data>
-  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义图片位置</value>
-  </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>固定 OneDrive 到侧边栏</value>
-  </data>
-  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>自定义常用文件夹位置</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>终端</value>
@@ -182,5 +149,62 @@
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>从侧边栏取消固定</value>
+  </data>
+  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>删除项</value>
+  </data>
+  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
+    <value>确实要删除所选项吗？</value>
+  </data>
+  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>永久删除</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
+    <value>删除文件或文件夹时显示确认对话框</value>
+  </data>
+  <data name="SidebarDesktop" xml:space="preserve">
+    <value>桌面</value>
+  </data>
+  <data name="SidebarDocuments" xml:space="preserve">
+    <value>文档</value>
+  </data>
+  <data name="SidebarDownloads" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>主页</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>音乐</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>图片</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
+    <value>新建标签页</value>
+  </data>
+  <data name="ExtractFilesDialog.Title" xml:space="preserve">
+    <value>提取压缩文档</value>
+  </data>
+  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
+    <value>提取</value>
+  </data>
+  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
+    <value>选择一个位置以提取此压缩存档。提取完成前请不要离开此页，完成后将打开新标签页显示提取的文件。</value>
+  </data>
+  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
+    <value>浏览</value>
   </data>
 </root>

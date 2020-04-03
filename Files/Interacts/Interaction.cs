@@ -28,6 +28,9 @@ using Windows.UI.Xaml.Media.Animation;
 using Files.View_Models;
 using Windows.System.UserProfile;
 using static Files.Dialogs.ConfirmDeleteDialog;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Files.Views.Pages;
 
 namespace Files.Interacts
 {
@@ -61,6 +64,11 @@ namespace Files.Interacts
             // Set the desktop background
             UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
             await profileSettings.TrySetWallpaperImageAsync(file);
+        }
+
+        public void OpenNewTab()
+        {
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), "New tab");
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -97,7 +105,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
+                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.FilePath);
                 }
 
             }
@@ -106,7 +114,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    instanceTabsView.AddNewTab(typeof(ProHome), listedItem.FilePath);
+                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.FilePath);
                 }
             }
         }
@@ -208,16 +216,13 @@ namespace Files.Interacts
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
         {
-            
             if (App.CurrentInstance.ContentPage != null)
             {
-                (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = false;
                 Clipboard.Clear();
                 DataPackage data = new DataPackage();
                 data.SetText(CurrentInstance.ViewModel.Universal.WorkingDirectory);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
-                (App.CurrentInstance.OperationsControl as Controls.RibbonArea).RibbonViewModel.AlwaysPresentCommands.IsCopyPathCommandEnabled = true;
             }
         }
 
@@ -369,7 +374,7 @@ namespace Files.Interacts
 
                         if (clickedOnItem.FileType == "Folder")
                         {
-                            instanceTabsView.AddNewTab(typeof(ProHome), clickedOnItem.FilePath);
+                            instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.FilePath);
                         }
                         else
                         {
@@ -509,12 +514,12 @@ namespace Files.Interacts
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
-                    (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
+                    (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
                 }
 
                 foreach (ListedItem storItem in selectedItems)
                 {
-                    if (selectedItems.Count > 3) { (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
+                    if (selectedItems.Count > 3) { (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
 
                     try
                     {
@@ -855,7 +860,7 @@ namespace Files.Interacts
             itemsPasted = 0;
             if (ItemsToPaste.Count > 3)
             {
-                (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
+                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
             }
 
             foreach (IStorageItem item in ItemsToPaste)
@@ -863,13 +868,13 @@ namespace Files.Interacts
 
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
+                    await CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
                     if (ItemsToPaste.Count > 3)
                     {
-                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
                     }
                     StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                     await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
@@ -895,7 +900,7 @@ namespace Files.Interacts
 
         }
 
-        public async void CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
+        public async Task CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
@@ -904,19 +909,27 @@ namespace Files.Interacts
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                if(ItemsToPaste != null)
                 {
-                    (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                    if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                    {
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                    }
                 }
+
                 await fileInSourceDir.CopyAsync(DestinationFolder, fileInSourceDir.Name, NameCollisionOption.GenerateUniqueName);
             }
             foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
             {
-                if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                if (ItemsToPaste != null)
                 {
-                    (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                    if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                    {
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                    }
                 }
-                CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
+
+                await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
             }
 
         }
@@ -969,23 +982,52 @@ namespace Files.Interacts
 
                     foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                     {
-                        archiveEntry.ExtractToFile(destFolder_InBuffer.Path + "\\" + archiveEntry.Name);
+                        if (archiveEntry.FullName.Contains('/'))
+                        {
+                            var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
+                            nestedDirectories.Remove(nestedDirectories.Last());
+                            var relativeOutputPathToEntry = Path.Combine(nestedDirectories.ToArray());
+                            System.IO.Directory.CreateDirectory(Path.Combine(destFolder_InBuffer.Path, relativeOutputPathToEntry));
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(archiveEntry.Name))
+                            archiveEntry.ExtractToFile(Path.Combine(destFolder_InBuffer.Path, archiveEntry.FullName));
+
                         index++;
                         if (index == totalCount)
                         {
                             (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.isVisible = Visibility.Collapsed;
                         }
                     }
-                    CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true);
-                    await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    Frame rootFrame = Window.Current.Content as Frame;
-                    var instanceTabsView = rootFrame.Content as InstanceTabsView;
-                    instanceTabsView.AddNewTab(typeof(ProHome), destinationPath + "\\" + selectedItem.DisplayName);
+                    await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
+                        .ContinueWith(async (x) => 
+                    {
+                        await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                        {
+                            Frame rootFrame = Window.Current.Content as Frame;
+                            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+                            instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                        });
+                    });
+                    
                 }
             }
             else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)
             {
                 return;
+            }
+        }
+
+        private void ExtractArchiveEntry(ZipArchiveEntry sourceEntry, string destinationPath)
+        {
+            if (sourceEntry.FullName.Contains('\\'))
+            {
+
+            }
+            else
+            {
+                sourceEntry.ExtractToFile(destinationPath);
             }
         }
 

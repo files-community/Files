@@ -149,10 +149,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <None Include="Files.Package_TemporaryKey.pfx" />
-    <None Include="FilesUwp.Package_StoreKey.pfx" />
-    <None Include="Package.StoreAssociation.xml" />
-    <None Include="FilesUwp.Package_TemporaryKey.pfx" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
 </Project>

@@ -118,321 +118,312 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Delete Item(s)</value>
+    <value>Удалить элемент(ы)</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Cancel</value>
+    <value>Отменить</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Delete</value>
+    <value>Удалить</value>
   </data>
   <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Are you sure you want to delete the selected item(s)?</value>
+    <value>Вы уверены, что хотите удалить выбранный элемент(ы)?</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Permanently delete</value>
-  </data>
-  <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Extract Compressed Archive</value>
-  </data>
-  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Extract</value>
-  </data>
-  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>New Tab</value>
-  </data>
-  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>New Window</value>
-  </data>
-  <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Image</value>
-  </data>
-  <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Text Documnet</value>
-  </data> 
-  <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Copy Path</value>
-  </data>
-  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Open in Terminal...</value>
+    <value>Удалить безвозвратно</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Created:</value>
+    <value>Создано:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Item Name</value>
-  </data>
-  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</value>
-  </data>
-  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Browse</value>
+    <value>Имя:</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Path:</value>
+    <value>Расположение:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Size:</value>
+    <value>Размер:</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Item type:</value>
+    <value>Тип:</value>
   </data>
-  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
-    <value>Select All</value>
-  </data>
-  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
-    <value>Clear Selection</value>
-  </data>  
-  <data name="StatusBarControlListView.Text" xml:space="preserve">
-    <value>List View</value>
-  </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Grid View</value>
-  </data>  
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Modified:</value>
+    <value>Изменено:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Clear all items</value>
-  </data>  
-  <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Enter a path</value>
-  </data>
-  <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
-    <value>Search</value>
+    <value>Очистить все</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Files and folders you've previously accessed will show up here</value>
+    <value>Файлы и папки, с которыми вы ранее взаимодействовали будут отображатся сдесь</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Open file location</value>
+    <value>Открыть разположение файла</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Remove this item</value>
+    <value>Убрать из списка</value>
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
-    <value>Recent items</value>
+    <value>Последние файлы</value>
+  </data>
+  <data name="RibbonAreaAddItemButton.LabelText" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="RibbonAreaClearAllButton.LabelText" xml:space="preserve">
+    <value>Очистить всё</value>
+  </data>
+  <data name="RibbonAreaCopyButton.LabelText" xml:space="preserve">
+    <value>Копировать</value>
+  </data>
+  <data name="RibbonAreaCopyPathButton.LabelText" xml:space="preserve">
+    <value>Копировать путь</value>
+  </data>
+  <data name="RibbonAreaCutButton.LabelText" xml:space="preserve">
+    <value>Вырезать</value>
+  </data>
+  <data name="RibbonAreaDeleteButton.LabelText" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="RibbonAreaFile.Header" xml:space="preserve">
+    <value>Файл</value>
+  </data>
+  <data name="RibbonAreaFileCloseDescription.Text" xml:space="preserve">
+    <value>Закрыть это окно</value>
+  </data>
+  <data name="RibbonAreaFileCloseTitle.Text" xml:space="preserve">
+    <value>Закрыть Files</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowDescription.Text" xml:space="preserve">
+    <value>Создать новый экземпляр Files</value>
+  </data>
+  <data name="RibbonAreaFileOpenNewWindowTitle.Text" xml:space="preserve">
+    <value>Открыть в новом окне</value>
+  </data>
+  <data name="RibbonAreaFileSettingsDescription.Text" xml:space="preserve">
+    <value>Изменить параметры приложения</value>
+  </data>
+  <data name="RibbonAreaFileSettingsTitle.Text" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="RibbonAreaFolderProperties.LabelText" xml:space="preserve">
+    <value>Свойства папки</value>
+  </data>
+  <data name="RibbonAreaHome.Header" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="RibbonAreaLayoutButton.LabelText" xml:space="preserve">
+    <value>Структура</value>
+  </data>
+  <data name="RibbonAreaOpenWithButton.LabelText" xml:space="preserve">
+    <value>Открыть с помощью</value>
+  </data>
+  <data name="RibbonAreaPasteButton.LabelText" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="RibbonAreaRenameButton.LabelText" xml:space="preserve">
+    <value>Переименовать</value>
+  </data>
+  <data name="RibbonAreaSelectAllButton.LabelText" xml:space="preserve">
+    <value>Выбрать всё</value>
+  </data>
+  <data name="RibbonAreaShare.Header" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
+  <data name="RibbonAreaShareButton.LabelText" xml:space="preserve">
+    <value>Поделиться</value>
+  </data>
+  <data name="RibbonAreaShowPropertiesButton.LabelText" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="RibbonAreaSortByAscending.Text" xml:space="preserve">
+    <value>По возрастанию</value>
+  </data>
+  <data name="RibbonAreaSortByButton.LabelText" xml:space="preserve">
+    <value>Сортировка</value>
+  </data>
+  <data name="RibbonAreaSortByDate.Text" xml:space="preserve">
+    <value>Дата изменения</value>
+  </data>
+  <data name="RibbonAreaSortByDescending.Text" xml:space="preserve">
+    <value>По убыванию</value>
+  </data>
+  <data name="RibbonAreaSortByName.Text" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="RibbonAreaSortBySize.Text" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="RibbonAreaSortByType.Text" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="RibbonAreaView.Header" xml:space="preserve">
+    <value>Вид</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>License: </value>
+    <value>Лицензия: </value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Special thanks to:</value>
+    <value>Особые благодарности:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Submit Feedback</value>
+    <value>Отправить отчет</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Submit an issue report to provide the developers with information</value>
+    <value>Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Third Party Licenses</value>
+    <value>Лицензия третих лиц</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>About</value>
+    <value>О приложении</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Website: </value>
+    <value>Сайт: </value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Acrylic sidebar</value>
+    <value>Боковая панель с эффектом акрила</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Date format</value>
+    <value>Формат даты</value>
   </data>
   <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>Тема</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Внешний вид</value>
   </data>
   <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Show drive letters</value>
+    <value>Показывать буквы разделов</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Show extensions for known file types</value>
+    <value>Показать расширения файла для известных типов файлов</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Show hidden files, folders, and drives</value>
+    <value>Показывать скрытые файлы, папки, разделы</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Files and Folders</value>
+    <value>Файлы и папки</value>
   </data>
   <data name="SettingsFlagsTitle.Text" xml:space="preserve">
     <value>Flags</value>
   </data>
   <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>Settings</value>
+    <value>Параметры</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>About</value>
+    <value>О приложении</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Appearance</value>
+    <value>Внешний вид</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Files and Folders</value>
+    <value>Файлы и папки</value>
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>On Startup</value>
+    <value>При запуске</value>
   </data>
   <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Page Layouts</value>
+    <value>Макеты страницы</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Preferences</value>
+    <value>Предпочтения</value>
   </data>
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Search</value>
+    <value>Поиск</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continue where you left off</value>
+    <value>Продолжить, где вы остановились</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Open a new tab</value>
+    <value>Откроть новую вкладку</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page or pages</value>
+    <value>Открыть определенную страницу(ы)</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>On Startup</value>
+    <value>При запуске</value>
+  </data>
+  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
+    <value>Рабочий стол</value>
+  </data>
+  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение рабочего стола</value>
+  </data>
+  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
+    <value>Документы</value>
+  </data>
+  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение документов</value>
+  </data>
+  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
+    <value>Загрузки</value>
+  </data>
+  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение загрузок</value>
+  </data>
+  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
+    <value>Музыка</value>
+  </data>
+  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение музыки</value>
+  </data>
+  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
+    <value>OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение OneDrive</value>
+  </data>
+  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
+    <value>Задать свое расположение изображений</value>
   </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>Pin OneDrive to the sidebar</value>
+    <value>Закрепить OneDrive в боковой панели</value>
+  </data>
+  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
+    <value>Заменить стандартные пути</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Show a confirmation dialog when deleting files or folders</value>
+    <value>Показать диалог при удалении файлов или папок</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal Applications</value>
+    <value>Стандартный терминал</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Preferences</value>
+    <value>Предпочтения</value>
   </data>
   <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
-    <value>Video</value>
+    <value>Видео</value>
   </data>
   <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom video location</value>
+    <value>Задать свое расположение для видео</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Рабочий стол</value>
   </data>
   <data name="SidebarDocuments" xml:space="preserve">
-    <value>Documents</value>
+    <value>Документы</value>
   </data>
   <data name="SidebarDownloads" xml:space="preserve">
-    <value>Downloads</value>
+    <value>Загрузки</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
+    <value>Главная</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
-    <value>Music</value>
+    <value>Музыка</value>
   </data>
   <data name="SidebarPictures" xml:space="preserve">
-    <value>Pictures</value>
+    <value>Изображения</value>
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Unpin from Sidebar</value>
+    <value>Открепить от боковой панели</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
-    <value>Videos</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Sort by</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Date modified</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Size</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
-    <value>Ascending</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Descending</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Refresh</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>Paste</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Open in Terminal...</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Image</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Text Document</value>
-  </data>
-  <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Extract</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Open with...</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>Open in new tab</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>Open in new window</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Set as desktop background</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>Share</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Cut</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Copy</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Rename</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>Pin to sidebar</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Properties</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
-    <value>QuickLook</value>
+    <value>Видео</value>
   </data>
 </root>

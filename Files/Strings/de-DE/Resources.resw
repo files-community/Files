@@ -129,47 +129,8 @@
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Beim Start</value>
   </data>
-  <data name="SettingsPreferencesDesktop.Text" xml:space="preserve">
-    <value>Desktop</value>
-  </data>
-  <data name="SettingsPreferencesDesktopLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum Desktopordner festlegen</value>
-  </data>
-  <data name="SettingsPreferencesDocuments.Text" xml:space="preserve">
-    <value>Dokumente</value>
-  </data>
-  <data name="SettingsPreferencesDocumentsLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum Dokumentenordner festlegen</value>
-  </data>
-  <data name="SettingsPreferencesDownloads.Text" xml:space="preserve">
-    <value>Downloads</value>
-  </data>
-  <data name="SettingsPreferencesDownloadsLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum Downloadordner festlegen</value>
-  </data>
-  <data name="SettingsPreferencesMusic.Text" xml:space="preserve">
-    <value>Musik</value>
-  </data>
-  <data name="SettingsPreferencesMusicLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum Musikordner festlegen</value>
-  </data>
-  <data name="SettingsPreferencesOneDrive.Text" xml:space="preserve">
-    <value>OneDrive</value>
-  </data>
-  <data name="SettingsPreferencesOneDriveLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum OneDriveordner festlegen</value>
-  </data>
-  <data name="SettingsPreferencesPictures.Text" xml:space="preserve">
-    <value>Bilder</value>
-  </data>
-  <data name="SettingsPreferencesPicturesLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum Bilderordner festlegen</value>
-  </data>
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>OneDrive an die Seitenleiste anheften</value>
-  </data>
-  <data name="SettingsPreferencesReplaceCommonLocations.Text" xml:space="preserve">
-    <value>Standardpfade ersetzen</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
     <value>Terminal Anwendung</value>
@@ -185,5 +146,65 @@
   </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Von Seitenleiste entfernen</value>
+  </data>
+  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
+    <value>Flags</value>
+  </data>
+  <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
+    <value>Löschen</value>
+  </data>
+  <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
+    <value>Sind Sie sicher, dass sie die ausgewählten Dateien löschen möchten?</value>
+  </data>
+  <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
+    <value>Dauerhaft löschen</value>
+  </data>
+  <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
+    <value>Einen Bestätigungsdialog anzeigen bevor Dateien und Ordner gelöscht werden</value>
+  </data>
+  <data name="SidebarDesktop" xml:space="preserve">
+    <value>Desktop</value>
+  </data>
+  <data name="SidebarDocuments" xml:space="preserve">
+    <value>Dokumente</value>
+  </data>
+  <data name="SidebarDownloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="SidebarHome" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="SidebarMusic" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="SidebarPictures" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="SidebarVideos" xml:space="preserve">
+    <value>Videos</value>
+  </data>
+  <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
+    <value>Neuer Tab</value>
+  </data>
+  <data name="ExtractFilesDialog.Title" xml:space="preserve">
+    <value>Archiv entpacken</value>
+  </data>
+  <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Entpacken</value>
+  </data>
+  <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
+    <value>Wähle aus wohin das Archiv entpackt werden soll. Sie müssen im derzeitigen Ordner bleiben bis das Entpacken beended wurde. Ein neuer Tab mit den entpackten Dateien wird anschließend geöffnet.</value>
+  </data>
+  <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
+    <value>Durchsuchen</value>
   </data>
 </root>

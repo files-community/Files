@@ -76,7 +76,8 @@ namespace Files.Filesystem
                     glyph = "\uE88E";
                     break;
 		        case DriveType.Network:
-			        break;
+                    glyph = "\uE8CE";
+                    break;
 		        case DriveType.Ram:
 			        break;
 		        case DriveType.CDRom:

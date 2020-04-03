@@ -1,5 +1,4 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
@@ -14,10 +13,31 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-namespace Files
+
+// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+
+namespace Files.Views.Pages
 {
-    public sealed partial class ProHome : Page, IShellPage
+    /// <summary>
+    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// </summary>
+    public sealed partial class ModernShellPage : Page, IShellPage
     {
+        public ModernShellPage()
+        {
+            this.InitializeComponent();
+            if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
+            {
+                App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                DisplayFilesystemConsentDialog();
+            }
+
+            App.CurrentInstance = this as IShellPage;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
+            App.CurrentInstance.NavigationToolbar.CanGoBack = false;
+            App.CurrentInstance.NavigationToolbar.CanGoForward = false;
+        }
+
         Type IShellPage.CurrentPageType => ItemDisplayFrame.SourcePageType;
 
         INavigationToolbar IShellPage.NavigationToolbar => NavToolbar;
@@ -31,8 +51,7 @@ namespace Files
         ItemViewModel IShellPage.ViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
-        Control IShellPage.OperationsControl => RibbonArea;
-
+        Control IShellPage.OperationsControl => null;
 
         private BaseLayout GetContentOrNull()
         {
@@ -44,52 +63,6 @@ namespace Files
             {
                 return null;
             }
-        }
-
-
-
-        private bool _isSwiped;
-        private void SwipeablePage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            if (e.IsInertial && !_isSwiped)
-            {
-                var swipedDistance = e.Cumulative.Translation.X;
-
-                if (Math.Abs(swipedDistance) <= 2) return;
-
-                if (swipedDistance > 0)
-                {
-                    NavigationActions.Back_Click(null, null);
-                }
-                else
-                {
-                    NavigationActions.Forward_Click(null, null);
-                }
-                _isSwiped = true;
-            }
-        }
-
-        private void SwipeablePage_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            _isSwiped = false;
-        }
-
-
-        public ProHome()
-        {
-            this.InitializeComponent();
-            this.KeyUp += ProHomeInstance_KeyUp;
-
-            if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
-            {
-                App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
-                DisplayFilesystemConsentDialog();
-            }
-
-            App.CurrentInstance = this as IShellPage;
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
-            App.CurrentInstance.NavigationToolbar.CanGoBack = false;
-            App.CurrentInstance.NavigationToolbar.CanGoForward = false;
         }
 
         private async void DisplayFilesystemConsentDialog()
@@ -164,7 +137,6 @@ namespace Files
             this.Loaded -= Page_Loaded;
         }
 
-
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
@@ -179,8 +151,16 @@ namespace Files
                         (ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
                     }
                 }
+                App.InteractionViewModel.IsPageTypeNotHome = true;
             }
-            RibbonArea.Focus(FocusState.Programmatic);
+            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            {
+                App.InteractionViewModel.IsPageTypeNotHome = true;
+            }
+            else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
+            {
+                App.InteractionViewModel.IsPageTypeNotHome = false;
+            }
         }
 
         public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
@@ -207,7 +187,7 @@ namespace Files
             }
         }
 
-        private async void ProHomeInstance_KeyUp(object sender, KeyRoutedEventArgs e)
+        private async void ModernShellPage_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
@@ -250,7 +230,7 @@ namespace Files
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
                 case (false, false, false, true, VirtualKey.Delete): //delete, delete item
-                    if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                    if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
                 case (false, false, false, true, VirtualKey.Space): //space, quick look
@@ -271,21 +251,21 @@ namespace Files
                 case (true, false, false, true, VirtualKey.R): //ctrl + r, refresh
                     NavigationActions.Refresh_Click(null, null);
                     break;
-                case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-                    break;
-                case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
-                    break;
-                case (false, false, true, true, VirtualKey.H):
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
-                    break;
-                case (false, false, true, true, VirtualKey.S):
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
-                    break;
-                case (false, false, true, true, VirtualKey.V):
-                    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
-                    break;
+                    //case (true, false, false, true, VirtualKey.F): //ctrl + f, search box
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    //    break;
+                    //case (true, false, false, true, VirtualKey.E): //ctrl + e, search box
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 0;
+                    //    break;
+                    //case (false, false, true, true, VirtualKey.H):
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 1;
+                    //    break;
+                    //case (false, false, true, true, VirtualKey.S):
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 2;
+                    //    break;
+                    //case (false, false, true, true, VirtualKey.V):
+                    //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
+                    //    break;
             };
 
 
@@ -303,16 +283,5 @@ namespace Files
             }
         }
     }
-
-    public enum InteractionOperationType
-    {
-        PasteItems = 0,
-        DeleteItems = 1,
-    }
-
-    public class PathBoxItem
-    {
-        public string Title { get; set; }
-        public string Path { get; set; }
-    }
 }
+

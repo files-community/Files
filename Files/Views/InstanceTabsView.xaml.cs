@@ -1,27 +1,22 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
+using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
-using Windows.Foundation;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
-    /// <summary>
-    /// The Instance Tabs Component for Project Mumbai
-    /// </summary>
     public sealed partial class InstanceTabsView : Page
     {
         public static TabView tabView;
@@ -62,6 +57,17 @@ namespace Files
                 titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
                 //titleBar.BackgroundColor = Colors.Transparent;
             }
+
+            // Check if the acrylic sidebar setting is on
+            if (App.AppSettings.AcrylicSidebar == true)
+            {
+                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
+            }
+            else
+            {
+                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
+            }
+
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
         }
@@ -72,14 +78,14 @@ namespace Files
         {
             if (Huyn.WindowDisplayInfo.GetForCurrentView().ToString() == "Maximized")
             {
-                WindowProperties.TabListPadding = new Thickness(8, 0, 0, 0);
+                WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-                
+
             }
             else
             {
-                WindowProperties.TabListPadding = new Thickness(8, 8, 0, 0);
-                WindowProperties.TabAddButtonMargin = new Thickness(0, 8, 0, 0);
+                WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
+                WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
 
             }
         }
@@ -90,18 +96,18 @@ namespace Files
 
             if (string.IsNullOrEmpty(navArgs))
             {
-                AddNewTab(typeof(ProHome), "New tab");
+                AddNewTab(typeof(ModernShellPage), "New tab");
             }
             else
             {
-                AddNewTab(typeof(ProHome), navArgs);
+                AddNewTab(typeof(ModernShellPage), navArgs);
             }
 
             Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
             icon.Glyph = "\xE713";
             if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
             {
-                App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
             }
         }
 
@@ -172,7 +178,7 @@ namespace Files
                     tabLocationHeader = Path.GetDirectoryName(path);
                     fontIconSource.Glyph = "\xE8B7";
                 }
-            }    
+            }
 
             tabIcon = fontIconSource;
             Grid gr = new Grid();
@@ -188,7 +194,7 @@ namespace Files
             };
             tabView.TabItems.Add(tvi);
             TabStrip.SelectedItem = TabStrip.TabItems[TabStrip.TabItems.Count - 1];
-            if(tabView.SelectedItem == tvi)
+            if (tabView.SelectedItem == tvi)
             {
                 (((tabView.SelectedItem as TabViewItem).Content as Grid).Children[0] as Frame).Navigate(t, path);
             }
@@ -257,7 +263,7 @@ namespace Files
                         if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
                         {
                             fontIconSource.Glyph = "\xEDA2";
-                            tabLocationHeader = "Local Disk (" + NormalizePath(currentPathForTabIcon) + ")";
+                            tabLocationHeader = NormalizePath(currentPathForTabIcon);
                         }
                         else
                         {
@@ -268,7 +274,7 @@ namespace Files
                     else
                     {
                         fontIconSource.Glyph = "\xE74E";
-                        tabLocationHeader = "Floppy Disk (" + NormalizePath(currentPathForTabIcon) + ")";
+                        tabLocationHeader = NormalizePath(currentPathForTabIcon);
                     }
                 }
                 else
@@ -359,9 +365,9 @@ namespace Files
 
         public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(TabStrip.SelectedItem == null)
+            if (TabStrip.SelectedItem == null)
             {
-                if(e.RemovedItems.Count > 0)
+                if (e.RemovedItems.Count > 0)
                 {
                     var itemToReselect = e.RemovedItems[0];
                     if (TabStrip.TabItems.Contains(itemToReselect))
@@ -372,11 +378,22 @@ namespace Files
             }
             else
             {
+                if ((tabView.SelectedItem as TabViewItem).Header.ToString() == "Settings")
+                {
+                    App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
+                    App.InteractionViewModel.LeftMarginLoaded = false;
+                }
+                else
+                {
+                    App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
+                    App.InteractionViewModel.LeftMarginLoaded = true;
+                }
+
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != "Settings" && (tabView.SelectedItem as TabViewItem).IconSource != icon)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
 
@@ -388,17 +405,17 @@ namespace Files
             {
                 Application.Current.Exit();
             }
-            else if(TabStrip.TabItems.Count > 1)
+            else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-            
+
         }
 
-        private void TabStrip_AddTabButtonClick(TabView sender, object args)
+        private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
-            AddNewTab(typeof(ProHome), "New tab");
+            AddNewTab(typeof(ModernShellPage), "New tab");
         }
     }
 

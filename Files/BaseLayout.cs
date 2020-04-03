@@ -1,21 +1,17 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using System.Runtime.CompilerServices;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -24,49 +20,81 @@ namespace Files
     /// <summary>
     /// The base class which every layout page must derive from
     /// </summary>
-    public abstract class BaseLayout : Page
+    public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
         public bool IsQuickLookEnabled { get; set; } = false;
 
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
         public bool isRenamingItem = false;
+
+        private bool isItemSelected = false;
+        public bool IsItemSelected
+        {
+            get
+            {
+                return isItemSelected;
+            }
+            internal set
+            {
+                if (value != isItemSelected)
+                {
+                    isItemSelected = value;
+                    NotifyPropertyChanged("IsItemSelected");
+                }
+            }
+        }
+
+        private List<ListedItem> _SelectedItems;
         public List<ListedItem> SelectedItems
         {
             get
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+                return _SelectedItems;
+            }
+            set
+            {
+                if (value != _SelectedItems)
                 {
-                    return (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Cast<ListedItem>().ToList();
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                {
-                    return (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItems.Cast<ListedItem>().ToList();
-                }
-                else
-                {
-                    return new List<ListedItem>();
+                    _SelectedItems = value;
+                    if (value == null)
+                    {
+                        IsItemSelected = false;
+                    }
+                    else
+                    {
+                        IsItemSelected = true;
+                    }
+                    NotifyPropertyChanged("SelectedItems");
                 }
             }
         }
+
+        private ListedItem _SelectedItem;
         public ListedItem SelectedItem
         {
             get
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+                return _SelectedItem;
+            }
+            set
+            {
+                if (value != _SelectedItem)
                 {
-                    return (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                {
-                    return (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
-                }
-                else
-                {
-                    return null;
+                    _SelectedItem = value;
+                    if (value == null)
+                    {
+                        IsItemSelected = false;
+                    }
+                    else
+                    {
+                        IsItemSelected = true;
+                    }
+                    NotifyPropertyChanged("SelectedItem");
                 }
             }
         }
+
 
         public BaseLayout()
         {
@@ -83,10 +111,36 @@ namespace Files
             }
         }
 
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        {
+            if (App.CurrentInstance.ContentPage != null)
+            {
+                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.ViewModel.isLoadingItems = true;
+                App.CurrentInstance.ViewModel.isLoadingItems = false;
+                if (App.AppSettings.LayoutMode == 0)
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
+                }
+                else
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
+                }
+            }
+
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        private bool isStale = false;
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
+            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (string)eventArgs.Parameter;
             if (App.AppSettings.FormFactor == Enums.FormFactorMode.Regular)
@@ -96,7 +150,7 @@ namespace Files
                 instanceTabsView.TabStrip_SelectionChanged(null, null);
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
-            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = true;
+            IsItemSelected = false;
             AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.Universal.WorkingDirectory = parameters;
 
@@ -124,6 +178,7 @@ namespace Files
             {
                 App.CurrentInstance.ViewModel._fileQueryResult.ContentsChanged -= App.CurrentInstance.ViewModel.FileContentsChanged;
             }
+            App.AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
@@ -149,7 +204,7 @@ namespace Files
                     if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                     {
                         UnloadMenuFlyoutItemByName("OpenItem");
-                        UnloadMenuFlyoutItemByName("UnzipItem");
+                        this.FindName("UnzipItem");
                     }
                     else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                     {
@@ -196,7 +251,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ProHome>();
+                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

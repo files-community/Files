@@ -1,33 +1,26 @@
-﻿using Files.Controls;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Interacts;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Navigation;
 
 
 namespace Files.UserControls
 {
-    public sealed partial class NavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
+    public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        public ModernNavigationToolbar()
+        {
+            this.InitializeComponent();
+        }
+
         private bool manualEntryBoxLoaded = false;
         private bool ManualEntryBoxLoaded
         {
@@ -44,7 +37,6 @@ namespace Files.UserControls
                 }
             }
         }
-
         private bool clickablePathLoaded = true;
         private bool ClickablePathLoaded
         {
@@ -61,23 +53,8 @@ namespace Files.UserControls
                 }
             }
         }
-
-        private bool SearchBoxLoaded { get; set; }
+        private bool SearchBoxLoaded { get; set; } = false;
         private string PathText { get; set; }
-
-        public NavigationToolbar()
-        {
-            this.InitializeComponent();
-            if (Window.Current.Bounds.Width >= 800)
-            {
-                (this as INavigationToolbar).IsSearchReigonVisible = true;
-            }
-            else
-            {
-                (this as INavigationToolbar).IsSearchReigonVisible = false;
-            }
-        }
-
         bool INavigationToolbar.IsSearchReigonVisible
         {
             get
@@ -89,14 +66,12 @@ namespace Files.UserControls
                 if (value)
                 {
                     ToolbarGrid.ColumnDefinitions[2].MinWidth = 285;
-                    SearchBoxResizer.Visibility = Visibility.Visible;
                     ToolbarGrid.ColumnDefinitions[2].Width = GridLength.Auto;
                     SearchBoxLoaded = true;
                 }
                 else
                 {
                     ToolbarGrid.ColumnDefinitions[2].MinWidth = 0;
-                    SearchBoxResizer.Visibility = Visibility.Collapsed;
                     ToolbarGrid.ColumnDefinitions[2].Width = new GridLength(0);
                     SearchBoxLoaded = false;
                 }
@@ -179,6 +154,7 @@ namespace Files.UserControls
                 NotifyPropertyChanged("PathText");
             }
         }
+
         private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -254,7 +230,15 @@ namespace Files.UserControls
                     try
                     {
                         await StorageFolder.GetFolderFromPathAsync(CurrentInput);
-                        App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
+
+                        if (App.AppSettings.LayoutMode == 0) // List View
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
+                        }
+                        else
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), CurrentInput); // navigate to folder
+                        }
                     }
                     catch (Exception) // Not a folder or inaccessible 
                     {
@@ -273,10 +257,8 @@ namespace Files.UserControls
                             };
 
                             await dialog.ShowAsync();
-
                         }
-                    }            
-                    
+                    }
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
@@ -300,9 +282,16 @@ namespace Files.UserControls
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
             if (itemTappedPath == "Home" || itemTappedPath == "New tab")
-                return; 
+                return;
 
-            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath, new SuppressNavigationTransitionInfo());
+            if (App.AppSettings.LayoutMode == 0) // List View
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath); // navigate to folder
+            }
+            else
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), itemTappedPath); // navigate to folder
+            }
         }
     }
 }

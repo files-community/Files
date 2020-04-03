@@ -1,12 +1,12 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Files.Filesystem;
-using Windows.UI.Xaml.Input;
-using Windows.System;
-using Interaction = Files.Interacts.Interaction;
-using Windows.UI.Core;
-using Files.Controls;
+﻿using Files.Filesystem;
 using System;
+using System.Linq;
+using Windows.System;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
@@ -26,7 +26,7 @@ namespace Files
             var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
             if (BoxPressed == null)
             {
-                 FileList.SelectedItems.Clear();
+                FileList.SelectedItems.Clear();
             }
         }
 
@@ -47,24 +47,13 @@ namespace Files
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
                 FileList.SelectedItem = null;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (e.AddedItems.Count > 0)
-            {
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
-
-            }
-            else if (FileList.SelectedItems.Count == 0)
-            {
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            }
+            base.SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
+            base.SelectedItem = FileList.SelectedItem as ListedItem;
         }
 
         private ListedItem renamingItem;

@@ -1,24 +1,20 @@
+using Files.Enums;
+using Files.Filesystem;
+using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Files.Enums;
-using Files.Filesystem;
 using Windows.System;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Core;
 using Windows.UI.Input;
-using Files.Controls;
-using Microsoft.Xaml.Interactivity;
-using System.Linq;
-using Microsoft.Toolkit.Uwp.UI.Behaviors;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using System.Collections.Generic;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Files
 {
@@ -112,7 +108,7 @@ namespace Files
                     var allRows = new List<DataGridRow>();
 
                     Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach(DataGridRow row in allRows.Take(20))
+                    foreach (DataGridRow row in allRows.Take(20))
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                         {
@@ -143,11 +139,11 @@ namespace Files
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.WorkingDirectory, (item as StorageFolder).DisplayName, false);
+                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.WorkingDirectory, (item as StorageFolder).DisplayName, false);
                     }
                     else
                     {
-                        (App.CurrentInstance as ProHome).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
                         await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.Universal.WorkingDirectory));
                     }
                 }
@@ -191,30 +187,20 @@ namespace Files
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             AllView.SelectedItem = null;
-            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
-            if (e.AddedItems.Count > 0)
-            {
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = true;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = true;
-            }
-            else if (AllView.SelectedItems.Count == 0)
-            {
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            }
+            base.SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
+            base.SelectedItem = AllView.SelectedItem as ListedItem;
         }
 
         private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)
         {
             args.DragUI.SetContentFromDataPackage();
         }
-        
+
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
@@ -279,12 +265,12 @@ namespace Files
             startingPoint = e.GetCurrentPoint(this);
             IsSelectionRectangleDisplayed = true;
             SelectionRectangle.Margin = new Thickness(e.GetCurrentPoint(this).Position.X, e.GetCurrentPoint(this).Position.Y, 0, 0);
-            
+
         }
 
         private void BaseLayout_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            if(e.GetCurrentPoint(this).Position.X < startingPoint.Position.X)
+            if (e.GetCurrentPoint(this).Position.X < startingPoint.Position.X)
             {
                 SelectionRectangle.Width -= e.GetCurrentPoint(this).Position.X;
             }
@@ -297,10 +283,10 @@ namespace Files
         private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
         {
             var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
-            if((!(parentRow.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            if ((!(parentRow.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
-                { 
+                {
                     App.CurrentInstance.ViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
                     (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
                     //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;

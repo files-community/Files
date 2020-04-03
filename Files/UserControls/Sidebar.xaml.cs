@@ -43,6 +43,24 @@ namespace Files.Controls
         public Sidebar()
         {
             this.InitializeComponent();
+
+        }
+
+        private INavigationControlItem _SelectedSidebarItem;
+        public INavigationControlItem SelectedSidebarItem
+        {
+            get
+            {
+                return _SelectedSidebarItem;
+            }
+            set
+            {
+                if (value != _SelectedSidebarItem)
+                {
+                    _SelectedSidebarItem = value;
+                    NotifyPropertyChanged("SelectedSidebarItem");
+                }
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -92,7 +110,7 @@ namespace Files.Controls
                             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
                             (App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
                         }
-                        
+
                         break;
                     }
                 case NavigationControlItemType.OneDrive:
@@ -128,32 +146,32 @@ namespace Files.Controls
     }
 
     public class NavItemDataTemplateSelector : DataTemplateSelector
-{
-    public DataTemplate LocationNavItemTemplate { get; set; }
-    public DataTemplate DriveNavItemTemplate { get; set; }
-    public DataTemplate LinuxNavItemTemplate { get; set; }
-    public DataTemplate HeaderNavItemTemplate { get; set; }
-
-    protected override DataTemplate SelectTemplateCore(object item)
     {
-        if (item != null && item is INavigationControlItem)
+        public DataTemplate LocationNavItemTemplate { get; set; }
+        public DataTemplate DriveNavItemTemplate { get; set; }
+        public DataTemplate LinuxNavItemTemplate { get; set; }
+        public DataTemplate HeaderNavItemTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
         {
-            INavigationControlItem navControlItem = item as INavigationControlItem;
-            switch (navControlItem.ItemType)
+            if (item != null && item is INavigationControlItem)
             {
-                case NavigationControlItemType.Location:
-                    return LocationNavItemTemplate;
-                case NavigationControlItemType.Drive:
-                    return DriveNavItemTemplate;
-                case NavigationControlItemType.OneDrive:
-                    return DriveNavItemTemplate;
-                case NavigationControlItemType.LinuxDistro:
-                    return LinuxNavItemTemplate;
-                case NavigationControlItemType.Header:
-                    return HeaderNavItemTemplate;
+                INavigationControlItem navControlItem = item as INavigationControlItem;
+                switch (navControlItem.ItemType)
+                {
+                    case NavigationControlItemType.Location:
+                        return LocationNavItemTemplate;
+                    case NavigationControlItemType.Drive:
+                        return DriveNavItemTemplate;
+                    case NavigationControlItemType.OneDrive:
+                        return DriveNavItemTemplate;
+                    case NavigationControlItemType.LinuxDistro:
+                        return LinuxNavItemTemplate;
+                    case NavigationControlItemType.Header:
+                        return HeaderNavItemTemplate;
+                }
             }
+            return null;
         }
-        return null;
     }
-}
 }
