@@ -150,8 +150,6 @@ namespace Files
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
         public static string exceptionStackTrace { get; set; }
 
-
-
         private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
