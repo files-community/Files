@@ -99,6 +99,7 @@ namespace Files
         public BaseLayout()
         {
             this.Loaded += Page_Loaded;
+            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Page_Loaded(null, null);
 
             // QuickLook Integration
@@ -111,12 +112,30 @@ namespace Files
             }
         }
 
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        {
+            if(App.CurrentInstance.ContentPage != null)
+            {
+                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
+                if (App.AppSettings.LayoutMode == 0)
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
+                }
+                else
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
+                }
+                App.CurrentInstance.ViewModel.isLoadingItems = false;
+            }
+
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        private bool isStale = false;
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);

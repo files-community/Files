@@ -12,7 +12,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyUp="ModernShellPage_KeyUp"
     Loaded="Page_Loaded"
-    NavigationCacheMode="Disabled"
+    NavigationCacheMode="Required"
     mc:Ignorable="d">
 
     <Grid>

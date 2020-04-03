@@ -17,9 +17,6 @@ using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
-    /// <summary>
-    /// The Instance Tabs Component for Project Mumbai
-    /// </summary>
     public sealed partial class InstanceTabsView : Page
     {
         public static TabView tabView;

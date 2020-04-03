@@ -152,6 +152,7 @@ namespace Files.Views.Pages
                     }
                 }
             }
+
             //RibbonArea.Focus(FocusState.Programmatic);
         }
 

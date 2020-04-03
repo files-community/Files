@@ -522,20 +522,20 @@ namespace Files.View_Models
             get => Get(""); // List View;
             set => Set(value);
         }
-
+        public event EventHandler LayoutModeChangeRequested;
         private RelayCommand toggleLayoutMode;
         public RelayCommand ToggleLayoutMode => toggleLayoutMode = new RelayCommand(() =>
         {
             if (LayoutMode == 0) // List View
             {
                 LayoutMode = 1; // Grid View
-
+                LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                 ToggleLayoutModeIcon = "";
             }
             else //Grid View
             {
                 LayoutMode = 0; // List View
-
+                LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                 ToggleLayoutModeIcon = "";
             }
         });
