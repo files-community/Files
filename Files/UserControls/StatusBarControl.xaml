@@ -42,12 +42,32 @@
                 Height="30"
                 Margin="2,0,2,0"
                 Background="Transparent"
-                Command="{x:Bind AppSettings.ToggleLayoutMode}"
-                Content="{x:Bind AppSettings.ToggleLayoutModeIcon, Mode=OneWay}"
+                Content="&#xE152;"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                FontSize="16" />
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridView}"
+                            Text="Grid View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xF0E2;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlListView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
+                            Text="List View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE14C;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
         </StackPanel>
-
     </Grid>
 </UserControl>

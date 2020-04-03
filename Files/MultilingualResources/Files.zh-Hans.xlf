@@ -422,6 +422,14 @@
           <source>Text Documnet</source>
           <target state="new">Text Documnet</target>
         </trans-unit>
+        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
+          <source>List View</source>
+          <target state="new">List View</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridView.Text" translate="yes" xml:space="preserve">
+          <source>Grid View</source>
+          <target state="new">Grid View</target>
+        </trans-unit>
       </group>
     </body>
   </file>

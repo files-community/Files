@@ -192,6 +192,12 @@
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Clear Selection</value>
   </data>  
+  <data name="StatusBarControlListView.Text" xml:space="preserve">
+    <value>List View</value>
+  </data>
+  <data name="StatusBarControlGridView.Text" xml:space="preserve">
+    <value>Grid View</value>
+  </data>  
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
