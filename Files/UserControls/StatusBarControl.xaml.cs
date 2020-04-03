@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.View_Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace Files.UserControls
 {
     public sealed partial class StatusBarControl : UserControl
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         public StatusBarControl()
         {
             this.InitializeComponent();
