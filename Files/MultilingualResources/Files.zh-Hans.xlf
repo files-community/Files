@@ -80,7 +80,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
           <source>Website: </source>
-          <target state="translated">网站: </target>
+          <target state="translated">网站：</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -300,7 +300,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="new">黏贴</target>
+          <target state="translated">粘贴</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
@@ -316,7 +316,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
-          <target state="new">Bitmap位图</target>
+          <target state="translated">Bitmap 位图</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
@@ -336,7 +336,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
-          <target state="new">在新标签中打开</target>
+          <target state="translated">在新标签页中打开</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
@@ -376,11 +376,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
           <source>QuickLook</source>
-          <target state="new">QuickLook</target>
+          <target state="translated">QuickLook 预览</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
-          <target state="new">新窗口</target>
+          <target state="translated">在新窗口中打开</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
           <source>Copy Path</source>
@@ -388,7 +388,7 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
           <source>Paste</source>
-          <target state="new">黏贴</target>
+          <target state="translated">粘贴</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
           <source>Open in Terminal...</source>
@@ -404,11 +404,11 @@
         </trans-unit>
         <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
           <source>Select All</source>
-          <target state="new">选中全部</target>
+          <target state="translated">全部选择</target>
         </trans-unit>
         <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
           <source>Clear Selection</source>
-          <target state="new">取消选中</target>
+          <target state="translated">取消选择</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
@@ -416,7 +416,7 @@
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
-          <target state="new">Bitmap位图</target>
+          <target state="translated">Bitmap 位图</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Documnet</source>
@@ -424,11 +424,11 @@
         </trans-unit>
         <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
           <source>List View</source>
-          <target state="new">List View</target>
+          <target state="translated">列表</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridView.Text" translate="yes" xml:space="preserve">
           <source>Grid View</source>
-          <target state="new">Grid View</target>
+          <target state="translated">平铺</target>
         </trans-unit>
       </group>
     </body>
