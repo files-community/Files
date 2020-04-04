@@ -240,7 +240,7 @@
         </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Sidebar</source>
-          <target state="translated">Unpin from Sidebar</target>
+          <target state="translated">Von Seitenleiste entfernen</target>
         </trans-unit>
         <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
           <source>Flags</source>
