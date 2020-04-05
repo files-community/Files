@@ -67,7 +67,7 @@
     <value>关于</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>网站: </value>
+    <value>网站：</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>透明效果</value>
@@ -141,12 +141,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>个性化</value>
   </data>
-  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
-    <value>视频</value>
-  </data>
-  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>自定义视频位置</value>
-  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>从侧边栏取消固定</value>
   </data>
@@ -206,5 +200,38 @@
   </data>
   <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
     <value>浏览</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
+    <value>Bitmap 位图</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
+    <value>在新标签页中打开</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
+    <value>QuickLook 预览</value>
+  </data>
+  <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
+    <value>在新窗口中打开</value>
+  </data>
+  <data name="NavigationToolbarPaste.Text" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
+    <value>全部选择</value>
+  </data>
+  <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
+    <value>取消选择</value>
+  </data>
+  <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
+    <value>Bitmap 位图</value>
+  </data>
+  <data name="StatusBarControlListView.Text" xml:space="preserve">
+    <value>列表</value>
+  </data>
+  <data name="StatusBarControlGridView.Text" xml:space="preserve">
+    <value>平铺</value>
   </data>
 </root>

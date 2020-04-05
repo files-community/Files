@@ -174,14 +174,6 @@
           <source>Preferences</source>
           <target state="translated">Préférences</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesVideo.Text" translate="yes" xml:space="preserve">
-          <source>Video</source>
-          <target state="translated">Vidéos</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesVideoLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom video location</source>
-          <target state="translated">Définir l'emplacement des Vidéos</target>
-        </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Sidebar</source>
           <target state="translated">Détacher de la barre latérale</target>

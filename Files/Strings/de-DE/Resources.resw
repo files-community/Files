@@ -138,12 +138,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>
-  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
-    <value>Video</value>
-  </data>
-  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>Benutzerdefinierten Pfad zum Videoordner festlegen</value>
-  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Von Seitenleiste entfernen</value>
   </data>
