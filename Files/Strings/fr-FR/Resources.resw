@@ -138,12 +138,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Préférences</value>
   </data>
-  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
-    <value>Vidéos</value>
-  </data>
-  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>Définir l'emplacement des Vidéos</value>
-  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Détacher de la barre latérale</value>
   </data>
