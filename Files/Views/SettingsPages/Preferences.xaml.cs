@@ -46,14 +46,14 @@ namespace Files.SettingsPages
             TerminalApplicationsComboBox.SelectedItem = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
         }
 
-        private async void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             LaunchTerminalsConfigFile();
         }
 
         private async void LaunchTerminalsConfigFile()
         {
-            Launcher.LaunchFileAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
+            await Launcher.LaunchFileAsync(await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appdata:///local/settings/terminal.json")));
         }
 
         private void TerminalApp_SelectionChanged(object sender, SelectionChangedEventArgs e)
