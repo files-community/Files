@@ -23,8 +23,8 @@ steps:
     platform: 'x86'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)";/p:UapAppxPackageBuildMode=StoreUpload'
-    
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+
 - task: store-publish@0
   inputs:
     serviceEndpoint: 'Files'
