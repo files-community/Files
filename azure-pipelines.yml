@@ -29,6 +29,6 @@ steps:
   inputs:
     serviceEndpoint: 'Files'
     appId: '9NGHP3DX8HDX'
-    packagePath: '$(appxPackageDir)'
+    packagePath: '$(appxPackageDir)\**\*.msixbundle'
     force: true
     skipPolling: false
