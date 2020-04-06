@@ -8,122 +8,120 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="375"
-    Height="425"
+    Height="450"
     mc:Ignorable="d">
 
-    <Grid>
-        <StackPanel>
-            <Grid Margin="0,0,0,-10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Custom:DockPanel
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Padding="14" Spacing="14" Grid.Row="0" Orientation="Horizontal">
+
+            <Grid
                     x:Name="Icon"
                     Width="40"
                     Height="40"
-                    Margin="15,15"
+                    Margin="0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
-                    <FontIcon
+                <FontIcon
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="36"
                         Foreground="#ffe793"
                         Glyph="&#xE8D5;"
-                        Visibility="{x:Bind Item.FolderImg}" />
-                    <FontIcon
+                        Visibility="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FolderImg}" />
+                <FontIcon
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="36"
+                        x:Name="EmptyImageIcon"
                         Glyph="&#xE7C3;"
-                        Visibility="{x:Bind Item.EmptyImgVis}" />
-                    <Image
+                        Visibility="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.EmptyImgVis}" />
+                <Image
                         x:Name="itemIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Source="{x:Bind Item.FileImg}"
-                        Visibility="{x:Bind Item.FileIconVis}" />
-                </Custom:DockPanel>
-                <TextBox
+                        Loading="itemIcon_Loading"
+                        Visibility="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileIconVis}" />
+            </Grid>
+            <TextBox
                     x:Name="itemFileName"
                     x:Uid="PropertiesItemFileName"
                     Grid.Column="1"
-                    Margin="15,0,15,0"
-                    Padding="10,4"
+                    Margin="0"
                     VerticalAlignment="Center"
                     BorderThickness="1"
-                    CornerRadius="2"
                     IsReadOnly="True"
-                    PlaceholderText="Item Name"
-                    Text="{x:Bind Item.FileName}" />
-            </Grid>
-            <MenuFlyoutSeparator Margin="-10,0" HorizontalAlignment="Stretch" />
-            <Grid Padding="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
-                <TextBlock
+                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileName}" Width="285" />
+        </StackPanel>
+        <StackPanel Padding="14,0" Grid.Row="1">
+        <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
+        <Grid Padding="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
+            <TextBlock
                     x:Name="itemType"
                     Grid.Column="1"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind Item.FileType}" />
-            </Grid>
-            <Grid Padding="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
-                <TextBlock
+                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileType}" />
+        </Grid>
+        <Grid Padding="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
+            <TextBlock
                     x:Name="itemPath"
                     Grid.Column="2"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind Item.FilePath}"
+                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FilePath}"
                     TextWrapping="Wrap" />
-            </Grid>
-            <Grid Padding="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
-                <TextBlock
+        </Grid>
+        <Grid Padding="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
+            <TextBlock
                     x:Name="itemSize"
                     Grid.Column="3"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind Item.FileSize}" />
-            </Grid>
-            <MenuFlyoutSeparator Margin="-10,0" />
-            <Grid Padding="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
-                <TextBlock
+                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileSize}" />
+        </Grid>
+        <MenuFlyoutSeparator Margin="-14,0" />
+        <Grid Padding="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
+            <TextBlock
                     x:Name="itemCreatedTimestamp"
                     Grid.Column="4"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind Item.FileDate}" />
-            </Grid>
-            <Grid Padding="0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
-                <TextBlock
+                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileDate}" />
+        </Grid>
+        <Grid Padding="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="90" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
+            <TextBlock
                     x:Name="itemModifiedTimestamp"
                     Grid.Column="5"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind Item.FileDate}" />
-            </Grid>
+                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileDate}" />
+        </Grid>
         </StackPanel>
-
     </Grid>
 </Page>
