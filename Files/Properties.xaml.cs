@@ -1,20 +1,35 @@
-﻿using Files.Filesystem;
+﻿using Files.Interacts;
 using System;
-using System.Collections.Generic;
+using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
 
     public sealed partial class Properties : Page
     {
+        public AppWindow propWindow;
+
         public Properties()
         {
             this.InitializeComponent();
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                Loaded += Properties_Loaded;
+            }
+            else
+            {
+                this.OKButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+        }
+
+        private void Properties_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            // Collect AppWindow-specific info
+            propWindow = Interaction.AppWindows[this.UIContext];
         }
 
         private async void itemIcon_Loading(Windows.UI.Xaml.FrameworkElement sender, object args)
@@ -39,6 +54,14 @@ namespace Files
             }
 
 
+        }
+
+        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                await propWindow.CloseAsync();
+            }
         }
     }
 }

@@ -31,6 +31,11 @@ using static Files.Dialogs.ConfirmDeleteDialog;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Files.Views.Pages;
+using Windows.Foundation.Metadata;
+using Windows.UI.WindowManagement;
+using Windows.UI.Xaml.Hosting;
+using Windows.UI.WindowManagement.Preview;
+using Windows.UI;
 
 namespace Files.Interacts
 {
@@ -430,11 +435,38 @@ namespace Files.Interacts
             DataTransferManager.ShowShareUI();
         }
 
+        public static Dictionary<UIContext, AppWindow> AppWindows { get; set; }
+            = new Dictionary<UIContext, AppWindow>();
+
         public async void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            App.propertiesDialog.propertiesFrame.Tag = App.propertiesDialog;
-            App.propertiesDialog.propertiesFrame.Navigate(typeof(Properties), (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
-            await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                AppWindow appWindow = await AppWindow.TryCreateAsync();
+                Frame frame = new Frame();
+                frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
+                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
+                appWindow.RequestSize(new Size(400, 475));
+                appWindow.Title = "Properties";
+
+                ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
+                AppWindows.Add(frame.UIContext, appWindow);
+
+                appWindow.Closed += delegate
+                {
+                    Interaction.AppWindows.Remove(frame.UIContext);
+                    frame.Content = null;
+                    appWindow = null;
+                };
+
+                await appWindow.TryShowAsync();
+            }
+            else
+            {
+                App.propertiesDialog.propertiesFrame.Tag = App.propertiesDialog;
+                App.propertiesDialog.propertiesFrame.Navigate(typeof(Properties), (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
+                await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+            }
         }
 
         public async void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)

@@ -1,20 +1,20 @@
 ﻿<Page
+    xmlns:controls="using:Windows.UI.Xaml.Controls"
     x:Class="Files.Properties"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
+    d:DesignHeight="475"
+    d:DesignWidth="400"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Width="375"
-    Height="450"
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Padding="14" Spacing="14" Grid.Row="0" Orientation="Horizontal">
 
@@ -25,7 +25,7 @@
                     Margin="0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
-                <FontIcon
+                <controls:FontIcon
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         FontFamily="Segoe MDL2 Assets"
@@ -59,69 +59,77 @@
                     Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileName}" Width="285" />
         </StackPanel>
         <StackPanel Padding="14,0" Grid.Row="1">
-        <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
-        <Grid Padding="0,4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
-            <TextBlock
+            <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
+            <Grid Padding="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
+                <TextBlock
                     x:Name="itemType"
                     Grid.Column="1"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileType}" />
-        </Grid>
-        <Grid Padding="0,4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
-            <TextBlock
+            </Grid>
+            <Grid Padding="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
+                <TextBlock
                     x:Name="itemPath"
                     Grid.Column="2"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FilePath}"
                     TextWrapping="Wrap" />
-        </Grid>
-        <Grid Padding="0,4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
-            <TextBlock
+            </Grid>
+            <Grid Padding="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
+                <TextBlock
                     x:Name="itemSize"
                     Grid.Column="3"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileSize}" />
-        </Grid>
-        <MenuFlyoutSeparator Margin="-14,0" />
-        <Grid Padding="0,4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
-            <TextBlock
+            </Grid>
+            <MenuFlyoutSeparator Margin="-14,0" />
+            <Grid Padding="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
+                <TextBlock
                     x:Name="itemCreatedTimestamp"
                     Grid.Column="4"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileDate}" />
-        </Grid>
-        <Grid Padding="0,4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
-            <TextBlock
+            </Grid>
+            <Grid Padding="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
+                <TextBlock
                     x:Name="itemModifiedTimestamp"
                     Grid.Column="5"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileDate}" />
-        </Grid>
+            </Grid>
+
         </StackPanel>
+        <Grid Padding="8"  Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+        <Button x:Name="OKButton" Grid.Column="1"  Content="OK" HorizontalAlignment="Stretch" Click="Button_Click" />
+        </Grid>
     </Grid>
 </Page>
