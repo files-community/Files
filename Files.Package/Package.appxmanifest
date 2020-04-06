@@ -3,7 +3,7 @@
   <Identity Name="FilesUWP" Publisher="CN=Luke Blevins" Version="0.7.4.0" />
   <Properties>
     <DisplayName>Files UWP - Preview</DisplayName>
-    <PublisherDisplayName>FilesUWP</PublisherDisplayName>
+    <PublisherDisplayName>Yair A</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
   <Dependencies>

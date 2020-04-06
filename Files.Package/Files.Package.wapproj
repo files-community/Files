@@ -52,7 +52,6 @@
     <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <AppxBundlePlatforms>x86|x64|arm|arm64</AppxBundlePlatforms>
-    <EnableDotNetNativeCompatibleProfile>false</EnableDotNetNativeCompatibleProfile>
     <DisableXbfLineInfo>False</DisableXbfLineInfo>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <UapAppxPackageBuildMode>StoreUpload</UapAppxPackageBuildMode>
