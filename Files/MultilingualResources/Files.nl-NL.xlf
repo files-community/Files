@@ -178,14 +178,6 @@
           <source>Preferences</source>
           <target state="translated">Voorkeuren</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesVideo.Text" translate="yes" xml:space="preserve">
-          <source>Video</source>
-          <target state="new">Video</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesVideoLocation.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Set custom video location</source>
-          <target state="translated">Stel video locatie in</target>
-        </trans-unit>
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Sidebar</source>
           <target state="translated">Losmaken van zijbalk</target>

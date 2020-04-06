@@ -321,12 +321,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferences</value>
   </data>
-  <data name="SettingsPreferencesVideo.Text" xml:space="preserve">
-    <value>Video</value>
-  </data>
-  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>Set custom video location</value>
-  </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Desktop</value>
   </data>

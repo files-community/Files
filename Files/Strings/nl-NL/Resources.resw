@@ -135,9 +135,6 @@
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Voorkeuren</value>
   </data>
-  <data name="SettingsPreferencesVideoLocation.PlaceholderText" xml:space="preserve">
-    <value>Stel video locatie in</value>
-  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Losmaken van zijbalk</value>
   </data>
