@@ -625,6 +625,20 @@ namespace Files.Filesystem
             try
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
+                _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
+                {
+                    ItemPropertiesInitialized = true,
+                    FileName = _rootFolder.Name,
+                    FileDateReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
+                    FileType = "Folder",    //TODO: Take a look at folder.DisplayType
+                    FolderImg = Visibility.Visible,
+                    FileImg = null,
+                    FileIconVis = Visibility.Collapsed,
+                    FilePath = _rootFolder.Path,
+                    EmptyImgVis = Visibility.Collapsed,
+                    FileSize = null,
+                    FileSizeBytes = 0
+                };
             }
             catch (UnauthorizedAccessException)
             {

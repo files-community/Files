@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Padding="14" Spacing="14" Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Padding="22,14" Spacing="14" Grid.Row="0" Orientation="Horizontal">
 
             <Grid
                     x:Name="Icon"
@@ -32,7 +32,8 @@
                         FontSize="36"
                         Foreground="#ffe793"
                         Glyph="&#xE8D5;"
-                        Visibility="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FolderImg}" />
+                        x:Name="FolderGlyphIcon"
+                        x:Load="{x:Bind itemProperties.LoadFolderGlyph,Mode=OneWay}" />
                 <FontIcon
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -40,13 +41,13 @@
                         FontSize="36"
                         x:Name="EmptyImageIcon"
                         Glyph="&#xE7C3;"
-                        Visibility="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.EmptyImgVis}" />
+                        x:Load="{x:Bind itemProperties.LoadUnknownTypeGlyph,Mode=OneWay}" />
                 <Image
                         x:Name="itemIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        Loading="itemIcon_Loading"
-                        Visibility="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileIconVis}" />
+                        x:Load="{x:Bind itemProperties.LoadFileIcon,Mode=OneWay}"
+                        Source="{x:Bind itemProperties.FileIconSource,Mode=OneWay}"/>
             </Grid>
             <TextBox
                     x:Name="itemFileName"
@@ -56,7 +57,7 @@
                     VerticalAlignment="Center"
                     BorderThickness="1"
                     IsReadOnly="True"
-                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileName}" Width="285" />
+                    Text="{x:Bind itemProperties.ItemName,Mode=OneWay}" Width="300" />
         </StackPanel>
         <StackPanel Padding="14,0" Grid.Row="1">
             <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
@@ -67,10 +68,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
                 <TextBlock
-                    x:Name="itemType"
+                    x:Name="itemTypeValue"
                     Grid.Column="1"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileType}" />
+                    Text="{x:Bind itemProperties.ItemType,Mode=OneWay}" />
             </Grid>
             <Grid Padding="0,4">
                 <Grid.ColumnDefinitions>
@@ -79,10 +80,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
                 <TextBlock
-                    x:Name="itemPath"
+                    x:Name="itemPathValue"
                     Grid.Column="2"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FilePath}"
+                    Text="{x:Bind itemProperties.ItemPath,Mode=OneWay}"
                     TextWrapping="Wrap" />
             </Grid>
             <Grid Padding="0,4">
@@ -92,10 +93,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
                 <TextBlock
-                    x:Name="itemSize"
+                    x:Name="itemSizeValue"
                     Grid.Column="3"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileSize}" />
+                    Text="{x:Bind itemProperties.ItemSize,Mode=OneWay}" />
             </Grid>
             <MenuFlyoutSeparator Margin="-14,0" />
             <Grid Padding="0,4">
@@ -105,10 +106,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
                 <TextBlock
-                    x:Name="itemCreatedTimestamp"
+                    x:Name="itemCreatedTimestampValue"
                     Grid.Column="4"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileDate}" />
+                    Text="{x:Bind itemProperties.ItemCreatedTimestamp,Mode=OneWay}" />
             </Grid>
             <Grid Padding="0,4">
                 <Grid.ColumnDefinitions>
@@ -117,10 +118,10 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
                 <TextBlock
-                    x:Name="itemModifiedTimestamp"
+                    x:Name="itemModifiedTimestampValue"
                     Grid.Column="5"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind local:App.CurrentInstance.ContentPage.SelectedItem.FileDate}" />
+                    Text="{x:Bind itemProperties.ItemModifiedTimestamp,Mode=OneWay}" />
             </Grid>
 
         </StackPanel>

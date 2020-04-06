@@ -217,6 +217,7 @@
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\InteractionViewModel.cs" />
+    <Compile Include="View Models\SelectedItemPropertiesViewModel.cs" />
     <Compile Include="Views\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
