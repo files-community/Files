@@ -194,8 +194,8 @@ namespace Files
             {
                 var dialog = new ContentDialog()
                 {
-                    Title = "What's new in v0.7.3",
-                    Content = "• We are starting to test a brand new design, this is still in the early stages so make sure to send us any feedback on GitHub. \n• We fixed an issue where a swipe gesture was having unexpected side effects. \n• We started work on layout modes, it is not fully functional yet and we will improve it in future updates.",
+                    Title = "What's new in v0.7.4",
+                    Content = "• Fixed a crash when opening the preferences page in settings.",
                     PrimaryButtonText = "Lets go!"
                 };
 
