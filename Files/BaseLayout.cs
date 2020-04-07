@@ -52,7 +52,7 @@ namespace Files
             {
                 return _SelectedItems;
             }
-            set
+            internal set
             {
                 if (value != _SelectedItems)
                 {
@@ -77,7 +77,7 @@ namespace Files
             {
                 return _SelectedItem;
             }
-            set
+            internal set
             {
                 if (value != _SelectedItem)
                 {
