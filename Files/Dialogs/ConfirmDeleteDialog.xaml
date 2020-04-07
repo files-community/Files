@@ -13,18 +13,25 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock
-            x:Uid="ConfirmDeleteDialogHeader"
-            Text="Are you sure you want to delete the selected item(s)?"
-            TextWrapping="WrapWholeWords" />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Spacing="10">
+            <TextBlock
+                x:Uid="ConfirmDeleteDialogHeader"
+                Text="Are you sure you want to delete the selected item(s)?"
+                TextWrapping="WrapWholeWords" />
 
-        <CheckBox
-            x:Name="chkPermanentlyDelete"
-            x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
-            Content="Permanently delete"
-            IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay}" />
+            <CheckBox
+                x:Name="chkPermanentlyDelete"
+                x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
+                Content="Permanently delete"
+                IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay}" />
+        </StackPanel>
 
         <StackPanel
+            Grid.Row="1"
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
             Orientation="Horizontal"
@@ -37,11 +44,12 @@
                 Content="Cancel" />
 
             <Button
-                x:Name="btnDelete" TabIndex="0"
+                x:Name="btnDelete"
                 x:Uid="ConfirmDeleteDialogDeleteButton"
                 Background="{ThemeResource SystemAccentColor}"
                 Click="btnDelete_Click"
-                Content="Delete" />
+                Content="Delete"
+                TabIndex="0" />
 
         </StackPanel>
 
