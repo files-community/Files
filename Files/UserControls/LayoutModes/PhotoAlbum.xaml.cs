@@ -20,16 +20,6 @@ namespace Files
 
         }
 
-        private void FileList_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
-            var BoxPressed = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
-            if (BoxPressed == null)
-            {
-                FileList.SelectedItems.Clear();
-            }
-        }
-
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             var parentContainer = Interaction.FindParent<GridViewItem>(e.OriginalSource as DependencyObject);
@@ -159,7 +149,6 @@ namespace Files
                 {
                     App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, 80);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
-                    //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
                 });
             }
         }

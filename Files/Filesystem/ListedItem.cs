@@ -11,52 +11,52 @@ namespace Files.Filesystem
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
-        public Visibility FolderImg { get; set; }
-        private Visibility _FileIconVis;
-        public Visibility FileIconVis
+        public bool LoadFolderGlyph { get; set; }
+        private bool _LoadFileIcon;
+        public bool LoadFileIcon
         {
             get
             {
-                return _FileIconVis;
+                return _LoadFileIcon;
             }
             set
             {
-                if(_FileIconVis != value)
+                if(_LoadFileIcon != value)
                 {
-                    _FileIconVis = value;
-                    NotifyPropertyChanged("FileIconVis");
+                    _LoadFileIcon = value;
+                    NotifyPropertyChanged("LoadFileIcon");
                 }
             }
         }
-        private Visibility _EmptyImgVis;
-        public Visibility EmptyImgVis
+        private bool _LoadUnknownTypeGlyph;
+        public bool LoadUnknownTypeGlyph
         {
             get
             {
-                return _EmptyImgVis;
+                return _LoadUnknownTypeGlyph;
             }
             set
             {
-                if (_EmptyImgVis != value)
+                if (_LoadUnknownTypeGlyph != value)
                 {
-                    _EmptyImgVis = value;
-                    NotifyPropertyChanged("EmptyImgVis");
+                    _LoadUnknownTypeGlyph = value;
+                    NotifyPropertyChanged("LoadUnknownTypeGlyph");
                 }
             }
         }
-        private BitmapImage _FileImg;
-        public BitmapImage FileImg
+        private BitmapImage _FileImage;
+        public BitmapImage FileImage
         {
             get
             {
-                return _FileImg;
+                return _FileImage;
             }
             set
             {
-                if(_FileImg != value && value != null)
+                if(_FileImage != value && value != null)
                 {
-                    _FileImg = value;
-                    NotifyPropertyChanged("FileImg");
+                    _FileImage = value;
+                    NotifyPropertyChanged("FileImage");
                 }
             }
         }

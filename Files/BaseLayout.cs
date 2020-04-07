@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -50,7 +51,14 @@ namespace Files
         {
             get
             {
-                return _SelectedItems;
+                if(_SelectedItems == null)
+                {
+                    return new List<ListedItem>();
+                }
+                else
+                {
+                    return _SelectedItems;
+                }
             }
             internal set
             {
@@ -116,15 +124,15 @@ namespace Files
             if (App.CurrentInstance.ContentPage != null)
             {
                 App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
-                App.CurrentInstance.ViewModel.isLoadingItems = true;
-                App.CurrentInstance.ViewModel.isLoadingItems = false;
+                App.CurrentInstance.ViewModel.IsLoadingItems = true;
+                App.CurrentInstance.ViewModel.IsLoadingItems = false;
                 if (App.AppSettings.LayoutMode == 0)
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
                 }
                 else
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.Universal.WorkingDirectory, null);
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.WorkingDirectory, null);
                 }
             }
 
@@ -135,7 +143,7 @@ namespace Files
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        private bool isStale = false;
+
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
@@ -151,10 +159,10 @@ namespace Files
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
-            AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
-            App.CurrentInstance.ViewModel.Universal.WorkingDirectory = parameters;
+            AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
+            App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
 
-            if (App.CurrentInstance.ViewModel.Universal.WorkingDirectory == Path.GetPathRoot(App.CurrentInstance.ViewModel.Universal.WorkingDirectory))
+            if (App.CurrentInstance.ViewModel.WorkingDirectory == Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory))
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             }
@@ -163,7 +171,7 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
 
-            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.Universal.WorkingDirectory);
+            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.WorkingDirectory);
             App.Clipboard_ContentChanged(null, null);
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
@@ -191,7 +199,7 @@ namespace Files
             var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
 
             // Find selected items that are not folders
-            if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.FileType != "Folder"))
+            if (selectedFileSystemItems.Cast<ListedItem>().Any(x => SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(x.FilePath) != typeof(StorageFolder)))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");

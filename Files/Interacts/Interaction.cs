@@ -1,12 +1,10 @@
 using Files.Dialogs;
 using Files.Filesystem;
-using Files.Navigation;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -21,11 +19,9 @@ using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Files.View_Models;
 using Windows.System.UserProfile;
 using static Files.Dialogs.ConfirmDeleteDialog;
 using Windows.ApplicationModel.Core;
@@ -36,13 +32,14 @@ using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
+using Files.View_Models;
 
 namespace Files.Interacts
 {
     public class Interaction
     {
-        private IShellPage CurrentInstance;
-        InstanceTabsView instanceTabsView;
+        private readonly IShellPage CurrentInstance;
+        readonly InstanceTabsView instanceTabsView;
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -135,7 +132,7 @@ namespace Files.Interacts
             var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
 
             localSettings.Values["Application"] = terminal.Path;
-            localSettings.Values["Arguments"] = String.Format(terminal.arguments, CurrentInstance.ViewModel.Universal.WorkingDirectory);
+            localSettings.Values["Arguments"] = String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory);
 
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
@@ -225,7 +222,7 @@ namespace Files.Interacts
             {
                 Clipboard.Clear();
                 DataPackage data = new DataPackage();
-                data.SetText(CurrentInstance.ViewModel.Universal.WorkingDirectory);
+                data.SetText(CurrentInstance.ViewModel.WorkingDirectory);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
             }
@@ -253,10 +250,14 @@ namespace Files.Interacts
             if (RowPressed != null)
             {
                 var ObjectPressed = ((ReadOnlyObservableCollection<ListedItem>)dataGrid.ItemsSource)[RowPressed.GetIndex()];
+
                 // Check if RightTapped row is currently selected
-                var CurrentInstance = App.CurrentInstance;
-                if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Contains(ObjectPressed))
-                    return;
+                if (!App.CurrentInstance.ContentPage.SelectedItems.Equals(null))
+                {
+                    if (App.CurrentInstance.ContentPage.SelectedItems.Contains(ObjectPressed))
+                        return;
+                }
+                
                 // The following code is only reachable when a user RightTapped an unselected row
                 dataGrid.SelectedItems.Clear();
                 dataGrid.SelectedItems.Add(ObjectPressed);
@@ -336,15 +337,15 @@ namespace Files.Interacts
                 if (selectedItemCount == 1)
                 {
                     var clickedOnItem = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0];
-                    if (clickedOnItem.FileType == "Folder")
+                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(clickedOnItem.FilePath) == typeof(StorageFolder))
                     {
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(selectedItemPath));
 
-                        CurrentInstance.ViewModel.Universal.WorkingDirectory = selectedItemPath;
+                        CurrentInstance.ViewModel.WorkingDirectory = selectedItemPath;
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = selectedItemPath;
 
-                        (CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.EmptyTextState.isVisible = Visibility.Collapsed;
+                        (CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
                         App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(selectedItemPath, StringComparison.OrdinalIgnoreCase));
                         if (App.CurrentInstance.SidebarSelectedItem == null)
                         {
@@ -377,7 +378,7 @@ namespace Files.Interacts
                     foreach (ListedItem clickedOnItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
 
-                        if (clickedOnItem.FileType == "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(clickedOnItem.FilePath) == typeof(StorageFolder))
                         {
                             instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.FilePath);
                         }
@@ -463,9 +464,9 @@ namespace Files.Interacts
             }
             else
             {
-                App.propertiesDialog.propertiesFrame.Tag = App.propertiesDialog;
-                App.propertiesDialog.propertiesFrame.Navigate(typeof(Properties), (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
-                await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+                App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem, new SuppressNavigationTransitionInfo());
+                await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -495,9 +496,9 @@ namespace Files.Interacts
             else
             {
 
-                App.propertiesDialog.propertiesFrame.Tag = App.propertiesDialog;
-                App.propertiesDialog.propertiesFrame.Navigate(typeof(Properties), App.CurrentInstance.ViewModel.currentFolder, new SuppressNavigationTransitionInfo());
-                await App.propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
+                App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), App.CurrentInstance.ViewModel.CurrentFolder, new SuppressNavigationTransitionInfo());
+                await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -511,7 +512,7 @@ namespace Files.Interacts
 
                 foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                 {
-                    if (li.FileType == "Folder")
+                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(li.FilePath) == typeof(StorageFolder))
                     {
                         var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
                         items.Add(folderAsItem);
@@ -527,7 +528,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                 {
-                    if (li.FileType == "Folder")
+                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(li.FilePath) == typeof(StorageFolder))
                     {
                         var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
                         items.Add(folderAsItem);
@@ -552,7 +553,7 @@ namespace Files.Interacts
             if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
                 var dialog = new ConfirmDeleteDialog();
-                var result = await dialog.ShowAsync();
+                await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
@@ -580,7 +581,7 @@ namespace Files.Interacts
 
                     try
                     {
-                        if (storItem.FileType != "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(storItem.FilePath) != typeof(StorageFolder))
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
 
@@ -610,7 +611,7 @@ namespace Files.Interacts
                     catch (FileLoadException)
                     {
                         // try again
-                        if (storItem.FileType != "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(storItem.FilePath) != typeof(StorageFolder))
                         {
                             var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
 
@@ -677,11 +678,11 @@ namespace Files.Interacts
             if (oldName == newName)
                 return true;
 
-            if (newName != "")
+            if (!string.IsNullOrWhiteSpace(newName))
             {
                 try
                 {
-                    if (item.FileType == "Folder")
+                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) == typeof(StorageFolder))
                     {
                         var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
                         await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
@@ -708,7 +709,7 @@ namespace Files.Interacts
 
                     if (result == ContentDialogResult.Primary)
                     {
-                        if (item.FileType == "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) == typeof(StorageFolder))
                         {
                             var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
 
@@ -723,7 +724,7 @@ namespace Files.Interacts
                     }
                     else if (result == ContentDialogResult.Secondary)
                     {
-                        if (item.FileType == "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) == typeof(StorageFolder))
                         {
                             var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
 
@@ -747,8 +748,10 @@ namespace Files.Interacts
         public List<GridViewItem> gridViewItems = new List<GridViewItem>();
         public async void CutItem_Click(object sender, RoutedEventArgs e)
         {
-            DataPackage dataPackage = new DataPackage();
-            dataPackage.RequestedOperation = DataPackageOperation.Move;
+            DataPackage dataPackage = new DataPackage
+            {
+                RequestedOperation = DataPackageOperation.Move
+            };
             App.pathsToDeleteAfterPaste.Clear();
             List<IStorageItem> items = new List<IStorageItem>();
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
@@ -784,7 +787,7 @@ namespace Files.Interacts
                         }
 
                         App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
-                        if (StorItem.FileType != "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -827,7 +830,7 @@ namespace Files.Interacts
                         imageOfItem.Opacity = 0.4;
 
                         App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
-                        if (StorItem.FileType != "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -851,19 +854,21 @@ namespace Files.Interacts
 
         public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            DataPackage dataPackage = new DataPackage();
-            dataPackage.RequestedOperation = DataPackageOperation.Copy;
+            DataPackage dataPackage = new DataPackage
+            {
+                RequestedOperation = DataPackageOperation.Copy
+            };
             List<IStorageItem> items = new List<IStorageItem>();
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
-                CopySourcePath = CurrentInstance.ViewModel.Universal.WorkingDirectory;
+                CopySourcePath = CurrentInstance.ViewModel.WorkingDirectory;
 
                 if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
                 {
                     foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        if (StorItem.FileType != "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -878,13 +883,13 @@ namespace Files.Interacts
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
-                CopySourcePath = CurrentInstance.ViewModel.Universal.WorkingDirectory;
+                CopySourcePath = CurrentInstance.ViewModel.WorkingDirectory;
 
                 if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
                 {
                     foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        if (StorItem.FileType != "Folder")
+                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
                         {
                             var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
                             items.Add(item);
@@ -909,8 +914,7 @@ namespace Files.Interacts
 
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            string DestinationPath = CurrentInstance.ViewModel.Universal.WorkingDirectory;
-            int oldCount = CurrentInstance.ViewModel.FilesAndFolders.Count;
+            string DestinationPath = CurrentInstance.ViewModel.WorkingDirectory;
 
             DataPackageView packageView = Clipboard.GetContent();
             ItemsToPaste = await packageView.GetStorageItemsAsync();
@@ -1021,7 +1025,7 @@ namespace Files.Interacts
                 selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.FileList.SelectedIndex].FilePath);
             }
 
-            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.Universal.WorkingDirectory);
+            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.WorkingDirectory);
             await extractFilesDialog.ShowAsync();
             if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
             {
@@ -1029,62 +1033,47 @@ namespace Files.Interacts
                 string destinationPath = ApplicationData.Current.LocalSettings.Values["Extract_Destination_Path"].ToString();
                 //ZipFile.ExtractToDirectory(selectedItem.Path, destinationPath, );
                 var destFolder_InBuffer = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(selectedItem.DisplayName + "_Extracted", CreationCollisionOption.ReplaceExisting);
-                using (FileStream fs = new FileStream(bufferItem.Path, FileMode.Open))
+                using FileStream fs = new FileStream(bufferItem.Path, FileMode.Open);
+                ZipArchive zipArchive = new ZipArchive(fs);
+                int totalCount = zipArchive.Entries.Count;
+                int index = 0;
+
+                (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Visible;
+
+                foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                 {
-                    ZipArchive zipArchive = new ZipArchive(fs);
-                    int totalCount = zipArchive.Entries.Count;
-                    int index = 0;
-
-                    (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.isVisible = Visibility.Visible;
-
-                    foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
+                    if (archiveEntry.FullName.Contains('/'))
                     {
-                        if (archiveEntry.FullName.Contains('/'))
-                        {
-                            var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
-                            nestedDirectories.Remove(nestedDirectories.Last());
-                            var relativeOutputPathToEntry = Path.Combine(nestedDirectories.ToArray());
-                            System.IO.Directory.CreateDirectory(Path.Combine(destFolder_InBuffer.Path, relativeOutputPathToEntry));
-                        }
-
-                        if (!string.IsNullOrWhiteSpace(archiveEntry.Name))
-                            archiveEntry.ExtractToFile(Path.Combine(destFolder_InBuffer.Path, archiveEntry.FullName));
-
-                        index++;
-                        if (index == totalCount)
-                        {
-                            (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.isVisible = Visibility.Collapsed;
-                        }
+                        var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
+                        nestedDirectories.Remove(nestedDirectories.Last());
+                        var relativeOutputPathToEntry = Path.Combine(nestedDirectories.ToArray());
+                        System.IO.Directory.CreateDirectory(Path.Combine(destFolder_InBuffer.Path, relativeOutputPathToEntry));
                     }
-                    await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
-                        .ContinueWith(async (x) => 
+
+                    if (!string.IsNullOrWhiteSpace(archiveEntry.Name))
+                        archiveEntry.ExtractToFile(Path.Combine(destFolder_InBuffer.Path, archiveEntry.FullName));
+
+                    index++;
+                    if (index == totalCount)
                     {
-                        await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                        await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                        {
-                            Frame rootFrame = Window.Current.Content as Frame;
-                            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-                            instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
-                        });
-                    });
-                    
+                        (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Collapsed;
+                    }
                 }
+                await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
+                    .ContinueWith(async (x) =>
+                {
+                    await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        Frame rootFrame = Window.Current.Content as Frame;
+                        var instanceTabsView = rootFrame.Content as InstanceTabsView;
+                        instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                    });
+                });
             }
             else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)
             {
                 return;
-            }
-        }
-
-        private void ExtractArchiveEntry(ZipArchiveEntry sourceEntry, string destinationPath)
-        {
-            if (sourceEntry.FullName.Contains('\\'))
-            {
-
-            }
-            else
-            {
-                sourceEntry.ExtractToFile(destinationPath);
             }
         }
 

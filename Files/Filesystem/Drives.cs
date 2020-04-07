@@ -32,7 +32,7 @@ namespace Files.Filesystem
 			{
 				findDrivesTask = GetDrives(Drives);
 			}
-			catch (AggregateException e)
+			catch (AggregateException)
 			{
 				ShowUserConsentOnInit = true;
 			}
@@ -100,7 +100,7 @@ namespace Files.Filesystem
 			}
 
 			// If drive already in list, skip.
-			if (Drives.Any(x => x.tag == root.Name))
+			if (Drives.Any(x => x.Tag == root.Name))
 			{
 				return;
 			}
@@ -112,7 +112,7 @@ namespace Files.Filesystem
 				Visibility.Visible,
 				type);
 
-			Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
+			Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
 			// Update the collection on the ui-thread.
 			try
@@ -123,7 +123,7 @@ namespace Files.Filesystem
 					DeviceWatcher_EnumerationCompleted(null, null);
 				});
 			}
-			catch (Exception e)
+			catch (Exception)
 			{
 				// Ui-Thread not yet created.
 				Drives.Add(driveItem);
@@ -136,12 +136,12 @@ namespace Files.Filesystem
 
 			foreach (var drive in Drives)
 			{
-				if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.tag) )
+				if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Tag) )
 				{
 					continue;
 				}
 
-				Logger.Info($"Drive removed: {drive.tag}");
+				Logger.Info($"Drive removed: {drive.Tag}");
 
 				// Update the collection on the ui-thread.
 				try
@@ -152,7 +152,7 @@ namespace Files.Filesystem
 						DeviceWatcher_EnumerationCompleted(null, null);
 					});
 				}
-				catch (Exception e)
+				catch (Exception)
 				{
 					// Ui-Thread not yet created.
 					Drives.Remove(drive);
@@ -184,7 +184,7 @@ namespace Files.Filesystem
 			foreach (var drive in drives)
 			{
 				// If drive already in list, skip.
-				if (list.Any(x => x.tag == drive.Name))
+				if (list.Any(x => x.Tag == drive.Name))
 				{
 					continue;
 				}
@@ -236,7 +236,7 @@ namespace Files.Filesystem
 					Visibility.Visible,
 					type);
 
-				Logger.Info($"Drive added: {driveItem.tag}, {driveItem.Type}");
+				Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
 				list.Add(driveItem);
 			}
@@ -246,10 +246,10 @@ namespace Files.Filesystem
 		{
 			var oneDriveItem = new DriveItem()
 			{
-				driveText = "OneDrive",
-				tag = "OneDrive",
-				cloudGlyphVisibility = Visibility.Visible,
-				driveGlyphVisibility = Visibility.Collapsed,
+				DriveText = "OneDrive",
+				Tag = "OneDrive",
+				CloudGlyphVisibility = Visibility.Visible,
+				DriveGlyphVisibility = Visibility.Collapsed,
 				Type = DriveType.VirtualDrive,
 				//itemVisibility = App.AppSettings.PinOneDriveToSideBar
 			};

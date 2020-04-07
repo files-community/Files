@@ -67,14 +67,14 @@ namespace Files.Dialogs
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            message = App.exceptionInfo.Exception.Message;
-            if (!string.IsNullOrWhiteSpace(App.exceptionStackTrace))
-                stackTrace = App.exceptionStackTrace;
+            message = App.ExceptionInfo.Exception.Message;
+            if (!string.IsNullOrWhiteSpace(App.ExceptionStackTrace))
+                stackTrace = App.ExceptionStackTrace;
             else
                 stackTrace = "No stack trace found.";
 
-            if (!string.IsNullOrWhiteSpace(App.exceptionInfo.Exception.TargetSite?.ReflectedType.FullName))
-                offendingMethod = App.exceptionInfo.Exception.TargetSite.ReflectedType.FullName;
+            if (!string.IsNullOrWhiteSpace(App.ExceptionInfo.Exception.TargetSite?.ReflectedType.FullName))
+                offendingMethod = App.ExceptionInfo.Exception.TargetSite.ReflectedType.FullName;
             else
                 offendingMethod = "(Method name unknown)";
 

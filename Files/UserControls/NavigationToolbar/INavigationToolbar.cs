@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Views.Pages;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;

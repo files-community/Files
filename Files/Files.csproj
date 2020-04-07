@@ -154,27 +154,8 @@
     <Compile Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\NavigationToolbar\NavigationToolbar.xaml.cs">
-      <DependentUpon>NavigationToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Ribbon\IRibbonItem.cs" />
-    <Compile Include="UserControls\Ribbon\RibbonArea.xaml.cs">
-      <DependentUpon>RibbonArea.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Ribbon\RibbonCommandItem.xaml.cs">
-      <DependentUpon>RibbonCommandItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Ribbon\RibbonDividerItem.xaml.cs">
-      <DependentUpon>RibbonDividerItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Ribbon\RibbonPage.xaml.cs">
-      <DependentUpon>RibbonPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserControls\ModernSidebar.xaml.cs">
       <DependentUpon>ModernSidebar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="UserControls\Sidebar.xaml.cs">
-      <DependentUpon>Sidebar.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\TerminalModel.cs" />
@@ -224,24 +205,15 @@
     <Compile Include="Interacts\EmptyFolderTextState.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="Interacts\ItemInteractions.cs" />
-    <Compile Include="Interacts\RibbonActions\Home.cs" />
-    <Compile Include="Interacts\RibbonActions\Layout.cs" />
-    <Compile Include="Interacts\RibbonActions\Share.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
-    <Compile Include="NavigationActions.cs" />
-    <Compile Include="Navigation\BackState.cs" />
-    <Compile Include="Navigation\ForwardState.cs" />
-    <Compile Include="Navigation\UniversalPath.cs" />
+    <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="UserControls\LayoutModes\PhotoAlbum.xaml.cs">
       <DependentUpon>PhotoAlbum.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
     <Compile Include="Views\Pages\ModernShellPage.xaml.cs">
       <DependentUpon>ModernShellPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Pages\ProHome.xaml.cs">
-      <DependentUpon>ProHome.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties.xaml.cs">
       <DependentUpon>Properties.xaml</DependentUpon>
@@ -275,7 +247,6 @@
     <Compile Include="Views\SettingsPages\StartPageWidgets.xaml.cs">
       <DependentUpon>StartPageWidgets.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View Models\RibbonViewModel.cs" />
     <Compile Include="View Models\SettingsViewModel.cs" />
     <Compile Include="Helpers\WindowDisplayInfo.cs" />
     <Compile Include="Helpers\WindowDisplayMode.cs" />
@@ -383,33 +354,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\NavigationToolbar\NavigationToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Ribbon\RibbonArea.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Ribbon\RibbonCommandItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Ribbon\RibbonDividerItem.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="UserControls\Ribbon\RibbonPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserControls\ModernSidebar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="UserControls\Sidebar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\AddItemDialog.xaml">
       <SubType>Designer</SubType>
@@ -456,10 +403,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\ModernShellPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Pages\ProHome.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

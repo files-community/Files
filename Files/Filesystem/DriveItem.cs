@@ -1,35 +1,28 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
     public class DriveItem : INavigationControlItem
     {
-        public string glyph { get; set; }
-        public ulong maxSpace { get; set; } = 0;
-        public ulong spaceUsed { get; set; } = 0;
-        public string driveText { get; set; }
-        public string tag { get; set; }
-        public Visibility progressBarVisibility { get; set; }
-        public string spaceText { get; set; }
-        public Visibility cloudGlyphVisibility { get; set; } = Visibility.Collapsed;
-        public Visibility driveGlyphVisibility { get; set; } = Visibility.Visible;
-        public Visibility itemVisibility { get; set; } = Visibility.Visible;
+        public string Glyph { get; set; }
+        public ulong MaxSpace { get; set; } = 0;
+        public ulong SpaceUsed { get; set; } = 0;
+        public string DriveText { get; set; }
+        public string Tag { get; set; }
+        public Visibility ProgressBarVisibility { get; set; }
+        public string SpaceText { get; set; }
+        public Visibility CloudGlyphVisibility { get; set; } = Visibility.Collapsed;
+        public Visibility DriveGlyphVisibility { get; set; } = Visibility.Visible;
+        public Visibility ItemVisibility { get; set; } = Visibility.Visible;
         public DriveType Type { get; set; }
-        string INavigationControlItem.IconGlyph => glyph;
-        string INavigationControlItem.Text => driveText;
-        string INavigationControlItem.Path => tag;
-        private NavigationControlItemType NavItemType = NavigationControlItemType.Drive;
+        string INavigationControlItem.IconGlyph => Glyph;
+        string INavigationControlItem.Text => DriveText;
+        string INavigationControlItem.Path => Tag;
+        private readonly NavigationControlItemType NavItemType = NavigationControlItemType.Drive;
         NavigationControlItemType INavigationControlItem.ItemType => NavItemType;
-
-        private StorageFolder _root;
 
         public DriveItem()
         {
@@ -38,8 +31,7 @@ namespace Files.Filesystem
 
         public DriveItem(StorageFolder root, Visibility progressBarVisibility, DriveType type)
         {
-	        _root = root;
-	        this.progressBarVisibility = progressBarVisibility;
+	        this.ProgressBarVisibility = progressBarVisibility;
 	        Type = type;
 
 	        var properties = Task.Run(async () =>
@@ -51,37 +43,37 @@ namespace Files.Filesystem
 
 	        try
 	        {
-		        spaceUsed = maxSpace -
+		        SpaceUsed = MaxSpace -
 		                    Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).GigaBytes);
-		        maxSpace = Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).GigaBytes);
-		        spaceText = String.Format("{0} of {1}",
+		        MaxSpace = Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).GigaBytes);
+		        SpaceText = String.Format("{0} of {1}",
 			        ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).ToString(),
 			        ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).ToString());
             }
-	        catch(NullReferenceException e)
+	        catch(NullReferenceException)
 	        {
-		        spaceText = "Unkown";
+		        SpaceText = "Unkown";
 	        }
 
-	        driveText = root.DisplayName;
+	        DriveText = root.DisplayName;
 
-            tag = root.Path;
+            Tag = root.Path;
 
             switch (type)
 	        {
 		        case DriveType.Fixed:
-			        glyph = "\uEDA2";
+			        Glyph = "\uEDA2";
                     break;
 		        case DriveType.Removable:
-                    glyph = "\uE88E";
+                    Glyph = "\uE88E";
                     break;
 		        case DriveType.Network:
-                    glyph = "\uE8CE";
+                    Glyph = "\uE8CE";
                     break;
 		        case DriveType.Ram:
 			        break;
 		        case DriveType.CDRom:
-			        glyph = "\uE958";
+			        Glyph = "\uE958";
                     break;
 		        case DriveType.Unkown:
 			        break;
@@ -90,7 +82,7 @@ namespace Files.Filesystem
 		        case DriveType.VirtualDrive:
 			        break;
                 case DriveType.FloppyDisk:
-	                glyph = "\uEDA2";
+	                Glyph = "\uEDA2";
 	                break;
 		        default:
 			        throw new ArgumentOutOfRangeException(nameof(type), type, null);
