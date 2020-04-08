@@ -245,22 +245,19 @@ namespace Files.UserControls
 
                             // Launch terminal application if possible
                             var localSettings = ApplicationData.Current.LocalSettings;
-                            var terminalId = 1;
 
-                            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-                            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
-
-                            if (terminal.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase))
+                            foreach (var item in App.AppSettings.Terminals)
                             {
-                                localSettings.Values["Application"] = terminal.Path;
-                                localSettings.Values["Arguments"] = String.Format(terminal.arguments, App.CurrentInstance.ViewModel.WorkingDirectory);
+                                if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    localSettings.Values["Application"] = item.Path;
+                                    localSettings.Values["Arguments"] = String.Format(item.arguments, App.CurrentInstance.ViewModel.WorkingDirectory);
 
-                                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
 
-                                return;
+                                    return;
+                                }
                             }
-
 
                             var dialog = new ContentDialog()
                             {
