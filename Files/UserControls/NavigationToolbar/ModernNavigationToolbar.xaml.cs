@@ -4,7 +4,9 @@ using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -240,6 +242,26 @@ namespace Files.UserControls
                         }
                         catch (Exception ex) // Not a file or not accessible
                         {
+
+                            var localSettings = ApplicationData.Current.LocalSettings;
+
+                            var terminalId = 1;
+
+                            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
+
+                            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+
+                            if (terminal.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase))
+                            {
+                                localSettings.Values["Application"] = terminal.Path;
+                                localSettings.Values["Arguments"] = String.Format(terminal.arguments, App.CurrentInstance.ViewModel.WorkingDirectory);
+
+                                await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+
+                                return;
+                            }
+
+
                             var dialog = new ContentDialog()
                             {
                                 Title = "Invalid item",
