@@ -8,6 +8,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -267,6 +268,8 @@ namespace Files.UserControls
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton) { return; }
+
             var element = FocusManager.GetFocusedElement() as Control;
             if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
             {
