@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Management.Deployment;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -310,6 +311,26 @@ namespace Files.View_Models
             var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
 
             Terminals = terminals;
+
+            // Ensure Windows Terminal is not already in List
+            if (Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            {
+                PackageManager packageManager = new PackageManager();
+                var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+                if (terminalPackage != null)
+                {
+                    terminals.Add(new TerminalModel()
+                    {
+                        Id = terminals.Count + 1,
+                        Name = "Windows Terminal",
+                        Path = "wt.exe",
+                        arguments = "-d \"{0}\"",
+                        icon = ""
+                    });
+                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminals, Formatting.Indented));
+                    Terminals = terminals;
+                }
+            }
         }
 
         private IList<TerminalModel> _Terminals = null;
