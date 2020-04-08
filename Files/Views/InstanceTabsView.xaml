@@ -98,6 +98,11 @@
                     Key="Number9"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
+                <KeyboardAccelerator
+                    Key="W"
+                    Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+
             </muxc:TabView.KeyboardAccelerators>
 
         </muxc:TabView>

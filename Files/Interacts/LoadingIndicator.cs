@@ -6,8 +6,8 @@ namespace Files
 {
     public class LoadingIndicator : INotifyPropertyChanged
     {
-        public Visibility _isVisible;
-        public Visibility isVisible
+        private Visibility _isVisible;
+        public Visibility IsVisible
         {
             get
             {
@@ -19,7 +19,7 @@ namespace Files
                 if (value != _isVisible)
                 {
                     _isVisible = value;
-                    NotifyPropertyChanged("isVisible");
+                    NotifyPropertyChanged("IsVisible");
                 }
             }
         }

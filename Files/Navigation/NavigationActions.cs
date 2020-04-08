@@ -14,7 +14,7 @@ namespace Files
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 var ContentOwnedViewModelInstance = App.CurrentInstance.ViewModel;
-                ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.Universal.WorkingDirectory);
+                ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.WorkingDirectory);
             });
         }
 
@@ -26,9 +26,8 @@ namespace Files
             {
                 App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
-                var Parameter = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].Parameter;
 
-                SelectSidebarItemFromPath(Parameter.ToString(), previousSourcePageType);
+                SelectSidebarItemFromPath(previousSourcePageType);
                 instanceContentFrame.GoBack();
             }
         }
@@ -43,8 +42,8 @@ namespace Files
                 App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
-                SelectSidebarItemFromPath(Parameter.ToString(), incomingSourcePageType);
-                App.CurrentInstance.ViewModel.Universal.WorkingDirectory = Parameter.ToString();
+                SelectSidebarItemFromPath(incomingSourcePageType);
+                App.CurrentInstance.ViewModel.WorkingDirectory = Parameter.ToString();
                 instanceContentFrame.GoForward();
             }
         }
@@ -57,21 +56,21 @@ namespace Files
             var instance = App.CurrentInstance.ViewModel;
             string parentDirectoryOfPath;
             // Check that there isn't a slash at the end
-            if ((instance.Universal.WorkingDirectory.Count() - 1) - instance.Universal.WorkingDirectory.LastIndexOf("\\") > 0)
+            if ((instance.WorkingDirectory.Count() - 1) - instance.WorkingDirectory.LastIndexOf("\\") > 0)
             {
-                parentDirectoryOfPath = instance.Universal.WorkingDirectory.Remove(instance.Universal.WorkingDirectory.LastIndexOf("\\"));
+                parentDirectoryOfPath = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
             }
             else  // Slash found at end
             {
-                var currentPathWithoutEndingSlash = instance.Universal.WorkingDirectory.Remove(instance.Universal.WorkingDirectory.LastIndexOf("\\"));
+                var currentPathWithoutEndingSlash = instance.WorkingDirectory.Remove(instance.WorkingDirectory.LastIndexOf("\\"));
                 parentDirectoryOfPath = currentPathWithoutEndingSlash.Remove(currentPathWithoutEndingSlash.LastIndexOf("\\"));
             }
 
-            SelectSidebarItemFromPath(parentDirectoryOfPath, null);
+            SelectSidebarItemFromPath();
             instanceContentFrame.Navigate(App.CurrentInstance.CurrentPageType, parentDirectoryOfPath, new SuppressNavigationTransitionInfo());
         }
 
-        private static void SelectSidebarItemFromPath(string Parameter, Type incomingSourcePageType)
+        private static void SelectSidebarItemFromPath(Type incomingSourcePageType = null)
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {

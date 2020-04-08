@@ -66,7 +66,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.IsEnabled, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;" />
@@ -278,7 +278,7 @@
             Height="10"
             VerticalAlignment="Top"
             IsIndeterminate="True"
-            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock
             x:Name="EmptyText"
             Grid.Row="3"
@@ -288,7 +288,7 @@
             Canvas.ZIndex="0"
             Text="This folder is empty."
             TextWrapping="Wrap"
-            Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="{x:Bind AssociatedViewModel.EmptyTextState.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <GridView
             x:Name="FileList"
@@ -320,7 +320,7 @@
                         EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                         IsRightTapEnabled="True"
                         RightTapped="StackPanel_RightTapped"
-                        ToolTipService.ToolTip="{Binding FileName}">
+                        ToolTipService.ToolTip="{x:Bind ItemName}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100" />
                             <RowDefinition Height="Auto" />
@@ -335,14 +335,15 @@
                                 Padding="12"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Visibility="{x:Bind FileIconVis, Mode=OneWay}">
-                                <Image Source="{x:Bind FileImg, Mode=OneWay}" Stretch="Uniform" />
+                                x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+                                <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
                             </Grid>
                             <Image
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Stretch="Uniform"
-                                Visibility="{x:Bind FolderImg}">
+                                x:Name="FolderGlyph"
+                                x:Load="{x:Bind LoadFolderGlyph}">
                                 <Image.Source>
                                     <SvgImageSource
                                         RasterizePixelHeight="128"
@@ -353,7 +354,8 @@
                             <Grid
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Visibility="{x:Bind EmptyImgVis, Mode=OneWay}">
+                                x:Name="TypeUnknownGlyph"
+                                x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon
                                         FontFamily="Segoe MDL2 Assets"
@@ -368,14 +370,14 @@
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 HorizontalTextAlignment="Center"
-                                Text="{x:Bind FileName}"
+                                Text="{x:Bind ItemName}"
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="NoWrap" />
                             <TextBox
                                 Margin="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Text="{x:Bind FileName}"
+                                Text="{x:Bind ItemName}"
                                 TextAlignment="Center"
                                 TextWrapping="Wrap"
                                 Visibility="Collapsed" />

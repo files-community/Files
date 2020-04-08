@@ -838,7 +838,7 @@
                     OneRowModeEnabled="True"
                     ScrollViewer.HorizontalScrollBarVisibility="Hidden">
                     <controls:AdaptiveGridView.ItemTemplate>
-                        <DataTemplate>
+                        <DataTemplate x:DataType="list:FavoriteLocationItem">
                             <Grid Margin="0,0,0,0" Padding="0,0,0,0">
                                 <Grid Margin="2">
                                     <controls:DropShadowPanel
@@ -865,7 +865,7 @@
                                                 BorderThickness="1"
                                                 IsTapEnabled="True"
                                                 Style="{ThemeResource ButtonRevealStyle}"
-                                                Tag="{Binding Tag}"
+                                                Tag="{x:Bind Tag}"
                                                 Tapped="Button_Tapped">
                                                 <StackPanel Orientation="Vertical" Spacing="10">
                                                     <TextBlock
@@ -875,7 +875,7 @@
                                                         FontFamily="Segoe MDL2 Assets"
                                                         FontSize="24"
                                                         Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
-                                                        Text="{Binding Icon}" />
+                                                        Text="{x:Bind Icon}" />
                                                     <TextBlock
                                                         x:Name="ItemLocationName"
                                                         Margin="0,0,0,0"
@@ -883,7 +883,7 @@
                                                         VerticalAlignment="Bottom"
                                                         FontFamily="Segoe UI"
                                                         FontSize="14"
-                                                        Text="{Binding Text}" />
+                                                        Text="{x:Bind Text}" />
                                                 </StackPanel>
                                             </Button>
                                         </Grid>
@@ -927,19 +927,19 @@
                             RightTapped="RecentsView_RightTapped"
                             SelectionMode="None">
                             <ListView.ItemTemplate>
-                                <DataTemplate>
+                                <DataTemplate x:DataType="local:RecentItem">
                                     <Grid
                                         Padding="2.5"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         ColumnSpacing="14"
-                                        ToolTipService.ToolTip="{Binding path}">
+                                        ToolTipService.ToolTip="{x:Bind RecentPath}">
                                         <Grid.ContextFlyout>
                                             <MenuFlyout MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutFluentThemeResources}">
                                                 <MenuFlyoutItem
                                                     x:Name="mfi_RemoveOneItem"
                                                     x:Uid="RecentItemRemove"
-                                                    Click="mfi_RemoveOneItem_Click"
+                                                    Click="RemoveOneFrequentItem"
                                                     Icon="Remove"
                                                     Text="Remove this item" />
                                                 <MenuFlyoutItem
@@ -951,7 +951,7 @@
                                                     x:Uid="RecentItemOpenFileLocation"
                                                     Click="OpenFileLocation_Click"
                                                     Text="Open file location"
-                                                    Visibility="{Binding isFile}">
+                                                    Visibility="{x:Bind IsFile}">
                                                     <MenuFlyoutItem.Icon>
                                                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;" />
                                                     </MenuFlyoutItem.Icon>
@@ -972,23 +972,23 @@
                                                 FontSize="24"
                                                 Foreground="#ffe793"
                                                 Glyph="&#xE8D5;"
-                                                Visibility="{Binding FolderImg}" />
+                                                Visibility="{x:Bind FolderImg}" />
                                             <FontIcon
                                                 FontFamily="Segoe MDL2 Assets"
                                                 FontSize="24"
                                                 Glyph="&#xE7C3;"
-                                                Visibility="{Binding EmptyImgVis}" />
+                                                Visibility="{x:Bind EmptyImgVis}" />
                                             <Image
                                                 Width="24"
                                                 Height="24"
-                                                Source="{Binding FileImg}"
+                                                Source="{x:Bind FileImg}"
                                                 Stretch="UniformToFill"
-                                                Visibility="{Binding FileIconVis}" />
+                                                Visibility="{x:Bind FileIconVis}" />
                                         </Grid>
                                         <TextBlock
                                             Grid.Column="1"
                                             VerticalAlignment="Center"
-                                            Text="{Binding name}"
+                                            Text="{x:Bind Name}"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap" />
                                         <TextBlock
@@ -997,7 +997,7 @@
                                             VerticalAlignment="Center"
                                             FontSize="10"
                                             Foreground="DimGray"
-                                            Text="{Binding path}"
+                                            Text="{x:Bind RecentPath}"
                                             TextTrimming="CharacterEllipsis"
                                             TextWrapping="NoWrap" />
                                     </Grid>

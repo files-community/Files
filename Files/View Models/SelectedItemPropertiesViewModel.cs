@@ -18,7 +18,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileName;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemName;
                 }
                 else
                 {
@@ -32,7 +32,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileType;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemType;
                 }
                 else
                 {
@@ -46,7 +46,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FilePath;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemPath;
                 }
                 else
                 {
@@ -75,13 +75,13 @@ namespace Files.View_Models
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     DateTimeOffset dateCreated;
-                    if (GetStorageItemTypeFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.FilePath).Result == typeof(StorageFolder))
+                    if (App.CurrentInstance.ContentPage.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        dateCreated = StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.FilePath).GetResults().DateCreated;
+                        dateCreated = StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath).GetResults().DateCreated;
                     }
-                    else if (GetStorageItemTypeFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.FilePath).Result == typeof(StorageFile))
+                    else if (App.CurrentInstance.ContentPage.SelectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        dateCreated = StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.FilePath).GetResults().DateCreated;
+                        dateCreated = StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath).GetResults().DateCreated;
                     }
                     return ListedItem.GetFriendlyDate(dateCreated);
                 }
@@ -97,7 +97,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileDate;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemDateModified;
                 }
                 else
                 {
@@ -111,7 +111,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileImg;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileImage;
                 }
                 else
                 {
@@ -125,7 +125,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return (App.CurrentInstance.ContentPage.SelectedItems[0].FolderImg == Windows.UI.Xaml.Visibility.Visible) ? true : false;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].LoadFolderGlyph;
                 }
                 else
                 {
@@ -139,7 +139,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return (App.CurrentInstance.ContentPage.SelectedItems[0].EmptyImgVis == Windows.UI.Xaml.Visibility.Visible) ? true : false;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].LoadUnknownTypeGlyph;
                 }
                 else
                 {
@@ -153,28 +153,12 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return (App.CurrentInstance.ContentPage.SelectedItems[0].FileIconVis == Windows.UI.Xaml.Visibility.Visible) ? true : false;
+                    return App.CurrentInstance.ContentPage.SelectedItems[0].LoadFileIcon;
                 }
                 else
                 {
                     return false;
                 }
-            }
-        }
-
-        public async Task<Type> GetStorageItemTypeFromPathAsync(string path)
-        {
-            IStorageItem selectedStorageItem;
-            try
-            {
-                selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(path);
-                return typeof(StorageFolder);
-            }
-            catch (Exception)
-            {
-                // Not a folder, so attempt to check for StorageFile
-                selectedStorageItem = await StorageFile.GetFileFromPathAsync(path);
-                return typeof(StorageFile);
             }
         }
     }

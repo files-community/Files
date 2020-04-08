@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -156,7 +157,7 @@ namespace Files.UserControls
             }
         }
 
-        private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
+        private readonly ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -200,14 +201,14 @@ namespace Files.UserControls
 
         public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
         {
-            if (CurrentInput != instance.Universal.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (CurrentInput != instance.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ViewModel.Universal.WorkingDirectory = "New tab";
+                    App.CurrentInstance.ViewModel.WorkingDirectory = "New tab";
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -262,7 +263,7 @@ namespace Files.UserControls
                     }
                 }
 
-                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
             }
         }
 

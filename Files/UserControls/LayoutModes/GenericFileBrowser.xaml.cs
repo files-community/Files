@@ -20,7 +20,6 @@ namespace Files
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {
-        public bool IsSelectionRectangleDisplayed { get; set; } = false;
         public string previousFileName;
         private DataGridColumn _sortedColumn;
         public DataGridColumn SortedColumn
@@ -103,7 +102,7 @@ namespace Files
             }
             else if (e.PropertyName == "isLoadingItems")
             {
-                if (!AssociatedViewModel.isLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
+                if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
                 {
                     var allRows = new List<DataGridRow>();
 
@@ -139,12 +138,12 @@ namespace Files
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.Universal.WorkingDirectory, (item as StorageFolder).DisplayName, false);
+                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.WorkingDirectory, (item as StorageFolder).DisplayName, false);
                     }
                     else
                     {
                         (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
-                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.Universal.WorkingDirectory));
+                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.WorkingDirectory));
                     }
                 }
             }
@@ -154,11 +153,11 @@ namespace Files
         {
             var textBox = e.EditingElement as TextBox;
             var selectedItem = AllView.SelectedItem as ListedItem;
-            int extensionLength = selectedItem.DotFileExtension?.Length ?? 0;
+            int extensionLength = selectedItem.FileExtension?.Length ?? 0;
 
-            previousFileName = selectedItem.FileName;
+            previousFileName = selectedItem.ItemName;
             textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
-            textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+            textBox.Select(0, selectedItem.ItemName.Length - extensionLength);
             isRenamingItem = true;
         }
 
@@ -167,14 +166,14 @@ namespace Files
             if (e.EditAction == DataGridEditAction.Cancel)
                 return;
 
-            var selectedItem = AllView.SelectedItem as ListedItem;
+            var selectedItem = e.Row.DataContext as ListedItem;
             string currentName = previousFileName;
             string newName = (e.EditingElement as TextBox).Text;
 
             bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, currentName, newName);
             if (!successful)
             {
-                selectedItem.FileName = currentName;
+                selectedItem.ItemName = currentName;
                 ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
             }
         }
@@ -208,7 +207,7 @@ namespace Files
             else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
 
-            if (!AssociatedViewModel.isLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
+            if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
             {
                 var allRows = new List<DataGridRow>();
 
@@ -256,27 +255,6 @@ namespace Files
                     base.Page_CharacterReceived(sender, args);
                     AllView.Focus(FocusState.Keyboard);
                 }
-            }
-        }
-
-        PointerPoint startingPoint;
-        private void BaseLayout_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            startingPoint = e.GetCurrentPoint(this);
-            IsSelectionRectangleDisplayed = true;
-            SelectionRectangle.Margin = new Thickness(e.GetCurrentPoint(this).Position.X, e.GetCurrentPoint(this).Position.Y, 0, 0);
-
-        }
-
-        private void BaseLayout_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.GetCurrentPoint(this).Position.X < startingPoint.Position.X)
-            {
-                SelectionRectangle.Width -= e.GetCurrentPoint(this).Position.X;
-            }
-            else
-            {
-                SelectionRectangle.Width += (e.GetCurrentPoint(this).Position.X - startingPoint.Position.X);
             }
         }
 
