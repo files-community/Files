@@ -14,4 +14,3 @@ Meet Files, an enthusiast take on what Windows File Explorer explorer <b>should<
 
 ## Screenshots
 <img src="Files/Assets/FilesHome.png" width="600px">
-<img src="Files/Assets/FilesDrive.png" width="600px">
