@@ -6,8 +6,8 @@ namespace Files.Interacts
 {
     public class PasteState : INotifyPropertyChanged
     {
-        public bool _isEnabled;
-        public bool isEnabled
+        private bool _isEnabled;
+        public bool IsEnabled
         {
             get
             {
@@ -19,7 +19,7 @@ namespace Files.Interacts
                 if (value != _isEnabled)
                 {
                     _isEnabled = value;
-                    NotifyPropertyChanged("isEnabled");
+                    NotifyPropertyChanged("IsEnabled");
                 }
             }
         }
@@ -27,44 +27,6 @@ namespace Files.Interacts
                 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class RefreshState : INotifyPropertyChanged
-    {
-        public bool _isEnabled;
-        public bool isEnabled
-        {
-            get
-            {
-                return _isEnabled;
-            }
-
-            set
-            {
-                if (value != _isEnabled)
-                {
-                    _isEnabled = value;
-                    NotifyPropertyChanged("isEnabled");
-                }
-            }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
-
-    public class CopyPathCommandState : INotifyPropertyChanged
-    {
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -90,25 +52,6 @@ namespace Files.Interacts
             }
         }
 
-
-        private bool _isEnabled;
-        public bool isEnabled
-        {
-            get
-            {
-                return _isEnabled;
-            }
-
-            set
-            {
-                if (value != _isEnabled)
-                {
-                    _isEnabled = value;
-                    IsCopyPathCommandEnabled = value;
-                    NotifyPropertyChanged("isEnabled");
-                }
-            }
-        }
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

@@ -422,6 +422,10 @@
           <source>Grid View</source>
           <target state="translated">Widok siatki</target>
         </trans-unit>
+        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
       </group>
     </body>
   </file>

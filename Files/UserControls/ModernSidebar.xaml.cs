@@ -73,9 +73,7 @@ namespace Files.Controls
                         {
                             App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
 
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-                            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
+                            return; // cancel so it doesn't try to Navigate to a path
                         }
                         else // Any other item
                         {
@@ -111,7 +109,7 @@ namespace Files.Controls
                 App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NaviagtionPath, new SuppressNavigationTransitionInfo());
             }
 
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
         }
 
         private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -132,6 +130,36 @@ namespace Files.Controls
             instanceTabsView.AddNewTab(typeof(Settings), "Settings");
 
             return;
+        }
+    }
+
+    public class NavItemDataTemplateSelector : DataTemplateSelector
+    {
+        public DataTemplate LocationNavItemTemplate { get; set; }
+        public DataTemplate DriveNavItemTemplate { get; set; }
+        public DataTemplate LinuxNavItemTemplate { get; set; }
+        public DataTemplate HeaderNavItemTemplate { get; set; }
+
+        protected override DataTemplate SelectTemplateCore(object item)
+        {
+            if (item != null && item is INavigationControlItem)
+            {
+                INavigationControlItem navControlItem = item as INavigationControlItem;
+                switch (navControlItem.ItemType)
+                {
+                    case NavigationControlItemType.Location:
+                        return LocationNavItemTemplate;
+                    case NavigationControlItemType.Drive:
+                        return DriveNavItemTemplate;
+                    case NavigationControlItemType.OneDrive:
+                        return DriveNavItemTemplate;
+                    case NavigationControlItemType.LinuxDistro:
+                        return LinuxNavItemTemplate;
+                    case NavigationControlItemType.Header:
+                        return HeaderNavItemTemplate;
+                }
+            }
+            return null;
         }
     }
 }

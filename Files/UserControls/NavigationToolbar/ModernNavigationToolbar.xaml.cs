@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -155,7 +157,7 @@ namespace Files.UserControls
             }
         }
 
-        private ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
+        private readonly ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -177,19 +179,8 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
-                var CurrentInput = PathBox.Text;
-                if (App.CurrentInstance.ContentPage != null)
-                {
-                    var contentInstance = App.CurrentInstance.ViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
-                {
-                    var contentInstance = App.CurrentInstance.ViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
-
+                CheckPathInput(App.CurrentInstance.ViewModel, PathBox.Text);
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else if (e.Key == VirtualKey.Escape)
             {
@@ -199,14 +190,14 @@ namespace Files.UserControls
 
         public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
         {
-            if (CurrentInput != instance.Universal.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (CurrentInput != instance.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ViewModel.Universal.WorkingDirectory = "New tab";
+                    App.CurrentInstance.ViewModel.WorkingDirectory = "New tab";
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -261,12 +252,14 @@ namespace Files.UserControls
                     }
                 }
 
-                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.Universal.WorkingDirectory;
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
             }
         }
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton) { return; }
+
             var element = FocusManager.GetFocusedElement() as Control;
             if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
             {
@@ -274,7 +267,10 @@ namespace Files.UserControls
             }
             else
             {
-                this.VisiblePath.Focus(FocusState.Programmatic);
+                if (App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    this.VisiblePath.Focus(FocusState.Programmatic);
+                }
             }
         }
 

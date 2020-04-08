@@ -23,15 +23,15 @@ namespace Files.Dialogs
         public void AddItemsToList()
         {
             AddItemsList.Clear();
-            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", isEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", isEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", isEnabled = true });
+            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true });
+            AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true });
+            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true });
 
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            App.addItemDialog.Hide();
+            App.AddItemDialogDisplay.Hide();
             switch((e.ClickedItem as AddListItem).Header)
             {
                 case "Folder":
@@ -52,7 +52,7 @@ namespace Files.Dialogs
             string currentPath = null;
             if (TabInstance.ContentPage != null)
             {
-                currentPath = TabInstance.ViewModel.Universal.WorkingDirectory;
+                currentPath = TabInstance.ViewModel.WorkingDirectory;
             }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();
@@ -71,7 +71,7 @@ namespace Files.Dialogs
                 {
                     folder = await folderToCreateItem.CreateFolderAsync("New Folder", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { FileName = folder.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Collapsed, FolderImg = Visibility.Visible, FileIconVis = Visibility.Collapsed, FileType = "Folder", FileImg = null, FilePath = folder.Path });
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { ItemName = folder.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = false, LoadFolderGlyph = true, LoadFileIcon = false, ItemType = "Folder", FileImage = null, ItemPath = folder.Path });
             }
             else if (fileType == AddItemType.TextDocument)
             {
@@ -84,7 +84,7 @@ namespace Files.Dialogs
                 {
                     item = await folderToCreateItem.CreateFileAsync("New Text Document" + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { ItemName = item.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = true, LoadFolderGlyph = false, LoadFileIcon = false, ItemType = item.DisplayType, FileImage = null, ItemPath = item.Path, FileExtension = item.FileType });
             }
             else if (fileType == AddItemType.BitmapImage)
             {
@@ -97,7 +97,7 @@ namespace Files.Dialogs
                 {
                     item = await folderToCreateItem.CreateFileAsync("New Bitmap Image" + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { FileName = item.DisplayName, FileDateReal = DateTimeOffset.Now, EmptyImgVis = Visibility.Visible, FolderImg = Visibility.Collapsed, FileIconVis = Visibility.Collapsed, FileType = item.DisplayType, FileImg = null, FilePath = item.Path, DotFileExtension = item.FileType });
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { ItemName = item.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = true, LoadFolderGlyph = false, LoadFileIcon = false, ItemType = item.DisplayType, FileImage = null, ItemPath = item.Path, FileExtension = item.FileType });
             }
         }
     }
@@ -115,6 +115,6 @@ namespace Files.Dialogs
         public string Header { get; set; }
         public string SubHeader { get; set; }
         public string Icon { get; set; }
-        public bool isEnabled { get; set; }
+        public bool IsItemEnabled { get; set; }
     }
 }

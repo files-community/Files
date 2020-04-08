@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using System;
 using System.ComponentModel;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -8,92 +9,93 @@ namespace Files.Filesystem
 {
     public class ListedItem : INotifyPropertyChanged
     {
+        public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
         public string FolderTooltipText { get; set; }
         public string FolderRelativeId { get; set; }
-        public Visibility FolderImg { get; set; }
-        private Visibility _FileIconVis;
-        public Visibility FileIconVis
+        public bool LoadFolderGlyph { get; set; }
+        private bool _LoadFileIcon;
+        public bool LoadFileIcon
         {
             get
             {
-                return _FileIconVis;
+                return _LoadFileIcon;
             }
             set
             {
-                if(_FileIconVis != value)
+                if(_LoadFileIcon != value)
                 {
-                    _FileIconVis = value;
-                    NotifyPropertyChanged("FileIconVis");
+                    _LoadFileIcon = value;
+                    NotifyPropertyChanged("LoadFileIcon");
                 }
             }
         }
-        private Visibility _EmptyImgVis;
-        public Visibility EmptyImgVis
+        private bool _LoadUnknownTypeGlyph;
+        public bool LoadUnknownTypeGlyph
         {
             get
             {
-                return _EmptyImgVis;
+                return _LoadUnknownTypeGlyph;
             }
             set
             {
-                if (_EmptyImgVis != value)
+                if (_LoadUnknownTypeGlyph != value)
                 {
-                    _EmptyImgVis = value;
-                    NotifyPropertyChanged("EmptyImgVis");
+                    _LoadUnknownTypeGlyph = value;
+                    NotifyPropertyChanged("LoadUnknownTypeGlyph");
                 }
             }
         }
-        private BitmapImage _FileImg;
-        public BitmapImage FileImg
+        private BitmapImage _FileImage;
+        public BitmapImage FileImage
         {
             get
             {
-                return _FileImg;
+                return _FileImage;
             }
             set
             {
-                if(_FileImg != value && value != null)
+                if(_FileImage != value && value != null)
                 {
-                    _FileImg = value;
-                    NotifyPropertyChanged("FileImg");
+                    _FileImage = value;
+                    NotifyPropertyChanged("FileImage");
                 }
             }
         }
-        public string FileName { get; set; }
-        public string FileDate { get; private set; }
-        private string _FileType;
-        public string FileType
+        public string ItemName { get; set; }
+        public string ItemDateModified { get; private set; }
+        private string _ItemType;
+        public string ItemType
         {
             get
             {
-                return _FileType;
+                return _ItemType;
             }
             set
             {
-                if(_FileType != value && value != null)
+                if(_ItemType != value && value != null)
                 {
-                    _FileType = value;
-                    NotifyPropertyChanged("FileType");
+                    _ItemType = value;
+                    NotifyPropertyChanged("ItemType");
                 }
             }
         }
-        public string DotFileExtension { get; set; }
-        public string FilePath { get; set; }
+        public string FileExtension { get; set; }
+        public string ItemPath { get; set; }
         public string FileSize { get; set; }
         public ulong FileSizeBytes { get; set; }
 
-        public DateTimeOffset FileDateReal
+        public DateTimeOffset ItemDateModifiedReal
         {
-            get { return _fileDataReal; }
+            get { return _itemDateModifiedReal; }
             set
             {
-                FileDate = GetFriendlyDate(value);
-                _fileDataReal = value;
+                ItemDateModified = GetFriendlyDate(value);
+                _itemDateModifiedReal = value;
             }
         }
 
-        private DateTimeOffset _fileDataReal;
+        private DateTimeOffset _itemDateModifiedReal;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged(string info)
