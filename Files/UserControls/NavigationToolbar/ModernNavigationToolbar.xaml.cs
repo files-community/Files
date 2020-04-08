@@ -9,6 +9,7 @@ using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -178,19 +179,8 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
-                var CurrentInput = PathBox.Text;
-                if (App.CurrentInstance.ContentPage != null)
-                {
-                    var contentInstance = App.CurrentInstance.ViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
-                {
-                    var contentInstance = App.CurrentInstance.ViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
-
+                CheckPathInput(App.CurrentInstance.ViewModel, PathBox.Text);
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else if (e.Key == VirtualKey.Escape)
             {
@@ -268,6 +258,8 @@ namespace Files.UserControls
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
+            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton) { return; }
+
             var element = FocusManager.GetFocusedElement() as Control;
             if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
             {
@@ -275,7 +267,10 @@ namespace Files.UserControls
             }
             else
             {
-                this.VisiblePath.Focus(FocusState.Programmatic);
+                if (App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    this.VisiblePath.Focus(FocusState.Programmatic);
+                }
             }
         }
 
