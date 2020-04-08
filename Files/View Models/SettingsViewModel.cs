@@ -322,7 +322,7 @@ namespace Files.View_Models
                         Id = terminalsFileModel.Terminals.Count + 1,
                         Name = "Windows Terminal",
                         Path = "wt.exe",
-                        arguments = "-d \"{0}\"",
+                        arguments = "-d {0}",
                         icon = ""
                     });
                     await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
