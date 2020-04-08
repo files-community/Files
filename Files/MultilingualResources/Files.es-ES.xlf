@@ -256,7 +256,7 @@
         </trans-unit>
         <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
           <source>Browse</source>
-          <target state="new">Navegar</target>
+          <target state="new">Examinar</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
           <source>Sort by</source>
