@@ -444,6 +444,11 @@ namespace Files.Interacts
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                var titleBar = appWindow.TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+
                 Frame frame = new Frame();
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));

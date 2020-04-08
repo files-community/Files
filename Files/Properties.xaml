@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <StackPanel Padding="22,14" Spacing="14" Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Padding="22, 48,14, 48" Spacing="14" Grid.Row="0" Orientation="Horizontal">
 
             <Grid
                     x:Name="Icon"
@@ -59,7 +59,7 @@
                     IsReadOnly="True"
                     Text="{x:Bind ItemProperties.ItemName,Mode=OneWay}" Width="300" />
         </StackPanel>
-        <StackPanel Padding="14,0" Grid.Row="1">
+        <StackPanel Padding="14, 32,0, 0" Grid.Row="1">
             <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
             <Grid Padding="0,4">
                 <Grid.ColumnDefinitions>
