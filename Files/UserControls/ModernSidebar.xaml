@@ -496,8 +496,8 @@
                 <muxc:NavigationViewItem
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
-                    IsTabStop="False"
                     IsRightTapEnabled="True"
+                    IsTabStop="False"
                     RightTapped="NavigationViewItem_RightTapped"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Icon>
@@ -509,7 +509,6 @@
             <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
                 <muxc:NavigationViewItem
                     Padding="0"
-                    IsTabStop="False"
                     DataContext="{x:Bind}"
                     Tag="{x:Bind Tag}"
                     Visibility="{x:Bind ItemVisibility}">
@@ -545,8 +544,8 @@
             <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
                 <muxc:NavigationViewItem
                     Padding="0"
-                    IsTabStop="False"
                     DataContext="{x:Bind}"
+                    IsTabStop="False"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
@@ -581,13 +580,13 @@
         <muxc:NavigationView
                 x:Name="SidebarNavView"
                 Width="200"
-                IsTabStop="False"
                 HorizontalAlignment="Stretch"
                 AllowFocusOnInteraction="False"
                 IsBackButtonVisible="Collapsed"
                 IsPaneOpen="True"
                 IsPaneToggleButtonVisible="False"
                 IsSettingsVisible="False"
+                IsTabStop="False"
                 IsTitleBarAutoPaddingEnabled="False"
                 ItemInvoked="Sidebar_ItemInvoked"
                 MenuItemTemplateSelector="{StaticResource NavItemSelector}"
@@ -623,7 +622,8 @@
                                         VerticalAlignment="Center"
                                         FontSize="18"
                                         Glyph="&#xE713;" />
-                                <TextBlock
+                                    <TextBlock
+                                        x:Uid="SidebarSettings"
                                         Grid.Column="1"
                                         Padding="2,0,0,0"
                                         VerticalAlignment="Center"
