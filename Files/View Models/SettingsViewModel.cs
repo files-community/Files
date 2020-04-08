@@ -308,29 +308,27 @@ namespace Files.View_Models
 
             var content = await FileIO.ReadTextAsync(file);
 
-            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
-
-            Terminals = terminals;
+            var terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
 
             // Ensure Windows Terminal is not already in List
-            if (Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
             {
                 PackageManager packageManager = new PackageManager();
                 var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
                 if (terminalPackage != null)
                 {
-                    terminals.Add(new TerminalModel()
+                    terminalsFileModel.Terminals.Add(new TerminalModel()
                     {
-                        Id = terminals.Count + 1,
+                        Id = terminalsFileModel.Terminals.Count + 1,
                         Name = "Windows Terminal",
                         Path = "wt.exe",
                         arguments = "-d \"{0}\"",
                         icon = ""
                     });
-                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminals, Formatting.Indented));
-                    Terminals = terminals;
+                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
                 }
             }
+            Terminals = terminalsFileModel.Terminals;
         }
 
         private IList<TerminalModel> _Terminals = null;
