@@ -6,8 +6,8 @@ namespace Files.Interacts
 {
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
-        public Visibility _isVisible;
-        public Visibility isVisible
+        private Visibility _isVisible;
+        public Visibility IsVisible
         {
             get
             {
@@ -19,7 +19,7 @@ namespace Files.Interacts
                 if (value != _isVisible)
                 {
                     _isVisible = value;
-                    NotifyPropertyChanged("isVisible");
+                    NotifyPropertyChanged("IsVisible");
                 }
             }
         }

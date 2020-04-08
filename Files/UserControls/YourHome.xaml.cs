@@ -18,6 +18,7 @@ using System.Linq;
 using Files.Filesystem;
 using Files.View_Models;
 using Files.Controls;
+using Files.Views.Pages;
 
 namespace Files
 {
@@ -35,10 +36,10 @@ namespace Files
         {           
             var flyoutItem = sender as MenuFlyoutItem;
             var clickedOnItem = flyoutItem.DataContext as RecentItem;
-            if (clickedOnItem.isFile)
+            if (clickedOnItem.IsFile)
             {
-                var filePath = clickedOnItem.path;
-                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.name.Length);
+                var filePath = clickedOnItem.RecentPath;
+                var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), folderPath);
             }
         }
@@ -56,7 +57,7 @@ namespace Files
             instanceTabsView.SetSelectedTabInfo(parameters, null);
             instanceTabsView.TabStrip_SelectionChanged(null, null);
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
-            App.PS.isEnabled = false;
+            App.PS.IsEnabled = false;
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.AlwaysPresentCommands.isEnabled = false;
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
@@ -79,9 +80,9 @@ namespace Files
             
         }
 
-        public bool favoritesCardsVis { get; set; } = true;
-        public bool recentsListVis { get; set; } = true;
-        public bool drivesListVis { get; set; } = false;
+        public bool FavoritesCardsVis { get; set; } = true;
+        public bool RecentsListVis { get; set; } = true;
+        public bool DrivesListVis { get; set; } = false;
 
         private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
@@ -140,8 +141,8 @@ namespace Files
         public async void PopulateRecentsList()
         {
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-            BitmapImage ItemImage = new BitmapImage();
-            string ItemPath = null;
+            BitmapImage ItemImage;
+            string ItemPath;
             string ItemName;
             StorageItemTypes ItemType;
             Visibility ItemFolderImgVis;
@@ -195,7 +196,7 @@ namespace Files
                         }
                         ItemFolderImgVis = Visibility.Collapsed;
                         ItemFileIconVis = Visibility.Visible;
-                        recentItemsCollection.Add(new RecentItem() { path = ItemPath, name = ItemName, type = ItemType, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
+                        recentItemsCollection.Add(new RecentItem() { RecentPath = ItemPath, Name = ItemName, Type = ItemType, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
                     }
                 }
                 catch (System.IO.FileNotFoundException)
@@ -216,14 +217,14 @@ namespace Files
 
         private async void RecentsView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var path = (e.ClickedItem as RecentItem).path;
+            var path = (e.ClickedItem as RecentItem).RecentPath;
             try
             {
                 await Interaction.InvokeWin32Component(path);
             }
             catch (UnauthorizedAccessException)
             {
-                await App.consentDialog.ShowAsync();
+                await App.ConsentDialogDisplay.ShowAsync();
             }
             catch (System.ArgumentException)
             {
@@ -233,9 +234,9 @@ namespace Files
                 }
                 else
                 {
-                    foreach (DriveItem drive in SettingsViewModel.foundDrives)
+                    foreach (DriveItem drive in App.AppSettings.DrivesManager.Drives)
                     {
-                        if (drive.tag.ToString() == new DirectoryInfo(path).Root.ToString())
+                        if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
                             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
                             return;
@@ -250,19 +251,17 @@ namespace Files
             }
         }
 
-        private async void mfi_RemoveOneItem_Click(object sender, RoutedEventArgs e)
+        private async void RemoveOneFrequentItem(object sender, RoutedEventArgs e)
         {
             //Get the sender frameworkelement
-            var fe = sender as MenuFlyoutItem;
 
-            if (fe != null)
+            if (sender is MenuFlyoutItem fe)
             {
                 //Grab it's datacontext ViewModel and remove it from the list.
-                var vm = fe.DataContext as RecentItem;
-            
-                if (vm != null)
+
+                if (fe.DataContext is RecentItem vm)
                 {
-                    if (await ShowDialog("Remove item from Recents List", "Do you wish to remove " + vm.name + " from the list?", "Yes", "No"))
+                    if (await ShowDialog("Remove item from Recents List", "Do you wish to remove " + vm.Name + " from the list?", "Yes", "No"))
                     {
                         //remove it from the visible collection
                         recentItemsCollection.Remove(vm);
@@ -274,10 +273,10 @@ namespace Files
                         foreach (var element in mru.Entries)
                         {
                             var f = await mru.GetItemAsync(element.Token);
-                            if (f.Path.Equals(vm.path))
+                            if (f.Path.Equals(vm.RecentPath))
                             {
                                 mru.Remove(element.Token);
-                                if(mru.Entries.Count == 0)
+                                if (mru.Entries.Count == 0)
                                 {
                                     Empty.Visibility = Visibility.Visible;
                                 }
@@ -315,15 +314,14 @@ namespace Files
 
             try
             {
-                var rootFrame = Window.Current.Content as Frame;
-
-                if (rootFrame != null)
+                if (Window.Current.Content is Frame rootFrame)
                 {
-                    var d = new ContentDialog();
-
-                    d.Title = title;
-                    d.Content = message;
-                    d.PrimaryButtonText = primaryText;
+                    var d = new ContentDialog
+                    {
+                        Title = title,
+                        Content = message,
+                        PrimaryButtonText = primaryText
+                    };
 
                     if (!string.IsNullOrEmpty(secondaryText))
                     {
@@ -335,10 +333,6 @@ namespace Files
                 }
             }
             catch (Exception)
-            {
-
-            }
-            finally
             {
 
             }
@@ -376,10 +370,10 @@ namespace Files
     public class RecentItem
     {
         public BitmapImage FileImg { get; set; }
-        public string path { get; set; }
-        public string name { get; set; }
-        public bool isFile { get => type == StorageItemTypes.File; }
-        public StorageItemTypes type { get; set; }
+        public string RecentPath { get; set; }
+        public string Name { get; set; }
+        public bool IsFile { get => Type == StorageItemTypes.File; }
+        public StorageItemTypes Type { get; set; }
         public Visibility FolderImg { get; set; }
         public Visibility EmptyImgVis { get; set; }
         public Visibility FileIconVis { get; set; }

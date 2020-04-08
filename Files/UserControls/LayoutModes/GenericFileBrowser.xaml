@@ -71,7 +71,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.isEnabled, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind local:App.PS.IsEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;" />
@@ -277,18 +277,12 @@
         x:Name="RootGrid"
         Background="Transparent"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
-        <Rectangle
-            x:Name="SelectionRectangle"
-            x:Load="{x:Bind IsSelectionRectangleDisplayed, Mode=OneWay}"
-            Fill="Blue"
-            Opacity="0.7"
-            Stroke="DarkBlue" />
         <ProgressBar
             x:Name="progBar"
             Height="10"
             VerticalAlignment="Top"
             IsIndeterminate="True"
-            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock
             x:Name="EmptyText"
             Margin="0,125,0,0"
@@ -296,7 +290,7 @@
             VerticalAlignment="Top"
             Text="This folder is empty."
             TextWrapping="Wrap"
-            Visibility="{x:Bind AssociatedViewModel.EmptyTextState.isVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="{x:Bind AssociatedViewModel.EmptyTextState.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <controls:DataGrid
             x:Name="AllView"
@@ -378,11 +372,10 @@
                 <controls:DataGridTemplateColumn
                     x:Name="iconColumn"
                     DisplayIndex="0"
-                    IsReadOnly="True"
-                    ToolTipService.ToolTip="{Binding FolderTooltipText}">
+                    IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
-                            <Grid x:Name="Icon" EffectiveViewportChanged="Icon_EffectiveViewportChanged">
+                            <Grid x:Name="Icon" ToolTipService.ToolTip="{x:Bind FolderTooltipText}" EffectiveViewportChanged="Icon_EffectiveViewportChanged">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
@@ -391,7 +384,8 @@
                                 <Image
                                     Width="24"
                                     Height="24"
-                                    Visibility="{x:Bind FolderImg}">
+                                    x:Name="FolderGlyphElement"
+                                    x:Load="{x:Bind LoadFolderGlyph}">
                                     <Image.Source>
                                         <SvgImageSource
                                             RasterizePixelHeight="128"
@@ -402,13 +396,15 @@
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
                                     Glyph="&#xE7C3;"
-                                    Visibility="{x:Bind EmptyImgVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    x:Name="UnknownFileTypeElement"
+                                    x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}" />
                                 <Image
                                     Width="20"
                                     Height="20"
-                                    Source="{x:Bind FileImg, Mode=OneWay}"
+                                    x:Name="FileImageElement"
+                                    Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill"
-                                    Visibility="{x:Bind FileIconVis, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    x:Load="{x:Bind LoadFileIcon, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
@@ -417,7 +413,7 @@
                 <controls:DataGridTextColumn
                     x:Name="nameColumn"
                     Width="275"
-                    Binding="{Binding FileName}"
+                    Binding="{Binding ItemName}"
                     DisplayIndex="1"
                     Header="Name"
                     Tag="Name">
@@ -428,7 +424,7 @@
                 <controls:DataGridTextColumn
                     x:Name="dateColumn"
                     Width="Auto"
-                    Binding="{Binding FileDate}"
+                    Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
                     Header="Date modified"
                     IsReadOnly="True"
@@ -440,7 +436,7 @@
                 <controls:DataGridTextColumn
                     x:Name="typeColumn"
                     Width="150"
-                    Binding="{Binding FileType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
                     Header="Type"
                     IsReadOnly="True"

@@ -46,7 +46,7 @@ namespace Files.Controls
             //check if the selected item is an image file
             try
             {
-                string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.DotFileExtension;
+                string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
 
                 if (ItemExtension == ".png" || ItemExtension == ".jpg" || ItemExtension == ".bmp" || ItemExtension == ".jpeg")
                 {

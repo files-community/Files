@@ -44,11 +44,11 @@ namespace Files
                 }
             }
         }
-        public static Dialogs.ExceptionDialog exceptionDialog { get; set; }
-        public static Dialogs.ConsentDialog consentDialog { get; set; }
-        public static Dialogs.PropertiesDialog propertiesDialog { get; set; }
-        public static Dialogs.LayoutDialog layoutDialog { get; set; }
-        public static Dialogs.AddItemDialog addItemDialog { get; set; }
+        public static Dialogs.ExceptionDialog ExceptionDialogDisplay { get; set; }
+        public static Dialogs.ConsentDialog ConsentDialogDisplay { get; set; }
+        public static Dialogs.PropertiesDialog PropertiesDialogDisplay { get; set; }
+        public static Dialogs.LayoutDialog LayoutDialogDisplay { get; set; }
+        public static Dialogs.AddItemDialog AddItemDialogDisplay { get; set; }
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
         public static ObservableCollection<LocationItem> locationItems = new ObservableCollection<LocationItem>();
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
@@ -68,11 +68,11 @@ namespace Files
 
             RegisterUncaughtExceptionLogger();
 
-            consentDialog = new Dialogs.ConsentDialog();
-            propertiesDialog = new Dialogs.PropertiesDialog();
-            layoutDialog = new Dialogs.LayoutDialog();
-            addItemDialog = new Dialogs.AddItemDialog();
-            exceptionDialog = new Dialogs.ExceptionDialog();
+            ConsentDialogDisplay = new Dialogs.ConsentDialog();
+            PropertiesDialogDisplay = new Dialogs.PropertiesDialog();
+            LayoutDialogDisplay = new Dialogs.LayoutDialog();
+            AddItemDialogDisplay = new Dialogs.AddItemDialog();
+            ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
             // this.UnhandledException += App_UnhandledException;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
@@ -129,54 +129,27 @@ namespace Files
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
                     {
-                        App.PS.isEnabled = true;
+                        App.PS.IsEnabled = true;
                     }
                     else
                     {
-                        App.PS.isEnabled = false;
+                        App.PS.IsEnabled = false;
                     }
                 }
                 else
                 {
-                    App.PS.isEnabled = false;
+                    App.PS.IsEnabled = false;
                 }
             }
             catch (Exception)
             {
-                App.PS.isEnabled = false;
+                App.PS.IsEnabled = false;
             }
 
         }
 
-        public static Windows.UI.Xaml.UnhandledExceptionEventArgs exceptionInfo { get; set; }
-        public static string exceptionStackTrace { get; set; }
-
-        private async void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
-        {
-            e.Handled = true;
-            exceptionInfo = e;
-            exceptionStackTrace = e.Exception.StackTrace;
-            await exceptionDialog.ShowAsync(ContentDialogPlacement.Popup);
-        }
-
-        public static IReadOnlyList<ContentDialog> FindDisplayedContentDialogs<T>()
-        {
-            var popupElements = VisualTreeHelper.GetOpenPopupsForXamlRoot(Window.Current.Content.XamlRoot);
-            List<ContentDialog> dialogs = new List<ContentDialog>();
-            List<ContentDialog> openDialogs = new List<ContentDialog>();
-            Interaction.FindChildren<ContentDialog>(dialogs, Window.Current.Content.XamlRoot.Content as DependencyObject);
-            foreach (var dialog in dialogs)
-            {
-                var popups = new List<Popup>();
-                Interaction.FindChildren<Popup>(popups, dialog);
-                if (popups.First().IsOpen && popups.First() is T)
-                {
-                    openDialogs.Add(dialog);
-                }
-            }
-            return openDialogs;
-        }
-
+        public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
+        public static string ExceptionStackTrace { get; set; }
         public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
@@ -206,11 +179,10 @@ namespace Files
 
             bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
 
-            Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
@@ -255,8 +227,7 @@ namespace Files
             Logger.Info("App activated");
 
             // Window management
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 rootFrame = new Frame();
                 Window.Current.Content = rootFrame;

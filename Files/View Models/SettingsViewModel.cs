@@ -23,8 +23,7 @@ namespace Files.View_Models
     public class SettingsViewModel : ViewModelBase
     {
         private readonly ApplicationDataContainer _roamingSettings;
-
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public DrivesManager DrivesManager { get; }
 
@@ -40,7 +39,6 @@ namespace Files.View_Models
 
             DrivesManager = new DrivesManager();
 
-            foundDrives = DrivesManager.Drives;
             //DetectWSLDistros();
             LoadTerminalApps();
         }
@@ -129,15 +127,6 @@ namespace Files.View_Models
                 }
 
                 RemoveStaleSidebarItems();
-            }
-        }
-
-        private void RemoveAllSidebarItems(NavigationControlItemType type)
-        {
-            var itemsOfType = App.sideBarItems.TakeWhile(x => x.ItemType == type);
-            foreach (var item in itemsOfType)
-            {
-                App.sideBarItems.Remove(item);
             }
         }
 
@@ -396,10 +385,10 @@ namespace Files.View_Models
                         localSettings.Values["PinOneDrive"] = true;
                         var oneDriveItem = new DriveItem()
                         {
-                            driveText = "OneDrive",
-                            tag = "OneDrive",
-                            cloudGlyphVisibility = Visibility.Visible,
-                            driveGlyphVisibility = Visibility.Collapsed,
+                            DriveText = "OneDrive",
+                            Tag = "OneDrive",
+                            CloudGlyphVisibility = Visibility.Visible,
+                            DriveGlyphVisibility = Visibility.Collapsed,
                             Type = Filesystem.DriveType.VirtualDrive,
                             //itemVisibility = App.AppSettings.PinOneDriveToSideBar
                         };
@@ -528,24 +517,19 @@ namespace Files.View_Models
 
         public event EventHandler LayoutModeChangeRequested;
 
-        private RelayCommand toggleLayoutModeGridView;
-        public RelayCommand ToggleLayoutModeGridView => toggleLayoutModeGridView = new RelayCommand(() =>
+        public RelayCommand ToggleLayoutModeGridView => new RelayCommand(() =>
         {
             LayoutMode = 1; // Grid View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
-        private RelayCommand toggleLayoutModeListView;
-        public RelayCommand ToggleLayoutModeListView => toggleLayoutModeListView = new RelayCommand(() =>
+        public RelayCommand ToggleLayoutModeListView => new RelayCommand(() =>
         {
             LayoutMode = 0; // List View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
-
-        [Obsolete]
-        public static ObservableCollection<DriveItem> foundDrives = new ObservableCollection<DriveItem>();
 
         public void Dispose()
         {

@@ -510,31 +510,30 @@
                 <muxc:NavigationViewItem
                     Padding="0"
                     DataContext="{x:Bind}"
-                    IsTabStop="False"
-                    Tag="{x:Bind tag}"
-                    Visibility="{x:Bind itemVisibility}">
+                    Tag="{x:Bind Tag}"
+                    Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Content>
                         <StackPanel
                             Margin="-4,0,0,0"
                             DataContext="{x:Bind}"
                             Orientation="Horizontal"
                             Spacing="12"
-                            ToolTipService.ToolTip="{Binding spaceText}">
+                            ToolTipService.ToolTip="{x:Bind SpaceText}">
                             <Grid>
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="18"
-                                    Glyph="{Binding glyph}"
-                                    Visibility="{Binding driveGlyphVisibility}" />
+                                    Glyph="{x:Bind Glyph}"
+                                    Visibility="{x:Bind DriveGlyphVisibility}" />
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="18"
                                     Glyph="&#xE753;"
-                                    Visibility="{Binding cloudGlyphVisibility}" />
+                                    Visibility="{x:Bind CloudGlyphVisibility}" />
                             </Grid>
                             <TextBlock
                                 FontSize="14"
-                                Text="{Binding driveText}"
+                                Text="{x:Bind DriveText}"
                                 TextTrimming="CharacterEllipsis" />
                         </StackPanel>
                     </muxc:NavigationViewItem.Content>
@@ -578,8 +577,7 @@
                 LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
                 LocationNavItemTemplate="{StaticResource LocationNavItem}" />
         </Grid.Resources>
-        <Grid>
-            <muxc:NavigationView
+        <muxc:NavigationView
                 x:Name="SidebarNavView"
                 Width="200"
                 HorizontalAlignment="Stretch"
@@ -598,29 +596,29 @@
                 SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 SelectionFollowsFocus="Enabled"
                 Style="{StaticResource NavigationViewStyle_Workaround}">
-                <muxc:NavigationView.MenuItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <Setter Property="BorderThickness" Value=".8" />
-                    </Style>
-                </muxc:NavigationView.MenuItemContainerStyle>
-                <muxc:NavigationView.PaneFooter>
-                    <Grid Width="200">
-                        <Button
+            <muxc:NavigationView.MenuItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="BorderThickness" Value=".8" />
+                </Style>
+            </muxc:NavigationView.MenuItemContainerStyle>
+            <muxc:NavigationView.PaneFooter>
+                <Grid Width="200">
+                    <Button
                             x:Name="SettingsButton"
                             Width="200"
                             Height="40"
                             HorizontalAlignment="Left"
                             Background="Transparent"
-                            BorderBrush="{ThemeResource ButtonRevealBorderBrush}"
+                            BorderBrush="{StaticResource ButtonRevealBorderBrush}"
                             Click="SettingsButton_Click"
                             CornerRadius="0">
-                            <Button.Content>
-                                <Grid Width="200">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="34" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <FontIcon
+                        <Button.Content>
+                            <Grid Width="200">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="34" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
                                         VerticalAlignment="Center"
                                         FontSize="18"
                                         Glyph="&#xE713;" />
@@ -630,25 +628,24 @@
                                         Padding="2,0,0,0"
                                         VerticalAlignment="Center"
                                         Text="Settings" />
-                                </Grid>
-                            </Button.Content>
-                        </Button>
-                    </Grid>
-                </muxc:NavigationView.PaneFooter>
-                <muxc:NavigationView.Resources>
-                    <ResourceDictionary>
-                        <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
-                            <MenuFlyout.Items>
-                                <MenuFlyoutItem
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </muxc:NavigationView.PaneFooter>
+            <muxc:NavigationView.Resources>
+                <ResourceDictionary>
+                    <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem
                                     x:Name="UnpinItem"
                                     x:Uid="SideBarUnpinFromSideBar"
                                     Click="{x:Bind local1:App.FlyoutItem_Click}"
                                     Text="Unpin from Sidebar" />
-                            </MenuFlyout.Items>
-                        </MenuFlyout>
-                    </ResourceDictionary>
-                </muxc:NavigationView.Resources>
-            </muxc:NavigationView>
-        </Grid>
+                        </MenuFlyout.Items>
+                    </MenuFlyout>
+                </ResourceDictionary>
+            </muxc:NavigationView.Resources>
+        </muxc:NavigationView>
     </Grid>
 </UserControl>

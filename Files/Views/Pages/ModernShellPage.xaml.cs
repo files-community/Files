@@ -67,7 +67,7 @@ namespace Files.Views.Pages
 
         private async void DisplayFilesystemConsentDialog()
         {
-            await App.consentDialog.ShowAsync(ContentDialogPlacement.Popup);
+            await App.ConsentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
         }
 
         string NavParams = null;
@@ -125,7 +125,7 @@ namespace Files.Views.Pages
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
                         ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
-                        SidebarControl.SelectedSidebarItem = SettingsViewModel.foundDrives.First(x => x.tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else
                     {
@@ -197,7 +197,7 @@ namespace Files.Views.Pages
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
             {
                 case (true, true, false, true, VirtualKey.N): //ctrl + shift + n, new item
-                    await App.addItemDialog.ShowAsync();
+                    await App.AddItemDialogDisplay.ShowAsync();
                     break;
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
@@ -282,6 +282,18 @@ namespace Files.Views.Pages
                 }
             }
         }
+    }
+
+    public enum InteractionOperationType
+    {
+        PasteItems = 0,
+        DeleteItems = 1,
+    }
+
+    public class PathBoxItem
+    {
+        public string Title { get; set; }
+        public string Path { get; set; }
     }
 }
 

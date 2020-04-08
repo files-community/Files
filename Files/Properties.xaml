@@ -33,7 +33,7 @@
                         Foreground="#ffe793"
                         Glyph="&#xE8D5;"
                         x:Name="FolderGlyphIcon"
-                        x:Load="{x:Bind itemProperties.LoadFolderGlyph,Mode=OneWay}" />
+                        x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}" />
                 <FontIcon
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -41,13 +41,13 @@
                         FontSize="36"
                         x:Name="EmptyImageIcon"
                         Glyph="&#xE7C3;"
-                        x:Load="{x:Bind itemProperties.LoadUnknownTypeGlyph,Mode=OneWay}" />
+                        x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph,Mode=OneWay}" />
                 <Image
                         x:Name="itemIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind itemProperties.LoadFileIcon,Mode=OneWay}"
-                        Source="{x:Bind itemProperties.FileIconSource,Mode=OneWay}"/>
+                        x:Load="{x:Bind ItemProperties.LoadFileIcon,Mode=OneWay}"
+                        Source="{x:Bind ItemProperties.FileIconSource,Mode=OneWay}"/>
             </Grid>
             <TextBox
                     x:Name="itemFileName"
@@ -57,7 +57,7 @@
                     VerticalAlignment="Center"
                     BorderThickness="1"
                     IsReadOnly="True"
-                    Text="{x:Bind itemProperties.ItemName,Mode=OneWay}" Width="300" />
+                    Text="{x:Bind ItemProperties.ItemName,Mode=OneWay}" Width="300" />
         </StackPanel>
         <StackPanel Padding="14,0" Grid.Row="1">
             <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
@@ -71,7 +71,7 @@
                     x:Name="itemTypeValue"
                     Grid.Column="1"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind itemProperties.ItemType,Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemType,Mode=OneWay}" />
             </Grid>
             <Grid Padding="0,4">
                 <Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
                     x:Name="itemPathValue"
                     Grid.Column="2"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind itemProperties.ItemPath,Mode=OneWay}"
+                    Text="{x:Bind ItemProperties.ItemPath,Mode=OneWay}"
                     TextWrapping="Wrap" />
             </Grid>
             <Grid Padding="0,4">
@@ -96,7 +96,7 @@
                     x:Name="itemSizeValue"
                     Grid.Column="3"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind itemProperties.ItemSize,Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemSize,Mode=OneWay}" />
             </Grid>
             <MenuFlyoutSeparator Margin="-14,0" />
             <Grid Padding="0,4">
@@ -109,7 +109,7 @@
                     x:Name="itemCreatedTimestampValue"
                     Grid.Column="4"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind itemProperties.ItemCreatedTimestamp,Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemCreatedTimestamp,Mode=OneWay}" />
             </Grid>
             <Grid Padding="0,4">
                 <Grid.ColumnDefinitions>
@@ -121,7 +121,7 @@
                     x:Name="itemModifiedTimestampValue"
                     Grid.Column="5"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind itemProperties.ItemModifiedTimestamp,Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemModifiedTimestamp,Mode=OneWay}" />
             </Grid>
 
         </StackPanel>

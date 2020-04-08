@@ -537,7 +537,7 @@
                 Click="{x:Bind local1:NavigationActions.Back_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack}"
                 Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72B;
@@ -558,7 +558,7 @@
                 Click="{x:Bind local1:NavigationActions.Forward_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward}"
                 Style="{StaticResource ToolBarButtonStyle}">
                 <Button.Content>
                     &#xE72A;
@@ -779,7 +779,7 @@
                             x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
                             x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                            IsEnabled="{x:Bind local1:App.PS.isEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            IsEnabled="{x:Bind local1:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                             Text="Paste" />
                         <MenuFlyoutItem

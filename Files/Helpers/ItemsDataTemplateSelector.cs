@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Views.Pages;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,9 +17,8 @@ namespace Files.Helpers
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            DataTemplate _returnTemplate = new DataTemplate();
             var itemsControl = ItemsControl.ItemsControlFromItemContainer(container);
-            _returnTemplate = (itemsControl.IndexFromContainer(container) == (itemsControl.ItemsSource as ObservableCollection<Files.PathBoxItem>).Count - 1) ? CurrentItem : ParentItems;
+            DataTemplate _returnTemplate = itemsControl.IndexFromContainer(container) == (itemsControl.ItemsSource as ObservableCollection<PathBoxItem>).Count - 1 ? CurrentItem : ParentItems;
             return _returnTemplate;
         }
     }
