@@ -219,7 +219,7 @@ namespace Files.Filesystem
                 {
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
-                    var candidateItems = _filesAndFolders.Where(f => f.FileName.Length >= value.Length && f.FileName.Substring(0, value.Length).ToLower() == value);
+                    var candidateItems = _filesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
                     if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
                         previouslySelectedItem = (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
@@ -234,7 +234,7 @@ namespace Files.Filesystem
                     if (value.Length == 1 && previouslySelectedItem != null)
                     {
                         // Try to select item lexicographically bigger than the previous item
-                        jumpedToItem = candidateItems.FirstOrDefault(f => f.FileName.CompareTo(previouslySelectedItem.FileName) > 0);
+                        jumpedToItem = candidateItems.FirstOrDefault(f => f.ItemName.CompareTo(previouslySelectedItem.ItemName) > 0);
                     }
                     if (jumpedToItem == null)
                         jumpedToItem = candidateItems.FirstOrDefault();
@@ -387,7 +387,7 @@ namespace Files.Filesystem
             if (_filesAndFolders.Count == 0)
                 return;
 
-            static object orderByNameFunc(ListedItem item) => item.FileName;
+            static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
             switch (DirectorySortOption)
             {
@@ -395,10 +395,10 @@ namespace Files.Filesystem
                     orderFunc = orderByNameFunc;
                     break;
                 case SortOption.DateModified:
-                    orderFunc = item => item.FileDateReal;
+                    orderFunc = item => item.ItemDateModifiedReal;
                     break;
                 case SortOption.FileType:
-                    orderFunc = item => item.FileType;
+                    orderFunc = item => item.ItemType;
                     break;
                 case SortOption.Size:
                     orderFunc = item => item.FileSizeBytes;
@@ -406,8 +406,8 @@ namespace Files.Filesystem
             }
 
             // In ascending order, show folders first, then files.
-            // So, we use != "Folder" to make the value for "Folder" = 0, and for the rest, 1.
-            static bool folderThenFileAsync(ListedItem listedItem) => SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(listedItem.FilePath) != typeof(StorageFolder);
+            // So, we use == StorageItemTypes.File to make the value for a folder equal to 0, and equal to 1 for the rest.
+            static bool folderThenFileAsync(ListedItem listedItem) => (listedItem.PrimaryItemAttribute == StorageItemTypes.File);
             IOrderedEnumerable<ListedItem> ordered;
             List<ListedItem> orderedList;
 
@@ -539,7 +539,7 @@ namespace Files.Filesystem
                 if (_isLoadingItems != value)
                 {
                     _isLoadingItems = value;
-                    NotifyPropertyChanged("isLoadingItems");
+                    NotifyPropertyChanged("IsLoadingItems");
                 }
             }
         }
@@ -548,16 +548,16 @@ namespace Files.Filesystem
         {
             if (!item.ItemPropertiesInitialized)
             {
-                if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) != typeof(StorageFolder))
+                if (item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     BitmapImage icon = new BitmapImage();
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
-                            matchingItem.FileType = matchingStorageItem.DisplayType;
+                            matchingItem.ItemType = matchingStorageItem.DisplayType;
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (Thumbnail != null)
@@ -580,11 +580,11 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                        var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
-                            matchingItem.FileType = matchingStorageItem.DisplayType;
+                            matchingItem.ItemType = matchingStorageItem.DisplayType;
                         }
                     }
                     catch (Exception)
@@ -649,13 +649,13 @@ namespace Files.Filesystem
                 _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
                 {
                     ItemPropertiesInitialized = true,
-                    FileName = _rootFolder.Name,
-                    FileDateReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
-                    FileType = _rootFolder.DisplayType,
+                    ItemName = _rootFolder.Name,
+                    ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
+                    ItemType = _rootFolder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    FilePath = _rootFolder.Path,
+                    ItemPath = _rootFolder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
@@ -757,19 +757,21 @@ namespace Files.Filesystem
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
                 //var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
                 //var typeText = resourceLoader.GetString("Folder");
+
                 _filesAndFolders.Add(new ListedItem(null)
                 {
-                    //FolderTooltipText = tooltipString,
-                    FileName = findData.cFileName,
-                    FileDateReal = itemDate,
-                    FileType =  "Folder",    //TODO: Localize this
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
+                    ItemName = findData.cFileName,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType =  "File folder",    //TODO: Localize this
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    FilePath = itemPath,
+                    ItemPath = itemPath,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
+                    //FolderTooltipText = tooltipString,
                 });
 
                 EmptyTextState.IsVisible = Visibility.Collapsed;
@@ -803,7 +805,7 @@ namespace Files.Filesystem
             if (findData.cFileName.Contains('.'))
             {
                 itemFileExtension = Path.GetExtension(itemPath);
-                itemType = itemFileExtension + " File";
+                itemType = itemFileExtension.Trim('.') + " File";
             }
 
             bool itemFolderImgVis = false;
@@ -823,15 +825,16 @@ namespace Files.Filesystem
             }
             _filesAndFolders.Add(new ListedItem(null)
             {
-                DotFileExtension = itemFileExtension,
+                PrimaryItemAttribute = StorageItemTypes.File,
+                FileExtension = itemFileExtension,
                 LoadUnknownTypeGlyph = itemEmptyImgVis,
                 FileImage = icon,
                 LoadFileIcon = itemThumbnailImgVis,
                 LoadFolderGlyph = itemFolderImgVis,
-                FileName = itemName,
-                FileDateReal = itemDate,
-                FileType = itemType,
-                FilePath = itemPath,
+                ItemName = itemName,
+                ItemDateModifiedReal = itemDate,
+                ItemType = itemType,
+                ItemPath = itemPath,
                 FileSize = itemSize,
                 FileSizeBytes = itemSizeBytes
             });
@@ -876,13 +879,13 @@ namespace Files.Filesystem
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     //FolderTooltipText = tooltipString,
-                    FileName = folder.Name,
-                    FileDateReal = basicProperties.DateModified,
-                    FileType = folder.DisplayType,
+                    ItemName = folder.Name,
+                    ItemDateModifiedReal = basicProperties.DateModified,
+                    ItemType = folder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    FilePath = folder.Path,
+                    ItemPath = folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
                     FileSizeBytes = 0
@@ -968,15 +971,15 @@ namespace Files.Filesystem
             }
             _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
             {
-                DotFileExtension = itemFileExtension,
+                FileExtension = itemFileExtension,
                 LoadUnknownTypeGlyph = itemEmptyImgVis,
                 FileImage = icon,
                 LoadFileIcon = itemThumbnailImgVis,
                 LoadFolderGlyph = itemFolderImgVis,
-                FileName = itemName,
-                FileDateReal = itemDate,
-                FileType = itemType,
-                FilePath = itemPath,
+                ItemName = itemName,
+                ItemDateModifiedReal = itemDate,
+                ItemType = itemType,
+                ItemPath = itemPath,
                 FileSize = itemSize,
                 FileSizeBytes = itemSizeBytes
             });

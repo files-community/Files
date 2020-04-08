@@ -55,14 +55,14 @@ namespace Files
             StackPanel stackPanel = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel;
             TextBlock textBlock = stackPanel.Children[0] as TextBlock;
             TextBox textBox = stackPanel.Children[1] as TextBox;
-            int extensionLength = renamingItem.DotFileExtension?.Length ?? 0;
+            int extensionLength = renamingItem.FileExtension?.Length ?? 0;
 
             textBlock.Visibility = Visibility.Collapsed;
             textBox.Visibility = Visibility.Visible;
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
-            textBox.Select(0, renamingItem.FileName.Length - extensionLength);
+            textBox.Select(0, renamingItem.ItemName.Length - extensionLength);
             isRenamingItem = true;
         }
 
@@ -93,7 +93,7 @@ namespace Files
         {
             EndRename(textBox);
             var selectedItem = renamingItem;
-            string currentName = selectedItem.FileName;
+            string currentName = selectedItem.ItemName;
             string newName = textBox.Text;
 
             if (newName == null)

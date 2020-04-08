@@ -153,11 +153,11 @@ namespace Files
         {
             var textBox = e.EditingElement as TextBox;
             var selectedItem = AllView.SelectedItem as ListedItem;
-            int extensionLength = selectedItem.DotFileExtension?.Length ?? 0;
+            int extensionLength = selectedItem.FileExtension?.Length ?? 0;
 
-            previousFileName = selectedItem.FileName;
+            previousFileName = selectedItem.ItemName;
             textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
-            textBox.Select(0, selectedItem.FileName.Length - extensionLength);
+            textBox.Select(0, selectedItem.ItemName.Length - extensionLength);
             isRenamingItem = true;
         }
 
@@ -173,7 +173,7 @@ namespace Files
             bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, currentName, newName);
             if (!successful)
             {
-                selectedItem.FileName = currentName;
+                selectedItem.ItemName = currentName;
                 ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
             }
         }

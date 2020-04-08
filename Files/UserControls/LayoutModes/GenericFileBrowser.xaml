@@ -413,7 +413,7 @@
                 <controls:DataGridTextColumn
                     x:Name="nameColumn"
                     Width="275"
-                    Binding="{Binding FileName}"
+                    Binding="{Binding ItemName}"
                     DisplayIndex="1"
                     Header="Name"
                     Tag="Name">
@@ -424,7 +424,7 @@
                 <controls:DataGridTextColumn
                     x:Name="dateColumn"
                     Width="Auto"
-                    Binding="{Binding FileDate}"
+                    Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
                     Header="Date modified"
                     IsReadOnly="True"
@@ -436,7 +436,7 @@
                 <controls:DataGridTextColumn
                     x:Name="typeColumn"
                     Width="150"
-                    Binding="{Binding FileType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
                     Header="Type"
                     IsReadOnly="True"

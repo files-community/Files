@@ -199,7 +199,7 @@ namespace Files
             var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
 
             // Find selected items that are not folders
-            if (selectedFileSystemItems.Cast<ListedItem>().Any(x => SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(x.FilePath) != typeof(StorageFolder)))
+            if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");
@@ -209,12 +209,12 @@ namespace Files
                 {
                     var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
 
-                    if (selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                     {
                         UnloadMenuFlyoutItemByName("OpenItem");
                         this.FindName("UnzipItem");
                     }
-                    else if (!selectedDataItem.DotFileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                     {
                         this.FindName("OpenItem");
                         UnloadMenuFlyoutItemByName("UnzipItem");

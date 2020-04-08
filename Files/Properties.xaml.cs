@@ -39,26 +39,26 @@ namespace Files
                 IStorageItem selectedStorageItem;
                 try 
                 {
-                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.FilePath);
+                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
                 }
                 catch (Exception)
                 {
                     // Not a folder, so attempt to get as StorageFile
-                    selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.FilePath);
+                    selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
                 }
-                ItemProperties.ItemName = selectedItem.FileName;
-                ItemProperties.ItemType = selectedItem.FileType;
-                ItemProperties.ItemPath = selectedItem.FilePath;
+                ItemProperties.ItemName = selectedItem.ItemName;
+                ItemProperties.ItemType = selectedItem.ItemType;
+                ItemProperties.ItemPath = selectedItem.ItemPath;
                 ItemProperties.ItemSize = selectedItem.FileSize;
                 ItemProperties.LoadFileIcon = selectedItem.LoadFileIcon;
                 ItemProperties.LoadFolderGlyph = selectedItem.LoadFolderGlyph;
                 ItemProperties.LoadUnknownTypeGlyph = selectedItem.LoadUnknownTypeGlyph;
-                ItemProperties.ItemModifiedTimestamp = selectedItem.FileDate;
+                ItemProperties.ItemModifiedTimestamp = selectedItem.ItemDateModified;
                 ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(selectedStorageItem.DateCreated);
 
                 if (!App.CurrentInstance.ContentPage.SelectedItem.LoadFolderGlyph)
                 {
-                    var thumbnail = await (await StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.FilePath)).GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 40, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                    var thumbnail = await (await StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath)).GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 40, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
                     var bitmap = new BitmapImage();
                     await bitmap.SetSourceAsync(thumbnail);
                     ItemProperties.FileIconSource = bitmap;
@@ -67,15 +67,15 @@ namespace Files
             else
             {
                 var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
-                var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.FilePath);
-                ItemProperties.ItemName = parentDirectory.FileName;
-                ItemProperties.ItemType = parentDirectory.FileType;
-                ItemProperties.ItemPath = parentDirectory.FilePath;
+                var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                ItemProperties.ItemName = parentDirectory.ItemName;
+                ItemProperties.ItemType = parentDirectory.ItemType;
+                ItemProperties.ItemPath = parentDirectory.ItemPath;
                 ItemProperties.ItemSize = parentDirectory.FileSize;
                 ItemProperties.LoadFileIcon = false;
                 ItemProperties.LoadFolderGlyph = true;
                 ItemProperties.LoadUnknownTypeGlyph = false;
-                ItemProperties.ItemModifiedTimestamp = parentDirectory.FileDate;
+                ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;
                 ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectoryStorageItem.DateCreated);
             }
         }

@@ -54,7 +54,7 @@ namespace Files.Interacts
         public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
             // Get the path of the selected file
-            StorageFile sourceFile = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.FilePath);
+            StorageFile sourceFile = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.ItemPath);
 
             // Get the app's local folder to use as the destination folder.
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -81,7 +81,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    var selectedItemPath = listedItem.FilePath;
+                    var selectedItemPath = listedItem.ItemPath;
                     var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
                     await Launcher.LaunchUriAsync(folderUri);
                 }
@@ -92,7 +92,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    var selectedItemPath = listedItem.FilePath;
+                    var selectedItemPath = listedItem.ItemPath;
                     var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
                     await Launcher.LaunchUriAsync(folderUri);
                 }
@@ -107,7 +107,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.FilePath);
+                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 }
 
             }
@@ -116,7 +116,7 @@ namespace Files.Interacts
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
                 {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.FilePath);
+                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 }
             }
         }
@@ -148,7 +148,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem listedItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        items.Add(listedItem.FilePath);
+                        items.Add(listedItem.ItemPath);
                     }
                     var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
                     await FileIO.AppendLinesAsync(ListFile, items);
@@ -157,7 +157,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem listedItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        items.Add(listedItem.FilePath);
+                        items.Add(listedItem.ItemPath);
                     }
                     var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
                     await FileIO.WriteLinesAsync(createdListFile, items);
@@ -328,7 +328,7 @@ namespace Files.Interacts
                 selectedItemCount = (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count;
                 if (selectedItemCount == 1)
                 {
-                    selectedItemPath = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0].FilePath;
+                    selectedItemPath = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0].ItemPath;
                 }
 
                 // Access MRU List
@@ -337,7 +337,7 @@ namespace Files.Interacts
                 if (selectedItemCount == 1)
                 {
                     var clickedOnItem = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0];
-                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(clickedOnItem.FilePath) == typeof(StorageFolder))
+                    if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(selectedItemPath));
@@ -357,10 +357,10 @@ namespace Files.Interacts
                     else
                     {
                         // Add location to MRU List
-                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
+                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
                         if (displayApplicationPicker)
                         {
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
                             var options = new LauncherOptions
                             {
                                 DisplayApplicationPicker = true
@@ -369,7 +369,7 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            await InvokeWin32Component(clickedOnItem.FilePath);
+                            await InvokeWin32Component(clickedOnItem.ItemPath);
                         }
                     }
                 }
@@ -378,17 +378,17 @@ namespace Files.Interacts
                     foreach (ListedItem clickedOnItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
 
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(clickedOnItem.FilePath) == typeof(StorageFolder))
+                        if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.FilePath);
+                            instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
                         }
                         else
                         {
                             // Add location to MRU List
-                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath));
+                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
                             if (displayApplicationPicker)
                             {
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.FilePath);
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
                                 var options = new LauncherOptions
                                 {
                                     DisplayApplicationPicker = true
@@ -397,7 +397,7 @@ namespace Files.Interacts
                             }
                             else
                             {
-                                await InvokeWin32Component(clickedOnItem.FilePath);
+                                await InvokeWin32Component(clickedOnItem.ItemPath);
                             }
                         }
                     }
@@ -512,14 +512,14 @@ namespace Files.Interacts
 
                 foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                 {
-                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(li.FilePath) == typeof(StorageFolder))
+                    if (li.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
+                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.ItemPath);
                         items.Add(folderAsItem);
                     }
                     else
                     {
-                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.FilePath);
+                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.ItemPath);
                         items.Add(fileAsItem);
                     }
                 }
@@ -528,14 +528,14 @@ namespace Files.Interacts
             {
                 foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                 {
-                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(li.FilePath) == typeof(StorageFolder))
+                    if (li.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.FilePath);
+                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.ItemPath);
                         items.Add(folderAsItem);
                     }
                     else
                     {
-                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.FilePath);
+                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.ItemPath);
                         items.Add(fileAsItem);
                     }
                 }
@@ -581,9 +581,9 @@ namespace Files.Interacts
 
                     try
                     {
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(storItem.FilePath) != typeof(StorageFolder))
+                        if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
 
                             if (App.InteractionViewModel.PermanentlyDelete)
                             {
@@ -596,7 +596,7 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
 
                             if (App.InteractionViewModel.PermanentlyDelete)
                             {
@@ -611,9 +611,9 @@ namespace Files.Interacts
                     catch (FileLoadException)
                     {
                         // try again
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(storItem.FilePath) != typeof(StorageFolder))
+                        if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(storItem.FilePath);
+                            var item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
 
                             if (App.InteractionViewModel.PermanentlyDelete)
                             {
@@ -626,7 +626,7 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.FilePath);
+                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
 
                             if (App.InteractionViewModel.PermanentlyDelete)
                             {
@@ -682,14 +682,14 @@ namespace Files.Interacts
             {
                 try
                 {
-                    if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) == typeof(StorageFolder))
+                    if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                        var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
                         await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                     else
                     {
-                        var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                        var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
                         await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                 }
@@ -709,30 +709,30 @@ namespace Files.Interacts
 
                     if (result == ContentDialogResult.Primary)
                     {
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) == typeof(StorageFolder))
+                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                            var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
 
                             await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
                         }
                         else
                         {
-                            var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
 
                             await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
                         }
                     }
                     else if (result == ContentDialogResult.Secondary)
                     {
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(item.FilePath) == typeof(StorageFolder))
+                        if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            var folder = await StorageFolder.GetFolderFromPathAsync(item.FilePath);
+                            var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
 
                             await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         }
                         else
                         {
-                            var file = await StorageFile.GetFileFromPathAsync(item.FilePath);
+                            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
 
                             await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         }
@@ -786,15 +786,15 @@ namespace Files.Interacts
                             }
                         }
 
-                        App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
+                        App.pathsToDeleteAfterPaste.Add(StorItem.ItemPath);
+                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                     }
@@ -829,15 +829,15 @@ namespace Files.Interacts
                         var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
                         imageOfItem.Opacity = 0.4;
 
-                        App.pathsToDeleteAfterPaste.Add(StorItem.FilePath);
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
+                        App.pathsToDeleteAfterPaste.Add(StorItem.ItemPath);
+                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                     }
@@ -868,14 +868,14 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
+                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                     }
@@ -889,14 +889,14 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-                        if (SelectedItemPropertiesViewModel.GetStorageItemTypeFromPathAsync(StorItem.FilePath) != typeof(StorageFolder))
+                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.FilePath);
+                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
                             items.Add(item);
                         }
                     }
@@ -1016,13 +1016,13 @@ namespace Files.Interacts
             if (CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
             {
                 var page = (CurrentInstance.ContentPage as GenericFileBrowser);
-                selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.AllView.SelectedIndex].FilePath);
+                selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.AllView.SelectedIndex].ItemPath);
 
             }
             else if (CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(PhotoAlbum))
             {
                 var page = (CurrentInstance.ContentPage as PhotoAlbum);
-                selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.FileList.SelectedIndex].FilePath);
+                selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.FileList.SelectedIndex].ItemPath);
             }
 
             ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.WorkingDirectory);
@@ -1124,7 +1124,7 @@ namespace Files.Interacts
                 selectedItemCount = (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count;
                 if (selectedItemCount == 1)
                 {
-                    selectedItemPath = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0].FilePath;
+                    selectedItemPath = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0].ItemPath;
                 }
 
                 if (selectedItemCount == 1)
@@ -1132,7 +1132,7 @@ namespace Files.Interacts
                     var clickedOnItem = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0];
 
                     Debug.WriteLine("Toggle QuickLook");
-                    ApplicationData.Current.LocalSettings.Values["path"] = clickedOnItem.FilePath;
+                    ApplicationData.Current.LocalSettings.Values["path"] = clickedOnItem.ItemPath;
                     ApplicationData.Current.LocalSettings.Values["Arguments"] = "ToggleQuickLook";
                     await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
                 }
