@@ -18,13 +18,13 @@ namespace ProcessLauncher
                 if (arguments.Equals("StartupTasks"))
                 {
                     // Detect User Paths
-                    ApplicationData.Current.LocalSettings.Values["DetectedDesktopLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "Desktop", null);
-                    ApplicationData.Current.LocalSettings.Values["DetectedDownloadsLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", null);
-                    ApplicationData.Current.LocalSettings.Values["DetectedDocumentsLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "Personal", null);
-                    ApplicationData.Current.LocalSettings.Values["DetectedPicturesLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Pictures", null);
-                    ApplicationData.Current.LocalSettings.Values["DetectedMusicLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
-                    ApplicationData.Current.LocalSettings.Values["DetectedVideosLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
-                    ApplicationData.Current.LocalSettings.Values["DetectedOneDriveLocation"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", null);
+                    ApplicationData.Current.LocalSettings.Values["DesktopPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "Desktop", null);
+                    ApplicationData.Current.LocalSettings.Values["DownloadsPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", null);
+                    ApplicationData.Current.LocalSettings.Values["DocumentsPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "Personal", null);
+                    ApplicationData.Current.LocalSettings.Values["PicturesPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Pictures", null);
+                    ApplicationData.Current.LocalSettings.Values["MusicPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
+                    ApplicationData.Current.LocalSettings.Values["VideosPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
+                    ApplicationData.Current.LocalSettings.Values["OneDrivePath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", null);
 
                     // Check QuickLook Availability
                     QuickLook.CheckQuickLookAvailability(localSettings);
