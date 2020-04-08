@@ -8,7 +8,7 @@
     xmlns:controls1="using:Files.UserControls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.Views.Pages"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local1="using:Files"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     KeyUp="ModernShellPage_KeyUp"
     Loaded="Page_Loaded"
@@ -54,7 +54,7 @@
                         Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
                         Navigated="ItemDisplayFrame_Navigated" />
 
-                    <controls1:StatusBarControl Grid.Row="2" />
+                    <controls1:StatusBarControl x:Name="StatusBarControl" Grid.Row="2" x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
 
