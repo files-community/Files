@@ -426,6 +426,14 @@
           <source>Settings</source>
           <target state="new">Ajustes</target>
         </trans-unit>
+        <trans-unit id="SidebarQuickAccess" translate="yes" xml:space="preserve">
+          <source>Quick Access</source>
+          <target state="new">Quick Access</target>
+        </trans-unit>
+        <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="new">Drives</target>
+        </trans-unit>
       </group>
     </body>
   </file>

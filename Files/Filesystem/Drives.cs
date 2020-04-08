@@ -58,9 +58,11 @@ namespace Files.Filesystem
 			{
 				await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
 				{
-					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Drives") == null)
+					var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+
+					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == resourceLoader.GetString("SidebarDrives")) == null)
 					{
-						App.sideBarItems.Add(new HeaderTextItem() { Text = "Drives" });
+						App.sideBarItems.Add(new HeaderTextItem() { Text = resourceLoader.GetString("SidebarDrives") });
 					}
 					foreach (DriveItem drive in Drives)
 					{

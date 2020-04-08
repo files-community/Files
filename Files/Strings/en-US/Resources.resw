@@ -339,6 +339,12 @@
   <data name="SidebarPictures" xml:space="preserve">
     <value>Pictures</value>
   </data>
+  <data name="SidebarQuickAccess" xml:space="preserve">
+    <value>Quick Access</value>
+  </data>
+  <data name="SidebarDrives" xml:space="preserve">
+    <value>Drives</value>
+  </data>
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Unpin from Sidebar</value>
   </data>
