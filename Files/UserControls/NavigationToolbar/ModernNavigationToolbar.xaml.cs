@@ -179,19 +179,8 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
-                var CurrentInput = PathBox.Text;
-                if (App.CurrentInstance.ContentPage != null)
-                {
-                    var contentInstance = App.CurrentInstance.ViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
-                {
-                    var contentInstance = App.CurrentInstance.ViewModel;
-                    CheckPathInput(contentInstance, CurrentInput);
-                }
-                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
-
+                CheckPathInput(App.CurrentInstance.ViewModel, PathBox.Text);
+                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else if (e.Key == VirtualKey.Escape)
             {
@@ -278,7 +267,10 @@ namespace Files.UserControls
             }
             else
             {
-                this.VisiblePath.Focus(FocusState.Programmatic);
+                if (App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    this.VisiblePath.Focus(FocusState.Programmatic);
+                }
             }
         }
 
