@@ -683,9 +683,9 @@
             <Button
                 x:Name="NewItemButton"
                 Grid.Row="3"
-                x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
+                x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Background="Transparent"
                 FontFamily="Segoe MDL2 Assets"
                 Visibility="Visible">
@@ -769,8 +769,8 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.LaunchNewWindow}"
                             Text="New Window" />
                         <MenuFlyoutItem
-                            x:Uid="NavigationToolbarCopyPath"
                             x:Name="CopyPathButton"
+                            x:Uid="NavigationToolbarCopyPath"
                             x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
                             Text="Copy Path" />
@@ -779,14 +779,14 @@
                             x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
                             x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
-                            IsEnabled="{x:Bind local1:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
+                            IsEnabled="{x:Bind local1:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Text="Paste" />
                         <MenuFlyoutItem
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
                             x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
                             Text="Open in Terminal..." />
                     </MenuFlyout>
                 </Button.Flyout>
