@@ -243,8 +243,8 @@ namespace Files.UserControls
                         catch (Exception ex) // Not a file or not accessible
                         {
 
+                            // Launch terminal application if possible
                             var localSettings = ApplicationData.Current.LocalSettings;
-
                             var terminalId = 1;
 
                             if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
