@@ -578,24 +578,24 @@
                 LocationNavItemTemplate="{StaticResource LocationNavItem}" />
         </Grid.Resources>
         <muxc:NavigationView
-                x:Name="SidebarNavView"
-                Width="200"
-                HorizontalAlignment="Stretch"
-                AllowFocusOnInteraction="False"
-                IsBackButtonVisible="Collapsed"
-                IsPaneOpen="True"
-                IsPaneToggleButtonVisible="False"
-                IsSettingsVisible="False"
-                IsTabStop="False"
-                IsTitleBarAutoPaddingEnabled="False"
-                ItemInvoked="Sidebar_ItemInvoked"
-                MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-                MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
-                OpenPaneLength="200"
-                PaneDisplayMode="Left"
-                SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                SelectionFollowsFocus="Enabled"
-                Style="{StaticResource NavigationViewStyle_Workaround}">
+            x:Name="SidebarNavView"
+            Width="200"
+            HorizontalAlignment="Stretch"
+            AllowFocusOnInteraction="False"
+            IsBackButtonVisible="Collapsed"
+            IsPaneOpen="True"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            IsTabStop="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            ItemInvoked="Sidebar_ItemInvoked"
+            MenuItemTemplateSelector="{StaticResource NavItemSelector}"
+            MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
+            OpenPaneLength="200"
+            PaneDisplayMode="Left"
+            SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectionFollowsFocus="Enabled"
+            Style="{StaticResource NavigationViewStyle_Workaround}">
             <muxc:NavigationView.MenuItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="BorderThickness" Value=".8" />
@@ -604,14 +604,14 @@
             <muxc:NavigationView.PaneFooter>
                 <Grid Width="200">
                     <Button
-                            x:Name="SettingsButton"
-                            Width="200"
-                            Height="40"
-                            HorizontalAlignment="Left"
-                            Background="Transparent"
-                            BorderBrush="{StaticResource ButtonRevealBorderBrush}"
-                            Click="SettingsButton_Click"
-                            CornerRadius="0">
+                        x:Name="SettingsButton"
+                        Width="200"
+                        Height="40"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        BorderBrush="{StaticResource ButtonRevealBorderBrush}"
+                        Click="SettingsButton_Click"
+                        CornerRadius="0">
                         <Button.Content>
                             <Grid Width="200">
                                 <Grid.ColumnDefinitions>
@@ -619,15 +619,15 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <FontIcon
-                                        VerticalAlignment="Center"
-                                        FontSize="18"
-                                        Glyph="&#xE713;" />
-                                    <TextBlock
-                                        x:Uid="SidebarSettings"
-                                        Grid.Column="1"
-                                        Padding="2,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Text="Settings" />
+                                    VerticalAlignment="Center"
+                                    FontSize="18"
+                                    Glyph="&#xE713;" />
+                                <TextBlock
+                                    x:Uid="SidebarSettings"
+                                    Grid.Column="1"
+                                    Padding="2,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Settings" />
                             </Grid>
                         </Button.Content>
                     </Button>
@@ -638,10 +638,10 @@
                     <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                         <MenuFlyout.Items>
                             <MenuFlyoutItem
-                                    x:Name="UnpinItem"
-                                    x:Uid="SideBarUnpinFromSideBar"
-                                    Click="{x:Bind local1:App.FlyoutItem_Click}"
-                                    Text="Unpin from Sidebar" />
+                                x:Name="UnpinItem"
+                                x:Uid="SideBarUnpinFromSideBar"
+                                Click="{x:Bind local1:App.FlyoutItem_Click}"
+                                Text="Unpin from Sidebar" />
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ResourceDictionary>
