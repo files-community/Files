@@ -364,6 +364,26 @@ namespace Files
             args.Handled = true;
         }
 
+        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            var InvokedTabView = (args.Element as TabView);
+
+            // Only close the selected tab if it is closeable
+            if (((TabViewItem)InvokedTabView.SelectedItem).IsClosable)
+            {
+                if (TabStrip.TabItems.Count == 1)
+                {
+                    Application.Current.Exit();
+                }
+                else
+                { 
+                InvokedTabView.TabItems.Remove(InvokedTabView.SelectedItem);
+                }
+            }
+            args.Handled = true;
+        }
+
+
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
             Window.Current.SetTitleBar(sender as Grid);
@@ -418,7 +438,6 @@ namespace Files
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-
         }
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
