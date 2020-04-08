@@ -391,10 +391,15 @@ namespace Files
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = false;
                 }
+                else if ((tabView.SelectedItem as TabViewItem).Header.ToString() == "New tab")
+                {
+                    App.InteractionViewModel.IsPageTypeNotHome = false;
+                }
                 else
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = true;
+                    App.InteractionViewModel.IsPageTypeNotHome = true;
                 }
 
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
