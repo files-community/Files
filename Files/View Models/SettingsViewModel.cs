@@ -307,8 +307,21 @@ namespace Files.View_Models
             }
 
             var content = await FileIO.ReadTextAsync(file);
+            TerminalFileModel terminalsFileModel = null;
+            try
+            {
+                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+            }
+            catch (JsonSerializationException)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
-            var terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+                file = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+                var defaultContent = await FileIO.ReadTextAsync(file);
+                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+
+            }
 
             // Ensure Windows Terminal is not already in List
             if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
