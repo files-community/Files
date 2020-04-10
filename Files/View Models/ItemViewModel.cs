@@ -573,7 +573,6 @@ namespace Files.Filesystem
                         var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
-                            matchingItem.ItemType = matchingStorageItem.DisplayType;
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (Thumbnail != null)
@@ -779,7 +778,7 @@ namespace Files.Filesystem
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = findData.cFileName,
                     ItemDateModifiedReal = itemDate,
-                    ItemType =  "File folder",    //TODO: Localize this
+                    ItemType =  ResourceController.GetTranslation("FileFolderListItem"),
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
@@ -815,13 +814,13 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds);
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
-            string itemType = "File";
+            string itemType = ResourceController.GetTranslation("File");
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
             {
                 itemFileExtension = Path.GetExtension(itemPath);
-                itemType = itemFileExtension.Trim('.') + " File";
+                itemType = itemFileExtension.Trim('.') + " " + itemType;
             }
 
             bool itemFolderImgVis = false;

@@ -412,6 +412,7 @@
                 </controls:DataGridTemplateColumn>
                 <controls:DataGridTextColumn
                     x:Name="nameColumn"
+                    x:Uid="nameColumn"
                     Width="275"
                     Binding="{Binding ItemName}"
                     DisplayIndex="1"
@@ -423,6 +424,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="dateColumn"
+                    x:Uid="dateColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
@@ -435,6 +437,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="typeColumn"
+                    x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
@@ -447,6 +450,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="sizeColumn"
+                    x:Uid="sizeColumn"
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
