@@ -506,6 +506,18 @@
           <source>System</source>
           <target state="new">System</target>
         </trans-unit>
+        <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
+          <source>New Folder</source>
+          <target state="new">New Folder</target>
+        </trans-unit>
+        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
+          <source>New Text Document</source>
+          <target state="new">New Text Document</target>
+        </trans-unit>
+        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
+          <source>New Bitmap Image</source>
+          <target state="new">New Bitmap Image</target>
+        </trans-unit>
       </group>
     </body>
   </file>

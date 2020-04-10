@@ -492,4 +492,13 @@
   <data name="SystemTimeStye" xml:space="preserve">
     <value>System</value>
   </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>New Folder</value>
+  </data>
+  <data name="NewTextDocument" xml:space="preserve">
+    <value>New Text Document</value>
+  </data>
+  <data name="NewBitmapImage" xml:space="preserve">
+    <value>New Bitmap Image</value>
+  </data>
 </root>

@@ -375,4 +375,13 @@
   <data name="SystemTimeStye" xml:space="preserve">
     <value>Системний</value>
   </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>Нова папка</value>
+  </data>
+  <data name="NewTextDocument" xml:space="preserve">
+    <value>Новий текстовий документ</value>
+  </data>
+  <data name="NewBitmapImage" xml:space="preserve">
+    <value>Новий точковий рисунок</value>
+  </data>
 </root>
