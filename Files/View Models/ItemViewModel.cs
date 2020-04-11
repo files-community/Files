@@ -1,7 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
+using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
@@ -389,6 +389,7 @@ namespace Files.Filesystem
 
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
+            NaturalStringComparer naturalStringComparer = new NaturalStringComparer();
             switch (DirectorySortOption)
             {
                 case SortOption.Name:
@@ -412,22 +413,37 @@ namespace Files.Filesystem
             List<ListedItem> orderedList;
 
             if (DirectorySortDirection == SortDirection.Ascending)
-                ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+            {
+                if (DirectorySortOption == SortOption.Name)
+                    ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
+                else
+                    ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+            }
             else
             {
                 if (DirectorySortOption == SortOption.FileType)
-                    ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                {
+                    if (DirectorySortOption == SortOption.Name)
+                        ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    else
+                        ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                }
                 else
-                    ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                {
+                    if (DirectorySortOption == SortOption.Name)
+                        ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    else
+                        ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                }
             }
 
             // Further order by name if applicable
             if (DirectorySortOption != SortOption.Name)
             {
                 if (DirectorySortDirection == SortDirection.Ascending)
-                    ordered = ordered.ThenBy(orderByNameFunc);
+                    ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
                 else
-                    ordered = ordered.ThenByDescending(orderByNameFunc);
+                    ordered = ordered.ThenByDescending(orderByNameFunc, naturalStringComparer);
             }
             orderedList = ordered.ToList();
             _filesAndFolders.Clear();
