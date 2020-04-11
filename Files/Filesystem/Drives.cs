@@ -59,7 +59,7 @@ namespace Files.Filesystem
 			{
 				await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
 				{
-					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Drives") == null)
+					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("Drives")) == null)
 					{
 						App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("Drives") });
 					}
