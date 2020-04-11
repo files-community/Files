@@ -411,7 +411,7 @@
           <target state="translated">Imagen Bitmap</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
-          <source>Text Documnet</source>
+          <source>Text Document</source>
           <target state="translated">Documento de Texto</target>
         </trans-unit>
         <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
