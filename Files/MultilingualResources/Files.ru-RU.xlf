@@ -518,6 +518,10 @@
           <source>New Bitmap Image</source>
           <target state="translated">Рисунок</target>
         </trans-unit>
+        <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
+          <source>This folder is empty.</source>
+          <target state="translated">Эта папка пуста.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

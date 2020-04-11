@@ -390,4 +390,7 @@
   <data name="NewBitmapImage" xml:space="preserve">
     <value>Рисунок</value>
   </data>
+  <data name="EmptyFolder.Text" xml:space="preserve">
+    <value>Эта папка пуста.</value>
+  </data>
 </root>

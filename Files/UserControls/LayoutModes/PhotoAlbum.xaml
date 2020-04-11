@@ -281,6 +281,7 @@
             Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock
             x:Name="EmptyText"
+            x:Uid="EmptyFolder"
             Grid.Row="3"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"

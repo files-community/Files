@@ -384,4 +384,7 @@
   <data name="NewBitmapImage" xml:space="preserve">
     <value>Новий точковий рисунок</value>
   </data>
+  <data name="EmptyFolder.Text" xml:space="preserve">
+    <value>Ця папка порожня.</value>
+  </data>
 </root>

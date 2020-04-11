@@ -519,6 +519,10 @@
           <source>New Bitmap Image</source>
           <target state="new">New Bitmap Image</target>
         </trans-unit>
+        <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
+          <source>This folder is empty.</source>
+          <target state="new">This folder is empty.</target>
+        </trans-unit>
       </group>
     </body>
   </file>
