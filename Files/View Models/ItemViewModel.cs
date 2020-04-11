@@ -54,7 +54,7 @@ namespace Files.Filesystem
                 {
                     _WorkingDirectory = value;
 
-                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(value.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase));
+                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
                     if (App.CurrentInstance.SidebarSelectedItem == null)
                     {
                         App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
