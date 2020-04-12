@@ -426,6 +426,10 @@
           <source>Settings</source>
           <target state="translated">Ajustes</target>
         </trans-unit>
+        <trans-unit id="PropertiesItemHash.Text" translate="yes" xml:space="preserve">
+          <source>Hash:</source>
+          <target state="new">Hash:</target>
+        </trans-unit>
       </group>
     </body>
   </file>

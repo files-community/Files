@@ -378,6 +378,9 @@
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Open in Terminal...</value>
   </data>
+  <data name="PropertiesItemHash.Text" xml:space="preserve">
+    <value>Hash:</value>
+  </data>
   <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>New</value>
   </data>
