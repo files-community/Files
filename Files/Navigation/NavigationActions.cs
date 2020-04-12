@@ -11,10 +11,10 @@ namespace Files
     {
         public async static void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 var ContentOwnedViewModelInstance = App.CurrentInstance.ViewModel;
-                ContentOwnedViewModelInstance.AddItemsToCollectionAsync(ContentOwnedViewModelInstance.WorkingDirectory);
+                await ContentOwnedViewModelInstance.RefreshItems();
             });
         }
 
