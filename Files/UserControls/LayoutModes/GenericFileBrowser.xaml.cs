@@ -75,6 +75,30 @@ namespace Files
             App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
+        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        {
+            // Required to check if sequences are equal, if not it will result in an infinite loop
+            // between the UI Control and the BaseLayout set function
+            if (AllView.SelectedItem != selectedItem)
+            {
+                AllView.SelectedItem = selectedItem;
+                AllView.UpdateLayout();
+                AllView.ScrollIntoView(AllView.SelectedItem, null);
+            }
+        }
+        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            // Required to check if sequences are equal, if not it will result in an infinite loop
+            // between the UI Control and the BaseLayout set function
+            if (Enumerable.SequenceEqual<ListedItem>(AllView.SelectedItems.Cast<ListedItem>(), selectedItems))
+                return;
+            AllView.SelectedItems.Clear();
+            foreach (ListedItem selectedItem in selectedItems)
+                AllView.SelectedItems.Add(selectedItem);
+            AllView.UpdateLayout();
+            AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
+        }
+
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "DirectorySortOption")
@@ -133,7 +157,7 @@ namespace Files
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 App.CurrentInstance.InteractionOperations.itemsPasted = 0;
-                App.CurrentInstance.InteractionOperations.ItemsToPaste = await e.DataView.GetStorageItemsAsync();
+                App.CurrentInstance.InteractionOperations.itemsToPaste = await e.DataView.GetStorageItemsAsync();
                 foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
                 {
                     if (item.IsOfType(StorageItemTypes.Folder))
@@ -142,7 +166,7 @@ namespace Files
                     }
                     else
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.itemsToPaste.Count);
                         await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.WorkingDirectory));
                     }
                 }

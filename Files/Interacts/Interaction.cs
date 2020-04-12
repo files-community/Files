@@ -38,6 +38,7 @@ using Windows.Security.Cryptography.Core;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
+using GalaSoft.MvvmLight.Command;
 
 namespace Files.Interacts
 {
@@ -848,7 +849,7 @@ namespace Files.Interacts
             Clipboard.Flush();
         }
         public string CopySourcePath;
-        public IReadOnlyList<IStorageItem> ItemsToPaste;
+        public IReadOnlyList<IStorageItem> itemsToPaste;
         public int itemsPasted;
 
         public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
@@ -911,33 +912,69 @@ namespace Files.Interacts
 
         }
 
+        enum ImpossibleActionResponseTypes
+        {
+            Skip,
+            Abort
+        }
+
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            string DestinationPath = CurrentInstance.ViewModel.WorkingDirectory;
+            string destinationPath = CurrentInstance.ViewModel.WorkingDirectory;
+            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
 
             DataPackageView packageView = Clipboard.GetContent();
-            ItemsToPaste = await packageView.GetStorageItemsAsync();
+            itemsToPaste = await packageView.GetStorageItemsAsync();
+            HashSet<string> pastedItemPaths = new HashSet<string>();
             itemsPasted = 0;
-            if (ItemsToPaste.Count > 3)
+            if (itemsToPaste.Count > 3)
             {
-                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
+                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, itemsToPaste.Count);
             }
 
-            foreach (IStorageItem item in ItemsToPaste)
+            foreach (IStorageItem item in itemsToPaste)
             {
-
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
+                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                        ContentDialog dialog = new ContentDialog()
+                        {
+                            Title = resourceLoader.GetString("ErrorDialogThisActionCannotBeDone"),
+                            Content = resourceLoader.GetString("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + resourceLoader.GetString("ErrorDialogIsASubfolder") + "(" + item.Name + ")",
+                            PrimaryButtonText = resourceLoader.GetString("ErrorDialogSkip"),
+                            CloseButtonText = resourceLoader.GetString("ErrorDialogCancel"),
+                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                        };
+                        await dialog.ShowAsync();
+                        if (responseType == ImpossibleActionResponseTypes.Skip)
+                        {
+                            continue;
+                        }
+                        else if (responseType == ImpossibleActionResponseTypes.Abort)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
+                        CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
+                        pastedItemPaths.Add(pastedFolder.Path);
+                    }
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    if (ItemsToPaste.Count > 3)
+                    if (itemsToPaste.Count > 3)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count);
                     }
-                    StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                    await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                    StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                    StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                    pastedItemPaths.Add(pastedFile.Path);
+                    CurrentInstance.ViewModel.AddFile(pastedFile.Path);
                 }
             }
 
@@ -957,10 +994,11 @@ namespace Files.Interacts
                     }
                 }
             }
-
+            List<ListedItem> copiedItems = CurrentInstance.ViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
+            CurrentInstance.ContentPage.SelectedItems = copiedItems;
         }
 
-        public async Task CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
+        public async Task<StorageFolder> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
@@ -969,11 +1007,11 @@ namespace Files.Interacts
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                if(ItemsToPaste != null)
+                if(itemsToPaste != null)
                 {
-                    if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                    if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
                     }
                 }
 
@@ -981,17 +1019,17 @@ namespace Files.Interacts
             }
             foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
             {
-                if (ItemsToPaste != null)
+                if (itemsToPaste != null)
                 {
-                    if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                    if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
                     }
                 }
 
                 await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
             }
-
+            return createdRoot;
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
