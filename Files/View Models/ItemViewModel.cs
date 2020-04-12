@@ -54,7 +54,7 @@ namespace Files.Filesystem
                 {
                     _WorkingDirectory = value;
 
-                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(value.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase));
+                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
                     if (App.CurrentInstance.SidebarSelectedItem == null)
                     {
                         App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
@@ -613,7 +613,12 @@ namespace Files.Filesystem
             }
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path)
+        public async Task RefreshItems()
+        {
+            await AddItemsToCollectionAsync(WorkingDirectory);
+        }
+
+        public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
@@ -751,6 +756,16 @@ namespace Files.Filesystem
             IsLoadingItems = false;
         }
 
+        public void AddFolder(string folderPath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
+
+            IntPtr hFile = FindFirstFileExFromApp(folderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            AddFolder(findData, Directory.GetParent(folderPath).FullName);
+        }
+
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
             if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
@@ -791,6 +806,16 @@ namespace Files.Filesystem
 
                 EmptyTextState.IsVisible = Visibility.Collapsed;
             }
+        }
+
+        public void AddFile(string filePath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
+
+            IntPtr hFile = FindFirstFileExFromApp(filePath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            AddFile(findData, Directory.GetParent(filePath).FullName);
         }
 
         private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
@@ -857,9 +882,9 @@ namespace Files.Filesystem
             EmptyTextState.IsVisible = Visibility.Collapsed;
         }
 
-        public void AddItemsToCollectionAsync(string path)
+        public async Task AddItemsToCollectionAsync(string path)
         {
-            RapidAddItemsToCollectionAsync(path);
+            await RapidAddItemsToCollectionAsync(path);
             return;
         }
 
@@ -890,7 +915,6 @@ namespace Files.Filesystem
                 //}
 
                 //string tooltipString = dateCreatedText + "\n" + "Folders: " + firstFoldersText + "\n" + "Files: " + firstFilesText;
-
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     //FolderTooltipText = tooltipString,

@@ -56,7 +56,7 @@ namespace Files.Controls
         {
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            string NaviagtionPath = ""; // path to navigate
+            string NavigationPath = ""; // path to navigate
 
             if (args.InvokedItem == null)
             {
@@ -77,21 +77,21 @@ namespace Files.Controls
                         }
                         else // Any other item
                         {
-                            NaviagtionPath = args.InvokedItemContainer.Tag.ToString();
+                            NavigationPath = args.InvokedItemContainer.Tag.ToString();
                         }
 
                         break;
                     }
                 case NavigationControlItemType.OneDrive:
                     {
-                        NaviagtionPath = App.AppSettings.OneDrivePath;
+                        NavigationPath = App.AppSettings.OneDrivePath;
                         break;
                     }
                 default:
                     {
                         var clickedItem = args.InvokedItemContainer;
 
-                        NaviagtionPath = clickedItem.Tag.ToString();
+                        NavigationPath = clickedItem.Tag.ToString();
 
                         App.CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedItem.Tag.ToString();
                         //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
@@ -102,11 +102,11 @@ namespace Files.Controls
 
             if (App.AppSettings.LayoutMode == 0) // List View
             {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NaviagtionPath, new SuppressNavigationTransitionInfo());
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
             }
             else
             {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NaviagtionPath, new SuppressNavigationTransitionInfo());
+                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
             }
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
