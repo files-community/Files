@@ -916,6 +916,7 @@ namespace Files.Interacts
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             string destinationPath = CurrentInstance.ViewModel.WorkingDirectory;
+            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
 
             DataPackageView packageView = Clipboard.GetContent();
             itemsToPaste = await packageView.GetStorageItemsAsync();
@@ -928,18 +929,17 @@ namespace Files.Interacts
 
             foreach (IStorageItem item in itemsToPaste)
             {
-
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (DestinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         ContentDialog dialog = new ContentDialog()
                         {
-                            Title = "This action cannot be done",
-                            Content = "The destination folder (" + DestinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") is a subfolder of the source folder (" + item.Name + ")",
-                            PrimaryButtonText = "Skip",
-                            CloseButtonText = "Cancel",
+                            Title = resourceLoader.GetString("ErrorDialogThisActionCannotBeDone"),
+                            Content = resourceLoader.GetString("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + resourceLoader.GetString("ErrorDialogIsASubfolder") + "(" + item.Name + ")",
+                            PrimaryButtonText = resourceLoader.GetString("ErrorDialogSkip"),
+                            CloseButtonText = resourceLoader.GetString("ErrorDialogCancel"),
                             PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
                             CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
                         };
