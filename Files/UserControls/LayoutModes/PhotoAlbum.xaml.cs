@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
 using Windows.UI.Core;
@@ -18,6 +19,29 @@ namespace Files
         {
             this.InitializeComponent();
 
+        }
+        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        {
+            // Required to check if sequences are equal, if not it will result in an infinite loop
+            // between the UI Control and the BaseLayout set function
+            if (FileList.SelectedItem != selectedItem)
+            {
+                FileList.SelectedItem = selectedItem;
+                FileList.UpdateLayout();
+                FileList.ScrollIntoView(FileList.SelectedItem);
+            }
+        }
+        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            // Required to check if sequences are equal, if not it will result in an infinite loop
+            // between the UI Control and the BaseLayout set function
+            if (Enumerable.SequenceEqual<ListedItem>(FileList.SelectedItems.Cast<ListedItem>(), selectedItems))
+                return;
+            FileList.SelectedItems.Clear();
+            foreach (ListedItem selectedItem in selectedItems)
+                FileList.SelectedItems.Add(selectedItem);
+            FileList.UpdateLayout();
+            FileList.ScrollIntoView(FileList.Items.Last());
         }
 
         private void StackPanel_RightTapped(object sender, RightTappedRoutedEventArgs e)
