@@ -31,7 +31,7 @@ namespace Files
                 this.OKButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
-        private async System.Threading.Tasks.Task<string> GetHash(string fileName)
+        private async System.Threading.Tasks.Task<string> GetMD5HashFromFile(string fileName)
         {
             var storageFile = await StorageFile.GetFileFromPathAsync(fileName);
             var handle = storageFile.CreateSafeFileHandle(options: FileOptions.RandomAccess);
@@ -65,7 +65,7 @@ namespace Files
                     // Not a folder, so attempt to get as StorageFile
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
 
-                    ItemProperties.ItemHash = await GetHash(selectedItem.ItemPath); // get file hash
+                    ItemProperties.ItemMD5Hash = await GetMD5HashFromFile(selectedItem.ItemPath); // get file hash
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -116,7 +116,7 @@ namespace Files
         private string _ItemName;
         private string _ItemType;
         private string _ItemPath;
-        private string _ItemHash;
+        private string _ItemMD5Hash;
         private string _ItemSize;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -130,10 +130,10 @@ namespace Files
             get => _ItemName;
             set => Set(ref _ItemName, value);
         }
-        public string ItemHash
+        public string ItemMD5Hash
         {
-            get => _ItemHash;
-            set => Set(ref _ItemHash, value);
+            get => _ItemMD5Hash;
+            set => Set(ref _ItemMD5Hash, value);
         }
         public string ItemType
         {

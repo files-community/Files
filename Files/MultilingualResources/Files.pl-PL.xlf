@@ -426,9 +426,9 @@
           <source>Settings</source>
           <target state="new">Settings</target>
         </trans-unit>
-        <trans-unit id="PropertiesItemHash.Text" translate="yes" xml:space="preserve">
-          <source>Hash:</source>
-          <target state="new">Hash:</target>
+        <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
+          <source>MD5Hash:</source>
+          <target state="new">MD5Hash:</target>
         </trans-unit>
       </group>
     </body>

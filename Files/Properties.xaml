@@ -108,12 +108,12 @@
                     <ColumnDefinition Width="90" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemHash" Text="Hash:" />
+                <TextBlock x:Uid="PropertiesItemMD5Hash" Text="MD5Hash:" />
                 <TextBlock
-                    x:Name="itemHashValue"
+                    x:Name="itemMD5HashValue"
                     Grid.Column="3"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemHash, Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}" />
             </Grid>
             <MenuFlyoutSeparator Margin="-14,0" />
             <Grid Padding="0,4">
