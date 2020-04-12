@@ -6,6 +6,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.Foundation.Metadata;
+using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
@@ -31,23 +32,7 @@ namespace Files
                 this.OKButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
-        private async System.Threading.Tasks.Task<string> GetMD5HashFromFile(string fileName)
-        {
-            var storageFile = await StorageFile.GetFileFromPathAsync(fileName);
-            var handle = storageFile.CreateSafeFileHandle(options: FileOptions.RandomAccess);
-            var file = new FileStream(handle, FileAccess.ReadWrite);
 
-            MD5 md5 = new MD5CryptoServiceProvider();
-            byte[] retVal = md5.ComputeHash(file);
-
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < retVal.Length; i++)
-            {
-                sb.Append(retVal[i].ToString("x2"));
-            }
-
-            return sb.ToString();
-        }
         private async void Properties_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             // Collect AppWindow-specific info
@@ -64,8 +49,9 @@ namespace Files
                 {
                     // Not a folder, so attempt to get as StorageFile
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    var hashAlgTypeName = HashAlgorithmNames.Md5;
 
-                    ItemProperties.ItemMD5Hash = await GetMD5HashFromFile(selectedItem.ItemPath); // get file hash
+                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName); // get file hash
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
