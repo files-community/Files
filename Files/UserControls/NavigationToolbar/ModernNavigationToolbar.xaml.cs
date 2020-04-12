@@ -277,10 +277,12 @@ namespace Files.UserControls
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton) { return; }
+            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton || FocusManager.GetFocusedElement() is Popup) { return; }
 
-            var element = FocusManager.GetFocusedElement() as Control;
-            if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
+            var element = FocusManager.GetFocusedElement();
+            var elementAsControl = element as Control;
+
+            if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }

@@ -71,7 +71,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                IsEnabled="{x:Bind local:App.PS.IsEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind local:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;" />
@@ -376,16 +376,19 @@
                     IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
-                            <Grid x:Name="Icon" ToolTipService.ToolTip="{x:Bind FolderTooltipText}" EffectiveViewportChanged="Icon_EffectiveViewportChanged">
+                            <Grid
+                                x:Name="Icon"
+                                EffectiveViewportChanged="Icon_EffectiveViewportChanged"
+                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
                                     Opacity="0.1"
                                     Visibility="Collapsed" />
                                 <Image
+                                    x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
-                                    x:Name="FolderGlyphElement"
                                     x:Load="{x:Bind LoadFolderGlyph}">
                                     <Image.Source>
                                         <SvgImageSource
@@ -395,17 +398,17 @@
                                     </Image.Source>
                                 </Image>
                                 <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xE7C3;"
                                     x:Name="UnknownFileTypeElement"
-                                    x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}" />
+                                    x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xE7C3;" />
                                 <Image
+                                    x:Name="FileImageElement"
                                     Width="20"
                                     Height="20"
-                                    x:Name="FileImageElement"
+                                    x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
-                                    Stretch="UniformToFill"
-                                    x:Load="{x:Bind LoadFileIcon, Mode=OneWay}" />
+                                    Stretch="UniformToFill" />
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>

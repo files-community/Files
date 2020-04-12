@@ -132,6 +132,8 @@ namespace Files
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath); // Grid View
                     break;
             }
+
+            App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }
         public static StorageFile RecentsFile;
         public static StorageFolder dataFolder;

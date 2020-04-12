@@ -198,6 +198,21 @@
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Size:</value>
   </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>This action cannot be done</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>The destination folder</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>is a subfolder of the source folder</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Skip</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
     <value>Item type:</value>
   </data>
@@ -392,6 +407,9 @@
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
     <value>Open in Terminal...</value>
+  </data>
+  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
+    <value>MD5Hash:</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
     <value>New</value>

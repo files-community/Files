@@ -33,6 +33,12 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
 using Files.View_Models;
+using System.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.Security.Cryptography;
+using Windows.Storage.Streams;
+using GalaSoft.MvvmLight.Command;
 
 namespace Files.Interacts
 {
@@ -906,9 +912,16 @@ namespace Files.Interacts
 
         }
 
+        enum ImpossibleActionResponseTypes
+        {
+            Skip,
+            Abort
+        }
+
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             string destinationPath = CurrentInstance.ViewModel.WorkingDirectory;
+            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
 
             DataPackageView packageView = Clipboard.GetContent();
             itemsToPaste = await packageView.GetStorageItemsAsync();
@@ -921,12 +934,36 @@ namespace Files.Interacts
 
             foreach (IStorageItem item in itemsToPaste)
             {
-
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
-                    CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
-                    pastedItemPaths.Add(pastedFolder.Path);
+                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                        ContentDialog dialog = new ContentDialog()
+                        {
+                            Title = resourceLoader.GetString("ErrorDialogThisActionCannotBeDone"),
+                            Content = resourceLoader.GetString("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + resourceLoader.GetString("ErrorDialogIsASubfolder") + "(" + item.Name + ")",
+                            PrimaryButtonText = resourceLoader.GetString("ErrorDialogSkip"),
+                            CloseButtonText = resourceLoader.GetString("ErrorDialogCancel"),
+                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                        };
+                        await dialog.ShowAsync();
+                        if (responseType == ImpossibleActionResponseTypes.Skip)
+                        {
+                            continue;
+                        }
+                        else if (responseType == ImpossibleActionResponseTypes.Abort)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
+                        CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
+                        pastedItemPaths.Add(pastedFolder.Path);
+                    }
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
@@ -1149,6 +1186,20 @@ namespace Files.Interacts
         public void PushJumpChar(char letter)
         {
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
+        }
+
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
+        {
+            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
+            CryptographicHash objHash = algorithmProvider.CreateHash();
+            var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
+            var fileBytes = await StorageFileHelper.ReadBytesAsync(itemFromPath);
+
+            IBuffer buffer = CryptographicBuffer.CreateFromByteArray(fileBytes);
+            objHash.Append(buffer);
+            IBuffer bufferHash = objHash.GetValueAndReset();
+
+            return CryptographicBuffer.EncodeToHexString(bufferHash);
         }
     }
 }
