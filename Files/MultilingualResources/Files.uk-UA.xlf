@@ -1,577 +1,554 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
-  <file datatype="xml" source-language="en-US" target-language="pl-PL" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+  <file datatype="xml" source-language="en-US" target-language="uk-UA" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
     <header>
       <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6915.0" tool-company="Microsoft" />
     </header>
     <body>
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
-        <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
-          <source>Created:</source>
-          <target state="translated">Utworzony:</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Item Name</source>
-          <target state="translated">Nazwa</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
-          <source>Path:</source>
-          <target state="translated">Lokalizacja:</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
-          <source>Size:</source>
-          <target state="translated">Rozmiar:</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
-          <source>Item type:</source>
-          <target state="translated">Typ:</target>
-        </trans-unit>
-        <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
-          <source>Modified:</source>
-          <target state="translated">Zmodyfikowany:</target>
-        </trans-unit>
-        <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
-          <source>Clear all items</source>
-          <target state="translated">Wyczyść całą listę</target>
-        </trans-unit>
-        <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
-          <source>Files and folders you've previously accessed will show up here</source>
-          <target state="translated">Tutaj pojawią się ostatnio otwierane przez Ciebie pliki i foldery</target>
-        </trans-unit>
-        <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
-          <source>Open file location</source>
-          <target state="translated">Otwórz lokalizację pliku</target>
-        </trans-unit>
-        <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
-          <source>Remove this item</source>
-          <target state="translated">Usuń z listy</target>
-        </trans-unit>
-        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
-          <source>Recent items</source>
-          <target state="translated">Niedawno używane pliki</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
-          <source>Files UWP</source>
-          <target state="translated">Pliki UWP</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
-          <source>License: </source>
-          <target state="translated">Licencja: </target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
-          <source>Special thanks to:</source>
-          <target state="translated">Podziękowania:</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
-          <source>Submit Feedback</source>
-          <target state="translated">Prześlij opinię</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Submit an issue report to provide the developers with information</source>
-          <target state="translated">Wyślij raport o problemie prosto do developera aplikacji</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
-          <source>Third Party Licenses</source>
-          <target state="translated">Licencje firm trzecich</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">O programie</target>
-        </trans-unit>
-        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
-          <source>Website: </source>
-          <target state="translated">Strona: </target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Acrylic sidebar</source>
-          <target state="translated">Przezroczysty pasek boczny</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
-          <source>Date format</source>
-          <target state="translated">Format daty</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>Theme</source>
-          <target state="translated">Motyw</target>
-        </trans-unit>
-        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
-          <source>Appearance</source>
-          <target state="translated">Wygląd</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
-          <source>Show drive letters</source>
-          <target state="translated">Pokaż litery dysków</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
-          <source>Show extensions for known file types</source>
-          <target state="translated">Pokaż rozszerzenia znanych typów plików</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
-          <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Pokaż ukryte pliki, foldery i dyski</target>
-        </trans-unit>
-        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
-          <source>Files and Folders</source>
-          <target state="translated">Pliki i foldery</target>
-        </trans-unit>
-        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Flags</source>
-          <target state="translated">Flags</target>
-        </trans-unit>
-        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Ustawienia</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
-          <source>About</source>
-          <target state="translated">O programie</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
-          <source>Appearance</source>
-          <target state="translated">Wygląd</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
-          <source>Files and Folders</source>
-          <target state="translated">Pliki i foldery</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">Po uruchomienu</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
-          <source>Page Layouts</source>
-          <target state="translated">Układ strony</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
-          <source>Preferences</source>
-          <target state="translated">Opcje</target>
-        </trans-unit>
-        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">Szukaj</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
-          <source>Continue where you left off</source>
-          <target state="translated">Kontynuuj poprzednią sejsę</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
-          <source>Open a new tab</source>
-          <target state="translated">Otwórz nową kartę</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page or pages</source>
-          <target state="translated">Otwórz konkretną kartę lub karty</target>
-        </trans-unit>
-        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
-          <source>On Startup</source>
-          <target state="translated">Po uruchomienu</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
-          <source>Pin OneDrive to the sidebar</source>
-          <target state="translated">Przypnij OneDrive do paska bocznego</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
-          <source>Terminal Applications</source>
-          <target state="translated">Aplikacja wiersza poleceń</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
-          <source>Preferences</source>
-          <target state="translated">Opcje</target>
-        </trans-unit>
-        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
-          <source>Unpin from Sidebar</source>
-          <target state="translated">Odepnij od paska bocznego</target>
-        </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
-          <target state="translated">Usuwanie elementów</target>
+          <target state="translated">Видалити елемент(и)</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Anuluj</target>
+          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
           <source>Delete</source>
-          <target state="translated">Usuń</target>
+          <target state="translated">Видалити</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogHeader.Text" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete the selected item(s)?</source>
-          <target state="translated">Czy na pewno chcesz usunąć wybrane elementy?</target>
+          <target state="translated">Ви впевнені, що хочете видалити обрані елементи?</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
           <source>Permanently delete</source>
-          <target state="translated">Usuń trwale</target>
-        </trans-unit>
-        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
-          <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Pokaż okno potwierdzenia podczas usuwania plików i folderów</target>
-        </trans-unit>
-        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
-          <source>Desktop</source>
-          <target state="translated">Pulpit</target>
-        </trans-unit>
-        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
-          <source>Documents</source>
-          <target state="translated">Dokumenty</target>
-        </trans-unit>
-        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
-          <source>Downloads</source>
-          <target state="translated">Pobrane</target>
-        </trans-unit>
-        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
-          <source>Home</source>
-          <target state="translated">Strona Główna</target>
-        </trans-unit>
-        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
-          <source>Music</source>
-          <target state="translated">Muzyka</target>
-        </trans-unit>
-        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
-          <source>Pictures</source>
-          <target state="translated">Obrazy</target>
-        </trans-unit>
-        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
-          <source>Videos</source>
-          <target state="translated">Wideo</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
-          <source>New Tab</source>
-          <target state="translated">Nowa karta</target>
+          <target state="translated">Остаточно видалити</target>
         </trans-unit>
         <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
           <source>Extract Compressed Archive</source>
-          <target state="translated">Wypakuj skompresowany plik</target>
+          <target state="translated">Розархівувати</target>
         </trans-unit>
         <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="translated">Anuluj</target>
+          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Extract</source>
-          <target state="translated">Wypakuj</target>
+          <target state="translated">Розархівувати</target>
         </trans-unit>
-        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
-          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">Wybierz lokalizację do wyodrębnienia skompresowanego archiwum. Będziesz musiał pozostać w bieżącym folderze, dopóki nie skończymy. Zostanie otwarta nowa karta z wyodrębnionymi elementami.</target>
-        </trans-unit>
-        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
-          <source>Browse</source>
-          <target state="translated">Przeglądaj</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
-          <source>Sort by</source>
-          <target state="translated">Sortuj według</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
-          <source>Name</source>
-          <target state="translated">Nazwa</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
-          <source>Date modified</source>
-          <target state="translated">Data modyfikacji</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
-          <source>Type</source>
-          <target state="translated">Typ</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
-          <source>Size</source>
-          <target state="translated">Rozmiar</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
-          <source>Ascending</source>
-          <target state="translated">Rosnąco</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
-          <source>Descending</source>
-          <target state="translated">Malejąco</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
-          <source>Refresh</source>
-          <target state="translated">Odśwież</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
-          <source>Paste</source>
-          <target state="translated">Wklej</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Otwórz w Terminalu...</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
-          <source>New</source>
-          <target state="translated">Nowy</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
-          <source>Folder</source>
-          <target state="translated">Folder</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
-          <source>Bitmap Image</source>
-          <target state="translated">Obraz - mapa bitowa</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
-          <source>Text Document</source>
-          <target state="translated">Dokument tekstowy</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
-          <source>Properties</source>
-          <target state="translated">Właściwości</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutExtract.Text" translate="yes" xml:space="preserve">
-          <source>Extract</source>
-          <target state="translated">Wypakuj</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenWith.Text" translate="yes" xml:space="preserve">
-          <source>Open with...</source>
-          <target state="translated">Otwórz za pomocą...</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
-          <source>Open in new tab</source>
-          <target state="translated">Otwórz w nowej karcie</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
-          <source>Open in new window</source>
-          <target state="translated">Otwórz w nowym oknie</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
-          <source>Set as desktop background</source>
-          <target state="translated">Ustaw jako tło pulpitu</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
-          <source>Share</source>
-          <target state="translated">Udostępnij</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
-          <source>Cut</source>
-          <target state="translated">Wytnij</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
-          <source>Copy</source>
-          <target state="translated">Kopiuj</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
-          <source>Delete</source>
-          <target state="translated">Usuń</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
-          <source>Rename</source>
-          <target state="translated">Zmień nazwę</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
-          <source>Pin to sidebar</source>
-          <target state="translated">Przypnij do paska bocznego</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
-          <source>Properties</source>
-          <target state="translated">Właściwości</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
-          <source>QuickLook</source>
-          <target state="translated">QuickLook</target>
+        <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New Tab</source>
+          <target state="translated">Створити вкладку</target>
         </trans-unit>
         <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
           <source>New Window</source>
-          <target state="translated">Nowe okno</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
-          <source>Copy Path</source>
-          <target state="translated">Kopiuj ścieżkę</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
-          <source>Paste</source>
-          <target state="translated">Wklej</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
-          <source>Open in Terminal...</source>
-          <target state="translated">Otwórz w Terminalu...</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter a path</source>
-          <target state="translated">Wprowadź ścieżkę</target>
-        </trans-unit>
-        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Search</source>
-          <target state="translated">Szukaj</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
-          <source>Select All</source>
-          <target state="translated">Zaznacz wszystko</target>
-        </trans-unit>
-        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
-          <source>Clear Selection</source>
-          <target state="translated">Wyczyść zaznaczenie</target>
+          <target state="translated">Створити вікно</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
           <source>Folder</source>
-          <target state="translated">Folder</target>
+          <target state="translated">Папку</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
           <source>Bitmap Image</source>
-          <target state="translated">Obraz - mapa bitowa</target>
+          <target state="translated">Зображення</target>
         </trans-unit>
         <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
           <source>Text Document</source>
-          <target state="translated">Dokument tekstowy</target>
+          <target state="translated">Текстовий документ</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
-          <source>List View</source>
-          <target state="translated">Widok listy</target>
+        <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
+          <source>Copy Path</source>
+          <target state="translated">Копіювати шлях</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridView.Text" translate="yes" xml:space="preserve">
-          <source>Grid View</source>
-          <target state="translated">Widok siatki</target>
-        </trans-unit>
-        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="new">Settings</target>
+        <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="translated">Вставити</target>
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="new">Name</target>
+          <target state="translated">Ім’я</target>
         </trans-unit>
         <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
           <source>Date modified</source>
-          <target state="new">Date modified</target>
+          <target state="translated">Дата зміни</target>
         </trans-unit>
         <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
           <source>Type</source>
-          <target state="new">Type</target>
+          <target state="translated">Тип</target>
         </trans-unit>
         <trans-unit id="sizeColumn.Header" translate="yes" xml:space="preserve">
           <source>Size</source>
-          <target state="new">Size</target>
+          <target state="translated">Розмір</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
+          <source>Open in Terminal...</source>
+          <target state="translated">Відкрити через термінал...</target>
+        </trans-unit>
+        <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
+          <source>Created:</source>
+          <target state="translated">Створено:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="translated">Ім’я</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
+          <target state="translated">Виберіть місце для вилучення цього стисненого архіву. Вам потрібно буде залишитися в поточній папці, поки ми не закінчимо. З відкритими елементами відкриється нова вкладка.</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="translated">Огляд</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Path:</source>
+          <target state="translated">Шлях:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="translated">Розмір:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type:</source>
+          <target state="translated">Тип:</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <target state="translated">Виділити все</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+          <source>Clear Selection</source>
+          <target state="translated">Очистити виділення</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
+          <source>List View</source>
+          <target state="translated">Список</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridView.Text" translate="yes" xml:space="preserve">
+          <source>Grid View</source>
+          <target state="translated">Таблиця</target>
+        </trans-unit>
+        <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
+          <source>Modified:</source>
+          <target state="translated">Змінено</target>
+        </trans-unit>
+        <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
+          <source>Clear all items</source>
+          <target state="translated">Очистити все</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter a path</source>
+          <target state="translated">Введіть шлях</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated">Пошук</target>
+        </trans-unit>
+        <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
+          <source>Files and folders you've previously accessed will show up here</source>
+          <target state="translated">Тут відображатимуться файли та папки, до яких ви раніше отримували доступ</target>
+        </trans-unit>
+        <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">Відкрити розташування файлу</target>
+        </trans-unit>
+        <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove this item</source>
+          <target state="translated">Видалити цей елемент</target>
+        </trans-unit>
+        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
+          <source>Recent items</source>
+          <target state="translated">Останні файли</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutAppName.Text" translate="yes" xml:space="preserve">
+          <source>Files UWP</source>
+          <target state="new">Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
+          <source>License: </source>
+          <target state="translated">Ліцензія</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
+          <source>Special thanks to:</source>
+          <target state="translated">Особлива подяка:</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
+          <source>Submit Feedback</source>
+          <target state="translated">Надіслати відгук</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
+          <source>Submit an issue report to provide the developers with information</source>
+          <target state="translated">Надішліть звіт про проблему, щоб надати розробникам інформацію</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
+          <source>Third Party Licenses</source>
+          <target state="new">Third Party Licenses</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">Про програму</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
+          <source>Website: </source>
+          <target state="translated">Веб-сайт</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="translated">Бокова панель з ефектом акрила</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">Формат дати</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
+          <source>Theme</source>
+          <target state="translated">Тема</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">Оформлення</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="translated">Відображати букви дисків</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">Показати розширення для відомих типів файлів</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="translated">Відображати приховані файли, папки й диски</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">Файли та папки</target>
+        </trans-unit>
+        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
+          <source>Flags</source>
+          <target state="new">Flags</target>
+        </trans-unit>
+        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">Налаштування</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">Про програму</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">Оформлення</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">Файли та папки</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">При запуску</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
+          <source>Page Layouts</source>
+          <target state="translated">Структура сторінки</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">Налаштування</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="translated">Пошук</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
+          <source>Continue where you left off</source>
+          <target state="translated">Продовжити, де ви зупинилися</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open a new tab</source>
+          <target state="translated">Відкрити нову вкладку</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
+          <source>Open a specific page or pages</source>
+          <target state="translated">Відкрити певну сторінку або сторінки</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">При запуску</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>Pin OneDrive to the sidebar</source>
+          <target state="translated">Закріпити OneDrive на бічній панелі</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="translated">Показувати діалогове вікно підтвердження під час видалення файлів або папок</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">Стандартний термінал</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">Налаштування</target>
+        </trans-unit>
+        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+          <source>Desktop</source>
+          <target state="translated">Робочий стіл</target>
+        </trans-unit>
+        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="translated">Документи</target>
+        </trans-unit>
+        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+          <source>Downloads</source>
+          <target state="translated">Завантаження</target>
+        </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">Головна</target>
+        </trans-unit>
+        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">Музика</target>
+        </trans-unit>
+        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">Зображення</target>
+        </trans-unit>
+        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Sidebar</source>
+          <target state="translated">Відкріпити від бічної панелі</target>
+        </trans-unit>
+        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="translated">Відео</target>
+        </trans-unit>
+        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">Налаштування</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
+          <source>Sort by</source>
+          <target state="translated">Сортування</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="translated">Ім’я</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="translated">Дата зміни</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="translated">Тип</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="translated">Розмір</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="translated">За зростанням</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="translated">За спаданням</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">Оновити</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="translated">Вставити</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
+          <source>Open in Terminal...</source>
+          <target state="translated">Відкрити через термінал...</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
+          <source>New</source>
+          <target state="translated">Створити</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">Папку</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
+          <source>Bitmap Image</source>
+          <target state="translated">Зображення</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
+          <source>Text Document</source>
+          <target state="translated">Текстовий документ</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">Властивості</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutExtract.Text" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="translated">Вилучити</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenWith.Text" translate="yes" xml:space="preserve">
+          <source>Open with...</source>
+          <target state="translated">Відкрити за допомогою...</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="translated">Відкрити на новій вкладці</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Open in new window</source>
+          <target state="translated">Відкрити в новому вікні</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="translated">Установити як тло робочого стола</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="translated">Поділитися</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
+          <source>Cut</source>
+          <target state="translated">Вирізати</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="translated">Копіювати</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">Видалити</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="translated">Перейменувати</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Pin to sidebar</source>
+          <target state="translated">Закріпити в бічній панелі</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">Властивості</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="yes" xml:space="preserve">
+          <source>QuickLook</source>
+          <target state="new">QuickLook</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files</source>
-          <target state="new">Welcome to Files</target>
+          <target state="translated">Ласкаво просимо до Files</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
-          <target state="new">Grant Permission</target>
+          <target state="translated">Надати дозвіл</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
-          <target state="new">To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </target>
+          <target state="translated">Для початку вам потрібно надати нам дозвіл на показ ваших файлів. Це відкриє сторінку налаштувань, де ви можете надати нам цей дозвіл. Вам потрібно буде знову відкрити додаток після завершення.</target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
-          <target state="new">File folder</target>
+          <target state="translated">Папка з файлами</target>
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="new">Enter an item name</target>
+          <target state="translated">Введіть назву</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter an item name without an extension</source>
-          <target state="new">Enter an item name without an extension</target>
+          <target state="translated">Введіть назву елемента без розширення</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
-          <target state="new">Set Name</target>
+          <target state="translated">Зберегти</target>
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="new">New tab</target>
+          <target state="translated">Нова вкладка</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Системна</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
-          <target state="new">Light</target>
+          <target state="translated">Світла</target>
         </trans-unit>
         <trans-unit id="DarkTheme" translate="yes" xml:space="preserve">
           <source>Dark</source>
-          <target state="new">Dark</target>
+          <target state="translated">Темна</target>
         </trans-unit>
         <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="translated">За замовчуванням</target>
         </trans-unit>
         <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Системний</target>
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
-          <target state="new">New Folder</target>
+          <target state="translated">Нова папка</target>
         </trans-unit>
         <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
           <source>New Text Document</source>
-          <target state="new">New Text Document</target>
+          <target state="translated">Новий текстовий документ</target>
         </trans-unit>
         <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
           <source>New Bitmap Image</source>
-          <target state="new">New Bitmap Image</target>
+          <target state="translated">Новий точковий рисунок</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
-          <target state="new">This folder is empty.</target>
+          <target state="translated">Ця папка порожня.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back</source>
-          <target state="new">Back</target>
+          <target state="translated">Назад</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward</source>
-          <target state="new">Forward</target>
+          <target state="translated">Вперед</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up</source>
-          <target state="new">Up</target>
+          <target state="translated">Вгору</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh</source>
-          <target state="new">Refresh</target>
+          <target state="translated">Оновити</target>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Create a new item</source>
-          <target state="new">Create a new item</target>
+          <target state="translated">Створити</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="new">Search</target>
+          <target state="translated">Пошук</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="new">More options</target>
+          <target state="translated">Більше</target>
         </trans-unit>
         <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="new">Drives</target>
+          <target state="translated">Диски</target>
         </trans-unit>
         <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
-        </trans-unit>
-        <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
-          <source>MD5Hash:</source>
-          <target state="new">MD5Hash:</target>
-        <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
-          <source>This action cannot be done</source>
-          <target state="new">This action cannot be done</target>
-        </trans-unit>
-        <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
-          <source>The destination folder</source>
-          <target state="new">The destination folder</target>
-        </trans-unit>
-        <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
-          <source>is a subfolder of the source folder</source>
-          <target state="new">is a subfolder of the source folder</target>
-        </trans-unit>
-        <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
-          <source>Skip</source>
-          <target state="new">Skip</target>
-        </trans-unit>
-        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
-          <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Файл</target>
         </trans-unit>
       </group>
     </body>

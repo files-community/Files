@@ -151,6 +151,7 @@
     </Compile>
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
+    <Compile Include="ResourceController.cs" />
     <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
     <Compile Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
@@ -269,7 +270,6 @@
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="MultilingualResources\Files.ru-RU.xlf" />
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -332,6 +332,8 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\uk-UA\Resources.resw" />
+    <PRIResource Include="Strings\tr-TR\Resources.resw" />
     <PRIResource Include="Strings\ru-RU\Resources.resw" />
     <PRIResource Include="Strings\pl-PL\Resources.resw" />
     <PRIResource Include="Strings\nl-NL\Resources.resw" />
@@ -516,6 +518,9 @@
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
+    <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
+    <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
     <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
   </ItemGroup>
   <ItemGroup>

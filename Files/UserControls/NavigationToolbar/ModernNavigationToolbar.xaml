@@ -529,6 +529,7 @@
         <StackPanel Grid.Row="1" Orientation="Horizontal">
             <Button
                 x:Name="Back"
+                x:Uid="NavBackButton"
                 Width="34"
                 Height="30"
                 Margin="4,0,2,0"
@@ -551,6 +552,7 @@
 
             <Button
                 x:Name="Forward"
+                x:Uid="NavForwardButton"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -572,6 +574,7 @@
 
             <Button
                 x:Name="Up"
+                x:Uid="NavUpButton"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -593,6 +596,7 @@
 
             <Button
                 x:Name="Refresh"
+                x:Uid="NavRefreshButton"
                 Width="34"
                 Height="30"
                 Margin="2,0,0,0"
@@ -686,6 +690,7 @@
 
             <Button
                 x:Name="NewItemButton"
+                x:Uid="NavNewItemButton"
                 Grid.Row="3"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
@@ -730,6 +735,7 @@
 
             <Button
                 x:Name="SearchButton"
+                x:Uid="NavSearchButton"
                 Grid.Row="3"
                 Margin="0,0,4,0"
                 ToolTipService.ToolTip="Search"
@@ -757,6 +763,7 @@
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
 
             <Button
+                x:Uid="NavMoreButton"
                 Grid.Row="3"
                 Margin="0,0,4,0"
                 ToolTipService.ToolTip="More options"
