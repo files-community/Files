@@ -346,13 +346,7 @@ namespace Files.Interacts
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = selectedItemPath;
 
                         (CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
-                        App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(selectedItemPath, StringComparison.OrdinalIgnoreCase));
-                        if (App.CurrentInstance.SidebarSelectedItem == null)
-                        {
-                            App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(selectedItemPath), StringComparison.OrdinalIgnoreCase));
-                        }
                         CurrentInstance.ContentFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
-
                     }
                     else
                     {

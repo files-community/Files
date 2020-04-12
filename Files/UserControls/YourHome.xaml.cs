@@ -96,29 +96,29 @@ namespace Files
 
         private void Button_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            string NaviagtionPath = ""; // path to navigate
+            string NavigationPath = ""; // path to navigate
             string ClickedCard = (sender as Button).Tag.ToString();
 
             switch (ClickedCard)
             {
                 case "Downloads":
-                    NaviagtionPath = App.AppSettings.DownloadsPath;
+                    NavigationPath = App.AppSettings.DownloadsPath;
                     break;
 
                 case "Documents":
-                    NaviagtionPath = App.AppSettings.DocumentsPath;
+                    NavigationPath = App.AppSettings.DocumentsPath;
                     break;
 
                 case "Pictures":
-                    NaviagtionPath = App.AppSettings.PicturesPath;
+                    NavigationPath = App.AppSettings.PicturesPath;
                     break;
 
                 case "Music":
-                    NaviagtionPath = App.AppSettings.MusicPath;
+                    NavigationPath = App.AppSettings.MusicPath;
                     break;
 
                 case ("Videos"):
-                    NaviagtionPath = App.AppSettings.VideosPath;
+                    NavigationPath = App.AppSettings.VideosPath;
                     break;
             }
 
@@ -126,10 +126,10 @@ namespace Files
             switch (App.AppSettings.LayoutMode)
             {
                 case 0:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NaviagtionPath); // List View
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath); // List View
                     break;
                 case 1:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NaviagtionPath); // Grid View
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath); // Grid View
                     break;
             }
         }
