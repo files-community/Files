@@ -19,12 +19,10 @@
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavigationView_ItemInvoked"
             OpenPaneLength="300"
-            PaneTitle=" "
             CompactPaneLength="300"
             IsBackEnabled="True"
             IsBackButtonVisible="Visible"
             PaneDisplayMode="Top"
-            AlwaysShowHeader="False"
             SelectionChanged="SettingsPane_SelectionChanged">
             <muxc:NavigationView.Resources>
                 <ResourceDictionary>
@@ -46,13 +44,12 @@
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
             <muxc:NavigationView.PaneHeader>
-                <TextBlock Margin="24,6" FontSize="20" Text="Settings"/>
+                <TextBlock Margin="10,6" FontSize="20" Text="Settings"/>
             </muxc:NavigationView.PaneHeader>
+            
             <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox
+                <AutoSuggestBox MinWidth="150" Margin="14,0"
                     x:Uid="SettingsNavSearch"
-                    MinWidth="150"
-                    Margin="14,0"
                     AutomationProperties.Name="Search"
                     PlaceholderText="Search"
                     QueryIcon="Find" />
@@ -63,8 +60,6 @@
                     x:Uid="SettingsNavAppearance"
                     Content="Appearance"
                     IsSelected="True"
-                    Margin="12,0"
-                    MaxWidth="275"
                     Tag="Appearance">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
@@ -74,8 +69,6 @@
                     x:Uid="SettingsNavOnStartup"
                     Content="On Startup"
                     IsSelected="True"
-                    Margin="12,0"
-                    MaxWidth="275"
                     Tag="On Startup">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
@@ -85,8 +78,6 @@
                     x:Uid="SettingsNavPageLayouts"
                     Content="Page Layouts"
                     Tag="Page Layouts"
-                    Margin="12,0"
-                    MaxWidth="275"
                     Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE737;" />
@@ -95,8 +86,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPreferences"
                     Content="Preferences"
-                    Margin="12,0"
-                    MaxWidth="275"
                     Tag="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
@@ -105,8 +94,6 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavFilesAndFolders"
                     Content="Files and Folders"
-                    Margin="12,0"
-                    MaxWidth="275"
                     Tag="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC50;" />
@@ -114,8 +101,6 @@
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAbout"
-                    Margin="12,0"
-                    MaxWidth="275"
                     Content="About"
                     Tag="About">
                     <muxc:NavigationViewItem.Icon>
@@ -127,7 +112,7 @@
                 <Rectangle
                     x:Name="Divider"
                     Width=".5"
-                    Margin="0,-55,0,0"
+                    Margin="0,20,0,20"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
