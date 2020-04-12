@@ -13,12 +13,13 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             x:Uid="SettingsNav"
-            Margin="0,8,0,0"
-            IsBackButtonVisible="Collapsed"
             IsPaneToggleButtonVisible="True"
             IsSettingsVisible="False"
+            IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavigationView_ItemInvoked"
             OpenPaneLength="250"
+            IsBackEnabled="True"
+            IsBackButtonVisible="Visible"
             PaneDisplayMode="Top"
             PaneTitle="Settings"
             SelectionChanged="SettingsPane_SelectionChanged">
@@ -125,6 +126,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
+                        <Setter Target="SettingsPane.IsTitleBarAutoPaddingEnabled" Value="False" />
                         <Setter Target="Divider.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>

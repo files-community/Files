@@ -128,8 +128,7 @@ namespace Files.Controls
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.AddNewTab(typeof(Settings), "Settings");
+            rootFrame.Navigate(typeof(Settings));
 
             return;
         }
