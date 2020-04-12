@@ -66,10 +66,6 @@
           <source>Paste</source>
           <target state="translated">Вставити</target>
         </trans-unit>
-        <trans-unit id="Drives" translate="yes" xml:space="preserve">
-          <source>Drives</source>
-          <target state="translated">Диски</target>
-        </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="translated">Ім’я</target>
@@ -462,10 +458,6 @@
           <source>File folder</source>
           <target state="translated">Папка з файлами</target>
         </trans-unit>
-        <trans-unit id="File" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="translated">Файл</target>
-        </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
           <target state="translated">Введіть назву</target>
@@ -549,6 +541,14 @@
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
           <target state="translated">Більше</target>
+        </trans-unit>
+        <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="translated">Диски</target>
+        </trans-unit>
+        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">Файл</target>
         </trans-unit>
       </group>
     </body>

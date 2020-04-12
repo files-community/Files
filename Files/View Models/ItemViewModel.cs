@@ -814,7 +814,7 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds);
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
-            string itemType = ResourceController.GetTranslation("File");
+            string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))

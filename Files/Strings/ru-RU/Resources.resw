@@ -306,9 +306,6 @@
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Текстовый документ</value>
   </data>
-  <data name="Drives" xml:space="preserve">
-    <value>Диски</value>
-  </data>
   <data name="nameColumn.Header" xml:space="preserve">
     <value>Имя</value>
   </data>
@@ -347,9 +344,6 @@
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Папка с файлами</value>
-  </data>
-  <data name="File" xml:space="preserve">
-    <value>Файл</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
     <value>Введите название</value>
@@ -413,5 +407,11 @@
   </data>
   <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Еще</value>
+  </data>
+  <data name="SidebarDrives" xml:space="preserve">
+    <value>Диски</value>
+  </data>
+  <data name="ItemTypeFile" xml:space="preserve">
+    <value>Файл</value>
   </data>
 </root>

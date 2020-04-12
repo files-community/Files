@@ -426,10 +426,6 @@
           <source>Settings</source>
           <target state="translated">Özellikler</target>
         </trans-unit>
-        <trans-unit id="Drives" translate="yes" xml:space="preserve">
-          <source>Drives</source>
-          <target state="new">Drives</target>
-        </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
           <target state="new">Name</target>
@@ -461,10 +457,6 @@
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
           <target state="new">File folder</target>
-        </trans-unit>
-        <trans-unit id="File" translate="yes" xml:space="preserve">
-          <source>File</source>
-          <target state="new">File</target>
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
@@ -549,6 +541,14 @@
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
           <target state="new">More options</target>
+        </trans-unit>
+        <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="new">Drives</target>
+        </trans-unit>
+        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="new">File</target>
         </trans-unit>
       </group>
     </body>

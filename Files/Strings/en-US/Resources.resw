@@ -162,7 +162,7 @@
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
     <value>Paste</value>
   </data>
-  <data name="Drives" xml:space="preserve">
+  <data name="SidebarDrives" xml:space="preserve">
     <value>Drives</value>
   </data>
   <data name="nameColumn.Header" xml:space="preserve">
@@ -459,7 +459,7 @@
   <data name="FileFolderListItem" xml:space="preserve">
     <value>File folder</value>
   </data>
-  <data name="File" xml:space="preserve">
+  <data name="ItemTypeFile" xml:space="preserve">
     <value>File</value>
   </data>
   <data name="RenameDialog.Title" xml:space="preserve">
