@@ -98,6 +98,18 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemSize,Mode=OneWay}" />
             </Grid>
+            <Grid Padding="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Hash:" />
+                <TextBlock
+                    x:Name="itemHashValue"
+                    Grid.Column="3"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ItemProperties.ItemHash,Mode=OneWay}" />
+            </Grid>
             <MenuFlyoutSeparator Margin="-14,0" />
             <Grid Padding="0,4">
                 <Grid.ColumnDefinitions>
