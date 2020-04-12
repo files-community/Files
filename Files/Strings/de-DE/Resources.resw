@@ -157,7 +157,7 @@
     <value>Sind Sie sicher, dass sie die ausgewählten Dateien löschen möchten?</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Dauerhaft löschen</value>
+    <value>Endgültig löschen</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Einen Bestätigungsdialog anzeigen bevor Dateien und Ordner gelöscht werden</value>
