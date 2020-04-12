@@ -447,6 +447,10 @@
           <source>Cancel</source>
           <target state="new">Cancel</target>
         </trans-unit>
+        <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
+          <source>MD5Hash:</source>
+          <target state="new">MD5Hash:</target>
+        </trans-unit>
       </group>
     </body>
   </file>

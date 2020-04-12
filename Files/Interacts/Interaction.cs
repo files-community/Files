@@ -33,6 +33,11 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
 using Files.View_Models;
+using System.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.Security.Cryptography;
+using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
 
 namespace Files.Interacts
@@ -1181,6 +1186,20 @@ namespace Files.Interacts
         public void PushJumpChar(char letter)
         {
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
+        }
+
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
+        {
+            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
+            CryptographicHash objHash = algorithmProvider.CreateHash();
+            var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
+            var fileBytes = await StorageFileHelper.ReadBytesAsync(itemFromPath);
+
+            IBuffer buffer = CryptographicBuffer.CreateFromByteArray(fileBytes);
+            objHash.Append(buffer);
+            IBuffer bufferHash = objHash.GetValueAndReset();
+
+            return CryptographicBuffer.EncodeToHexString(bufferHash);
         }
     }
 }
