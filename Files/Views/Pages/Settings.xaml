@@ -35,13 +35,11 @@
                             <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
                             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
                         </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            
-                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast" />
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
-            
+
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     x:Uid="SettingsNavSearch"
