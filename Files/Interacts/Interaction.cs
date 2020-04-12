@@ -33,6 +33,7 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
 using Files.View_Models;
+using GalaSoft.MvvmLight.Command;
 
 namespace Files.Interacts
 {
@@ -912,6 +913,12 @@ namespace Files.Interacts
 
         }
 
+        enum ImpossibleActionResponseTypes
+        {
+            Skip,
+            Abort
+        }
+
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             string DestinationPath = CurrentInstance.ViewModel.WorkingDirectory;
@@ -929,7 +936,32 @@ namespace Files.Interacts
 
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
+                    if (DestinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                        ContentDialog dialog = new ContentDialog()
+                        {
+                            Title = "This action cannot be done",
+                            Content = "The destination folder (" + DestinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") is a subfolder of the source folder (" + item.Name + ")",
+                            PrimaryButtonText = "Skip",
+                            CloseButtonText = "Cancel",
+                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                        };
+                        await dialog.ShowAsync();
+                        if (responseType == ImpossibleActionResponseTypes.Skip)
+                        {
+                            continue;
+                        }
+                        else if (responseType == ImpossibleActionResponseTypes.Abort)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        await CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
+                    }
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
@@ -958,7 +990,6 @@ namespace Files.Interacts
                     }
                 }
             }
-
         }
 
         public async Task CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
