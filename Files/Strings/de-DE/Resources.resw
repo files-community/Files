@@ -324,4 +324,7 @@
   <data name="StatusBarControlGridView.Text" xml:space="preserve">
     <value>Rasteransicht</value>
   </data>
+  <data name="SidebarSettings.Text" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
 </root>

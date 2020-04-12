@@ -73,6 +73,7 @@ namespace Files
                     {
                         IsItemSelected = true;
                     }
+                    SetSelectedItemsOnUi(value);
                     NotifyPropertyChanged("SelectedItems");
                 }
             }
@@ -98,6 +99,7 @@ namespace Files
                     {
                         IsItemSelected = true;
                     }
+                    SetSelectedItemOnUi(value);
                     NotifyPropertyChanged("SelectedItem");
                 }
             }
@@ -118,6 +120,10 @@ namespace Files
                 IsQuickLookEnabled = true;
             }
         }
+
+        protected abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+
+        protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
@@ -144,7 +150,7 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
@@ -171,9 +177,9 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
 
-            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.WorkingDirectory);
-            App.Clipboard_ContentChanged(null, null);
+            await App.CurrentInstance.ViewModel.RefreshItems();
 
+            App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
 
