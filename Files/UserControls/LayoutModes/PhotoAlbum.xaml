@@ -296,10 +296,13 @@
             Margin="14,14,14,0"
             VerticalContentAlignment="Stretch"
             x:FieldModifier="public"
+            AllowDrop="True"
             DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
             IsDoubleTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
+            DragOver="List_DragOver"
+            Drop="List_Drop"
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="Extended">
             <GridView.ItemContainerStyle>
@@ -310,6 +313,7 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
                     <Grid
+                        Tag="ItemRoot"
                         Width="125"
                         Height="Auto"
                         Margin="0,0,0,0"
@@ -318,6 +322,7 @@
                         VerticalAlignment="Stretch"
                         Background="Transparent"
                         DataContext="{x:Bind}"
+                        DataContextChanged="FileListGridItem_DataContextChanged"
                         EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                         IsRightTapEnabled="True"
                         RightTapped="StackPanel_RightTapped"
