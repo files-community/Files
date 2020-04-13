@@ -428,150 +428,151 @@
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="new">Name</target>
+          <target state="translated">Nombre</target>
         </trans-unit>
         <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
           <source>Date modified</source>
-          <target state="new">Date modified</target>
+          <target state="translated">Fecha de modificación</target>
         </trans-unit>
         <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
           <source>Type</source>
-          <target state="new">Type</target>
+          <target state="translated">Tipo</target>
         </trans-unit>
         <trans-unit id="sizeColumn.Header" translate="yes" xml:space="preserve">
           <source>Size</source>
-          <target state="new">Size</target>
+          <target state="translated">Tamaño</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files</source>
-          <target state="new">Welcome to Files</target>
+          <target state="translated">Bienvenido a Archivos UWP</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
-          <target state="new">Grant Permission</target>
+          <target state="translated">Conceder Permiso</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
-          <target state="new">To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </target>
+          <target state="translated">Para comenzar, deberá otorgarnos permiso para mostrar sus archivos. Esto abrirá una página de Configuración donde puede otorgarnos este permiso. Deberá volver a abrir la aplicación una vez completada. </target>
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
-          <target state="new">File folder</target>
+          <target state="translated">Carpeta de archivos</target>
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
-          <target state="new">Enter an item name</target>
+          <target state="translated">Ingrese un nombre de archivo</target>
         </trans-unit>
         <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Enter an item name without an extension</source>
-          <target state="new">Enter an item name without an extension</target>
+          <target state="translated">Ingrese un nombre de archivo sin una extensión</target>
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
-          <target state="new">Set Name</target>
+          <target state="translated">Establecer Nombre</target>
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Cancelar</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="new">New tab</target>
+          <target state="translated">Nueva pestaña</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Sistema</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
-          <target state="new">Light</target>
+          <target state="translated">Claro</target>
         </trans-unit>
         <trans-unit id="DarkTheme" translate="yes" xml:space="preserve">
           <source>Dark</source>
-          <target state="new">Dark</target>
+          <target state="translated">Oscuro</target>
         </trans-unit>
         <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="translated">Aplicación</target>
         </trans-unit>
         <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="translated">Sistema</target>
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
-          <target state="new">New Folder</target>
+          <target state="translated">Nueva Carpeta</target>
         </trans-unit>
         <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
           <source>New Text Document</source>
-          <target state="new">New Text Document</target>
+          <target state="translated">Nuevo Documento de Texto</target>
         </trans-unit>
         <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
           <source>New Bitmap Image</source>
-          <target state="new">New Bitmap Image</target>
+          <target state="translated">Nueva Imagen Bitmap</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
-          <target state="new">This folder is empty.</target>
+          <target state="translated">Esta carpeta está vacía.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back</source>
-          <target state="new">Back</target>
+          <target state="translated">Atrás</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward</source>
-          <target state="new">Forward</target>
+          <target state="translated">Adelante</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up</source>
-          <target state="new">Up</target>
+          <target state="translated">Arriba</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh</source>
-          <target state="new">Refresh</target>
+          <target state="translated">Actualizar</target>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Create a new item</source>
-          <target state="new">Create a new item</target>
+          <target state="translated">Crear un nuevo elemento</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="new">Search</target>
+          <target state="translated">Búsqueda</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="new">More options</target>
+          <target state="translated">Más opciones</target>
         </trans-unit>
         <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="new">Drives</target>
+          <target state="translated">Unidades</target>
         </trans-unit>
         <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="translated">Archivo</target>
         </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
-          <target state="new">MD5Hash:</target>
+          <target state="translated">HashMD5:</target>
+        </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="new">This action cannot be done</target>
+          <target state="translated">Esta acción no se puede completar</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
-          <target state="new">The destination folder</target>
+          <target state="translated">La carpeta de destino</target>
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="new">is a subfolder of the source folder</target>
+          <target state="translated">es la misma que la carpeta de origen</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Omitir</target>
         </trans-unit>
         <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Cancelar</target>
         </trans-unit>
       </group>
     </body>
