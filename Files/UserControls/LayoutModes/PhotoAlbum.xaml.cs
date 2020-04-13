@@ -7,6 +7,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
@@ -33,6 +34,20 @@ namespace Files
         }
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
+            // To prevent program from crashing when the page is first loaded
+            if (selectedItems.Count > 0)
+            {
+                foreach (ListedItem listedItem in FileList.Items)
+                {
+                    GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
+                    
+                    List<Grid> grids = new List<Grid>();
+                    Interaction.FindChildren<Grid>(grids, gridViewItem);
+                    var imageOfItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                    imageOfItem.CanDrag = selectedItems.Contains(listedItem);
+                }
+            }
+
             // Required to check if sequences are equal, if not it will result in an infinite loop
             // between the UI Control and the BaseLayout set function
             if (Enumerable.SequenceEqual<ListedItem>(FileList.SelectedItems.Cast<ListedItem>(), selectedItems))
@@ -175,6 +190,17 @@ namespace Files
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
             }
+        }
+
+        protected override ListedItem GetItemFromElement(object element)
+        {
+            FrameworkElement gridItem = element as FrameworkElement;
+            return gridItem.DataContext as ListedItem;
+        }
+
+        private void FileListGridItem_DataContextChanged(object sender, DataContextChangedEventArgs e)
+        {
+            InitializeDrag(sender as UIElement);
         }
     }
 }

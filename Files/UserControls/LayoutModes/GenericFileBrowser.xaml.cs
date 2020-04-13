@@ -6,7 +6,9 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.System;
@@ -14,6 +16,7 @@ using Windows.UI.Core;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 
 namespace Files
@@ -88,6 +91,15 @@ namespace Files
         }
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
+            // To prevent program from crashing when the page is first loaded
+            if (selectedItems.Count > 0)
+            {
+                var rows = new List<DataGridRow>();
+                Interacts.Interaction.FindChildren<DataGridRow>(rows, AllView);
+                foreach (DataGridRow row in rows)
+                    row.CanDrag = selectedItems.Contains(row.DataContext);
+            }
+
             // Required to check if sequences are equal, if not it will result in an infinite loop
             // between the UI Control and the BaseLayout set function
             if (Enumerable.SequenceEqual<ListedItem>(AllView.SelectedItems.Cast<ListedItem>(), selectedItems))
@@ -146,33 +158,6 @@ namespace Files
             }
         }
 
-        private void AllView_DragOver(object sender, DragEventArgs e)
-        {
-            e.AcceptedOperation = DataPackageOperation.Copy;
-
-        }
-
-        private async void AllView_DropAsync(object sender, DragEventArgs e)
-        {
-            if (e.DataView.Contains(StandardDataFormats.StorageItems))
-            {
-                App.CurrentInstance.InteractionOperations.itemsPasted = 0;
-                App.CurrentInstance.InteractionOperations.itemsToPaste = await e.DataView.GetStorageItemsAsync();
-                foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
-                {
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync((item as StorageFolder).Path, App.CurrentInstance.ViewModel.WorkingDirectory, (item as StorageFolder).DisplayName, false);
-                    }
-                    else
-                    {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++App.CurrentInstance.InteractionOperations.itemsPasted, App.CurrentInstance.InteractionOperations.itemsToPaste.Count);
-                        await (item as StorageFile).CopyAsync(await StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ViewModel.WorkingDirectory));
-                    }
-                }
-            }
-        }
-
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             var textBox = e.EditingElement as TextBox;
@@ -217,11 +202,6 @@ namespace Files
             AllView.CommitEdit();
             base.SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
             base.SelectedItem = AllView.SelectedItem as ListedItem;
-        }
-
-        private void AllView_DragStarting(UIElement sender, DragStartingEventArgs args)
-        {
-            args.DragUI.SetContentFromDataPackage();
         }
 
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
@@ -294,6 +274,17 @@ namespace Files
                     //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
                 });
             }
+        }
+
+        private void AllView_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            InitializeDrag(e.Row);
+        }
+
+        protected override ListedItem GetItemFromElement(object element)
+        {
+            DataGridRow row = element as DataGridRow;
+            return row.DataContext as ListedItem;
         }
     }
 }

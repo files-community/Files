@@ -2,7 +2,11 @@
 using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
 using Windows.Foundation.Metadata;
+using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Controls;
@@ -45,7 +49,11 @@ namespace Files
                 {
                     // Not a folder, so attempt to get as StorageFile
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    var hashAlgTypeName = HashAlgorithmNames.Md5;
+
+                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName); // get file hash
                 }
+
                 ItemProperties.ItemName = selectedItem.ItemName;
                 ItemProperties.ItemType = selectedItem.ItemType;
                 ItemProperties.ItemPath = selectedItem.ItemPath;
@@ -94,6 +102,7 @@ namespace Files
         private string _ItemName;
         private string _ItemType;
         private string _ItemPath;
+        private string _ItemMD5Hash;
         private string _ItemSize;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -106,6 +115,11 @@ namespace Files
         {
             get => _ItemName;
             set => Set(ref _ItemName, value);
+        }
+        public string ItemMD5Hash
+        {
+            get => _ItemMD5Hash;
+            set => Set(ref _ItemMD5Hash, value);
         }
         public string ItemType
         {

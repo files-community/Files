@@ -14,6 +14,7 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using NLog;
+using Windows.ApplicationModel.Resources;
 
 namespace Files.Filesystem
 {
@@ -58,9 +59,9 @@ namespace Files.Filesystem
 			{
 				await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
 				{
-					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == "Drives") == null)
+					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
 					{
-						App.sideBarItems.Add(new HeaderTextItem() { Text = "Drives" });
+						App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
 					}
 					foreach (DriveItem drive in Drives)
 					{
