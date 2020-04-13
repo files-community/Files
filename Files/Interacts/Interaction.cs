@@ -900,13 +900,12 @@ namespace Files.Interacts
                     if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-                        var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
                         ContentDialog dialog = new ContentDialog()
                         {
-                            Title = resourceLoader.GetString("ErrorDialogThisActionCannotBeDone"),
-                            Content = resourceLoader.GetString("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + resourceLoader.GetString("ErrorDialogIsASubfolder") + "(" + item.Name + ")",
-                            PrimaryButtonText = resourceLoader.GetString("ErrorDialogSkip"),
-                            CloseButtonText = resourceLoader.GetString("ErrorDialogCancel"),
+                            Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
+                            Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + "(" + item.Name + ")",
+                            PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
+                            CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
                             PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
                             CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
                         };
