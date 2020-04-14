@@ -574,6 +574,10 @@
           <source>MD5Hash:</source>
           <target state="new">MD5Hash:</target>
         </trans-unit>
+        <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
       </group>
     </body>
   </file>

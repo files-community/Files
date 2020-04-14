@@ -52,6 +52,7 @@
 
             <muxc:NavigationView.PaneHeader>
                 <TextBlock
+                    x:Uid="SettingsPageHeader"
                     Margin="10,6"
                     FontSize="20"
                     Text="Settings" />

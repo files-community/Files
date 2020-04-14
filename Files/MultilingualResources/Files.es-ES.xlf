@@ -574,6 +574,10 @@
           <source>Cancel</source>
           <target state="translated">Cancelar</target>
         </trans-unit>
+        <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
+        </trans-unit>
       </group>
     </body>
   </file>

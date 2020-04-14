@@ -186,6 +186,9 @@
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
     <value>Item Name</value>
   </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Settings</value>
+  </data>
   <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
     <value>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</value>
   </data>
