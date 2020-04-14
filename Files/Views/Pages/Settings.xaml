@@ -12,7 +12,6 @@
     <Grid>
         <muxc:NavigationView
             x:Name="SettingsPane"
-            x:Uid="SettingsNav"
             CompactPaneLength="300"
             IsBackButtonVisible="Visible"
             IsBackEnabled="True"
@@ -22,7 +21,7 @@
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavigationView_ItemInvoked"
-            OpenPaneLength="300"
+            OpenPaneLength="250"
             PaneDisplayMode="Top"
             SelectionChanged="SettingsPane_SelectionChanged">
             <muxc:NavigationView.Resources>
@@ -42,18 +41,18 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
+
             <muxc:NavigationView.PaneHeader>
                 <TextBlock
                     Margin="10,6"
                     FontSize="20"
                     Text="Settings" />
             </muxc:NavigationView.PaneHeader>
-
+            
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     x:Uid="SettingsNavSearch"
                     MinWidth="150"
-                    Margin="14,0"
                     AutomationProperties.Name="Search"
                     PlaceholderText="Search"
                     QueryIcon="Find" />
@@ -122,7 +121,7 @@
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
                     Opacity=".5"
                     Visibility="Collapsed" />
-                <Frame x:Name="SettingsContentFrame" Margin="14,36,14,0" />
+                <Frame x:Name="SettingsContentFrame" Margin=".5,36,0,0" />
             </Grid>
         </muxc:NavigationView>
         <VisualStateManager.VisualStateGroups>
