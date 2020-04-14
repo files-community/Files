@@ -58,7 +58,7 @@
     <value>Envíar opiniones</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Envía un informe de fallos a los desarrolladores</value>
+    <value>Envía un informe de fallos a los desarrolladores con más información</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Licencias de terceros</value>
@@ -76,7 +76,7 @@
     <value>Formato de fecha</value>
   </data>
   <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Tema</value>
+    <value>Tema de la Aplicación</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Apariencia</value>
@@ -361,7 +361,7 @@
     <value>Nueva pestaña</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Sistema</value>
+    <value>Predeterminado de Windows</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -431,5 +431,8 @@
   </data>
   <data name="ErrorDialogCancel" xml:space="preserve">
     <value>Cancelar</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Ajustes</value>
   </data>
 </root>
