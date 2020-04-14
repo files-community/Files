@@ -92,8 +92,9 @@
           <target state="translated">Datum formaat</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>Theme</source>
-          <target state="translated">Thema</target>
+          <source>App theme</source>
+          <target state="needs-review-translation">Thema</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>

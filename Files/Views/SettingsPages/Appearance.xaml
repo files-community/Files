@@ -45,7 +45,7 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Choose an app mode" />
+                        Text="App theme" />
 
                     <ComboBox
                         x:Name="ThemeChooser"

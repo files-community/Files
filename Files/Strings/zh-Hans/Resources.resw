@@ -363,9 +363,6 @@
   <data name="NewTab" xml:space="preserve">
     <value>新标签页</value>
   </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>跟随系统</value>
-  </data>
   <data name="LightTheme" xml:space="preserve">
     <value>浅色</value>
   </data>

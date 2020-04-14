@@ -92,8 +92,9 @@
           <target state="translated">Tarih formatı</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>Theme</source>
-          <target state="translated">Tema</target>
+          <source>App theme</source>
+          <target state="needs-review-translation">Tema</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
