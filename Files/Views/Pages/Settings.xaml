@@ -55,6 +55,7 @@
                     x:Uid="SettingsPageHeader"
                     Margin="10,6"
                     FontSize="20"
+                    FontWeight="Medium"
                     Text="Settings" />
             </muxc:NavigationView.PaneHeader>
 

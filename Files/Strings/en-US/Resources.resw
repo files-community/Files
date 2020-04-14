@@ -499,7 +499,7 @@
     <value>New tab</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>System</value>
+    <value>Windows default</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>
