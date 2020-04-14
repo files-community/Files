@@ -13,15 +13,16 @@
         <muxc:NavigationView
             x:Name="SettingsPane"
             x:Uid="SettingsNav"
+            CompactPaneLength="300"
+            IsBackButtonVisible="Visible"
+            IsBackEnabled="True"
             IsPaneOpen="True"
+            BackRequested="SettingsPane_BackRequested"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavigationView_ItemInvoked"
             OpenPaneLength="300"
-            CompactPaneLength="300"
-            IsBackEnabled="True"
-            IsBackButtonVisible="Visible"
             PaneDisplayMode="Top"
             SelectionChanged="SettingsPane_SelectionChanged">
             <muxc:NavigationView.Resources>
@@ -42,12 +43,17 @@
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
             <muxc:NavigationView.PaneHeader>
-                <TextBlock Margin="10,6" FontSize="20" Text="Settings"/>
+                <TextBlock
+                    Margin="10,6"
+                    FontSize="20"
+                    Text="Settings" />
             </muxc:NavigationView.PaneHeader>
-            
+
             <muxc:NavigationView.AutoSuggestBox>
-                <AutoSuggestBox MinWidth="150" Margin="14,0"
+                <AutoSuggestBox
                     x:Uid="SettingsNavSearch"
+                    MinWidth="150"
+                    Margin="14,0"
                     AutomationProperties.Name="Search"
                     PlaceholderText="Search"
                     QueryIcon="Find" />

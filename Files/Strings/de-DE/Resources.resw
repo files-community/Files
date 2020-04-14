@@ -327,4 +327,115 @@
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="nameColumn.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="dateColumn.Header" xml:space="preserve">
+    <value>Geändert</value>
+  </data>
+  <data name="typeColumn.Header" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="sizeColumn.Header" xml:space="preserve">
+    <value>Größe</value>
+  </data>
+  <data name="WelcomeDialog.Title" xml:space="preserve">
+    <value>Willkommen in Files UWP</value>
+  </data>
+  <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Erlaubnis erteilen</value>
+  </data>
+  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
+    <value>Um loslegen zu können, musst du Files UWP die Erlaubnis erteilen, Dateien anzeigen zu dürfen. Diese Option wird die Einstellungen öffenen mit denen du diese Erlaubnis erteilen kannst. Anschließend muss die App neu gestartet werden.</value>
+  </data>
+  <data name="FileFolderListItem" xml:space="preserve">
+    <value>Dateiordner</value>
+  </data>
+  <data name="RenameDialog.Title" xml:space="preserve">
+    <value>Dateinamen eingeben</value>
+  </data>
+  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Gebe den Dateinamen ohne Erweiterung ein</value>
+  </data>
+  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Name festlegen</value>
+  </data>
+  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>Neuer Tab</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Hell</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Dunkel</value>
+  </data>
+  <data name="ApplicationTimeStye" xml:space="preserve">
+    <value>Anwendung</value>
+  </data>
+  <data name="SystemTimeStye" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>Neuer Ordner</value>
+  </data>
+  <data name="NewTextDocument" xml:space="preserve">
+    <value>Neues Textdokument</value>
+  </data>
+  <data name="NewBitmapImage" xml:space="preserve">
+    <value>Neues Bitmap Bild</value>
+  </data>
+  <data name="EmptyFolder.Text" xml:space="preserve">
+    <value>Dieser Ordner ist leer.</value>
+  </data>
+  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Zurück</value>
+  </data>
+  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vorwärts</value>
+  </data>
+  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Hoch</value>
+  </data>
+  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Neue Datei erstellen</value>
+  </data>
+  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Suchen</value>
+  </data>
+  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mehr Optionen</value>
+  </data>
+  <data name="SidebarDrives" xml:space="preserve">
+    <value>Laufwerke</value>
+  </data>
+  <data name="ItemTypeFile" xml:space="preserve">
+    <value>Datei</value>
+  </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>Aktion kann nicht ausgeführt werden</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>Der Ausgangsordner</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>ist ein Unterordner des Quellordners</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Überspringen</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
+    <value>MD5Hash:</value>
+  </data>
 </root>

@@ -68,6 +68,9 @@ namespace Files
                 this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
             }
 
+            // Turn on Navigation Cache
+            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
         }
