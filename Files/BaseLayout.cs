@@ -354,16 +354,19 @@ namespace Files
         protected void InitializeDrag(UIElement element)
         {
             ListedItem item = GetItemFromElement(element);
-            element.AllowDrop = false;
-            element.DragStarting -= Item_DragStarting;
-            element.DragStarting += Item_DragStarting;
-            element.DragOver -= Item_DragOver;
-            element.Drop -= Item_Drop;
-            if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+            if(item != null)
             {
-                element.AllowDrop = true;
-                element.DragOver += Item_DragOver;
-                element.Drop += Item_Drop;
+                element.AllowDrop = false;
+                element.DragStarting -= Item_DragStarting;
+                element.DragStarting += Item_DragStarting;
+                element.DragOver -= Item_DragOver;
+                element.Drop -= Item_Drop;
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    element.AllowDrop = true;
+                    element.DragOver += Item_DragOver;
+                    element.Drop += Item_Drop;
+                }
             }
         }
 
