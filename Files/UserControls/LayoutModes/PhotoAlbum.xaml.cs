@@ -172,7 +172,7 @@ namespace Files
         {
             if (App.CurrentInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
                 {
                     base.Page_CharacterReceived(sender, args);
                     FileList.Focus(FocusState.Keyboard);
