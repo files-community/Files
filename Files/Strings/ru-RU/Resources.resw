@@ -93,9 +93,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Файлы и папки</value>
   </data>
-  <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>Параметры</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>О приложении</value>
   </data>

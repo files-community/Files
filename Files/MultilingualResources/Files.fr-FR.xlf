@@ -114,10 +114,6 @@
           <source>Files and Folders</source>
           <target state="translated">Fichiers et dossiers</target>
         </trans-unit>
-        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Paramètres</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">À propos</target>
@@ -503,8 +499,8 @@
           <target state="new">New tab</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="new">System</target>
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>

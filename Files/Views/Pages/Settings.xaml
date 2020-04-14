@@ -131,7 +131,7 @@
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
                     Opacity=".5"
                     Visibility="Collapsed" />
-                <Frame x:Name="SettingsContentFrame" Margin=".5,36,0,0" />
+                <Frame x:Name="SettingsContentFrame" Margin=".5,0" />
             </Grid>
         </muxc:NavigationView>
         <VisualStateManager.VisualStateGroups>
@@ -145,6 +145,7 @@
                         <Setter Target="SettingsPane.IsTitleBarAutoPaddingEnabled" Value="False" />
                         <Setter Target="Divider.Visibility" Value="Visible" />
                         <Setter Target="DragArea.Margin" Value="40,0,0,0" />
+                        <Setter Target="SettingsContentFrame.Margin" Value=".5,36,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

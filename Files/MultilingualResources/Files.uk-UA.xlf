@@ -230,10 +230,6 @@
           <source>Flags</source>
           <target state="new">Flags</target>
         </trans-unit>
-        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Налаштування</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Про програму</target>
@@ -479,8 +475,9 @@
           <target state="translated">Нова вкладка</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="translated">Системна</target>
+          <source>Windows default</source>
+          <target state="needs-review-translation">Системна</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>

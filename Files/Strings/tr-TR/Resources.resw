@@ -96,9 +96,6 @@
   <data name="SettingsFlagsTitle.Text" xml:space="preserve">
     <value>Bayraklar</value>
   </data>
-  <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>Ayarlar</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Hakkında</value>
   </data>

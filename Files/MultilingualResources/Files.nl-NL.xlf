@@ -118,10 +118,6 @@
           <source>Flags</source>
           <target state="translated">Vlaggen</target>
         </trans-unit>
-        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Instellingen</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Over</target>
@@ -479,8 +475,8 @@
           <target state="new">New tab</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="new">System</target>
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>

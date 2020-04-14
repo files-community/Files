@@ -76,7 +76,7 @@
                     <ComboBox
                         x:Name="DateFormatChooser"
                         Grid.Column="3"
-                        Width="175"
+                        Width="150"
                         HorizontalAlignment="Right" />
                 </Grid>
 

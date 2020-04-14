@@ -55,8 +55,8 @@
                     IsItemClickEnabled="True"
                     ItemClick="ListView_ItemClick">
                     <ListViewItem
-                        Padding="8,2"
                         x:Name="FeedbackForm"
+                        Padding="8,2"
                         HorizontalAlignment="Stretch"
                         HorizontalContentAlignment="Stretch"
                         IsEnabled="True">
@@ -69,9 +69,10 @@
                                 <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
                                 <TextBlock
                                     x:Uid="SettingsAboutSubmitFeedbackDescription"
+                                    FontSize="12"
                                     Foreground="Gray"
                                     Text="Send the developers an issue report with more information"
-                                    TextWrapping="Wrap" FontSize="12" />
+                                    TextWrapping="Wrap" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>

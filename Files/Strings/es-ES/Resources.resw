@@ -93,9 +93,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Carpetas y archivos</value>
   </data>
-  <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>Ajustes</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Sobre nosotros</value>
   </data>
