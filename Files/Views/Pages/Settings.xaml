@@ -10,13 +10,21 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid
+            x:Name="DragArea"
+            Height="32"
+            Margin="0"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Canvas.ZIndex="100" />
+
         <muxc:NavigationView
             x:Name="SettingsPane"
+            BackRequested="SettingsPane_BackRequested"
             CompactPaneLength="300"
             IsBackButtonVisible="Visible"
             IsBackEnabled="True"
             IsPaneOpen="True"
-            BackRequested="SettingsPane_BackRequested"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="True"
@@ -48,7 +56,7 @@
                     FontSize="20"
                     Text="Settings" />
             </muxc:NavigationView.PaneHeader>
-            
+
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
                     x:Uid="SettingsNavSearch"
@@ -134,6 +142,7 @@
                         <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
                         <Setter Target="SettingsPane.IsTitleBarAutoPaddingEnabled" Value="False" />
                         <Setter Target="Divider.Visibility" Value="Visible" />
+                        <Setter Target="DragArea.Margin" Value="40,0,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
