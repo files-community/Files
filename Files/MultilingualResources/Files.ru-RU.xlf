@@ -67,8 +67,9 @@
           <target state="translated">Отправить отзыв</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Submit an issue report to provide the developers with information</source>
-          <target state="translated">Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</target>
+          <source>Send the developers an issue report with more information</source>
+          <target state="needs-review-translation">Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -91,8 +92,9 @@
           <target state="translated">Формат даты</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
-          <source>Theme</source>
-          <target state="translated">Тема</target>
+          <source>App theme</source>
+          <target state="needs-review-translation">Тема</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -113,10 +115,6 @@
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
           <target state="translated">Файлы и папки</target>
-        </trans-unit>
-        <trans-unit id="SettingsNav.PaneTitle" translate="yes" xml:space="preserve">
-          <source>Settings</source>
-          <target state="translated">Параметры</target>
         </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
@@ -479,8 +477,9 @@
           <target state="translated">Новая вкладка</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
-          <source>System</source>
-          <target state="translated">Системная</target>
+          <source>Windows default</source>
+          <target state="needs-review-translation">Системная</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -573,6 +572,10 @@
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
           <target state="new">MD5Hash:</target>
+        </trans-unit>
+        <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="new">Settings</target>
         </trans-unit>
       </group>
     </body>

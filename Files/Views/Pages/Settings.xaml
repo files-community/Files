@@ -10,17 +10,27 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid
+            x:Name="DragArea"
+            Height="32"
+            Margin="0"
+            VerticalAlignment="Top"
+            Background="Transparent"
+            Canvas.ZIndex="100" />
+
         <muxc:NavigationView
             x:Name="SettingsPane"
-            x:Uid="SettingsNav"
-            Margin="0,8,0,0"
-            IsBackButtonVisible="Collapsed"
-            IsPaneToggleButtonVisible="True"
+            BackRequested="SettingsPane_BackRequested"
+            CompactPaneLength="300"
+            IsBackButtonVisible="Visible"
+            IsBackEnabled="True"
+            IsPaneOpen="True"
+            IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
+            IsTitleBarAutoPaddingEnabled="True"
             ItemInvoked="NavigationView_ItemInvoked"
             OpenPaneLength="250"
             PaneDisplayMode="Top"
-            PaneTitle="Settings"
             SelectionChanged="SettingsPane_SelectionChanged">
             <muxc:NavigationView.Resources>
                 <ResourceDictionary>
@@ -39,6 +49,15 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </muxc:NavigationView.Resources>
+
+            <muxc:NavigationView.PaneHeader>
+                <TextBlock
+                    x:Uid="SettingsPageHeader"
+                    Margin="10,6"
+                    FontSize="20"
+                    FontWeight="Medium"
+                    Text="Settings" />
+            </muxc:NavigationView.PaneHeader>
 
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
@@ -102,7 +121,7 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Grid>
+            <Grid Padding="0,0">
                 <Rectangle
                     x:Name="Divider"
                     Width=".5"
@@ -112,7 +131,7 @@
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
                     Opacity=".5"
                     Visibility="Collapsed" />
-                <Frame x:Name="SettingsContentFrame" Margin=".5,0,0,0" />
+                <Frame x:Name="SettingsContentFrame" Margin=".5,0" />
             </Grid>
         </muxc:NavigationView>
         <VisualStateManager.VisualStateGroups>
@@ -123,7 +142,10 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
+                        <Setter Target="SettingsPane.IsTitleBarAutoPaddingEnabled" Value="False" />
                         <Setter Target="Divider.Visibility" Value="Visible" />
+                        <Setter Target="DragArea.Margin" Value="40,0,0,0" />
+                        <Setter Target="SettingsContentFrame.Margin" Value=".5,36,0,0" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

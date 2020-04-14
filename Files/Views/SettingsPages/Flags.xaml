@@ -26,6 +26,7 @@
                 <TextBlock
                     x:Uid="SettingsFlagsTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="Flags" />
 
             </StackPanel>

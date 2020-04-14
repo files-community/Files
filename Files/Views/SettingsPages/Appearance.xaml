@@ -25,6 +25,7 @@
                 <TextBlock
                     x:Uid="SettingsAppearanceTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="Appearance" />
 
                 <Grid HorizontalAlignment="Stretch">
@@ -44,7 +45,7 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Theme" />
+                        Text="App theme" />
 
                     <ComboBox
                         x:Name="ThemeChooser"
@@ -75,7 +76,7 @@
                     <ComboBox
                         x:Name="DateFormatChooser"
                         Grid.Column="3"
-                        Width="175"
+                        Width="150"
                         HorizontalAlignment="Right" />
                 </Grid>
 

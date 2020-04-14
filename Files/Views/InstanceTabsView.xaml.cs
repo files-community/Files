@@ -68,6 +68,9 @@ namespace Files
                 this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
             }
 
+            // Turn on Navigation Cache
+            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
         }
@@ -93,6 +96,11 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             navArgs = eventArgs.Parameter?.ToString();
+
+            if (TabStrip.TabItems.Count >= 1)
+            {
+                return;
+            }
 
             if (string.IsNullOrEmpty(navArgs))
             {

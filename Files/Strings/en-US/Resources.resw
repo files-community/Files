@@ -265,7 +265,7 @@
     <value>Submit Feedback</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Submit an issue report to provide the developers with information</value>
+    <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Third Party Licenses</value>
@@ -283,7 +283,7 @@
     <value>Date format</value>
   </data>
   <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Theme</value>
+    <value>App theme</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Appearance</value>
@@ -303,7 +303,7 @@
   <data name="SettingsFlagsTitle.Text" xml:space="preserve">
     <value>Flags</value>
   </data>
-  <data name="SettingsNav.PaneTitle" xml:space="preserve">
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Settings</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
@@ -496,7 +496,7 @@
     <value>New tab</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>System</value>
+    <value>Windows default</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Light</value>

@@ -96,9 +96,6 @@
   <data name="SettingsFlagsTitle.Text" xml:space="preserve">
     <value>标记</value>
   </data>
-  <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>设置</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>关于</value>
   </data>
@@ -365,9 +362,6 @@
   </data>
   <data name="NewTab" xml:space="preserve">
     <value>新标签页</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>跟随系统</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>浅色</value>
