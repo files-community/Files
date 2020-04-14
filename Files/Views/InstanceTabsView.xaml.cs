@@ -97,6 +97,11 @@ namespace Files
         {
             navArgs = eventArgs.Parameter?.ToString();
 
+            if (TabStrip.TabItems.Count >= 1)
+            {
+                return;
+            }
+
             if (string.IsNullOrEmpty(navArgs))
             {
                 AddNewTab(typeof(ModernShellPage), "New tab");
