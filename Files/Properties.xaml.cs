@@ -49,12 +49,13 @@ namespace Files
                     // get file hash
                     ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
 
-                    PropertiesMD5Hash.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    itemMD5HashValue.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+
+                    ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -106,6 +107,7 @@ namespace Files
         private string _ItemType;
         private string _ItemPath;
         private string _ItemMD5Hash;
+        private Visibility _ItemMD5HashVisibility;
         private string _ItemSize;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -123,6 +125,11 @@ namespace Files
         {
             get => _ItemMD5Hash;
             set => Set(ref _ItemMD5Hash, value);
+        }
+        public Visibility ItemMD5HashVisibility
+        {
+            get => _ItemMD5HashVisibility;
+            set => Set(ref _ItemMD5HashVisibility, value);
         }
         public string ItemType
         {

@@ -178,7 +178,7 @@
 
                 <TextBlock x:Name="PropertiesMD5Hash" x:Uid="PropertiesItemMD5Hash" Text="MD5Hash:"
                            Grid.Column="0" Grid.Row="5"
-                           Visibility="Collapsed"/>
+                           Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}"/>
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Column="1"
@@ -186,7 +186,7 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
                     Margin="20,0,0,0"
-                    Visibility="Collapsed"/>
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}"/>
 
                 <MenuFlyoutSeparator Margin="-12,0"
                                      Grid.Column="0"
