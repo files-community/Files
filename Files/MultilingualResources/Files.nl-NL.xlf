@@ -67,8 +67,9 @@
           <target state="translated">Verstuur Feedback</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
-          <source>Submit an issue report to provide the developers with information</source>
-          <target state="translated">Verzend een Issue Report naar de ontwikkelaars</target>
+          <source>Send the developers an issue report with more information</source>
+          <target state="needs-review-translation">Verzend een Issue Report naar de ontwikkelaars</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>

@@ -265,7 +265,7 @@
     <value>Submit Feedback</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Submit an issue report to provide the developers with information</value>
+    <value>Send the developers an issue report with more information</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Third Party Licenses</value>
