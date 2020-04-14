@@ -24,6 +24,7 @@
                 <TextBlock
                     x:Uid="SettingsOnStartupTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="On Startup" />
 
                 <RadioButton

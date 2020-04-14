@@ -25,6 +25,7 @@
                 <TextBlock
                     x:Uid="SettingsAppearanceTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="Appearance" />
 
                 <Grid HorizontalAlignment="Stretch">

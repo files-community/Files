@@ -25,6 +25,7 @@
                 <TextBlock
                     x:Uid="SettingsFilesAndFoldersTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="Files and Folders" />
 
                 <Grid HorizontalAlignment="Stretch">

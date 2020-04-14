@@ -24,6 +24,7 @@
                 </StackPanel.ChildrenTransitions>
 
                 <TextBlock
+                    FontWeight="Medium"
                     x:Uid="SettingsFlagsTitle"
                     FontSize="22"
                     Text="Flags" />

@@ -27,6 +27,7 @@
                 <TextBlock
                     x:Uid="SettingsAboutTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="About" />
 
                 <StackPanel Orientation="Horizontal">
@@ -38,6 +39,7 @@
                         <TextBlock
                             x:Uid="SettingsAboutAppName"
                             FontSize="16"
+                            FontWeight="Medium"
                             Text="Files UWP" />
                         <TextBlock
                             x:Name="VersionNumber"
@@ -49,16 +51,17 @@
                 </StackPanel>
 
                 <ListView
-                    HorizontalAlignment="Stretch"
+                    HorizontalAlignment="Left"
                     IsItemClickEnabled="True"
                     ItemClick="ListView_ItemClick">
                     <ListViewItem
+                        Padding="8,2"
                         x:Name="FeedbackForm"
-                        Height="65"
                         HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
                         IsEnabled="True">
                         <StackPanel
-                            Padding="0,14"
+                            Padding="0,4"
                             Orientation="Horizontal"
                             Spacing="14">
                             <FontIcon Glyph="&#xED15;" />
@@ -67,8 +70,8 @@
                                 <TextBlock
                                     x:Uid="SettingsAboutSubmitFeedbackDescription"
                                     Foreground="Gray"
-                                    Text="Submit an issue report to provide the developers with information"
-                                    TextWrapping="Wrap" />
+                                    Text="Send the developers an issue report with more information"
+                                    TextWrapping="Wrap" FontSize="12" />
                             </StackPanel>
                         </StackPanel>
                     </ListViewItem>
