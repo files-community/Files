@@ -1092,9 +1092,9 @@ namespace Files.Interacts
                 var CurrentInstance = App.CurrentInstance;
                 foreach (ListedItem li in (CurrentInstance.ContentPage as GenericFileBrowser).AllView.ItemsSource)
                 {
-                    if (!(CurrentInstance.ContentPage as BaseLayout).SelectedItems.Contains(li))
+                    if (!(CurrentInstance.ContentPage as GenericFileBrowser).SelectedItems.Contains(li))
                     {
-                        (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Add(li);
+                        (CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Add(li);
                     }
                 }
             }
@@ -1109,11 +1109,11 @@ namespace Files.Interacts
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
-                (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Clear();
+                (CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Clear();
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
-                (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Clear();
+                (CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItems.Clear();
             }
         }
 
