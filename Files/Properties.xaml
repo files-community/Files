@@ -106,7 +106,6 @@
                     x:Name="Icon"
                     Width="80"
                     Height="80"
-                    Margin="0,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Grid.Column="0" Grid.Row="0">
