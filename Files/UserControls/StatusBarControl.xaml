@@ -14,6 +14,10 @@
         Height="40"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <TextBlock
+            Padding="8"
+            HorizontalAlignment="Left"
+            Text="{x:Bind SelectedItemPropertiesViewModel.ItemSize, Mode=OneWay}" />
         <StackPanel
             Grid.Row="1"
             Padding="2"

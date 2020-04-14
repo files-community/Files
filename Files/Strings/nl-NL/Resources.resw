@@ -90,9 +90,6 @@
   <data name="SettingsFlagsTitle.Text" xml:space="preserve">
     <value>Vlaggen</value>
   </data>
-  <data name="SettingsNav.PaneTitle" xml:space="preserve">
-    <value>Instellingen</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Over</value>
   </data>

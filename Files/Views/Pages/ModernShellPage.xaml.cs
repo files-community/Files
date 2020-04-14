@@ -4,6 +4,8 @@ using Files.UserControls;
 using Files.View_Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Windows.System;
 using Windows.UI.Core;
@@ -141,21 +143,32 @@ namespace Files.Views.Pages
         {
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
             {
-                // Reset DataGrid Rows that may be in "cut" command mode
-                App.CurrentInstance.InteractionOperations.dataGridRows.Clear();
-                Interaction.FindChildren<DataGridRow>(App.CurrentInstance.InteractionOperations.dataGridRows, (ItemDisplayFrame.Content as GenericFileBrowser).AllView);
-                foreach (DataGridRow dataGridRow in App.CurrentInstance.InteractionOperations.dataGridRows)
-                {
-                    if ((ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity < 1)
-                    {
-                        (ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity = 1;
-                    }
-                }
                 App.InteractionViewModel.IsPageTypeNotHome = true;
+                // Reset DataGrid Rows that may be in "cut" command mode
+                IEnumerable items = (ItemDisplayFrame.Content as GenericFileBrowser).AllView.ItemsSource;
+                if (items == null)
+                    return;
+                foreach (ListedItem listedItem in items)
+                {
+                    FrameworkElement element = (ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem);
+                    if (element != null)
+                        element.Opacity = 1;
+                }
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
                 App.InteractionViewModel.IsPageTypeNotHome = true;
+                // Reset Photo Grid items that may be in "cut" command mode
+                foreach (ListedItem listedItem in (ItemDisplayFrame.Content as PhotoAlbum).FileList.Items)
+                {
+                    List<Grid> itemContentGrids = new List<Grid>();
+                    GridViewItem gridViewItem = (ItemDisplayFrame.Content as PhotoAlbum).FileList.ContainerFromItem(listedItem) as GridViewItem;
+                    if (gridViewItem == null)
+                        return;
+                    Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
+                    var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+                    imageOfItem.Opacity = 1;
+                }
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
             {

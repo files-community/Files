@@ -1,7 +1,7 @@
 ﻿using ByteSizeLib;
 using Files.Enums;
+using Files.Helpers;
 using Files.Interacts;
-using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
@@ -54,7 +54,7 @@ namespace Files.Filesystem
                 {
                     _WorkingDirectory = value;
 
-                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(value.TrimEnd('\\'), StringComparison.OrdinalIgnoreCase));
+                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
                     if (App.CurrentInstance.SidebarSelectedItem == null)
                     {
                         App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
@@ -389,6 +389,7 @@ namespace Files.Filesystem
 
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
+            NaturalStringComparer naturalStringComparer = new NaturalStringComparer();
             switch (DirectorySortOption)
             {
                 case SortOption.Name:
@@ -412,22 +413,37 @@ namespace Files.Filesystem
             List<ListedItem> orderedList;
 
             if (DirectorySortDirection == SortDirection.Ascending)
-                ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+            {
+                if (DirectorySortOption == SortOption.Name)
+                    ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
+                else
+                    ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
+            }
             else
             {
                 if (DirectorySortOption == SortOption.FileType)
-                    ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                {
+                    if (DirectorySortOption == SortOption.Name)
+                        ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    else
+                        ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
+                }
                 else
-                    ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                {
+                    if (DirectorySortOption == SortOption.Name)
+                        ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
+                    else
+                        ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
+                }
             }
 
             // Further order by name if applicable
             if (DirectorySortOption != SortOption.Name)
             {
                 if (DirectorySortDirection == SortDirection.Ascending)
-                    ordered = ordered.ThenBy(orderByNameFunc);
+                    ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
                 else
-                    ordered = ordered.ThenByDescending(orderByNameFunc);
+                    ordered = ordered.ThenByDescending(orderByNameFunc, naturalStringComparer);
             }
             orderedList = ordered.ToList();
             _filesAndFolders.Clear();
@@ -557,7 +573,6 @@ namespace Files.Filesystem
                         var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
-                            matchingItem.ItemType = matchingStorageItem.DisplayType;
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (Thumbnail != null)
@@ -598,7 +613,12 @@ namespace Files.Filesystem
             }
         }
 
-        public async void RapidAddItemsToCollectionAsync(string path)
+        public async Task RefreshItems()
+        {
+            await AddItemsToCollectionAsync(WorkingDirectory);
+        }
+
+        public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
@@ -736,6 +756,16 @@ namespace Files.Filesystem
             IsLoadingItems = false;
         }
 
+        public void AddFolder(string folderPath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
+
+            IntPtr hFile = FindFirstFileExFromApp(folderPath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            AddFolder(findData, Directory.GetParent(folderPath).FullName);
+        }
+
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
             if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
@@ -763,7 +793,7 @@ namespace Files.Filesystem
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = findData.cFileName,
                     ItemDateModifiedReal = itemDate,
-                    ItemType =  "File folder",    //TODO: Localize this
+                    ItemType =  ResourceController.GetTranslation("FileFolderListItem"),
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
@@ -776,6 +806,16 @@ namespace Files.Filesystem
 
                 EmptyTextState.IsVisible = Visibility.Collapsed;
             }
+        }
+
+        public void AddFile(string filePath)
+        {
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_CASE_SENSITIVE;
+
+            IntPtr hFile = FindFirstFileExFromApp(filePath, findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+            AddFile(findData, Directory.GetParent(filePath).FullName);
         }
 
         private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
@@ -799,13 +839,13 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds);
             var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
-            string itemType = "File";
+            string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
 
             if (findData.cFileName.Contains('.'))
             {
                 itemFileExtension = Path.GetExtension(itemPath);
-                itemType = itemFileExtension.Trim('.') + " File";
+                itemType = itemFileExtension.Trim('.') + " " + itemType;
             }
 
             bool itemFolderImgVis = false;
@@ -842,9 +882,9 @@ namespace Files.Filesystem
             EmptyTextState.IsVisible = Visibility.Collapsed;
         }
 
-        public void AddItemsToCollectionAsync(string path)
+        public async Task AddItemsToCollectionAsync(string path)
         {
-            RapidAddItemsToCollectionAsync(path);
+            await RapidAddItemsToCollectionAsync(path);
             return;
         }
 
@@ -875,7 +915,6 @@ namespace Files.Filesystem
                 //}
 
                 //string tooltipString = dateCreatedText + "\n" + "Folders: " + firstFoldersText + "\n" + "Files: " + firstFilesText;
-
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     //FolderTooltipText = tooltipString,

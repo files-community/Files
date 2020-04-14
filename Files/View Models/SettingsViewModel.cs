@@ -13,6 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Management.Deployment;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -57,14 +58,13 @@ namespace Files.View_Models
         }
         private void AddDefaultLocations()
         {
-            var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDesktop"), Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDownloads"), Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarDocuments"), Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
-            App.sideBarItems.Add(new LocationItem { Text = resourceLoader.GetString("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDesktop"), Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDownloads"), Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDocuments"), Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
         }
 
         public List<string> LinesToRemoveFromFile = new List<string>();
@@ -306,10 +306,41 @@ namespace Files.View_Models
             }
 
             var content = await FileIO.ReadTextAsync(file);
+            TerminalFileModel terminalsFileModel = null;
+            try
+            {
+                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+            }
+            catch (JsonSerializationException)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
-            var terminals = JsonConvert.DeserializeObject<TerminalFileModel>(content).Terminals;
+                file = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+                var defaultContent = await FileIO.ReadTextAsync(file);
+                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
 
-            Terminals = terminals;
+            }
+
+            // Ensure Windows Terminal is not already in List
+            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            {
+                PackageManager packageManager = new PackageManager();
+                var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+                if (terminalPackage != null)
+                {
+                    terminalsFileModel.Terminals.Add(new TerminalModel()
+                    {
+                        Id = terminalsFileModel.Terminals.Count + 1,
+                        Name = "Windows Terminal",
+                        Path = "wt.exe",
+                        arguments = "-d {0}",
+                        icon = ""
+                    });
+                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
+                }
+            }
+            Terminals = terminalsFileModel.Terminals;
         }
 
         private IList<TerminalModel> _Terminals = null;

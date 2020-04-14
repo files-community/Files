@@ -33,6 +33,12 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
 using Files.View_Models;
+using System.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Windows.Security.Cryptography;
+using Windows.Storage.Streams;
+using GalaSoft.MvvmLight.Command;
 
 namespace Files.Interacts
 {
@@ -346,13 +352,7 @@ namespace Files.Interacts
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = selectedItemPath;
 
                         (CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
-                        App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(selectedItemPath, StringComparison.OrdinalIgnoreCase));
-                        if (App.CurrentInstance.SidebarSelectedItem == null)
-                        {
-                            App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(selectedItemPath), StringComparison.OrdinalIgnoreCase));
-                        }
                         CurrentInstance.ContentFrame.Navigate(sourcePageType, selectedItemPath, new SuppressNavigationTransitionInfo());
-
                     }
                     else
                     {
@@ -744,112 +744,70 @@ namespace Files.Interacts
             return true;
         }
 
-        public List<DataGridRow> dataGridRows = new List<DataGridRow>();
-        public List<GridViewItem> gridViewItems = new List<GridViewItem>();
         public async void CutItem_Click(object sender, RoutedEventArgs e)
         {
             DataPackage dataPackage = new DataPackage
             {
                 RequestedOperation = DataPackageOperation.Move
             };
-            App.pathsToDeleteAfterPaste.Clear();
             List<IStorageItem> items = new List<IStorageItem>();
-            if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+            var CurrentInstance = App.CurrentInstance;
+            if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
             {
-                var CurrentInstance = App.CurrentInstance;
-                if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
+                // First, reset DataGrid Rows that may be in "cut" command mode
+                foreach (ListedItem listedItem in CurrentInstance.ViewModel.FilesAndFolders)
                 {
-                    dataGridRows.Clear();
-                    FindChildren<DataGridRow>(dataGridRows, (CurrentInstance.ContentPage as GenericFileBrowser).AllView);
-
-                    // First, reset DataGrid Rows that may be in "cut" command mode
-                    foreach (DataGridRow row in dataGridRows)
+                    if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
-                        if ((CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(row).Opacity < 1)
-                        {
-                            (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(row).Opacity = 1;
-                        }
+                        FrameworkElement element = (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem);
+                        if (element != null)
+                            element.Opacity = 1;
                     }
-
-                    foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
+                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
-                        IEnumerator allItems = (CurrentInstance.ContentPage as GenericFileBrowser).AllView.ItemsSource.GetEnumerator();
-                        int index = -1;
-                        while (allItems.MoveNext())
-                        {
-                            index++;
-                            var item = allItems.Current;
-                            if (item == StorItem)
-                            {
-                                DataGridRow dataGridRow = dataGridRows[index];
-                                (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(dataGridRow).Opacity = 0.4;
-                            }
-                        }
-
-                        App.pathsToDeleteAfterPaste.Add(StorItem.ItemPath);
-                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
-                            items.Add(item);
-                        }
-                        else
-                        {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
-                            items.Add(item);
-                        }
+                        List<Grid> itemContentGrids = new List<Grid>();
+                        GridViewItem gridViewItem = (CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(listedItem) as GridViewItem;
+                        if (gridViewItem == null)
+                            continue;
+                        FindChildren<Grid>(itemContentGrids, gridViewItem);
+                        var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+                        imageOfItem.Opacity = 1;
                     }
                 }
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-            {
-                var CurrentInstance = App.CurrentInstance;
-                if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
+
+                foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                 {
-
-                    gridViewItems.Clear();
-                    FindChildren<GridViewItem>(gridViewItems, (CurrentInstance.ContentPage as PhotoAlbum).FileList);
-
-                    // First, reset GridView items that may be in "cut" command mode
-                    foreach (GridViewItem gridViewItem in gridViewItems)
+                    // Dim opacities accordingly
+                    if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
-                        List<Grid> itemContentGrids = new List<Grid>();
-                        FindChildren<Grid>(itemContentGrids, (CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(gridViewItem.Content));
-                        var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-                        if (imageOfItem.Opacity < 1)
-                        {
-                            imageOfItem.Opacity = 1;
-                        }
-                    }
-
-                    foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
+                        (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem).Opacity = 0.4;
+                    } else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
-                        GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(StorItem);
+                        GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(listedItem);
                         List<Grid> itemContentGrids = new List<Grid>();
-                        FindChildren<Grid>(itemContentGrids, (CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(itemToDimForCut.Content));
+                        FindChildren<Grid>(itemContentGrids, itemToDimForCut);
                         var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
                         imageOfItem.Opacity = 0.4;
+                    }
 
-                        App.pathsToDeleteAfterPaste.Add(StorItem.ItemPath);
-                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
-                            items.Add(item);
-                        }
-                        else
-                        {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
-                            items.Add(item);
-                        }
+                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    {
+                        var item = await StorageFile.GetFileFromPathAsync(listedItem.ItemPath);
+                        items.Add(item);
+                    }
+                    else
+                    {
+                        var item = await StorageFolder.GetFolderFromPathAsync(listedItem.ItemPath);
+                        items.Add(item);
                     }
                 }
             }
-            IEnumerable<IStorageItem> EnumerableOfItems = items;
-            dataPackage.SetStorageItems(EnumerableOfItems);
+            dataPackage.SetStorageItems(items);
             Clipboard.SetContent(dataPackage);
             Clipboard.Flush();
         }
         public string CopySourcePath;
-        public IReadOnlyList<IStorageItem> ItemsToPaste;
+        public IReadOnlyList<IStorageItem> itemsToPaste;
         public int itemsPasted;
 
         public async void CopyItem_ClickAsync(object sender, RoutedEventArgs e)
@@ -904,64 +862,114 @@ namespace Files.Interacts
             }
             if (items?.Count > 0)
             {
-                IEnumerable<IStorageItem> EnumerableOfItems = items;
-                dataPackage.SetStorageItems(EnumerableOfItems);
+                dataPackage.SetStorageItems(items);
                 Clipboard.SetContent(dataPackage);
                 Clipboard.Flush();
             }
 
         }
 
+        enum ImpossibleActionResponseTypes
+        {
+            Skip,
+            Abort
+        }
+
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
-            string DestinationPath = CurrentInstance.ViewModel.WorkingDirectory;
-
             DataPackageView packageView = Clipboard.GetContent();
-            ItemsToPaste = await packageView.GetStorageItemsAsync();
+            string destinationPath = CurrentInstance.ViewModel.WorkingDirectory;
+
+            await PasteItems(packageView, destinationPath, packageView.RequestedOperation);
+        }
+
+        public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
+        {
+            itemsToPaste = await packageView.GetStorageItemsAsync();
+            HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
-            if (ItemsToPaste.Count > 3)
+            if (itemsToPaste.Count > 3)
             {
-                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, ItemsToPaste.Count);
+                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, itemsToPaste.Count);
             }
 
-            foreach (IStorageItem item in ItemsToPaste)
+            foreach (IStorageItem item in itemsToPaste)
             {
-
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    await CloneDirectoryAsync(item.Path, DestinationPath, item.Name, false);
+                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                        ContentDialog dialog = new ContentDialog()
+                        {
+                            Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
+                            Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
+                            PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
+                            CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
+                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                        };
+                        await dialog.ShowAsync();
+                        if (responseType == ImpossibleActionResponseTypes.Skip)
+                        {
+                            continue;
+                        }
+                        else if (responseType == ImpossibleActionResponseTypes.Abort)
+                        {
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
+                        pastedItems.Add(pastedFolder);
+                        if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
+                            CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
+                    }
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    if (ItemsToPaste.Count > 3)
+                    if (itemsToPaste.Count > 3)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count);
                     }
-                    StorageFile ClipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                    await ClipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(DestinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                    StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                    StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                    pastedItems.Add(pastedFile);
+                    if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
+                        CurrentInstance.ViewModel.AddFile(pastedFile.Path);
                 }
             }
 
-            if (packageView.RequestedOperation == DataPackageOperation.Move)
+            if (acceptedOperation == DataPackageOperation.Move)
             {
-                foreach (string path in App.pathsToDeleteAfterPaste)
+                foreach (IStorageItem item in itemsToPaste)
                 {
-                    if (path.Contains("."))
+                    if (item.IsOfType(StorageItemTypes.File))
                     {
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
                         await file.DeleteAsync();
                     }
-                    if (!path.Contains("."))
+                    else if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
+                        StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
                         await folder.DeleteAsync();
                     }
+                    ListedItem listedItem = CurrentInstance.ViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
+                    if (listedItem != null)
+                        CurrentInstance.ViewModel.RemoveFileOrFolder(listedItem);
                 }
             }
-
+            if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
+            {
+                List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
+                List<ListedItem> copiedItems = CurrentInstance.ViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
+                CurrentInstance.ContentPage.SelectedItems = copiedItems;
+            }
+            packageView.ReportOperationCompleted(acceptedOperation);
         }
 
-        public async Task CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
+        public async Task<StorageFolder> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
@@ -970,11 +978,11 @@ namespace Files.Interacts
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                if(ItemsToPaste != null)
+                if(itemsToPaste != null)
                 {
-                    if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                    if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
                     }
                 }
 
@@ -982,17 +990,17 @@ namespace Files.Interacts
             }
             foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
             {
-                if (ItemsToPaste != null)
+                if (itemsToPaste != null)
                 {
-                    if (ItemsToPaste.Count > 3 && !suppressProgressFlyout)
+                    if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, ItemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
                     }
                 }
 
                 await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
             }
-
+            return createdRoot;
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
@@ -1084,9 +1092,9 @@ namespace Files.Interacts
                 var CurrentInstance = App.CurrentInstance;
                 foreach (ListedItem li in (CurrentInstance.ContentPage as GenericFileBrowser).AllView.ItemsSource)
                 {
-                    if (!(CurrentInstance.ContentPage as BaseLayout).SelectedItems.Contains(li))
+                    if (!(CurrentInstance.ContentPage as GenericFileBrowser).SelectedItems.Contains(li))
                     {
-                        (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Add(li);
+                        (CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Add(li);
                     }
                 }
             }
@@ -1101,11 +1109,11 @@ namespace Files.Interacts
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
-                (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Clear();
+                (CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Clear();
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
-                (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Clear();
+                (CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItems.Clear();
             }
         }
 
@@ -1149,6 +1157,20 @@ namespace Files.Interacts
         public void PushJumpChar(char letter)
         {
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
+        }
+
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
+        {
+            HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
+            CryptographicHash objHash = algorithmProvider.CreateHash();
+            var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
+            var fileBytes = await StorageFileHelper.ReadBytesAsync(itemFromPath);
+
+            IBuffer buffer = CryptographicBuffer.CreateFromByteArray(fileBytes);
+            objHash.Append(buffer);
+            IBuffer bufferHash = objHash.GetValueAndReset();
+
+            return CryptographicBuffer.EncodeToHexString(bufferHash);
         }
     }
 }

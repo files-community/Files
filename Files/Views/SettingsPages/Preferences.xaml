@@ -27,6 +27,7 @@
                 <TextBlock
                     x:Uid="SettingsPreferencesTitle"
                     FontSize="22"
+                    FontWeight="Medium"
                     Text="Preferences" />
 
                 <Grid HorizontalAlignment="Stretch">
@@ -120,7 +121,9 @@
 
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
-                            Width="120"
+                            MinWidth="120"
+                            MaxWidth="185"
+                            HorizontalAlignment="Stretch"
                             ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>

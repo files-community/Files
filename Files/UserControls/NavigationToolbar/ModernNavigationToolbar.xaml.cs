@@ -4,7 +4,9 @@ using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -240,6 +242,23 @@ namespace Files.UserControls
                         }
                         catch (Exception ex) // Not a file or not accessible
                         {
+
+                            // Launch terminal application if possible
+                            var localSettings = ApplicationData.Current.LocalSettings;
+
+                            foreach (var item in App.AppSettings.Terminals)
+                            {
+                                if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                {
+                                    localSettings.Values["Application"] = item.Path;
+                                    localSettings.Values["Arguments"] = String.Format(item.arguments, App.CurrentInstance.ViewModel.WorkingDirectory);
+
+                                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+
+                                    return;
+                                }
+                            }
+
                             var dialog = new ContentDialog()
                             {
                                 Title = "Invalid item",
@@ -258,10 +277,12 @@ namespace Files.UserControls
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton) { return; }
+            if (FocusManager.GetFocusedElement() is FlyoutBase || FocusManager.GetFocusedElement() is AppBarButton || FocusManager.GetFocusedElement() is Popup) { return; }
 
-            var element = FocusManager.GetFocusedElement() as Control;
-            if (element.FocusState != FocusState.Programmatic && element.FocusState != FocusState.Keyboard)
+            var element = FocusManager.GetFocusedElement();
+            var elementAsControl = element as Control;
+
+            if (elementAsControl.FocusState != FocusState.Programmatic && elementAsControl.FocusState != FocusState.Keyboard)
             {
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }

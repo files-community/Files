@@ -1,6 +1,8 @@
 ﻿using Files.SettingsPages;
+using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,35 +18,8 @@ namespace Files
 
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-            if (App.Current.RequestedTheme == ApplicationTheme.Dark)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (App.Current.RequestedTheme == ApplicationTheme.Light)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-            }
+            Window.Current.SetTitleBar(DragArea);
 
-            if (this.RequestedTheme == ElementTheme.Dark)
-            {
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (this.RequestedTheme == ElementTheme.Light)
-            {
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-                titleBar.BackgroundColor = Colors.Transparent;
-            }
             SettingsContentFrame.Navigate(typeof(Appearance));
         }
 
@@ -76,6 +51,12 @@ namespace Files
                 5 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
+        }
+
+        private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(InstanceTabsView));
         }
     }
 }

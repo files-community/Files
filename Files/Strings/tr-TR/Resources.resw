@@ -13,426 +13,315 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="PropertiesCreated.Text" xml:space="preserve">
-    <value>Erstellt:</value>
+    <value>Düzenlendiği Tarih:</value>
   </data>
   <data name="PropertiesItemFileName.PlaceholderText" xml:space="preserve">
-    <value>Dateiname</value>
+    <value>Öğe Adı</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Pfad:</value>
+    <value>Yolu:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
-    <value>Größe:</value>
+    <value>Boyut:</value>
   </data>
   <data name="PropertiesItemType.Text" xml:space="preserve">
-    <value>Dateityp:</value>
+    <value>Öğe Tipi:</value>
   </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
-    <value>Verändert:</value>
+    <value>Değiştirilme Tarihi:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
-    <value>Alle Dateien löschen</value>
+    <value>Bütün öğeleri temizle</value>
   </data>
   <data name="RecentItemDescription.Text" xml:space="preserve">
-    <value>Kürzliche verwendete Dateien und Ordner werden hier zu sehen sein</value>
+    <value>Daha önce eriştiğiniz dosya ve klasörler burada görünecek</value>
   </data>
   <data name="RecentItemOpenFileLocation.Text" xml:space="preserve">
-    <value>Dateispeicherort öffnen</value>
+    <value>Dosya konumunu aç</value>
   </data>
   <data name="RecentItemRemove.Text" xml:space="preserve">
-    <value>Diese Datei löschen</value>
+    <value>Bu öğeyi sil</value>
   </data>
   <data name="RecentItems.Text" xml:space="preserve">
-    <value>Zuletzt verwendete Dateien</value>
+    <value>Son öğeler</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
     <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>Lizenz: </value>
+    <value>Lisans:</value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Besonderen Dank an:</value>
+    <value>Özel teşekkürler:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
-    <value>Feedback geben</value>
+    <value>Geri Bildirim Gönder</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Stelle den Entwicklern Informationen zur Verfügung durch das Erstellen eines Fehlerberichtes</value>
+    <value>Geliştiricilere bilgi sağlamak için bir sorun raporu gönderin</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
-    <value>Drittanbieter Lizenzen</value>
+    <value>Üçüncü Şahıs Lisansları</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>Über</value>
+    <value>Hakkında</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Internetseite: </value>
+    <value>Web Sitesi:</value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
-    <value>Acrylic Seitenleiste</value>
+    <value>Akrilik kenar çubuğu</value>
   </data>
   <data name="SettingsAppearanceDateFormat.Text" xml:space="preserve">
-    <value>Datumsformat</value>
+    <value>Tarih formatı</value>
   </data>
   <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Thema</value>
+    <value>Tema</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
-    <value>Aussehen</value>
+    <value>Görünüm</value>
   </data>
   <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Laufwerksbuchstaben anzeigen</value>
+    <value>Sürücü harflerini göster</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
-    <value>Dateierweiterungen bekannter Dateitypen anzeigen</value>
+    <value>Bilinen dosya türleri için uzantıları göster</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Versteckte Dateien, Ordner und Laufwerke anzeigen</value>
+    <value>Gizli dosyaları, klasörleri ve sürücüleri göster</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
-    <value>Dateien und Ordner</value>
-  </data>
-  <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Über</value>
-  </data>
-  <data name="SettingsNavAppearance.Content" xml:space="preserve">
-    <value>Aussehen</value>
-  </data>
-  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
-    <value>Dateien und Ordner</value>
-  </data>
-  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
-    <value>Beim Start</value>
-  </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Seitenanordnung</value>
-  </data>
-  <data name="SettingsNavPreferences.Content" xml:space="preserve">
-    <value>Voreinstellungen</value>
-  </data>
-  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>Suche</value>
-  </data>
-  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Dort weitermachen wo du aufgehört hast</value>
-  </data>
-  <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Eine neue Registerkarte öffnen</value>
-  </data>
-  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Bestimmte Seite oder Seiten öffnen</value>
-  </data>
-  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
-    <value>Beim Start</value>
-  </data>
-  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
-    <value>OneDrive an die Seitenleiste anheften</value>
-  </data>
-  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Terminal Anwendung</value>
-  </data>
-  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Voreinstellungen</value>
-  </data>
-  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
-    <value>Von Seitenleiste entfernen</value>
+    <value>Dosyalar ve Klasörler</value>
   </data>
   <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Flags</value>
+    <value>Bayraklar</value>
+  </data>
+  <data name="SettingsNavAbout.Content" xml:space="preserve">
+    <value>Hakkında</value>
+  </data>
+  <data name="SettingsNavAppearance.Content" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
+    <value>Dosyalar ve Klasörler</value>
+  </data>
+  <data name="SettingsNavOnStartup.Content" xml:space="preserve">
+    <value>Başlangıçta</value>
+  </data>
+  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
+    <value>Sayfa Düzenleri</value>
+  </data>
+  <data name="SettingsNavPreferences.Content" xml:space="preserve">
+    <value>Tercihler</value>
+  </data>
+  <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
+    <value>Kaldığınız yerden devam edin</value>
+  </data>
+  <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
+    <value>Yeni bir sekmede aç</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
+    <value>Belirli bir sayfayı veya sayfaları açma</value>
+  </data>
+  <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
+    <value>Başlangıçta</value>
+  </data>
+  <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
+    <value>OneDrive'ı kenar çubuğuna sabitle</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
+    <value>Terminal Uygulamaları</value>
+  </data>
+  <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
+    <value>Özellikler</value>
+  </data>
+  <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
+    <value>Kenar Çubuğundan sabitlemeyi kaldır</value>
   </data>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Öğeleri Sil</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>İptal</value>
   </data>
   <data name="ConfirmDeleteDialogDeleteButton.Content" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Sil</value>
   </data>
   <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Sind Sie sicher, dass sie die ausgewählten Dateien löschen möchten?</value>
+    <value>Seçilen öğeyi silmek istediğinizden emin misiniz?</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
-    <value>Endgültig löschen</value>
+    <value>Kalıcı Olarak Sil</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Einen Bestätigungsdialog anzeigen bevor Dateien und Ordner gelöscht werden</value>
+    <value>Dosya veya klasörleri silerken bir onay iletişim kutusu göster</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
-    <value>Desktop</value>
+    <value>Masaüstü</value>
   </data>
   <data name="SidebarDocuments" xml:space="preserve">
-    <value>Dokumente</value>
+    <value>Belgeler</value>
   </data>
   <data name="SidebarDownloads" xml:space="preserve">
-    <value>Downloads</value>
+    <value>İndirilenler</value>
   </data>
   <data name="SidebarHome" xml:space="preserve">
-    <value>Home</value>
+    <value>Ana Dosya</value>
   </data>
   <data name="SidebarMusic" xml:space="preserve">
-    <value>Musik</value>
+    <value>Müzikler</value>
   </data>
   <data name="SidebarPictures" xml:space="preserve">
-    <value>Bilder</value>
+    <value>Resimler</value>
   </data>
   <data name="SidebarVideos" xml:space="preserve">
-    <value>Videos</value>
+    <value>Videolar</value>
   </data>
   <data name="NavigationToolbarNewTab.Text" xml:space="preserve">
-    <value>Neuer Tab</value>
+    <value>Yeni Sekme</value>
   </data>
   <data name="ExtractFilesDialog.Title" xml:space="preserve">
-    <value>Archiv entpacken</value>
+    <value>Sıkıştırılmış Arşivi Çıkart</value>
   </data>
   <data name="ExtractFilesDialog.CloseButtonText" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>İptal</value>
   </data>
   <data name="ExtractFilesDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Entpacken</value>
+    <value>Çıkart</value>
   </data>
   <data name="ExtractFilesDialogDescription.Text" xml:space="preserve">
-    <value>Wähle aus wohin das Archiv entpackt werden soll. Sie müssen im derzeitigen Ordner bleiben bis das Entpacken beended wurde. Ein neuer Tab mit den entpackten Dateien wird anschließend geöffnet.</value>
+    <value>Bu sıkıştırılmış arşivi çıkarmak için bir konum seçin. İşlem tamamlanana kadar geçerli klasörde kalmanız gerekir. Çıkarılan öğelerle yeni bir sekme açılacaktır.</value>
   </data>
   <data name="ExtractFilesDialogBrowseButton.Content" xml:space="preserve">
-    <value>Durchsuchen</value>
+    <value>Gözat</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBy.Text" xml:space="preserve">
-    <value>Sortieren nach</value>
+    <value>Göre Sırala</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByName.Text" xml:space="preserve">
-    <value>Name</value>
+    <value>Adı</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDate.Text" xml:space="preserve">
-    <value>Änderungsdatum</value>
+    <value>Değiştirilme Tarihi</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByType.Text" xml:space="preserve">
-    <value>Typ</value>
+    <value>Tipi</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortBySize.Text" xml:space="preserve">
-    <value>Größe</value>
+    <value>Boyutu</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByAscending.Text" xml:space="preserve">
-    <value>Aufsteigend</value>
+    <value>Yükselen</value>
   </data>
   <data name="BaseLayoutContextFlyoutSortByDescending.Text" xml:space="preserve">
-    <value>Absteigend</value>
+    <value>Azalan</value>
   </data>
   <data name="BaseLayoutContextFlyoutRefresh.Text" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Yenile</value>
   </data>
   <data name="BaseLayoutContextFlyoutPaste.Text" xml:space="preserve">
-    <value>Einfügen</value>
+    <value>Yapıştır</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Mit Terminal öffnen...</value>
+    <value>Terminalde Aç...</value>
   </data>
   <data name="BaseLayoutContextFlyoutNew.Text" xml:space="preserve">
-    <value>Neu</value>
+    <value>Yeni</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewFolder.Text" xml:space="preserve">
-    <value>Ordner</value>
+    <value>Dosya</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Bild</value>
+    <value>Bit Eşlem Resmi</value>
   </data>
   <data name="BaseLayoutContextFlyoutNewTextDocument.Text" xml:space="preserve">
-    <value>Textdatei</value>
+    <value>Metin Belgesi</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Eigenschaften</value>
+    <value>Özellikler</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
-    <value>Entpacken</value>
+    <value>Sil</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Öffnen mit...</value>
+    <value>Birlikte Aç...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
-    <value>In neuem Tab öffnen</value>
+    <value>Yeni bir sekmede aç</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" xml:space="preserve">
-    <value>In neuem Fenster öffnen</value>
+    <value>Yeni bir pencerede aç</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Als Desktophintergrund festlegen</value>
+    <value>Masaüstü arkaplanı olarak ayarla</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
-    <value>Teilen</value>
+    <value>Paylaş</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCut.Text" xml:space="preserve">
-    <value>Ausschneiden</value>
+    <value>Kes</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutCopy.Text" xml:space="preserve">
-    <value>Kopieren</value>
+    <value>Kopyala</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutDelete.Text" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Sil</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRename.Text" xml:space="preserve">
-    <value>Umbenennen</value>
+    <value>Yeniden Adlandır</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutPinToSidebar.Text" xml:space="preserve">
-    <value>An Seitenleiste anheften</value>
+    <value>Kenar çubuğa sabitle</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Eigenscaften</value>
+    <value>Özellikler</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
   </data>
   <data name="NavigationToolbarNewWindow.Text" xml:space="preserve">
-    <value>Neues Fenster</value>
+    <value>Yeni Pencere</value>
   </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
-    <value>Pfad kopieren</value>
+    <value>Kopyalama Yolu</value>
   </data>
   <data name="NavigationToolbarPaste.Text" xml:space="preserve">
-    <value>Einfügen</value>
+    <value>Yapıştır</value>
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>In Terminal öffnen...</value>
+    <value>Terminalde Aç...</value>
   </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
-    <value>Pfad einfügen</value>
+    <value>Bir yol girin</value>
   </data>
   <data name="NavigationToolbarSearchReigon.PlaceholderText" xml:space="preserve">
-    <value>Suchen</value>
+    <value>Ara</value>
   </data>
   <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
-    <value>Alles auswählen</value>
+    <value>Hepsini seç</value>
   </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
-    <value>Auswahl aufheben</value>
+    <value>Seçimi Temizle</value>
   </data>
   <data name="ModernNavigationToolbaNewFolder.Text" xml:space="preserve">
-    <value>Ordner</value>
+    <value>Dosya</value>
   </data>
   <data name="ModernNavigationToolbaNewBitmapImage.Text" xml:space="preserve">
-    <value>Bitmap Bild</value>
+    <value>Bit Eşlem Resmi</value>
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
-    <value>Textdokument</value>
+    <value>Metin Belgesi</value>
   </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
-    <value>Listenansicht</value>
+    <value>Liste Görünümü</value>
   </data>
   <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Rasteransicht</value>
+    <value>Izgara Görünümü</value>
   </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
-    <value>Einstellungen</value>
-  </data>
-  <data name="nameColumn.Header" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="dateColumn.Header" xml:space="preserve">
-    <value>Geändert</value>
-  </data>
-  <data name="typeColumn.Header" xml:space="preserve">
-    <value>Typ</value>
-  </data>
-  <data name="sizeColumn.Header" xml:space="preserve">
-    <value>Größe</value>
-  </data>
-  <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Willkommen in Files UWP</value>
-  </data>
-  <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Erlaubnis erteilen</value>
-  </data>
-  <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, musst du Files UWP die Erlaubnis erteilen, Dateien anzeigen zu dürfen. Diese Option wird die Einstellungen öffenen mit denen du diese Erlaubnis erteilen kannst. Anschließend muss die App neu gestartet werden.</value>
-  </data>
-  <data name="FileFolderListItem" xml:space="preserve">
-    <value>Dateiordner</value>
-  </data>
-  <data name="RenameDialog.Title" xml:space="preserve">
-    <value>Dateinamen eingeben</value>
-  </data>
-  <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Gebe den Dateinamen ohne Erweiterung ein</value>
-  </data>
-  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Name festlegen</value>
-  </data>
-  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
-  <data name="NewTab" xml:space="preserve">
-    <value>Neuer Tab</value>
-  </data>
-  <data name="SystemTheme" xml:space="preserve">
-    <value>System</value>
-  </data>
-  <data name="LightTheme" xml:space="preserve">
-    <value>Hell</value>
-  </data>
-  <data name="DarkTheme" xml:space="preserve">
-    <value>Dunkel</value>
-  </data>
-  <data name="ApplicationTimeStye" xml:space="preserve">
-    <value>Anwendung</value>
-  </data>
-  <data name="SystemTimeStye" xml:space="preserve">
-    <value>System</value>
-  </data>
-  <data name="NewFolder" xml:space="preserve">
-    <value>Neuer Ordner</value>
-  </data>
-  <data name="NewTextDocument" xml:space="preserve">
-    <value>Neues Textdokument</value>
-  </data>
-  <data name="NewBitmapImage" xml:space="preserve">
-    <value>Neues Bitmap Bild</value>
-  </data>
-  <data name="EmptyFolder.Text" xml:space="preserve">
-    <value>Dieser Ordner ist leer.</value>
-  </data>
-  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zurück</value>
-  </data>
-  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorwärts</value>
-  </data>
-  <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hoch</value>
-  </data>
-  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aktualisieren</value>
-  </data>
-  <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Datei erstellen</value>
-  </data>
-  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Suchen</value>
-  </data>
-  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Mehr Optionen</value>
-  </data>
-  <data name="SidebarDrives" xml:space="preserve">
-    <value>Laufwerke</value>
-  </data>
-  <data name="ItemTypeFile" xml:space="preserve">
-    <value>Datei</value>
-  </data>
-  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
-    <value>Aktion kann nicht ausgeführt werden</value>
-  </data>
-  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
-    <value>Der Ausgangsordner</value>
-  </data>
-  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
-    <value>ist ein Unterordner des Quellordners</value>
-  </data>
-  <data name="ErrorDialogSkip" xml:space="preserve">
-    <value>Überspringen</value>
-  </data>
-  <data name="ErrorDialogCancel" xml:space="preserve">
-    <value>Abbrechen</value>
-  </data>
-  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
+    <value>Özellikler</value>
   </data>
 </root>

@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -73,6 +74,7 @@ namespace Files
                     {
                         IsItemSelected = true;
                     }
+                    SetSelectedItemsOnUi(value);
                     NotifyPropertyChanged("SelectedItems");
                 }
             }
@@ -98,6 +100,7 @@ namespace Files
                     {
                         IsItemSelected = true;
                     }
+                    SetSelectedItemOnUi(value);
                     NotifyPropertyChanged("SelectedItem");
                 }
             }
@@ -118,6 +121,12 @@ namespace Files
                 IsQuickLookEnabled = true;
             }
         }
+
+        protected abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+
+        protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+
+        protected abstract ListedItem GetItemFromElement(object element);
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
@@ -144,7 +153,7 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
@@ -171,9 +180,9 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
 
-            App.CurrentInstance.ViewModel.AddItemsToCollectionAsync(App.CurrentInstance.ViewModel.WorkingDirectory);
-            App.Clipboard_ContentChanged(null, null);
+            await App.CurrentInstance.ViewModel.RefreshItems();
 
+            App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
 
@@ -273,5 +282,93 @@ namespace Files
             char letterPressed = Convert.ToChar(args.KeyCode);
             App.CurrentInstance.InteractionOperations.PushJumpChar(letterPressed);
         }
+
+        protected async void List_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                // As long as one file doesn't already belong to this folder
+                if (draggedItems.Any(draggedItem => !Directory.GetParent(draggedItem.Path).FullName.Equals(App.CurrentInstance.ViewModel.WorkingDirectory, StringComparison.OrdinalIgnoreCase)))
+                {
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                    e.Handled = true;
+                }
+                else
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
+            }
+        }
+
+        protected async void List_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.ViewModel.WorkingDirectory, e.AcceptedOperation);
+                e.Handled = true;
+            }
+        }
+
+        protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
+        {
+            List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+            foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
+            {
+                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                    selectedStorageItems.Add(await StorageFile.GetFileFromPathAsync(item.ItemPath));
+                else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                    selectedStorageItems.Add(await StorageFolder.GetFolderFromPathAsync(item.ItemPath));
+            }
+
+            e.Data.SetStorageItems(selectedStorageItems);
+            e.DragUI.SetContentFromDataPackage();
+        }
+
+        protected async void Item_DragOver(object sender, DragEventArgs e)
+        {
+            ListedItem item = GetItemFromElement(sender);
+            if (e.DataView.Contains(StandardDataFormats.StorageItems))
+            {
+                e.Handled = true;
+                IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                // Items from the same parent folder as this folder are dragged into this folder, so we move the items instead of copy
+                if (draggedItems.Any(draggedItem => Directory.GetParent(draggedItem.Path).FullName == Directory.GetParent(item.ItemPath).FullName))
+                {
+                    e.AcceptedOperation = DataPackageOperation.Move;
+                }
+                else
+                {
+                    e.AcceptedOperation = DataPackageOperation.Copy;
+                }
+            }
+        }
+
+        protected async void Item_Drop(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            ListedItem rowItem = GetItemFromElement(sender);
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
+        }
+
+        protected void InitializeDrag(UIElement element)
+        {
+            ListedItem item = GetItemFromElement(element);
+            if(item != null)
+            {
+                element.AllowDrop = false;
+                element.DragStarting -= Item_DragStarting;
+                element.DragStarting += Item_DragStarting;
+                element.DragOver -= Item_DragOver;
+                element.Drop -= Item_Drop;
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    element.AllowDrop = true;
+                    element.DragOver += Item_DragOver;
+                    element.Drop += Item_Drop;
+                }
+            }
+        }
+
     }
 }

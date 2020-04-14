@@ -54,6 +54,7 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
+        public static SelectedItemPropertiesViewModel SelectedItemPropertiesViewModel { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -80,6 +81,7 @@ namespace Files
 
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
+            SelectedItemPropertiesViewModel = new SelectedItemPropertiesViewModel();
         }
 
         private void RegisterUncaughtExceptionLogger()
@@ -162,18 +164,6 @@ namespace Files
         {
             //start tracking app usage
             SystemInformation.TrackAppUse(e);
-
-            if (SystemInformation.IsAppUpdated)
-            {
-                var dialog = new ContentDialog()
-                {
-                    Title = "What's new in v0.7.5",
-                    Content = "• Fixed a crash that would sometimes occur when right clicking on a file or folder.\n• Fixed an issue where the status bar wouldn't hide on the new tab page.\n• Fixed an issue where clicking on the quick access item for home wouldn't navigate to the home page.\n• Fixed a bug that prevented users from right clicking on the navigation bar.",
-                    PrimaryButtonText = "Lets go!"
-                };
-
-                dialog.ShowAsync();
-            }
 
             Logger.Info("App launched");
 

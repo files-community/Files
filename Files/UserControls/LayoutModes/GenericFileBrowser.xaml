@@ -71,7 +71,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                IsEnabled="{x:Bind local:App.PS.IsEnabled,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind local:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;" />
@@ -285,6 +285,7 @@
             Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock
             x:Name="EmptyText"
+            x:Uid="EmptyFolder"
             Margin="0,125,0,0"
             HorizontalAlignment="Center"
             VerticalAlignment="Top"
@@ -300,16 +301,15 @@
             x:FieldModifier="public"
             AllowDrop="True"
             AutoGenerateColumns="False"
-            CanDrag="True"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
             CellEditEnded="AllView_CellEditEnded"
             CellEditEnding="AllView_CellEditEnding"
             ClipboardCopyMode="None"
             DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
-            DragOver="AllView_DragOver"
-            DragStarting="AllView_DragStarting"
-            Drop="AllView_DropAsync"
+            DragOver="List_DragOver"
+            Drop="List_Drop"
+            LoadingRow="AllView_LoadingRow"
             FocusVisualPrimaryThickness="0"
             IsDoubleTapEnabled="True"
             IsRightTapEnabled="True"
@@ -375,16 +375,19 @@
                     IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
-                            <Grid x:Name="Icon" ToolTipService.ToolTip="{x:Bind FolderTooltipText}" EffectiveViewportChanged="Icon_EffectiveViewportChanged">
+                            <Grid
+                                x:Name="Icon"
+                                EffectiveViewportChanged="Icon_EffectiveViewportChanged"
+                                ToolTipService.ToolTip="{x:Bind FolderTooltipText}">
                                 <Rectangle
                                     x:Name="CutIndicator"
                                     Fill="LightGray"
                                     Opacity="0.1"
                                     Visibility="Collapsed" />
                                 <Image
+                                    x:Name="FolderGlyphElement"
                                     Width="24"
                                     Height="24"
-                                    x:Name="FolderGlyphElement"
                                     x:Load="{x:Bind LoadFolderGlyph}">
                                     <Image.Source>
                                         <SvgImageSource
@@ -394,17 +397,17 @@
                                     </Image.Source>
                                 </Image>
                                 <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xE7C3;"
                                     x:Name="UnknownFileTypeElement"
-                                    x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}" />
+                                    x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="&#xE7C3;" />
                                 <Image
+                                    x:Name="FileImageElement"
                                     Width="20"
                                     Height="20"
-                                    x:Name="FileImageElement"
+                                    x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
-                                    Stretch="UniformToFill"
-                                    x:Load="{x:Bind LoadFileIcon, Mode=OneWay}" />
+                                    Stretch="UniformToFill" />
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
@@ -412,6 +415,7 @@
                 </controls:DataGridTemplateColumn>
                 <controls:DataGridTextColumn
                     x:Name="nameColumn"
+                    x:Uid="nameColumn"
                     Width="275"
                     Binding="{Binding ItemName}"
                     DisplayIndex="1"
@@ -423,6 +427,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="dateColumn"
+                    x:Uid="dateColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
@@ -435,6 +440,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="typeColumn"
+                    x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
@@ -447,6 +453,7 @@
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
                     x:Name="sizeColumn"
+                    x:Uid="sizeColumn"
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
