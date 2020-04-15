@@ -275,10 +275,6 @@ namespace Files
 
         protected virtual void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
         {
-            var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-            if (focusedElement is TextBox)
-                return;
-
             char letterPressed = Convert.ToChar(args.KeyCode);
             App.CurrentInstance.InteractionOperations.PushJumpChar(letterPressed);
         }

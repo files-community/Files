@@ -256,6 +256,12 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
+                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+                    if (focusedElement is TextBox)
+                    {
+                        return;
+                    }
+
                     base.Page_CharacterReceived(sender, args);
                     AllView.Focus(FocusState.Keyboard);
                 }
