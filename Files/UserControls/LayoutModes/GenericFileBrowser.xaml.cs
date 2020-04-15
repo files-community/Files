@@ -86,9 +86,9 @@ namespace Files
             {
                 AllView.SelectedItem = selectedItem;
                 AllView.UpdateLayout();
-                AllView.ScrollIntoView(AllView.SelectedItem, null);
             }
         }
+
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
             // To prevent program from crashing when the page is first loaded
@@ -108,6 +108,10 @@ namespace Files
             foreach (ListedItem selectedItem in selectedItems)
                 AllView.SelectedItems.Add(selectedItem);
             AllView.UpdateLayout();
+        }
+
+        public override void FocusSelectedItems()
+        {
             AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
         }
 
