@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Windows.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     d:DesignHeight="475"
@@ -12,71 +11,36 @@
     mc:Ignorable="d" >
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Default">
-                            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White" />
-                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White" />
-                            <AcrylicBrush
-                                x:Key="BackgroundAcrylicBrushProperties"
-                                Windows10version1903:TintLuminosityOpacity="0.9"
-                                BackgroundSource="HostBackdrop"
-                                FallbackColor="{StaticResource SystemListLowColor}"
-                                TintColor="White"
-                                TintOpacity="0.9" />
-                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Light">
-                            <AcrylicBrush
-                                x:Key="BackgroundAcrylicBrushProperties"
-                                Windows10version1903:TintLuminosityOpacity="0.9"
-                                BackgroundSource="HostBackdrop"
-                                FallbackColor="{StaticResource SystemChromeWhiteColor}"
-                                TintColor="White"
-                                TintOpacity="0.5" />
-                            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White" />
-                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White" />
-                            <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White" />
-                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                            <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="#f3f1ef" />
-                            <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="DarkGray" />
-                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <AcrylicBrush
-                                x:Key="BackgroundAcrylicBrushProperties"
-                                Windows10version1903:TintLuminosityOpacity="0.75"
-                                BackgroundSource="HostBackdrop"
-                                FallbackColor="{StaticResource SystemListLowColor}"
-                                TintColor="Black"
-                                TintOpacity="0.7" />
-                            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#191919" />
-                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#191919" />
-                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
-                            <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black" />
-                            <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="TextControlBackground" />
-                            <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="White" />
-                            <SolidColorBrush x:Key="TabViewBackground" Color="Black" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
-                            <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636" />
-                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast">
-                            <!--  This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode.  -->
-                        </ResourceDictionary>
-                    </ResourceDictionary.ThemeDictionaries>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                                  BackgroundSource="HostBackdrop"
+                                  TintColor="White"
+                                  TintOpacity="0.8"
+                                  FallbackColor="{ThemeResource SystemListLowColor}"
+                                  Windows10version1903:TintLuminosityOpacity="0.9" />
                 </ResourceDictionary>
-            </ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                                  BackgroundSource="HostBackdrop" 
+                                  TintColor="White" 
+                                  TintOpacity="0.5" 
+                                  FallbackColor="{ThemeResource SystemChromeWhiteColor}"
+                                  Windows10version1903:TintLuminosityOpacity="0.9" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                                  BackgroundSource="HostBackdrop" 
+                                  TintColor="Black" 
+                                  TintOpacity="0.7" 
+                                  FallbackColor="{ThemeResource SystemListLowColor}"
+                                  Windows10version1903:TintLuminosityOpacity="0.75" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource BackgroundAcrylicBrushProperties}">
+    <Grid Background="{ThemeResource PropertiesAcrylicWindowBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
