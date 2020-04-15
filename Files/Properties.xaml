@@ -115,7 +115,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
-                        FontSize="40"
+                        FontSize="70"
                         Foreground="#ffe793"
                         Glyph="&#xE8D5;" />
                     <FontIcon
@@ -124,7 +124,7 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
-                        FontSize="40"
+                        FontSize="70"
                         Glyph="&#xE7C3;" />
                     <Image
                         x:Name="itemIcon"
