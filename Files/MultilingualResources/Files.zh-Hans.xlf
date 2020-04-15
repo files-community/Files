@@ -576,6 +576,10 @@
           <source>Settings</source>
           <target state="new">Settings</target>
         </trans-unit>
+        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+          <source>Invert Selection</source>
+          <target state="new">Invert Selection</target>
+        </trans-unit>
       </group>
     </body>
   </file>
