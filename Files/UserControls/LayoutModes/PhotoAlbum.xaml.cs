@@ -174,6 +174,12 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
                 {
+                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+                    if (focusedElement is TextBox)
+                    {
+                        return;
+                    }
+                        
                     base.Page_CharacterReceived(sender, args);
                     FileList.Focus(FocusState.Keyboard);
                 }
