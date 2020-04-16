@@ -155,7 +155,7 @@
   </data>
   <data name="ModernNavigationToolbaNewTextDocument.Text" xml:space="preserve">
     <value>Text Document</value>
-  </data> 
+  </data>
   <data name="NavigationToolbarCopyPath.Text" xml:space="preserve">
     <value>Copy Path</value>
   </data>
@@ -219,21 +219,24 @@
   <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>Select All</value>
   </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Invert Selection</value>
+  </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Clear Selection</value>
-  </data>  
+  </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>List View</value>
   </data>
   <data name="StatusBarControlGridView.Text" xml:space="preserve">
     <value>Grid View</value>
-  </data>  
+  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
-  </data>  
+  </data>
   <data name="NavigationToolbarVisiblePath.PlaceholderText" xml:space="preserve">
     <value>Enter a path</value>
   </data>
