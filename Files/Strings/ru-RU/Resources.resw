@@ -432,6 +432,9 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Параметры</value>
   </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Инвертировать выделение</value>
+  </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Свойства</value>
   </data>

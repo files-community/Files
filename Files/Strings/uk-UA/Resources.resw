@@ -426,6 +426,9 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Налаштування</value>
   </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Інвертувати виділення</value>
+  </data>
   <data name="PropertiesTitle" xml:space="preserve">
     <value>Властивості</value>
   </data>
