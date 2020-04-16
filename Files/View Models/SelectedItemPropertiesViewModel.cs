@@ -16,6 +16,8 @@ namespace Files.View_Models
         { 
             get 
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     return App.CurrentInstance.ContentPage.SelectedItems[0].ItemName;
@@ -30,6 +32,8 @@ namespace Files.View_Models
         {
             get
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     return App.CurrentInstance.ContentPage.SelectedItems[0].ItemType;
@@ -44,6 +48,8 @@ namespace Files.View_Models
         {
             get
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     return App.CurrentInstance.ContentPage.SelectedItems[0].ItemPath;
@@ -54,10 +60,12 @@ namespace Files.View_Models
                 }
             }
         }
-        public string ItemSize 
+        public string ItemSize
         { 
             get 
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     return App.CurrentInstance.ContentPage.SelectedItems[0].FileSize;
@@ -72,6 +80,8 @@ namespace Files.View_Models
         {
             get
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     DateTimeOffset dateCreated;
@@ -95,6 +105,8 @@ namespace Files.View_Models
         { 
             get 
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     return App.CurrentInstance.ContentPage.SelectedItems[0].ItemDateModified;
@@ -109,6 +121,8 @@ namespace Files.View_Models
         {
             get
             {
+                if (App.CurrentInstance.ContentPage == null) return null;
+
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     return App.CurrentInstance.ContentPage.SelectedItems[0].FileImage;
