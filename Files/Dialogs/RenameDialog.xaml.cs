@@ -32,11 +32,5 @@ namespace Files.Dialogs
         {
             storedRenameInput = inputBox.Text;
         }
-
-        private void NameDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            storedRenameInput = null;
-        }
-
     }
 }

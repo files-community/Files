@@ -126,6 +126,8 @@ namespace Files
 
         protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
 
+        public abstract void FocusSelectedItems();
+        
         protected abstract ListedItem GetItemFromElement(object element);
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
@@ -317,6 +319,11 @@ namespace Files
                     selectedStorageItems.Add(await StorageFolder.GetFolderFromPathAsync(item.ItemPath));
             }
 
+            if (selectedStorageItems.Count == 0) {
+                e.Cancel = true;
+                return;
+            }
+
             e.Data.SetStorageItems(selectedStorageItems);
             e.DragUI.SetContentFromDataPackage();
         }
@@ -350,7 +357,7 @@ namespace Files
         protected void InitializeDrag(UIElement element)
         {
             ListedItem item = GetItemFromElement(element);
-            if(item != null)
+            if (item != null)
             {
                 element.AllowDrop = false;
                 element.DragStarting -= Item_DragStarting;

@@ -21,7 +21,7 @@ namespace Files.Helpers
         public static readonly String LOCALE_NAME_INVARIANT = String.Empty;
         public static readonly String LOCALE_NAME_SYSTEM_DEFAULT = "!sys-default-locale";
 
-        [DllImport("api-ms-win-core-string-l1-1-0 .dll", CharSet = CharSet.Unicode)]
+        [DllImport("api-ms-win-core-string-l1-1-0.dll", CharSet = CharSet.Unicode)]
         public static extern Int32 CompareStringEx(
           String localeName,
           Int32 flags,

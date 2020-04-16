@@ -57,7 +57,12 @@ namespace Files.Dialogs
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();
 
-            await renameDialog.ShowAsync();
+            var renameResult = await renameDialog.ShowAsync();
+            if (renameResult == ContentDialogResult.Secondary)
+            {
+                return;
+            }
+
             var userInput = renameDialog.storedRenameInput;
 
             if (fileType == AddItemType.Folder)
