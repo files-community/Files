@@ -1,6 +1,8 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -199,7 +201,9 @@ namespace Files
                 Header = tabLocationHeader,
                 Content = gr,
                 Width = 200,
-                IconSource = tabIcon
+                IconSource = tabIcon,
+                Transitions = null,
+                ContentTransitions = null
             };
             tabView.TabItems.Add(tvi);
             TabStrip.SelectedIndex = TabStrip.TabItems.Count - 1;

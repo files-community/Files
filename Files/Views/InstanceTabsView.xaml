@@ -6,16 +6,103 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives" xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
 
     <Grid x:Name="rootGrid" Background="Transparent">
+        <Grid.Resources>
+            <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
+                <Setter Property="VerticalAlignment" Value="Top" />
+                <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
+                <Setter Property="IsTabStop" Value="False" />
+                <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
+                <contract6Present:Setter Property="KeyboardAcceleratorPlacementMode" Value="Hidden" />
+
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="muxc:TabView">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid x:Name="TabContainerGrid"
+                            Background="{TemplateBinding Background}"
+                            XYFocusKeyboardNavigation="Enabled">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" x:Name="LeftContentColumn"/>
+                                        <ColumnDefinition Width="Auto" x:Name="TabColumn"/>
+                                        <ColumnDefinition Width="Auto" x:Name="AddButtonColumn"/>
+                                        <ColumnDefinition Width="*" x:Name="RightContentColumn"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentPresenter
+                                Grid.Column="0"
+                                x:Name="LeftContentPresenter"
+                                Content="{TemplateBinding TabStripHeader}"
+                                ContentTemplate="{TemplateBinding TabStripHeaderTemplate}"/>
+
+                                    <Grid x:Name="ShadowReceiver"
+                                Grid.ColumnSpan="4"/>
+
+                                    <primitives:TabViewListView
+                                Grid.Column="1"
+                                x:Name="TabListView"
+                                CanReorderItems="{TemplateBinding CanReorderTabs}"
+                                CanDragItems="{TemplateBinding CanDragTabs}"
+                                AllowDrop="{TemplateBinding AllowDropTabs}"
+                                ItemsSource="{TemplateBinding TabItemsSource}"
+                                ItemTemplate="{TemplateBinding TabItemTemplate}"
+                                        ItemContainerTransitions="{x:Null}"
+                                ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"/>
+
+                                    <Button
+                                Grid.Column="2"
+                                x:Name="AddButton"
+                                Content="&#xE710;"
+                                VerticalAlignment="Stretch"
+                                IsTextScaleFactorEnabled="False"
+                                Command="{TemplateBinding AddTabButtonCommand}"
+                                CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
+                                Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                                HighContrastAdjustment="None"/>
+
+                                    <ContentPresenter
+                                Grid.Column="3"
+                                x:Name="RightContentPresenter"
+                                HorizontalAlignment="Stretch"
+                                Content="{TemplateBinding TabStripFooter}"
+                                ContentTemplate="{TemplateBinding TabStripFooterTemplate}"/>
+
+                                </Grid>
+
+                                <!-- We don't want this to take space on the second row in case the user isn't using tab content. -->
+                                <Grid x:Name="ShadowCaster"
+                            Grid.Row="0"
+                            Height="10"
+                            Margin="0,0,0,-10"
+                            VerticalAlignment="Bottom"
+                            Background="Transparent"/>
+
+                                <ContentPresenter x:Name="TabContentPresenter"
+                            Grid.Row="1"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
         <muxc:TabView
             x:Name="TabStrip"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
             Background="Transparent"
+            Style="{StaticResource DefaultTabViewStyle}"
             IsAddTabButtonVisible="False"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
