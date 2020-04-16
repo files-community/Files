@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
-    CornerRadius="4" Grid.RowSpan="4" DefaultButton="Primary" Title="Enter an item name" BorderThickness="0" SecondaryButtonClick="NameDialog_SecondaryButtonClick" PrimaryButtonClick="NameDialog_PrimaryButtonClick" x:Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel" x:Uid="RenameDialog">
+    CornerRadius="4" Grid.RowSpan="4" DefaultButton="Primary" Title="Enter an item name" BorderThickness="0" PrimaryButtonClick="NameDialog_PrimaryButtonClick" x:Name="NameDialog" PrimaryButtonText="Set Name" SecondaryButtonText="Cancel" x:Uid="RenameDialog">
    
     <Grid MinWidth="300">
         <TextBox x:Name="RenameInput" x:Uid="RenameDialogInputText" PlaceholderText="Enter an item name without an extension" Height="35"/>
