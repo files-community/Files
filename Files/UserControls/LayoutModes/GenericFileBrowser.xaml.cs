@@ -140,14 +140,14 @@ namespace Files
                 // Swap arrows
                 SortedColumn = _sortedColumn;
             }
-            else if (e.PropertyName == "isLoadingItems")
+            else if (e.PropertyName == "IsLoadingItems")
             {
                 if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
                 {
                     var allRows = new List<DataGridRow>();
 
                     Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach (DataGridRow row in allRows.Take(20))
+                    foreach (DataGridRow row in allRows.Take(25))
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                         {
@@ -220,7 +220,7 @@ namespace Files
                 var allRows = new List<DataGridRow>();
 
                 Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                foreach (DataGridRow row in allRows.Take(20))
+                foreach (DataGridRow row in allRows.Take(25))
                 {
                     if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                     {

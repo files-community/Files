@@ -574,6 +574,7 @@ namespace Files.Filesystem
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
+                            matchingItem.ItemType = matchingStorageItem.DisplayType;
                             var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
                             if (Thumbnail != null)
                             {

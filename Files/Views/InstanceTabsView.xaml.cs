@@ -1,6 +1,8 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.ComponentModel;
 using System.IO;
@@ -111,12 +113,12 @@ namespace Files
                 AddNewTab(typeof(ModernShellPage), navArgs);
             }
 
-            Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            icon.Glyph = "\xE713";
-            if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
-            {
-                App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
-            }
+            //Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
+            //icon.Glyph = "\xE713";
+            //if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
+            //{
+            //    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
+            //}
         }
 
         public void AddNewTab(Type t, string path)
@@ -199,14 +201,21 @@ namespace Files
                 Header = tabLocationHeader,
                 Content = gr,
                 Width = 200,
-                IconSource = tabIcon
+                IconSource = tabIcon,
+                Transitions = null,
+                ContentTransitions = null
             };
             tabView.TabItems.Add(tvi);
-            TabStrip.SelectedItem = TabStrip.TabItems[TabStrip.TabItems.Count - 1];
-            if (tabView.SelectedItem == tvi)
+            TabStrip.SelectedIndex = TabStrip.TabItems.Count - 1;
+
+            var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
+            tabViewItemFrame.Loaded += delegate
             {
-                (((tabView.SelectedItem as TabViewItem).Content as Grid).Children[0] as Frame).Navigate(t, path);
-            }
+                if (tabViewItemFrame.CurrentSourcePageType != typeof(ModernShellPage))
+                {
+                    tabViewItemFrame.Navigate(t, path);
+                }
+            };
         }
 
         public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
