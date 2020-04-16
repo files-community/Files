@@ -470,37 +470,37 @@ namespace Files.View_Models
 
         public string DesktopPath
         {
-            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory));
+            get => Get(UserDataPaths.GetDefault().Desktop);
             set => Set(value);
         }
 
         public string DocumentsPath
         {
-            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments));
+            get => Get(UserDataPaths.GetDefault().Documents);
             set => Set(value);
         }
 
         public string DownloadsPath
         {
-            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads");
+            get => Get(UserDataPaths.GetDefault().Downloads);
             set => Set(value);
         }
 
         public string PicturesPath
         {
-            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures));
+            get => Get(UserDataPaths.GetDefault().Pictures);
             set => Set(value);
         }
 
         public string MusicPath
         {
-            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyMusic));
+            get => Get(UserDataPaths.GetDefault().Music);
             set => Set(value);
         }
 
         public string VideosPath
         {
-            get => Get(Environment.GetFolderPath(Environment.SpecialFolder.MyVideos));
+            get => Get(UserDataPaths.GetDefault().Videos);
             set => Set(value);
         }
 

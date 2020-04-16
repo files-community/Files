@@ -29,7 +29,6 @@ namespace Files
             {
                 FileList.SelectedItem = selectedItem;
                 FileList.UpdateLayout();
-                FileList.ScrollIntoView(FileList.SelectedItem);
             }
         }
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
@@ -40,11 +39,10 @@ namespace Files
                 foreach (ListedItem listedItem in FileList.Items)
                 {
                     GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-                    
                     List<Grid> grids = new List<Grid>();
                     Interaction.FindChildren<Grid>(grids, gridViewItem);
-                    var imageOfItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                    imageOfItem.CanDrag = selectedItems.Contains(listedItem);
+                    var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                    rootItem.CanDrag = selectedItems.Contains(listedItem);
                 }
             }
 
@@ -56,6 +54,10 @@ namespace Files
             foreach (ListedItem selectedItem in selectedItems)
                 FileList.SelectedItems.Add(selectedItem);
             FileList.UpdateLayout();
+        }
+
+        public override void FocusSelectedItems()
+        {
             FileList.ScrollIntoView(FileList.Items.Last());
         }
 
@@ -174,6 +176,12 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
                 {
+                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+                    if (focusedElement is TextBox)
+                    {
+                        return;
+                    }
+                        
                     base.Page_CharacterReceived(sender, args);
                     FileList.Focus(FocusState.Keyboard);
                 }

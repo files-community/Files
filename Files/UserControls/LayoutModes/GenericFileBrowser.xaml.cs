@@ -86,9 +86,9 @@ namespace Files
             {
                 AllView.SelectedItem = selectedItem;
                 AllView.UpdateLayout();
-                AllView.ScrollIntoView(AllView.SelectedItem, null);
             }
         }
+
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
             // To prevent program from crashing when the page is first loaded
@@ -108,6 +108,10 @@ namespace Files
             foreach (ListedItem selectedItem in selectedItems)
                 AllView.SelectedItems.Add(selectedItem);
             AllView.UpdateLayout();
+        }
+
+        public override void FocusSelectedItems()
+        {
             AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
         }
 
@@ -136,14 +140,14 @@ namespace Files
                 // Swap arrows
                 SortedColumn = _sortedColumn;
             }
-            else if (e.PropertyName == "isLoadingItems")
+            else if (e.PropertyName == "IsLoadingItems")
             {
                 if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
                 {
                     var allRows = new List<DataGridRow>();
 
                     Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                    foreach (DataGridRow row in allRows.Take(20))
+                    foreach (DataGridRow row in allRows.Take(25))
                     {
                         if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                         {
@@ -216,7 +220,7 @@ namespace Files
                 var allRows = new List<DataGridRow>();
 
                 Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
-                foreach (DataGridRow row in allRows.Take(20))
+                foreach (DataGridRow row in allRows.Take(25))
                 {
                     if (!(row.DataContext as ListedItem).ItemPropertiesInitialized)
                     {
@@ -256,6 +260,12 @@ namespace Files
             {
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
+                    var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
+                    if (focusedElement is TextBox)
+                    {
+                        return;
+                    }
+
                     base.Page_CharacterReceived(sender, args);
                     AllView.Focus(FocusState.Keyboard);
                 }

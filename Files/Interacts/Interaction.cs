@@ -105,25 +105,16 @@ namespace Files.Interacts
             }
         }
 
-        public void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
+        public async void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var CurrentSourceType = App.CurrentInstance.CurrentPageType;
-            if (CurrentSourceType == typeof(GenericFileBrowser))
+            var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+            foreach (ListedItem listedItem in items)
             {
-                var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
-                foreach (ListedItem listedItem in items)
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
                 {
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
-                }
-
-            }
-            else if (CurrentSourceType == typeof(PhotoAlbum))
-            {
-                var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
-                foreach (ListedItem listedItem in items)
-                {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
-                }
+                });
             }
         }
 
@@ -943,7 +934,7 @@ namespace Files.Interacts
 
             if (acceptedOperation == DataPackageOperation.Move)
             {
-                foreach (IStorageItem item in itemsToPaste)
+                foreach (IStorageItem item in pastedItems)
                 {
                     if (item.IsOfType(StorageItemTypes.File))
                     {
@@ -965,6 +956,7 @@ namespace Files.Interacts
                 List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
                 List<ListedItem> copiedItems = CurrentInstance.ViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
                 CurrentInstance.ContentPage.SelectedItems = copiedItems;
+                CurrentInstance.ContentPage.FocusSelectedItems();
             }
             packageView.ReportOperationCompleted(acceptedOperation);
         }
@@ -1087,34 +1079,21 @@ namespace Files.Interacts
 
         public void SelectAllItems()
         {
-            if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
-            {
-                var CurrentInstance = App.CurrentInstance;
-                foreach (ListedItem li in (CurrentInstance.ContentPage as GenericFileBrowser).AllView.ItemsSource)
-                {
-                    if (!(CurrentInstance.ContentPage as GenericFileBrowser).SelectedItems.Contains(li))
-                    {
-                        (CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Add(li);
-                    }
-                }
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-            {
-                (CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectAll();
-            }
+            CurrentInstance.ContentPage.SelectedItems = App.CurrentInstance.ViewModel.FilesAndFolders.ToList();
+        }
+
+        public void InvertAllItems()
+        {
+            List<ListedItem> oldSelectedItems = CurrentInstance.ContentPage.SelectedItems;
+            List<ListedItem> newSelectedItems = CurrentInstance.ViewModel.FilesAndFolders.ToList();
+            foreach (ListedItem listedItem in oldSelectedItems)
+                newSelectedItems.Remove(listedItem);
+            CurrentInstance.ContentPage.SelectedItems = newSelectedItems;
         }
 
         public void ClearAllItems()
         {
-            if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
-            {
-                var CurrentInstance = App.CurrentInstance;
-                (CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItems.Clear();
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-            {
-                (CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItems.Clear();
-            }
+            CurrentInstance.ContentPage.SelectedItems = new List<ListedItem>();
         }
 
         public void ToggleQuickLook_Click(object sender, RoutedEventArgs e)
