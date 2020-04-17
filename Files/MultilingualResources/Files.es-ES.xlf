@@ -318,10 +318,6 @@
           <source>Extract</source>
           <target state="translated">Extraer</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenWith.Text" translate="yes" xml:space="preserve">
-          <source>Open with...</source>
-          <target state="translated">Abrir con...</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Abrir en nueva pestaña</target>
@@ -577,6 +573,10 @@
         <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="translated">Invertir Selección</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="new">Open</target>
         </trans-unit>
       </group>
     </body>
