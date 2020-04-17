@@ -435,4 +435,7 @@
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ajustes</value>
   </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Invertir Selección</value>
+  </data>
 </root>
