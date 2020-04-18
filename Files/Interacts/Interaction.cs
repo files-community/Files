@@ -39,6 +39,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
+using Files.Helpers;
 
 namespace Files.Interacts
 {
@@ -888,7 +889,7 @@ namespace Files.Interacts
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (destinationPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase))
+                    if (destinationPath.IsSubPathOf(item.Path))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         ContentDialog dialog = new ContentDialog()
