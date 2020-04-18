@@ -888,7 +888,7 @@ namespace Files.Interacts
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    if (destinationPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         ContentDialog dialog = new ContentDialog()
