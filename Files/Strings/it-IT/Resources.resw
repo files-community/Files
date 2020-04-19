@@ -324,9 +324,6 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Estrai</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Apri con...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Apri in una nuova scheda</value>
   </data>

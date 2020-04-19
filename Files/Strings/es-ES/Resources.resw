@@ -435,4 +435,16 @@
   <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
     <value>Invertir Selección</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Propiedades</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Atributos:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Propiedades</value>
+  </data>
 </root>

@@ -48,7 +48,7 @@
         </Grid.RowDefinitions>
 
         <TextBlock x:Uid="PropertiesTitleSecondary" Text="Properties" Margin="14,6,0,0" />
-        <StackPanel Grid.Row="1" Padding="14,0" VerticalAlignment="Center">
+        <StackPanel Grid.Row="1" Padding="14" VerticalAlignment="Top">
             <Grid RowSpacing="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
