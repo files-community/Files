@@ -88,6 +88,8 @@ namespace Files.Views.Pages
             viewModel = new ItemViewModel();
             interactionOperation = new Interaction();
 
+            string NavigationPath = ""; // path to navigate
+
             switch (NavParams)
             {
                 case "Start":
@@ -99,34 +101,38 @@ namespace Files.Views.Pages
                     SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
                 case "Desktop":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DesktopPath, new SuppressNavigationTransitionInfo());
+                    NavigationPath = App.AppSettings.DesktopPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Downloads":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DownloadsPath, new SuppressNavigationTransitionInfo());
+                    NavigationPath = App.AppSettings.DownloadsPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Documents":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.DocumentsPath, new SuppressNavigationTransitionInfo());
+                    NavigationPath = App.AppSettings.DocumentsPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Pictures":
-                    ItemDisplayFrame.Navigate(typeof(PhotoAlbum), App.AppSettings.PicturesPath, new SuppressNavigationTransitionInfo());
+                    NavigationPath = App.AppSettings.PicturesPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Music":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.MusicPath, new SuppressNavigationTransitionInfo());
+                    NavigationPath = App.AppSettings.MusicPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
                 case "Videos":
-                    ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), App.AppSettings.VideosPath, new SuppressNavigationTransitionInfo());
+                    NavigationPath = App.AppSettings.VideosPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+                case "OneDrive":
+                    NavigationPath = App.AppSettings.OneDrivePath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
-                        ItemDisplayFrame.Navigate(typeof(GenericFileBrowser), NavParams, new SuppressNavigationTransitionInfo());
+                        NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else
@@ -134,6 +140,18 @@ namespace Files.Views.Pages
                         SidebarControl.SelectedSidebarItem = null;
                     }
                     break;
+            }
+
+            if (NavigationPath != "" )
+            {
+                if (App.AppSettings.LayoutMode == 0) // List View
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
+                }
             }
 
             this.Loaded -= Page_Loaded;

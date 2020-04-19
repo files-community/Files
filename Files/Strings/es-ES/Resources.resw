@@ -243,9 +243,6 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extraer</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Abrir con...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Abrir en nueva pestaña</value>
   </data>
@@ -434,5 +431,8 @@
   </data>
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ajustes</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Invertir Selección</value>
   </data>
 </root>

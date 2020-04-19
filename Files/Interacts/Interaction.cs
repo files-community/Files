@@ -102,25 +102,16 @@ namespace Files.Interacts
             }
         }
 
-        public void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
+        public async void OpenDirectoryInNewTab_Click(object sender, RoutedEventArgs e)
         {
             var CurrentSourceType = App.CurrentInstance.CurrentPageType;
-            if (CurrentSourceType == typeof(GenericFileBrowser))
+            var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+            foreach (ListedItem listedItem in items)
             {
-                var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
-                foreach (ListedItem listedItem in items)
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
                 {
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
-                }
-
-            }
-            else if (CurrentSourceType == typeof(PhotoAlbum))
-            {
-                var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
-                foreach (ListedItem listedItem in items)
-                {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
-                }
+                });
             }
         }
 
