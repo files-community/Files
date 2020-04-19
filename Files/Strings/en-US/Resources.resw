@@ -546,4 +546,13 @@
   <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options</value>
   </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Attributes:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
 </root>

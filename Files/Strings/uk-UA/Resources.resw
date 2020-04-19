@@ -402,4 +402,37 @@
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Файл</value>
   </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>Ця дія не може бути завершена</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>Цільова папка</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>є підпапкою вихідної папки</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Пропустити</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
+    <value>MD5 Хеш:</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Інвертувати виділення</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Властивості</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Атрибути:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Властивості</value>
+  </data>
 </root>

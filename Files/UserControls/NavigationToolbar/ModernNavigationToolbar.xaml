@@ -692,13 +692,17 @@
                 x:Name="NewItemButton"
                 x:Uid="NavNewItemButton"
                 Grid.Row="3"
+                Width="34"
+                Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 ToolTipService.ToolTip="Create a new item"
                 x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Background="Transparent"
                 FontFamily="Segoe MDL2 Assets"
-                Visibility="Visible">
+                Visibility="Visible"
+                Style="{StaticResource ToolBarButtonStyle}"
+                CornerRadius="2">
                 <Button.Content>
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
                 </Button.Content>
@@ -738,11 +742,15 @@
                 x:Uid="NavSearchButton"
                 Grid.Row="3"
                 Margin="0,0,4,0"
+                Width="34"
+                Height="30"
                 ToolTipService.ToolTip="Search"
                 HorizontalAlignment="Right"
                 Background="Transparent"
                 FontFamily="Segoe MDL2 Assets"
-                Visibility="Visible">
+                Visibility="Visible"
+                Style="{StaticResource ToolBarButtonStyle}"
+                CornerRadius="2">
                 <Button.Content>
                     <FontIcon FontSize="14" Glyph="&#xE721;" />
                 </Button.Content>
@@ -766,12 +774,16 @@
                 x:Uid="NavMoreButton"
                 Grid.Row="3"
                 Margin="0,0,4,0"
+                Width="34"
+                Height="30"
                 ToolTipService.ToolTip="More options"
                 HorizontalAlignment="Right"
                 Background="Transparent"
                 Content=""
                 FontFamily="Segoe MDL2 Assets"
-                Visibility="Visible">
+                Visibility="Visible"
+                Style="{StaticResource ToolBarButtonStyle}"
+                CornerRadius="2">
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem

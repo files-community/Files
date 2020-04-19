@@ -4,141 +4,185 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Windows.UI.Xaml.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     d:DesignHeight="475"
     d:DesignWidth="400"
-    mc:Ignorable="d">
+    mc:Ignorable="d" >
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Default">
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                                  BackgroundSource="HostBackdrop"
+                                  TintColor="White"
+                                  TintOpacity="0.8"
+                                  FallbackColor="{ThemeResource SystemListLowColor}"
+                                  Windows10version1903:TintLuminosityOpacity="0.9" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Light">
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                                  BackgroundSource="HostBackdrop" 
+                                  TintColor="White" 
+                                  TintOpacity="0.5" 
+                                  FallbackColor="{ThemeResource SystemChromeWhiteColor}"
+                                  Windows10version1903:TintLuminosityOpacity="0.9" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                                  BackgroundSource="HostBackdrop" 
+                                  TintColor="Black" 
+                                  TintOpacity="0.7" 
+                                  FallbackColor="{ThemeResource SystemListLowColor}"
+                                  Windows10version1903:TintLuminosityOpacity="0.75" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource PropertiesAcrylicWindowBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="0"
-            Padding="22,14"
-            Orientation="Horizontal"
-            Spacing="14">
 
-            <Grid
-                x:Name="Icon"
-                Width="40"
-                Height="40"
-                Margin="0,0"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch">
-                <controls:FontIcon
-                    x:Name="FolderGlyphIcon"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="36"
-                    Foreground="#ffe793"
-                    Glyph="&#xE8D5;" />
-                <FontIcon
-                    x:Name="EmptyImageIcon"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph, Mode=OneWay}"
-                    FontFamily="Segoe MDL2 Assets"
-                    FontSize="36"
-                    Glyph="&#xE7C3;" />
-                <Image
-                    x:Name="itemIcon"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    x:Load="{x:Bind ItemProperties.LoadFileIcon, Mode=OneWay}"
-                    Source="{x:Bind ItemProperties.FileIconSource, Mode=OneWay}" />
-            </Grid>
-            <TextBox
-                x:Name="itemFileName"
-                x:Uid="PropertiesItemFileName"
-                Grid.Column="1"
-                Width="300"
-                Margin="0"
-                VerticalAlignment="Center"
-                BorderThickness="1"
-                IsReadOnly="True"
-                Text="{x:Bind ItemProperties.ItemName, Mode=OneWay}" />
-        </StackPanel>
-        <StackPanel Grid.Row="1" Padding="14,0">
-            <MenuFlyoutSeparator Margin="-14,0" HorizontalAlignment="Stretch" />
-            <Grid Padding="0,4">
+        <TextBlock x:Uid="PropertiesTitleSecondary" Text="Properties" Margin="14,6,0,0" />
+        <StackPanel Grid.Row="1" Padding="14,0" VerticalAlignment="Center">
+            <Grid RowSpacing="8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemType" Text="Item type:" />
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Grid
+                    x:Name="Icon"
+                    Width="80"
+                    Height="80"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Grid.Column="0" Grid.Row="0">
+                    <controls:FontIcon
+                        x:Name="FolderGlyphIcon"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="70"
+                        Foreground="#ffe793"
+                        Glyph="&#xE8D5;" />
+                    <FontIcon
+                        x:Name="EmptyImageIcon"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph, Mode=OneWay}"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="70"
+                        Glyph="&#xE7C3;" />
+                    <Image
+                        x:Name="itemIcon"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind ItemProperties.LoadFileIcon, Mode=OneWay}"
+                        Source="{x:Bind ItemProperties.FileIconSource, Mode=OneWay}" />
+                </Grid>
+                <TextBox
+                    x:Name="itemFileName"
+                    x:Uid="PropertiesItemFileName"
+                    Margin="0"
+                    VerticalAlignment="Center"
+                    BorderThickness="1"
+                    IsReadOnly="True"
+                    Text="{x:Bind ItemProperties.ItemName, Mode=OneWay}"
+                    HorizontalAlignment="Stretch"
+                    Grid.Column="1" Grid.Row="0"/>
+                <MenuFlyoutSeparator Margin="-12,0" HorizontalAlignment="Stretch"
+                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+                <TextBlock x:Uid="PropertiesItemType" Text="Item type:"
+                           Grid.Column="0" Grid.Row="2"/>
                 <TextBlock
                     x:Name="itemTypeValue"
                     Grid.Column="1"
+                    Grid.Row="2"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemType, Mode=OneWay}" />
-            </Grid>
-            <Grid Padding="0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemPath" Text="Path:" />
+                    Text="{x:Bind ItemProperties.ItemType, Mode=OneWay}"
+                    Margin="20,0,0,0" />
+
+                <TextBlock x:Uid="PropertiesItemPath" Text="Path:"
+                           Grid.Column="0" Grid.Row="3"/>
                 <TextBlock
                     x:Name="itemPathValue"
-                    Grid.Column="2"
+                    Grid.Column="1"
+                    Grid.Row="3"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemPath, Mode=OneWay}"
-                    TextWrapping="Wrap" />
-            </Grid>
-            <Grid Padding="0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemSize" Text="Size:" />
+                    TextWrapping="Wrap"
+                    Margin="20,0,0,0"/>
+
+                <TextBlock x:Uid="PropertiesItemSize" Text="Size:"
+                           Grid.Column="0" Grid.Row="4"/>
                 <TextBlock
                     x:Name="itemSizeValue"
-                    Grid.Column="3"
+                    Grid.Column="1"
+                    Grid.Row="4"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
-            </Grid>
-            <Grid Padding="0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesItemMD5Hash" Text="MD5Hash:" />
+                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}"
+                    Margin="20,0,0,0"/>
+
+                <TextBlock x:Name="PropertiesMD5Hash" x:Uid="PropertiesItemMD5Hash" Text="MD5Hash:"
+                           Grid.Column="0" Grid.Row="5"
+                           Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}"/>
                 <TextBlock
                     x:Name="itemMD5HashValue"
-                    Grid.Column="3"
+                    Grid.Column="1"
+                    Grid.Row="5"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}" />
-            </Grid>
-            <MenuFlyoutSeparator Margin="-14,0" />
-            <Grid Padding="0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesCreated" Text="Created:" />
+                    Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
+                    Margin="20,0,0,0"
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}"/>
+
+                <MenuFlyoutSeparator Margin="-12,0"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Grid.Row="6"/>
+
+                <TextBlock x:Uid="PropertiesCreated" Text="Created:"
+                           Grid.Column="0" Grid.Row="7"/>
                 <TextBlock
                     x:Name="itemCreatedTimestampValue"
-                    Grid.Column="4"
+                    Grid.Column="1"
+                    Grid.Row="7"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemCreatedTimestamp, Mode=OneWay}" />
-            </Grid>
-            <Grid Padding="0,4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Uid="PropertiesModified" Text="Modified:" />
+                    Text="{x:Bind ItemProperties.ItemCreatedTimestamp, Mode=OneWay}"
+                    Margin="20,0,0,0"/>
+
+                <TextBlock x:Uid="PropertiesModified" Text="Modified:"
+                           Grid.Column="0" Grid.Row="8"/>
                 <TextBlock
                     x:Name="itemModifiedTimestampValue"
-                    Grid.Column="5"
+                    Grid.Column="1"
+                    Grid.Row="8"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemModifiedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemModifiedTimestamp, Mode=OneWay}"
+                    Margin="20,0,0,0"/>
+
+                <TextBlock x:Uid="PropertiesAttributes" Text="Attributes:"
+                           Grid.Column="0" Grid.Row="9" VerticalAlignment="Center"/>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="9" Margin="20,0,0,0">
+                    <CheckBox Content="Read-only" IsEnabled="False" />
+                    <CheckBox Content="Hidden" IsEnabled="False" />
+                </StackPanel>
             </Grid>
 
         </StackPanel>
@@ -152,7 +196,8 @@
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 Click="Button_Click"
-                Content="OK" />
+                Content="OK"
+                Style="{ThemeResource ButtonRevealStyle}"/>
         </Grid>
     </Grid>
 </Page>

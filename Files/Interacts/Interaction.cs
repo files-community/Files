@@ -2,7 +2,6 @@ using Files.Dialogs;
 using Files.Filesystem;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -32,8 +31,6 @@ using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
-using Files.View_Models;
-using System.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
@@ -254,7 +251,7 @@ namespace Files.Interacts
                     if (App.CurrentInstance.ContentPage.SelectedItems.Contains(ObjectPressed))
                         return;
                 }
-                
+
                 // The following code is only reachable when a user RightTapped an unselected row
                 dataGrid.SelectedItems.Clear();
                 dataGrid.SelectedItems.Add(ObjectPressed);
@@ -436,17 +433,32 @@ namespace Files.Interacts
             {
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                var titleBar = appWindow.TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                var selectedTheme = Application.Current.RequestedTheme;
+                if (selectedTheme == ApplicationTheme.Light)
+                {
+                    titleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(20, 0, 0, 0);
+                }
+                else if (selectedTheme == ApplicationTheme.Dark)
+                {
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(40, 255, 255, 255);
+                }
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
+
                 appWindow.RequestSize(new Size(400, 475));
-                appWindow.Title = "Properties";
+                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
 
                 ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
                 AppWindows.Add(frame.UIContext, appWindow);
 
                 appWindow.Closed += delegate
                 {
-                    Interaction.AppWindows.Remove(frame.UIContext);
+                    AppWindows.Remove(frame.UIContext);
                     frame.Content = null;
                     appWindow = null;
                 };
@@ -470,7 +482,7 @@ namespace Files.Interacts
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
                 appWindow.RequestSize(new Size(400, 475));
-                appWindow.Title = "Properties";
+                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
 
                 ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
                 AppWindows.Add(frame.UIContext, appWindow);
@@ -643,7 +655,7 @@ namespace Files.Interacts
             catch (FileNotFoundException)
             {
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
-            }        
+            }
 
             App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
         }
@@ -686,7 +698,7 @@ namespace Files.Interacts
                 }
 
                 catch (Exception)
-                
+
                 {
                     var dialog = new ContentDialog()
                     {
@@ -730,7 +742,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            
+
             CurrentInstance.NavigationToolbar.CanGoForward = false;
             return true;
         }
@@ -772,7 +784,8 @@ namespace Files.Interacts
                     if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
                         (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem).Opacity = 0.4;
-                    } else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+                    }
+                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
                         GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(listedItem);
                         List<Grid> itemContentGrids = new List<Grid>();
@@ -970,7 +983,7 @@ namespace Files.Interacts
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                if(itemsToPaste != null)
+                if (itemsToPaste != null)
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
