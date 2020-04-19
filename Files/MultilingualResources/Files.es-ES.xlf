@@ -576,7 +576,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
-          <target state="new">Open</target>
+          <target state="translated">Abrir</target>
         </trans-unit>
       </group>
     </body>
