@@ -164,6 +164,13 @@ namespace Files
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            if (App.AppSettings.DoubleTapToRenameFiles == false)
+            {
+                AllView.CancelEdit();
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+                return;
+            }
+
             var textBox = e.EditingElement as TextBox;
             var selectedItem = AllView.SelectedItem as ListedItem;
             int extensionLength = selectedItem.FileExtension?.Length ?? 0;
