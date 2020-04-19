@@ -440,6 +440,20 @@ namespace Files.View_Models
             }
         }
 
+        public string DesktopPath = UserDataPaths.GetDefault().Desktop;
+
+        public string DocumentsPath = UserDataPaths.GetDefault().Documents;
+
+        public string DownloadsPath = UserDataPaths.GetDefault().Downloads;
+
+        public string PicturesPath = UserDataPaths.GetDefault().Pictures;
+
+        public string MusicPath = UserDataPaths.GetDefault().Music;
+
+        public string VideosPath = UserDataPaths.GetDefault().Videos;
+
+        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
         public string TempPath
         {
@@ -466,48 +480,6 @@ namespace Files.View_Models
         {
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
-        }
-
-        public string DesktopPath
-        {
-            get => Get(UserDataPaths.GetDefault().Desktop);
-            set => Set(value);
-        }
-
-        public string DocumentsPath
-        {
-            get => Get(UserDataPaths.GetDefault().Documents);
-            set => Set(value);
-        }
-
-        public string DownloadsPath
-        {
-            get => Get(UserDataPaths.GetDefault().Downloads);
-            set => Set(value);
-        }
-
-        public string PicturesPath
-        {
-            get => Get(UserDataPaths.GetDefault().Pictures);
-            set => Set(value);
-        }
-
-        public string MusicPath
-        {
-            get => Get(UserDataPaths.GetDefault().Music);
-            set => Set(value);
-        }
-
-        public string VideosPath
-        {
-            get => Get(UserDataPaths.GetDefault().Videos);
-            set => Set(value);
-        }
-
-        public string OneDrivePath
-        {
-            get => Get(Environment.GetEnvironmentVariable("OneDrive"));
-            set => Set(value);
         }
 
         public bool AcrylicSidebar
