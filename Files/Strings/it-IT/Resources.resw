@@ -195,9 +195,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Opzioni esplorazione</value>
   </data>
-  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Flag</value>
-  </data>
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Impostazioni</value>
   </data>
