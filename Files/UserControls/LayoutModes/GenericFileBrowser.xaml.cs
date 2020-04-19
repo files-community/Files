@@ -164,10 +164,11 @@ namespace Files
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            // Check if the double tap to rename files setting is off
             if (App.AppSettings.DoubleTapToRenameFiles == false)
             {
-                AllView.CancelEdit();
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+                AllView.CancelEdit(); // cancel the edit operation
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // open the file instead
                 return;
             }
 
