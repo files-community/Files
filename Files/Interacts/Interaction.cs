@@ -947,7 +947,7 @@ namespace Files.Interacts
 
             if (acceptedOperation == DataPackageOperation.Move)
             {
-                foreach (IStorageItem item in pastedItems)
+                foreach (IStorageItem item in itemsToPaste)
                 {
                     if (item.IsOfType(StorageItemTypes.File))
                     {
