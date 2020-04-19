@@ -34,6 +34,34 @@
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" MaxWidth="420" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Double tap to rename files" />
+
+                    <ToggleSwitch
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsOn="{x:Bind local2:App.AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}"
+                        OffContent=""
+                        OnContent="" />
+                </Grid>
+
             </StackPanel>
         </ScrollViewer>
 

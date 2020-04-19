@@ -598,6 +598,10 @@
           <source>Experimental</source>
           <target state="new">Experimental</target>
         </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="new">Double tap to rename files</target>
+        </trans-unit>
       </group>
     </body>
   </file>

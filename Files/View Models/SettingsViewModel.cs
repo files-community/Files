@@ -487,6 +487,12 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
+        
+        public bool DoubleTapToRenameFiles
+        {
+            get => Get(true);
+            set => Set(value);
+        }
 
         public bool ShowFileExtensions
         {
