@@ -638,6 +638,16 @@
                     <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                         <MenuFlyout.Items>
                             <MenuFlyoutItem
+                                x:Name="OpenInNewTab"
+                                x:Uid="SideBarOpenInNewTab"
+                                Click="OpenInNewTab_Click"
+                                Text="Open in new tab" />
+                            <MenuFlyoutItem
+                                x:Name="OpenInNewWindow"
+                                x:Uid="SideBarOpenInNewWindow"
+                                Click="OpenInNewWindow_Click"
+                                Text="Open in new window" />
+                            <MenuFlyoutItem
                                 x:Name="UnpinItem"
                                 x:Uid="SideBarUnpinFromSideBar"
                                 Click="{x:Bind local1:App.FlyoutItem_Click}"

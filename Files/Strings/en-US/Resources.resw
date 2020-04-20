@@ -132,6 +132,12 @@
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>
   </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
   <data name="ExtractFilesDialog.Title" xml:space="preserve">
     <value>Extract Compressed Archive</value>
   </data>

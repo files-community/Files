@@ -1,4 +1,6 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
+using Files.Views.Pages;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -118,11 +120,17 @@ namespace Files.Controls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
-            if (!item.IsDefaultLocation)
+            if (item.IsDefaultLocation)
             {
-                SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
-                App.rightClickedItem = item;
+                UnpinItem.Visibility = Visibility.Collapsed;
             }
+            else
+            {
+                UnpinItem.Visibility = Visibility.Visible;
+            }
+
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+            App.rightClickedItem = item;
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
@@ -131,6 +139,16 @@ namespace Files.Controls
             rootFrame.Navigate(typeof(Settings));
 
             return;
+        }
+
+        private void OpenInNewTab_Click(object sender, RoutedEventArgs e)
+        {
+            App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
+        }
+
+        private void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+        {
+            App.CurrentInstance.InteractionOperations.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
         }
     }
 
