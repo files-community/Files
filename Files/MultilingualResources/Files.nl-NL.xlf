@@ -116,10 +116,6 @@
           <source>Files and Folders</source>
           <target state="translated">Bestanden en Mappen</target>
         </trans-unit>
-        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Flags</source>
-          <target state="translated">Vlaggen</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Over</target>
@@ -599,6 +595,21 @@
         <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
           <target state="new">Open in new window</target>
+        <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
+          <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
+          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="new">Double tap to rename files</target>
         </trans-unit>
       </group>
     </body>

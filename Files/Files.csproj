@@ -240,8 +240,8 @@
     <Compile Include="Views\SettingsPages\Appearance.xaml.cs">
       <DependentUpon>Appearance.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\Flags.xaml.cs">
-      <DependentUpon>Flags.xaml</DependentUpon>
+    <Compile Include="Views\SettingsPages\Experimental.xaml.cs">
+      <DependentUpon>Experimental.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
@@ -437,7 +437,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPages\Flags.xaml">
+    <Page Include="Views\SettingsPages\Experimental.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
