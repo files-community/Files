@@ -649,7 +649,7 @@
                                 Text="Open in new window" />
                             <MenuFlyoutItem
                                 x:Name="UnpinItem"
-                                x:Uid="SideBarUnpinFromSideBar"
+                                x:Uid="SideBarUnpinFromSideBar" x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
                                 Click="{x:Bind local1:App.FlyoutItem_Click}"
                                 Text="Unpin from Sidebar" />
                         </MenuFlyout.Items>

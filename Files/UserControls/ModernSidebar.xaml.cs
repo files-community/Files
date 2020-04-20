@@ -48,6 +48,23 @@ namespace Files.Controls
             }
         }
 
+        private bool _ShowUnpinItem;
+        public bool ShowUnpinItem
+        {
+            get
+            {
+                return _ShowUnpinItem;
+            }
+            set
+            {
+                if (value != _ShowUnpinItem)
+                {
+                    _ShowUnpinItem = value;
+                    NotifyPropertyChanged("ShowUnpinItem");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -122,11 +139,11 @@ namespace Files.Controls
             var item = sidebarItem.DataContext as LocationItem;
             if (item.IsDefaultLocation)
             {
-                UnpinItem.Visibility = Visibility.Collapsed;
+                ShowUnpinItem = false;
             }
             else
             {
-                UnpinItem.Visibility = Visibility.Visible;
+                ShowUnpinItem = true;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
