@@ -323,23 +323,23 @@ namespace Files.View_Models
             }
 
             // Ensure Windows Terminal is not already in List
-            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            {
-                PackageManager packageManager = new PackageManager();
-                var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-                if (terminalPackage != null)
-                {
-                    terminalsFileModel.Terminals.Add(new TerminalModel()
-                    {
-                        Id = terminalsFileModel.Terminals.Count + 1,
-                        Name = "Windows Terminal",
-                        Path = "wt.exe",
-                        arguments = "-d {0}",
-                        icon = ""
-                    });
-                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-                }
-            }
+            //if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            //{
+            //    PackageManager packageManager = new PackageManager();
+            //    var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            //    if (terminalPackage != null)
+            //    {
+            //        terminalsFileModel.Terminals.Add(new TerminalModel()
+            //        {
+            //            Id = terminalsFileModel.Terminals.Count + 1,
+            //            Name = "Windows Terminal",
+            //            Path = "wt.exe",
+            //            arguments = "-d {0}",
+            //            icon = ""
+            //        });
+            //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
+            //    }
+            //}
             Terminals = terminalsFileModel.Terminals;
         }
 
