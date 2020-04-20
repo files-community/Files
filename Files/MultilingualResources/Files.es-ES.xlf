@@ -174,10 +174,6 @@
           <source>Unpin from Sidebar</source>
           <target state="translated">Desanclar de la barra lateral</target>
         </trans-unit>
-        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Flags</source>
-          <target state="new">Flags</target>
-        </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
           <target state="translated">Eliminar Archivo(s)</target>
@@ -589,6 +585,22 @@
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="translated">Propiedades</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
+          <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
+          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="new">Double tap to rename files</target>
         </trans-unit>
       </group>
     </body>

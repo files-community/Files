@@ -254,10 +254,6 @@
           <source>Files and Folders</source>
           <target state="translated">Opzioni esplorazione</target>
         </trans-unit>
-        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Flags</source>
-          <target state="translated">Flag</target>
-        </trans-unit>
         <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="translated">Impostazioni</target>
@@ -590,6 +586,22 @@
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
           <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
+          <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
+          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="new">Double tap to rename files</target>
         </trans-unit>
       </group>
     </body>

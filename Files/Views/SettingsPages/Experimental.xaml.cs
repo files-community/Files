@@ -15,13 +15,13 @@ using System.Linq;
 namespace Files.SettingsPages
 {
     
-    public sealed partial class Flags : Page
+    public sealed partial class Experimental : Page
     {
         StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
 
-        public Flags()
+        public Experimental()
         {
             this.InitializeComponent();
         }

@@ -87,9 +87,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Bestanden en Mappen</value>
   </data>
-  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Vlaggen</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Over</value>
   </data>
