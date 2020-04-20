@@ -447,4 +447,22 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Propiedades</value>
   </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Abrir en nueva pestaña</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Abrir en nueva ventana</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Experimental</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>ADVERTENCIA: CARACTERISTICAS EXPERIMENTALES!</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Experimental</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>Doble click para renombrar archivos</value>
+  </data>
 </root>
