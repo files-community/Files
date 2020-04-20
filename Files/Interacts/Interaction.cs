@@ -108,11 +108,22 @@ namespace Files.Interacts
             var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
             foreach (ListedItem listedItem in items)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
+        } 
+
+        public void OpenPathInNewTab(string path)
+        {
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
+        }
+
+        public async void OpenPathInNewWindow(string path)
+        {
+            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+            await Launcher.LaunchUriAsync(folderUri);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
