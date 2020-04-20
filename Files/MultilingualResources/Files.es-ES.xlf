@@ -588,27 +588,27 @@
         </trans-unit>
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
-          <target state="new">Open in new tab</target>
+          <target state="translated">Abrir en nueva pestaña</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
-          <target state="new">Open in new window</target>
+          <target state="translated">Abrir en nueva ventana</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Experimental</target>
+          <target state="translated">Experimental</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+          <target state="translated">ADVERTENCIA: CARACTERISTICAS EXPERIMENTALES!</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Experimental</target>
+          <target state="translated">Experimental</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
           <source>Double tap to rename files</source>
-          <target state="new">Double tap to rename files</target>
+          <target state="translated">Doble click para renombrar archivos</target>
         </trans-unit>
       </group>
     </body>
