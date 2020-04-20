@@ -481,8 +481,44 @@ namespace Files.View_Models
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
+        
+        public string DesktopPath
+        {
+            get => Get(UserDataPaths.GetDefault().Desktop);
+            set => Set(value);
+        }
 
-        public bool AcrylicSidebar
+        public string DocumentsPath
+        {
+            get => Get(UserDataPaths.GetDefault().Documents);
+            set => Set(value);
+        }
+
+        public string DownloadsPath
+        {
+            get => Get(UserDataPaths.GetDefault().Downloads);
+            set => Set(value);
+        }
+
+        public string PicturesPath
+        {
+            get => Get(UserDataPaths.GetDefault().Pictures);
+            set => Set(value);
+        }
+
+        public string MusicPath
+        {
+            get => Get(UserDataPaths.GetDefault().Music);
+            set => Set(value);
+        }
+
+        public string VideosPath
+        {
+            get => Get(UserDataPaths.GetDefault().Videos);
+            set => Set(value);
+        }
+
+        public string OneDrivePath
         {
             get => Get(false);
             set => Set(value);
@@ -518,6 +554,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AcrylicSidebar
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
         public Int32 LayoutMode
         {
             get => Get(0); // List View

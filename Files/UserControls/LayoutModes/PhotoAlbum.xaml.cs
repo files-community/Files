@@ -39,6 +39,7 @@ namespace Files
                 foreach (ListedItem listedItem in FileList.Items)
                 {
                     GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
+
                     if (gridViewItem != null)
                     {
                         List<Grid> grids = new List<Grid>();
