@@ -2,13 +2,12 @@
 using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
-using System.IO;
-using System.Security.Cryptography;
-using System.Text;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.UI;
 using Windows.UI.WindowManagement;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -40,18 +39,23 @@ namespace Files
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
                 var selectedItem = App.CurrentInstance.ContentPage.SelectedItem;
-                IStorageItem selectedStorageItem;
-                try 
+                IStorageItem selectedStorageItem = null;
+
+                if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
-                }
-                catch (Exception)
-                {
-                    // Not a folder, so attempt to get as StorageFile
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
 
-                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName); // get file hash
+                    // get file hash
+                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
+
+                    ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
+                }
+                else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+
+                    ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -66,7 +70,7 @@ namespace Files
 
                 if (!App.CurrentInstance.ContentPage.SelectedItem.LoadFolderGlyph)
                 {
-                    var thumbnail = await (await StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath)).GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 40, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                    var thumbnail = await (await StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath)).GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 80, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
                     var bitmap = new BitmapImage();
                     await bitmap.SetSourceAsync(thumbnail);
                     ItemProperties.FileIconSource = bitmap;
@@ -103,6 +107,7 @@ namespace Files
         private string _ItemType;
         private string _ItemPath;
         private string _ItemMD5Hash;
+        private Visibility _ItemMD5HashVisibility;
         private string _ItemSize;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -120,6 +125,11 @@ namespace Files
         {
             get => _ItemMD5Hash;
             set => Set(ref _ItemMD5Hash, value);
+        }
+        public Visibility ItemMD5HashVisibility
+        {
+            get => _ItemMD5HashVisibility;
+            set => Set(ref _ItemMD5HashVisibility, value);
         }
         public string ItemType
         {

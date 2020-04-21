@@ -93,9 +93,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Dosyalar ve Klasörler</value>
   </data>
-  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Bayraklar</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>Hakkında</value>
   </data>
@@ -245,9 +242,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Sil</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Birlikte Aç...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Yeni bir sekmede aç</value>

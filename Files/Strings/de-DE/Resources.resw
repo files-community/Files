@@ -138,9 +138,6 @@
   <data name="SideBarUnpinFromSideBar.Text" xml:space="preserve">
     <value>Von Seitenleiste entfernen</value>
   </data>
-  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Flags</value>
-  </data>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
     <value>Löschen</value>
   </data>
@@ -245,9 +242,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Entpacken</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Öffnen mit...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>In neuem Tab öffnen</value>

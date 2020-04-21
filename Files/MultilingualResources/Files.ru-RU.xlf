@@ -68,8 +68,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
           <source>Send the developers an issue report with more information</source>
-          <target state="needs-review-translation">Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Отправить отчет о проблеме, чтобы предоставить разработчикам больше информации о ней</target>
         </trans-unit>
         <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
           <source>Third Party Licenses</source>
@@ -93,8 +92,7 @@
         </trans-unit>
         <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
           <source>App theme</source>
-          <target state="needs-review-translation">Тема</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Тема</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
           <source>Appearance</source>
@@ -175,10 +173,6 @@
         <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
           <source>Unpin from Sidebar</source>
           <target state="translated">Открепить от боковой панели</target>
-        </trans-unit>
-        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Flags</source>
-          <target state="new">Flags</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
@@ -340,10 +334,6 @@
           <source>Extract</source>
           <target state="translated">Извлечь</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenWith.Text" translate="yes" xml:space="preserve">
-          <source>Open with...</source>
-          <target state="translated">Открыть с помощью...</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
           <target state="translated">Открыть в новой вкладке</target>
@@ -478,8 +468,7 @@
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="needs-review-translation">Системная</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Системная</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -551,35 +540,75 @@
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
-          <target state="new">This action cannot be done</target>
+          <target state="translated">Это действие не моет быть завершено</target>
         </trans-unit>
         <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
           <source>The destination folder</source>
-          <target state="new">The destination folder</target>
+          <target state="translated">Папка назначения</target>
         </trans-unit>
         <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
           <source>is a subfolder of the source folder</source>
-          <target state="new">is a subfolder of the source folder</target>
+          <target state="translated">это подпапка исходной папки</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="translated">Пропустить</target>
         </trans-unit>
         <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Отменить</target>
         </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
-          <target state="new">MD5Hash:</target>
+          <target state="translated">MD5 Хэш:</target>
         </trans-unit>
         <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="translated">Параметры</target>
         </trans-unit>
         <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
-          <target state="new">Invert Selection</target>
+          <target state="translated">Инвертировать выделение</target>
+        </trans-unit>
+        <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">Свойства</target>
+        </trans-unit>
+        <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
+          <source>Attributes:</source>
+          <target state="translated">Атрибуты:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">Свойства</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="new">Open</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="new">Open in new tab</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Open in new window</source>
+          <target state="new">Open in new window</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
+          <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
+          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="new">Double tap to rename files</target>
         </trans-unit>
       </group>
     </body>

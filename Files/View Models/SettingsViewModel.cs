@@ -323,23 +323,23 @@ namespace Files.View_Models
             }
 
             // Ensure Windows Terminal is not already in List
-            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            {
-                PackageManager packageManager = new PackageManager();
-                var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-                if (terminalPackage != null)
-                {
-                    terminalsFileModel.Terminals.Add(new TerminalModel()
-                    {
-                        Id = terminalsFileModel.Terminals.Count + 1,
-                        Name = "Windows Terminal",
-                        Path = "wt.exe",
-                        arguments = "-d {0}",
-                        icon = ""
-                    });
-                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-                }
-            }
+            //if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            //{
+            //    PackageManager packageManager = new PackageManager();
+            //    var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            //    if (terminalPackage != null)
+            //    {
+            //        terminalsFileModel.Terminals.Add(new TerminalModel()
+            //        {
+            //            Id = terminalsFileModel.Terminals.Count + 1,
+            //            Name = "Windows Terminal",
+            //            Path = "wt.exe",
+            //            arguments = "-d {0}",
+            //            icon = ""
+            //        });
+            //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
+            //    }
+            //}
             Terminals = terminalsFileModel.Terminals;
         }
 
@@ -440,6 +440,20 @@ namespace Files.View_Models
             }
         }
 
+        public string DesktopPath = UserDataPaths.GetDefault().Desktop;
+
+        public string DocumentsPath = UserDataPaths.GetDefault().Documents;
+
+        public string DownloadsPath = UserDataPaths.GetDefault().Downloads;
+
+        public string PicturesPath = UserDataPaths.GetDefault().Pictures;
+
+        public string MusicPath = UserDataPaths.GetDefault().Music;
+
+        public string VideosPath = UserDataPaths.GetDefault().Videos;
+
+        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
         public string TempPath
         {
@@ -467,52 +481,10 @@ namespace Files.View_Models
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
-
-        public string DesktopPath
+                
+        public bool DoubleTapToRenameFiles
         {
-            get => Get(UserDataPaths.GetDefault().Desktop);
-            set => Set(value);
-        }
-
-        public string DocumentsPath
-        {
-            get => Get(UserDataPaths.GetDefault().Documents);
-            set => Set(value);
-        }
-
-        public string DownloadsPath
-        {
-            get => Get(UserDataPaths.GetDefault().Downloads);
-            set => Set(value);
-        }
-
-        public string PicturesPath
-        {
-            get => Get(UserDataPaths.GetDefault().Pictures);
-            set => Set(value);
-        }
-
-        public string MusicPath
-        {
-            get => Get(UserDataPaths.GetDefault().Music);
-            set => Set(value);
-        }
-
-        public string VideosPath
-        {
-            get => Get(UserDataPaths.GetDefault().Videos);
-            set => Set(value);
-        }
-
-        public string OneDrivePath
-        {
-            get => Get(Environment.GetEnvironmentVariable("OneDrive"));
-            set => Set(value);
-        }
-
-        public bool AcrylicSidebar
-        {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
@@ -540,6 +512,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AcrylicSidebar
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
         public Int32 LayoutMode
         {
             get => Get(0); // List View

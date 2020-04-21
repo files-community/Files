@@ -39,10 +39,14 @@ namespace Files
                 foreach (ListedItem listedItem in FileList.Items)
                 {
                     GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-                    List<Grid> grids = new List<Grid>();
-                    Interaction.FindChildren<Grid>(grids, gridViewItem);
-                    var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                    rootItem.CanDrag = selectedItems.Contains(listedItem);
+
+                    if (gridViewItem != null)
+                    {
+                        List<Grid> grids = new List<Grid>();
+                        Interaction.FindChildren<Grid>(grids, gridViewItem);
+                        var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                        rootItem.CanDrag = selectedItems.Contains(listedItem);
+                    }
                 }
             }
 

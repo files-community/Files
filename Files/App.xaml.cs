@@ -98,7 +98,7 @@ namespace Files
             {
                 NavigationActions.Back_Click(null, null);
             }
-            else if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
             {
                 NavigationActions.Forward_Click(null, null);
             }
