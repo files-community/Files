@@ -19,7 +19,7 @@ namespace Files
         public GridViewBrowser()
         {
             this.InitializeComponent();
-
+            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
