@@ -1,19 +1,26 @@
 ﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
+using Microsoft.Toolkit.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -28,6 +35,9 @@ namespace Files
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
         public bool isRenamingItem = false;
+
+        public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
+
 
         private bool isItemSelected = false;
 
@@ -123,9 +133,40 @@ namespace Files
             }
         }
 
-        protected abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+        protected async virtual Task SetSelectedItemOnUi(ListedItem selectedItem)
+        {
+            var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).commandKey != null);
 
-        protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+            foreach (var contextMenuItem in contextMenuItems)
+            {
+                BaseLayoutItemContextFlyout.Items.Remove(contextMenuItem);
+            }
+            if (selectedItem != null)
+            {
+               
+                var menuFlyoutItems = new RegistryReader().GetExtensionContextMenuForFiles(selectedItem.FileExtension);
+                await LoadMenuFlyoutItem(menuFlyoutItems);
+            }
+           
+        }
+
+        protected async virtual Task SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        {
+            var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).commandKey != null);
+
+            foreach (var contextMenuItem in contextMenuItems)
+            {
+                BaseLayoutItemContextFlyout.Items.Remove(contextMenuItem);
+            }
+            if (selectedItems != null)
+            {
+                foreach (var selectedItem in selectedItems)
+                {
+                    var menuFlyoutItems = new RegistryReader().GetExtensionContextMenuForFiles(selectedItem.FileExtension);
+                    await LoadMenuFlyoutItem(menuFlyoutItems);
+                }
+            }
+        }
 
         public abstract void FocusSelectedItems();
 
@@ -206,9 +247,77 @@ namespace Files
             Windows.UI.Xaml.Markup.XamlMarkupHelper.UnloadObject(this.FindName(nameToUnload) as DependencyObject);
         }
 
+        private async Task LoadMenuFlyoutItem(IEnumerable<(string commandKey,string commandName, string commandIcon, string command)> menuFlyoutItems)
+        {
+            foreach (var menuFlyoutItem in menuFlyoutItems)
+            {
+                if (BaseLayoutItemContextFlyout.Items.Any(c => ParseContextMenuTag(c.Tag).commandKey == menuFlyoutItem.commandKey))
+                {
+                    continue;
+                }
+               
+                var menuLayoutItem = new MenuFlyoutItem()
+                {
+                    Text = menuFlyoutItem.commandName,
+                    Tag = menuFlyoutItem
+                };
+                menuLayoutItem.Click += MenuLayoutItem_Click;
+                
+                BaseLayoutItemContextFlyout.Items.Add(menuLayoutItem);
+            }
+        }
+
+        private (string commandKey, string commandName, string commandIcon, string command) ParseContextMenuTag(object tag)
+        {
+            if(tag is ValueTuple<string, string, string, string>)
+            {
+                (string commandKey, string commandName, string commandIcon, string command) = (ValueTuple<string, string, string, string>)tag;
+                return (commandKey, commandName, commandIcon, command);
+            }
+
+            return (null, null, null, null);
+        }
+
+        private async void MenuLayoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+            var currentMenuLayoutItem = (MenuFlyoutItem)sender;
+            if (currentMenuLayoutItem != null)
+            {
+                var (_, _, _, command) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
+                if (selectedFileSystemItems.Count > 1)
+                {
+                    var commandsToExecute = new List<string>();
+                    foreach (var selectedDataItem in selectedFileSystemItems)
+                    {
+                        var commandToExecute = command?.Replace("%1", selectedDataItem.ItemPath);
+                        if (!string.IsNullOrEmpty(commandToExecute))
+                        {
+                            commandsToExecute.Add(commandToExecute);
+                        }
+                    }
+                    if(commandsToExecute.Count > 0)
+                    {
+                        await Interaction.InvokeWin32Components(commandsToExecute);
+                    }
+                }
+                else if (selectedFileSystemItems.Count == 1)
+                {
+                    var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
+
+                    var commandToExecute = command?.Replace("%1", selectedDataItem.ItemPath);
+                    if (!string.IsNullOrEmpty(commandToExecute))
+                    {
+                        await Interaction.InvokeWin32Component(commandToExecute);
+                    }
+                }
+            }
+        }
+
         public void RightClickContextMenu_Opening(object sender, object e)
         {
             var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+          
 
             // Find selected items that are not folders
             if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
@@ -231,6 +340,7 @@ namespace Files
                         this.FindName("OpenItem");
                         UnloadMenuFlyoutItemByName("UnzipItem");
                     }
+
                 }
                 else if (selectedFileSystemItems.Count > 1)
                 {
@@ -259,6 +369,8 @@ namespace Files
 
             //check if the selected file is an image
             App.InteractionViewModel.CheckForImage();
+
+            
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

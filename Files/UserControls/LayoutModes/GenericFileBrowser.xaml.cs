@@ -60,7 +60,7 @@ namespace Files
         public GenericFileBrowser()
         {
             this.InitializeComponent();
-
+            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
             switch (App.CurrentInstance.ViewModel.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -89,22 +89,25 @@ namespace Files
             RequestedTheme = ThemeHelper.RootTheme;
         }
 
-        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        protected async override Task SetSelectedItemOnUi(ListedItem selectedItem)
         {
             // Required to check if sequences are equal, if not it will result in an infinite loop
             // between the UI Control and the BaseLayout set function
             if (AllView.SelectedItem != selectedItem)
             {
                 AllView.SelectedItem = selectedItem;
+                await base.SetSelectedItemOnUi(selectedItem);
                 AllView.UpdateLayout();
             }
         }
 
-        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        protected async override Task SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
             // To prevent program from crashing when the page is first loaded
             if (selectedItems.Count > 0)
             {
+
+                await base.SetSelectedItemsOnUi(selectedItems);
                 var rows = new List<DataGridRow>();
                 Interacts.Interaction.FindChildren<DataGridRow>(rows, AllView);
                 foreach (DataGridRow row in rows)

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -17,24 +18,28 @@ namespace Files
         public PhotoAlbum()
         {
             this.InitializeComponent();
+            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
         }
 
-        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        protected async override Task SetSelectedItemOnUi(ListedItem selectedItem)
         {
+            
             // Required to check if sequences are equal, if not it will result in an infinite loop
             // between the UI Control and the BaseLayout set function
             if (FileList.SelectedItem != selectedItem)
             {
                 FileList.SelectedItem = selectedItem;
+                await base.SetSelectedItemOnUi(selectedItem);
                 FileList.UpdateLayout();
             }
         }
 
-        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        protected async override Task SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
             // To prevent program from crashing when the page is first loaded
             if (selectedItems.Count > 0)
             {
+                await base.SetSelectedItemsOnUi(selectedItems);
                 foreach (ListedItem listedItem in FileList.Items)
                 {
                     GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;

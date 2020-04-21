@@ -1,6 +1,12 @@
 using Files.Dialogs;
 using Files.Filesystem;
+using Files.Helpers;
+using Files.Views.Pages;
+using GalaSoft.MvvmLight.Command;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Newtonsoft.Json;
+using static Files.Dialogs.ConfirmDeleteDialog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,36 +15,31 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
+using Windows.System.UserProfile;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.WindowManagement;
+using Windows.UI.WindowManagement.Preview;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.System.UserProfile;
-using static Files.Dialogs.ConfirmDeleteDialog;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Files.Views.Pages;
-using Windows.Foundation.Metadata;
-using Windows.UI.WindowManagement;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.WindowManagement.Preview;
-using Windows.UI;
-using Windows.Security.Cryptography.Core;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.Security.Cryptography;
-using Windows.Storage.Streams;
-using GalaSoft.MvvmLight.Command;
-using Files.Helpers;
-using Windows.UI.Xaml.Data;
-using System.Security.Cryptography;
 
 namespace Files.Interacts
 {
@@ -234,11 +235,19 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string ApplicationPath)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
-            ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = null;
+            ApplicationData.Current.LocalSettings.Values["Application"] = applicationPath;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = arguments;
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null)
+        {
+            Debug.WriteLine("Launching EXE in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["ApplicationList"] = JsonConvert.SerializeObject(applicationPaths);
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = arguments;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 

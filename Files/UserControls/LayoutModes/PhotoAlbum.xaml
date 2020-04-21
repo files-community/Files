@@ -132,7 +132,7 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" Opening="RightClickContextMenu_Opening">
+        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutContextFlyout" Opening="RightClickContextMenu_Opening">
             <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Uid="BaseLayoutItemContextFlyoutExtract"
