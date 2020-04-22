@@ -181,7 +181,7 @@ namespace Files
                 }
                 else if (path == "New tab")
                 {
-                    tabLocationHeader = "New tab";
+                    tabLocationHeader = ResourceController.GetTranslation("NewTab");
                     fontIconSource.Glyph = "\xE737";
                 }
                 else
@@ -231,7 +231,7 @@ namespace Files
             }
             else if (currentPathForTabIcon == null && text == "New tab")
             {
-                tabLocationHeader = "New tab";
+                tabLocationHeader = ResourceController.GetTranslation("NewTab");
                 fontIconSource.Glyph = "\xE737";
             }
             else if (currentPathForTabIcon.StartsWith(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
