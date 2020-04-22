@@ -15,6 +15,7 @@ namespace Locations
     public class ItemLoader
     {
         public static List<FavoriteLocationItem> itemsAdded = new List<FavoriteLocationItem>();
+
         public static void DisplayItems()
         {
             itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Blue.png", Icon = "\xE896", Text = ResourceController.GetTranslation("SidebarDownloads"), Tag = "Downloads" });

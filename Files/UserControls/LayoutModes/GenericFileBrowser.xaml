@@ -411,7 +411,6 @@
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
-
                 </controls:DataGridTemplateColumn>
                 <controls:DataGridTextColumn
                     x:Name="nameColumn"
@@ -467,6 +466,5 @@
                 </controls:DataGridTextColumn>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
-
     </Grid>
 </local:BaseLayout>

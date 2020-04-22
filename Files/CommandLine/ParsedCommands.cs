@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Files.CommandLine
 {
-	class ParsedCommands : List<ParsedCommand>
-	{
-	}
+    internal class ParsedCommands : List<ParsedCommand>
+    {
+    }
 }

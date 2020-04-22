@@ -11,8 +11,8 @@ using Windows.Storage;
 
 namespace ProcessLauncher
 {
-	static class QuickLook
-	{
+    internal static class QuickLook
+    {
         public static void ToggleQuickLook(string path)
         {
             string PipeName = "QuickLook.App.Pipe." + WindowsIdentity.GetCurrent().User?.Value;
@@ -50,7 +50,6 @@ namespace ProcessLauncher
                     }
 
                     return serverInstances;
-
                 }
                 catch (TimeoutException e)
                 {
@@ -60,6 +59,6 @@ namespace ProcessLauncher
             }
 
             localSettings.Values["quicklook_enabled"] = QuickLookServerAvailable() != 0;
-        }  
+        }
     }
 }

@@ -16,7 +16,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
-
 namespace Files
 {
     /// <summary>
@@ -31,6 +30,7 @@ namespace Files
         public bool isRenamingItem = false;
 
         private bool isItemSelected = false;
+
         public bool IsItemSelected
         {
             get
@@ -48,11 +48,12 @@ namespace Files
         }
 
         private List<ListedItem> _SelectedItems;
+
         public List<ListedItem> SelectedItems
         {
             get
             {
-                if(_SelectedItems == null)
+                if (_SelectedItems == null)
                 {
                     return new List<ListedItem>();
                 }
@@ -81,6 +82,7 @@ namespace Files
         }
 
         private ListedItem _SelectedItem;
+
         public ListedItem SelectedItem
         {
             get
@@ -106,7 +108,6 @@ namespace Files
             }
         }
 
-
         public BaseLayout()
         {
             this.Loaded += Page_Loaded;
@@ -127,7 +128,7 @@ namespace Files
         protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
 
         public abstract void FocusSelectedItems();
-        
+
         protected abstract ListedItem GetItemFromElement(object element);
 
         private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
@@ -146,10 +147,10 @@ namespace Files
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.WorkingDirectory, null);
                 }
             }
-
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -254,13 +255,11 @@ namespace Files
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
-
             }
 
             //check if the selected file is an image
             App.InteractionViewModel.CheckForImage();
         }
-
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -319,7 +318,8 @@ namespace Files
                     selectedStorageItems.Add(await StorageFolder.GetFolderFromPathAsync(item.ItemPath));
             }
 
-            if (selectedStorageItems.Count == 0) {
+            if (selectedStorageItems.Count == 0)
+            {
                 e.Cancel = true;
                 return;
             }
@@ -372,6 +372,5 @@ namespace Files
                 }
             }
         }
-
     }
 }

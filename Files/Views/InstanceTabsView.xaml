@@ -33,20 +33,20 @@
                             XYFocusKeyboardNavigation="Enabled">
 
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" x:Name="LeftContentColumn"/>
-                                        <ColumnDefinition Width="Auto" x:Name="TabColumn"/>
-                                        <ColumnDefinition Width="Auto" x:Name="AddButtonColumn"/>
-                                        <ColumnDefinition Width="*" x:Name="RightContentColumn"/>
+                                        <ColumnDefinition Width="Auto" x:Name="LeftContentColumn" />
+                                        <ColumnDefinition Width="Auto" x:Name="TabColumn" />
+                                        <ColumnDefinition Width="Auto" x:Name="AddButtonColumn" />
+                                        <ColumnDefinition Width="*" x:Name="RightContentColumn" />
                                     </Grid.ColumnDefinitions>
 
                                     <ContentPresenter
                                 Grid.Column="0"
                                 x:Name="LeftContentPresenter"
                                 Content="{TemplateBinding TabStripHeader}"
-                                ContentTemplate="{TemplateBinding TabStripHeaderTemplate}"/>
+                                ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" />
 
                                     <Grid x:Name="ShadowReceiver"
-                                Grid.ColumnSpan="4"/>
+                                Grid.ColumnSpan="4" />
 
                                     <primitives:TabViewListView
                                 Grid.Column="1"
@@ -57,7 +57,7 @@
                                 ItemsSource="{TemplateBinding TabItemsSource}"
                                 ItemTemplate="{TemplateBinding TabItemTemplate}"
                                         ItemContainerTransitions="{x:Null}"
-                                ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"/>
+                                ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}" />
 
                                     <Button
                                 Grid.Column="2"
@@ -68,15 +68,14 @@
                                 Command="{TemplateBinding AddTabButtonCommand}"
                                 CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
                                 Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}"
-                                HighContrastAdjustment="None"/>
+                                HighContrastAdjustment="None" />
 
                                     <ContentPresenter
                                 Grid.Column="3"
                                 x:Name="RightContentPresenter"
                                 HorizontalAlignment="Stretch"
                                 Content="{TemplateBinding TabStripFooter}"
-                                ContentTemplate="{TemplateBinding TabStripFooterTemplate}"/>
-
+                                ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
                                 </Grid>
 
                                 <!-- We don't want this to take space on the second row in case the user isn't using tab content. -->
@@ -85,7 +84,7 @@
                             Height="10"
                             Margin="0,0,0,-10"
                             VerticalAlignment="Bottom"
-                            Background="Transparent"/>
+                            Background="Transparent" />
 
                                 <ContentPresenter x:Name="TabContentPresenter"
                             Grid.Row="1"
@@ -189,9 +188,7 @@
                     Key="W"
                     Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-
             </muxc:TabView.KeyboardAccelerators>
-
         </muxc:TabView>
     </Grid>
 </Page>

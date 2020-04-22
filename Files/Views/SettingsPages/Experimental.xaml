@@ -50,7 +50,7 @@
                         x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        FontSize="16"
+                        FontSize="16" TextWrapping="Wrap"
                         Text="Double tap to rename files" />
 
                     <ToggleSwitch
@@ -61,9 +61,7 @@
                         OffContent=""
                         OnContent="" />
                 </Grid>
-
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </Page>

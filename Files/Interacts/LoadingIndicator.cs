@@ -7,6 +7,7 @@ namespace Files
     public class LoadingIndicator : INotifyPropertyChanged
     {
         private Visibility _isVisible;
+
         public Visibility IsVisible
         {
             get
@@ -23,6 +24,7 @@ namespace Files
                 }
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

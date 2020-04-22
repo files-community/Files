@@ -24,7 +24,7 @@ namespace Files.View_Models
     public class SettingsViewModel : ViewModelBase
     {
         private readonly ApplicationDataContainer _roamingSettings;
-        readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public DrivesManager DrivesManager { get; }
 
@@ -56,6 +56,7 @@ namespace Files.View_Models
             AddDefaultLocations();
             PopulatePinnedSidebarItems();
         }
+
         private void AddDefaultLocations()
         {
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
@@ -97,11 +98,9 @@ namespace Files.View_Models
                                     if (sbi.Path.ToString() == locationPath)
                                     {
                                         isDuplicate = true;
-
                                     }
                                 }
                             }
-
                         }
 
                         if (!isDuplicate)
@@ -209,7 +208,6 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-
                     App.sideBarItems.Add(new WSLDistroItem() { DistroName = folder.DisplayName, Path = folder.Path, Logo = logoURI });
                 }
             }
@@ -240,6 +238,7 @@ namespace Files.View_Models
         }
 
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+
         public TimeStyle DisplayedTimeStyle
         {
             get => _DisplayedTimeStyle;
@@ -256,6 +255,7 @@ namespace Files.View_Models
                 }
             }
         }
+
         private void DetectApplicationTheme()
         {
             if (localSettings.Values["theme"] != null)
@@ -319,7 +319,6 @@ namespace Files.View_Models
                 await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
                 var defaultContent = await FileIO.ReadTextAsync(file);
                 terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
-
             }
 
             // Ensure Windows Terminal is not already in List
@@ -344,6 +343,7 @@ namespace Files.View_Models
         }
 
         private IList<TerminalModel> _Terminals = null;
+
         public IList<TerminalModel> Terminals
         {
             get => _Terminals;
@@ -351,6 +351,7 @@ namespace Files.View_Models
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
+
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
@@ -358,6 +359,7 @@ namespace Files.View_Models
         }
 
         private ThemeStyle _ThemeValue;
+
         public ThemeStyle ThemeValue
         {
             get => _ThemeValue;
@@ -403,6 +405,7 @@ namespace Files.View_Models
         }
 
         private bool _PinOneDriveToSideBar = true;
+
         public bool PinOneDriveToSideBar
         {
             get => _PinOneDriveToSideBar;
@@ -455,6 +458,7 @@ namespace Files.View_Models
         public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
 
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+
         public string TempPath
         {
             get => _TempPath;
@@ -462,6 +466,7 @@ namespace Files.View_Models
         }
 
         private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
         public string AppDataPath
         {
             get => _AppDataPath;
@@ -469,6 +474,7 @@ namespace Files.View_Models
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
         public string HomePath
         {
             get => _HomePath;
@@ -476,12 +482,13 @@ namespace Files.View_Models
         }
 
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+
         public string WinDirPath
         {
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
-                
+
         public bool DoubleTapToRenameFiles
         {
             get => Get(true);
@@ -517,7 +524,7 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-        
+
         public Int32 LayoutMode
         {
             get => Get(0); // List View
@@ -610,6 +617,6 @@ namespace Files.View_Models
             return defaultValue;
         }
 
-        delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
+        private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
     }
 }

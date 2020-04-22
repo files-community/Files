@@ -6,7 +6,7 @@
     Runtime Directives are documented at https://go.microsoft.com/fwlink/?LinkID=391919
 
     To fully enable reflection for App1.MyClass and all of its public/private members
-    <Type Name="App1.MyClass" Dynamic="Required All"/>
+    <Type Name="App1.MyClass" Dynamic="Required All" />
 
     To enable dynamic creation of the specific instantiation of AppClass<T> over System.Int32
     <TypeInstantiation Name="App1.AppClass" Arguments="System.Int32" Activate="Required Public" />
@@ -22,10 +22,7 @@
       the application package. The asterisks are not wildcards.
     -->
     <Assembly Name="*Application*" Dynamic="Required All" />
-    
-    
+
     <!-- Add your application specific runtime directives here. -->
-
-
   </Application>
 </Directives>
