@@ -7,6 +7,7 @@ namespace Files.Interacts
     public class PasteState : INotifyPropertyChanged
     {
         private bool _isEnabled;
+
         public bool IsEnabled
         {
             get
@@ -23,8 +24,7 @@ namespace Files.Interacts
                 }
             }
         }
-                
-                
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -36,6 +36,7 @@ namespace Files.Interacts
     public class AlwaysPresentCommandsState : INotifyPropertyChanged
     {
         private bool isCopyPathCommandEnabled;
+
         public bool IsCopyPathCommandEnabled
         {
             get
@@ -60,5 +61,3 @@ namespace Files.Interacts
         }
     }
 }
-
-

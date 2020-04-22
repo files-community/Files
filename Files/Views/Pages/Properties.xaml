@@ -8,12 +8,12 @@
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     d:DesignHeight="475"
     d:DesignWidth="400"
-    mc:Ignorable="d" >
+    mc:Ignorable="d">
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">
-                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush"
                                   BackgroundSource="HostBackdrop"
                                   TintColor="White"
                                   TintOpacity="0.8"
@@ -21,18 +21,18 @@
                                   Windows10version1903:TintLuminosityOpacity="0.9" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
-                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
-                                  BackgroundSource="HostBackdrop" 
-                                  TintColor="White" 
-                                  TintOpacity="0.5" 
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush"
+                                  BackgroundSource="HostBackdrop"
+                                  TintColor="White"
+                                  TintOpacity="0.5"
                                   FallbackColor="{ThemeResource SystemChromeWhiteColor}"
                                   Windows10version1903:TintLuminosityOpacity="0.9" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush" 
-                                  BackgroundSource="HostBackdrop" 
-                                  TintColor="Black" 
-                                  TintOpacity="0.7" 
+                    <AcrylicBrush x:Key="PropertiesAcrylicWindowBrush"
+                                  BackgroundSource="HostBackdrop"
+                                  TintColor="Black"
+                                  TintOpacity="0.7"
                                   FallbackColor="{ThemeResource SystemListLowColor}"
                                   Windows10version1903:TintLuminosityOpacity="0.75" />
                 </ResourceDictionary>
@@ -106,11 +106,11 @@
                     IsReadOnly="True"
                     Text="{x:Bind ItemProperties.ItemName, Mode=OneWay}"
                     HorizontalAlignment="Stretch"
-                    Grid.Column="1" Grid.Row="0"/>
+                    Grid.Column="1" Grid.Row="0" />
                 <MenuFlyoutSeparator Margin="-12,0" HorizontalAlignment="Stretch"
-                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+                                     Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" />
                 <TextBlock x:Uid="PropertiesItemType" Text="Item type:"
-                           Grid.Column="0" Grid.Row="2"/>
+                           Grid.Column="0" Grid.Row="2" />
                 <TextBlock
                     x:Name="itemTypeValue"
                     Grid.Column="1"
@@ -120,7 +120,7 @@
                     Margin="20,0,0,0" />
 
                 <TextBlock x:Uid="PropertiesItemPath" Text="Path:"
-                           Grid.Column="0" Grid.Row="3"/>
+                           Grid.Column="0" Grid.Row="3" />
                 <TextBlock
                     x:Name="itemPathValue"
                     Grid.Column="1"
@@ -128,21 +128,21 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemPath, Mode=OneWay}"
                     TextWrapping="Wrap"
-                    Margin="20,0,0,0"/>
+                    Margin="20,0,0,0" />
 
                 <TextBlock x:Uid="PropertiesItemSize" Text="Size:"
-                           Grid.Column="0" Grid.Row="4"/>
+                           Grid.Column="0" Grid.Row="4" />
                 <TextBlock
                     x:Name="itemSizeValue"
                     Grid.Column="1"
                     Grid.Row="4"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}"
-                    Margin="20,0,0,0"/>
+                    Margin="20,0,0,0" />
 
                 <TextBlock x:Name="PropertiesMD5Hash" x:Uid="PropertiesItemMD5Hash" Text="MD5Hash:"
                            Grid.Column="0" Grid.Row="5"
-                           Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}"/>
+                           Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Column="1"
@@ -150,41 +150,40 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
                     Margin="20,0,0,0"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}"/>
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator Margin="-12,0"
                                      Grid.Column="0"
                                      Grid.ColumnSpan="2"
-                                     Grid.Row="6"/>
+                                     Grid.Row="6" />
 
                 <TextBlock x:Uid="PropertiesCreated" Text="Created:"
-                           Grid.Column="0" Grid.Row="7"/>
+                           Grid.Column="0" Grid.Row="7" />
                 <TextBlock
                     x:Name="itemCreatedTimestampValue"
                     Grid.Column="1"
                     Grid.Row="7"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemCreatedTimestamp, Mode=OneWay}"
-                    Margin="20,0,0,0"/>
+                    Margin="20,0,0,0" />
 
                 <TextBlock x:Uid="PropertiesModified" Text="Modified:"
-                           Grid.Column="0" Grid.Row="8"/>
+                           Grid.Column="0" Grid.Row="8" />
                 <TextBlock
                     x:Name="itemModifiedTimestampValue"
                     Grid.Column="1"
                     Grid.Row="8"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemModifiedTimestamp, Mode=OneWay}"
-                    Margin="20,0,0,0"/>
+                    Margin="20,0,0,0" />
 
                 <TextBlock x:Uid="PropertiesAttributes" Text="Attributes:"
-                           Grid.Column="0" Grid.Row="9" VerticalAlignment="Center"/>
+                           Grid.Column="0" Grid.Row="9" VerticalAlignment="Center" />
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="9" Margin="20,0,0,0">
                     <CheckBox Content="Read-only" IsEnabled="False" />
                     <CheckBox Content="Hidden" IsEnabled="False" />
                 </StackPanel>
             </Grid>
-
         </StackPanel>
         <Grid Grid.Row="2" Padding="8">
             <Grid.ColumnDefinitions>
@@ -197,7 +196,7 @@
                 HorizontalAlignment="Stretch"
                 Click="Button_Click"
                 Content="OK"
-                Style="{ThemeResource ButtonRevealStyle}"/>
+                Style="{ThemeResource ButtonRevealStyle}" />
         </Grid>
     </Grid>
 </Page>

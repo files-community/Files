@@ -2,13 +2,12 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-
 namespace Files.SettingsPages
 {
-
     public sealed partial class StartPageWidgets : Page
     {
-        ApplicationDataContainer localSettings;
+        private ApplicationDataContainer localSettings;
+
         public StartPageWidgets()
         {
             this.InitializeComponent();
@@ -25,6 +24,7 @@ namespace Files.SettingsPages
                     case true:
                         FavoritesCheck.IsChecked = true;
                         break;
+
                     case false:
                         FavoritesCheck.IsChecked = false;
                         break;
@@ -43,6 +43,7 @@ namespace Files.SettingsPages
                     case true:
                         RecentsCheck.IsChecked = true;
                         break;
+
                     case false:
                         RecentsCheck.IsChecked = false;
                         break;
@@ -61,6 +62,7 @@ namespace Files.SettingsPages
                     case true:
                         DrivesCheck.IsChecked = true;
                         break;
+
                     case false:
                         DrivesCheck.IsChecked = false;
                         break;
@@ -79,6 +81,7 @@ namespace Files.SettingsPages
                     case true:
                         FavoritesCheckNewTab.IsChecked = true;
                         break;
+
                     case false:
                         FavoritesCheckNewTab.IsChecked = false;
                         break;
@@ -97,6 +100,7 @@ namespace Files.SettingsPages
                     case true:
                         RecentsCheckNewTab.IsChecked = true;
                         break;
+
                     case false:
                         RecentsCheckNewTab.IsChecked = false;
                         break;
@@ -115,6 +119,7 @@ namespace Files.SettingsPages
                     case true:
                         DrivesCheckNewTab.IsChecked = true;
                         break;
+
                     case false:
                         DrivesCheckNewTab.IsChecked = false;
                         break;

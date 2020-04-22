@@ -22,6 +22,7 @@ namespace Files.UserControls
     {
         public SettingsViewModel AppSettings => App.AppSettings;
         public SelectedItemPropertiesViewModel SelectedItemPropertiesViewModel => App.SelectedItemPropertiesViewModel;
+
         public StatusBarControl()
         {
             this.InitializeComponent();

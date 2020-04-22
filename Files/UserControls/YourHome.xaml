@@ -820,7 +820,6 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
     </Page.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <Grid Padding="14,14,14,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

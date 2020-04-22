@@ -5,12 +5,12 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-
 namespace Files.Dialogs
 {
     public sealed partial class AddItemDialog : ContentDialog
     {
         public ListView addItemsChoices;
+
         public AddItemDialog()
         {
             this.InitializeComponent();
@@ -26,20 +26,21 @@ namespace Files.Dialogs
             AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true });
             AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true });
             AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true });
-
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             App.AddItemDialogDisplay.Hide();
-            switch((e.ClickedItem as AddListItem).Header)
+            switch ((e.ClickedItem as AddListItem).Header)
             {
                 case "Folder":
                     CreateFile(AddItemType.Folder);
                     break;
+
                 case "Text Document":
                     CreateFile(AddItemType.TextDocument);
                     break;
+
                 case "Bitmap Image":
                     CreateFile(AddItemType.BitmapImage);
                     break;

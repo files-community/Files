@@ -14,11 +14,11 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files
 {
-
     public sealed partial class Properties : Page
     {
         public AppWindow propWindow;
         public ItemPropertiesViewModel ItemProperties { get; } = new ItemPropertiesViewModel();
+
         public Properties()
         {
             this.InitializeComponent();
@@ -121,56 +121,67 @@ namespace Files
             get => _ItemName;
             set => Set(ref _ItemName, value);
         }
+
         public string ItemMD5Hash
         {
             get => _ItemMD5Hash;
             set => Set(ref _ItemMD5Hash, value);
         }
+
         public Visibility ItemMD5HashVisibility
         {
             get => _ItemMD5HashVisibility;
             set => Set(ref _ItemMD5HashVisibility, value);
         }
+
         public string ItemType
         {
             get => _ItemType;
             set => Set(ref _ItemType, value);
         }
+
         public string ItemPath
         {
             get => _ItemPath;
             set => Set(ref _ItemPath, value);
         }
+
         public string ItemSize
         {
             get => _ItemSize;
             set => Set(ref _ItemSize, value);
         }
+
         public string ItemCreatedTimestamp
         {
             get => _ItemCreatedTimestamp;
             set => Set(ref _ItemCreatedTimestamp, value);
         }
+
         public string ItemModifiedTimestamp
         {
             get => _ItemModifiedTimestamp;
             set => Set(ref _ItemModifiedTimestamp, value);
         }
+
         public ImageSource FileIconSource
         {
             get => _FileIconSource;
             set => Set(ref _FileIconSource, value);
         }
+
         public bool LoadFolderGlyph
         {
             get => _LoadFolderGlyph;
             set => Set(ref _LoadFolderGlyph, value);
         }
+
         public bool LoadUnknownTypeGlyph
         {
             get => _LoadUnknownTypeGlyph;
             set => Set(ref _LoadUnknownTypeGlyph, value);
         }
+
         public bool LoadFileIcon
         {
             get => _LoadFileIcon;

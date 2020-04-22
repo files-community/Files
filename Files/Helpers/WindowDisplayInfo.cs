@@ -36,7 +36,7 @@ namespace Huyn
                         {
                             return WindowDisplayMode.CompactOverlay;
                         }
-                        if(LockApplicationHost.GetForCurrentView() != null)
+                        if (LockApplicationHost.GetForCurrentView() != null)
                         {
                             // When an application is in kiosk mode, ApplicationView.ISFullScreenMode will return false
                             // even if the application is in fact displayed full screen. We need to check manually if an application is
@@ -128,7 +128,5 @@ namespace Huyn
                     return WindowDisplayMode.Unknown;
             }
         }
-
-
     }
 }

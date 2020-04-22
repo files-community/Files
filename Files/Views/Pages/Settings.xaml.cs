@@ -9,7 +9,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files
 {
-
     public sealed partial class Settings : Page
     {
         public Settings()

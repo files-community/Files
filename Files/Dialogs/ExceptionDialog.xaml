@@ -17,13 +17,13 @@
 
     <Grid>
         <StackPanel Spacing="5" Orientation="Vertical">
-            <TextBlock TextWrapping="Wrap" Text="Files ran into a problem that the developers didn't prepare for yet. Please select one of the options below, and report the problem from File > Settings > About"/>
+            <TextBlock TextWrapping="Wrap" Text="Files ran into a problem that the developers didn't prepare for yet. Please select one of the options below, and report the problem from File > Settings > About" />
             <Button x:Name="ExpandMoreInfo" Click="ExpandMoreInfo_Click" Padding="0" Background="Transparent">
                 <Button.Content>
                     <StackPanel Spacing="5" Orientation="Horizontal">
-                        <FontIcon x:Name="ExpandIcon" FontSize="14" Glyph="&#xE70D;"/>
-                        <FontIcon x:Name="CollapseIcon" Visibility="Collapsed" FontSize="14" Glyph="&#xE70E;"/>
-                        <TextBlock FontWeight="Bold" Text="More information"/>
+                        <FontIcon x:Name="ExpandIcon" FontSize="14" Glyph="&#xE70D;" />
+                        <FontIcon x:Name="CollapseIcon" Visibility="Collapsed" FontSize="14" Glyph="&#xE70E;" />
+                        <TextBlock FontWeight="Bold" Text="More information" />
                     </StackPanel>
                 </Button.Content>
             </Button>
@@ -31,9 +31,9 @@
                 <Grid>
                     <StackPanel Orientation="Vertical">
                         <TextBlock IsTextSelectionEnabled="True" Text="Friendly Description:" />
-                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" x:Name="Summary"/>
+                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" x:Name="Summary" />
                         <TextBlock IsTextSelectionEnabled="True" Text="Technical Information:" />
-                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" x:Name="ErrorInfo"/>
+                        <TextBlock IsTextSelectionEnabled="True" TextWrapping="Wrap" x:Name="ErrorInfo" />
                     </StackPanel>
                 </Grid>
             </ScrollViewer>

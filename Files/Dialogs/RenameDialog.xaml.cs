@@ -21,11 +21,11 @@ namespace Files.Dialogs
     {
         public TextBox inputBox;
         public string storedRenameInput;
+
         public RenameDialog()
         {
             this.InitializeComponent();
             inputBox = RenameInput;
-
         }
 
         private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)

@@ -108,9 +108,7 @@
                         OffContent=""
                         OnContent="" />
                 </Grid>
-
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </Page>

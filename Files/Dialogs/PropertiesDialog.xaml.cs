@@ -19,11 +19,9 @@ namespace Files.Dialogs
 {
     public sealed partial class PropertiesDialog : ContentDialog
     {
-
         public PropertiesDialog()
         {
             this.InitializeComponent();
         }
-
     }
 }

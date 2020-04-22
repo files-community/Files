@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Files.CommandLine
 {
-	class ParsedCommand
-	{
-		public ParsedCommandType Type { get; set; }
+    internal class ParsedCommand
+    {
+        public ParsedCommandType Type { get; set; }
 
-		public string Payload { get; set; }
-	}
+        public string Payload { get; set; }
+    }
 }
