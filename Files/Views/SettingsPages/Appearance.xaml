@@ -45,7 +45,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="App theme" />
+                        Text="App theme"
+                        TextWrapping="Wrap" />
 
                     <ComboBox
                         x:Name="ThemeChooser"
@@ -71,7 +72,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Date format" />
+                        Text="Date format"
+                        TextWrapping="Wrap" />
 
                     <ComboBox
                         x:Name="DateFormatChooser"
@@ -97,7 +99,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Acrylic sidebar" />
+                        Text="Acrylic sidebar"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         x:Name="AcrylicSidebarSwitch"
