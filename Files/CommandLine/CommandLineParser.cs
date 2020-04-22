@@ -7,101 +7,102 @@ using System.Threading.Tasks;
 
 namespace Files.CommandLine
 {
-	class CommandLineParser
-	{
-		public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
-		{
-			var commands = new ParsedCommands();
+    internal class CommandLineParser
+    {
+        public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
+        {
+            var commands = new ParsedCommands();
 
-			var parsedArgs = Parse(cmdLineString);
+            var parsedArgs = Parse(cmdLineString);
 
-			foreach (var kvp in parsedArgs)
-			{
-				Debug.WriteLine("arg {0} = {1}", kvp.Key, kvp.Value);
-				
-				var command = new ParsedCommand();
+            foreach (var kvp in parsedArgs)
+            {
+                Debug.WriteLine("arg {0} = {1}", kvp.Key, kvp.Value);
 
-				switch (kvp.Key)
-				{
-					case "-Directory":
-						command.Type = ParsedCommandType.OpenDirectory;
-						break;
-					default:
-						command.Type = ParsedCommandType.Unkwon;
-						break;
-				}
+                var command = new ParsedCommand();
 
-				command.Payload = kvp.Value;
-				commands.Add(command);
-			}
+                switch (kvp.Key)
+                {
+                    case "-Directory":
+                        command.Type = ParsedCommandType.OpenDirectory;
+                        break;
 
-			return commands;
-		}
+                    default:
+                        command.Type = ParsedCommandType.Unkwon;
+                        break;
+                }
 
-		public static List<KeyValuePair<string, string>> Parse(string argString = null)
-		{
-			var parsedArgs = new List<KeyValuePair<string, string>>();
+                command.Payload = kvp.Value;
+                commands.Add(command);
+            }
 
-			string[] args = argString.Split(" ");
+            return commands;
+        }
 
-			if (args != null)
-			{
-				for (int i = 0; i < args.Length; i++)
-				{
-					if (args[i].StartsWith("-") || args[i].StartsWith("/"))
-					{
-						var data = ParseData(args, i);
+        public static List<KeyValuePair<string, string>> Parse(string argString = null)
+        {
+            var parsedArgs = new List<KeyValuePair<string, string>>();
 
-						if (data.Key != null)
-						{
-							for (int j = 0; j < parsedArgs.Count; j++)
-							{
-								if (parsedArgs[j].Key == data.Key)
-								{
-									parsedArgs.RemoveAt(j);
-								}
-							}
+            string[] args = argString.Split(" ");
 
-							parsedArgs.Add(data);
-						}
-					}
-				}
-			}
+            if (args != null)
+            {
+                for (int i = 0; i < args.Length; i++)
+                {
+                    if (args[i].StartsWith("-") || args[i].StartsWith("/"))
+                    {
+                        var data = ParseData(args, i);
 
-			return parsedArgs;
-		}
+                        if (data.Key != null)
+                        {
+                            for (int j = 0; j < parsedArgs.Count; j++)
+                            {
+                                if (parsedArgs[j].Key == data.Key)
+                                {
+                                    parsedArgs.RemoveAt(j);
+                                }
+                            }
 
-		private static KeyValuePair<string, string> ParseData(string[] args, int index)
-		{
-			string key = null;
-			string val = null;
-			if (args[index].StartsWith("-") || args[index].StartsWith("/"))
-			{
-				if (args[index].Contains(":"))
-				{
-					string argument = args[index];
-					int endIndex = argument.IndexOf(':');
-					key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
-					int valueStart = endIndex + 1;
-					val = valueStart < argument.Length ? argument.Substring(
-						valueStart, argument.Length - valueStart) : null;
-				}
-				else
-				{
-					key = args[index];
-					int argIndex = 1 + index;
-					if (argIndex < args.Length && !(args[argIndex].StartsWith("-") || args[argIndex].StartsWith("/")))
-					{
-						val = args[argIndex];
-					}
-					else
-					{
-						val = null;
-					}
-				}
-			}
+                            parsedArgs.Add(data);
+                        }
+                    }
+                }
+            }
 
-			return key != null ? new KeyValuePair<string, string>(key, val) : default(KeyValuePair<string, string>);
-		}
-	}
+            return parsedArgs;
+        }
+
+        private static KeyValuePair<string, string> ParseData(string[] args, int index)
+        {
+            string key = null;
+            string val = null;
+            if (args[index].StartsWith("-") || args[index].StartsWith("/"))
+            {
+                if (args[index].Contains(":"))
+                {
+                    string argument = args[index];
+                    int endIndex = argument.IndexOf(':');
+                    key = argument.Substring(1, endIndex - 1);   // trim the '/' and the ':'.
+                    int valueStart = endIndex + 1;
+                    val = valueStart < argument.Length ? argument.Substring(
+                        valueStart, argument.Length - valueStart) : null;
+                }
+                else
+                {
+                    key = args[index];
+                    int argIndex = 1 + index;
+                    if (argIndex < args.Length && !(args[argIndex].StartsWith("-") || args[argIndex].StartsWith("/")))
+                    {
+                        val = args[argIndex];
+                    }
+                    else
+                    {
+                        val = null;
+                    }
+                }
+            }
+
+            return key != null ? new KeyValuePair<string, string>(key, val) : default(KeyValuePair<string, string>);
+        }
+    }
 }

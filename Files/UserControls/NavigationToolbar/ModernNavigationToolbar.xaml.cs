@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 
-
 namespace Files.UserControls
 {
     public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
@@ -26,6 +25,7 @@ namespace Files.UserControls
         }
 
         private bool manualEntryBoxLoaded = false;
+
         private bool ManualEntryBoxLoaded
         {
             get
@@ -41,7 +41,9 @@ namespace Files.UserControls
                 }
             }
         }
+
         private bool clickablePathLoaded = true;
+
         private bool ClickablePathLoaded
         {
             get
@@ -57,8 +59,10 @@ namespace Files.UserControls
                 }
             }
         }
+
         private bool SearchBoxLoaded { get; set; } = false;
         private string PathText { get; set; }
+
         bool INavigationToolbar.IsSearchReigonVisible
         {
             get
@@ -81,6 +85,7 @@ namespace Files.UserControls
                 }
             }
         }
+
         bool INavigationToolbar.IsEditModeEnabled
         {
             get
@@ -101,6 +106,7 @@ namespace Files.UserControls
                 }
             }
         }
+
         bool INavigationToolbar.CanRefresh
         {
             get
@@ -112,6 +118,7 @@ namespace Files.UserControls
                 Refresh.IsEnabled = value;
             }
         }
+
         bool INavigationToolbar.CanNavigateToParent
         {
             get
@@ -122,8 +129,8 @@ namespace Files.UserControls
             {
                 Up.IsEnabled = value;
             }
-
         }
+
         bool INavigationToolbar.CanGoBack
         {
             get
@@ -135,6 +142,7 @@ namespace Files.UserControls
                 Back.IsEnabled = value;
             }
         }
+
         bool INavigationToolbar.CanGoForward
         {
             get
@@ -146,6 +154,7 @@ namespace Files.UserControls
                 Forward.IsEnabled = value;
             }
         }
+
         string INavigationToolbar.PathControlDisplayText
         {
             get
@@ -162,6 +171,7 @@ namespace Files.UserControls
         private readonly ObservableCollection<PathBoxItem> pathComponents = new ObservableCollection<PathBoxItem>();
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -209,12 +219,15 @@ namespace Files.UserControls
                         case "%temp%":
                             CurrentInput = App.AppSettings.TempPath;
                             break;
+
                         case "%appdata":
                             CurrentInput = App.AppSettings.AppDataPath;
                             break;
+
                         case "%homepath%":
                             CurrentInput = App.AppSettings.HomePath;
                             break;
+
                         case "%windir%":
                             CurrentInput = App.AppSettings.WinDirPath;
                             break;
@@ -233,7 +246,7 @@ namespace Files.UserControls
                             App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), CurrentInput); // navigate to folder
                         }
                     }
-                    catch (Exception) // Not a folder or inaccessible 
+                    catch (Exception) // Not a folder or inaccessible
                     {
                         try
                         {
@@ -242,7 +255,6 @@ namespace Files.UserControls
                         }
                         catch (Exception ex) // Not a file or not accessible
                         {
-
                             // Launch terminal application if possible
                             var localSettings = ApplicationData.Current.LocalSettings;
 

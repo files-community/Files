@@ -32,6 +32,7 @@ namespace Files.Controls
         }
 
         private INavigationControlItem _SelectedSidebarItem;
+
         public INavigationControlItem SelectedSidebarItem
         {
             get
@@ -49,6 +50,7 @@ namespace Files.Controls
         }
 
         private bool _ShowUnpinItem;
+
         public bool ShowUnpinItem
         {
             get
@@ -66,6 +68,7 @@ namespace Files.Controls
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -185,12 +188,16 @@ namespace Files.Controls
                 {
                     case NavigationControlItemType.Location:
                         return LocationNavItemTemplate;
+
                     case NavigationControlItemType.Drive:
                         return DriveNavItemTemplate;
+
                     case NavigationControlItemType.OneDrive:
                         return DriveNavItemTemplate;
+
                     case NavigationControlItemType.LinuxDistro:
                         return LinuxNavItemTemplate;
+
                     case NavigationControlItemType.Header:
                         return HeaderNavItemTemplate;
                 }

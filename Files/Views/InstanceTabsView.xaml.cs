@@ -23,6 +23,7 @@ namespace Files
     {
         public static TabView tabView;
         public string navArgs;
+
         public InstanceTabsView()
         {
             this.InitializeComponent();
@@ -85,13 +86,11 @@ namespace Files
             {
                 WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-
             }
             else
             {
                 WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
                 WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-
             }
         }
 
@@ -300,7 +299,6 @@ namespace Files
                     fontIconSource.Glyph = "\xE8B7";
                     tabLocationHeader = currentPathForTabIcon.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
                 }
-
             }
             tabIcon = fontIconSource;
             (tabView.SelectedItem as TabViewItem).Header = tabLocationHeader;
@@ -341,27 +339,35 @@ namespace Files
                 case Windows.System.VirtualKey.Number1:
                     tabToSelect = 0;
                     break;
+
                 case Windows.System.VirtualKey.Number2:
                     tabToSelect = 1;
                     break;
+
                 case Windows.System.VirtualKey.Number3:
                     tabToSelect = 2;
                     break;
+
                 case Windows.System.VirtualKey.Number4:
                     tabToSelect = 3;
                     break;
+
                 case Windows.System.VirtualKey.Number5:
                     tabToSelect = 4;
                     break;
+
                 case Windows.System.VirtualKey.Number6:
                     tabToSelect = 5;
                     break;
+
                 case Windows.System.VirtualKey.Number7:
                     tabToSelect = 6;
                     break;
+
                 case Windows.System.VirtualKey.Number8:
                     tabToSelect = 7;
                     break;
+
                 case Windows.System.VirtualKey.Number9:
                     // Select the last tab
                     tabToSelect = InvokedTabView.TabItems.Count - 1;
@@ -388,13 +394,12 @@ namespace Files
                     Application.Current.Exit();
                 }
                 else
-                { 
-                InvokedTabView.TabItems.Remove(InvokedTabView.SelectedItem);
+                {
+                    InvokedTabView.TabItems.Remove(InvokedTabView.SelectedItem);
                 }
             }
             args.Handled = true;
         }
-
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)
         {
@@ -443,7 +448,6 @@ namespace Files
                     App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
-
         }
 
         private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
@@ -503,6 +507,7 @@ namespace Files
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void RaiseChangeNotification(string v)
         {
             if (PropertyChanged != null)
@@ -510,6 +515,5 @@ namespace Files
                 PropertyChanged.Invoke(this, new PropertyChangedEventArgs(v));
             }
         }
-
     }
 }

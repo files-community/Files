@@ -7,9 +7,9 @@ using Windows.Storage;
 
 namespace ProcessLauncher
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var localSettings = ApplicationData.Current.LocalSettings;
             var arguments = (string)localSettings.Values["Arguments"];
@@ -17,12 +17,12 @@ namespace ProcessLauncher
             {
                 if (arguments.Equals("StartupTasks"))
                 {
-                   // Check QuickLook Availability
+                    // Check QuickLook Availability
                     QuickLook.CheckQuickLookAvailability(localSettings);
                 }
                 else if (arguments.Equals("ToggleQuickLook"))
                 {
-                    var path = (string) localSettings.Values["path"];
+                    var path = (string)localSettings.Values["path"];
                     QuickLook.ToggleQuickLook(path);
                 }
                 else
@@ -64,8 +64,6 @@ namespace ProcessLauncher
                         Process.Start(executable);
                     }
                 }
-                
-
             }
         }
     }
