@@ -11,6 +11,16 @@ variables:
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
 steps:
+- task: PowerShell@2
+  inputs:
+    targetType: 'inline'
+    script: |
+      [xml]$xmlDoc = Get-Content $(Build.SourcesDirectory)\Files.Package\Package.appxmanifest
+      $xmlDoc.Package.Identity.Name="49306atecsolution.FilesUWP"
+      $xmlDoc.Package.Properties.DisplayName="Files UWP - Preview"
+      $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
+    failOnStderr: true
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
