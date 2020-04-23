@@ -727,7 +727,7 @@ namespace Files.Filesystem
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            if (!findData.cFileName.EndsWith(".lnk"))
+                            if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
                             {
                                 AddFile(findData, path);
                                 ++count;
