@@ -194,7 +194,8 @@
             <Button
                 x:Name="OKButton"
                 Grid.Column="1"
-                HorizontalAlignment="Stretch"
+                MinWidth="100"
+                HorizontalAlignment="Right"
                 Click="Button_Click"
                 Content="OK"
                 Style="{ThemeResource ButtonRevealStyle}"/>
