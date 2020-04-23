@@ -25,6 +25,7 @@ namespace Files
     {
         public string previousFileName;
         private DataGridColumn _sortedColumn;
+
         public DataGridColumn SortedColumn
         {
             get
@@ -64,12 +65,15 @@ namespace Files
                 case SortOption.Name:
                     SortedColumn = nameColumn;
                     break;
+
                 case SortOption.DateModified:
                     SortedColumn = dateColumn;
                     break;
+
                 case SortOption.FileType:
                     SortedColumn = typeColumn;
                     break;
+
                 case SortOption.Size:
                     SortedColumn = sizeColumn;
                     break;
@@ -124,12 +128,15 @@ namespace Files
                     case SortOption.Name:
                         SortedColumn = nameColumn;
                         break;
+
                     case SortOption.DateModified:
                         SortedColumn = dateColumn;
                         break;
+
                     case SortOption.FileType:
                         SortedColumn = typeColumn;
                         break;
+
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
                         break;

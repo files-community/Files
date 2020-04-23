@@ -73,12 +73,9 @@
                                             </ObjectAnimationUsingKeyFrames>
                                         </Storyboard>
                                     </VisualState>
-
                                 </VisualStateGroup>
-
                             </VisualStateManager.VisualStateGroups>
                         </Grid>
-
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
@@ -523,7 +520,6 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal">
@@ -533,14 +529,14 @@
                 Width="34"
                 Height="30"
                 Margin="4,0,2,0"
-                ToolTipService.ToolTip="Back"
                 x:FieldModifier="public"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Back_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack}"
-                Style="{StaticResource ToolBarButtonStyle}">
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Back">
                 <Button.Content>
                     &#xE72B;
                 </Button.Content>
@@ -556,14 +552,14 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
-                ToolTipService.ToolTip="Forward"
                 x:FieldModifier="public"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Forward_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward}"
-                Style="{StaticResource ToolBarButtonStyle}">
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Forward">
                 <Button.Content>
                     &#xE72A;
                 </Button.Content>
@@ -578,13 +574,13 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
-                ToolTipService.ToolTip="Up"
                 x:FieldModifier="public"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Up_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Up"
                 Visibility="Visible">
                 <Button.Content>
                     &#xE74A;
@@ -600,13 +596,13 @@
                 Width="34"
                 Height="30"
                 Margin="2,0,0,0"
-                ToolTipService.ToolTip="Refresh"
                 x:FieldModifier="public"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Refresh_Click}"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                Style="{StaticResource ToolBarButtonStyle}">
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Refresh">
                 <Button.Content>
                     &#xE72C;
                 </Button.Content>
@@ -696,13 +692,13 @@
                 Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
-                ToolTipService.ToolTip="Create a new item"
                 x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Background="Transparent"
+                CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                Visibility="Visible"
                 Style="{StaticResource ToolBarButtonStyle}"
-                CornerRadius="2">
+                ToolTipService.ToolTip="Create a new item"
+                Visibility="Visible">
                 <Button.Content>
                     <FontIcon FontSize="14" Glyph="&#xE710;" />
                 </Button.Content>
@@ -741,16 +737,16 @@
                 x:Name="SearchButton"
                 x:Uid="NavSearchButton"
                 Grid.Row="3"
-                Margin="0,0,4,0"
                 Width="34"
                 Height="30"
-                ToolTipService.ToolTip="Search"
+                Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 Background="Transparent"
+                CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                Visibility="Visible"
                 Style="{StaticResource ToolBarButtonStyle}"
-                CornerRadius="2">
+                ToolTipService.ToolTip="Search"
+                Visibility="Visible">
                 <Button.Content>
                     <FontIcon FontSize="14" Glyph="&#xE721;" />
                 </Button.Content>
@@ -773,17 +769,17 @@
             <Button
                 x:Uid="NavMoreButton"
                 Grid.Row="3"
-                Margin="0,0,4,0"
                 Width="34"
                 Height="30"
-                ToolTipService.ToolTip="More options"
+                Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 Background="Transparent"
                 Content=""
+                CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                Visibility="Visible"
                 Style="{StaticResource ToolBarButtonStyle}"
-                CornerRadius="2">
+                ToolTipService.ToolTip="More options"
+                Visibility="Visible">
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
                         <MenuFlyoutItem

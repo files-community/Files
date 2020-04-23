@@ -21,13 +21,13 @@ namespace Files.Dialogs
 {
     public sealed partial class ExceptionDialog : ContentDialog
     {
-        string message;
-        string stackTrace;
-        string offendingMethod;
+        private string message;
+        private string stackTrace;
+        private string offendingMethod;
+
         public ExceptionDialog()
         {
             this.InitializeComponent();
-
         }
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -50,12 +50,11 @@ namespace Files.Dialogs
         private void ExpandMoreInfo_Click(object sender, RoutedEventArgs e)
         {
             // If technical info is collapsed
-            if(CollapseIcon.Visibility == Visibility.Collapsed)
+            if (CollapseIcon.Visibility == Visibility.Collapsed)
             {
                 ExpandIcon.Visibility = Visibility.Collapsed;
                 CollapseIcon.Visibility = Visibility.Visible;
                 TechnicalInformation.Visibility = Visibility.Visible;
-
             }
             else // if technical info is expanded
             {

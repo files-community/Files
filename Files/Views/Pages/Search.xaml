@@ -75,7 +75,6 @@
                                         <MenuFlyoutItem.Icon>
                                             <SymbolIcon Symbol="Pin" />
                                         </MenuFlyoutItem.Icon>
-
                                     </MenuFlyoutItem>
                                     <MenuFlyoutItem x:Name="PropertiesItem" Text="Properties">
                                         <MenuFlyoutItem.Icon>
@@ -83,7 +82,6 @@
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                 </MenuFlyout.Items>
-
                             </MenuFlyout>
                         </Grid.ContextFlyout>
                         <StackPanel
