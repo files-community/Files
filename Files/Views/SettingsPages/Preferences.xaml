@@ -46,7 +46,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Pin OneDrive to the sidebar" />
+                        Text="Pin OneDrive to the sidebar"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         x:Name="OneDrivePin"
@@ -106,7 +107,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Terminal Applications" />
+                        Text="Terminal Applications"
+                        TextWrapping="Wrap" />
 
                     <StackPanel
                         Grid.Column="2"
