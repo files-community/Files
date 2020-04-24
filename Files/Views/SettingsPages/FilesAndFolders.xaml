@@ -44,7 +44,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Show hidden files, folders, and drives" />
+                        Text="Show hidden files, folders, and drives"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         Grid.Column="1"
@@ -71,7 +72,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Show extensions for known file types" />
+                        Text="Show extensions for known file types"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         x:Name="FileExtensionsToggle"
@@ -99,7 +101,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Show drive letters" />
+                        Text="Show drive letters"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         Grid.Column="1"
