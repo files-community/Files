@@ -135,11 +135,6 @@ namespace Files.Views.Pages
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
                     break;
 
-                case "OneDrive":
-                    NavigationPath = App.AppSettings.OneDrivePath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
-                    break;
-
                 default:
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {

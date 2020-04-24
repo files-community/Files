@@ -526,12 +526,6 @@ namespace Files.View_Models
             get => Get(false);
             set => Set(value);
         }
-
-        public bool AcrylicSidebar
-        {
-            get => Get(false);
-            set => Set(value);
-        }
         
         public Int32 LayoutMode
         {

@@ -187,3 +187,4 @@ namespace Files
             set => Set(ref _LoadFileIcon, value);
         }
     }
+}

@@ -126,17 +126,6 @@ namespace Files.Interacts
             await Launcher.LaunchUriAsync(folderUri);
         }
 
-        public void OpenPathInNewTab(string path)
-        {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
-        }
-
-        public async void OpenPathInNewWindow(string path)
-        {
-            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
-            await Launcher.LaunchUriAsync(folderUri);
-        }
-
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
             var localSettings = ApplicationData.Current.LocalSettings;
