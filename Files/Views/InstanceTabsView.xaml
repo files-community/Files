@@ -1,4 +1,4 @@
-﻿<Page
+<Page
     x:Class="Files.InstanceTabsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,9 +6,19 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives" xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
+    xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     mc:Ignorable="d">
+    <Page.Background>
+        <AcrylicBrush
+            Windows10version1903:TintLuminosityOpacity="{x:Bind local:App.AppSettings.AppTheme.TintLuminosityOpacity, Mode=OneWay}"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{x:Bind local:App.AppSettings.AppTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind local:App.AppSettings.AppTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind local:App.AppSettings.AppTheme.TintOpacity, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
+    </Page.Background>
 
     <Grid x:Name="rootGrid" Background="Transparent">
         <Grid.Resources>
@@ -29,8 +39,8 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid x:Name="TabContainerGrid"
-                            Background="{TemplateBinding Background}"
-                            XYFocusKeyboardNavigation="Enabled">
+                                      Background="{TemplateBinding Background}"
+                                      XYFocusKeyboardNavigation="Enabled">
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" x:Name="LeftContentColumn" />
@@ -40,56 +50,56 @@
                                     </Grid.ColumnDefinitions>
 
                                     <ContentPresenter
-                                Grid.Column="0"
-                                x:Name="LeftContentPresenter"
-                                Content="{TemplateBinding TabStripHeader}"
-                                ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" />
+                                        Grid.Column="0"
+                                        x:Name="LeftContentPresenter"
+                                        Content="{TemplateBinding TabStripHeader}"
+                                        ContentTemplate="{TemplateBinding TabStripHeaderTemplate}" />
 
                                     <Grid x:Name="ShadowReceiver"
-                                Grid.ColumnSpan="4" />
+                                          Grid.ColumnSpan="4" />
 
                                     <primitives:TabViewListView
-                                Grid.Column="1"
-                                x:Name="TabListView"
-                                CanReorderItems="{TemplateBinding CanReorderTabs}"
-                                CanDragItems="{TemplateBinding CanDragTabs}"
-                                AllowDrop="{TemplateBinding AllowDropTabs}"
-                                ItemsSource="{TemplateBinding TabItemsSource}"
-                                ItemTemplate="{TemplateBinding TabItemTemplate}"
+                                        Grid.Column="1"
+                                        x:Name="TabListView"
+                                        CanReorderItems="{TemplateBinding CanReorderTabs}"
+                                        CanDragItems="{TemplateBinding CanDragTabs}"
+                                        AllowDrop="{TemplateBinding AllowDropTabs}"
+                                        ItemsSource="{TemplateBinding TabItemsSource}"
+                                        ItemTemplate="{TemplateBinding TabItemTemplate}"
                                         ItemContainerTransitions="{x:Null}"
-                                ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}" />
+                                        ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}" />
 
                                     <Button
-                                Grid.Column="2"
-                                x:Name="AddButton"
-                                Content="&#xE710;"
-                                VerticalAlignment="Stretch"
-                                IsTextScaleFactorEnabled="False"
-                                Command="{TemplateBinding AddTabButtonCommand}"
-                                CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
-                                Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}"
-                                HighContrastAdjustment="None" />
+                                        Grid.Column="2"
+                                        x:Name="AddButton"
+                                        Content="&#xE710;"
+                                        VerticalAlignment="Stretch"
+                                        IsTextScaleFactorEnabled="False"
+                                        Command="{TemplateBinding AddTabButtonCommand}"
+                                        CommandParameter="{TemplateBinding AddTabButtonCommandParameter}"
+                                        Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}}"
+                                        HighContrastAdjustment="None" />
 
                                     <ContentPresenter
-                                Grid.Column="3"
-                                x:Name="RightContentPresenter"
-                                HorizontalAlignment="Stretch"
-                                Content="{TemplateBinding TabStripFooter}"
-                                ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
+                                        Grid.Column="3"
+                                        x:Name="RightContentPresenter"
+                                        HorizontalAlignment="Stretch"
+                                        Content="{TemplateBinding TabStripFooter}"
+                                        ContentTemplate="{TemplateBinding TabStripFooterTemplate}" />
                                 </Grid>
 
                                 <!-- We don't want this to take space on the second row in case the user isn't using tab content. -->
                                 <Grid x:Name="ShadowCaster"
-                            Grid.Row="0"
-                            Height="10"
-                            Margin="0,0,0,-10"
-                            VerticalAlignment="Bottom"
-                            Background="Transparent" />
+                                      Grid.Row="0"
+                                      Height="10"
+                                      Margin="0,0,0,-10"
+                                      VerticalAlignment="Bottom"
+                                      Background="Transparent" />
 
                                 <ContentPresenter x:Name="TabContentPresenter"
-                            Grid.Row="1"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}" />
+                                                  Grid.Row="1"
+                                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                                  BorderThickness="{TemplateBinding BorderThickness}" />
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
@@ -107,7 +117,7 @@
             TabCloseRequested="TabStrip_TabCloseRequested"
             TabWidthMode="Equal">
             <muxc:TabView.Resources>
-                <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                <ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
                 <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
             </muxc:TabView.Resources>
             <muxc:TabView.TabStripHeader>

@@ -1,5 +1,6 @@
 using Files.Enums;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -80,6 +81,12 @@ namespace Files
             }
 
             App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+        }
+
+        private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
+        {
+            RequestedTheme = ThemeHelper.RootTheme;
         }
 
         protected override void SetSelectedItemOnUi(ListedItem selectedItem)
