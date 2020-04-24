@@ -28,7 +28,7 @@ namespace Files.CommandLine
                         break;
 
                     default:
-                        command.Type = ParsedCommandType.Unkwon;
+                        command.Type = ParsedCommandType.Unknown;
                         break;
                 }
 
@@ -39,11 +39,28 @@ namespace Files.CommandLine
             return commands;
         }
 
+        static string[] SplitArguments(string commandLine)
+        {
+            char[] commandLineCharArray = commandLine.ToCharArray();
+            bool isInQuote = false;
+
+            for (int i = 0; i < commandLineCharArray.Length; i++)
+            {
+                if (commandLineCharArray[i] == '"')
+                    isInQuote = !isInQuote;
+
+                if (!isInQuote && commandLineCharArray[i] == ' ')
+                    commandLineCharArray[i] = '\n';
+            }
+
+            return new string(commandLineCharArray).Replace("\"", "").Split('\n');
+        }
+
         public static List<KeyValuePair<string, string>> Parse(string argString = null)
         {
             var parsedArgs = new List<KeyValuePair<string, string>>();
 
-            string[] args = argString.Split(" ");
+            string[] args = SplitArguments(argString); //Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
 
             if (args != null)
             {

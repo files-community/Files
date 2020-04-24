@@ -262,7 +262,7 @@ namespace Files
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     return;
 
-                                case ParsedCommandType.Unkwon:
+                                case ParsedCommandType.Unknown:
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
