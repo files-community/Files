@@ -63,26 +63,26 @@ namespace Files.Helpers
 
         public void SetDefaultTheme()
         {
-            TintLuminosityOpacity = 0.7;
+            TintLuminosityOpacity = 0.9;
             FallbackColor = (Color)Application.Current.Resources["SystemChromeMediumLowColor"];
             TintColor = (Color)Application.Current.Resources["SystemAltHighColor"];
-            TintOpacity = 0.5;
+            TintOpacity = 0.9;
         }
 
         public void SetLightTheme()
         {
-            TintLuminosityOpacity = 0.7;
+            TintLuminosityOpacity = 0.9;
             FallbackColor = Color.FromArgb(255, 242, 242, 242);
             TintColor = Colors.White;
-            TintOpacity = 0.5;
+            TintOpacity = 0.9;
         }
 
         public void SetDarkTheme()
         {
-            TintLuminosityOpacity = 0.7;
+            TintLuminosityOpacity = 0.9;
             FallbackColor = Color.FromArgb(255, 43, 43, 43);
             TintColor = Colors.Black;
-            TintOpacity = 0.5;
+            TintOpacity = 0.7;
         }
     }
 }
