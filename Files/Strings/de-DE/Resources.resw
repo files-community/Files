@@ -271,7 +271,7 @@
     <value>An Seitenleiste anheften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Eigenscaften</value>
+    <value>Eigenschaften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
