@@ -85,7 +85,7 @@
                     VerticalAlignment="Stretch">
                     <controls:FontIcon
                         x:Name="FolderGlyphIcon"
-                        HorizontalAlignment="Stretch"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
@@ -94,7 +94,7 @@
                         Glyph="&#xE8D5;" />
                     <FontIcon
                         x:Name="EmptyImageIcon"
-                        HorizontalAlignment="Stretch"
+                        HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
