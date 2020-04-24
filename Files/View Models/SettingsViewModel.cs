@@ -3,17 +3,16 @@ using Files.Enums;
 using Files.Filesystem;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
-using Windows.Management.Deployment;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -42,6 +41,15 @@ namespace Files.View_Models
 
             //DetectWSLDistros();
             LoadTerminalApps();
+
+            // Send analytics
+            Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
+            Analytics.TrackEvent("ThemeValue " + ThemeValue.ToString());
+            Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
+            Analytics.TrackEvent("DoubleTapToRenameFiles " + DoubleTapToRenameFiles.ToString());
+            Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
+            Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
+            Analytics.TrackEvent("AcrylicSidebar " + AcrylicSidebar.ToString());
         }
 
         public async void DetectQuickLook()
@@ -502,12 +510,6 @@ namespace Files.View_Models
         }
 
         public bool ShowConfirmDeleteDialog
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
-        public bool ShowRibbonContent
         {
             get => Get(true);
             set => Set(value);
