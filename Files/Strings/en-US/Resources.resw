@@ -570,4 +570,7 @@
   <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
     <value>Properties</value>
   </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>View sample profiles</value>
+  </data>
 </root>
