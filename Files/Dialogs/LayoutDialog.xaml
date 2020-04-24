@@ -5,17 +5,17 @@
     xmlns:local="using:Files.Dialogs"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     mc:Ignorable="d"
     CornerRadius="4" Title="Pick an Item Layout" x:Name="LayoutDialogMarkup" Grid.RowSpan="4" CloseButtonText="Cancel" PrimaryButtonText="OK" DefaultButton="Primary">
-    
+
     <Grid Width="450">
         <StackPanel Spacing="25" Orientation="Vertical">
             <StackPanel>
-                <RadioButton Content="Details - Displays a sortable DataGrid containing item details"/>
-                <RadioButton Content="Icons - Displays all items as larger icons with less information"/>
+                <RadioButton Content="Details - Displays a sortable DataGrid containing item details" />
+                <RadioButton Content="Icons - Displays all items as larger icons with less information" />
             </StackPanel>
-            <CheckBox Content="Always use this layout for the current directory"/>
+            <CheckBox Content="Always use this layout for the current directory" />
         </StackPanel>
     </Grid>
 </ContentDialog>

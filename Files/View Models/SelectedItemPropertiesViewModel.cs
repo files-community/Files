@@ -12,9 +12,9 @@ namespace Files.View_Models
 {
     public class SelectedItemPropertiesViewModel : ViewModelBase
     {
-        public string ItemName 
-        { 
-            get 
+        public string ItemName
+        {
+            get
             {
                 if (App.CurrentInstance.ContentPage == null) return null;
 
@@ -26,8 +26,9 @@ namespace Files.View_Models
                 {
                     return null;
                 }
-            } 
+            }
         }
+
         public string ItemType
         {
             get
@@ -44,6 +45,7 @@ namespace Files.View_Models
                 }
             }
         }
+
         public string ItemPath
         {
             get
@@ -60,9 +62,10 @@ namespace Files.View_Models
                 }
             }
         }
+
         public string ItemSize
-        { 
-            get 
+        {
+            get
             {
                 if (App.CurrentInstance.ContentPage == null) return null;
 
@@ -74,8 +77,9 @@ namespace Files.View_Models
                 {
                     return null;
                 }
-            } 
+            }
         }
+
         public string ItemCreatedTimestamp
         {
             get
@@ -101,9 +105,10 @@ namespace Files.View_Models
                 }
             }
         }
+
         public string ItemModifiedTimestamp
-        { 
-            get 
+        {
+            get
             {
                 if (App.CurrentInstance.ContentPage == null) return null;
 
@@ -115,8 +120,9 @@ namespace Files.View_Models
                 {
                     return null;
                 }
-            } 
+            }
         }
+
         public ImageSource FileIconSource
         {
             get
@@ -133,6 +139,7 @@ namespace Files.View_Models
                 }
             }
         }
+
         public bool LoadFolderGlyph
         {
             get
@@ -147,6 +154,7 @@ namespace Files.View_Models
                 }
             }
         }
+
         public bool LoadUnknownTypeGlyph
         {
             get
@@ -161,6 +169,7 @@ namespace Files.View_Models
                 }
             }
         }
+
         public bool LoadFileIcon
         {
             get

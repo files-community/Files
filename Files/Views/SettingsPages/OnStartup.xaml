@@ -50,9 +50,7 @@
                     Content="Open a specific page or pages"
                     FontSize="16"
                     IsEnabled="False" />
-
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </Page>

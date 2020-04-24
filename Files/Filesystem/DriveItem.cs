@@ -31,62 +31,69 @@ namespace Files.Filesystem
 
         public DriveItem(StorageFolder root, Visibility progressBarVisibility, DriveType type)
         {
-	        this.ProgressBarVisibility = progressBarVisibility;
-	        Type = type;
+            this.ProgressBarVisibility = progressBarVisibility;
+            Type = type;
 
-	        var properties = Task.Run(async () =>
-	        {
-		        return await root.Properties.RetrievePropertiesAsync(new[] {"System.FreeSpace", "System.Capacity"});
-	        }).Result;
+            var properties = Task.Run(async () =>
+            {
+                return await root.Properties.RetrievePropertiesAsync(new[] { "System.FreeSpace", "System.Capacity" });
+            }).Result;
 
-            
-
-	        try
-	        {
-		        SpaceUsed = MaxSpace -
-		                    Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).GigaBytes);
-		        MaxSpace = Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).GigaBytes);
-		        SpaceText = String.Format("{0} of {1}",
-			        ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).ToString(),
-			        ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).ToString());
+            try
+            {
+                SpaceUsed = MaxSpace -
+                            Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).GigaBytes);
+                MaxSpace = Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).GigaBytes);
+                SpaceText = String.Format("{0} of {1}",
+                    ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).ToString(),
+                    ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).ToString());
             }
-	        catch(NullReferenceException)
-	        {
-		        SpaceText = "Unkown";
-	        }
+            catch (NullReferenceException)
+            {
+                SpaceText = "Unkown";
+            }
 
-	        DriveText = root.DisplayName;
+            DriveText = root.DisplayName;
 
             Tag = root.Path;
 
             switch (type)
-	        {
-		        case DriveType.Fixed:
-			        Glyph = "\uEDA2";
+            {
+                case DriveType.Fixed:
+                    Glyph = "\uEDA2";
                     break;
-		        case DriveType.Removable:
+
+                case DriveType.Removable:
                     Glyph = "\uE88E";
                     break;
-		        case DriveType.Network:
+
+                case DriveType.Network:
                     Glyph = "\uE8CE";
                     break;
-		        case DriveType.Ram:
-			        break;
-		        case DriveType.CDRom:
-			        Glyph = "\uE958";
+
+                case DriveType.Ram:
                     break;
-		        case DriveType.Unkown:
-			        break;
-		        case DriveType.NoRootDirectory:
-			        break;
-		        case DriveType.VirtualDrive:
-			        break;
+
+                case DriveType.CDRom:
+                    Glyph = "\uE958";
+                    break;
+
+                case DriveType.Unkown:
+                    break;
+
+                case DriveType.NoRootDirectory:
+                    break;
+
+                case DriveType.VirtualDrive:
+                    break;
+
                 case DriveType.FloppyDisk:
-	                Glyph = "\uEDA2";
-	                break;
-		        default:
-			        throw new ArgumentOutOfRangeException(nameof(type), type, null);
-	        }
+                    Glyph = "\uEDA2";
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
         }
     }
 

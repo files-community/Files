@@ -21,6 +21,7 @@ namespace Files.Dialogs
     public sealed partial class ConfirmDeleteDialog : ContentDialog
     {
         public MyResult Result { get; set; }
+
         public enum MyResult
         {
             Delete,

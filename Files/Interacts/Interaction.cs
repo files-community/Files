@@ -42,7 +42,8 @@ namespace Files.Interacts
     public class Interaction
     {
         private readonly IShellPage CurrentInstance;
-        readonly InstanceTabsView instanceTabsView;
+        private readonly InstanceTabsView instanceTabsView;
+
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -88,7 +89,6 @@ namespace Files.Interacts
                     var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
                     await Launcher.LaunchUriAsync(folderUri);
                 }
-
             }
             else if (CurrentSourceType == typeof(PhotoAlbum))
             {
@@ -188,11 +188,9 @@ namespace Files.Interacts
                                         if (sbi.Path.ToString() == itemPath)
                                         {
                                             isDuplicate = true;
-
                                         }
                                     }
                                 }
-
                             }
 
                             if (!isDuplicate)
@@ -267,7 +265,6 @@ namespace Files.Interacts
                 dataGrid.SelectedItems.Clear();
                 dataGrid.SelectedItems.Add(ObjectPressed);
             }
-
         }
 
         public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
@@ -313,7 +310,6 @@ namespace Files.Interacts
                     break;
                 }
                 CurrentParent = VisualTreeHelper.GetParent(CurrentParent);
-
             }
             return parent;
         }
@@ -376,7 +372,6 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-
                         if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
                             instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
@@ -509,7 +504,6 @@ namespace Files.Interacts
             }
             else
             {
-
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
                 App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), App.CurrentInstance.ViewModel.CurrentFolder, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
@@ -656,7 +650,6 @@ namespace Files.Interacts
                     CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
                 }
                 App.CurrentInstance.NavigationToolbar.CanGoForward = false;
-
             }
             catch (UnauthorizedAccessException)
             {
@@ -707,7 +700,6 @@ namespace Files.Interacts
                         await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                 }
-
                 catch (Exception)
 
                 {
@@ -821,6 +813,7 @@ namespace Files.Interacts
             Clipboard.SetContent(dataPackage);
             Clipboard.Flush();
         }
+
         public string CopySourcePath;
         public IReadOnlyList<IStorageItem> itemsToPaste;
         public int itemsPasted;
@@ -881,10 +874,9 @@ namespace Files.Interacts
                 Clipboard.SetContent(dataPackage);
                 Clipboard.Flush();
             }
-
         }
 
-        enum ImpossibleActionResponseTypes
+        private enum ImpossibleActionResponseTypes
         {
             Skip,
             Abort
@@ -1041,7 +1033,6 @@ namespace Files.Interacts
             {
                 var page = (CurrentInstance.ContentPage as GenericFileBrowser);
                 selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.AllView.SelectedIndex].ItemPath);
-
             }
             else if (CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(PhotoAlbum))
             {

@@ -14,12 +14,10 @@ using System.Linq;
 
 namespace Files.SettingsPages
 {
-
     public sealed partial class Preferences : Page
     {
-        StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
-
+        private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public Preferences()
         {

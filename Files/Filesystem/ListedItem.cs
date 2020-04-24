@@ -15,6 +15,7 @@ namespace Files.Filesystem
         public string FolderRelativeId { get; set; }
         public bool LoadFolderGlyph { get; set; }
         private bool _LoadFileIcon;
+
         public bool LoadFileIcon
         {
             get
@@ -23,14 +24,16 @@ namespace Files.Filesystem
             }
             set
             {
-                if(_LoadFileIcon != value)
+                if (_LoadFileIcon != value)
                 {
                     _LoadFileIcon = value;
                     NotifyPropertyChanged("LoadFileIcon");
                 }
             }
         }
+
         private bool _LoadUnknownTypeGlyph;
+
         public bool LoadUnknownTypeGlyph
         {
             get
@@ -46,7 +49,9 @@ namespace Files.Filesystem
                 }
             }
         }
+
         private BitmapImage _FileImage;
+
         public BitmapImage FileImage
         {
             get
@@ -55,16 +60,18 @@ namespace Files.Filesystem
             }
             set
             {
-                if(_FileImage != value && value != null)
+                if (_FileImage != value && value != null)
                 {
                     _FileImage = value;
                     NotifyPropertyChanged("FileImage");
                 }
             }
         }
+
         public string ItemName { get; set; }
         public string ItemDateModified { get; private set; }
         private string _ItemType;
+
         public string ItemType
         {
             get
@@ -73,13 +80,14 @@ namespace Files.Filesystem
             }
             set
             {
-                if(_ItemType != value && value != null)
+                if (_ItemType != value && value != null)
                 {
                     _ItemType = value;
                     NotifyPropertyChanged("ItemType");
                 }
             }
         }
+
         public string FileExtension { get; set; }
         public string ItemPath { get; set; }
         public string FileSize { get; set; }
@@ -98,6 +106,7 @@ namespace Files.Filesystem
         private DateTimeOffset _itemDateModifiedReal;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged(string info)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));

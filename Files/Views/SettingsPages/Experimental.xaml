@@ -51,7 +51,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Double tap to rename files" />
+                        Text="Double tap to rename files"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         Grid.Column="2"
@@ -61,9 +62,7 @@
                         OffContent=""
                         OnContent="" />
                 </Grid>
-
             </StackPanel>
         </ScrollViewer>
-
     </Grid>
 </Page>

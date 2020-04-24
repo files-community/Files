@@ -610,6 +610,10 @@
           <source>Double tap to rename files</source>
           <target state="translated">Doble click para renombrar archivos</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>View sample profiles</source>
+          <target state="translated">Ver perfiles personalizados</target>
+        </trans-unit>
       </group>
     </body>
   </file>

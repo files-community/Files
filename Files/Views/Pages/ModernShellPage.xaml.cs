@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace Files.Views.Pages
@@ -72,7 +71,7 @@ namespace Files.Views.Pages
             await App.ConsentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
         }
 
-        string NavParams = null;
+        private string NavParams = null;
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
@@ -96,30 +95,37 @@ namespace Files.Views.Pages
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
+
                 case "New tab":
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
+
                 case "Desktop":
                     NavigationPath = App.AppSettings.DesktopPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
+
                 case "Downloads":
                     NavigationPath = App.AppSettings.DownloadsPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
+
                 case "Documents":
                     NavigationPath = App.AppSettings.DocumentsPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
+
                 case "Pictures":
                     NavigationPath = App.AppSettings.PicturesPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
+
                 case "Music":
                     NavigationPath = App.AppSettings.MusicPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
+
                 case "Videos":
                     NavigationPath = App.AppSettings.VideosPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
@@ -142,7 +148,7 @@ namespace Files.Views.Pages
                     break;
             }
 
-            if (NavigationPath != "" )
+            if (NavigationPath != "")
             {
                 if (App.AppSettings.LayoutMode == 0) // List View
                 {
@@ -204,6 +210,7 @@ namespace Files.Views.Pages
                 case InteractionOperationType.PasteItems:
                     operationText = "Completing Paste";
                     break;
+
                 case InteractionOperationType.DeleteItems:
                     operationText = "Deleting Items";
                     break;
@@ -230,40 +237,50 @@ namespace Files.Views.Pages
                 case (true, true, false, true, VirtualKey.N): //ctrl + shift + n, new item
                     await App.AddItemDialogDisplay.ShowAsync();
                     break;
+
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.InteractionViewModel.PermanentlyDelete = true;
                     App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
+
                 case (true, false, false, true, VirtualKey.C): //ctrl + c, copy
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync(null, null);
                     break;
+
                 case (true, false, false, true, VirtualKey.V): //ctrl + v, paste
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync(null, null);
                     break;
+
                 case (true, false, false, true, VirtualKey.X): //ctrl + x, cut
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.CutItem_Click(null, null);
                     break;
+
                 case (true, false, false, true, VirtualKey.A): //ctrl + a, select all
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                         App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
+
                 case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
                     App.CurrentInstance.InteractionOperations.LaunchNewWindow();
                     break;
+
                 case (true, false, false, true, VirtualKey.W): //ctrl + w, close tab
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
+
                 case (true, false, false, true, VirtualKey.F4): //ctrl + F4, close tab
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
+
                 case (false, false, false, true, VirtualKey.Delete): //delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
+
                 case (false, false, false, true, VirtualKey.Space): //space, quick look
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
                     {
@@ -273,12 +290,15 @@ namespace Files.Views.Pages
                         }
                     }
                     break;
+
                 case (false, false, true, true, VirtualKey.Left): //alt + back arrow, backward
                     NavigationActions.Back_Click(null, null);
                     break;
+
                 case (false, false, true, true, VirtualKey.Right): //alt + right arrow, forward
                     NavigationActions.Forward_Click(null, null);
                     break;
+
                 case (true, false, false, true, VirtualKey.R): //ctrl + r, refresh
                     NavigationActions.Refresh_Click(null, null);
                     break;
@@ -298,7 +318,6 @@ namespace Files.Views.Pages
                     //    (App.CurrentInstance.OperationsControl as RibbonArea).RibbonTabView.SelectedIndex = 3;
                     //    break;
             };
-
 
             if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
@@ -327,4 +346,3 @@ namespace Files.Views.Pages
         public string Path { get; set; }
     }
 }
-

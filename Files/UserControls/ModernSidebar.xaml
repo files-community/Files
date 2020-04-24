@@ -47,7 +47,6 @@
                 <ResourceDictionary x:Key="HighContrast">
                     <!--  This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode.  -->
                 </ResourceDictionary>
-
             </ResourceDictionary.ThemeDictionaries>
             <Style x:Key="NavigationViewStyle_Workaround" TargetType="muxc:NavigationView">
                 <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}" />
@@ -487,7 +486,6 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
-
     </UserControl.Resources>
 
     <Grid>
@@ -538,7 +536,6 @@
                         </StackPanel>
                     </muxc:NavigationViewItem.Content>
                 </muxc:NavigationViewItem>
-
             </DataTemplate>
 
             <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
