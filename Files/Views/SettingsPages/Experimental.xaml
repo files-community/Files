@@ -50,8 +50,9 @@
                         x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        FontSize="16" TextWrapping="Wrap"
-                        Text="Double tap to rename files" />
+                        FontSize="16"
+                        Text="Double tap to rename files"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         Grid.Column="2"
