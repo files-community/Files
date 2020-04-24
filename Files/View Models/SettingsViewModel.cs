@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
+using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
@@ -14,8 +15,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
-using Windows.UI;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace Files.View_Models
@@ -31,8 +30,8 @@ namespace Files.View_Models
         {
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
-            DetectApplicationTheme();
             DetectOneDrivePreference();
+            DetectAcrylicPreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectQuickLook();
@@ -44,12 +43,12 @@ namespace Files.View_Models
 
             // Send analytics
             Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
-            Analytics.TrackEvent("ThemeValue " + ThemeValue.ToString());
+            Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
             Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
             Analytics.TrackEvent("DoubleTapToRenameFiles " + DoubleTapToRenameFiles.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
-            Analytics.TrackEvent("AcrylicSidebar " + AcrylicSidebar.ToString());
+            Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
         }
 
         public async void DetectQuickLook()
@@ -264,38 +263,6 @@ namespace Files.View_Models
             }
         }
 
-        private void DetectApplicationTheme()
-        {
-            if (localSettings.Values["theme"] != null)
-            {
-                if (localSettings.Values["theme"].ToString() == "Light")
-                {
-                    ThemeValue = ThemeStyle.Light;
-                    App.Current.RequestedTheme = ApplicationTheme.Light;
-                    return;
-                }
-                else if (localSettings.Values["theme"].ToString() == "Dark")
-                {
-                    ThemeValue = ThemeStyle.Dark;
-                    App.Current.RequestedTheme = ApplicationTheme.Dark;
-                    return;
-                }
-            }
-
-            var uiSettings = new UISettings();
-            var color = uiSettings.GetColorValue(UIColorType.Background);
-            if (color == Colors.White)
-            {
-                ThemeValue = ThemeStyle.System;
-                App.Current.RequestedTheme = ApplicationTheme.Light;
-            }
-            else
-            {
-                ThemeValue = ThemeStyle.System;
-                App.Current.RequestedTheme = ApplicationTheme.Dark;
-            }
-        }
-
         private async void LoadTerminalApps()
         {
             var localFolder = ApplicationData.Current.LocalFolder;
@@ -364,29 +331,6 @@ namespace Files.View_Models
         {
             get => _FormFactor;
             set => Set(ref _FormFactor, value);
-        }
-
-        private ThemeStyle _ThemeValue;
-
-        public ThemeStyle ThemeValue
-        {
-            get => _ThemeValue;
-            set
-            {
-                Set(ref _ThemeValue, value);
-                if (value.Equals(ThemeStyle.System))
-                {
-                    localSettings.Values["theme"] = "Default";
-                }
-                else if (value.Equals(ThemeStyle.Light))
-                {
-                    localSettings.Values["theme"] = "Light";
-                }
-                else if (value.Equals(ThemeStyle.Dark))
-                {
-                    localSettings.Values["theme"] = "Dark";
-                }
-            }
         }
 
         private void DetectOneDrivePreference()
@@ -496,7 +440,7 @@ namespace Files.View_Models
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
-        
+
         public bool DoubleTapToRenameFiles
         {
             get => Get(true);
@@ -521,12 +465,36 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool AcrylicSidebar
+        private void DetectAcrylicPreference()
         {
-            get => Get(false);
-            set => Set(value);
+            if (localSettings.Values["AcrylicEnabled"] == null) { localSettings.Values["AcrylicEnabled"] = true; }
+            AcrylicEnabled = (bool)localSettings.Values["AcrylicEnabled"];
         }
-        
+
+        private bool _AcrylicEnabled = true;
+
+        public bool AcrylicEnabled
+        {
+            get => _AcrylicEnabled;
+            set
+            {
+                if (value != _AcrylicEnabled)
+                {
+                    Set(ref _AcrylicEnabled, value);
+                    localSettings.Values["AcrylicEnabled"] = value;
+                }
+            }
+        }
+
+        public event EventHandler ThemeModeChanged;
+
+        public RelayCommand UpdateThemeElements => new RelayCommand(() =>
+        {
+            ThemeModeChanged?.Invoke(this, EventArgs.Empty);
+        });
+
+        public AppTheme AppTheme { get; set; }
+
         public Int32 LayoutMode
         {
             get => Get(0); // List View

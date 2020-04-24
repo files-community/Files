@@ -271,14 +271,14 @@
     <Grid
         Padding="0,0,0,0"
         VerticalAlignment="Stretch"
-        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
         <ProgressBar
             Name="ProgBar"
             Height="10"
             VerticalAlignment="Top"
             IsIndeterminate="True"
-            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Background="Transparent" />
         <TextBlock
             x:Name="EmptyText"
             x:Uid="EmptyFolder"

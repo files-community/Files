@@ -612,7 +612,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="translated">Ver perfiles personalizados</target>
+          <target state="new">View sample profiles</target>
         </trans-unit>
       </group>
     </body>

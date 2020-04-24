@@ -465,7 +465,4 @@
   <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
     <value>Doble click para renombrar archivos</value>
   </data>
-  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Ver perfiles personalizados</value>
-  </data>
 </root>

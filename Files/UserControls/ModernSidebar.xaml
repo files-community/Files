@@ -8,7 +8,7 @@
     xmlns:local1="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
     d:DesignHeight="768"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -17,31 +17,14 @@
             <ResourceDictionary.ThemeDictionaries>
                 <ResourceDictionary x:Key="Default">
                     <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
-                    <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
-                    <AcrylicBrush
-                        x:Key="BackgroundAcrylicBrush"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{StaticResource SystemListLowColor}"
-                        TintColor="White"
-                        TintOpacity="0.7" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Light">
                     <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
-                    <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="BackgroundAcrylicBrush"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{StaticResource SystemListLowColor}"
-                        TintColor="Black"
-                        TintOpacity="0.7" />
                     <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="SystemChromeMediumColor" />
-                    <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemChromeMediumColor" />
                     <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="SystemChromeMediumHighColor" />
                 </ResourceDictionary>
                 <ResourceDictionary x:Key="HighContrast">
@@ -238,13 +221,20 @@
                                     <SplitView
                                         x:Name="RootSplitView"
                                         Grid.Row="1"
-                                        Background="{TemplateBinding Background}"
                                         CompactPaneLength="{TemplateBinding CompactPaneLength}"
                                         DisplayMode="Inline"
                                         IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                         IsTabStop="False"
-                                        OpenPaneLength="{TemplateBinding OpenPaneLength}"
-                                        PaneBackground="{ThemeResource NavigationViewDefaultPaneBackground}">
+                                        OpenPaneLength="{TemplateBinding OpenPaneLength}" >
+                                        <SplitView.PaneBackground>
+                                            <AcrylicBrush
+                                                Windows10version1903:TintLuminosityOpacity="{x:Bind local1:App.AppSettings.AppTheme.TintLuminosityOpacity, Mode=OneWay}"
+                                                BackgroundSource="HostBackdrop"
+                                                FallbackColor="{x:Bind local1:App.AppSettings.AppTheme.FallbackColor, Mode=OneWay}"
+                                                TintColor="{x:Bind local1:App.AppSettings.AppTheme.TintColor, Mode=OneWay}"
+                                                TintOpacity="{x:Bind local1:App.AppSettings.AppTheme.TintOpacity, Mode=OneWay}"
+                                                AlwaysUseFallback="{x:Bind local1:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
+                                        </SplitView.PaneBackground>
                                         <SplitView.Pane>
                                             <Grid
                                                 x:Name="PaneContentGrid"
@@ -378,9 +368,6 @@
                                     <VisualStateGroup x:Name="DisplayModeGroup">
                                         <VisualState x:Name="Compact" />
                                         <VisualState x:Name="Expanded">
-                                            <VisualState.Setters>
-                                                <Setter Target="RootSplitView.PaneBackground" Value="{ThemeResource NavigationViewExpandedPaneBackground}" />
-                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Minimal">
                                             <VisualState.Setters>
