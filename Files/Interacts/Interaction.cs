@@ -36,6 +36,8 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
+using Files.Helpers;
+using Windows.UI.Xaml.Data;
 
 namespace Files.Interacts
 {
@@ -113,7 +115,7 @@ namespace Files.Interacts
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
-        } 
+        }
 
         public void OpenPathInNewTab(string path)
         {
@@ -314,6 +316,15 @@ namespace Files.Interacts
             return parent;
         }
 
+        public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
+        {
+            if (!typeof(TEnum).GetTypeInfo().IsEnum)
+            {
+                throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
+            }
+            return (TEnum)Enum.Parse(typeof(TEnum), text);
+        }
+
         public void OpenItem_Click(object sender, RoutedEventArgs e)
         {
             OpenSelectedItems(false);
@@ -440,19 +451,6 @@ namespace Files.Interacts
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                var titleBar = appWindow.TitleBar;
-                titleBar.ButtonBackgroundColor = Colors.Transparent;
-                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                var selectedTheme = Application.Current.RequestedTheme;
-                if (selectedTheme == ApplicationTheme.Light)
-                {
-                    titleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(20, 0, 0, 0);
-                }
-                else if (selectedTheme == ApplicationTheme.Dark)
-                {
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(40, 255, 255, 255);
-                }
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
 
@@ -907,6 +905,9 @@ namespace Files.Interacts
                     if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                        Binding themeBind = new Binding();
+                        themeBind.Source = ThemeHelper.RootTheme;
+                        
                         ContentDialog dialog = new ContentDialog()
                         {
                             Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
@@ -916,6 +917,8 @@ namespace Files.Interacts
                             PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
                             CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
                         };
+                        BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
+
                         await dialog.ShowAsync();
                         if (responseType == ImpossibleActionResponseTypes.Skip)
                         {

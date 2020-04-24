@@ -52,7 +52,7 @@
                         x:Name="ItemDisplayFrame"
                         Grid.Row="1"
                         x:FieldModifier="public"
-                        Background="{StaticResource ApplicationPageBackgroundThemeBrush}"
+                        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         Navigated="ItemDisplayFrame_Navigated" />
 
                     <controls1:StatusBarControl
