@@ -25,6 +25,7 @@ namespace Files
     {
         public string previousFileName;
         private DataGridColumn _sortedColumn;
+
         public DataGridColumn SortedColumn
         {
             get
@@ -64,12 +65,15 @@ namespace Files
                 case SortOption.Name:
                     SortedColumn = nameColumn;
                     break;
+
                 case SortOption.DateModified:
                     SortedColumn = dateColumn;
                     break;
+
                 case SortOption.FileType:
                     SortedColumn = typeColumn;
                     break;
+
                 case SortOption.Size:
                     SortedColumn = sizeColumn;
                     break;
@@ -124,12 +128,15 @@ namespace Files
                     case SortOption.Name:
                         SortedColumn = nameColumn;
                         break;
+
                     case SortOption.DateModified:
                         SortedColumn = dateColumn;
                         break;
+
                     case SortOption.FileType:
                         SortedColumn = typeColumn;
                         break;
+
                     case SortOption.Size:
                         SortedColumn = sizeColumn;
                         break;
@@ -164,6 +171,14 @@ namespace Files
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            // Check if the double tap to rename files setting is off
+            if (App.AppSettings.DoubleTapToRenameFiles == false)
+            {
+                AllView.CancelEdit(); // cancel the edit operation
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // open the file instead
+                return;
+            }
+
             var textBox = e.EditingElement as TextBox;
             var selectedItem = AllView.SelectedItem as ListedItem;
             int extensionLength = selectedItem.FileExtension?.Length ?? 0;

@@ -41,6 +41,7 @@ namespace Files.Filesystem
         public ListedItem CurrentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
         private string _WorkingDirectory;
+
         public string WorkingDirectory
         {
             get
@@ -64,6 +65,7 @@ namespace Files.Filesystem
                 }
             }
         }
+
         public ObservableCollection<ListedItem> _filesAndFolders;
         private StorageFolderQueryResult _folderQueryResult;
         public StorageFileQueryResult _fileQueryResult;
@@ -73,6 +75,7 @@ namespace Files.Filesystem
         private QueryOptions _options;
         private volatile bool _filesRefreshing;
         private const int _step = 250;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private string _jumpString = "";
@@ -251,7 +254,6 @@ namespace Files.Filesystem
                             (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
                             (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
                         }
-
                     }
 
                     // Restart the timer
@@ -271,7 +273,6 @@ namespace Files.Filesystem
             //(App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
             _cancellationTokenSource = new CancellationTokenSource();
 
-
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
         }
@@ -287,6 +288,7 @@ namespace Files.Filesystem
          * whenever the path changes. We will get the individual directories from
          * the updated, most-current path and add them to the UI.
          */
+
         private void WorkingDirectoryChanged()
         {
             // Clear the path UI
@@ -327,7 +329,6 @@ namespace Files.Filesystem
                 }
                 else
                 {
-
                     componentLabel = s;
                     foreach (string part in pathComponents.GetRange(0, index + 1))
                     {
@@ -344,7 +345,6 @@ namespace Files.Filesystem
                         Path = tag,
                     };
                     App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
-
                 }
                 index++;
             }
@@ -379,7 +379,6 @@ namespace Files.Filesystem
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
-
         }
 
         public void OrderFiles()
@@ -395,12 +394,15 @@ namespace Files.Filesystem
                 case SortOption.Name:
                     orderFunc = orderByNameFunc;
                     break;
+
                 case SortOption.DateModified:
                     orderFunc = item => item.ItemDateModifiedReal;
                     break;
+
                 case SortOption.FileType:
                     orderFunc = item => item.ItemType;
                     break;
+
                 case SortOption.Size:
                     orderFunc = item => item.FileSizeBytes;
                     break;
@@ -516,8 +518,10 @@ namespace Files.Filesystem
             public uint nFileSizeLow;
             public uint dwReserved0;
             public uint dwReserved1;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
             public string cFileName;
+
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 14)]
             public string cAlternateFileName;
         }
@@ -535,15 +539,16 @@ namespace Files.Filesystem
         public const int FIND_FIRST_EX_LARGE_FETCH = 2;
 
         [DllImport("api-ms-win-core-file-l1-1-0.dll", CharSet = CharSet.Unicode)]
-        static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
+        private static extern bool FindNextFile(IntPtr hFindFile, out WIN32_FIND_DATA lpFindFileData);
 
         [DllImport("api-ms-win-core-file-l1-1-0.dll")]
-        static extern bool FindClose(IntPtr hFindFile);
+        private static extern bool FindClose(IntPtr hFindFile);
 
         [DllImport("api-ms-win-core-timezone-l1-1-0.dll", SetLastError = true)]
-        static extern bool FileTimeToSystemTime(ref FILETIME lpFileTime, out SYSTEMTIME lpSystemTime);
+        private static extern bool FileTimeToSystemTime(ref FILETIME lpFileTime, out SYSTEMTIME lpSystemTime);
 
         private bool _isLoadingItems = false;
+
         public bool IsLoadingItems
         {
             get
@@ -641,21 +646,27 @@ namespace Files.Filesystem
                 case "Desktop":
                     WorkingDirectory = App.AppSettings.DesktopPath;
                     break;
+
                 case "Downloads":
                     WorkingDirectory = App.AppSettings.DownloadsPath;
                     break;
+
                 case "Documents":
                     WorkingDirectory = App.AppSettings.DocumentsPath;
                     break;
+
                 case "Pictures":
                     WorkingDirectory = App.AppSettings.PicturesPath;
                     break;
+
                 case "Music":
                     WorkingDirectory = App.AppSettings.MusicPath;
                     break;
+
                 case "Videos":
                     WorkingDirectory = App.AppSettings.VideosPath;
                     break;
+
                 case "OneDrive":
                     WorkingDirectory = App.AppSettings.OneDrivePath;
                     break;
@@ -716,7 +727,7 @@ namespace Files.Filesystem
                     {
                         if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                         {
-                            if (!findData.cFileName.EndsWith(".lnk"))
+                            if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
                             {
                                 AddFile(findData, path);
                                 ++count;
@@ -731,7 +742,6 @@ namespace Files.Filesystem
                             }
                         }
                     }
-
                 } while (FindNextFile(hFile, out findData));
 
                 FindClose(hFile);
@@ -747,7 +757,6 @@ namespace Files.Filesystem
                 }
                 EmptyTextState.IsVisible = Visibility.Visible;
             }
-
 
             OrderFiles();
             stopwatch.Stop();
@@ -794,7 +803,7 @@ namespace Files.Filesystem
                     PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = findData.cFileName,
                     ItemDateModifiedReal = itemDate,
-                    ItemType =  ResourceController.GetTranslation("FileFolderListItem"),
+                    ItemType = ResourceController.GetTranslation("FileFolderListItem"),
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
@@ -857,7 +866,6 @@ namespace Files.Filesystem
 
             itemEmptyImgVis = true;
             itemThumbnailImgVis = false;
-
 
             if (_cancellationTokenSource.IsCancellationRequested)
             {
@@ -1001,7 +1009,6 @@ namespace Files.Filesystem
                 {
                     itemEmptyImgVis = true;
                     itemThumbnailImgVis = false;
-
                 }
             }
             if (_cancellationTokenSource.IsCancellationRequested)
@@ -1102,6 +1109,7 @@ namespace Files.Filesystem
             _filesRefreshing = false;
             Debug.WriteLine("Filesystem refresh complete");
         }
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             if (propertyName.Equals("WorkingDirectory", StringComparison.OrdinalIgnoreCase))

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Files.DataModels
 {
-	class TerminalFileModel
-	{
-		public int Version { get; set; }
+    internal class TerminalFileModel
+    {
+        public int Version { get; set; }
 
-		public List<TerminalModel> Terminals { get; set; }
-	}
+        public List<TerminalModel> Terminals { get; set; }
+    }
 }

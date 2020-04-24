@@ -28,8 +28,8 @@ namespace Files
 {
     sealed partial class App : Application
     {
-
         private static IShellPage currentInstance;
+
         public static IShellPage CurrentInstance
         {
             get
@@ -44,6 +44,7 @@ namespace Files
                 }
             }
         }
+
         public static Dialogs.ExceptionDialog ExceptionDialogDisplay { get; set; }
         public static Dialogs.ConsentDialog ConsentDialogDisplay { get; set; }
         public static Dialogs.PropertiesDialog PropertiesDialogDisplay { get; set; }
@@ -98,7 +99,7 @@ namespace Files
             {
                 NavigationActions.Back_Click(null, null);
             }
-            else if (args.CurrentPoint.Properties.IsXButton1Pressed)
+            else if (args.CurrentPoint.Properties.IsXButton2Pressed)
             {
                 NavigationActions.Forward_Click(null, null);
             }
@@ -147,7 +148,6 @@ namespace Files
             {
                 App.PS.IsEnabled = false;
             }
-
         }
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
@@ -168,7 +168,6 @@ namespace Files
             Logger.Info("App launched");
 
             bool canEnablePrelaunch = Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.ApplicationModel.Core.CoreApplication", "EnablePrelaunch");
-
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -197,13 +196,10 @@ namespace Files
 
                 if (rootFrame.Content == null)
                 {
-
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
-
-
                 }
 
                 // Ensure the current window is active
@@ -265,6 +261,7 @@ namespace Files
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     return;
+
                                 case ParsedCommandType.Unkwon:
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
@@ -288,12 +285,13 @@ namespace Files
         {
             Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
         }
+
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>
         /// <param name="sender">The Frame which failed navigation</param>
         /// <param name="e">Details about the navigation failure</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }

@@ -72,8 +72,7 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
                     Content="Appearance"
-                    IsSelected="True"
-                    Tag="Appearance">
+                    IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE790;" />
                     </muxc:NavigationViewItem.Icon>
@@ -81,8 +80,7 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
                     Content="On Startup"
-                    IsSelected="True"
-                    Tag="On Startup">
+                    IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
                     </muxc:NavigationViewItem.Icon>
@@ -90,32 +88,27 @@
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPageLayouts"
                     Content="Page Layouts"
-                    Tag="Page Layouts"
                     Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE737;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Uid="SettingsNavPreferences"
-                    Content="Preferences"
-                    Tag="Preferences">
+                <muxc:NavigationViewItem x:Uid="SettingsNavPreferences" Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Uid="SettingsNavFilesAndFolders"
-                    Content="Files and Folders"
-                    Tag="Files and Folders">
+                <muxc:NavigationViewItem x:Uid="SettingsNavFilesAndFolders" Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC50;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem
-                    x:Uid="SettingsNavAbout"
-                    Content="About"
-                    Tag="About">
+                <muxc:NavigationViewItem x:Uid="SettingsNavExperimental" Content="Experimental">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xF1AD;" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+                <muxc:NavigationViewItem x:Uid="SettingsNavAbout" Content="About">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>

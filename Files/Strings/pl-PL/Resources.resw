@@ -93,9 +93,6 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Pliki i foldery</value>
   </data>
-  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Flags</value>
-  </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
     <value>O programie</value>
   </data>
@@ -245,9 +242,6 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Wypakuj</value>
-  </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Otwórz za pomocą...</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Otwórz w nowej karcie</value>

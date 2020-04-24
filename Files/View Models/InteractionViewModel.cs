@@ -7,6 +7,7 @@ namespace Files.Controls
     public class InteractionViewModel : ViewModelBase
     {
         private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
+
         public Thickness TabsLeftMargin
         {
             get => _TabsLeftMargin;
@@ -14,6 +15,7 @@ namespace Files.Controls
         }
 
         private bool _LeftMarginLoaded = true;
+
         public bool LeftMarginLoaded
         {
             get => _LeftMarginLoaded;
@@ -21,6 +23,7 @@ namespace Files.Controls
         }
 
         private bool _PermanentlyDelete = false;
+
         public bool PermanentlyDelete
         {
             get => _PermanentlyDelete;
@@ -28,6 +31,7 @@ namespace Files.Controls
         }
 
         private bool _IsSelectedItemImage = false;
+
         public bool IsSelectedItemImage
         {
             get => _IsSelectedItemImage;
@@ -35,6 +39,7 @@ namespace Files.Controls
         }
 
         private bool _IsPageTypeNotHome = false;
+
         public bool IsPageTypeNotHome
         {
             get => _IsPageTypeNotHome;

@@ -116,10 +116,6 @@
           <source>Files and Folders</source>
           <target state="translated">Dosyalar ve Klasörler</target>
         </trans-unit>
-        <trans-unit id="SettingsFlagsTitle.Text" translate="yes" xml:space="preserve">
-          <source>Flags</source>
-          <target state="translated">Bayraklar</target>
-        </trans-unit>
         <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
           <source>About</source>
           <target state="translated">Hakkında</target>
@@ -319,10 +315,6 @@
         <trans-unit id="BaseLayoutItemContextFlyoutExtract.Text" translate="yes" xml:space="preserve">
           <source>Extract</source>
           <target state="translated">Sil</target>
-        </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutOpenWith.Text" translate="yes" xml:space="preserve">
-          <source>Open with...</source>
-          <target state="translated">Birlikte Aç...</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
@@ -579,6 +571,50 @@
         <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
           <target state="new">Invert Selection</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="new">Open</target>
+        </trans-unit>
+        <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
+          <source>Attributes:</source>
+          <target state="new">Attributes:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="new">Properties</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="new">Open in new tab</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Open in new window</source>
+          <target state="new">Open in new window</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
+          <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
+          <target state="new">WARNING: EXPERIMENTAL FEATURES AHEAD!</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="new">Experimental</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="new">Double tap to rename files</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>View sample profiles</source>
+          <target state="new">View sample profiles</target>
         </trans-unit>
       </group>
     </body>

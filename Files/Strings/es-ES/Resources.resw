@@ -243,9 +243,6 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extraer</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Abrir con...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Abrir en nueva pestaña</value>
   </data>
@@ -434,5 +431,41 @@
   </data>
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Ajustes</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Invertir Selección</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Propiedades</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Atributos:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Propiedades</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Abrir en nueva pestaña</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Abrir en nueva ventana</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Experimental</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>ADVERTENCIA: CARACTERISTICAS EXPERIMENTALES!</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Experimental</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>Doble click para renombrar archivos</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ver perfiles personalizados</value>
   </data>
 </root>

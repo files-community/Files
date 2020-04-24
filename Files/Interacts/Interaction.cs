@@ -2,7 +2,6 @@ using Files.Dialogs;
 using Files.Filesystem;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -32,8 +31,6 @@ using Windows.UI.WindowManagement;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
-using Files.View_Models;
-using System.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
@@ -46,7 +43,8 @@ namespace Files.Interacts
     public class Interaction
     {
         private readonly IShellPage CurrentInstance;
-        readonly InstanceTabsView instanceTabsView;
+        private readonly InstanceTabsView instanceTabsView;
+
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -92,7 +90,6 @@ namespace Files.Interacts
                     var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
                     await Launcher.LaunchUriAsync(folderUri);
                 }
-
             }
             else if (CurrentSourceType == typeof(PhotoAlbum))
             {
@@ -112,11 +109,22 @@ namespace Files.Interacts
             var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
             foreach (ListedItem listedItem in items)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
+        } 
+
+        public void OpenPathInNewTab(string path)
+        {
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
+        }
+
+        public async void OpenPathInNewWindow(string path)
+        {
+            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+            await Launcher.LaunchUriAsync(folderUri);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
@@ -181,11 +189,9 @@ namespace Files.Interacts
                                         if (sbi.Path.ToString() == itemPath)
                                         {
                                             isDuplicate = true;
-
                                         }
                                     }
                                 }
-
                             }
 
                             if (!isDuplicate)
@@ -255,12 +261,11 @@ namespace Files.Interacts
                     if (App.CurrentInstance.ContentPage.SelectedItems.Contains(ObjectPressed))
                         return;
                 }
-                
+
                 // The following code is only reachable when a user RightTapped an unselected row
                 dataGrid.SelectedItems.Clear();
                 dataGrid.SelectedItems.Add(ObjectPressed);
             }
-
         }
 
         public static T FindChild<T>(DependencyObject startNode) where T : DependencyObject
@@ -306,7 +311,6 @@ namespace Files.Interacts
                     break;
                 }
                 CurrentParent = VisualTreeHelper.GetParent(CurrentParent);
-
             }
             return parent;
         }
@@ -369,7 +373,6 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                     {
-
                         if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
                             instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
@@ -437,17 +440,32 @@ namespace Files.Interacts
             {
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                var titleBar = appWindow.TitleBar;
+                titleBar.ButtonBackgroundColor = Colors.Transparent;
+                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                var selectedTheme = Application.Current.RequestedTheme;
+                if (selectedTheme == ApplicationTheme.Light)
+                {
+                    titleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(20, 0, 0, 0);
+                }
+                else if (selectedTheme == ApplicationTheme.Dark)
+                {
+                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(40, 255, 255, 255);
+                }
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
+
                 appWindow.RequestSize(new Size(400, 475));
-                appWindow.Title = "Properties";
+                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
 
                 ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
                 AppWindows.Add(frame.UIContext, appWindow);
 
                 appWindow.Closed += delegate
                 {
-                    Interaction.AppWindows.Remove(frame.UIContext);
+                    AppWindows.Remove(frame.UIContext);
                     frame.Content = null;
                     appWindow = null;
                 };
@@ -471,7 +489,7 @@ namespace Files.Interacts
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
                 appWindow.RequestSize(new Size(400, 475));
-                appWindow.Title = "Properties";
+                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
 
                 ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
                 AppWindows.Add(frame.UIContext, appWindow);
@@ -487,7 +505,6 @@ namespace Files.Interacts
             }
             else
             {
-
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
                 App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), App.CurrentInstance.ViewModel.CurrentFolder, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
@@ -634,7 +651,6 @@ namespace Files.Interacts
                     CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
                 }
                 App.CurrentInstance.NavigationToolbar.CanGoForward = false;
-
             }
             catch (UnauthorizedAccessException)
             {
@@ -644,7 +660,7 @@ namespace Files.Interacts
             catch (FileNotFoundException)
             {
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
-            }        
+            }
 
             App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
         }
@@ -685,9 +701,8 @@ namespace Files.Interacts
                         await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                 }
-
                 catch (Exception)
-                
+
                 {
                     var dialog = new ContentDialog()
                     {
@@ -731,7 +746,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            
+
             CurrentInstance.NavigationToolbar.CanGoForward = false;
             return true;
         }
@@ -773,7 +788,8 @@ namespace Files.Interacts
                     if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
                         (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem).Opacity = 0.4;
-                    } else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+                    }
+                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
                         GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(listedItem);
                         List<Grid> itemContentGrids = new List<Grid>();
@@ -798,6 +814,7 @@ namespace Files.Interacts
             Clipboard.SetContent(dataPackage);
             Clipboard.Flush();
         }
+
         public string CopySourcePath;
         public IReadOnlyList<IStorageItem> itemsToPaste;
         public int itemsPasted;
@@ -858,10 +875,9 @@ namespace Files.Interacts
                 Clipboard.SetContent(dataPackage);
                 Clipboard.Flush();
             }
-
         }
 
-        enum ImpossibleActionResponseTypes
+        private enum ImpossibleActionResponseTypes
         {
             Skip,
             Abort
@@ -971,7 +987,7 @@ namespace Files.Interacts
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
-                if(itemsToPaste != null)
+                if (itemsToPaste != null)
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
@@ -1018,7 +1034,6 @@ namespace Files.Interacts
             {
                 var page = (CurrentInstance.ContentPage as GenericFileBrowser);
                 selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.AllView.SelectedIndex].ItemPath);
-
             }
             else if (CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(PhotoAlbum))
             {

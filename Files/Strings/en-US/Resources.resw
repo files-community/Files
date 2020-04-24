@@ -132,6 +132,12 @@
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Permanently delete</value>
   </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Open in new tab</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Open in new window</value>
+  </data>
   <data name="ExtractFilesDialog.Title" xml:space="preserve">
     <value>Extract Compressed Archive</value>
   </data>
@@ -303,8 +309,11 @@
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Files and Folders</value>
   </data>
-  <data name="SettingsFlagsTitle.Text" xml:space="preserve">
-    <value>Flags</value>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>Double tap to rename files</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Experimental</value>
   </data>
   <data name="SettingsPageHeader.Text" xml:space="preserve">
     <value>Settings</value>
@@ -314,6 +323,9 @@
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Appearance</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Experimental</value>
   </data>
   <data name="SettingsNavFilesAndFolders.Content" xml:space="preserve">
     <value>Files and Folders</value>
@@ -329,6 +341,9 @@
   </data>
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
     <value>Search</value>
+  </data> 
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Continue where you left off</value>
@@ -432,8 +447,8 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Extract</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Open with...</value>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Open in new tab</value>
@@ -545,5 +560,17 @@
   </data>
   <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>More options</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Attributes:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Properties</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>View sample profiles</value>
   </data>
 </root>

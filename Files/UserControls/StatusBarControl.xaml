@@ -39,19 +39,21 @@
                             x:Uid="StatusBarControlSelectAll"
                             Icon="SelectAll"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
+                            Icon="SelectAll"
                             Text="Select All" />
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlInvertSelection"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.InvertAllItems}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE746;"/>
+                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE746;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlClearSelection"
                             Icon="ClearSelection"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
+                            Icon="ClearSelection"
                             Text="Clear Selection" />
                     </MenuFlyout>
                 </Button.Flyout>

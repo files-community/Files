@@ -9,7 +9,6 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files
 {
-
     public sealed partial class Settings : Page
     {
         public Settings()
@@ -48,7 +47,8 @@ namespace Files
                 //2 => SettingsContentFrame.Navigate(typeof(StartPageWidgets)),
                 3 => SettingsContentFrame.Navigate(typeof(Preferences)),
                 4 => SettingsContentFrame.Navigate(typeof(FilesAndFolders)),
-                5 => SettingsContentFrame.Navigate(typeof(About)),
+                5 => SettingsContentFrame.Navigate(typeof(Experimental)),
+                6 => SettingsContentFrame.Navigate(typeof(About)),
                 _ => SettingsContentFrame.Navigate(typeof(Appearance))
             };
         }

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Files.CommandLine
 {
-	enum ParsedCommandType
-	{
-		Unkwon,
-		OpenDirectory,
-	}
+    internal enum ParsedCommandType
+    {
+        Unkwon,
+        OpenDirectory,
+    }
 }

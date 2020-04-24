@@ -7,9 +7,9 @@ using Windows.Storage;
 
 namespace ProcessLauncher
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             var localSettings = ApplicationData.Current.LocalSettings;
             var arguments = (string)localSettings.Values["Arguments"];
@@ -17,21 +17,12 @@ namespace ProcessLauncher
             {
                 if (arguments.Equals("StartupTasks"))
                 {
-                    // Detect User Paths
-                    ApplicationData.Current.LocalSettings.Values["DesktopPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "Desktop", null);
-                    ApplicationData.Current.LocalSettings.Values["DownloadsPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "{374DE290-123F-4565-9164-39C4925E467B}", null);
-                    ApplicationData.Current.LocalSettings.Values["DocumentsPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "Personal", null);
-                    ApplicationData.Current.LocalSettings.Values["PicturesPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Pictures", null);
-                    ApplicationData.Current.LocalSettings.Values["MusicPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Music", null);
-                    ApplicationData.Current.LocalSettings.Values["VideosPath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders", "My Video", null);
-                    ApplicationData.Current.LocalSettings.Values["OneDrivePath"] = Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\OneDrive", "UserFolder", null);
-
                     // Check QuickLook Availability
                     QuickLook.CheckQuickLookAvailability(localSettings);
                 }
                 else if (arguments.Equals("ToggleQuickLook"))
                 {
-                    var path = (string) localSettings.Values["path"];
+                    var path = (string)localSettings.Values["path"];
                     QuickLook.ToggleQuickLook(path);
                 }
                 else
@@ -73,8 +64,6 @@ namespace ProcessLauncher
                         Process.Start(executable);
                     }
                 }
-                
-
             }
         }
     }

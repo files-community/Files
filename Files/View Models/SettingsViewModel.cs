@@ -3,17 +3,16 @@ using Files.Enums;
 using Files.Filesystem;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.AppCenter.Analytics;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
-using Windows.Management.Deployment;
 using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
@@ -24,7 +23,7 @@ namespace Files.View_Models
     public class SettingsViewModel : ViewModelBase
     {
         private readonly ApplicationDataContainer _roamingSettings;
-        readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public DrivesManager DrivesManager { get; }
 
@@ -42,6 +41,15 @@ namespace Files.View_Models
 
             //DetectWSLDistros();
             LoadTerminalApps();
+
+            // Send analytics
+            Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
+            Analytics.TrackEvent("ThemeValue " + ThemeValue.ToString());
+            Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
+            Analytics.TrackEvent("DoubleTapToRenameFiles " + DoubleTapToRenameFiles.ToString());
+            Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
+            Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
+            Analytics.TrackEvent("AcrylicSidebar " + AcrylicSidebar.ToString());
         }
 
         public async void DetectQuickLook()
@@ -56,6 +64,7 @@ namespace Files.View_Models
             AddDefaultLocations();
             PopulatePinnedSidebarItems();
         }
+
         private void AddDefaultLocations()
         {
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
@@ -97,11 +106,9 @@ namespace Files.View_Models
                                     if (sbi.Path.ToString() == locationPath)
                                     {
                                         isDuplicate = true;
-
                                     }
                                 }
                             }
-
                         }
 
                         if (!isDuplicate)
@@ -209,7 +216,6 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-
                     App.sideBarItems.Add(new WSLDistroItem() { DistroName = folder.DisplayName, Path = folder.Path, Logo = logoURI });
                 }
             }
@@ -240,6 +246,7 @@ namespace Files.View_Models
         }
 
         private TimeStyle _DisplayedTimeStyle = TimeStyle.Application;
+
         public TimeStyle DisplayedTimeStyle
         {
             get => _DisplayedTimeStyle;
@@ -256,6 +263,7 @@ namespace Files.View_Models
                 }
             }
         }
+
         private void DetectApplicationTheme()
         {
             if (localSettings.Values["theme"] != null)
@@ -319,31 +327,31 @@ namespace Files.View_Models
                 await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
                 var defaultContent = await FileIO.ReadTextAsync(file);
                 terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
-
             }
 
             // Ensure Windows Terminal is not already in List
-            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            {
-                PackageManager packageManager = new PackageManager();
-                var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-                if (terminalPackage != null)
-                {
-                    terminalsFileModel.Terminals.Add(new TerminalModel()
-                    {
-                        Id = terminalsFileModel.Terminals.Count + 1,
-                        Name = "Windows Terminal",
-                        Path = "wt.exe",
-                        arguments = "-d {0}",
-                        icon = ""
-                    });
-                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-                }
-            }
+            //if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            //{
+            //    PackageManager packageManager = new PackageManager();
+            //    var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            //    if (terminalPackage != null)
+            //    {
+            //        terminalsFileModel.Terminals.Add(new TerminalModel()
+            //        {
+            //            Id = terminalsFileModel.Terminals.Count + 1,
+            //            Name = "Windows Terminal",
+            //            Path = "wt.exe",
+            //            arguments = "-d {0}",
+            //            icon = ""
+            //        });
+            //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
+            //    }
+            //}
             Terminals = terminalsFileModel.Terminals;
         }
 
         private IList<TerminalModel> _Terminals = null;
+
         public IList<TerminalModel> Terminals
         {
             get => _Terminals;
@@ -351,6 +359,7 @@ namespace Files.View_Models
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
+
         public FormFactorMode FormFactor
         {
             get => _FormFactor;
@@ -358,6 +367,7 @@ namespace Files.View_Models
         }
 
         private ThemeStyle _ThemeValue;
+
         public ThemeStyle ThemeValue
         {
             get => _ThemeValue;
@@ -403,6 +413,7 @@ namespace Files.View_Models
         }
 
         private bool _PinOneDriveToSideBar = true;
+
         public bool PinOneDriveToSideBar
         {
             get => _PinOneDriveToSideBar;
@@ -440,7 +451,22 @@ namespace Files.View_Models
             }
         }
 
+        public string DesktopPath = UserDataPaths.GetDefault().Desktop;
+
+        public string DocumentsPath = UserDataPaths.GetDefault().Documents;
+
+        public string DownloadsPath = UserDataPaths.GetDefault().Downloads;
+
+        public string PicturesPath = UserDataPaths.GetDefault().Pictures;
+
+        public string MusicPath = UserDataPaths.GetDefault().Music;
+
+        public string VideosPath = UserDataPaths.GetDefault().Videos;
+
+        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
+
         public string TempPath
         {
             get => _TempPath;
@@ -448,6 +474,7 @@ namespace Files.View_Models
         }
 
         private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+
         public string AppDataPath
         {
             get => _AppDataPath;
@@ -455,6 +482,7 @@ namespace Files.View_Models
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+
         public string HomePath
         {
             get => _HomePath;
@@ -462,57 +490,16 @@ namespace Files.View_Models
         }
 
         private string _WinDirPath = Environment.GetFolderPath(Environment.SpecialFolder.Windows);
+
         public string WinDirPath
         {
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
-
-        public string DesktopPath
+        
+        public bool DoubleTapToRenameFiles
         {
-            get => Get(UserDataPaths.GetDefault().Desktop);
-            set => Set(value);
-        }
-
-        public string DocumentsPath
-        {
-            get => Get(UserDataPaths.GetDefault().Documents);
-            set => Set(value);
-        }
-
-        public string DownloadsPath
-        {
-            get => Get(UserDataPaths.GetDefault().Downloads);
-            set => Set(value);
-        }
-
-        public string PicturesPath
-        {
-            get => Get(UserDataPaths.GetDefault().Pictures);
-            set => Set(value);
-        }
-
-        public string MusicPath
-        {
-            get => Get(UserDataPaths.GetDefault().Music);
-            set => Set(value);
-        }
-
-        public string VideosPath
-        {
-            get => Get(UserDataPaths.GetDefault().Videos);
-            set => Set(value);
-        }
-
-        public string OneDrivePath
-        {
-            get => Get(Environment.GetEnvironmentVariable("OneDrive"));
-            set => Set(value);
-        }
-
-        public bool AcrylicSidebar
-        {
-            get => Get(false);
+            get => Get(true);
             set => Set(value);
         }
 
@@ -528,18 +515,18 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public bool ShowRibbonContent
-        {
-            get => Get(true);
-            set => Set(value);
-        }
-
         public bool AreLinuxFilesSupported
         {
             get => Get(false);
             set => Set(value);
         }
 
+        public bool AcrylicSidebar
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
         public Int32 LayoutMode
         {
             get => Get(0); // List View
@@ -632,6 +619,6 @@ namespace Files.View_Models
             return defaultValue;
         }
 
-        delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
+        private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
     }
 }

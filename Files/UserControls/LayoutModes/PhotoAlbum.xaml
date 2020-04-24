@@ -66,7 +66,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                IsEnabled="{x:Bind Mode=TwoWay, Path=local:App.PS.IsEnabled, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind local:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE77F;" />
@@ -146,11 +146,11 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="OpenItem"
-                x:Uid="BaseLayoutItemContextFlyoutOpenWith"
+                x:Uid="BaseLayoutItemContextFlyoutOpenItem"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItem_Click}"
                 Tag="Open_FlyoutItem"
-                Text="Open with...">
+                Text="Open">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7AC;" />
                 </MenuFlyoutItem.Icon>
@@ -298,11 +298,11 @@
             x:FieldModifier="public"
             AllowDrop="True"
             DoubleTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.List_ItemClick}"
+            DragOver="List_DragOver"
+            Drop="List_Drop"
             IsDoubleTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
-            DragOver="List_DragOver"
-            Drop="List_Drop"
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="Extended">
             <GridView.ItemContainerStyle>
@@ -313,7 +313,6 @@
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="local2:ListedItem">
                     <Grid
-                        Tag="ItemRoot"
                         Width="125"
                         Height="Auto"
                         Margin="0,0,0,0"
@@ -326,6 +325,7 @@
                         EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                         IsRightTapEnabled="True"
                         RightTapped="StackPanel_RightTapped"
+                        Tag="ItemRoot"
                         ToolTipService.ToolTip="{x:Bind ItemName}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="100" />
@@ -345,11 +345,11 @@
                                 <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
                             </Grid>
                             <Image
+                                x:Name="FolderGlyph"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                Stretch="Uniform"
-                                x:Name="FolderGlyph"
-                                x:Load="{x:Bind LoadFolderGlyph}">
+                                x:Load="{x:Bind LoadFolderGlyph}"
+                                Stretch="Uniform">
                                 <Image.Source>
                                     <SvgImageSource
                                         RasterizePixelHeight="128"
@@ -358,9 +358,9 @@
                                 </Image.Source>
                             </Image>
                             <Grid
+                                x:Name="TypeUnknownGlyph"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                x:Name="TypeUnknownGlyph"
                                 x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                                 <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     <FontIcon

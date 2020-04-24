@@ -46,7 +46,8 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Pin OneDrive to the sidebar" />
+                        Text="Pin OneDrive to the sidebar"
+                        TextWrapping="Wrap" />
 
                     <ToggleSwitch
                         x:Name="OneDrivePin"
@@ -106,14 +107,21 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Terminal Applications" />
+                        Text="Terminal Applications"
+                        TextWrapping="Wrap" />
 
                     <StackPanel
                         Grid.Column="2"
                         HorizontalAlignment="Right"
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Spacing="12">
                         <HyperlinkButton
-                            Margin="0,0,16,0"
+                            x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
+                            Content="&#xE946;"
+                            FontFamily="Segoe MDL2 Assets"
+                            NavigateUri="https://github.com/duke7553/files-uwp/wiki/Sample-terminal-profiles"
+                            Style="{ThemeResource TextBlockButtonStyle}" />
+                        <HyperlinkButton
                             Click="EditTerminalApplications_Click"
                             Content=""
                             FontFamily="Segoe MDL2 Assets"

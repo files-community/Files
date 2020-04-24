@@ -31,15 +31,13 @@ namespace Files.Dialogs
             Windows.Storage.ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"] = false;
         }
 
- 
-
         private async void BrowseButton_Click(object sender, RoutedEventArgs e)
         {
             Windows.Storage.Pickers.FolderPicker folderPicker = new Windows.Storage.Pickers.FolderPicker();
             folderPicker.CommitButtonText = "Select Folder";
             folderPicker.FileTypeFilter.Add("*");
             var selectedFolder = await folderPicker.PickSingleFolderAsync();
-            if(selectedFolder != null)
+            if (selectedFolder != null)
             {
                 DestPathText.Text = selectedFolder.Path;
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["Extract_Destination_Path"] = selectedFolder.Path;

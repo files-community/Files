@@ -7,6 +7,7 @@ namespace Files.Interacts
     public class EmptyFolderTextState : INotifyPropertyChanged
     {
         private Visibility _isVisible;
+
         public Visibility IsVisible
         {
             get
@@ -23,6 +24,7 @@ namespace Files.Interacts
                 }
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")

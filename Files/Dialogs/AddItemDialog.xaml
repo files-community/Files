@@ -6,12 +6,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)" 
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     CornerRadius="4" Title="Create a New Item" Grid.RowSpan="4" BorderThickness="0" x:Name="AddDialog" PrimaryButtonText="Cancel">
 
     <StackPanel Spacing="25" Orientation="Vertical">
         <Grid x:Name="SubtitleArea">
-            <TextBlock x:Name="Description" Text="Choose a type for this new item below"/>
+            <TextBlock x:Name="Description" Text="Choose a type for this new item below" />
         </Grid>
         <Grid x:Name="SelectionListContent" HorizontalAlignment="Stretch">
             <StackPanel>
@@ -20,10 +20,10 @@
                         <DataTemplate x:DataType="local:AddListItem">
                             <Grid Height="50">
                                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="28" Text="{x:Bind Icon}" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="28" Text="{x:Bind Icon}" Margin="0,0,10,0" VerticalAlignment="Center" />
                                     <StackPanel>
-                                        <TextBlock Text="{x:Bind Header}"/>
-                                        <TextBlock Foreground="Gray" Text="{x:Bind SubHeader}"/>
+                                        <TextBlock Text="{x:Bind Header}" />
+                                        <TextBlock Foreground="Gray" Text="{x:Bind SubHeader}" />
                                     </StackPanel>
                                 </StackPanel>
                             </Grid>

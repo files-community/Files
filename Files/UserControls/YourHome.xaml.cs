@@ -22,18 +22,15 @@ using Files.Views.Pages;
 
 namespace Files
 {
-
-
     public sealed partial class YourHome : Page
     {
-
         public YourHome()
         {
             InitializeComponent();
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
-        {           
+        {
             var flyoutItem = sender as MenuFlyoutItem;
             var clickedOnItem = flyoutItem.DataContext as RecentItem;
             if (clickedOnItem.IsFile)
@@ -75,9 +72,7 @@ namespace Files
             };
             App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
 
-
             //SetPageContentVisibility(parameters);
-            
         }
 
         public bool FavoritesCardsVis { get; set; } = true;
@@ -122,12 +117,12 @@ namespace Files
                     break;
             }
 
-
             switch (App.AppSettings.LayoutMode)
             {
                 case 0:
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath); // List View
                     break;
+
                 case 1:
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath); // Grid View
                     break;
@@ -135,6 +130,7 @@ namespace Files
 
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }
+
         public static StorageFile RecentsFile;
         public static StorageFolder dataFolder;
         public static ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
@@ -151,7 +147,7 @@ namespace Files
             Visibility ItemEmptyImgVis;
             Visibility ItemFileIconVis;
             bool IsRecentsListEmpty = true;
-            foreach(var entry in mostRecentlyUsed.Entries)
+            foreach (var entry in mostRecentlyUsed.Entries)
             {
                 try
                 {
@@ -161,7 +157,7 @@ namespace Files
                         IsRecentsListEmpty = false;
                     }
                 }
-                catch (Exception){}
+                catch (Exception) { }
             }
 
             if (IsRecentsListEmpty)
@@ -211,7 +207,7 @@ namespace Files
                 }
             }
 
-            if(recentItemsCollection.Count == 0)
+            if (recentItemsCollection.Count == 0)
             {
                 Empty.Visibility = Visibility.Visible;
             }
@@ -268,7 +264,7 @@ namespace Files
                         //remove it from the visible collection
                         recentItemsCollection.Remove(vm);
 
-                        //Now clear it also from the recent list cache permanently.  
+                        //Now clear it also from the recent list cache permanently.
                         //No token stored in the viewmodel, so need to find it the old fashioned way.
                         var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
@@ -336,11 +332,9 @@ namespace Files
             }
             catch (Exception)
             {
-
             }
 
             return result;
-
         }
 
         private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
@@ -364,8 +358,6 @@ namespace Files
 
         private void RecentsView_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-           
-
         }
     }
 
@@ -384,6 +376,7 @@ namespace Files
     public class EmptyRecentsText : INotifyPropertyChanged
     {
         private Visibility visibility;
+
         public Visibility Visibility
         {
             get
@@ -399,7 +392,9 @@ namespace Files
                 }
             }
         }
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

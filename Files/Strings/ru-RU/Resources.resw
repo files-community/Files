@@ -258,9 +258,6 @@
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Извлечь</value>
   </data>
-  <data name="BaseLayoutItemContextFlyoutOpenWith.Text" xml:space="preserve">
-    <value>Открыть с помощью...</value>
-  </data>
   <data name="BaseLayoutItemContextFlyoutOpenInNewTab.Text" xml:space="preserve">
     <value>Открыть в новой вкладке</value>
   </data>
@@ -410,5 +407,38 @@
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Файл</value>
+  </data>
+  <data name="ErrorDialogThisActionCannotBeDone" xml:space="preserve">
+    <value>Это действие не моет быть завершено</value>
+  </data>
+  <data name="ErrorDialogTheDestinationFolder" xml:space="preserve">
+    <value>Папка назначения</value>
+  </data>
+  <data name="ErrorDialogIsASubfolder" xml:space="preserve">
+    <value>это подпапка исходной папки</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Пропустить</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>Отменить</value>
+  </data>
+  <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
+    <value>MD5 Хэш:</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Инвертировать выделение</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Свойства</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Атрибуты:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Свойства</value>
   </data>
 </root>

@@ -18,256 +18,260 @@ using Windows.ApplicationModel.Resources;
 
 namespace Files.Filesystem
 {
-	public class DrivesManager
-	{
-		private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+    public class DrivesManager
+    {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-		public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
-		public bool ShowUserConsentOnInit { get; set; } = false;
-		private DeviceWatcher _deviceWatcher;
+        public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
+        public bool ShowUserConsentOnInit { get; set; } = false;
+        private DeviceWatcher _deviceWatcher;
 
-		public DrivesManager()
-		{
-			Task findDrivesTask = null;
-			try
-			{
-				findDrivesTask = GetDrives(Drives);
-			}
-			catch (AggregateException)
-			{
-				ShowUserConsentOnInit = true;
-			}
+        public DrivesManager()
+        {
+            Task findDrivesTask = null;
+            try
+            {
+                findDrivesTask = GetDrives(Drives);
+            }
+            catch (AggregateException)
+            {
+                ShowUserConsentOnInit = true;
+            }
 
-			findDrivesTask.ContinueWith((x) => 
-			{
-				GetVirtualDrivesList(Drives);
+            findDrivesTask.ContinueWith((x) =>
+            {
+                GetVirtualDrivesList(Drives);
 
-				_deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
-				_deviceWatcher.Added += DeviceAdded;
-				_deviceWatcher.Removed += DeviceRemoved;
-				_deviceWatcher.Updated += DeviceUpdated;
-				_deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
-				_deviceWatcher.Start();
-			});
-			
-		}
+                _deviceWatcher = DeviceInformation.CreateWatcher(StorageDevice.GetDeviceSelector());
+                _deviceWatcher.Added += DeviceAdded;
+                _deviceWatcher.Removed += DeviceRemoved;
+                _deviceWatcher.Updated += DeviceUpdated;
+                _deviceWatcher.EnumerationCompleted += DeviceWatcher_EnumerationCompleted;
+                _deviceWatcher.Start();
+            });
+        }
 
-		private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
-		{
-			// Only update collection from UI-thread
-			try
-			{
-				await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-				{
-					if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
-					{
-						App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
-					}
-					foreach (DriveItem drive in Drives)
-					{
-						if (!App.sideBarItems.Contains(drive))
-						{
-							App.sideBarItems.Add(drive);
-						}
-					}
+        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        {
+            // Only update collection from UI-thread
+            try
+            {
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                    {
+                        App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                    }
+                    foreach (DriveItem drive in Drives)
+                    {
+                        if (!App.sideBarItems.Contains(drive))
+                        {
+                            App.sideBarItems.Add(drive);
+                        }
+                    }
 
-					foreach (INavigationControlItem item in App.sideBarItems.ToList())
-					{
-						if (item is DriveItem && !Drives.Contains(item))
-						{
-							App.sideBarItems.Remove(item);
-						}
-					}
-				});
-			}
-			catch (Exception)
-			{
-				// UI thread not created yet?
-			}
-		}
+                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                    {
+                        if (item is DriveItem && !Drives.Contains(item))
+                        {
+                            App.sideBarItems.Remove(item);
+                        }
+                    }
+                });
+            }
+            catch (Exception)
+            {
+                // UI thread not created yet?
+            }
+        }
 
-		private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
-		{
-			var deviceId = args.Id;
-			StorageFolder root = null;
-			try
-			{
-				root = StorageDevice.FromId(deviceId);
-			}
-			catch (UnauthorizedAccessException)
-			{
-				Logger.Warn($"UnauthorizedAccessException: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
-				return;
-			}
+        private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
+        {
+            var deviceId = args.Id;
+            StorageFolder root = null;
+            try
+            {
+                root = StorageDevice.FromId(deviceId);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Logger.Warn($"UnauthorizedAccessException: Attemting to add the device, {args.Name}, failed at the StorageFolder initialization step. This device will be ignored. Device ID: {args.Id}");
+                return;
+            }
 
-			// If drive already in list, skip.
-			if (Drives.Any(x => x.Tag == root.Name))
-			{
-				return;
-			}
+            // If drive already in list, skip.
+            if (Drives.Any(x => x.Tag == root.Name))
+            {
+                return;
+            }
 
-			DriveType type = DriveType.Removable;
+            DriveType type = DriveType.Removable;
 
-			var driveItem = new DriveItem(
-				root,
-				Visibility.Visible,
-				type);
+            var driveItem = new DriveItem(
+                root,
+                Visibility.Visible,
+                type);
 
-			Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
+            Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
-			// Update the collection on the ui-thread.
-			try
-			{
-				CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
-				{
-					Drives.Add(driveItem);
-					DeviceWatcher_EnumerationCompleted(null, null);
-				});
-			}
-			catch (Exception)
-			{
-				// Ui-Thread not yet created.
-				Drives.Add(driveItem);
-			}
-		}
+            // Update the collection on the ui-thread.
+            try
+            {
+                CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    Drives.Add(driveItem);
+                    DeviceWatcher_EnumerationCompleted(null, null);
+                });
+            }
+            catch (Exception)
+            {
+                // Ui-Thread not yet created.
+                Drives.Add(driveItem);
+            }
+        }
 
-		private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
-		{
-			var drives = DriveInfo.GetDrives().Select(x => x.Name);
+        private async void DeviceRemoved(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            var drives = DriveInfo.GetDrives().Select(x => x.Name);
 
-			foreach (var drive in Drives)
-			{
-				if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Tag) )
-				{
-					continue;
-				}
+            foreach (var drive in Drives)
+            {
+                if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Tag))
+                {
+                    continue;
+                }
 
-				Logger.Info($"Drive removed: {drive.Tag}");
+                Logger.Info($"Drive removed: {drive.Tag}");
 
-				// Update the collection on the ui-thread.
-				try
-				{
-					CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
-					{ 
-						Drives.Remove(drive);
-						DeviceWatcher_EnumerationCompleted(null, null);
-					});
-				}
-				catch (Exception)
-				{
-					// Ui-Thread not yet created.
-					Drives.Remove(drive);
-				}
-				return;
-			}
-		}
+                // Update the collection on the ui-thread.
+                try
+                {
+                    CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                    {
+                        Drives.Remove(drive);
+                        DeviceWatcher_EnumerationCompleted(null, null);
+                    });
+                }
+                catch (Exception)
+                {
+                    // Ui-Thread not yet created.
+                    Drives.Remove(drive);
+                }
+                return;
+            }
+        }
 
-		private void DeviceUpdated(DeviceWatcher sender, DeviceInformationUpdate args)
-		{
-			Debug.WriteLine("Devices updated");
-		}
+        private void DeviceUpdated(DeviceWatcher sender, DeviceInformationUpdate args)
+        {
+            Debug.WriteLine("Devices updated");
+        }
 
-		private async Task GetDrives(IList<DriveItem> list)
-		{
-			var drives = DriveInfo.GetDrives().ToList();
+        private async Task GetDrives(IList<DriveItem> list)
+        {
+            var drives = DriveInfo.GetDrives().ToList();
 
-			var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-			var supportedDevicesNames = remDevices.Select(x => StorageDevice.FromId(x.Id).Name);
-			foreach (DriveInfo driveInfo in drives.ToList())
-			{
-				if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
-				{
-					drives.Remove(driveInfo);
-				}
-			}
+            var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
+            var supportedDevicesNames = remDevices.Select(x => StorageDevice.FromId(x.Id).Name);
+            foreach (DriveInfo driveInfo in drives.ToList())
+            {
+                if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
+                {
+                    drives.Remove(driveInfo);
+                }
+            }
 
+            foreach (var drive in drives)
+            {
+                // If drive already in list, skip.
+                if (list.Any(x => x.Tag == drive.Name))
+                {
+                    continue;
+                }
 
-			foreach (var drive in drives)
-			{
-				// If drive already in list, skip.
-				if (list.Any(x => x.Tag == drive.Name))
-				{
-					continue;
-				}
+                var folder = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(drive.Name)).Result;
 
-				var folder = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(drive.Name)).Result;
+                DriveType type = DriveType.Unkown;
 
-				
-				DriveType type = DriveType.Unkown;
+                switch (drive.DriveType)
+                {
+                    case System.IO.DriveType.CDRom:
+                        type = DriveType.CDRom;
+                        break;
 
-				switch (drive.DriveType)
-				{
-					case System.IO.DriveType.CDRom:
-						type = DriveType.CDRom;
-						break;
-					case System.IO.DriveType.Fixed:
-						if(InstanceTabsView.NormalizePath(drive.Name) != InstanceTabsView.NormalizePath("A:")
-						    && InstanceTabsView.NormalizePath(drive.Name) !=
-						    InstanceTabsView.NormalizePath("B:"))
-						{
-							type = DriveType.Fixed;
-						}
-						else
-						{
-							type = DriveType.FloppyDisk;
-						}
-						break;
-					case System.IO.DriveType.Network:
-						type = DriveType.Network;
-						break;
-					case System.IO.DriveType.NoRootDirectory:
-						type = DriveType.NoRootDirectory;
-						break;
-					case System.IO.DriveType.Ram:
-						type = DriveType.Ram;
-						break;
-					case System.IO.DriveType.Removable:
-						type = DriveType.Removable;
-						break;
-					case System.IO.DriveType.Unknown:
-						type = DriveType.Unkown;
-						break;
-					default:
-						type = DriveType.Unkown;
-						break;
-				}
+                    case System.IO.DriveType.Fixed:
+                        if (InstanceTabsView.NormalizePath(drive.Name) != InstanceTabsView.NormalizePath("A:")
+                            && InstanceTabsView.NormalizePath(drive.Name) !=
+                            InstanceTabsView.NormalizePath("B:"))
+                        {
+                            type = DriveType.Fixed;
+                        }
+                        else
+                        {
+                            type = DriveType.FloppyDisk;
+                        }
+                        break;
 
-				var driveItem = new DriveItem(
-					folder,
-					Visibility.Visible,
-					type);
+                    case System.IO.DriveType.Network:
+                        type = DriveType.Network;
+                        break;
 
-				Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
+                    case System.IO.DriveType.NoRootDirectory:
+                        type = DriveType.NoRootDirectory;
+                        break;
 
-				list.Add(driveItem);
-			}
-		}
+                    case System.IO.DriveType.Ram:
+                        type = DriveType.Ram;
+                        break;
 
-		private void GetVirtualDrivesList(IList<DriveItem> list)
-		{
-			var oneDriveItem = new DriveItem()
-			{
-				DriveText = "OneDrive",
-				Tag = "OneDrive",
-				CloudGlyphVisibility = Visibility.Visible,
-				DriveGlyphVisibility = Visibility.Collapsed,
-				Type = DriveType.VirtualDrive,
-				//itemVisibility = App.AppSettings.PinOneDriveToSideBar
-			};
+                    case System.IO.DriveType.Removable:
+                        type = DriveType.Removable;
+                        break;
 
-			var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
-			if (setting == null || (bool)setting == true)
-			{
-				list.Add(oneDriveItem);
-			}
-		}
+                    case System.IO.DriveType.Unknown:
+                        type = DriveType.Unkown;
+                        break;
 
-		public void Dispose()
-		{
-			if (_deviceWatcher.Status == DeviceWatcherStatus.Started || _deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted)
-			{
-				_deviceWatcher.Stop();
-			}
-		}
-	}
+                    default:
+                        type = DriveType.Unkown;
+                        break;
+                }
+
+                var driveItem = new DriveItem(
+                    folder,
+                    Visibility.Visible,
+                    type);
+
+                Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
+
+                list.Add(driveItem);
+            }
+        }
+
+        private void GetVirtualDrivesList(IList<DriveItem> list)
+        {
+            var oneDriveItem = new DriveItem()
+            {
+                DriveText = "OneDrive",
+                Tag = "OneDrive",
+                CloudGlyphVisibility = Visibility.Visible,
+                DriveGlyphVisibility = Visibility.Collapsed,
+                Type = DriveType.VirtualDrive,
+                //itemVisibility = App.AppSettings.PinOneDriveToSideBar
+            };
+
+            var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
+            if (setting == null || (bool)setting == true)
+            {
+                list.Add(oneDriveItem);
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_deviceWatcher.Status == DeviceWatcherStatus.Started || _deviceWatcher.Status == DeviceWatcherStatus.EnumerationCompleted)
+            {
+                _deviceWatcher.Stop();
+            }
+        }
+    }
 }

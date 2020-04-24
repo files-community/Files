@@ -50,8 +50,6 @@
                 Click="btnDelete_Click"
                 Content="Delete"
                 TabIndex="0" />
-
         </StackPanel>
-
     </Grid>
 </ContentDialog>

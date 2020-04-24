@@ -12,15 +12,13 @@ using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
-
     public sealed partial class PhotoAlbum : BaseLayout
     {
-
         public PhotoAlbum()
         {
             this.InitializeComponent();
-
         }
+
         protected override void SetSelectedItemOnUi(ListedItem selectedItem)
         {
             // Required to check if sequences are equal, if not it will result in an infinite loop
@@ -31,6 +29,7 @@ namespace Files
                 FileList.UpdateLayout();
             }
         }
+
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
             // To prevent program from crashing when the page is first loaded
@@ -39,10 +38,14 @@ namespace Files
                 foreach (ListedItem listedItem in FileList.Items)
                 {
                     GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
-                    List<Grid> grids = new List<Grid>();
-                    Interaction.FindChildren<Grid>(grids, gridViewItem);
-                    var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                    rootItem.CanDrag = selectedItems.Contains(listedItem);
+
+                    if (gridViewItem != null)
+                    {
+                        List<Grid> grids = new List<Grid>();
+                        Interaction.FindChildren<Grid>(grids, gridViewItem);
+                        var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                        rootItem.CanDrag = selectedItems.Contains(listedItem);
+                    }
                 }
             }
 
@@ -181,7 +184,7 @@ namespace Files
                     {
                         return;
                     }
-                        
+
                     base.Page_CharacterReceived(sender, args);
                     FileList.Focus(FocusState.Keyboard);
                 }

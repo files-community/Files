@@ -47,7 +47,6 @@
                 <ResourceDictionary x:Key="HighContrast">
                     <!--  This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode.  -->
                 </ResourceDictionary>
-
             </ResourceDictionary.ThemeDictionaries>
             <Style x:Key="NavigationViewStyle_Workaround" TargetType="muxc:NavigationView">
                 <Setter Property="PaneToggleButtonStyle" Value="{StaticResource PaneToggleButtonStyle}" />
@@ -487,7 +486,6 @@
                 </Setter>
             </Style>
         </ResourceDictionary>
-
     </UserControl.Resources>
 
     <Grid>
@@ -538,7 +536,6 @@
                         </StackPanel>
                     </muxc:NavigationViewItem.Content>
                 </muxc:NavigationViewItem>
-
             </DataTemplate>
 
             <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
@@ -638,8 +635,19 @@
                     <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                         <MenuFlyout.Items>
                             <MenuFlyoutItem
+                                x:Name="OpenInNewTab"
+                                x:Uid="SideBarOpenInNewTab"
+                                Click="OpenInNewTab_Click"
+                                Text="Open in new tab" />
+                            <MenuFlyoutItem
+                                x:Name="OpenInNewWindow"
+                                x:Uid="SideBarOpenInNewWindow"
+                                Click="OpenInNewWindow_Click"
+                                Text="Open in new window" />
+                            <MenuFlyoutItem
                                 x:Name="UnpinItem"
                                 x:Uid="SideBarUnpinFromSideBar"
+                                x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
                                 Click="{x:Bind local1:App.FlyoutItem_Click}"
                                 Text="Unpin from Sidebar" />
                         </MenuFlyout.Items>
