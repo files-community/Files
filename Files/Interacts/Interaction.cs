@@ -113,7 +113,7 @@ namespace Files.Interacts
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
-        } 
+        }
 
         public void OpenPathInNewTab(string path)
         {
