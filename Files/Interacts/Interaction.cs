@@ -113,6 +113,17 @@ namespace Files.Interacts
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
+        } 
+
+        public void OpenPathInNewTab(string path)
+        {
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
+        }
+
+        public async void OpenPathInNewWindow(string path)
+        {
+            var folderUri = new Uri("files-uwp:" + "?folder=" + path);
+            await Launcher.LaunchUriAsync(folderUri);
         }
 
         public void OpenPathInNewTab(string path)

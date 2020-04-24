@@ -18,7 +18,6 @@ namespace Files
     {
         public AppWindow propWindow;
         public ItemPropertiesViewModel ItemProperties { get; } = new ItemPropertiesViewModel();
-
         public Properties()
         {
             this.InitializeComponent();
@@ -188,4 +187,3 @@ namespace Files
             set => Set(ref _LoadFileIcon, value);
         }
     }
-}

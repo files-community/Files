@@ -496,7 +496,7 @@ namespace Files.View_Models
             get => _WinDirPath;
             set => Set(ref _WinDirPath, value);
         }
-
+        
         public bool DoubleTapToRenameFiles
         {
             get => Get(true);
@@ -527,6 +527,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AcrylicSidebar
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        
         public Int32 LayoutMode
         {
             get => Get(0); // List View

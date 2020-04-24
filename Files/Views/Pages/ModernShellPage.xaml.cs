@@ -130,6 +130,10 @@ namespace Files.Views.Pages
                     NavigationPath = App.AppSettings.VideosPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
+                case "OneDrive":
+                    NavigationPath = App.AppSettings.OneDrivePath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
+                    break;
 
                 case "OneDrive":
                     NavigationPath = App.AppSettings.OneDrivePath;

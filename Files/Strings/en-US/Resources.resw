@@ -341,6 +341,9 @@
   </data>
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
     <value>Search</value>
+  </data> 
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
   </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
