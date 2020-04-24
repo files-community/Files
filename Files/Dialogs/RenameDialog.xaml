@@ -17,7 +17,7 @@
     SecondaryButtonText="Cancel"
     x:Uid="RenameDialog"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
-   
+
     <Grid MinWidth="300">
         <TextBox x:Name="RenameInput"
                  x:Uid="RenameDialogInputText"

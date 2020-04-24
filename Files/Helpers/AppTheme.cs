@@ -59,7 +59,9 @@ namespace Files.Helpers
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AppTheme() { }
+        public AppTheme()
+        {
+        }
 
         public void SetDefaultTheme()
         {

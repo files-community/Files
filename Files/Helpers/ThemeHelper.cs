@@ -18,6 +18,7 @@ namespace Files.Helpers
 
         // Keep reference so it does not get optimized/garbage collected
         public static UISettings UiSettings;
+
         /// <summary>
         /// Gets the current actual theme of the app based on the requested theme of the
         /// root element, or if that value is Default, the requested theme of the Application.

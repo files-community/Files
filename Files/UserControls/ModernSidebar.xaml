@@ -8,7 +8,7 @@
     xmlns:local1="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" 
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="768"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -225,7 +225,7 @@
                                         DisplayMode="Inline"
                                         IsPaneOpen="{Binding IsPaneOpen, Mode=TwoWay, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                                         IsTabStop="False"
-                                        OpenPaneLength="{TemplateBinding OpenPaneLength}" >
+                                        OpenPaneLength="{TemplateBinding OpenPaneLength}">
                                         <SplitView.PaneBackground>
                                             <AcrylicBrush
                                                 Windows10version1903:TintLuminosityOpacity="{x:Bind local1:App.AppSettings.AppTheme.TintLuminosityOpacity, Mode=OneWay}"

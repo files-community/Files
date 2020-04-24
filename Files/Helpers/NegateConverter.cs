@@ -11,7 +11,7 @@ namespace Files.Helpers
             {
                 throw new InvalidOperationException("The target must be a boolean");
             }
-                
+
             return !(bool)value;
         }
 
