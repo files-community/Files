@@ -37,7 +37,6 @@
                     <MenuFlyout>
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlSelectAll"
-                            Icon="SelectAll"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
                             Icon="SelectAll"
                             Text="Select All" />
@@ -51,7 +50,6 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlClearSelection"
-                            Icon="ClearSelection"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
                             Icon="ClearSelection"
                             Text="Clear Selection" />

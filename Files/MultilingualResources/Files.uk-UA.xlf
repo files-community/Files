@@ -614,10 +614,6 @@
           <source>View sample profiles</source>
           <target state="new">View sample profiles</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
-          <source>Invert Selection</source>
-          <target state="new">Invert Selection</target>
-        </trans-unit>
       </group>
     </body>
   </file>
