@@ -703,15 +703,15 @@ namespace Files.Interacts
                 catch (Exception)
 
                 {
-                    var dialog = new ContentDialog()
+                    var ItemAlreadyExistsDialog = new ContentDialog()
                     {
-                        Title = "Item already exists",
-                        Content = "An item with this name already exists in this folder.",
-                        PrimaryButtonText = "Generate new name",
-                        SecondaryButtonText = "Replace existing item"
+                        Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
+                        Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
+                        PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
+                        SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {

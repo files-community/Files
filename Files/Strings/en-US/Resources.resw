@@ -341,7 +341,7 @@
   </data>
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
     <value>Search</value>
-  </data> 
+  </data>
   <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
     <value>WARNING: EXPERIMENTAL FEATURES AHEAD!</value>
   </data>
@@ -572,5 +572,17 @@
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>View sample profiles</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>An item with this name already exists in this directory.</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Generate new name</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Replace existing item</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Item already exists</value>
   </data>
 </root>
