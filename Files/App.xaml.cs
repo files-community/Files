@@ -11,7 +11,9 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
@@ -61,8 +63,6 @@ namespace Files
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        private static bool ShallExit = false;
-
         public App()
         {
             var args = Environment.GetCommandLineArgs();
@@ -78,10 +78,12 @@ namespace Files
                         switch (command.Type)
                         {
                             case ParsedCommandType.ExplorerShellCommand:
-                                System.Diagnostics.Debug.WriteLine("TEST");
-                                OpenShellCommandInExplorer(command.Payload).ConfigureAwait(false).GetAwaiter().GetResult();
-                                ShallExit = true;
-                                break;
+                                var proc = Process.GetCurrentProcess();
+                                OpenShellCommandInExplorer(command.Payload, proc.Id).GetAwaiter().GetResult();
+
+                                //this is useless.
+                                Exit();
+                                return;
                             default:
                                 break;
                         }
@@ -91,8 +93,8 @@ namespace Files
                 
             }
 
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            InitializeComponent();
+            Suspending += OnSuspending;
 
             // Initialize NLog
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -192,9 +194,6 @@ namespace Files
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-            if (ShallExit)
-                Exit();
-
             //start tracking app usage
             SystemInformation.TrackAppUse(e);
 
@@ -243,9 +242,6 @@ namespace Files
 
         protected override async void OnActivated(IActivatedEventArgs args)
         {
-            if (ShallExit)
-                Exit();
-
             Logger.Info("App activated");
 
             // Window management
@@ -315,11 +311,12 @@ namespace Files
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
         }
 
-        public static async Task OpenShellCommandInExplorer(string shellCommand)
+        public static async Task OpenShellCommandInExplorer(string shellCommand, int pid)
         {
             System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
             ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
             ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 

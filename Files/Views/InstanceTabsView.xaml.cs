@@ -186,7 +186,7 @@ namespace Files
                 }
                 else
                 {
-                    if (Directory.Exists(path) || Path.GetPathRoot(path) == path) //Or is a directory or a root (drive)
+                    if (Path.IsPathRooted(path) || Path.GetPathRoot(path) == path) //Or is a directory or a root (drive)
                     {
                         var normalizedPath = NormalizePath(path);
 

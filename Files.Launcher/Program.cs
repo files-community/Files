@@ -1,7 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Windows.Storage;
 
@@ -36,6 +38,10 @@ namespace ProcessLauncher
                 }
                 else
                 {
+                    //Kill the process. This is a BRUTAL WAY to kill a process.
+                    var pid = (int)ApplicationData.Current.LocalSettings.Values["id"];
+                    Process.GetProcessById(pid).Kill();
+
                     var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
                     Process process = new Process();
                     process.StartInfo.UseShellExecute = false;
