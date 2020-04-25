@@ -292,6 +292,32 @@ namespace Files
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     return;
 
+                                case ParsedCommandType.OpenPath:
+
+                                    try
+                                    {
+                                        var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
+
+                                        rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+
+                                        // Ensure the current window is active.
+                                        Window.Current.Activate();
+                                        Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+
+                                        return;
+                                    }
+                                    catch (System.IO.FileNotFoundException ex)
+                                    {
+                                        //Not a folder
+                                        Debug.WriteLine($"File not found exception App.xaml.cs\\OnActivated with message: {ex.Message}");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Exception in App.xaml.cs\\OnActivated with message: {ex.Message}");
+                                    }
+
+                                    break;
+
                                 case ParsedCommandType.Unknown:
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.

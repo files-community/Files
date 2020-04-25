@@ -186,7 +186,9 @@ namespace Files
                 }
                 else
                 {
-                    if (Path.IsPathRooted(path) || Path.GetPathRoot(path) == path) //Or is a directory or a root (drive)
+                    var isRoot = Path.GetPathRoot(path) == path;
+
+                    if (Path.IsPathRooted(path) || isRoot) //Or is a directory or a root (drive)
                     {
                         var normalizedPath = NormalizePath(path);
 
@@ -208,7 +210,7 @@ namespace Files
                                 else
                                     fontIconSource.Glyph = "\xEDA2"; //Hard Disk icon
 
-                                tabLocationHeader = NormalizePath(path);
+                                tabLocationHeader = normalizedPath;
                             }
                             else
                             {

@@ -29,6 +29,10 @@ namespace ProcessLauncher
                 }
                 else if (arguments.Equals("ShellCommand"))
                 {
+                    //Kill the process. This is a BRUTAL WAY to kill a process.
+                    var pid = (int)ApplicationData.Current.LocalSettings.Values["pid"];
+                    Process.GetProcessById(pid).Kill();
+
                     Process process = new Process();
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.FileName = "explorer.exe";
@@ -38,10 +42,6 @@ namespace ProcessLauncher
                 }
                 else
                 {
-                    //Kill the process. This is a BRUTAL WAY to kill a process.
-                    var pid = (int)ApplicationData.Current.LocalSettings.Values["id"];
-                    Process.GetProcessById(pid).Kill();
-
                     var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];
                     Process process = new Process();
                     process.StartInfo.UseShellExecute = false;

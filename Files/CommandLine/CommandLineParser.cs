@@ -89,9 +89,8 @@ namespace Files.CommandLine
             if (args != null)
             {
                 //if - or / are not used then add the command as-is
-                if (args.Length == 2)
-                    parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", args[1]));
-                else if (args.Length > 2)
+                
+                if (args.Length > 2)
                 {
                     for (int i = 0; i < args.Length; i++)
                     {
@@ -115,6 +114,9 @@ namespace Files.CommandLine
                     }
                 }
             }
+
+            if (parsedArgs.Count == 0 && args.Length >= 2)
+                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1))));
 
             return parsedArgs;
         }
