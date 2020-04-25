@@ -1,8 +1,6 @@
 ﻿using Files.Filesystem;
-using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,12 +8,10 @@ using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -32,45 +28,6 @@ namespace Files
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-            if (App.Current.RequestedTheme == ApplicationTheme.Dark)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                //titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (App.Current.RequestedTheme == ApplicationTheme.Light)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-            }
-
-            if (this.RequestedTheme == ElementTheme.Dark)
-            {
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                //titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (this.RequestedTheme == ElementTheme.Light)
-            {
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-                //titleBar.BackgroundColor = Colors.Transparent;
-            }
-
-            // Check if the acrylic sidebar setting is on
-            if (App.AppSettings.AcrylicSidebar == true)
-            {
-                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
-            }
-            else
-            {
-                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
-            }
 
             // Turn on Navigation Cache
             this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;

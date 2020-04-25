@@ -1,6 +1,7 @@
-﻿using Files.CommandLine;
+using Files.CommandLine;
 using Files.Controls;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Microsoft.AppCenter;
@@ -23,8 +24,6 @@ using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -234,6 +233,7 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
 
+                ThemeHelper.Initialize();
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;

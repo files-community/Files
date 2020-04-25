@@ -1,6 +1,8 @@
 ﻿using Files.Enums;
+using Files.Helpers;
 using System;
 using System.Collections.Generic;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages
@@ -17,9 +19,7 @@ namespace Files.SettingsPages
             _themeval.Add(ResourceController.GetTranslation("DarkTheme"));
             ThemeChooser.ItemsSource = _themeval;
 
-            ThemeStyle _selectedTheme = App.AppSettings.ThemeValue;
-
-            ThemeChooser.SelectedIndex = (int)Enum.Parse(typeof(ThemeStyle), _selectedTheme.ToString());
+            ThemeChooser.SelectedIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
             ThemeChooser.Loaded += (s, e) =>
             {
                 ThemeChooser.SelectionChanged += async (s1, e1) =>
@@ -29,20 +29,17 @@ namespace Files.SettingsPages
                     switch (themeComboBox.SelectedIndex)
                     {
                         case 0:
-                            App.AppSettings.ThemeValue = ThemeStyle.System;
+                            ThemeHelper.RootTheme = ElementTheme.Default;
                             break;
 
                         case 1:
-                            App.AppSettings.ThemeValue = ThemeStyle.Light;
+                            ThemeHelper.RootTheme = ElementTheme.Light;
                             break;
 
                         case 2:
-                            App.AppSettings.ThemeValue = ThemeStyle.Dark;
+                            ThemeHelper.RootTheme = ElementTheme.Dark;
                             break;
                     }
-
-                    //await RestartReminder.Fade(value: 1.0f, duration: 1500, delay: 0).StartAsync();
-                    //await RestartReminder.Fade(value: 0.0f, duration: 1500, delay: 0).StartAsync();
                 };
             };
 
