@@ -239,6 +239,14 @@ namespace Files.Interacts
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
+        public static async Task OpenShellCommandInExplorer(string shellCommand)
+        {
+            Debug.WriteLine("Launching shell command in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
         public async void GrantAccessPermissionHandler(IUICommand command)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));

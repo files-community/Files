@@ -12,8 +12,10 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -59,8 +61,36 @@ namespace Files
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
+        private static bool ShallExit = false;
+
         public App()
         {
+            var args = Environment.GetCommandLineArgs();
+
+            if (args.Length == 2)
+            {
+                var parsedCommands = CommandLineParser.ParseUntrustedCommands(args);
+
+                if (parsedCommands != null && parsedCommands.Count > 0)
+                {
+                    foreach (var command in parsedCommands)
+                    {
+                        switch (command.Type)
+                        {
+                            case ParsedCommandType.ExplorerShellCommand:
+                                System.Diagnostics.Debug.WriteLine("TEST");
+                                OpenShellCommandInExplorer(command.Payload).ConfigureAwait(false).GetAwaiter().GetResult();
+                                ShallExit = true;
+                                break;
+                            default:
+                                break;
+                        }
+                    } 
+                }
+
+                
+            }
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
 
@@ -162,6 +192,9 @@ namespace Files
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            if (ShallExit)
+                Exit();
+
             //start tracking app usage
             SystemInformation.TrackAppUse(e);
 
@@ -208,8 +241,11 @@ namespace Files
             }
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
+            if (ShallExit)
+                Exit();
+
             Logger.Info("App activated");
 
             // Window management
@@ -253,8 +289,6 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    // TODO Open Directory
-
                                     rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
 
                                     // Ensure the current window is active.
@@ -279,6 +313,14 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+        }
+
+        public static async Task OpenShellCommandInExplorer(string shellCommand)
+        {
+            System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void TryEnablePrelaunch()

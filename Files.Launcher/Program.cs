@@ -25,6 +25,15 @@ namespace ProcessLauncher
                     var path = (string)localSettings.Values["path"];
                     QuickLook.ToggleQuickLook(path);
                 }
+                else if (arguments.Equals("ShellCommand"))
+                {
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.FileName = "explorer.exe";
+                    process.StartInfo.CreateNoWindow = false;
+                    process.StartInfo.Arguments = (string)ApplicationData.Current.LocalSettings.Values["ShellCommand"];
+                    process.Start();
+                }
                 else
                 {
                     var executable = (string)ApplicationData.Current.LocalSettings.Values["Application"];

@@ -10,5 +10,7 @@ namespace Files.CommandLine
     {
         Unknown,
         OpenDirectory,
+        OpenPath,
+        ExplorerShellCommand
     }
 }
