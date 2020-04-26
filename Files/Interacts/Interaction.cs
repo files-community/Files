@@ -911,7 +911,7 @@ namespace Files.Interacts
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    if (destinationPath.IsSubPathOf(item.Path))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         Binding themeBind = new Binding();
