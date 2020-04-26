@@ -573,47 +573,47 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
-          <target state="new">Apri</target>
+          <target state="translated">Apri</target>
         </trans-unit>
         <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Proprietà</target>
+          <target state="translated">Proprietà</target>
         </trans-unit>
         <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
           <source>Attributes:</source>
-          <target state="new">Attributi:</target>
+          <target state="translated">Attributi:</target>
         </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Proprietà</target>
+          <target state="translated">Proprietà</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
-          <target state="new">Apri in una nuova scheda</target>
+          <target state="translated">Apri in una nuova scheda</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
-          <target state="new">Apri in una nuova finestra</target>
+          <target state="translated">Apri in una nuova finestra</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Esperimenti</target>
+          <target state="translated">Esperimenti</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
-          <target state="new">ATTENZIONE: CARATTERISTICHE SPERIMENTALI!</target>
+          <target state="translated">ATTENZIONE: CARATTERISTICHE SPERIMENTALI!</target>
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Esperimenti</target>
+          <target state="translated">Esperimenti</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
           <source>Double tap to rename files</source>
-          <target state="new">Doppio click per rinominare un file</target>
+          <target state="translated">Doppio click per rinominare un file</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>View sample profiles</source>
-          <target state="new">Vedi profili di esempio</target>
+          <target state="translated">Vedi profili di esempio</target>
         </trans-unit>
       </group>
     </body>
