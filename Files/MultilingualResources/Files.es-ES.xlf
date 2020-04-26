@@ -616,19 +616,19 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
           <source>An item with this name already exists in this directory.</source>
-          <target state="new">An item with this name already exists in this directory.</target>
+          <target state="translated">Un elemento con este nombre ya existe en esta ubicación.</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Generate new name</source>
-          <target state="new">Generate new name</target>
+          <target state="translated">Generar nuevo nombre</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
-          <target state="new">Item already exists</target>
+          <target state="translated">El elemento ya existe</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
-          <target state="new">Replace existing item</target>
+          <target state="translated">Reemplazar elemento existente</target>
         </trans-unit>
       </group>
     </body>
