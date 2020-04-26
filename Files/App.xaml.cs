@@ -234,6 +234,7 @@ namespace Files
                 }
 
                 ThemeHelper.Initialize();
+
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -250,6 +251,8 @@ namespace Files
                 rootFrame = new Frame();
                 Window.Current.Content = rootFrame;
             }
+
+            ThemeHelper.Initialize();
 
             switch (args.Kind)
             {
