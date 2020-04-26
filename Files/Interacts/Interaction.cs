@@ -38,6 +38,7 @@ using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
 using Files.Helpers;
 using Windows.UI.Xaml.Data;
+using System.Security.Cryptography;
 
 namespace Files.Interacts
 {
@@ -915,7 +916,7 @@ namespace Files.Interacts
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         Binding themeBind = new Binding();
                         themeBind.Source = ThemeHelper.RootTheme;
-                        
+
                         ContentDialog dialog = new ContentDialog()
                         {
                             Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
@@ -1167,15 +1168,27 @@ namespace Files.Interacts
         public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            CryptographicHash objHash = algorithmProvider.CreateHash();
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
-            var fileBytes = await StorageFileHelper.ReadBytesAsync(itemFromPath);
-
-            IBuffer buffer = CryptographicBuffer.CreateFromByteArray(fileBytes);
-            objHash.Append(buffer);
-            IBuffer bufferHash = objHash.GetValueAndReset();
-
-            return CryptographicBuffer.EncodeToHexString(bufferHash);
+            var stream = await itemFromPath.OpenStreamForReadAsync();
+            var inputStream = stream.AsInputStream();
+            uint capacity = 100000000;
+            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
+            var hash = algorithmProvider.CreateHash();
+            while (true)
+            {
+                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
+                if (buffer.Length > 0)
+                {
+                    hash.Append(buffer);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            inputStream.Dispose();
+            stream.Dispose();
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
 }

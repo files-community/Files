@@ -157,6 +157,13 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
                     Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
+                <ProgressBar
+                    x:Name="ItemMD5HashProgress"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsIndeterminate="True"
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
                     Grid.Row="6"
