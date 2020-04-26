@@ -54,18 +54,10 @@ namespace Files
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
-                    var hashAlgTypeName = HashAlgorithmNames.Md5;
-
-                    // get file hash
-                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
-
-                    ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
-
-                    ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -84,6 +76,21 @@ namespace Files
                     var bitmap = new BitmapImage();
                     await bitmap.SetSourceAsync(thumbnail);
                     ItemProperties.FileIconSource = bitmap;
+                }
+
+                if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    // get file MD5 hash
+                    var hashAlgTypeName = HashAlgorithmNames.Md5;
+                    ItemProperties.ItemMD5HashProgressVisibility = Visibility.Visible;
+                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
+                    ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
+                    ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
+                }
+                else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
+                    ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
                 }
             }
             else
@@ -141,6 +148,7 @@ namespace Files
         private string _ItemPath;
         private string _ItemMD5Hash;
         private Visibility _ItemMD5HashVisibility;
+        private Visibility _ItemMD5HashProgressVisibiity;
         private string _ItemSize;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -165,6 +173,12 @@ namespace Files
         {
             get => _ItemMD5HashVisibility;
             set => Set(ref _ItemMD5HashVisibility, value);
+        }
+
+        public Visibility ItemMD5HashProgressVisibility
+        {
+            get => _ItemMD5HashProgressVisibiity;
+            set => Set(ref _ItemMD5HashProgressVisibiity, value);
         }
 
         public string ItemType
