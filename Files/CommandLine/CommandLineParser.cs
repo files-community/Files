@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,9 +12,19 @@ namespace Files.CommandLine
     {
         public static ParsedCommands ParseUntrustedCommands(string cmdLineString)
         {
-            var commands = new ParsedCommands();
+            var parsedArgs = Parse(SplitArguments(cmdLineString));
+            return ParseSplitArguments(parsedArgs);
+        }
 
-            var parsedArgs = Parse(cmdLineString);
+        public static ParsedCommands ParseUntrustedCommands(string[] cmdLineStrings)
+        {
+            var parsedArgs = Parse(cmdLineStrings);
+            return ParseSplitArguments(parsedArgs);
+        }
+
+        private static ParsedCommands ParseSplitArguments(List<KeyValuePair<string, string>> parsedArgs)
+        {
+            var commands = new ParsedCommands();
 
             foreach (var kvp in parsedArgs)
             {
@@ -28,7 +39,21 @@ namespace Files.CommandLine
                         break;
 
                     default:
-                        command.Type = ParsedCommandType.Unkwon;
+                        //case "-Cmdless":
+                        try
+                        {
+                            if (kvp.Value.StartsWith("::{") || kvp.Value.StartsWith("shell:"))
+                                command.Type = ParsedCommandType.ExplorerShellCommand;
+                            else if (Path.IsPathRooted(kvp.Value))
+                                command.Type = ParsedCommandType.OpenPath;
+                            else
+                                command.Type = ParsedCommandType.Unknown;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Exception in CommandLineParser.cs\\ParseUntrustedCommands with message: {ex.Message}");
+                            command.Type = ParsedCommandType.Unknown;
+                        }
                         break;
                 }
 
@@ -39,35 +64,59 @@ namespace Files.CommandLine
             return commands;
         }
 
-        public static List<KeyValuePair<string, string>> Parse(string argString = null)
+        static string[] SplitArguments(string commandLine)
+        {
+            char[] commandLineCharArray = commandLine.ToCharArray();
+            bool isInQuote = false;
+
+            for (int i = 0; i < commandLineCharArray.Length; i++)
+            {
+                if (commandLineCharArray[i] == '"')
+                    isInQuote = !isInQuote;
+
+                if (!isInQuote && commandLineCharArray[i] == ' ')
+                    commandLineCharArray[i] = '\n';
+            }
+
+            return new string(commandLineCharArray).Replace("\"", "").Split('\n');
+        }
+
+        public static List<KeyValuePair<string, string>> Parse(string[] args = null)
         {
             var parsedArgs = new List<KeyValuePair<string, string>>();
-
-            string[] args = argString.Split(" ");
+            //Environment.GetCommandLineArgs() IS better but... I haven't tested this enough.
 
             if (args != null)
             {
-                for (int i = 0; i < args.Length; i++)
+                //if - or / are not used then add the command as-is
+                
+                if (args.Length > 2)
                 {
-                    if (args[i].StartsWith("-") || args[i].StartsWith("/"))
+                    for (int i = 0; i < args.Length; i++)
                     {
-                        var data = ParseData(args, i);
-
-                        if (data.Key != null)
+                        if (args[i].StartsWith("-") || args[i].StartsWith("/"))
                         {
-                            for (int j = 0; j < parsedArgs.Count; j++)
-                            {
-                                if (parsedArgs[j].Key == data.Key)
-                                {
-                                    parsedArgs.RemoveAt(j);
-                                }
-                            }
+                            var data = ParseData(args, i);
 
-                            parsedArgs.Add(data);
+                            if (data.Key != null)
+                            {
+                                for (int j = 0; j < parsedArgs.Count; j++)
+                                {
+                                    if (parsedArgs[j].Key == data.Key)
+                                    {
+                                        parsedArgs.RemoveAt(j);
+                                    }
+                                }
+
+                                parsedArgs.Add(data);
+                            }
                         }
                     }
                 }
             }
+
+            if (parsedArgs.Count == 0 && args.Length >= 2)
+                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1))));
 
             return parsedArgs;
         }

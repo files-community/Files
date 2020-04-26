@@ -8,7 +8,9 @@ namespace Files.CommandLine
 {
     internal enum ParsedCommandType
     {
-        Unkwon,
+        Unknown,
         OpenDirectory,
+        OpenPath,
+        ExplorerShellCommand
     }
 }

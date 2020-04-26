@@ -50,7 +50,7 @@ namespace Files.Filesystem
             }
             catch (NullReferenceException)
             {
-                SpaceText = "Unkown";
+                SpaceText = "Unknown";
             }
 
             DriveText = root.DisplayName;
@@ -78,7 +78,7 @@ namespace Files.Filesystem
                     Glyph = "\uE958";
                     break;
 
-                case DriveType.Unkown:
+                case DriveType.Unknown:
                     break;
 
                 case DriveType.NoRootDirectory:
@@ -105,7 +105,7 @@ namespace Files.Filesystem
         Ram,
         CDRom,
         FloppyDisk,
-        Unkown,
+        Unknown,
         NoRootDirectory,
         VirtualDrive
     }

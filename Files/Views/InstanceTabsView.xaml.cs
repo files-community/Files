@@ -3,6 +3,7 @@ using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
@@ -77,7 +78,7 @@ namespace Files
             //}
         }
 
-        public void AddNewTab(Type t, string path)
+        public async void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
             //frame.Navigate(t, path);
@@ -142,8 +143,48 @@ namespace Files
                 }
                 else
                 {
-                    tabLocationHeader = Path.GetDirectoryName(path);
-                    fontIconSource.Glyph = "\xE8B7";
+                    var isRoot = Path.GetPathRoot(path) == path;
+
+                    if (Path.IsPathRooted(path) || isRoot) //Or is a directory or a root (drive)
+                    {
+                        var normalizedPath = NormalizePath(path);
+
+                        var dirName = Path.GetDirectoryName(normalizedPath);
+                        if (dirName != null)
+                        {
+                            tabLocationHeader = dirName;
+                            fontIconSource.Glyph = "\xE8B7";
+                        }
+                        else
+                        {
+                            //Pick the best icon for this tab
+                            var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+
+                            if (!remDriveNames.Contains(normalizedPath))
+                            {
+                                if (path != "A:" && path != "B:") //Check if it's using (generally) floppy-reserved letters.
+                                    fontIconSource.Glyph = "\xE74E"; //Floppy Disk icon
+                                else
+                                    fontIconSource.Glyph = "\xEDA2"; //Hard Disk icon
+
+                                tabLocationHeader = normalizedPath;
+                            }
+                            else
+                            {
+                                fontIconSource.Glyph = "\xE88E";
+                                tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Invalid path, open new tab instead (explorer opens Documents when it fails)
+                        Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
+
+                        path = "New tab";
+                        tabLocationHeader = ResourceController.GetTranslation("NewTab");
+                        fontIconSource.Glyph = "\xE737";
+                    }
                 }
             }
 
