@@ -40,7 +40,7 @@ steps:
     platform: 'x86'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:AppInstallerUri="https://filesuwp.blob.core.windows.net/filesuwp/"'
+    msbuildArguments: '/p:OutputPath=NonPackagedApp /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:AppxBundlePlatforms="$(buildPlatform)" /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:GenerateAppInstallerFile=True /p:AppInstallerUri="https://filesuwp.blob.core.windows.net/filesuwp/" /p:AppInstallerCheckForUpdateFrequency=OnApplicationRun /p:AppInstallerUpdateFrequency=1 /p:AppxPackageDir="$(appxPackageDir)"'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
