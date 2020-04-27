@@ -40,7 +40,7 @@ steps:
     platform: 'x86'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:GenerateAppInstallerFile=True /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:AppInstallerUri="https://filesuwp.blob.core.windows.net/filesuwp/a/AppxPackages/"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:GenerateAppInstallerFile=True /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:AppInstallerUri="https://filesuwp.blob.core.windows.net/filesuwp/downloads/AppxPackages/"'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
@@ -53,7 +53,10 @@ steps:
     azureSubscription: 'Pay-As-You-Go(8ff51d67-ce42-4319-8dc8-4ebd139f7d9e)'
     Destination: 'AzureBlob'
     storage: 'filesuwp'
+    BlobPrefix: 'downloads'
     ContainerName: 'filesuwp'
+
+
 
 
 
