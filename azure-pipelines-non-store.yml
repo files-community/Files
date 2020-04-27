@@ -54,10 +54,3 @@ steps:
     Destination: 'AzureBlob'
     storage: 'filesuwp'
     ContainerName: 'filesuwp'
-
-
-
-
-
-
-
