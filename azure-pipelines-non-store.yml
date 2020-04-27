@@ -37,7 +37,7 @@ steps:
 
 - task: MSBuild@1
   inputs:
-    platform: 'x86'
+    platform: 'x86|x64'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
     msbuildArguments: '/t:build;_GenerateAppxPackage /p:UapAppxPackageBuildMode=SideLoadOnly  /p:AppxBundle=Never /p:GenerateAppInstallerFile=True /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)" /p:AppInstallerUri="https://filesuwp.blob.core.windows.net/filesuwp/"'
