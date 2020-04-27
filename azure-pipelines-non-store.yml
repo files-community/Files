@@ -49,8 +49,12 @@ steps:
 
 - task: AzureFileCopy@4
   inputs:
-    SourcePath: '$(build.artifactstagingdirectory)/drop/AppxPackages'
+    SourcePath: '$(System.DefaultWorkingDirectory)/_Release (Sideload)/drop/AppxPackages'
     azureSubscription: 'Pay-As-You-Go(8ff51d67-ce42-4319-8dc8-4ebd139f7d9e)'
     Destination: 'AzureBlob'
     storage: 'filesuwp'
     ContainerName: 'filesuwp'
+
+
+
+
