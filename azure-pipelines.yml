@@ -23,6 +23,12 @@ steps:
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
 
+- task: DownloadSecureFile@1
+  name: signingCert
+  displayName: 'Download Files UWP build certificate'
+  inputs:
+    secureFile: 'Certificate.pfx'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -34,7 +40,7 @@ steps:
     platform: 'x86'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
 
 - task: store-publish@0
   inputs:
