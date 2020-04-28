@@ -1,6 +1,7 @@
-﻿using Files.CommandLine;
+using Files.CommandLine;
 using Files.Controls;
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Microsoft.AppCenter;
@@ -11,16 +12,18 @@ using NLog;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
@@ -61,8 +64,36 @@ namespace Files
 
         public App()
         {
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
+            var args = Environment.GetCommandLineArgs();
+
+            if (args.Length == 2)
+            {
+                var parsedCommands = CommandLineParser.ParseUntrustedCommands(args);
+
+                if (parsedCommands != null && parsedCommands.Count > 0)
+                {
+                    foreach (var command in parsedCommands)
+                    {
+                        switch (command.Type)
+                        {
+                            case ParsedCommandType.ExplorerShellCommand:
+                                var proc = Process.GetCurrentProcess();
+                                OpenShellCommandInExplorer(command.Payload, proc.Id).GetAwaiter().GetResult();
+
+                                //this is useless.
+                                Exit();
+                                return;
+                            default:
+                                break;
+                        }
+                    } 
+                }
+
+                
+            }
+
+            InitializeComponent();
+            Suspending += OnSuspending;
 
             // Initialize NLog
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -202,13 +233,15 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
 
+                ThemeHelper.Initialize();
+
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
             }
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
             Logger.Info("App activated");
 
@@ -218,6 +251,8 @@ namespace Files
                 rootFrame = new Frame();
                 Window.Current.Content = rootFrame;
             }
+
+            ThemeHelper.Initialize();
 
             switch (args.Kind)
             {
@@ -253,8 +288,6 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    // TODO Open Directory
-
                                     rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
 
                                     // Ensure the current window is active.
@@ -262,7 +295,33 @@ namespace Files
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
                                     return;
 
-                                case ParsedCommandType.Unkwon:
+                                case ParsedCommandType.OpenPath:
+
+                                    try
+                                    {
+                                        var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
+
+                                        rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+
+                                        // Ensure the current window is active.
+                                        Window.Current.Activate();
+                                        Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+
+                                        return;
+                                    }
+                                    catch (System.IO.FileNotFoundException ex)
+                                    {
+                                        //Not a folder
+                                        Debug.WriteLine($"File not found exception App.xaml.cs\\OnActivated with message: {ex.Message}");
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Debug.WriteLine($"Exception in App.xaml.cs\\OnActivated with message: {ex.Message}");
+                                    }
+
+                                    break;
+
+                                case ParsedCommandType.Unknown:
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
@@ -279,6 +338,15 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+        }
+
+        public static async Task OpenShellCommandInExplorer(string shellCommand, int pid)
+        {
+            System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void TryEnablePrelaunch()

@@ -1,5 +1,6 @@
 trigger:
-- develop
+- master
+pr: none
 
 pool:
   vmImage: 'windows-latest'
@@ -22,6 +23,12 @@ steps:
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
 
+- task: DownloadSecureFile@1
+  name: signingCert
+  displayName: 'Download Files UWP build certificate'
+  inputs:
+    secureFile: 'Certificate.pfx'
+
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -33,16 +40,12 @@ steps:
     platform: 'x86'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+- task: store-publish@0
   inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
-  inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    serviceEndpoint: 'Files'
+    appId: '9NGHP3DX8HDX'
+    packagePath: '$(appxPackageDir)\**\*.msixupload'
+    force: true
+    skipPolling: false

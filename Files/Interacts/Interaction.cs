@@ -36,6 +36,9 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
+using Files.Helpers;
+using Windows.UI.Xaml.Data;
+using System.Security.Cryptography;
 
 namespace Files.Interacts
 {
@@ -113,7 +116,7 @@ namespace Files.Interacts
                     instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
-        } 
+        }
 
         public void OpenPathInNewTab(string path)
         {
@@ -239,6 +242,14 @@ namespace Files.Interacts
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
+        public static async Task OpenShellCommandInExplorer(string shellCommand)
+        {
+            Debug.WriteLine("Launching shell command in FullTrustProcess");
+            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+        }
+
         public async void GrantAccessPermissionHandler(IUICommand command)
         {
             await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-broadfilesystemaccess"));
@@ -312,6 +323,15 @@ namespace Files.Interacts
                 CurrentParent = VisualTreeHelper.GetParent(CurrentParent);
             }
             return parent;
+        }
+
+        public static TEnum GetEnum<TEnum>(string text) where TEnum : struct
+        {
+            if (!typeof(TEnum).GetTypeInfo().IsEnum)
+            {
+                throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
+            }
+            return (TEnum)Enum.Parse(typeof(TEnum), text);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
@@ -440,19 +460,6 @@ namespace Files.Interacts
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                var titleBar = appWindow.TitleBar;
-                titleBar.ButtonBackgroundColor = Colors.Transparent;
-                titleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                var selectedTheme = Application.Current.RequestedTheme;
-                if (selectedTheme == ApplicationTheme.Light)
-                {
-                    titleBar.ButtonForegroundColor = Color.FromArgb(255, 0, 0, 0);
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(20, 0, 0, 0);
-                }
-                else if (selectedTheme == ApplicationTheme.Dark)
-                {
-                    titleBar.ButtonHoverBackgroundColor = Color.FromArgb(40, 255, 255, 255);
-                }
                 frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
 
@@ -703,15 +710,15 @@ namespace Files.Interacts
                 catch (Exception)
 
                 {
-                    var dialog = new ContentDialog()
+                    var ItemAlreadyExistsDialog = new ContentDialog()
                     {
-                        Title = "Item already exists",
-                        Content = "An item with this name already exists in this folder.",
-                        PrimaryButtonText = "Generate new name",
-                        SecondaryButtonText = "Replace existing item"
+                        Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
+                        Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
+                        PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
+                        SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -904,9 +911,12 @@ namespace Files.Interacts
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    if (destinationPath.IsSubPathOf(item.Path))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                        Binding themeBind = new Binding();
+                        themeBind.Source = ThemeHelper.RootTheme;
+
                         ContentDialog dialog = new ContentDialog()
                         {
                             Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
@@ -916,6 +926,8 @@ namespace Files.Interacts
                             PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
                             CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
                         };
+                        BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
+
                         await dialog.ShowAsync();
                         if (responseType == ImpossibleActionResponseTypes.Skip)
                         {
@@ -1156,15 +1168,27 @@ namespace Files.Interacts
         public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            CryptographicHash objHash = algorithmProvider.CreateHash();
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
-            var fileBytes = await StorageFileHelper.ReadBytesAsync(itemFromPath);
-
-            IBuffer buffer = CryptographicBuffer.CreateFromByteArray(fileBytes);
-            objHash.Append(buffer);
-            IBuffer bufferHash = objHash.GetValueAndReset();
-
-            return CryptographicBuffer.EncodeToHexString(bufferHash);
+            var stream = await itemFromPath.OpenStreamForReadAsync();
+            var inputStream = stream.AsInputStream();
+            uint capacity = 100000000;
+            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
+            var hash = algorithmProvider.CreateHash();
+            while (true)
+            {
+                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
+                if (buffer.Length > 0)
+                {
+                    hash.Append(buffer);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            inputStream.Dispose();
+            stream.Dispose();
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
 }

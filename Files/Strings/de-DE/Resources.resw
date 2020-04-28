@@ -52,13 +52,13 @@
     <value>Lizenz: </value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
-    <value>Besonderen Dank an:</value>
+    <value>Besonderer Dank an:</value>
   </data>
   <data name="SettingsAboutSubmitFeedback.Text" xml:space="preserve">
     <value>Feedback geben</value>
   </data>
   <data name="SettingsAboutSubmitFeedbackDescription.Text" xml:space="preserve">
-    <value>Stelle den Entwicklern Informationen zur Verfügung durch das Erstellen eines Fehlerberichtes</value>
+    <value>Stelle den Entwicklern Informationen zur Verfügung durch das Senden eines Fehlerberichtes</value>
   </data>
   <data name="SettingsAboutThirdPartyLicenses.Text" xml:space="preserve">
     <value>Drittanbieter Lizenzen</value>
@@ -76,7 +76,7 @@
     <value>Datumsformat</value>
   </data>
   <data name="SettingsAppearanceTheme.Text" xml:space="preserve">
-    <value>Thema</value>
+    <value>Design</value>
   </data>
   <data name="SettingsAppearanceTitle.Text" xml:space="preserve">
     <value>Aussehen</value>
@@ -115,7 +115,7 @@
     <value>Suche</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Dort weitermachen wo du aufgehört hast</value>
+    <value>Dort weitermachen, wo Sie aufgehört haben</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
     <value>Eine neue Registerkarte öffnen</value>
@@ -148,7 +148,7 @@
     <value>Löschen</value>
   </data>
   <data name="ConfirmDeleteDialogHeader.Text" xml:space="preserve">
-    <value>Sind Sie sicher, dass sie die ausgewählten Dateien löschen möchten?</value>
+    <value>Sind Sie sicher, dass Sie die ausgewählten Dateien löschen möchten?</value>
   </data>
   <data name="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" xml:space="preserve">
     <value>Endgültig löschen</value>
@@ -271,7 +271,7 @@
     <value>An Seitenleiste anheften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutProperties.Text" xml:space="preserve">
-    <value>Eigenscaften</value>
+    <value>Eigenschaften</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutQuickLook.Text" xml:space="preserve">
     <value>QuickLook</value>
@@ -337,7 +337,7 @@
     <value>Erlaubnis erteilen</value>
   </data>
   <data name="WelcomeDialogTextBlock.Text" xml:space="preserve">
-    <value>Um loslegen zu können, musst du Files UWP die Erlaubnis erteilen, Dateien anzeigen zu dürfen. Diese Option wird die Einstellungen öffenen mit denen du diese Erlaubnis erteilen kannst. Anschließend muss die App neu gestartet werden.</value>
+    <value>Um loslegen zu können, geben Sie uns bitte die Erlaubnis, Dateien anzeigen zu dürfen. Diese Option wird die Einstellungensseite öffnen auf der Sie diese Erlaubnis erteilen können. Anschließend starten Sie die App bitte neu.</value>
   </data>
   <data name="FileFolderListItem" xml:space="preserve">
     <value>Dateiordner</value>
@@ -346,7 +346,7 @@
     <value>Dateinamen eingeben</value>
   </data>
   <data name="RenameDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Gebe den Dateinamen ohne Erweiterung ein</value>
+    <value>Geben Sie den Dateinamen ohne Erweiterung ein</value>
   </data>
   <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
     <value>Name festlegen</value>
@@ -358,7 +358,7 @@
     <value>Neuer Tab</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>System</value>
+    <value>Systemstandard</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Hell</value>
@@ -427,6 +427,45 @@
     <value>Abbrechen</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
-    <value>MD5Hash:</value>
+    <value>MD5 Hashwert:</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Auswahl umkehren</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Öffnen</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Attribute: </value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Eigenschaften</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>In neuem Tab öffnen</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>In neuem Fenster öffnen</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Experimentell</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>WARNUNG: EXPERIMENTELLE FUNKTIONEN!</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Experimentell</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>Doppelt antippen zum Umbenennen</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Beispielprofile anzeigen</value>
   </data>
 </root>

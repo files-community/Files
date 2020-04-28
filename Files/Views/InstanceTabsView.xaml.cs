@@ -1,20 +1,17 @@
 ﻿using Files.Filesystem;
-using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -31,45 +28,6 @@ namespace Files
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
-            var titleBar = ApplicationView.GetForCurrentView().TitleBar;
-            titleBar.ButtonInactiveBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-            titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 10, 10, 10);
-            if (App.Current.RequestedTheme == ApplicationTheme.Dark)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 0, 0, 0);
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                //titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (App.Current.RequestedTheme == ApplicationTheme.Light)
-            {
-                titleBar.ButtonBackgroundColor = Color.FromArgb(0, 255, 255, 255);
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-            }
-
-            if (this.RequestedTheme == ElementTheme.Dark)
-            {
-                titleBar.ButtonForegroundColor = Colors.White;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 240, 240, 240);
-                //titleBar.BackgroundColor = Color.FromArgb(255, 25, 25, 25);
-            }
-            else if (this.RequestedTheme == ElementTheme.Light)
-            {
-                titleBar.ButtonForegroundColor = Colors.Black;
-                titleBar.ButtonHoverBackgroundColor = Color.FromArgb(75, 155, 155, 155);
-                //titleBar.BackgroundColor = Colors.Transparent;
-            }
-
-            // Check if the acrylic sidebar setting is on
-            if (App.AppSettings.AcrylicSidebar == true)
-            {
-                this.Background = (Brush)Application.Current.Resources["BackgroundAcrylicBrush"];
-            }
-            else
-            {
-                this.Background = (Brush)Application.Current.Resources["SystemControlBackgroundChromeMediumLowBrush"];
-            }
 
             // Turn on Navigation Cache
             this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
@@ -120,7 +78,7 @@ namespace Files
             //}
         }
 
-        public void AddNewTab(Type t, string path)
+        public async void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
             //frame.Navigate(t, path);
@@ -185,8 +143,48 @@ namespace Files
                 }
                 else
                 {
-                    tabLocationHeader = Path.GetDirectoryName(path);
-                    fontIconSource.Glyph = "\xE8B7";
+                    var isRoot = Path.GetPathRoot(path) == path;
+
+                    if (Path.IsPathRooted(path) || isRoot) //Or is a directory or a root (drive)
+                    {
+                        var normalizedPath = NormalizePath(path);
+
+                        var dirName = Path.GetDirectoryName(normalizedPath);
+                        if (dirName != null)
+                        {
+                            tabLocationHeader = dirName;
+                            fontIconSource.Glyph = "\xE8B7";
+                        }
+                        else
+                        {
+                            //Pick the best icon for this tab
+                            var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+
+                            if (!remDriveNames.Contains(normalizedPath))
+                            {
+                                if (path != "A:" && path != "B:") //Check if it's using (generally) floppy-reserved letters.
+                                    fontIconSource.Glyph = "\xE74E"; //Floppy Disk icon
+                                else
+                                    fontIconSource.Glyph = "\xEDA2"; //Hard Disk icon
+
+                                tabLocationHeader = normalizedPath;
+                            }
+                            else
+                            {
+                                fontIconSource.Glyph = "\xE88E";
+                                tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(path)).DisplayName;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        //Invalid path, open new tab instead (explorer opens Documents when it fails)
+                        Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
+
+                        path = "New tab";
+                        tabLocationHeader = ResourceController.GetTranslation("NewTab");
+                        fontIconSource.Glyph = "\xE737";
+                    }
                 }
             }
 
@@ -428,7 +426,7 @@ namespace Files
                 }
                 else
                 {
-                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() == "New tab")
+                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
                     {
                         App.InteractionViewModel.IsPageTypeNotHome = false;
                     }

@@ -4,46 +4,24 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Windows.UI.Xaml.Controls"
+    xmlns:local="using:Files"
+    xmlns:local1="using:Files.Helpers"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="475"
     d:DesignWidth="400"
-    mc:Ignorable="d">
-    <Page.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.ThemeDictionaries>
-                <ResourceDictionary x:Key="Default">
-                    <AcrylicBrush
-                        x:Key="PropertiesAcrylicWindowBrush"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SystemListLowColor}"
-                        TintColor="White"
-                        TintOpacity="0.8" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Light">
-                    <AcrylicBrush
-                        x:Key="PropertiesAcrylicWindowBrush"
-                        Windows10version1903:TintLuminosityOpacity="0.9"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SystemChromeWhiteColor}"
-                        TintColor="White"
-                        TintOpacity="0.5" />
-                </ResourceDictionary>
-                <ResourceDictionary x:Key="Dark">
-                    <AcrylicBrush
-                        x:Key="PropertiesAcrylicWindowBrush"
-                        Windows10version1903:TintLuminosityOpacity="0.75"
-                        BackgroundSource="HostBackdrop"
-                        FallbackColor="{ThemeResource SystemListLowColor}"
-                        TintColor="Black"
-                        TintOpacity="0.7" />
-                </ResourceDictionary>
-            </ResourceDictionary.ThemeDictionaries>
-        </ResourceDictionary>
-    </Page.Resources>
-
-    <Grid Background="{ThemeResource PropertiesAcrylicWindowBrush}">
+    mc:Ignorable="d"
+    RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}">
+    <Page.Background>
+        <AcrylicBrush
+            Windows10version1903:TintLuminosityOpacity="{x:Bind local:App.AppSettings.AppTheme.TintLuminosityOpacity, Mode=OneWay}"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{x:Bind local:App.AppSettings.AppTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind local:App.AppSettings.AppTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind local:App.AppSettings.AppTheme.TintOpacity, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
+    </Page.Background>
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -179,6 +157,13 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
                     Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
+                <ProgressBar
+                    x:Name="ItemMD5HashProgress"
+                    Grid.Row="5"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsIndeterminate="True"
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
                     Grid.Row="6"

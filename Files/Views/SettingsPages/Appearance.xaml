@@ -9,7 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel
                 Margin="12,12,8,8"
@@ -107,7 +106,7 @@
                         Grid.Column="2"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.AcrylicSidebar, Mode=TwoWay}"
+                        IsOn="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NegateConverter}}"
                         OffContent=""
                         OnContent="" />
                 </Grid>

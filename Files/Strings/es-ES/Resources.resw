@@ -468,4 +468,16 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Ver perfiles personalizados</value>
   </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>Un elemento con este nombre ya existe en esta ubicación.</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Generar nuevo nombre</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>El elemento ya existe</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Reemplazar elemento existente</value>
+  </data>
 </root>

@@ -190,7 +190,7 @@ namespace Files.Filesystem
 
                 var folder = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(drive.Name)).Result;
 
-                DriveType type = DriveType.Unkown;
+                DriveType type = DriveType.Unknown;
 
                 switch (drive.DriveType)
                 {
@@ -228,11 +228,11 @@ namespace Files.Filesystem
                         break;
 
                     case System.IO.DriveType.Unknown:
-                        type = DriveType.Unkown;
+                        type = DriveType.Unknown;
                         break;
 
                     default:
-                        type = DriveType.Unkown;
+                        type = DriveType.Unknown;
                         break;
                 }
 
