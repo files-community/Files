@@ -742,6 +742,7 @@
                 Margin="0,0,4,0"
                 Background="Transparent"
                 CornerRadius="2"
+                IsEnabled="False"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Search"
                 Visibility="Visible">
