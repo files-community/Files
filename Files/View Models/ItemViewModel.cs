@@ -847,8 +847,29 @@ namespace Files.Filesystem
                 systemTimeOutput.Minute,
                 systemTimeOutput.Second,
                 systemTimeOutput.Milliseconds);
-            var itemSize = ByteSize.FromBytes((findData.nFileSizeHigh << 32) + (long)(uint)findData.nFileSizeLow).ToString();
-            var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)(uint)findData.nFileSizeLow;
+            long fDataFSize = findData.nFileSizeLow;
+            long fileSize;
+            if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
+            {
+                fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
+            }
+            else
+            {
+                if (findData.nFileSizeHigh > 0)
+                {
+                    fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
+                }
+                else if (fDataFSize < 0)
+                {
+                    fileSize = fDataFSize + 4294967296;
+                }
+                else
+                {
+                    fileSize = fDataFSize;
+                }
+            }
+            var itemSize = ByteSize.FromBytes(fileSize).ToString();
+            var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)findData.nFileSizeLow;
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
 

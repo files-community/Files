@@ -426,7 +426,7 @@ namespace Files
                 }
                 else
                 {
-                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() == "New tab")
+                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
                     {
                         App.InteractionViewModel.IsPageTypeNotHome = false;
                     }

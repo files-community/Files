@@ -38,6 +38,7 @@ using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
 using Files.Helpers;
 using Windows.UI.Xaml.Data;
+using System.Security.Cryptography;
 
 namespace Files.Interacts
 {
@@ -709,15 +710,15 @@ namespace Files.Interacts
                 catch (Exception)
 
                 {
-                    var dialog = new ContentDialog()
+                    var ItemAlreadyExistsDialog = new ContentDialog()
                     {
-                        Title = "Item already exists",
-                        Content = "An item with this name already exists in this folder.",
-                        PrimaryButtonText = "Generate new name",
-                        SecondaryButtonText = "Replace existing item"
+                        Title = ResourceController.GetTranslation("ItemAlreadyExistsDialogTitle"),
+                        Content = ResourceController.GetTranslation("ItemAlreadyExistsDialogContent"),
+                        PrimaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogPrimaryButtonText"),
+                        SecondaryButtonText = ResourceController.GetTranslation("ItemAlreadyExistsDialogSecondaryButtonText")
                     };
 
-                    ContentDialogResult result = await dialog.ShowAsync();
+                    ContentDialogResult result = await ItemAlreadyExistsDialog.ShowAsync();
 
                     if (result == ContentDialogResult.Primary)
                     {
@@ -910,12 +911,12 @@ namespace Files.Interacts
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (destinationPath.Contains(item.Path, StringComparison.OrdinalIgnoreCase))
+                    if (destinationPath.IsSubPathOf(item.Path))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         Binding themeBind = new Binding();
                         themeBind.Source = ThemeHelper.RootTheme;
-                        
+
                         ContentDialog dialog = new ContentDialog()
                         {
                             Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
@@ -1167,15 +1168,27 @@ namespace Files.Interacts
         public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            CryptographicHash objHash = algorithmProvider.CreateHash();
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
-            var fileBytes = await StorageFileHelper.ReadBytesAsync(itemFromPath);
-
-            IBuffer buffer = CryptographicBuffer.CreateFromByteArray(fileBytes);
-            objHash.Append(buffer);
-            IBuffer bufferHash = objHash.GetValueAndReset();
-
-            return CryptographicBuffer.EncodeToHexString(bufferHash);
+            var stream = await itemFromPath.OpenStreamForReadAsync();
+            var inputStream = stream.AsInputStream();
+            uint capacity = 100000000;
+            Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
+            var hash = algorithmProvider.CreateHash();
+            while (true)
+            {
+                await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
+                if (buffer.Length > 0)
+                {
+                    hash.Append(buffer);
+                }
+                else
+                {
+                    break;
+                }
+            }
+            inputStream.Dispose();
+            stream.Dispose();
+            return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
 }
