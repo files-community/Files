@@ -114,6 +114,9 @@
   <data name="StatusBarControlSelectAll.Text" xml:space="preserve">
     <value>Seleziona tutto</value>
   </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Inverti selezione</value>
+  </data>
   <data name="StatusBarControlClearSelection.Text" xml:space="preserve">
     <value>Deseleziona tutto</value>
   </data>
@@ -217,7 +220,7 @@
     <value>Preferenze</value>
   </data>
   <data name="SettingsNavSearch.PlaceholderText" xml:space="preserve">
-    <value>RCerca</value>
+    <value>Cerca</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
     <value>Riprendi da dove eri rimasto</value>
@@ -241,7 +244,7 @@
     <value>Applicazione per la riga di comando</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
-    <value>Prefernze</value>
+    <value>Preferenze</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Desktop</value>
@@ -316,7 +319,7 @@
     <value>Documento di testo</value>
   </data>
   <data name="BaseLayoutContextFlyoutPropertiesFolder.Text" xml:space="preserve">
-    <value>Propietà</value>
+    <value>Proprietà</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutExtract.Text" xml:space="preserve">
     <value>Estrai</value>
@@ -328,7 +331,7 @@
     <value>Apri in una nuova finestra</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" xml:space="preserve">
-    <value>Imposta come immagine di sfondo</value>
+    <value>Imposta come sfondo del desktop</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutShare.Text" xml:space="preserve">
     <value>Condividi</value>
@@ -431,5 +434,38 @@
   </data>
   <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Altre opzioni</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Apri</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Proprietà</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Attributi:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Proprietà</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Apri in una nuova scheda</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Apri in una nuova finestra</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Esperimenti</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>ATTENZIONE: CARATTERISTICHE SPERIMENTALI!</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Esperimenti</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>Doppio click per rinominare un file</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Vedi profili di esempio</value>
   </data>
 </root>
