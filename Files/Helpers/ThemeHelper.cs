@@ -67,7 +67,7 @@ namespace Files.Helpers
 
         public static void Initialize()
         {
-            App.AppSettings.AppTheme = new AppTheme();
+            App.AppSettings.AcrylicTheme = new AcrylicTheme();
 
             // Set TitleBar background color
             _TitleBar = ApplicationView.GetForCurrentView().TitleBar;
@@ -110,19 +110,19 @@ namespace Files.Helpers
             switch (RootTheme)
             {
                 case ElementTheme.Default:
-                    App.AppSettings.AppTheme.SetDefaultTheme();
+                    App.AppSettings.AcrylicTheme.SetDefaultTheme();
                     _TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
                     _TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
                     break;
 
                 case ElementTheme.Light:
-                    App.AppSettings.AppTheme.SetLightTheme();
+                    App.AppSettings.AcrylicTheme.SetLightTheme();
                     _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
                     _TitleBar.ButtonForegroundColor = Colors.Black;
                     break;
 
                 case ElementTheme.Dark:
-                    App.AppSettings.AppTheme.SetDarkTheme();
+                    App.AppSettings.AcrylicTheme.SetDarkTheme();
                     _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
                     _TitleBar.ButtonForegroundColor = Colors.White;
                     break;
