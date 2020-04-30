@@ -848,28 +848,27 @@ namespace Files.Filesystem
                 systemTimeOutput.Second,
                 systemTimeOutput.Milliseconds);
             long fDataFSize = findData.nFileSizeLow;
-            long fileSize;
+            long itemSizeBytes;
             if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
             {
-                fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
+                itemSizeBytes = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
             }
             else
             {
                 if (findData.nFileSizeHigh > 0)
                 {
-                    fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
+                    itemSizeBytes = fDataFSize + (findData.nFileSizeHigh * 4294967296);
                 }
                 else if (fDataFSize < 0)
                 {
-                    fileSize = fDataFSize + 4294967296;
+                    itemSizeBytes = fDataFSize + 4294967296;
                 }
                 else
                 {
-                    fileSize = fDataFSize;
+                    itemSizeBytes = fDataFSize;
                 }
             }
-            var itemSize = ByteSize.FromBytes(fileSize).ToString();
-            var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)findData.nFileSizeLow;
+            var itemSize = ByteSize.FromBytes(itemSizeBytes).ToString();
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
 
@@ -906,7 +905,7 @@ namespace Files.Filesystem
                 ItemType = itemType,
                 ItemPath = itemPath,
                 FileSize = itemSize,
-                FileSizeBytes = itemSizeBytes
+                FileSizeBytes = Convert.ToUInt64(itemSizeBytes)
             });
 
             EmptyTextState.IsVisible = Visibility.Collapsed;
@@ -1049,7 +1048,7 @@ namespace Files.Filesystem
                 ItemType = itemType,
                 ItemPath = itemPath,
                 FileSize = itemSize,
-                FileSizeBytes = itemSizeBytes
+                FileSizeBytes = Convert.ToUInt64(itemSizeBytes)
             });
 
             EmptyTextState.IsVisible = Visibility.Collapsed;
