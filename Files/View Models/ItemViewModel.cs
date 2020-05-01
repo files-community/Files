@@ -33,7 +33,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
-    public class ItemViewModel : INotifyPropertyChanged
+    public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
         public EmptyFolderTextState EmptyTextState { get; set; } = new EmptyFolderTextState();
         public LoadingIndicator LoadIndicator { get; set; } = new LoadingIndicator();
@@ -448,9 +448,16 @@ namespace Files.Filesystem
                     ordered = ordered.ThenByDescending(orderByNameFunc, naturalStringComparer);
             }
             orderedList = ordered.ToList();
-            _filesAndFolders.Clear();
-            foreach (ListedItem i in orderedList)
-                _filesAndFolders.Add(i);
+
+            List<ListedItem> originalList = _filesAndFolders.ToList();
+            for (var i = 0; i < originalList.Count; i++)
+            {
+                if (originalList[i] != orderedList[i])
+                {
+                    _filesAndFolders.RemoveAt(i);
+                    _filesAndFolders.Insert(i, orderedList[i]);
+                }
+            }
         }
 
         public static T GetCurrentSelectedTabInstance<T>()
@@ -742,6 +749,15 @@ namespace Files.Filesystem
                             }
                         }
                     }
+                    if (_cancellationTokenSource.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                    if (count % 64 == 0)
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                    }
                 } while (FindNextFile(hFile, out findData));
 
                 FindClose(hFile);
@@ -751,6 +767,7 @@ namespace Files.Filesystem
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
+                    _cancellationTokenSource.Dispose();
                     _cancellationTokenSource = new CancellationTokenSource();
                     IsLoadingItems = false;
                     return;
@@ -1138,6 +1155,11 @@ namespace Files.Filesystem
                 WorkingDirectoryChanged();
             }
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void Dispose()
+        {
+            _cancellationTokenSource?.Dispose();
         }
     }
 }
