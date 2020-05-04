@@ -10,7 +10,7 @@ namespace Files
 {
     class Program
     {
-        static async Task Main()
+        static void Main()
         {
             var args = Environment.GetCommandLineArgs();
 
@@ -26,7 +26,7 @@ namespace Files
                         {
                             case ParsedCommandType.ExplorerShellCommand:
                                 var proc = System.Diagnostics.Process.GetCurrentProcess();
-                                await OpenShellCommandInExplorer(command.Payload, proc.Id);
+                                OpenShellCommandInExplorer(command.Payload, proc.Id).GetAwaiter().GetResult();
                                 //Exit..
 
                                 return;
