@@ -828,6 +828,8 @@ namespace Files.Filesystem
             AddFile(findData, Directory.GetParent(filePath).FullName);
         }
 
+        private const long MaxDword = 4294967296;
+
         private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
         {
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
@@ -851,17 +853,17 @@ namespace Files.Filesystem
             long itemSizeBytes;
             if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
             {
-                itemSizeBytes = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
+                itemSizeBytes = fDataFSize + MaxDword + (findData.nFileSizeHigh * MaxDword);
             }
             else
             {
                 if (findData.nFileSizeHigh > 0)
                 {
-                    itemSizeBytes = fDataFSize + (findData.nFileSizeHigh * 4294967296);
+                    itemSizeBytes = fDataFSize + (findData.nFileSizeHigh * MaxDword);
                 }
                 else if (fDataFSize < 0)
                 {
-                    itemSizeBytes = fDataFSize + 4294967296;
+                    itemSizeBytes = fDataFSize + MaxDword;
                 }
                 else
                 {
