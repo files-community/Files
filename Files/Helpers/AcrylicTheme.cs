@@ -5,22 +5,11 @@ using Windows.UI.Xaml;
 
 namespace Files.Helpers
 {
-    public class AppTheme : INotifyPropertyChanged
+    public class AcrylicTheme : INotifyPropertyChanged
     {
-        private double? _TintLuminosityOpacity;
         private Color _FallbackColor;
         private Color _TintColor;
         private double _TintOpacity;
-
-        public double? TintLuminosityOpacity
-        {
-            get { return _TintLuminosityOpacity; }
-            set
-            {
-                _TintLuminosityOpacity = value;
-                NotifyPropertyChanged("TintLuminosityOpacity");
-            }
-        }
 
         public Color FallbackColor
         {
@@ -59,13 +48,12 @@ namespace Files.Helpers
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public AppTheme()
+        public AcrylicTheme()
         {
         }
 
         public void SetDefaultTheme()
         {
-            TintLuminosityOpacity = 0.9;
             FallbackColor = (Color)Application.Current.Resources["SystemChromeMediumLowColor"];
             TintColor = (Color)Application.Current.Resources["SystemAltHighColor"];
             TintOpacity = 0.9;
@@ -73,7 +61,6 @@ namespace Files.Helpers
 
         public void SetLightTheme()
         {
-            TintLuminosityOpacity = 0.9;
             FallbackColor = Color.FromArgb(255, 242, 242, 242);
             TintColor = Colors.White;
             TintOpacity = 0.9;
@@ -81,7 +68,6 @@ namespace Files.Helpers
 
         public void SetDarkTheme()
         {
-            TintLuminosityOpacity = 0.9;
             FallbackColor = Color.FromArgb(255, 43, 43, 43);
             TintColor = Colors.Black;
             TintOpacity = 0.7;

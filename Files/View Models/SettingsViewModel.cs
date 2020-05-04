@@ -493,7 +493,7 @@ namespace Files.View_Models
             ThemeModeChanged?.Invoke(this, EventArgs.Empty);
         });
 
-        public AppTheme AppTheme { get; set; }
+        public AcrylicTheme AcrylicTheme { get; set; }
 
         public Int32 LayoutMode
         {
