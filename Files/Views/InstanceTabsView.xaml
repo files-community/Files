@@ -12,11 +12,11 @@
     mc:Ignorable="d">
     <Page.Background>
         <AcrylicBrush
-            Windows10version1903:TintLuminosityOpacity="{x:Bind local:App.AppSettings.AppTheme.TintLuminosityOpacity, Mode=OneWay}"
+            Windows10version1903:TintLuminosityOpacity="0.9"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind local:App.AppSettings.AppTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind local:App.AppSettings.AppTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local:App.AppSettings.AppTheme.TintOpacity, Mode=OneWay}"
+            FallbackColor="{x:Bind local:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind local:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}"
             AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
     </Page.Background>
 
