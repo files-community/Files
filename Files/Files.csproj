@@ -150,6 +150,7 @@
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\AcrylicTheme.cs" />
+    <Compile Include="Helpers\DispatcherHelper.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />

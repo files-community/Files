@@ -314,7 +314,7 @@ namespace Files.View_Models
             //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
             //    }
             //}
-            Terminals = terminalsFileModel.Terminals;
+            Terminals = terminalsFileModel?.Terminals ?? new List<TerminalModel>();
         }
 
         private IList<TerminalModel> _Terminals = null;
