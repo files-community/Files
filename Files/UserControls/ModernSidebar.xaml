@@ -228,11 +228,11 @@
                                         OpenPaneLength="{TemplateBinding OpenPaneLength}">
                                         <SplitView.PaneBackground>
                                             <AcrylicBrush
-                                                Windows10version1903:TintLuminosityOpacity="{x:Bind local1:App.AppSettings.AppTheme.TintLuminosityOpacity, Mode=OneWay}"
+                                                Windows10version1903:TintLuminosityOpacity="0.9"
                                                 BackgroundSource="HostBackdrop"
-                                                FallbackColor="{x:Bind local1:App.AppSettings.AppTheme.FallbackColor, Mode=OneWay}"
-                                                TintColor="{x:Bind local1:App.AppSettings.AppTheme.TintColor, Mode=OneWay}"
-                                                TintOpacity="{x:Bind local1:App.AppSettings.AppTheme.TintOpacity, Mode=OneWay}"
+                                                FallbackColor="{x:Bind local1:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                                                TintColor="{x:Bind local1:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                                                TintOpacity="{x:Bind local1:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}"
                                                 AlwaysUseFallback="{x:Bind local1:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
                                         </SplitView.PaneBackground>
                                         <SplitView.Pane>
