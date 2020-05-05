@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -51,37 +51,25 @@ namespace Files.Filesystem
             });
         }
 
-        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        private void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            // Only update collection from UI-thread
-            try
+            if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
             {
-                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
-                    {
-                        App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
-                    }
-                    foreach (DriveItem drive in Drives)
-                    {
-                        if (!App.sideBarItems.Contains(drive))
-                        {
-                            App.sideBarItems.Add(drive);
-                        }
-                    }
-
-                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
-                    {
-                        if (item is DriveItem && !Drives.Contains(item))
-                        {
-                            App.sideBarItems.Remove(item);
-                        }
-                    }
-                });
+                App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
             }
-            catch (Exception)
+            foreach (DriveItem drive in Drives)
             {
-                // UI thread not created yet?
+                if (!App.sideBarItems.Contains(drive))
+                {
+                    App.sideBarItems.Add(drive);
+                }
+            }
+            foreach (INavigationControlItem item in App.sideBarItems.ToList())
+            {
+                if (item is DriveItem && !Drives.Contains(item))
+                {
+                    App.sideBarItems.Remove(item);
+                }
             }
         }
 
