@@ -275,6 +275,7 @@
 
     <Grid
         x:Name="RootGrid"
+        Background="Transparent"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
         <ProgressBar
             x:Name="progBar"
