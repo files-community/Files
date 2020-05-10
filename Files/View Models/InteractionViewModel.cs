@@ -53,7 +53,8 @@ namespace Files.Controls
             {
                 string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
 
-                if (ItemExtension.ToLower() == ".png" 
+                if (!string.IsNullOrEmpty(ItemExtension) 
+                    && ItemExtension.ToLower() == ".png" 
                     || ItemExtension.ToLower() == ".jpg" 
                     || ItemExtension.ToLower() == ".bmp" 
                     || ItemExtension.ToLower() == ".jpeg")
