@@ -585,4 +585,7 @@
   <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
     <value>Item already exists</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground" xml:space="preserve">
+    <value>Set as lockscreen background</value>
+  </data>
 </root>

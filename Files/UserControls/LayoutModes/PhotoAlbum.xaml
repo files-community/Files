@@ -188,7 +188,17 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                x:Name="ShareItem"
+                x:Name="SetAsLockscreenBackgroundItem"
+                x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
+                Text="Set as lockscreen background"
+                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xEE3F;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+            x:Name="ShareItem"
                 x:Uid="BaseLayoutItemContextFlyoutShare"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                 Text="Share">

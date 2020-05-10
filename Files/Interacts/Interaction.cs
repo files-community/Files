@@ -75,6 +75,22 @@ namespace Files.Interacts
             await profileSettings.TrySetWallpaperImageAsync(file);
         }
 
+        public async void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
+        {
+            // Get the path of the selected file
+            StorageFile sourceFile = await StorageFile.GetFileFromPathAsync((CurrentInstance.ContentPage as BaseLayout).SelectedItem.ItemPath);
+
+            // Get the app's local folder to use as the destination folder.
+            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+            // Copy the file to the destination folder.
+            // Replace the existing file if the file already exists.
+            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
+
+            // Set the lockscreen background
+            await LockScreen.SetImageFileAsync(file);
+        }
+
         public void OpenNewTab()
         {
             instanceTabsView.AddNewTab(typeof(ModernShellPage), "New tab");
