@@ -39,6 +39,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid x:Name="TabContainerGrid"
+                                      Margin="200,0,0,0"
                                       Background="{TemplateBinding Background}"
                                       XYFocusKeyboardNavigation="Enabled">
 
@@ -123,7 +124,7 @@
             <muxc:TabView.TabStripHeader>
                 <Grid
                     x:Name="DragArea2"
-                    Width="200"
+                    Width="0"
                     Background="Transparent"
                     Visibility="{x:Bind local:App.InteractionViewModel.LeftMarginLoaded, Mode=OneWay}" />
             </muxc:TabView.TabStripHeader>
@@ -151,7 +152,7 @@
                         <Grid
                             x:Name="DragArea"
                             Grid.Column="1"
-                            MinWidth="175"
+                            MinWidth="375"
                             Background="Transparent"
                             Loaded="DragArea_Loaded" />
                     </Grid>
