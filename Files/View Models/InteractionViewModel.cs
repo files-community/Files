@@ -48,6 +48,7 @@ namespace Files.Controls
 
         public void CheckForImage()
         {
+            //check if the selected item is an image file
             string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
 
             if (!string.IsNullOrEmpty(ItemExtension))
