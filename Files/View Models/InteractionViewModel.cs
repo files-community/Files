@@ -48,27 +48,23 @@ namespace Files.Controls
 
         public void CheckForImage()
         {
-            //check if the selected item is an image file
-            try
-            {
-                string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
+            string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
 
-                if (!string.IsNullOrEmpty(ItemExtension)
-                    && ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                    || ItemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                    || ItemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                    || ItemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(ItemExtension))
+            {
+                if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
+                || ItemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
+                || ItemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
+                || ItemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
                 {
                     // Since item is an image, set the IsSelectedItemImage property to true
                     App.InteractionViewModel.IsSelectedItemImage = true;
-                }
-                else
-                {
-                    // Since item is not an image, set the IsSelectedItemImage property to false
-                    App.InteractionViewModel.IsSelectedItemImage = false;
+                    return;
                 }
             }
-            catch (Exception) { }
+
+            // Since item is not an image, folder or file without extension, set the IsSelectedItemImage property to false
+            App.InteractionViewModel.IsSelectedItemImage = false;
         }
     }
 }
