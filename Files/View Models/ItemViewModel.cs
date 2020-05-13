@@ -67,7 +67,7 @@ namespace Files.Filesystem
         }
 
         public ObservableCollection<ListedItem> _filesAndFolders;
-        private StorageFolderQueryResult _folderQueryResult;
+        private StorageItemQueryResult _itemQueryResult;
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
         private StorageFolder _rootFolder;
@@ -376,6 +376,12 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
+
+            if (_itemQueryResult != null)
+            {
+                _itemQueryResult.ContentsChanged -= FileContentsChanged;
+            }
+
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -630,7 +636,7 @@ namespace Files.Filesystem
         {
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
-
+        public IReadOnlyList<IStorageItem> watchedItems = null;
         public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
@@ -699,6 +705,22 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 };
+
+                await Task.Run(async () => 
+                {
+                    var options = new QueryOptions()
+                    {
+                        FolderDepth = FolderDepth.Shallow,
+                        IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
+                    };
+                    options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+                    options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
+                    _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
+                    _itemQueryResult.ContentsChanged += FileContentsChanged;
+                    watchedItems = await _itemQueryResult.GetItemsAsync();
+
+                });
+                
             }
             catch (UnauthorizedAccessException)
             {
@@ -1092,13 +1114,28 @@ namespace Files.Filesystem
             _filesRefreshing = true;
 
             //query options have to be reapplied otherwise old results are returned
-            _fileQueryResult.ApplyNewQueryOptions(_options);
-            _folderQueryResult.ApplyNewQueryOptions(_options);
+            //_fileQueryResult.ApplyNewQueryOptions(_options);
+            //_folderQueryResult.ApplyNewQueryOptions(_options);
+            var options = new QueryOptions()
+            {
+                FolderDepth = FolderDepth.Shallow,
+                IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
+            };
+            options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
 
-            var fileCount = await _fileQueryResult.GetItemCountAsync();
-            var folderCount = await _folderQueryResult.GetItemCountAsync();
-            var files = await _fileQueryResult.GetFilesAsync();
-            var folders = await _folderQueryResult.GetFoldersAsync();
+            sender.ApplyNewQueryOptions(options);
+
+            //sender.GetItemCountAsync();
+
+            //var fileCount = await _fileQueryResult.GetItemCountAsync();
+            //var folderCount = await _folderQueryResult.GetItemCountAsync();
+            //var files = await _fileQueryResult.GetFilesAsync();
+            //var folders = await _folderQueryResult.GetFoldersAsync();
+            var items = await sender.Folder.CreateItemQueryWithOptions(sender.GetCurrentQueryOptions()).GetItemsAsync();
+            var folders = items.TakeWhile(x => x.IsOfType(StorageItemTypes.Folder)).Cast<StorageFolder>();
+            var files = items.TakeWhile(x => x.IsOfType(StorageItemTypes.File)).Cast<StorageFile>();
+
 
             // modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
 
