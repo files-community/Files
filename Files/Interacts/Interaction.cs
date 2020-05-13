@@ -1148,16 +1148,11 @@ namespace Files.Interacts
         {
             try
             {
-                string selectedItemPath = null;
                 int selectedItemCount;
                 Type sourcePageType = App.CurrentInstance.CurrentPageType;
                 selectedItemCount = (CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count;
-                if (selectedItemCount == 1)
-                {
-                    selectedItemPath = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0].ItemPath;
-                }
 
-                if (selectedItemCount == 1)
+                if (selectedItemCount == 1 && !App.CurrentInstance.ContentPage.isRenamingItem)
                 {
                     var clickedOnItem = (CurrentInstance.ContentPage as BaseLayout).SelectedItems[0];
 
