@@ -593,13 +593,15 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
-                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-                            if (Thumbnail != null)
+                            using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached))
                             {
-                                matchingItem.FileImage = icon;
-                                await icon.SetSourceAsync(Thumbnail);
-                                matchingItem.LoadUnknownTypeGlyph = false;
-                                matchingItem.LoadFileIcon = true;
+                                if (Thumbnail != null)
+                                {
+                                    matchingItem.FileImage = icon;
+                                    await icon.SetSourceAsync(Thumbnail);
+                                    matchingItem.LoadUnknownTypeGlyph = false;
+                                    matchingItem.LoadFileIcon = true;
+                                }
                             }
                         }
                     }
