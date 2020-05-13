@@ -632,7 +632,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
-          <target state="new">Set as lockscreen background</target>
+          <target state="translated">Establecer como fondo de pantalla de bloqueo</target>
         </trans-unit>
       </group>
     </body>
