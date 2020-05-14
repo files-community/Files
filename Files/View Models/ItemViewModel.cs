@@ -1134,52 +1134,54 @@ namespace Files.Filesystem
             //var folderCount = await _folderQueryResult.GetItemCountAsync();
             //var files = await _fileQueryResult.GetFilesAsync();
             //var folders = await _folderQueryResult.GetFoldersAsync();
-            var items = await sender.Folder.CreateItemQueryWithOptions(sender.GetCurrentQueryOptions()).GetItemsAsync();
-            var folders = items.TakeWhile(x => x.IsOfType(StorageItemTypes.Folder)).Cast<StorageFolder>();
-            var files = items.TakeWhile(x => x.IsOfType(StorageItemTypes.File)).Cast<StorageFile>();
+            //var items = await sender.Folder.CreateItemQueryWithOptions(sender.GetCurrentQueryOptions()).GetItemsAsync();
+            //var folders = items.TakeWhile(x => x.IsOfType(StorageItemTypes.Folder)).Cast<StorageFolder>();
+            //var files = items.TakeWhile(x => x.IsOfType(StorageItemTypes.File)).Cast<StorageFile>();
 
 
-            // modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
+            //// modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
 
-            var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
-            var addedFolders = folders.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
-            var removedFilesAndFolders = _filesAndFolders
-                .Select(f => f.FolderRelativeId)
-                .Except(files.Select(f => f.FolderRelativeId))
-                .Except(folders.Select(f => f.FolderRelativeId))
-                .ToArray();
+            //var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            //var addedFolders = folders.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            //var removedFilesAndFolders = _filesAndFolders
+            //    .Select(f => f.FolderRelativeId)
+            //    .Except(files.Select(f => f.FolderRelativeId))
+            //    .Except(folders.Select(f => f.FolderRelativeId))
+            //    .ToArray();
 
-            foreach (var file in addedFiles)
-            {
-                var toAdd = files.First(f => f.FolderRelativeId == file);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                async () =>
-                {
-                    await AddFile(toAdd);
-                });
-            }
-            foreach (var folder in addedFolders)
-            {
-                var toAdd = folders.First(f => f.FolderRelativeId == folder);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                async () =>
-                {
-                    await AddFolder(toAdd);
-                });
-            }
-            foreach (var item in removedFilesAndFolders)
-            {
-                var toRemove = _filesAndFolders.First(f => f.FolderRelativeId == item);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    RemoveFileOrFolder(toRemove);
-                });
-            }
+            //foreach (var file in addedFiles)
+            //{
+            //    var toAdd = files.First(f => f.FolderRelativeId == file);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //    async () =>
+            //    {
+            //        await AddFile(toAdd);
+            //    });
+            //}
+            //foreach (var folder in addedFolders)
+            //{
+            //    var toAdd = folders.First(f => f.FolderRelativeId == folder);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //    async () =>
+            //    {
+            //        await AddFolder(toAdd);
+            //    });
+            //}
+            //foreach (var item in removedFilesAndFolders)
+            //{
+            //    var toRemove = _filesAndFolders.First(f => f.FolderRelativeId == item);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //    () =>
+            //    {
+            //        RemoveFileOrFolder(toRemove);
+            //    });
+            //}
+
 
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () =>
+            async () =>
             {
+                await RefreshItems();
                 LoadIndicator.IsVisible = Visibility.Collapsed;
             });
 
