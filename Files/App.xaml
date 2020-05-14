@@ -11,8 +11,6 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="White" />
-                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="White" />
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White" />
                             <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
                             <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="#f3f1ef" />
@@ -23,8 +21,6 @@
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="NavigationViewDefaultPaneBackground" Color="#191919" />
-                            <SolidColorBrush x:Key="NavigationViewExpandedPaneBackground" Color="#191919" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
                             <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black" />
                             <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="TextControlBackground" />
@@ -34,7 +30,6 @@
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#191919" />
                             <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
                             <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636" />
-                            <!--<SolidColorBrush x:Key="TextControlBorderBrush" Color="#FF363636" />-->
                             <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313" />
                             <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
