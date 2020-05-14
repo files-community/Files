@@ -115,11 +115,10 @@
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </muxc:NavigationView.MenuItems>
-            <Grid Padding="0,0">
+            <Grid>
                 <Rectangle
                     x:Name="Divider"
                     Width=".5"
-                    Margin="0,0,0,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Stretch"
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
