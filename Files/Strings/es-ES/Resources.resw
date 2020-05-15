@@ -480,4 +480,7 @@
   <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
     <value>Reemplazar elemento existente</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+    <value>Establecer como fondo de pantalla de bloqueo</value>
+  </data>
 </root>
