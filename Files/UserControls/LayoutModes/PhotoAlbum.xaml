@@ -333,6 +333,7 @@
                         DataContext="{x:Bind}"
                         DataContextChanged="FileListGridItem_DataContextChanged"
                         EffectiveViewportChanged="Grid_EffectiveViewportChanged"
+                        PointerPressed="FileListGridItem_PointerPressed"
                         IsRightTapEnabled="True"
                         RightTapped="StackPanel_RightTapped"
                         Tag="ItemRoot"
