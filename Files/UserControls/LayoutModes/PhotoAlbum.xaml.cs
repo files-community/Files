@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -210,6 +211,28 @@ namespace Files
         private void FileListGridItem_DataContextChanged(object sender, DataContextChangedEventArgs e)
         {
             InitializeDrag(sender as UIElement);
+        }
+
+        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                var listedItem = (sender as Grid).DataContext as ListedItem;
+                if (FileList.SelectedItems.Contains(listedItem))
+                {
+                    FileList.SelectedItems.Remove(listedItem);
+                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
+                    e.Handled = true;
+                }
+            }
+            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
+            {
+                var listedItem = (sender as Grid).DataContext as ListedItem;
+
+                FileList.SelectedItems.Clear(); // Control not clicked, clear selected items
+                FileList.SelectedItems.Add(listedItem);
+                FileList.SelectedItem = listedItem;
+            }
         }
     }
 }
