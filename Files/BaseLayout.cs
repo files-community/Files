@@ -47,66 +47,36 @@ namespace Files
             }
         }
 
-        private List<ListedItem> _SelectedItems;
+        private List<ListedItem> _SelectedItems = new List<ListedItem>();
 
         public List<ListedItem> SelectedItems
         {
             get
             {
-                if (_SelectedItems == null)
-                {
-                    return new List<ListedItem>();
-                }
-                else
-                {
-                    return _SelectedItems;
-                }
+                return _SelectedItems;
             }
             internal set
             {
                 if (value != _SelectedItems)
                 {
                     _SelectedItems = value;
-                    if (value == null)
+                    if (_SelectedItems.Count == 0)
                     {
                         IsItemSelected = false;
+                        SelectedItem = null;
                     }
                     else
                     {
                         IsItemSelected = true;
+                        SelectedItem = _SelectedItems.First();
                     }
-                    SetSelectedItemsOnUi(value);
                     NotifyPropertyChanged("SelectedItems");
+                    SetDragModeForItems();
                 }
             }
         }
 
-        private ListedItem _SelectedItem;
-
-        public ListedItem SelectedItem
-        {
-            get
-            {
-                return _SelectedItem;
-            }
-            internal set
-            {
-                if (value != _SelectedItem)
-                {
-                    _SelectedItem = value;
-                    if (value == null)
-                    {
-                        IsItemSelected = false;
-                    }
-                    else
-                    {
-                        IsItemSelected = true;
-                    }
-                    SetSelectedItemOnUi(value);
-                    NotifyPropertyChanged("SelectedItem");
-                }
-            }
-        }
+        public ListedItem SelectedItem { get; private set; }
 
         public BaseLayout()
         {
@@ -123,11 +93,29 @@ namespace Files
             }
         }
 
-        protected abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+        public abstract void SetSelectedItemOnUi(ListedItem item);
 
-        protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+        public abstract void SetSelectedItemsOnUi(List<ListedItem> items);
+
+        public abstract void SelectAllItems();
+
+        public abstract void InvertSelection();
+
+        public abstract void ClearSelection();
+
+        public abstract void SetDragModeForItems();
+
+        public abstract void ScrollIntoView(ListedItem item);
+
+        public abstract int GetSelectedIndex();
 
         public abstract void FocusSelectedItems();
+
+        public abstract void StartRenameItem();
+
+        public abstract void ResetItemOpacity();
+
+        public abstract void SetItemOpacity(ListedItem item);
 
         protected abstract ListedItem GetItemFromElement(object element);
 
@@ -202,7 +190,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+            var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
             if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))

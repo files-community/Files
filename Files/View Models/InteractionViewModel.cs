@@ -1,4 +1,4 @@
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -50,7 +50,7 @@ namespace Files.Controls
         public void CheckForImage()
         {
             //check if the selected item is an image file
-            string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
+            string ItemExtension = App.CurrentInstance.ContentPage.SelectedItem.FileExtension;
 
             if (!string.IsNullOrEmpty(ItemExtension))
             {

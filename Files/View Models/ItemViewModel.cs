@@ -1,4 +1,4 @@
-﻿using ByteSizeLib;
+using ByteSizeLib;
 using Files.Enums;
 using Files.Helpers;
 using Files.Interacts;
@@ -223,13 +223,9 @@ namespace Files.Filesystem
                     ListedItem jumpedToItem = null;
                     ListedItem previouslySelectedItem = null;
                     var candidateItems = _filesAndFolders.Where(f => f.ItemName.Length >= value.Length && f.ItemName.Substring(0, value.Length).ToLower() == value);
-                    if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
+                    if (App.CurrentInstance.ContentPage.IsItemSelected)
                     {
-                        previouslySelectedItem = (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
-                    }
-                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                    {
-                        previouslySelectedItem = (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
+                        previouslySelectedItem = App.CurrentInstance.ContentPage.SelectedItem;
                     }
 
                     // If the user is trying to cycle through items
@@ -244,16 +240,8 @@ namespace Files.Filesystem
 
                     if (jumpedToItem != null)
                     {
-                        if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
-                        {
-                            (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
-                            (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
-                        }
-                        else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
-                        {
-                            (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem = jumpedToItem;
-                            (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.ScrollIntoView(jumpedToItem);
-                        }
+                        App.CurrentInstance.ContentPage.SetSelectedItemOnUi(jumpedToItem);
+                        App.CurrentInstance.ContentPage.ScrollIntoView(jumpedToItem);
                     }
 
                     // Restart the timer

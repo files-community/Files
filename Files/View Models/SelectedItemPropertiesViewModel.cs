@@ -20,7 +20,7 @@ namespace Files.View_Models
 
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemName;
+                    return App.CurrentInstance.ContentPage.SelectedItem.ItemName;
                 }
                 else
                 {
@@ -37,7 +37,7 @@ namespace Files.View_Models
 
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemType;
+                    return App.CurrentInstance.ContentPage.SelectedItem.ItemType;
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace Files.View_Models
 
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemPath;
+                    return App.CurrentInstance.ContentPage.SelectedItem.ItemPath;
                 }
                 else
                 {
@@ -71,7 +71,7 @@ namespace Files.View_Models
 
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileSize;
+                    return App.CurrentInstance.ContentPage.SelectedItem.FileSize;
                 }
                 else
                 {
@@ -114,7 +114,7 @@ namespace Files.View_Models
 
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].ItemDateModified;
+                    return App.CurrentInstance.ContentPage.SelectedItem.ItemDateModified;
                 }
                 else
                 {
@@ -131,7 +131,7 @@ namespace Files.View_Models
 
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].FileImage;
+                    return App.CurrentInstance.ContentPage.SelectedItem.FileImage;
                 }
                 else
                 {
@@ -146,7 +146,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].LoadFolderGlyph;
+                    return App.CurrentInstance.ContentPage.SelectedItem.LoadFolderGlyph;
                 }
                 else
                 {
@@ -161,7 +161,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].LoadUnknownTypeGlyph;
+                    return App.CurrentInstance.ContentPage.SelectedItem.LoadUnknownTypeGlyph;
                 }
                 else
                 {
@@ -176,7 +176,7 @@ namespace Files.View_Models
             {
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    return App.CurrentInstance.ContentPage.SelectedItems[0].LoadFileIcon;
+                    return App.CurrentInstance.ContentPage.SelectedItem.LoadFileIcon;
                 }
                 else
                 {
