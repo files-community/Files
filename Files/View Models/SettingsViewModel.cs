@@ -495,11 +495,13 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
-        public Int32 LayoutMode
+        public int LayoutMode
         {
             get => Get(0); // List View
             set => Set(value);
         }
+
+        public Type GetLayoutType() => LayoutMode == 0 ? typeof(GenericFileBrowser) : typeof(PhotoAlbum);
 
         public event EventHandler LayoutModeChangeRequested;
 

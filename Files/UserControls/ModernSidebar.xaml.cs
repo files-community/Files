@@ -108,14 +108,7 @@ namespace Files.Controls
                     }
             }
 
-            if (App.AppSettings.LayoutMode == 0) // List View
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
-            }
-            else
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
-            }
+            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
 
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
 

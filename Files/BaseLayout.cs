@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
@@ -138,14 +138,8 @@ namespace Files
                 App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
                 App.CurrentInstance.ViewModel.IsLoadingItems = true;
                 App.CurrentInstance.ViewModel.IsLoadingItems = false;
-                if (App.AppSettings.LayoutMode == 0)
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
-                }
-                else
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.WorkingDirectory, null);
-                }
+
+                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), App.CurrentInstance.ViewModel.WorkingDirectory, null);
             }
         }
 

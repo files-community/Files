@@ -37,7 +37,7 @@ namespace Files
             {
                 var filePath = clickedOnItem.RecentPath;
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), folderPath);
+                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), folderPath);
             }
         }
 
@@ -117,16 +117,7 @@ namespace Files
                     break;
             }
 
-            switch (App.AppSettings.LayoutMode)
-            {
-                case 0:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath); // List View
-                    break;
-
-                case 1:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath); // Grid View
-                    break;
-            }
+            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath);
 
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }
@@ -224,11 +215,11 @@ namespace Files
             {
                 await App.ConsentDialogDisplay.ShowAsync();
             }
-            catch (System.ArgumentException)
+            catch (ArgumentException)
             {
                 if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                    App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), path);
                 }
                 else
                 {
@@ -236,7 +227,7 @@ namespace Files
                     {
                         if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
+                            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), path);
                             return;
                         }
                     }

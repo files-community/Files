@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
@@ -151,14 +151,7 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                if (App.AppSettings.LayoutMode == 0) // List View
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
-                }
+                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
