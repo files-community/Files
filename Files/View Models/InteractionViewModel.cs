@@ -1,5 +1,6 @@
-﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight;
 using System;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Files.Controls
@@ -22,9 +23,9 @@ namespace Files.Controls
             set => Set(ref _LeftMarginLoaded, value);
         }
 
-        private bool _PermanentlyDelete = false;
+        private StorageDeleteOption _PermanentlyDelete = StorageDeleteOption.Default;
 
-        public bool PermanentlyDelete
+        public StorageDeleteOption PermanentlyDelete
         {
             get => _PermanentlyDelete;
             set => Set(ref _PermanentlyDelete, value);

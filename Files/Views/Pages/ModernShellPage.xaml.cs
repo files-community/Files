@@ -7,6 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -234,7 +235,7 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        App.InteractionViewModel.PermanentlyDelete = true;
+                        App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
                     App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
 

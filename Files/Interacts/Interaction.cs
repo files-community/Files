@@ -609,65 +609,33 @@ namespace Files.Interacts
                 foreach (ListedItem storItem in selectedItems)
                 {
                     if (selectedItems.Count > 3) { (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
-
+                    IStorageItem item;
                     try
                     {
                         if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
-
-                            if (App.InteractionViewModel.PermanentlyDelete)
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                            }
-                            else
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-                            }
+                            item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
-
-                            if (App.InteractionViewModel.PermanentlyDelete)
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                            }
-                            else
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-                            }
+                            item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
                         }
+
+                        await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
                     }
                     catch (FileLoadException)
                     {
                         // try again
                         if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
-
-                            if (App.InteractionViewModel.PermanentlyDelete)
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                            }
-                            else
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-                            }
+                            item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
-
-                            if (App.InteractionViewModel.PermanentlyDelete)
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                            }
-                            else
-                            {
-                                await item.DeleteAsync(StorageDeleteOption.Default);
-                            }
+                            item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
                         }
+
+                        await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
                     }
 
                     CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
@@ -684,7 +652,7 @@ namespace Files.Interacts
                 Debug.WriteLine("Attention: Tried to delete an item that could be found");
             }
 
-            App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
+            App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
