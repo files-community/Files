@@ -938,18 +938,11 @@ namespace Files.Interacts
 
         public void ClearAllItems() => CurrentInstance.ContentPage.ClearSelection();
 
-        public void ToggleQuickLook_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleQuickLook();
-        }
-
         public async void ToggleQuickLook()
         {
             try
             {
-                Type sourcePageType = App.CurrentInstance.CurrentPageType;
-
-                if (CurrentInstance.ContentPage.SelectedItems.Count == 1 && !App.CurrentInstance.ContentPage.isRenamingItem)
+                if (CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
                 {
                     var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
 
