@@ -40,7 +40,6 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
-            <converters:NegateConverter x:Key="NegateConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>
