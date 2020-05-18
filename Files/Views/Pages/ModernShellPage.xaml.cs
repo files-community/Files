@@ -168,7 +168,6 @@ namespace Files.Views.Pages
         {
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
             {
-                App.InteractionViewModel.IsPageTypeNotHome = true;
                 // Reset DataGrid Rows that may be in "cut" command mode
                 IEnumerable items = (ItemDisplayFrame.Content as GenericFileBrowser).AllView.ItemsSource;
                 if (items == null)
@@ -182,7 +181,6 @@ namespace Files.Views.Pages
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
-                App.InteractionViewModel.IsPageTypeNotHome = true;
                 // Reset Photo Grid items that may be in "cut" command mode
                 foreach (ListedItem listedItem in (ItemDisplayFrame.Content as PhotoAlbum).FileList.Items)
                 {
@@ -194,10 +192,6 @@ namespace Files.Views.Pages
                     var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
                     imageOfItem.Opacity = 1;
                 }
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
-            {
-                App.InteractionViewModel.IsPageTypeNotHome = false;
             }
         }
 

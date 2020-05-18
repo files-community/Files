@@ -182,6 +182,7 @@ namespace Files
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
+            App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
 
             await App.CurrentInstance.ViewModel.RefreshItems();
 
