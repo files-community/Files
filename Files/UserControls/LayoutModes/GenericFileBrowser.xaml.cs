@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -80,8 +81,18 @@ namespace Files
                     break;
             }
 
-            App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            base.OnNavigatedTo(eventArgs);
+            App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            App.CurrentInstance.ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
