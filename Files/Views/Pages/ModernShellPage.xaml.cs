@@ -163,14 +163,8 @@ namespace Files.Views.Pages
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
                 || ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
             {
-                App.InteractionViewModel.IsPageTypeNotHome = true;
-
                 // Reset DataGrid Rows that may be in "cut" command mode
                 App.CurrentInstance.ContentPage.ResetItemOpacity();
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(YourHome))
-            {
-                App.InteractionViewModel.IsPageTypeNotHome = false;
             }
         }
 
@@ -204,7 +198,8 @@ namespace Files.Views.Pages
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var tabInstance = App.CurrentInstance != null;
+            var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser) 
+                || App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
             {
@@ -238,15 +233,15 @@ namespace Files.Views.Pages
                         App.CurrentInstance.InteractionOperations.SelectAllItems();
                     break;
 
-                case (true, false, false, true, VirtualKey.N): //ctrl + n, new window
+                case (true, false, false, false, VirtualKey.N): //ctrl + n, new window
                     App.CurrentInstance.InteractionOperations.LaunchNewWindow();
                     break;
 
-                case (true, false, false, true, VirtualKey.W): //ctrl + w, close tab
+                case (true, false, false, false, VirtualKey.W): //ctrl + w, close tab
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
 
-                case (true, false, false, true, VirtualKey.F4): //ctrl + F4, close tab
+                case (true, false, false, false, VirtualKey.F4): //ctrl + F4, close tab
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
 

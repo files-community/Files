@@ -51,26 +51,63 @@ namespace Files.Filesystem
             });
         }
 
-        private void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
+        private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+            try
             {
-                App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
-            }
-            foreach (DriveItem drive in Drives)
-            {
-                if (!App.sideBarItems.Contains(drive))
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
                 {
-                    App.sideBarItems.Add(drive);
-                }
+                    if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                    {
+                        App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                    }
+                    foreach (DriveItem drive in Drives)
+                    {
+                        if (!App.sideBarItems.Contains(drive))
+                        {
+                            App.sideBarItems.Add(drive);
+                        }
+                    }
+                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                    {
+                        if (item is DriveItem && !Drives.Contains(item))
+                        {
+                            App.sideBarItems.Remove(item);
+                        }
+                    }
+                });
             }
-            foreach (INavigationControlItem item in App.sideBarItems.ToList())
+            catch (Exception)       // UI Thread not ready yet, so we defer the pervious operation until it is.
             {
-                if (item is DriveItem && !Drives.Contains(item))
-                {
-                    App.sideBarItems.Remove(item);
-                }
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += MainView_Activated;
             }
+        }
+
+        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            {
+                if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                {
+                    App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                }
+                foreach (DriveItem drive in Drives)
+                {
+                    if (!App.sideBarItems.Contains(drive))
+                    {
+                        App.sideBarItems.Add(drive);
+                    }
+                }
+                foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                {
+                    if (item is DriveItem && !Drives.Contains(item))
+                    {
+                        App.sideBarItems.Remove(item);
+                    }
+                }
+            });
+            CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
         private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
