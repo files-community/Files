@@ -18,6 +18,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -381,7 +382,7 @@ namespace Files.Filesystem
             {
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
-
+            watchedItemsOperation.Cancel();
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -639,6 +640,8 @@ namespace Files.Filesystem
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
         public IReadOnlyList<IStorageItem> watchedItems = null;
+        private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
+
         public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
@@ -708,7 +711,7 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                await Task.Run(async () => 
+                await Task.Run(() =>
                 {
                     var options = new QueryOptions()
                     {
@@ -719,10 +722,9 @@ namespace Files.Filesystem
                     options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
                     _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
                     _itemQueryResult.ContentsChanged += FileContentsChanged;
-                    watchedItems = await _itemQueryResult.GetItemsAsync();
-
+                    watchedItemsOperation = _itemQueryResult.GetItemsAsync();
+                    watchedItemsOperation.Completed += delegate { watchedItems = watchedItemsOperation.GetResults(); };
                 });
-                
             }
             catch (UnauthorizedAccessException)
             {
