@@ -345,16 +345,10 @@ namespace Files
 
     public class WSLDistroItem : INavigationControlItem
     {
-        public string DistroName { get; set; }
+        public string Glyph { get; set; } = null;
+        public string Text { get; set; }
         public string Path { get; set; }
+        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
         public Uri Logo { get; set; }
-
-        string INavigationControlItem.IconGlyph => null;
-
-        string INavigationControlItem.Text => DistroName;
-
-        string INavigationControlItem.Path => Path;
-
-        NavigationControlItemType INavigationControlItem.ItemType => NavigationControlItemType.LinuxDistro;
     }
 }

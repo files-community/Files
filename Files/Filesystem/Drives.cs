@@ -130,12 +130,7 @@ namespace Files.Filesystem
                 return;
             }
 
-            DriveType type = DriveType.Removable;
-
-            var driveItem = new DriveItem(
-                root,
-                Visibility.Visible,
-                type);
+            var driveItem = new DriveItem(root, DriveType.Removable);
 
             Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
@@ -261,10 +256,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                var driveItem = new DriveItem(
-                    folder,
-                    Visibility.Visible,
-                    type);
+                var driveItem = new DriveItem(folder, type);
 
                 Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
@@ -276,12 +268,9 @@ namespace Files.Filesystem
         {
             var oneDriveItem = new DriveItem()
             {
-                DriveText = "OneDrive",
+                Text = "OneDrive",
                 Tag = "OneDrive",
-                CloudGlyphVisibility = Visibility.Visible,
-                DriveGlyphVisibility = Visibility.Collapsed,
                 Type = DriveType.VirtualDrive,
-                //itemVisibility = App.AppSettings.PinOneDriveToSideBar
             };
 
             var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];
