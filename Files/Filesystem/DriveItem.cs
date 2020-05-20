@@ -9,12 +9,11 @@ namespace Files.Filesystem
     {
         public string Glyph { get; set; }
         public string Text { get; set; }
-        public string Path => Tag;
+        public string Path { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
         public ulong MaxSpace { get; set; } = 0;
         public ulong SpaceUsed { get; set; } = 0;
         public string SpaceText { get; set; }
-        public string Tag { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
         private DriveType _type;
@@ -37,7 +36,7 @@ namespace Files.Filesystem
         {
             Text = root.DisplayName;
             Type = type;
-            Tag = root.Path;
+            Path = root.Path;
 
             var properties = Task.Run(async () =>
             {
