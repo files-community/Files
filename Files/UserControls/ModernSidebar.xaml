@@ -92,7 +92,6 @@
             OpenPaneLength="200"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <NavigationViewItemSeparator />
             <muxc:NavigationView.PaneFooter>
                 <Grid Width="200">
                     <Button
