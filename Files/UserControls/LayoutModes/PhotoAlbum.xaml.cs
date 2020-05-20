@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -32,20 +33,16 @@ namespace Files
 
         protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
-            // To prevent program from crashing when the page is first loaded
-            if (selectedItems.Count > 0)
+            foreach (ListedItem listedItem in FileList.Items)
             {
-                foreach (ListedItem listedItem in FileList.Items)
-                {
-                    GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
+                GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
 
-                    if (gridViewItem != null)
-                    {
-                        List<Grid> grids = new List<Grid>();
-                        Interaction.FindChildren<Grid>(grids, gridViewItem);
-                        var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                        rootItem.CanDrag = selectedItems.Contains(listedItem);
-                    }
+                if (gridViewItem != null)
+                {
+                    List<Grid> grids = new List<Grid>();
+                    Interaction.FindChildren<Grid>(grids, gridViewItem);
+                    var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
+                    rootItem.CanDrag = selectedItems.Contains(listedItem);
                 }
             }
 
@@ -200,6 +197,8 @@ namespace Files
                     App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, 80);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
+
+                (sender as UIElement).CanDrag = FileList.SelectedItems.Contains(sender.DataContext as ListedItem); // Update CanDrag
             }
         }
 
@@ -212,6 +211,28 @@ namespace Files
         private void FileListGridItem_DataContextChanged(object sender, DataContextChangedEventArgs e)
         {
             InitializeDrag(sender as UIElement);
+        }
+
+        private void FileListGridItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                var listedItem = (sender as Grid).DataContext as ListedItem;
+                if (FileList.SelectedItems.Contains(listedItem))
+                {
+                    FileList.SelectedItems.Remove(listedItem);
+                    // Prevent issues arising caused by the default handlers attempting to select the item that has just been deselected by ctrl + click
+                    e.Handled = true;
+                }
+            }
+            else if (e.GetCurrentPoint(sender as UIElement).Properties.IsLeftButtonPressed)
+            {
+                var listedItem = (sender as Grid).DataContext as ListedItem;
+
+                FileList.SelectedItems.Clear(); // Control not clicked, clear selected items
+                FileList.SelectedItems.Add(listedItem);
+                FileList.SelectedItem = listedItem;
+            }
         }
     }
 }

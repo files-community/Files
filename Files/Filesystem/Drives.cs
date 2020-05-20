@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -53,10 +53,9 @@ namespace Files.Filesystem
 
         private async void DeviceWatcher_EnumerationCompleted(DeviceWatcher sender, object args)
         {
-            // Only update collection from UI-thread
             try
             {
-                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => 
                 {
                     if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                     {
@@ -69,7 +68,6 @@ namespace Files.Filesystem
                             App.sideBarItems.Add(drive);
                         }
                     }
-
                     foreach (INavigationControlItem item in App.sideBarItems.ToList())
                     {
                         if (item is DriveItem && !Drives.Contains(item))
@@ -79,10 +77,37 @@ namespace Files.Filesystem
                     }
                 });
             }
-            catch (Exception)
+            catch (Exception)       // UI Thread not ready yet, so we defer the pervious operation until it is.
             {
-                // UI thread not created yet?
+                // Defer because UI-thread is not ready yet (and DriveItem requires it?)
+                CoreApplication.MainView.Activated += MainView_Activated;
             }
+        }
+
+        private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
+        {
+            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            {
+                if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                {
+                    App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                }
+                foreach (DriveItem drive in Drives)
+                {
+                    if (!App.sideBarItems.Contains(drive))
+                    {
+                        App.sideBarItems.Add(drive);
+                    }
+                }
+                foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                {
+                    if (item is DriveItem && !Drives.Contains(item))
+                    {
+                        App.sideBarItems.Remove(item);
+                    }
+                }
+            });
+            CoreApplication.MainView.Activated -= MainView_Activated;
         }
 
         private async void DeviceAdded(DeviceWatcher sender, DeviceInformation args)
@@ -105,12 +130,7 @@ namespace Files.Filesystem
                 return;
             }
 
-            DriveType type = DriveType.Removable;
-
-            var driveItem = new DriveItem(
-                root,
-                Visibility.Visible,
-                type);
+            var driveItem = new DriveItem(root, DriveType.Removable);
 
             Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
@@ -236,10 +256,7 @@ namespace Files.Filesystem
                         break;
                 }
 
-                var driveItem = new DriveItem(
-                    folder,
-                    Visibility.Visible,
-                    type);
+                var driveItem = new DriveItem(folder, type);
 
                 Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
 
@@ -251,12 +268,9 @@ namespace Files.Filesystem
         {
             var oneDriveItem = new DriveItem()
             {
-                DriveText = "OneDrive",
+                Text = "OneDrive",
                 Tag = "OneDrive",
-                CloudGlyphVisibility = Visibility.Visible,
-                DriveGlyphVisibility = Visibility.Collapsed,
                 Type = DriveType.VirtualDrive,
-                //itemVisibility = App.AppSettings.PinOneDriveToSideBar
             };
 
             var setting = ApplicationData.Current.LocalSettings.Values["PinOneDrive"];

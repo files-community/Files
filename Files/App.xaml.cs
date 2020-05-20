@@ -64,34 +64,6 @@ namespace Files
 
         public App()
         {
-            var args = Environment.GetCommandLineArgs();
-
-            if (args.Length == 2)
-            {
-                var parsedCommands = CommandLineParser.ParseUntrustedCommands(args);
-
-                if (parsedCommands != null && parsedCommands.Count > 0)
-                {
-                    foreach (var command in parsedCommands)
-                    {
-                        switch (command.Type)
-                        {
-                            case ParsedCommandType.ExplorerShellCommand:
-                                var proc = Process.GetCurrentProcess();
-                                OpenShellCommandInExplorer(command.Payload, proc.Id).GetAwaiter().GetResult();
-
-                                //this is useless.
-                                Exit();
-                                return;
-                            default:
-                                break;
-                        }
-                    } 
-                }
-
-                
-            }
-
             InitializeComponent();
             Suspending += OnSuspending;
 
@@ -340,15 +312,6 @@ namespace Files
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
         }
 
-        public static async Task OpenShellCommandInExplorer(string shellCommand, int pid)
-        {
-            System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
-            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-        }
-
         private void TryEnablePrelaunch()
         {
             Windows.ApplicationModel.Core.CoreApplication.EnablePrelaunch(true);
@@ -382,16 +345,10 @@ namespace Files
 
     public class WSLDistroItem : INavigationControlItem
     {
-        public string DistroName { get; set; }
+        public string Glyph { get; set; } = null;
+        public string Text { get; set; }
         public string Path { get; set; }
+        public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
         public Uri Logo { get; set; }
-
-        string INavigationControlItem.IconGlyph => null;
-
-        string INavigationControlItem.Text => DistroName;
-
-        string INavigationControlItem.Path => Path;
-
-        NavigationControlItemType INavigationControlItem.ItemType => NavigationControlItemType.LinuxDistro;
     }
 }

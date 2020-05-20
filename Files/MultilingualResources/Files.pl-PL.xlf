@@ -632,6 +632,10 @@
           <source>Replace existing item</source>
           <target state="new">Replace existing item</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
+          <source>Set as lockscreen background</source>
+          <target state="new">Set as lockscreen background</target>
+        </trans-unit>
       </group>
     </body>
   </file>
