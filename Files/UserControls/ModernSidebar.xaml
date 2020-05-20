@@ -39,7 +39,7 @@
                     BorderThickness="0.8"
                     DataContext="{x:Bind}"
                     Padding="0"
-                    Tag="{x:Bind Tag}"
+                    Tag="{x:Bind Path}"
                     Visibility="{x:Bind ItemVisibility}"
                     ToolTipService.ToolTip="{x:Bind SpaceText}">
                     <muxc:NavigationViewItem.Icon>
@@ -92,7 +92,6 @@
             OpenPaneLength="200"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <NavigationViewItemSeparator />
             <muxc:NavigationView.PaneFooter>
                 <Grid Width="200">
                     <Button

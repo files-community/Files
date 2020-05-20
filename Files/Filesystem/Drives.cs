@@ -125,14 +125,14 @@ namespace Files.Filesystem
             }
 
             // If drive already in list, skip.
-            if (Drives.Any(x => x.Tag == root.Name))
+            if (Drives.Any(x => x.Path == root.Name))
             {
                 return;
             }
 
             var driveItem = new DriveItem(root, DriveType.Removable);
 
-            Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
+            Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
             // Update the collection on the ui-thread.
             try
@@ -156,12 +156,12 @@ namespace Files.Filesystem
 
             foreach (var drive in Drives)
             {
-                if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Tag))
+                if (drive.Type == DriveType.VirtualDrive || drives.Contains(drive.Path))
                 {
                     continue;
                 }
 
-                Logger.Info($"Drive removed: {drive.Tag}");
+                Logger.Info($"Drive removed: {drive.Path}");
 
                 // Update the collection on the ui-thread.
                 try
@@ -203,7 +203,7 @@ namespace Files.Filesystem
             foreach (var drive in drives)
             {
                 // If drive already in list, skip.
-                if (list.Any(x => x.Tag == drive.Name))
+                if (list.Any(x => x.Path == drive.Name))
                 {
                     continue;
                 }
@@ -258,7 +258,7 @@ namespace Files.Filesystem
 
                 var driveItem = new DriveItem(folder, type);
 
-                Logger.Info($"Drive added: {driveItem.Tag}, {driveItem.Type}");
+                Logger.Info($"Drive added: {driveItem.Path}, {driveItem.Type}");
 
                 list.Add(driveItem);
             }
@@ -269,7 +269,7 @@ namespace Files.Filesystem
             var oneDriveItem = new DriveItem()
             {
                 Text = "OneDrive",
-                Tag = "OneDrive",
+                Path = App.AppSettings.OneDrivePath,
                 Type = DriveType.VirtualDrive,
             };
 
