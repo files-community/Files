@@ -310,6 +310,13 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            var currentView = SystemNavigationManager.GetForCurrentView();
+            currentView.BackRequested += Window_BackRequested;
+        }
+
+        private void Window_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            NavigationActions.Back_Click(null, null);
         }
 
         private void TryEnablePrelaunch()
