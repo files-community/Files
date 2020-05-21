@@ -8,31 +8,35 @@ namespace Files.Filesystem
     public class DriveItem : INavigationControlItem
     {
         public string Glyph { get; set; }
+        public string Text { get; set; }
+        public string Path { get; set; }
+        public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
         public ulong MaxSpace { get; set; } = 0;
         public ulong SpaceUsed { get; set; } = 0;
-        public string DriveText { get; set; }
-        public string Tag { get; set; }
-        public Visibility ProgressBarVisibility { get; set; }
         public string SpaceText { get; set; }
-        public Visibility CloudGlyphVisibility { get; set; } = Visibility.Collapsed;
-        public Visibility DriveGlyphVisibility { get; set; } = Visibility.Visible;
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
-        public DriveType Type { get; set; }
-        string INavigationControlItem.IconGlyph => Glyph;
-        string INavigationControlItem.Text => DriveText;
-        string INavigationControlItem.Path => Tag;
-        private readonly NavigationControlItemType NavItemType = NavigationControlItemType.Drive;
-        NavigationControlItemType INavigationControlItem.ItemType => NavItemType;
+
+        private DriveType _type;
+        public DriveType Type
+        {
+            get => _type;
+            set
+            {
+                _type = value;
+                SetGlyph(_type);
+            }
+        }
 
         public DriveItem()
         {
-            NavItemType = NavigationControlItemType.OneDrive;
+            ItemType = NavigationControlItemType.OneDrive;
         }
 
-        public DriveItem(StorageFolder root, Visibility progressBarVisibility, DriveType type)
+        public DriveItem(StorageFolder root, DriveType type)
         {
-            this.ProgressBarVisibility = progressBarVisibility;
+            Text = root.DisplayName;
             Type = type;
+            Path = root.Path;
 
             var properties = Task.Run(async () =>
             {
@@ -52,11 +56,10 @@ namespace Files.Filesystem
             {
                 SpaceText = "Unknown";
             }
+        }
 
-            DriveText = root.DisplayName;
-
-            Tag = root.Path;
-
+        private void SetGlyph(DriveType type)
+        {
             switch (type)
             {
                 case DriveType.Fixed:
@@ -85,6 +88,7 @@ namespace Files.Filesystem
                     break;
 
                 case DriveType.VirtualDrive:
+                    Glyph = "\uE753";
                     break;
 
                 case DriveType.FloppyDisk:

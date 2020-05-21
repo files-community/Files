@@ -22,7 +22,9 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <controls:ModernSidebar x:Name="SidebarControl" Margin="0,-32,0,0" />
+        <Grid>
+            <controls:ModernSidebar x:Name="SidebarControl" Margin="0,-32,0,0" />
+        </Grid>
 
         <Grid Grid.Column="1">
             <Custom:DropShadowPanel

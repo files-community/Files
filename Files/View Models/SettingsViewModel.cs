@@ -215,7 +215,7 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    App.sideBarItems.Add(new WSLDistroItem() { DistroName = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                    App.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
                 }
             }
             catch (Exception)
@@ -333,6 +333,8 @@ namespace Files.View_Models
             set => Set(ref _FormFactor, value);
         }
 
+        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+
         private void DetectOneDrivePreference()
         {
             if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
@@ -371,12 +373,9 @@ namespace Files.View_Models
                         localSettings.Values["PinOneDrive"] = true;
                         var oneDriveItem = new DriveItem()
                         {
-                            DriveText = "OneDrive",
-                            Tag = "OneDrive",
-                            CloudGlyphVisibility = Visibility.Visible,
-                            DriveGlyphVisibility = Visibility.Collapsed,
+                            Text = "OneDrive",
+                            Path = OneDrivePath,
                             Type = Filesystem.DriveType.VirtualDrive,
-                            //itemVisibility = App.AppSettings.PinOneDriveToSideBar
                         };
                         App.sideBarItems.Add(oneDriveItem);
                     }
@@ -406,8 +405,6 @@ namespace Files.View_Models
         public string MusicPath = UserDataPaths.GetDefault().Music;
 
         public string VideosPath = UserDataPaths.GetDefault().Videos;
-
-        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
 
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 

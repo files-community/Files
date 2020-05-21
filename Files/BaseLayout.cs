@@ -182,6 +182,7 @@ namespace Files
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
+            App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
 
             await App.CurrentInstance.ViewModel.RefreshItems();
 
@@ -221,15 +222,18 @@ namespace Files
                 {
                     var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
 
-                    if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                    if (!string.IsNullOrEmpty(selectedDataItem.FileExtension))
                     {
-                        UnloadMenuFlyoutItemByName("OpenItem");
-                        this.FindName("UnzipItem");
-                    }
-                    else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
-                    {
-                        this.FindName("OpenItem");
-                        UnloadMenuFlyoutItemByName("UnzipItem");
+                        if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        {
+                            UnloadMenuFlyoutItemByName("OpenItem");
+                            this.FindName("UnzipItem");
+                        }
+                        else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        {
+                            this.FindName("OpenItem");
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                        }
                     }
                 }
                 else if (selectedFileSystemItems.Count > 1)

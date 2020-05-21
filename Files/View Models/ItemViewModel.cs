@@ -55,19 +55,35 @@ namespace Files.Filesystem
                 {
                     _WorkingDirectory = value;
 
-                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-                    if (App.CurrentInstance.SidebarSelectedItem == null)
+                    INavigationControlItem item = null;
+                    List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+                    if (item == null)
                     {
-                        App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+                    }
+                    if (item == null)
+                    {
+                        item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+                    }
+                    if (item == null)
+                    {
+                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
                     }
 
+                    if (App.CurrentInstance.SidebarSelectedItem != item)
+                    {
+                        App.CurrentInstance.SidebarSelectedItem = item;
+                    }
+                    
                     NotifyPropertyChanged("WorkingDirectory");
                 }
             }
         }
 
         public ObservableCollection<ListedItem> _filesAndFolders;
-        private StorageFolderQueryResult _folderQueryResult;
+        private StorageItemQueryResult _itemQueryResult;
         public StorageFileQueryResult _fileQueryResult;
         private CancellationTokenSource _cancellationTokenSource;
         private StorageFolder _rootFolder;
@@ -376,6 +392,12 @@ namespace Files.Filesystem
             {
                 _fileQueryResult.ContentsChanged -= FileContentsChanged;
             }
+
+            if (_itemQueryResult != null)
+            {
+                _itemQueryResult.ContentsChanged -= FileContentsChanged;
+            }
+
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -587,13 +609,15 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
-                            var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale);
-                            if (Thumbnail != null)
+                            using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached))
                             {
-                                matchingItem.FileImage = icon;
-                                await icon.SetSourceAsync(Thumbnail);
-                                matchingItem.LoadUnknownTypeGlyph = false;
-                                matchingItem.LoadFileIcon = true;
+                                if (Thumbnail != null)
+                                {
+                                    matchingItem.FileImage = icon;
+                                    await icon.SetSourceAsync(Thumbnail);
+                                    matchingItem.LoadUnknownTypeGlyph = false;
+                                    matchingItem.LoadFileIcon = true;
+                                }
                             }
                         }
                     }
@@ -630,7 +654,7 @@ namespace Files.Filesystem
         {
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
-
+        public IReadOnlyList<IStorageItem> watchedItems = null;
         public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
@@ -699,6 +723,22 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 };
+
+                await Task.Run(async () => 
+                {
+                    var options = new QueryOptions()
+                    {
+                        FolderDepth = FolderDepth.Shallow,
+                        IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
+                    };
+                    options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+                    options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
+                    _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
+                    _itemQueryResult.ContentsChanged += FileContentsChanged;
+                    watchedItems = await _itemQueryResult.GetItemsAsync();
+
+                });
+                
             }
             catch (UnauthorizedAccessException)
             {
@@ -1092,55 +1132,72 @@ namespace Files.Filesystem
             _filesRefreshing = true;
 
             //query options have to be reapplied otherwise old results are returned
-            _fileQueryResult.ApplyNewQueryOptions(_options);
-            _folderQueryResult.ApplyNewQueryOptions(_options);
-
-            var fileCount = await _fileQueryResult.GetItemCountAsync();
-            var folderCount = await _folderQueryResult.GetItemCountAsync();
-            var files = await _fileQueryResult.GetFilesAsync();
-            var folders = await _folderQueryResult.GetFoldersAsync();
-
-            // modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
-
-            var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
-            var addedFolders = folders.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
-            var removedFilesAndFolders = _filesAndFolders
-                .Select(f => f.FolderRelativeId)
-                .Except(files.Select(f => f.FolderRelativeId))
-                .Except(folders.Select(f => f.FolderRelativeId))
-                .ToArray();
-
-            foreach (var file in addedFiles)
+            //_fileQueryResult.ApplyNewQueryOptions(_options);
+            //_folderQueryResult.ApplyNewQueryOptions(_options);
+            var options = new QueryOptions()
             {
-                var toAdd = files.First(f => f.FolderRelativeId == file);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                async () =>
-                {
-                    await AddFile(toAdd);
-                });
-            }
-            foreach (var folder in addedFolders)
-            {
-                var toAdd = folders.First(f => f.FolderRelativeId == folder);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                async () =>
-                {
-                    await AddFolder(toAdd);
-                });
-            }
-            foreach (var item in removedFilesAndFolders)
-            {
-                var toRemove = _filesAndFolders.First(f => f.FolderRelativeId == item);
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                () =>
-                {
-                    RemoveFileOrFolder(toRemove);
-                });
-            }
+                FolderDepth = FolderDepth.Shallow,
+                IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
+            };
+            options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+            options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
+
+            sender.ApplyNewQueryOptions(options);
+
+            //sender.GetItemCountAsync();
+
+            //var fileCount = await _fileQueryResult.GetItemCountAsync();
+            //var folderCount = await _folderQueryResult.GetItemCountAsync();
+            //var files = await _fileQueryResult.GetFilesAsync();
+            //var folders = await _folderQueryResult.GetFoldersAsync();
+            //var items = await sender.Folder.CreateItemQueryWithOptions(sender.GetCurrentQueryOptions()).GetItemsAsync();
+            //var folders = items.TakeWhile(x => x.IsOfType(StorageItemTypes.Folder)).Cast<StorageFolder>();
+            //var files = items.TakeWhile(x => x.IsOfType(StorageItemTypes.File)).Cast<StorageFile>();
+
+
+            //// modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
+
+            //var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            //var addedFolders = folders.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
+            //var removedFilesAndFolders = _filesAndFolders
+            //    .Select(f => f.FolderRelativeId)
+            //    .Except(files.Select(f => f.FolderRelativeId))
+            //    .Except(folders.Select(f => f.FolderRelativeId))
+            //    .ToArray();
+
+            //foreach (var file in addedFiles)
+            //{
+            //    var toAdd = files.First(f => f.FolderRelativeId == file);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //    async () =>
+            //    {
+            //        await AddFile(toAdd);
+            //    });
+            //}
+            //foreach (var folder in addedFolders)
+            //{
+            //    var toAdd = folders.First(f => f.FolderRelativeId == folder);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //    async () =>
+            //    {
+            //        await AddFolder(toAdd);
+            //    });
+            //}
+            //foreach (var item in removedFilesAndFolders)
+            //{
+            //    var toRemove = _filesAndFolders.First(f => f.FolderRelativeId == item);
+            //    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            //    () =>
+            //    {
+            //        RemoveFileOrFolder(toRemove);
+            //    });
+            //}
+
 
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-            () =>
+            async () =>
             {
+                await RefreshItems();
                 LoadIndicator.IsVisible = Visibility.Collapsed;
             });
 
