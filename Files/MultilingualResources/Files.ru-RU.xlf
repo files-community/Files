@@ -634,10 +634,6 @@
           <source>Set as lockscreen background</source>
           <target state="translated">Применить как фон экрана блокировки</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground" translate="yes" xml:space="preserve">
-          <source>Set as lockscreen background</source>
-          <target state="new">Set as lockscreen background</target>
-        </trans-unit>
       </group>
     </body>
   </file>
