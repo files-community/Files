@@ -242,7 +242,7 @@ namespace Files.Views.Pages
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser) 
-                || App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum);
+                || App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) || App.CurrentInstance.CurrentPageType == typeof(TilesBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
             {
