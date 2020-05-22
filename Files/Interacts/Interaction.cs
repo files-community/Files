@@ -37,6 +37,7 @@ using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
 using Files.Helpers;
 using Windows.UI.Xaml.Data;
+using Windows.Foundation.Collections;
 
 namespace Files.Interacts
 {
@@ -137,10 +138,13 @@ namespace Files.Interacts
 
             var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
 
-            localSettings.Values["Application"] = terminal.Path;
-            localSettings.Values["Arguments"] = String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory);
-
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Application", terminal.Path);
+                value.Add("Arguments", String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                await App.Connection.SendMessageAsync(value);
+            }
         }
 
         public async void PinItem_Click(object sender, RoutedEventArgs e)
@@ -232,17 +236,25 @@ namespace Files.Interacts
         public static async Task InvokeWin32Component(string ApplicationPath)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
-            ApplicationData.Current.LocalSettings.Values["Application"] = ApplicationPath;
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = null;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Application", ApplicationPath);
+                value.Add("Arguments", null);
+                await App.Connection.SendMessageAsync(value);
+            }
         }
 
         public static async Task OpenShellCommandInExplorer(string shellCommand)
         {
             Debug.WriteLine("Launching shell command in FullTrustProcess");
-            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("ShellCommand", shellCommand);
+                value.Add("Arguments", "ShellCommand");
+                await App.Connection.SendMessageAsync(value);
+            }
         }
 
         public async void GrantAccessPermissionHandler(IUICommand command)
@@ -732,6 +744,13 @@ namespace Files.Interacts
 
         public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
+            if (destinationPath.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Cannot copy/paste to recycle bin
+                // TODO: do this the right way (customize contextmenu, ...)
+                return;
+            }
+
             itemsToPaste = await packageView.GetStorageItemsAsync();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
@@ -943,9 +962,13 @@ namespace Files.Interacts
                     var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
 
                     Debug.WriteLine("Toggle QuickLook");
-                    ApplicationData.Current.LocalSettings.Values["path"] = clickedOnItem.ItemPath;
-                    ApplicationData.Current.LocalSettings.Values["Arguments"] = "ToggleQuickLook";
-                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet();
+                        value.Add("path", clickedOnItem.ItemPath);
+                        value.Add("Arguments", "ToggleQuickLook");
+                        await App.Connection.SendMessageAsync(value);
+                    }
                 }
             }
             catch (FileNotFoundException)

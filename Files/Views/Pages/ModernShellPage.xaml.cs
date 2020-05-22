@@ -130,6 +130,11 @@ namespace Files.Views.Pages
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
+                case "RecycleBin":
+                    NavigationPath = App.AppSettings.RecycleBinPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
+                    break;
+
                 case "OneDrive":
                     NavigationPath = App.AppSettings.OneDrivePath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
@@ -140,6 +145,10 @@ namespace Files.Views.Pages
                     {
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                    }
+                    else if (NavParams.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        NavigationPath = NavParams;
                     }
                     else
                     {

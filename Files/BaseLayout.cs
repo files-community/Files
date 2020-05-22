@@ -1,6 +1,5 @@
 using Files.Filesystem;
 using Files.Interacts;
-using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -157,7 +156,9 @@ namespace Files
             AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
 
-            if (App.CurrentInstance.ViewModel.WorkingDirectory == Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory))
+            // pathRoot will be empty on recycle bin path
+            string pathRoot = Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory);
+            if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.ViewModel.WorkingDirectory == pathRoot)
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             }

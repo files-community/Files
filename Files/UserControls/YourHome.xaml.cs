@@ -145,6 +145,11 @@ namespace Files
                 {
                     // Skip item until consent is provided
                 }
+                catch (COMException ex)
+                {
+                    mostRecentlyUsed.Remove(mruToken);
+                    System.Diagnostics.Debug.WriteLine(ex);
+                }
             }
 
             if (recentItemsCollection.Count == 0)
@@ -257,8 +262,12 @@ namespace Files
                     NavigationPath = App.AppSettings.MusicPath;
                     break;
 
-                case ("Videos"):
+                case "Videos":
                     NavigationPath = App.AppSettings.VideosPath;
+                    break;
+
+                case "RecycleBin":
+                    NavigationPath = App.AppSettings.RecycleBinPath;
                     break;
             }
 

@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
+<Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" 
+         xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"          
+         xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities" 
+         xmlns:desktop4="http://schemas.microsoft.com/appx/manifest/desktop/windows10/4" 
+         xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10" 
+         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" 
+         xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+         xmlns:uap4="http://schemas.microsoft.com/appx/manifest/uap/windows10/4"
+         xmlns:uap5="http://schemas.microsoft.com/appx/manifest/uap/windows10/5" 
+         IgnorableNamespaces="uap uap5 mp rescap desktop4 desktop">
 	<Identity Name="FilesUWPDev" Publisher="CN=53EC4384-7F5B-4CF6-8C23-513FFE9D1AB7" Version="0.9.0.0" />
 	<Properties>
 		<DisplayName>Files UWP - Dev</DisplayName>
@@ -26,11 +35,14 @@
 				<uap:SplashScreen Image="Assets\SplashScreen.png" uap5:Optional="true" />
 			</uap:VisualElements>
 			<Extensions>
-				<desktop:Extension Category="windows.fullTrustProcess" Executable="Files.Launcher\ProcessLauncher.exe">
+        <uap:Extension Category="windows.appService" EntryPoint="MessageRelay.StartupTask">
+          <uap3:AppService Name="FilesInteropService" uap4:SupportsMultipleInstances="false"/>
+        </uap:Extension>
+				<desktop:Extension Category="windows.fullTrustProcess" Executable="Files.Launcher\FilesFullTrust.exe">
 					<desktop:FullTrustProcess>
-						<desktop:ParameterGroup GroupId="DesktopAppExeGroup" Parameters="/DesktopApp"/>
+						<!--<desktop:ParameterGroup GroupId="DesktopAppExeGroup" Parameters="/DesktopApp"/>
 						<desktop:ParameterGroup GroupId="TerminalGroup" Parameters="/Terminal"/>
-						<desktop:ParameterGroup GroupId="UserFolderPathsGroup" Parameters="/DetectUserPaths"/>
+						<desktop:ParameterGroup GroupId="UserFolderPathsGroup" Parameters="/DetectUserPaths"/>-->
 					</desktop:FullTrustProcess>
 				</desktop:Extension>
 				<uap:Extension Category="windows.protocol">

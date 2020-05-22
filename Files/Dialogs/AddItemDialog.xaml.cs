@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs
@@ -54,6 +53,10 @@ namespace Files.Dialogs
             if (TabInstance.ContentPage != null)
             {
                 currentPath = TabInstance.ViewModel.WorkingDirectory;
+            }
+            if (currentPath.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                return; // Cannot create files in RecycleBin
             }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();

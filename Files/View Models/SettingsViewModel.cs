@@ -13,7 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -55,8 +55,16 @@ namespace Files.View_Models
         public async void DetectQuickLook()
         {
             // Detect QuickLook
-            localSettings.Values["Arguments"] = "StartupTasks";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "StartupTasks");
+                await App.Connection.SendMessageAsync(value);                
+            }
+            else
+            {
+                App.AppServiceConnected += DetectQuickLook;
+            }
         }
 
         private void PinSidebarLocationItems()
@@ -74,6 +82,9 @@ namespace Files.View_Models
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
+            // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
+            // TODO: the very first time the app is launched the value is empty
+            App.sideBarItems.Add(new LocationItem { Text = (string)localSettings.Values["RecycleBin_Title"], Glyph = "\uE74D", IsDefaultLocation = true, Path = RecycleBinPath });
         }
 
         public List<string> LinesToRemoveFromFile = new List<string>();
@@ -395,6 +406,10 @@ namespace Files.View_Models
             }
         }
 
+        // Any distinguishable path here is fine
+        // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
+        public string RecycleBinPath = @"Shell:RecycleBinFolder";
+
         public string DesktopPath = UserDataPaths.GetDefault().Desktop;
 
         public string DocumentsPath = UserDataPaths.GetDefault().Documents;
@@ -634,6 +649,7 @@ namespace Files.View_Models
 
         public void Dispose()
         {
+            App.AppServiceConnected -= DetectQuickLook;
             DrivesManager.Dispose();
         }
 

@@ -1,9 +1,7 @@
 ﻿using Files.CommandLine;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
-using Windows.Storage;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 
 namespace Files
@@ -43,10 +41,14 @@ namespace Files
         public static async Task OpenShellCommandInExplorer(string shellCommand, int pid)
         {
             System.Diagnostics.Debug.WriteLine("Launching shell command in FullTrustProcess");
-            ApplicationData.Current.LocalSettings.Values["ShellCommand"] = shellCommand;
-            ApplicationData.Current.LocalSettings.Values["Arguments"] = "ShellCommand";
-            ApplicationData.Current.LocalSettings.Values["pid"] = pid;
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("ShellCommand", shellCommand);
+                value.Add("Arguments", "ShellCommand");
+                value.Add("pid", pid);
+                await App.Connection.SendMessageAsync(value);
+            }
         }
     }
 }

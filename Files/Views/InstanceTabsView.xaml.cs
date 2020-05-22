@@ -2,12 +2,14 @@
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -130,6 +132,11 @@ namespace Files
                 {
                     tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
                     fontIconSource.Glyph = "\xE8B2";
+                }
+                else if (path.StartsWith(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    tabLocationHeader = "Recycle Bin";
+                    fontIconSource.Glyph = "\xE74D";
                 }
                 else if (App.AppSettings.OneDrivePath != null && path.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
                 {
@@ -260,6 +267,11 @@ namespace Files
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
                 fontIconSource.Glyph = "\xE8B2";
+            }
+            else if (currentPathForTabIcon.StartsWith(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                tabLocationHeader = "Recycle Bin";
+                fontIconSource.Glyph = "\xE74D";
             }
             else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
             {
