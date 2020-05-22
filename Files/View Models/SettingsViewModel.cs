@@ -35,6 +35,7 @@ namespace Files.View_Models
             DetectDateTimeFormat();
             PinSidebarLocationItems();
             DetectQuickLook();
+            DetectGridViewSize();
 
             DrivesManager = new DrivesManager();
 
@@ -500,9 +501,36 @@ namespace Files.View_Models
 
         public event EventHandler LayoutModeChangeRequested;
 
-        public RelayCommand ToggleLayoutModeGridView => new RelayCommand(() =>
+        public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
         {
-            LayoutMode = 1; // Grid View
+            LayoutMode = 2; // Grid View
+
+            GridViewSize = 375; // Size
+
+            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+        });
+
+        public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
+        {
+            LayoutMode = 2; // Grid View
+
+            GridViewSize = 250; // Size
+
+            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+        });
+
+        public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
+        {
+            LayoutMode = 2; // Grid View
+
+            GridViewSize = 125; // Size
+
+            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+        });
+
+        public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
+        {
+            LayoutMode = 1; // Tiles View
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
@@ -513,6 +541,76 @@ namespace Files.View_Models
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
+
+        private void DetectGridViewSize()
+        {
+            _GridViewSize = Get(125, "GridViewSize"); // Get GridView Size
+        }
+
+        private int _GridViewSize = 125; // Default Size 
+
+        public int GridViewSize
+        {
+            get => _GridViewSize;
+            set
+            {
+                if (value < _GridViewSize) // Size down
+                {
+                    if (LayoutMode == 1) // Size down from tiles to list
+                    {
+                        LayoutMode = 0;
+                        Set(0, "LayoutMode");
+                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+                    }
+                    else if (LayoutMode == 2 && value < 125) // Size down from grid to tiles
+                    {
+                        LayoutMode = 1;
+                        Set(1, "LayoutMode");
+                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+                    }
+                    else if (LayoutMode != 0) // Resize grid view
+                    {
+                        _GridViewSize = (value >= 125) ? value : 125; // Set grid size to allow immediate UI update
+                        Set(value);
+
+                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
+                        {
+                            LayoutMode = 2;
+                            Set(2, "LayoutMode");
+                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+                        }
+
+                        GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+                else // Size up
+                {
+                    if (LayoutMode == 0) // Size up from list to tiles
+                    {
+                        LayoutMode = 1;
+                        Set(1, "LayoutMode");
+                        LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+                    }
+                    else // Size up from tiles to grid
+                    {
+                        _GridViewSize = (LayoutMode == 1) ? 125 : (value <= 375) ? value : 375; // Set grid size to allow immediate UI update
+                        Set(_GridViewSize);
+
+                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
+                        {
+                            LayoutMode = 2;
+                            Set(2, "LayoutMode");
+                            LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
+                        }
+
+                        if (value < 375) // Don't request a grid resize if it is already at the max size (375)
+                            GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+            }
+        }
+
+        public event EventHandler GridViewSizeChangeRequested;
 
         public void Dispose()
         {

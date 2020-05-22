@@ -14,7 +14,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     PointerReleased="GenericItemView_PointerReleased"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    PointerWheelChanged="BaseLayout_PointerWheelChanged">
 
     <local:BaseLayout.Resources>
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
@@ -287,6 +288,9 @@
         x:Name="RootGrid"
         Background="Transparent"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="{ x:Bind plusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
+        </Grid.KeyboardAccelerators>
         <ProgressBar
             x:Name="progBar"
             Height="10"

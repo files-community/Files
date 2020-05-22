@@ -158,6 +158,9 @@
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />
+    <Compile Include="UserControls\LayoutModes\TilesBrowser.xaml.cs">
+      <DependentUpon>TilesBrowser.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
     <Compile Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
@@ -266,6 +269,8 @@
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon.svg" />
+    <Content Include="Assets\GridViewLarge.png" />
+    <Content Include="Assets\GridViewSmall.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -355,6 +360,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\LayoutModes\TilesBrowser.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

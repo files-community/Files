@@ -1,8 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.View_Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -155,6 +153,10 @@ namespace Files.Views.Pages
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
                 }
+                else if (App.AppSettings.LayoutMode == 1) // Tiles View
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(TilesBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
+                }
                 else
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
@@ -177,6 +179,20 @@ namespace Files.Views.Pages
                     FrameworkElement element = (ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem);
                     if (element != null)
                         element.Opacity = 1;
+                }
+            }
+            else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
+            {
+                // Reset Photo Grid items that may be in "cut" command mode
+                foreach (ListedItem listedItem in (ItemDisplayFrame.Content as TilesBrowser).FileList.Items)
+                {
+                    List<Grid> itemContentGrids = new List<Grid>();
+                    GridViewItem gridViewItem = (ItemDisplayFrame.Content as TilesBrowser).FileList.ContainerFromItem(listedItem) as GridViewItem;
+                    if (gridViewItem == null)
+                        return;
+                    Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
+                    var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+                    imageOfItem.Opacity = 1;
                 }
             }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))

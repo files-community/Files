@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -141,6 +142,10 @@ namespace Files
                 if (App.AppSettings.LayoutMode == 0)
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
+                }
+                else if (App.AppSettings.LayoutMode == 1)
+                {
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(TilesBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
                 }
                 else
                 {
@@ -376,5 +381,41 @@ namespace Files
                 }
             }
         }
+
+        // VirtualKey doesn't support / accept plus and minus by default.
+        public readonly VirtualKey plusKey = (VirtualKey)187;
+        public readonly VirtualKey minusKey = (VirtualKey)189;
+
+        public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            App.AppSettings.GridViewSize = App.AppSettings.GridViewSize + 25; // Make Larger
+            if (args != null)
+                args.Handled = true;
+        }
+
+        public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            App.AppSettings.GridViewSize = App.AppSettings.GridViewSize - 25; // Make Smaller
+            if (args != null)
+                args.Handled = true;
+        }
+
+        public void BaseLayout_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+                {
+                    GridViewSizeDecrease(null, null);
+                }
+                else // Mouse wheel up
+                {
+                    GridViewSizeIncrease(null, null);
+                }
+
+                e.Handled = true;
+            }
+        }
+
     }
 }

@@ -11,13 +11,11 @@ using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
-    public sealed partial class PhotoAlbum : BaseLayout
+    public sealed partial class TilesBrowser : BaseLayout
     {
-        public PhotoAlbum()
+        public TilesBrowser()
         {
             this.InitializeComponent();
-
-            App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
         }
 
         protected override void SetSelectedItemOnUi(ListedItem selectedItem)
@@ -73,7 +71,7 @@ namespace Files
             FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void PhotoAlbumViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void TileBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
@@ -93,7 +91,7 @@ namespace Files
         {
             renamingItem = FileList.SelectedItem as ListedItem;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
-            StackPanel stackPanel = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel;
+            StackPanel stackPanel = ((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as StackPanel;
             TextBlock textBlock = stackPanel.Children[0] as TextBlock;
             TextBox textBox = stackPanel.Children[1] as TextBox;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
@@ -194,7 +192,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
+                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, 80);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
 
@@ -233,33 +231,6 @@ namespace Files
                 FileList.SelectedItems.Add(listedItem);
                 FileList.SelectedItem = listedItem;
             }
-        }
-
-        private uint _iconSize = UpdateGridViewThumbnailSize();
-
-        private static uint UpdateGridViewThumbnailSize()
-        {
-            if (App.AppSettings.GridViewSize < 200)
-            {
-                return 80; // Small thumbnail
-            }
-            else if (App.AppSettings.GridViewSize < 275)
-            {
-                return 120; // Medium thumbnail
-            }
-            else if (App.AppSettings.GridViewSize < 325)
-            {
-                return 160; // Large thumbnail
-            }
-            else
-            {
-                return 240; // Extra large thumbnail
-            }
-        }
-
-        private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
-        {
-            _iconSize = UpdateGridViewThumbnailSize(); // Update thumbnail size
         }
 
     }

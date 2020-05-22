@@ -241,6 +241,10 @@ namespace Files.UserControls
                         {
                             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
                         }
+                        else if (App.AppSettings.LayoutMode == 1) // Tiles View
+                        {
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(TilesBrowser), CurrentInput);
+                        }
                         else
                         {
                             App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), CurrentInput); // navigate to folder
@@ -316,6 +320,10 @@ namespace Files.UserControls
             if (App.AppSettings.LayoutMode == 0) // List View
             {
                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath); // navigate to folder
+            }
+            else if (App.AppSettings.LayoutMode == 1) // Grid View
+            {
+                App.CurrentInstance.ContentFrame.Navigate(typeof(TilesBrowser), itemTappedPath); // navigate to folder
             }
             else
             {
