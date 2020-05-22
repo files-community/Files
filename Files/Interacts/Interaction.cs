@@ -435,11 +435,15 @@ namespace Files.Interacts
             }
         }
 
-        public void CloseTab()
+        public async void CloseTab()
         {
             if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
+                IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
+                var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+                await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
+                //Application.Current.Exit();
             }
             else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
             {

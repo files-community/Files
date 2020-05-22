@@ -3,12 +3,14 @@ using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -401,7 +403,7 @@ namespace Files
             args.Handled = true;
         }
 
-        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private async void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             var InvokedTabView = (args.Element as TabView);
 
@@ -410,7 +412,11 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    Application.Current.Exit();
+                    IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
+                    IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
+                    var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;                    
+                    await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
+                    //Application.Current.Exit();
                 }
                 else
                 {
@@ -478,11 +484,15 @@ namespace Files
             }
         }
 
-        private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
+        private async void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
+                IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
+                var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+                await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
+                //Application.Current.Exit();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
