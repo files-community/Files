@@ -172,7 +172,7 @@ namespace Files
         {
             if (App.CurrentInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
+                if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
                     if (focusedElement is TextBox)

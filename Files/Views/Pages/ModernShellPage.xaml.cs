@@ -331,7 +331,7 @@ namespace Files.Views.Pages
                     //    break;
             };
 
-            if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) || App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
             {
                 switch (e.Key)
                 {
