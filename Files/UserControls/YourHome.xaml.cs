@@ -237,7 +237,7 @@ namespace Files
                 {
                     foreach (DriveItem drive in App.AppSettings.DrivesManager.Drives)
                     {
-                        if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
+                        if (drive.Path.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
                             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
                             return;

@@ -55,12 +55,28 @@ namespace Files.Filesystem
                 {
                     _WorkingDirectory = value;
 
-                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-                    if (App.CurrentInstance.SidebarSelectedItem == null)
+                    INavigationControlItem item = null;
+                    List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+                    if (item == null)
                     {
-                        App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+                    }
+                    if (item == null)
+                    {
+                        item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+                    }
+                    if (item == null)
+                    {
+                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
                     }
 
+                    if (App.CurrentInstance.SidebarSelectedItem != item)
+                    {
+                        App.CurrentInstance.SidebarSelectedItem = item;
+                    }
+                    
                     NotifyPropertyChanged("WorkingDirectory");
                 }
             }

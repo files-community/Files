@@ -334,6 +334,8 @@ namespace Files.View_Models
             set => Set(ref _FormFactor, value);
         }
 
+        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
+
         private void DetectOneDrivePreference()
         {
             if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
@@ -373,7 +375,7 @@ namespace Files.View_Models
                         var oneDriveItem = new DriveItem()
                         {
                             Text = "OneDrive",
-                            Tag = "OneDrive",
+                            Path = OneDrivePath,
                             Type = Filesystem.DriveType.VirtualDrive,
                         };
                         App.sideBarItems.Add(oneDriveItem);
@@ -404,8 +406,6 @@ namespace Files.View_Models
         public string MusicPath = UserDataPaths.GetDefault().Music;
 
         public string VideosPath = UserDataPaths.GetDefault().Videos;
-
-        public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
 
         private string _TempPath = (string)Microsoft.Win32.Registry.GetValue(@"HKEY_CURRENT_USER\Environment", "TEMP", null);
 
