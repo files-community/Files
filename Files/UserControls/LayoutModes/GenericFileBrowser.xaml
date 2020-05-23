@@ -290,6 +290,7 @@
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="{ x:Bind plusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
+            <KeyboardAccelerator Key="Add" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
         </Grid.KeyboardAccelerators>
         <ProgressBar
             x:Name="progBar"

@@ -473,6 +473,8 @@
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator Key="{ x:Bind plusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
             <KeyboardAccelerator Key="{ x:Bind minusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeDecrease}"  />
+            <KeyboardAccelerator Key="Add" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
+            <KeyboardAccelerator Key="Subtract" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeDecrease}"  />
         </Grid.KeyboardAccelerators>
         <ProgressBar
             Name="ProgBar"
