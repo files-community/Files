@@ -278,7 +278,7 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <DataTemplate x:Key="PhotoAlbum" x:DataType="local2:ListedItem">
+        <DataTemplate x:Name="PhotoAlbumTemplate" x:DataType="local2:ListedItem">
             <Grid
                 Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                 Height="Auto"
@@ -358,7 +358,7 @@
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="TilesBrowser"  x:DataType="local2:ListedItem">
+        <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
                 Width="360"
                 Height="125"
@@ -464,10 +464,6 @@
             </Grid>
         </DataTemplate>
 
-        <local:LayoutDataTemplateSelector x:Key="LayoutDataTemplateSelector"
-            TilesBrowser="{StaticResource TilesBrowser}"
-            PhotoAlbum="{StaticResource PhotoAlbum}"/>
-
     </local:BaseLayout.Resources>
 
     <Grid
@@ -510,8 +506,7 @@
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders}"
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
-            SelectionMode="Extended"
-            ItemTemplateSelector="{StaticResource LayoutDataTemplateSelector}">
+            SelectionMode="Extended">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />

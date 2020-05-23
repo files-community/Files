@@ -17,7 +17,28 @@ namespace Files
         {
             this.InitializeComponent();
 
-            App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        {
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void SetItemTemplate()
+        {
+            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : PhotoAlbumTemplate; // Choose Template
+
+            // Set GridViewSize event handlers
+            if (App.AppSettings.LayoutMode == 1)
+                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            else if (App.AppSettings.LayoutMode == 2)
+            {
+                _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
+                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+            }
         }
 
         protected override void SetSelectedItemOnUi(ListedItem selectedItem)
@@ -254,27 +275,18 @@ namespace Files
 
         private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
-            _iconSize = UpdateThumbnailSize(); // Update thumbnail size
-            NavigationActions.Refresh_Click(null, null); // Refresh icons
-        }
+            var iconSize = UpdateThumbnailSize(); // Get new icon size
 
-    }
-
-    public class LayoutDataTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate TilesBrowser { get; set; }
-        public DataTemplate PhotoAlbum { get; set; }
-
-        protected override DataTemplate SelectTemplateCore(object item)
-        {
-            if (App.AppSettings.LayoutMode == 1)
+            // Prevents reloading icons when the icon size hasn't changed
+            if (iconSize != _iconSize)
             {
-                return TilesBrowser;
+                _iconSize = iconSize; // Update icon size before refreshing
+                NavigationActions.Refresh_Click(null, null); // Refresh icons
             }
             else
-            {
-                return PhotoAlbum;
-            }
+                _iconSize = iconSize; // Update icon size
         }
+
     }
+
 }
