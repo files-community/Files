@@ -112,10 +112,6 @@ namespace Files.Controls
             {
                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
             }
-            else if (App.AppSettings.LayoutMode == 1) // Tiles View
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(TilesBrowser), NavigationPath, null);
-            }
             else // Grid View
             {
                 App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
