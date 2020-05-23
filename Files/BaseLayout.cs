@@ -143,10 +143,6 @@ namespace Files
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
                 }
-                else if (App.AppSettings.LayoutMode == 1)
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(TilesBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
-                }
                 else
                 {
                     App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.WorkingDirectory, null);

@@ -17,7 +17,28 @@ namespace Files
         {
             this.InitializeComponent();
 
-            App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        {
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void SetItemTemplate()
+        {
+            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : PhotoAlbumTemplate; // Choose Template
+
+            // Set GridViewSize event handlers
+            if (App.AppSettings.LayoutMode == 1)
+                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            else if (App.AppSettings.LayoutMode == 2)
+            {
+                _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
+                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+            }
         }
 
         protected override void SetSelectedItemOnUi(ListedItem selectedItem)
@@ -93,7 +114,10 @@ namespace Files
         {
             renamingItem = FileList.SelectedItem as ListedItem;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
-            StackPanel stackPanel = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel;
+            // Handle layout differences between tiles browser and photo album
+            StackPanel stackPanel = (App.AppSettings.LayoutMode == 2)
+                ? (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel
+                : ((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as StackPanel;
             TextBlock textBlock = stackPanel.Children[0] as TextBlock;
             TextBox textBox = stackPanel.Children[1] as TextBox;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
@@ -235,32 +259,34 @@ namespace Files
             }
         }
 
-        private uint _iconSize = UpdateGridViewThumbnailSize();
+        private uint _iconSize = UpdateThumbnailSize();
 
-        private static uint UpdateGridViewThumbnailSize()
+        private static uint UpdateThumbnailSize()
         {
-            if (App.AppSettings.GridViewSize < 200)
-            {
+            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)
                 return 80; // Small thumbnail
-            }
             else if (App.AppSettings.GridViewSize < 275)
-            {
                 return 120; // Medium thumbnail
-            }
             else if (App.AppSettings.GridViewSize < 325)
-            {
                 return 160; // Large thumbnail
-            }
             else
-            {
                 return 240; // Extra large thumbnail
-            }
         }
 
         private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
         {
-            _iconSize = UpdateGridViewThumbnailSize(); // Update thumbnail size
+            var iconSize = UpdateThumbnailSize(); // Get new icon size
+
+            // Prevents reloading icons when the icon size hasn't changed
+            if (iconSize != _iconSize)
+            {
+                _iconSize = iconSize; // Update icon size before refreshing
+                NavigationActions.Refresh_Click(null, null); // Refresh icons
+            }
+            else
+                _iconSize = iconSize; // Update icon size
         }
 
     }
+
 }

@@ -243,10 +243,6 @@ namespace Files.Filesystem
                     {
                         previouslySelectedItem = (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem as ListedItem;
                     }
-                    else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-                    {
-                        previouslySelectedItem = (App.CurrentInstance.ContentPage as TilesBrowser).FileList.SelectedItem as ListedItem;
-                    }
                     else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
                         previouslySelectedItem = (App.CurrentInstance.ContentPage as PhotoAlbum).FileList.SelectedItem as ListedItem;
@@ -268,11 +264,6 @@ namespace Files.Filesystem
                         {
                             (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.SelectedItem = jumpedToItem;
                             (App.CurrentInstance.ContentPage as GenericFileBrowser).AllView.ScrollIntoView(jumpedToItem, null);
-                        }
-                        else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-                        {
-                            (App.CurrentInstance.ContentPage as TilesBrowser).FileList.SelectedItem = jumpedToItem;
-                            (App.CurrentInstance.ContentPage as TilesBrowser).FileList.ScrollIntoView(jumpedToItem);
                         }
                         else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                         {
@@ -844,7 +835,7 @@ namespace Files.Filesystem
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
-            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser)) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -988,7 +979,7 @@ namespace Files.Filesystem
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {

@@ -109,16 +109,6 @@ namespace Files.Interacts
                     await Launcher.LaunchUriAsync(folderUri);
                 }
             }
-            else if (CurrentSourceType == typeof(TilesBrowser))
-            {
-                var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
-                foreach (ListedItem listedItem in items)
-                {
-                    var selectedItemPath = listedItem.ItemPath;
-                    var folderUri = new Uri("files-uwp:" + "?folder=" + @selectedItemPath);
-                    await Launcher.LaunchUriAsync(folderUri);
-                }
-            }
             else if (CurrentSourceType == typeof(PhotoAlbum))
             {
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
@@ -565,22 +555,6 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-            {
-                foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
-                {
-                    if (li.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    {
-                        var folderAsItem = await StorageFolder.GetFolderFromPathAsync(li.ItemPath);
-                        items.Add(folderAsItem);
-                    }
-                    else
-                    {
-                        var fileAsItem = await StorageFile.GetFileFromPathAsync(li.ItemPath);
-                        items.Add(fileAsItem);
-                    }
-                }
-            }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
                 foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
@@ -722,11 +696,6 @@ namespace Files.Interacts
                     fileBrowser.AllView.CurrentColumn = fileBrowser.AllView.Columns[1];
                 fileBrowser.AllView.BeginEdit();
             }
-            else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-            {
-                var photoAlbum = App.CurrentInstance.ContentPage as TilesBrowser;
-                photoAlbum.StartRename();
-            }
             else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
             {
                 var photoAlbum = App.CurrentInstance.ContentPage as PhotoAlbum;
@@ -823,16 +792,6 @@ namespace Files.Interacts
                         if (element != null)
                             element.Opacity = 1;
                     }
-                    else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-                    {
-                        List<Grid> itemContentGrids = new List<Grid>();
-                        GridViewItem gridViewItem = (CurrentInstance.ContentPage as TilesBrowser).FileList.ContainerFromItem(listedItem) as GridViewItem;
-                        if (gridViewItem == null)
-                            continue;
-                        FindChildren<Grid>(itemContentGrids, gridViewItem);
-                        var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-                        imageOfItem.Opacity = 1;
-                    }
                     else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
                         List<Grid> itemContentGrids = new List<Grid>();
@@ -851,14 +810,6 @@ namespace Files.Interacts
                     if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                     {
                         (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem).Opacity = 0.4;
-                    }
-                    else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-                    {
-                        GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as TilesBrowser).FileList.ContainerFromItem(listedItem);
-                        List<Grid> itemContentGrids = new List<Grid>();
-                        FindChildren<Grid>(itemContentGrids, itemToDimForCut);
-                        var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-                        imageOfItem.Opacity = 0.4;
                     }
                     else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
                     {
@@ -900,27 +851,6 @@ namespace Files.Interacts
             if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
             {
                 var CurrentInstance = App.CurrentInstance;
-                CopySourcePath = CurrentInstance.ViewModel.WorkingDirectory;
-
-                if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
-                {
-                    foreach (ListedItem StorItem in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
-                    {
-                        if (StorItem.PrimaryItemAttribute == StorageItemTypes.File)
-                        {
-                            var item = await StorageFile.GetFileFromPathAsync(StorItem.ItemPath);
-                            items.Add(item);
-                        }
-                        else
-                        {
-                            var item = await StorageFolder.GetFolderFromPathAsync(StorItem.ItemPath);
-                            items.Add(item);
-                        }
-                    }
-                }
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(TilesBrowser))
-            {
                 CopySourcePath = CurrentInstance.ViewModel.WorkingDirectory;
 
                 if ((CurrentInstance.ContentPage as BaseLayout).SelectedItems.Count != 0)
