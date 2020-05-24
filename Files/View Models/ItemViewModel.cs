@@ -852,7 +852,8 @@ namespace Files.Filesystem
                     systemTimeOutput.Hour,
                     systemTimeOutput.Minute,
                     systemTimeOutput.Second,
-                    systemTimeOutput.Milliseconds);
+                    systemTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
                 //var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
                 //var typeText = resourceLoader.GetString("Folder");
@@ -905,7 +906,8 @@ namespace Files.Filesystem
                 systemTimeOutput.Hour,
                 systemTimeOutput.Minute,
                 systemTimeOutput.Second,
-                systemTimeOutput.Milliseconds);
+                systemTimeOutput.Milliseconds,
+                DateTimeKind.Utc);
             long fDataFSize = findData.nFileSizeLow;
             long fileSize;
             if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
