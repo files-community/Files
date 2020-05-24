@@ -266,8 +266,7 @@
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon.svg" />
-    <Content Include="Assets\GridViewLarge.png" />
-    <Content Include="Assets\GridViewSmall.png" />
+    <Content Include="Assets\FolderIconLarge.svg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />

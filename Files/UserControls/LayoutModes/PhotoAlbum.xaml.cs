@@ -33,7 +33,9 @@ namespace Files
 
             // Set GridViewSize event handlers
             if (App.AppSettings.LayoutMode == 1)
+            {
                 App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            }
             else if (App.AppSettings.LayoutMode == 2)
             {
                 _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
@@ -117,7 +119,7 @@ namespace Files
             // Handle layout differences between tiles browser and photo album
             StackPanel stackPanel = (App.AppSettings.LayoutMode == 2)
                 ? (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel
-                : ((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as StackPanel;
+                : (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
             TextBlock textBlock = stackPanel.Children[0] as TextBlock;
             TextBox textBox = stackPanel.Children[1] as TextBox;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
@@ -286,7 +288,6 @@ namespace Files
             else
                 _iconSize = iconSize; // Update icon size
         }
-
     }
 
 }

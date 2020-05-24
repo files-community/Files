@@ -311,15 +311,17 @@
                     </Grid>
                     <Image
                         x:Name="FolderGlyph"
+                        x:Load="{x:Bind LoadFolderGlyph}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
-                                RasterizePixelHeight="128"
-                                RasterizePixelWidth="128"
-                                UriSource="/Assets/FolderIcon.svg" />
+                                RasterizePixelHeight="638"
+                                RasterizePixelWidth="900"
+                                UriSource="/Assets/FolderIconLarge.svg" />
                         </Image.Source>
                     </Image>
                     <Grid
@@ -360,8 +362,8 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="360"
-                Height="125"
+                Width="250"
+                Height="100"
                 Margin="0,0,0,0"
                 Padding="0"
                 HorizontalAlignment="Stretch"
@@ -378,8 +380,8 @@
                 <StackPanel Orientation="Horizontal">
                     <Grid
                         Height="Auto"
-                        MinHeight="125"
-                        Width="125"
+                        MinHeight="100"
+                        Width="100"
                         Tag="ItemImage">
                         <Grid
                             x:Name="Picture"
@@ -387,7 +389,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                            Width="100">
+                            Width="74">
                             <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
                         </Grid>
                         <Image
@@ -396,13 +398,13 @@
                             VerticalAlignment="Stretch"
                             x:Load="{x:Bind LoadFolderGlyph}"
                             Stretch="Uniform"
-                            Width="100"
-                            Height="100">
+                            Width="74"
+                            Height="74">
                             <Image.Source>
                                 <SvgImageSource
                                     RasterizePixelHeight="128"
                                     RasterizePixelWidth="128"
-                                    UriSource="/Assets/FolderIcon.svg" />
+                                    UriSource="/Assets/FolderIcon.svg"/>
                             </Image.Source>
                         </Image>
                         <Grid
@@ -410,56 +412,57 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                            Width="100">
+                            Width="74">
                             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
-                                    FontSize="100"
+                                    FontSize="74"
                                     Glyph="&#xE7C3;" />
                             </Grid>
                         </Grid>
                     </Grid>
-                    <StackPanel
-                        Height="125">
-                        <TextBlock
-                            Margin="0,12,0,0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalTextAlignment="Left"
-                            Text="{x:Bind ItemName}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="Wrap"
-                            Width="235"
-                            Height="Auto"
-                            MaxHeight="75"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
-                        <TextBox
-                            Margin="0,12,0,0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            Text="{x:Bind ItemName}"
-                            TextAlignment="Left"
-                            TextWrapping="Wrap"
-                            Width="235"
-                            Visibility="Collapsed"
-                            Height="Auto"
-                            MaxHeight="75"
-                            ScrollViewer.VerticalScrollBarVisibility="Auto" />
-                        <TextBlock
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalTextAlignment="Left"
-                            Text="{x:Bind ItemType}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-                        <TextBlock
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            HorizontalTextAlignment="Left"
-                            Text="{x:Bind FileSize}"
-                            TextTrimming="CharacterEllipsis"
-                            TextWrapping="NoWrap" />
-                    </StackPanel>
+                    <Grid
+                        Height="100"
+                        Width="150">
+                        <StackPanel
+                            VerticalAlignment="Center"
+                            Height="Auto">
+                            <TextBlock
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                TextAlignment="Left"
+                                Text="{x:Bind ItemName}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="Wrap"
+                                Width="140"
+                                Height="Auto"
+                                MaxHeight="50"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                            <TextBox
+                                Margin="0,0,10,0"
+                                HorizontalAlignment="Left"
+                                Text="{x:Bind ItemName}"
+                                TextAlignment="Left"
+                                TextWrapping="Wrap"
+                                Width="140"
+                                Visibility="Collapsed"
+                                Height="Auto"
+                                MaxHeight="50"
+                                ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                TextAlignment="Left"
+                                Text="{x:Bind ItemType}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                TextAlignment="Left"
+                                Text="{x:Bind FileSize}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
+                        </StackPanel>
+                    </Grid>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -467,6 +470,7 @@
     </local:BaseLayout.Resources>
 
     <Grid
+        x:Name="PhotoAlbumGrid"
         Padding="0,0,0,0"
         VerticalAlignment="Stretch"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">

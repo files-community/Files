@@ -205,7 +205,9 @@ namespace Files
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
         {
-            Windows.UI.Xaml.Markup.XamlMarkupHelper.UnloadObject(this.FindName(nameToUnload) as DependencyObject);
+            var menuItem = this.FindName(nameToUnload) as DependencyObject;
+            if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
+                (menuItem as MenuFlyoutItem).Visibility = Visibility.Collapsed;
         }
 
         public void RightClickContextMenu_Opening(object sender, object e)
@@ -228,11 +230,13 @@ namespace Files
                         if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
-                            this.FindName("UnzipItem");
+                            (this.FindName("UnzipItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            //this.FindName("UnzipItem");
                         }
                         else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
-                            this.FindName("OpenItem");
+                            (this.FindName("OpenItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            //this.FindName("OpenItem");
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
                     }
@@ -248,14 +252,18 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenItem");
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
                 {
-                    this.FindName("SidebarPinItem");
-                    this.FindName("OpenInNewTab");
-                    this.FindName("OpenInNewWindowItem");
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewTab") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
+                    //this.FindName("OpenInNewTab");
+                    //this.FindName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
                 else if (selectedFileSystemItems.Count > 5)
                 {
-                    this.FindName("SidebarPinItem");
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");

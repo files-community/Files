@@ -74,11 +74,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
                             Text="Grid View (Large)">
                             <MenuFlyoutItem.Icon>
-                                <BitmapIcon
-                                    UriSource="/Assets/GridViewLarge.png"
-                                    Width="20"
-                                    Height="20"
-                                    ShowAsMonochrome="False" />
+                                <FontIcon Glyph="&#xE71A;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -94,9 +90,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
                             Text="Grid View (Small)">
                             <MenuFlyoutItem.Icon>
-                                <BitmapIcon UriSource="/Assets/GridViewSmall.png"
-                                            Width="20"
-                                            Height="20" />
+                                <FontIcon Glyph="&#xE80A;"/>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
