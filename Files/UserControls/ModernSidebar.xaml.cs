@@ -112,9 +112,9 @@ namespace Files.Controls
             {
                 App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
             }
-            else
+            else // Grid View
             {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
             }
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;

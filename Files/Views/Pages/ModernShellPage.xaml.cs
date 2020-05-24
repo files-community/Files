@@ -1,8 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.View_Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -157,7 +155,7 @@ namespace Files.Views.Pages
                 }
                 else
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
                 }
             }
 
@@ -179,13 +177,13 @@ namespace Files.Views.Pages
                         element.Opacity = 1;
                 }
             }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
                 // Reset Photo Grid items that may be in "cut" command mode
-                foreach (ListedItem listedItem in (ItemDisplayFrame.Content as PhotoAlbum).FileList.Items)
+                foreach (ListedItem listedItem in (ItemDisplayFrame.Content as GridViewBrowser).FileList.Items)
                 {
                     List<Grid> itemContentGrids = new List<Grid>();
-                    GridViewItem gridViewItem = (ItemDisplayFrame.Content as PhotoAlbum).FileList.ContainerFromItem(listedItem) as GridViewItem;
+                    GridViewItem gridViewItem = (ItemDisplayFrame.Content as GridViewBrowser).FileList.ContainerFromItem(listedItem) as GridViewItem;
                     if (gridViewItem == null)
                         return;
                     Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
@@ -226,7 +224,7 @@ namespace Files.Views.Pages
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser) 
-                || App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum);
+                || App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
             {
@@ -315,7 +313,7 @@ namespace Files.Views.Pages
                     //    break;
             };
 
-            if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
                 switch (e.Key)
                 {

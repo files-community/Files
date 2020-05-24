@@ -125,7 +125,11 @@ namespace Files
                     break;
 
                 case 1:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath); // Grid View
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), NavigationPath); // Tiles View
+                    break;
+
+                case 2:
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), NavigationPath); // Grid View
                     break;
             }
         }

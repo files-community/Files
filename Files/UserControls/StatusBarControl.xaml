@@ -70,11 +70,35 @@
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
-                            x:Uid="StatusBarControlGridView"
-                            Command="{x:Bind AppSettings.ToggleLayoutModeGridView}"
-                            Text="Grid View">
+                            x:Uid="StatusBarControlGridViewLarge"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
+                            Text="Grid View (Large)">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE71A;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridViewMedium"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridViewMedium}"
+                            Text="Grid View (Medium)">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xF0E2;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlGridViewSmall"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
+                            Text="Grid View (Small)">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE80A;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Uid="StatusBarControlTilesView"
+                            Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
+                            Text="Tiles View">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xF168;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

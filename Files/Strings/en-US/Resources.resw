@@ -234,9 +234,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>List View</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Grid View</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
@@ -587,5 +584,17 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Set as lockscreen background</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+    <value>Grid View (Large)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+    <value>Grid View (Medium)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+    <value>Grid View (Small)</value>
+  </data>
+  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+    <value>Tiles View</value>
   </data>
 </root>

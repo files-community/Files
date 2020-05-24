@@ -2,22 +2,45 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
-    public sealed partial class PhotoAlbum : BaseLayout
+    public sealed partial class GridViewBrowser : BaseLayout
     {
-        public PhotoAlbum()
+        public GridViewBrowser()
         {
             this.InitializeComponent();
+
+            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
+        {
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void SetItemTemplate()
+        {
+            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+
+            // Set GridViewSize event handlers
+            if (App.AppSettings.LayoutMode == 1)
+            {
+                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            }
+            else if (App.AppSettings.LayoutMode == 2)
+            {
+                _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
+                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+            }
         }
 
         protected override void SetSelectedItemOnUi(ListedItem selectedItem)
@@ -73,7 +96,7 @@ namespace Files
             FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void PhotoAlbumViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
@@ -93,7 +116,10 @@ namespace Files
         {
             renamingItem = FileList.SelectedItem as ListedItem;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
-            StackPanel stackPanel = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel;
+            // Handle layout differences between tiles browser and photo album
+            StackPanel stackPanel = (App.AppSettings.LayoutMode == 2)
+                ? (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel
+                : (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
             TextBlock textBlock = stackPanel.Children[0] as TextBlock;
             TextBox textBox = stackPanel.Children[1] as TextBox;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
@@ -174,7 +200,7 @@ namespace Files
         {
             if (App.CurrentInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
+                if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
                     if (focusedElement is TextBox)
@@ -194,7 +220,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, 80);
+                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
 
@@ -234,5 +260,34 @@ namespace Files
                 FileList.SelectedItem = listedItem;
             }
         }
+
+        private uint _iconSize = UpdateThumbnailSize();
+
+        private static uint UpdateThumbnailSize()
+        {
+            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)
+                return 80; // Small thumbnail
+            else if (App.AppSettings.GridViewSize < 275)
+                return 120; // Medium thumbnail
+            else if (App.AppSettings.GridViewSize < 325)
+                return 160; // Large thumbnail
+            else
+                return 240; // Extra large thumbnail
+        }
+
+        private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
+        {
+            var iconSize = UpdateThumbnailSize(); // Get new icon size
+
+            // Prevents reloading icons when the icon size hasn't changed
+            if (iconSize != _iconSize)
+            {
+                _iconSize = iconSize; // Update icon size before refreshing
+                NavigationActions.Refresh_Click(null, null); // Refresh icons
+            }
+            else
+                _iconSize = iconSize; // Update icon size
+        }
     }
+
 }
