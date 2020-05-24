@@ -18,6 +18,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -397,7 +398,7 @@ namespace Files.Filesystem
             {
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
-
+            watchedItemsOperation.Cancel();
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -609,7 +610,7 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
-                            using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.ListView, thumbnailSize, ThumbnailOptions.UseCurrentScale))
+                            using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
                             {
                                 if (Thumbnail != null)
                                 {
@@ -655,6 +656,8 @@ namespace Files.Filesystem
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
         public IReadOnlyList<IStorageItem> watchedItems = null;
+        private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
+
         public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
@@ -724,7 +727,7 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                await Task.Run(async () => 
+                await Task.Run(() =>
                 {
                     var options = new QueryOptions()
                     {
@@ -735,10 +738,9 @@ namespace Files.Filesystem
                     options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
                     _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
                     _itemQueryResult.ContentsChanged += FileContentsChanged;
-                    watchedItems = await _itemQueryResult.GetItemsAsync();
-
+                    watchedItemsOperation = _itemQueryResult.GetItemsAsync();
+                    watchedItemsOperation.Completed += delegate { watchedItems = watchedItemsOperation.GetResults(); };
                 });
-                
             }
             catch (UnauthorizedAccessException)
             {
@@ -850,7 +852,8 @@ namespace Files.Filesystem
                     systemTimeOutput.Hour,
                     systemTimeOutput.Minute,
                     systemTimeOutput.Second,
-                    systemTimeOutput.Milliseconds);
+                    systemTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
                 //var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
                 //var typeText = resourceLoader.GetString("Folder");
@@ -903,7 +906,8 @@ namespace Files.Filesystem
                 systemTimeOutput.Hour,
                 systemTimeOutput.Minute,
                 systemTimeOutput.Second,
-                systemTimeOutput.Milliseconds);
+                systemTimeOutput.Milliseconds,
+                DateTimeKind.Utc);
             long fDataFSize = findData.nFileSizeLow;
             long fileSize;
             if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
