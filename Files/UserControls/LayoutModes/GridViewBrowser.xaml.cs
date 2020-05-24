@@ -11,9 +11,9 @@ using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
-    public sealed partial class PhotoAlbum : BaseLayout
+    public sealed partial class GridViewBrowser : BaseLayout
     {
-        public PhotoAlbum()
+        public GridViewBrowser()
         {
             this.InitializeComponent();
 
@@ -29,7 +29,7 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : PhotoAlbumTemplate; // Choose Template
+            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
             if (App.AppSettings.LayoutMode == 1)
@@ -96,7 +96,7 @@ namespace Files
             FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void PhotoAlbumViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
@@ -200,7 +200,7 @@ namespace Files
         {
             if (App.CurrentInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
+                if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
                     if (focusedElement is TextBox)

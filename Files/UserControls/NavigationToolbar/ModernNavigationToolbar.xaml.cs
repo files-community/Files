@@ -243,7 +243,7 @@ namespace Files.UserControls
                         }
                         else
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), CurrentInput); // navigate to folder
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), CurrentInput); // navigate to folder
                         }
                     }
                     catch (Exception) // Not a folder or inaccessible
@@ -319,7 +319,7 @@ namespace Files.UserControls
             }
             else
             {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), itemTappedPath); // navigate to folder
+                App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), itemTappedPath); // navigate to folder
             }
         }
     }

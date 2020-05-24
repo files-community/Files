@@ -145,7 +145,7 @@ namespace Files
                 }
                 else
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.WorkingDirectory, null);
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
                 }
             }
         }

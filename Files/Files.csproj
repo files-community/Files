@@ -215,8 +215,8 @@
     <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
-    <Compile Include="UserControls\LayoutModes\PhotoAlbum.xaml.cs">
-      <DependentUpon>PhotoAlbum.xaml</DependentUpon>
+    <Compile Include="UserControls\LayoutModes\GridViewBrowser.xaml.cs">
+      <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
     <Compile Include="Views\Pages\ModernShellPage.xaml.cs">
@@ -407,7 +407,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\LayoutModes\PhotoAlbum.xaml">
+    <Page Include="UserControls\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

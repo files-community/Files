@@ -109,7 +109,7 @@ namespace Files.Interacts
                     await Launcher.LaunchUriAsync(folderUri);
                 }
             }
-            else if (CurrentSourceType == typeof(PhotoAlbum))
+            else if (CurrentSourceType == typeof(GridViewBrowser))
             {
                 var items = (CurrentInstance.ContentPage as BaseLayout).SelectedItems;
                 foreach (ListedItem listedItem in items)
@@ -555,7 +555,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
                 foreach (ListedItem li in (CurrentInstance.ContentPage as BaseLayout).SelectedItems)
                 {
@@ -696,10 +696,10 @@ namespace Files.Interacts
                     fileBrowser.AllView.CurrentColumn = fileBrowser.AllView.Columns[1];
                 fileBrowser.AllView.BeginEdit();
             }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
-                var photoAlbum = App.CurrentInstance.ContentPage as PhotoAlbum;
-                photoAlbum.StartRename();
+                var GridViewBrowser = App.CurrentInstance.ContentPage as GridViewBrowser;
+                GridViewBrowser.StartRename();
             }
         }
 
@@ -792,10 +792,10 @@ namespace Files.Interacts
                         if (element != null)
                             element.Opacity = 1;
                     }
-                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+                    else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
                     {
                         List<Grid> itemContentGrids = new List<Grid>();
-                        GridViewItem gridViewItem = (CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(listedItem) as GridViewItem;
+                        GridViewItem gridViewItem = (CurrentInstance.ContentPage as GridViewBrowser).FileList.ContainerFromItem(listedItem) as GridViewItem;
                         if (gridViewItem == null)
                             continue;
                         FindChildren<Grid>(itemContentGrids, gridViewItem);
@@ -811,9 +811,9 @@ namespace Files.Interacts
                     {
                         (CurrentInstance.ContentPage as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem).Opacity = 0.4;
                     }
-                    else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+                    else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
                     {
-                        GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as PhotoAlbum).FileList.ContainerFromItem(listedItem);
+                        GridViewItem itemToDimForCut = (GridViewItem)(CurrentInstance.ContentPage as GridViewBrowser).FileList.ContainerFromItem(listedItem);
                         List<Grid> itemContentGrids = new List<Grid>();
                         FindChildren<Grid>(itemContentGrids, itemToDimForCut);
                         var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
@@ -870,7 +870,7 @@ namespace Files.Interacts
                     }
                 }
             }
-            else if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
                 CopySourcePath = CurrentInstance.ViewModel.WorkingDirectory;
 
@@ -1062,9 +1062,9 @@ namespace Files.Interacts
                 var page = (CurrentInstance.ContentPage as GenericFileBrowser);
                 selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.AllView.SelectedIndex].ItemPath);
             }
-            else if (CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+            else if (CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
-                var page = (CurrentInstance.ContentPage as PhotoAlbum);
+                var page = (CurrentInstance.ContentPage as GridViewBrowser);
                 selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[page.FileList.SelectedIndex].ItemPath);
             }
 
