@@ -10,8 +10,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     PointerPressed="PhotoAlbumViewer_PointerPressed"
-    mc:Ignorable="d"
-    PointerWheelChanged="BaseLayout_PointerWheelChanged">
+    PointerWheelChanged="BaseLayout_PointerWheelChanged"
+    mc:Ignorable="d">
     <local:BaseLayout.Resources>
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
@@ -199,7 +199,7 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-            x:Name="ShareItem"
+                x:Name="ShareItem"
                 x:Uid="BaseLayoutItemContextFlyoutShare"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                 Text="Share">
@@ -288,8 +288,8 @@
                 DataContext="{x:Bind}"
                 DataContextChanged="FileListGridItem_DataContextChanged"
                 EffectiveViewportChanged="Grid_EffectiveViewportChanged"
-                PointerPressed="FileListGridItem_PointerPressed"
                 IsRightTapEnabled="True"
+                PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
                 Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
@@ -297,16 +297,14 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Grid
-                    Grid.Row="0"
-                    Tag="ItemImage">
+                <Grid Grid.Row="0" Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
+                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         Padding="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Bottom"
-                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
                         <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
                     </Grid>
                     <Image
@@ -326,20 +324,17 @@
                     </Image>
                     <Grid
                         x:Name="TypeUnknownGlyph"
+                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         Padding="12"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
-                        <Viewbox
-                            MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                            MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
-                            <SymbolIcon  Symbol="Page2" />
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
+                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                            <SymbolIcon Symbol="Page2" />
                         </Viewbox>
                     </Grid>
                 </Grid>
-                <StackPanel
-                    Grid.Row="1">
+                <StackPanel Grid.Row="1">
                     <TextBlock
                         Margin="0,0,0,10"
                         HorizontalAlignment="Stretch"
@@ -374,6 +369,7 @@
                 EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                 PointerPressed="FileListGridItem_PointerPressed"
                 IsRightTapEnabled="True"
+                PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
                 Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
@@ -475,18 +471,30 @@
         VerticalAlignment="Stretch"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
         <Grid.KeyboardAccelerators>
-            <KeyboardAccelerator Key="{ x:Bind plusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
-            <KeyboardAccelerator Key="{ x:Bind minusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeDecrease}"  />
-            <KeyboardAccelerator Key="Add" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
-            <KeyboardAccelerator Key="Subtract" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeDecrease}"  />
+            <KeyboardAccelerator
+                Key="{x:Bind plusKey}"
+                Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}"
+                Modifiers="Control" />
+            <KeyboardAccelerator
+                Key="{x:Bind minusKey}"
+                Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeDecrease}"
+                Modifiers="Control" />
+            <KeyboardAccelerator
+                Key="Add"
+                Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}"
+                Modifiers="Control" />
+            <KeyboardAccelerator
+                Key="Subtract"
+                Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeDecrease}"
+                Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <ProgressBar
             Name="ProgBar"
             Height="10"
             VerticalAlignment="Top"
+            Background="Transparent"
             IsIndeterminate="True"
-            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Background="Transparent" />
+            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock
             x:Name="EmptyText"
             x:Uid="EmptyFolder"
