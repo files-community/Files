@@ -57,6 +57,7 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
+            App.InteractionViewModel.IsPageTypeNotHome = false;
             var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
@@ -182,7 +183,7 @@ namespace Files
                 {
                     foreach (DriveItem drive in App.AppSettings.DrivesManager.Drives)
                     {
-                        if (drive.Tag.ToString() == new DirectoryInfo(path).Root.ToString())
+                        if (drive.Path.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
                             App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), path);
                             return;

@@ -13,7 +13,13 @@
     d:DesignWidth="200"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="SystemControlTransparentBrush" />
+        <AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
+                      Windows10version1903:TintLuminosityOpacity="0.9"
+                      BackgroundSource="HostBackdrop"
+                      FallbackColor="{x:Bind local1:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+                      TintColor="{x:Bind local1:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+                      TintOpacity="{x:Bind local1:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}"
+                      AlwaysUseFallback="{x:Bind local1:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
     </UserControl.Resources>
 
     <Grid>
@@ -35,62 +41,34 @@
 
             <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
                 <muxc:NavigationViewItem
-                    Padding="0"
+                    Content="{x:Bind Text}"
                     BorderThickness="0.8"
                     DataContext="{x:Bind}"
-                    Tag="{x:Bind Tag}"
-                    Visibility="{x:Bind ItemVisibility}">
-                    <muxc:NavigationViewItem.Content>
-                        <StackPanel
-                            Margin="-4,0,0,0"
-                            DataContext="{x:Bind}"
-                            Orientation="Horizontal"
-                            Spacing="12"
-                            ToolTipService.ToolTip="{x:Bind SpaceText}">
-                            <Grid>
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="18"
-                                    Glyph="{x:Bind Glyph}"
-                                    Visibility="{x:Bind DriveGlyphVisibility}" />
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="18"
-                                    Glyph="&#xE753;"
-                                    Visibility="{x:Bind CloudGlyphVisibility}" />
-                            </Grid>
-                            <TextBlock
-                                FontSize="14"
-                                Text="{x:Bind DriveText}"
-                                TextTrimming="CharacterEllipsis" />
-                        </StackPanel>
-                    </muxc:NavigationViewItem.Content>
+                    Padding="0"
+                    Tag="{x:Bind Path}"
+                    Visibility="{x:Bind ItemVisibility}"
+                    ToolTipService.ToolTip="{x:Bind SpaceText}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 
             <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
                 <muxc:NavigationViewItem
-                    Padding="0"
+                    Content="{x:Bind Text}"
                     BorderThickness="0.8"
                     DataContext="{x:Bind}"
+                    Padding="0"
                     IsTabStop="False"
                     Tag="{x:Bind Path}">
-                    <muxc:NavigationViewItem.Content>
-                        <StackPanel
-                            DataContext="{x:Bind}"
-                            Orientation="Horizontal"
-                            Spacing="6">
-                            <BitmapIcon
-                                Width="30"
-                                Height="30"
-                                ShowAsMonochrome="False"
-                                UriSource="{x:Bind Logo}" />
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Text="{x:Bind DistroName}" />
-                        </StackPanel>
-                    </muxc:NavigationViewItem.Content>
+                    <muxc:NavigationViewItem.Icon>
+                        <BitmapIcon
+                            Width="30"
+                            Height="30"
+                            ShowAsMonochrome="False"
+                            UriSource="{x:Bind Logo}" />
+                    </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
 

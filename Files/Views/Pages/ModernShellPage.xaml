@@ -23,15 +23,6 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <Grid.Background>
-                <AcrylicBrush
-                    Windows10version1903:TintLuminosityOpacity="0.9"
-                    BackgroundSource="HostBackdrop"
-                    FallbackColor="{x:Bind local1:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-                    TintColor="{x:Bind local1:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-                    TintOpacity="{x:Bind local1:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}"
-                    AlwaysUseFallback="{x:Bind local1:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
-            </Grid.Background>
             <controls:ModernSidebar x:Name="SidebarControl" Margin="0,-32,0,0" />
         </Grid>
 

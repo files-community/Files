@@ -64,7 +64,7 @@ namespace Files.Controls
         {
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
             //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
-            string NavigationPath = ""; // path to navigate
+            string NavigationPath; // path to navigate
 
             if (args.InvokedItem == null)
             {
@@ -116,8 +116,6 @@ namespace Files.Controls
             {
                 App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath, new SuppressNavigationTransitionInfo());
             }
-
-            App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
         }
