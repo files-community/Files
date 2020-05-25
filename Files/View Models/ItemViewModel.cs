@@ -735,13 +735,13 @@ namespace Files.Filesystem
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog("Did you delete this folder?", "The folder you are attempting to access may have been moved or deleted.");
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog.Title"), ResourceController.GetTranslation("FolderNotFoundDialog.Text"));
                 IsLoadingItems = false;
                 return;
             }
             catch (Exception e)
             {
-                await DialogDisplayHelper.ShowDialog("Did you unplug this drive?", e.Message);
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog.Title"), e.Message);
                 IsLoadingItems = false;
                 return;
             }

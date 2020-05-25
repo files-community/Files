@@ -184,7 +184,7 @@ namespace Files
             }
             catch (COMException)
             {
-                await DialogDisplayHelper.ShowDialog("Drive Unplugged", "Please insert the necessary drive to access this item.");
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog.Title"), ResourceController.GetTranslation("DriveUnpluggedDialog.Text"));
             }
         }
 

@@ -387,7 +387,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog("File Not Found", "The file you are attempting to access may have been moved or deleted.");
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog.Title"), ResourceController.GetTranslation("FileNotFoundDialog.Text"));
                 NavigationActions.Refresh_Click(null, null);
             }
         }
@@ -554,11 +554,11 @@ namespace Files.Interacts
             }
             catch (UnauthorizedAccessException)
             {
-                await DialogDisplayHelper.ShowDialog("Access Denied", "We weren't able to delete this item");
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedDeleteDialog.Title"), ResourceController.GetTranslation("AccessDeniedDeleteDialog.Text"));
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog("Item Not Found", "We weren't able to delete this item because it cannot be found.");
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog.Title"), ResourceController.GetTranslation("FileNotFoundDialog.Text"));
             }
 
             App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
@@ -950,7 +950,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog("File Not Found", "The file you are attempting to preview may have been moved or deleted.");
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog.Title"), ResourceController.GetTranslation("FileNotFoundPreviewDialog.Text"));
                 NavigationActions.Refresh_Click(null, null);
             }
         }
