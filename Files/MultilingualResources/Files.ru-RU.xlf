@@ -422,10 +422,6 @@
           <source>List View</source>
           <target state="translated">Таблица</target>
         </trans-unit>
-        <trans-unit id="StatusBarControlGridView.Text" translate="yes" xml:space="preserve">
-          <source>Grid View</source>
-          <target state="translated">Сетка</target>
-        </trans-unit>
         <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
           <target state="translated">Параметры</target>
@@ -633,6 +629,22 @@
         <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
           <source>Set as lockscreen background</source>
           <target state="translated">Применить как фон экрана блокировки</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="new">Grid View (Large)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="new">Grid View (Medium)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="new">Grid View (Small)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="new">Tiles View</target>
         </trans-unit>
       </group>
     </body>

@@ -321,9 +321,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Таблица</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Сетка</value>
-  </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Параметры</value>
   </data>
