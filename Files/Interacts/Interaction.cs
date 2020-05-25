@@ -32,13 +32,11 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI;
 using Windows.Security.Cryptography.Core;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using GalaSoft.MvvmLight.Command;
 using Files.Helpers;
 using Windows.UI.Xaml.Data;
-using System.Security.Cryptography;
 
 namespace Files.Interacts
 {
@@ -435,8 +433,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                MessageDialog dialog = new MessageDialog("The file you are attempting to access may have been moved or deleted.", "File Not Found");
-                await dialog.ShowAsync();
+                await DialogDisplayHelper.ShowDialog("File Not Found", "The file you are attempting to access may have been moved or deleted.");
                 NavigationActions.Refresh_Click(null, null);
             }
         }
@@ -676,12 +673,11 @@ namespace Files.Interacts
             }
             catch (UnauthorizedAccessException)
             {
-                MessageDialog AccessDeniedDialog = new MessageDialog("Access Denied", "Unable to delete this item");
-                await AccessDeniedDialog.ShowAsync();
+                await DialogDisplayHelper.ShowDialog("Access Denied", "We weren't able to delete this item");
             }
             catch (FileNotFoundException)
             {
-                Debug.WriteLine("Attention: Tried to delete an item that could be found");
+                await DialogDisplayHelper.ShowDialog("Item Not Found", "We weren't able to delete this item because it cannot be found.");
             }
 
             App.InteractionViewModel.PermanentlyDelete = false; //reset PermanentlyDelete flag
@@ -1164,9 +1160,7 @@ namespace Files.Interacts
             }
             catch (FileNotFoundException)
             {
-                MessageDialog dialog = new MessageDialog("The file you are attempting to preview may have been moved or deleted.", "File Not Found");
-                var task = dialog.ShowAsync();
-                task.AsTask().Wait();
+                await DialogDisplayHelper.ShowDialog("File Not Found", "The file you are attempting to preview may have been moved or deleted.");
                 NavigationActions.Refresh_Click(null, null);
             }
         }
