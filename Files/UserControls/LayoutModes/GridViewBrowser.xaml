@@ -300,21 +300,22 @@
                 <Grid Grid.Row="0" Tag="ItemImage">
                     <Grid
                         x:Name="Picture"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Padding="12"
+                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
+                        Padding="12"
                         VerticalAlignment="Bottom"
+                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
                         <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
                     </Grid>
                     <Image
                         x:Name="FolderGlyph"
-                        x:Load="{x:Bind LoadFolderGlyph}"
+                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
+                        Stretch="Uniform"
                         VerticalAlignment="Stretch"
                         Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Stretch="Uniform">
+                        x:Load="{x:Bind LoadFolderGlyph}">
                         <Image.Source>
                             <SvgImageSource
                                 RasterizePixelHeight="638"
@@ -324,10 +325,11 @@
                     </Image>
                     <Grid
                         x:Name="TypeUnknownGlyph"
-                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
-                        Padding="12"
+                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         HorizontalAlignment="Stretch"
+                        Padding="12"
                         VerticalAlignment="Stretch"
+                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
                         x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
                         <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
                             <SymbolIcon Symbol="Page2" />
