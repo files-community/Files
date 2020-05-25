@@ -597,4 +597,7 @@
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>Tiles View</value>
   </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
 </root>

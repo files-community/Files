@@ -646,6 +646,10 @@
           <source>Tiles View</source>
           <target state="new">Tiles View</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="new">OK</target>
+        </trans-unit>
       </group>
     </body>
   </file>

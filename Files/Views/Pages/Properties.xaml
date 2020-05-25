@@ -220,6 +220,7 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="OKButton"
+                x:Uid="PropertiesDialogOKButton"
                 Grid.Column="1"
                 MinWidth="100"
                 HorizontalAlignment="Right"
