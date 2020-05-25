@@ -312,9 +312,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Listenansicht</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Rasteransicht</value>
-  </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Einstellungen</value>
   </data>

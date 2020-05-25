@@ -312,7 +312,4 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Widok listy</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Widok siatki</value>
-  </data>
 </root>

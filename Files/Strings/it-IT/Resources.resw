@@ -123,9 +123,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Dettagli</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Griglia</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modificato il:</value>
   </data>
