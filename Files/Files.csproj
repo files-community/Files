@@ -146,6 +146,7 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -155,7 +156,6 @@
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
-    <Compile Include="Helpers\NegateConverter.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />
@@ -216,8 +216,8 @@
     <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
-    <Compile Include="UserControls\LayoutModes\PhotoAlbum.xaml.cs">
-      <DependentUpon>PhotoAlbum.xaml</DependentUpon>
+    <Compile Include="UserControls\LayoutModes\GridViewBrowser.xaml.cs">
+      <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="Interacts\LoadingIndicator.cs" />
     <Compile Include="Views\Pages\ModernShellPage.xaml.cs">
@@ -267,6 +267,7 @@
     <Content Include="Assets\Files UWP Icon.png" />
     <Content Include="Assets\FilesHome.png" />
     <Content Include="Assets\FolderIcon.svg" />
+    <Content Include="Assets\FolderIconLarge.svg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -407,7 +408,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\LayoutModes\PhotoAlbum.xaml">
+    <Page Include="UserControls\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

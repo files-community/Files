@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
@@ -10,6 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -47,66 +48,36 @@ namespace Files
             }
         }
 
-        private List<ListedItem> _SelectedItems;
+        private List<ListedItem> _SelectedItems = new List<ListedItem>();
 
         public List<ListedItem> SelectedItems
         {
             get
             {
-                if (_SelectedItems == null)
-                {
-                    return new List<ListedItem>();
-                }
-                else
-                {
-                    return _SelectedItems;
-                }
+                return _SelectedItems;
             }
             internal set
             {
                 if (value != _SelectedItems)
                 {
                     _SelectedItems = value;
-                    if (value == null)
+                    if (_SelectedItems.Count == 0)
                     {
                         IsItemSelected = false;
+                        SelectedItem = null;
                     }
                     else
                     {
                         IsItemSelected = true;
+                        SelectedItem = _SelectedItems.First();
                     }
-                    SetSelectedItemsOnUi(value);
                     NotifyPropertyChanged("SelectedItems");
+                    SetDragModeForItems();
                 }
             }
         }
 
-        private ListedItem _SelectedItem;
-
-        public ListedItem SelectedItem
-        {
-            get
-            {
-                return _SelectedItem;
-            }
-            internal set
-            {
-                if (value != _SelectedItem)
-                {
-                    _SelectedItem = value;
-                    if (value == null)
-                    {
-                        IsItemSelected = false;
-                    }
-                    else
-                    {
-                        IsItemSelected = true;
-                    }
-                    SetSelectedItemOnUi(value);
-                    NotifyPropertyChanged("SelectedItem");
-                }
-            }
-        }
+        public ListedItem SelectedItem { get; private set; }
 
         public BaseLayout()
         {
@@ -123,11 +94,29 @@ namespace Files
             }
         }
 
-        protected abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+        public abstract void SetSelectedItemOnUi(ListedItem item);
 
-        protected abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+        public abstract void SetSelectedItemsOnUi(List<ListedItem> items);
+
+        public abstract void SelectAllItems();
+
+        public abstract void InvertSelection();
+
+        public abstract void ClearSelection();
+
+        public abstract void SetDragModeForItems();
+
+        public abstract void ScrollIntoView(ListedItem item);
+
+        public abstract int GetSelectedIndex();
 
         public abstract void FocusSelectedItems();
+
+        public abstract void StartRenameItem();
+
+        public abstract void ResetItemOpacity();
+
+        public abstract void SetItemOpacity(ListedItem item);
 
         protected abstract ListedItem GetItemFromElement(object element);
 
@@ -138,14 +127,8 @@ namespace Files
                 App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
                 App.CurrentInstance.ViewModel.IsLoadingItems = true;
                 App.CurrentInstance.ViewModel.IsLoadingItems = false;
-                if (App.AppSettings.LayoutMode == 0)
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), App.CurrentInstance.ViewModel.WorkingDirectory, null);
-                }
-                else
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), App.CurrentInstance.ViewModel.WorkingDirectory, null);
-                }
+
+                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), App.CurrentInstance.ViewModel.WorkingDirectory, null);
             }
         }
 
@@ -204,12 +187,14 @@ namespace Files
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
         {
-            Windows.UI.Xaml.Markup.XamlMarkupHelper.UnloadObject(this.FindName(nameToUnload) as DependencyObject);
+            var menuItem = this.FindName(nameToUnload) as DependencyObject;
+            if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
+                (menuItem as MenuFlyoutItem).Visibility = Visibility.Collapsed;
         }
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+            var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
             if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
@@ -227,11 +212,13 @@ namespace Files
                         if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
-                            this.FindName("UnzipItem");
+                            (this.FindName("UnzipItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            //this.FindName("UnzipItem");
                         }
                         else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
-                            this.FindName("OpenItem");
+                            (this.FindName("OpenItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            //this.FindName("OpenItem");
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
                     }
@@ -247,14 +234,18 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenItem");
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
                 {
-                    this.FindName("SidebarPinItem");
-                    this.FindName("OpenInNewTab");
-                    this.FindName("OpenInNewWindowItem");
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewTab") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
+                    //this.FindName("OpenInNewTab");
+                    //this.FindName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
                 else if (selectedFileSystemItems.Count > 5)
                 {
-                    this.FindName("SidebarPinItem");
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
@@ -376,5 +367,41 @@ namespace Files
                 }
             }
         }
+
+        // VirtualKey doesn't support / accept plus and minus by default.
+        public readonly VirtualKey plusKey = (VirtualKey)187;
+        public readonly VirtualKey minusKey = (VirtualKey)189;
+
+        public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            App.AppSettings.GridViewSize = App.AppSettings.GridViewSize + 25; // Make Larger
+            if (args != null)
+                args.Handled = true;
+        }
+
+        public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            App.AppSettings.GridViewSize = App.AppSettings.GridViewSize - 25; // Make Smaller
+            if (args != null)
+                args.Handled = true;
+        }
+
+        public void BaseLayout_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.KeyModifiers == VirtualKeyModifiers.Control)
+            {
+                if (e.GetCurrentPoint(null).Properties.MouseWheelDelta < 0) // Mouse wheel down
+                {
+                    GridViewSizeDecrease(null, null);
+                }
+                else // Mouse wheel up
+                {
+                    GridViewSizeIncrease(null, null);
+                }
+
+                e.Handled = true;
+            }
+        }
+
     }
 }

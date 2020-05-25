@@ -5,8 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter"/>
+    </Page.Resources>
 
     <Grid>
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -106,7 +110,7 @@
                         Grid.Column="2"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NegateConverter}}"
+                        IsOn="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
                         OffContent=""
                         OnContent="" />
                 </Grid>

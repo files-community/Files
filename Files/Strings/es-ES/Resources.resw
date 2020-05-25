@@ -312,9 +312,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Vista en Lista</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Vista en Cuadrícula</value>
-  </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Ajustes</value>
   </data>
@@ -482,5 +479,17 @@
   </data>
   <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
     <value>Establecer como fondo de pantalla de bloqueo</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+    <value>Vista en cuadrícula (Grande)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+    <value>Vista en cuadrícula (Mediano)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+    <value>Vista en cuadrícula (Pequeño)</value>
+  </data>
+  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+    <value>Vista en iconos</value>
   </data>
 </root>

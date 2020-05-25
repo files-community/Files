@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Files.Controls
@@ -22,9 +23,9 @@ namespace Files.Controls
             set => Set(ref _LeftMarginLoaded, value);
         }
 
-        private bool _PermanentlyDelete = false;
+        private StorageDeleteOption _PermanentlyDelete = StorageDeleteOption.Default;
 
-        public bool PermanentlyDelete
+        public StorageDeleteOption PermanentlyDelete
         {
             get => _PermanentlyDelete;
             set => Set(ref _PermanentlyDelete, value);
@@ -49,7 +50,7 @@ namespace Files.Controls
         public void CheckForImage()
         {
             //check if the selected item is an image file
-            string ItemExtension = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItem.FileExtension;
+            string ItemExtension = App.CurrentInstance.ContentPage.SelectedItem.FileExtension;
 
             if (!string.IsNullOrEmpty(ItemExtension))
             {

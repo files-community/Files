@@ -14,7 +14,8 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     PointerReleased="GenericItemView_PointerReleased"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    PointerWheelChanged="BaseLayout_PointerWheelChanged">
 
     <local:BaseLayout.Resources>
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
@@ -273,7 +274,7 @@
             <MenuFlyoutItem
                 x:Name="QuickLook"
                 x:Uid="BaseLayoutItemContextFlyoutQuickLook"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook}"
                 Text="QuickLook"
                 Visibility="{x:Bind IsQuickLookEnabled}">
                 <MenuFlyoutItem.Icon>
@@ -287,6 +288,10 @@
         x:Name="RootGrid"
         Background="Transparent"
         ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
+        <Grid.KeyboardAccelerators>
+            <KeyboardAccelerator Key="{ x:Bind plusKey }" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
+            <KeyboardAccelerator Key="Add" Modifiers="Control" Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}" />
+        </Grid.KeyboardAccelerators>
         <ProgressBar
             x:Name="progBar"
             Height="10"
@@ -327,7 +332,7 @@
             LoadingRow="AllView_LoadingRow"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
-            RightTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.AllView_RightTapped}"
+            RightTapped="AllView_RightTapped"
             RowDetailsVisibilityMode="Collapsed"
             ScrollViewer.IsScrollInertiaEnabled="True"
             SelectionChanged="AllView_SelectionChanged"

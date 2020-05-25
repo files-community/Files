@@ -210,6 +210,21 @@ namespace Files
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                var currentView = SystemNavigationManager.GetForCurrentView();
+                currentView.BackRequested += Window_BackRequested;
+            }
+        }
+
+        private void Window_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (App.CurrentInstance.ContentFrame.CanGoBack)
+            {
+                e.Handled = true;
+                NavigationActions.Back_Click(null, null);
+            }
+            else
+            {
+                e.Handled = false;
             }
         }
 
@@ -225,7 +240,7 @@ namespace Files
             }
 
             ThemeHelper.Initialize();
-
+            var currentView = SystemNavigationManager.GetForCurrentView();
             switch (args.Kind)
             {
                 case ActivationKind.Protocol:
@@ -243,6 +258,7 @@ namespace Files
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                    currentView.BackRequested += Window_BackRequested;
                     return;
 
                 case ActivationKind.CommandLineLaunch:
@@ -265,6 +281,7 @@ namespace Files
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    currentView.BackRequested += Window_BackRequested;
                                     return;
 
                                 case ParsedCommandType.OpenPath:
@@ -278,6 +295,7 @@ namespace Files
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
                                         Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                        currentView.BackRequested += Window_BackRequested;
 
                                         return;
                                     }
@@ -298,6 +316,7 @@ namespace Files
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    currentView.BackRequested += Window_BackRequested;
                                     return;
                             }
                         }

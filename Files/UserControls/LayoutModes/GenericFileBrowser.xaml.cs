@@ -5,7 +5,9 @@ using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -60,7 +62,7 @@ namespace Files
 
         public GenericFileBrowser()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             switch (App.CurrentInstance.ViewModel.DirectorySortOption)
             {
@@ -100,41 +102,95 @@ namespace Files
             RequestedTheme = ThemeHelper.RootTheme;
         }
 
-        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        public override void SetSelectedItemOnUi(ListedItem item)
         {
-            // Required to check if sequences are equal, if not it will result in an infinite loop
-            // between the UI Control and the BaseLayout set function
-            if (AllView.SelectedItem != selectedItem)
+            ClearSelection();
+            AllView.SelectedItems.Add(item);
+        }
+
+        public override void SetSelectedItemsOnUi(List<ListedItem> items)
+        {
+            ClearSelection();
+
+            foreach (ListedItem item in items)
             {
-                AllView.SelectedItem = selectedItem;
-                AllView.UpdateLayout();
+                AllView.SelectedItems.Add(item);
             }
         }
 
-        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        public override void SelectAllItems()
         {
-            // To prevent program from crashing when the page is first loaded
-            if (selectedItems.Count > 0)
+            SetSelectedItemsOnUi(AssociatedViewModel.FilesAndFolders.ToList());
+        }
+
+        public override void InvertSelection()
+        {
+            List<ListedItem> allItems = AssociatedViewModel.FilesAndFolders.ToList();
+            List<ListedItem> newSelectedItems = allItems.Except(SelectedItems).ToList();
+
+            SetSelectedItemsOnUi(newSelectedItems);
+        }
+        
+        public override void ClearSelection()
+        {
+            AllView.SelectedItems.Clear();
+        }
+
+        public override void SetDragModeForItems()
+        {
+            if (IsItemSelected)
             {
                 var rows = new List<DataGridRow>();
                 Interacts.Interaction.FindChildren<DataGridRow>(rows, AllView);
                 foreach (DataGridRow row in rows)
-                    row.CanDrag = selectedItems.Contains(row.DataContext);
+                {
+                    row.CanDrag = SelectedItems.Contains(row.DataContext);
+                }
             }
+        }
 
-            // Required to check if sequences are equal, if not it will result in an infinite loop
-            // between the UI Control and the BaseLayout set function
-            if (Enumerable.SequenceEqual<ListedItem>(AllView.SelectedItems.Cast<ListedItem>(), selectedItems))
-                return;
-            AllView.SelectedItems.Clear();
-            foreach (ListedItem selectedItem in selectedItems)
-                AllView.SelectedItems.Add(selectedItem);
-            AllView.UpdateLayout();
+        public override void ScrollIntoView(ListedItem item)
+        {
+            AllView.ScrollIntoView(item, null);
+        }
+
+        public override int GetSelectedIndex()
+        {
+            return AllView.SelectedIndex;
         }
 
         public override void FocusSelectedItems()
         {
             AllView.ScrollIntoView(AllView.ItemsSource.Cast<ListedItem>().Last(), null);
+        }
+
+        public override void StartRenameItem()
+        {
+            AllView.CurrentColumn = AllView.Columns[1];
+            AllView.BeginEdit();
+        }
+
+        public override void ResetItemOpacity()
+        {
+            IEnumerable items = AllView.ItemsSource;
+            if (items == null)
+            {
+                return;
+            }
+
+            foreach (ListedItem listedItem in items)
+            {
+                FrameworkElement element = AllView.Columns[0].GetCellContent(listedItem);
+                if (element != null)
+                {
+                    element.Opacity = 1;
+                }
+            }
+        }
+
+        public override void SetItemOpacity(ListedItem item)
+        {
+            AllView.Columns[0].GetCellContent(item).Opacity = 0.4;
         }
 
         private async void ViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -198,7 +254,7 @@ namespace Files
             }
 
             var textBox = e.EditingElement as TextBox;
-            var selectedItem = AllView.SelectedItem as ListedItem;
+            var selectedItem = SelectedItem;
             int extensionLength = selectedItem.FileExtension?.Length ?? 0;
 
             previousFileName = selectedItem.ItemName;
@@ -231,14 +287,13 @@ namespace Files
 
         private void GenericItemView_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            AllView.SelectedItem = null;
+            ClearSelection();
         }
 
         private void AllView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             AllView.CommitEdit();
-            base.SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
-            base.SelectedItem = AllView.SelectedItem as ListedItem;
+            SelectedItems = AllView.SelectedItems.Cast<ListedItem>().ToList();
         }
 
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
@@ -284,6 +339,27 @@ namespace Files
             else if (e.Key == VirtualKey.Enter && e.KeyStatus.IsMenuKeyDown)
             {
                 AssociatedInteractions.ShowPropertiesButton_Click(null, null);
+            }
+        }
+
+        public void AllView_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            var rowPressed = Interacts.Interaction.FindParent<DataGridRow>(e.OriginalSource as DependencyObject);
+            if (rowPressed != null)
+            {
+                var objectPressed = ((ReadOnlyObservableCollection<ListedItem>)AllView.ItemsSource)[rowPressed.GetIndex()];
+
+                // Check if RightTapped row is currently selected
+                if (App.CurrentInstance.ContentPage.IsItemSelected)
+                {
+                    if (App.CurrentInstance.ContentPage.SelectedItems.Contains(objectPressed))
+                    {
+                        return;
+                    }
+                }
+
+                // The following code is only reachable when a user RightTapped an unselected row
+                SetSelectedItemOnUi(objectPressed);
             }
         }
 

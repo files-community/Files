@@ -6,11 +6,15 @@
     xmlns:local1="using:Files"
     xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converters="using:Files.Converters"
     x:Uid="ConfirmDeleteDialog"
     Title="Delete Item(s)"
     CornerRadius="4"
     mc:Ignorable="d"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
+    <ContentDialog.Resources>
+        <converters:StorageDeleteOptionToBooleanConverter x:Key="StorageDeleteOptionToBooleanConverter" />
+    </ContentDialog.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -27,7 +31,7 @@
                 x:Name="chkPermanentlyDelete"
                 x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
                 Content="Permanently delete"
-                IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay}" />
+                IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay, Converter={StaticResource StorageDeleteOptionToBooleanConverter}}" />
         </StackPanel>
 
         <StackPanel

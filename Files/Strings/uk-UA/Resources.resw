@@ -102,9 +102,6 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Список</value>
   </data>
-  <data name="StatusBarControlGridView.Text" xml:space="preserve">
-    <value>Таблиця</value>
-  </data>
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Змінено</value>
   </data>

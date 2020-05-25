@@ -2,36 +2,83 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Windows.Devices.Input;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
 {
-    public sealed partial class PhotoAlbum : BaseLayout
+    public sealed partial class GridViewBrowser : BaseLayout
     {
-        public PhotoAlbum()
+        public GridViewBrowser()
         {
             this.InitializeComponent();
+
+            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+
+            SetItemTemplate(); // Set ItemTemplate
         }
 
-        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        private void AppSettings_LayoutModeChangeRequested(object sender, EventArgs e)
         {
-            // Required to check if sequences are equal, if not it will result in an infinite loop
-            // between the UI Control and the BaseLayout set function
-            if (FileList.SelectedItem != selectedItem)
+            SetItemTemplate(); // Set ItemTemplate
+        }
+
+        private void SetItemTemplate()
+        {
+            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+
+            // Set GridViewSize event handlers
+            if (App.AppSettings.LayoutMode == 1)
             {
-                FileList.SelectedItem = selectedItem;
-                FileList.UpdateLayout();
+                App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
+            }
+            else if (App.AppSettings.LayoutMode == 2)
+            {
+                _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
+                App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
             }
         }
 
-        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        public override void SetSelectedItemOnUi(ListedItem item)
+        {
+            ClearSelection();
+            FileList.SelectedItems.Add(item);
+        }
+
+        public override void SetSelectedItemsOnUi(List<ListedItem> items)
+        {
+            ClearSelection();
+
+            foreach (ListedItem item in items)
+            {
+                FileList.SelectedItems.Add(item);
+            }
+        }
+
+        public override void SelectAllItems()
+        {
+            ClearSelection();
+            FileList.SelectAll();
+        }
+
+        public override void InvertSelection()
+        {
+            List<ListedItem> allItems = FileList.Items.Cast<ListedItem>().ToList();
+            List<ListedItem> newSelectedItems = allItems.Except(SelectedItems).ToList();
+
+            SetSelectedItemsOnUi(newSelectedItems);
+        }
+
+        public override void ClearSelection()
+        {
+            FileList.SelectedItems.Clear();
+        }
+
+        public override void SetDragModeForItems()
         {
             foreach (ListedItem listedItem in FileList.Items)
             {
@@ -40,20 +87,21 @@ namespace Files
                 if (gridViewItem != null)
                 {
                     List<Grid> grids = new List<Grid>();
-                    Interaction.FindChildren<Grid>(grids, gridViewItem);
+                    Interaction.FindChildren(grids, gridViewItem);
                     var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                    rootItem.CanDrag = selectedItems.Contains(listedItem);
+                    rootItem.CanDrag = SelectedItems.Contains(listedItem);
                 }
             }
+        }
 
-            // Required to check if sequences are equal, if not it will result in an infinite loop
-            // between the UI Control and the BaseLayout set function
-            if (Enumerable.SequenceEqual<ListedItem>(FileList.SelectedItems.Cast<ListedItem>(), selectedItems))
-                return;
-            FileList.SelectedItems.Clear();
-            foreach (ListedItem selectedItem in selectedItems)
-                FileList.SelectedItems.Add(selectedItem);
-            FileList.UpdateLayout();
+        public override void ScrollIntoView(ListedItem item)
+        {
+            FileList.ScrollIntoView(item);
+        }
+
+        public override int GetSelectedIndex()
+        {
+            return FileList.SelectedIndex;
         }
 
         public override void FocusSelectedItems()
@@ -69,31 +117,32 @@ namespace Files
                 return;
             }
             // The following code is only reachable when a user RightTapped an unselected row
-            FileList.SelectedItems.Clear();
-            FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
+            SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
-        private void PhotoAlbumViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
-                FileList.SelectedItem = null;
+                ClearSelection();
             }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            base.SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
-            base.SelectedItem = FileList.SelectedItem as ListedItem;
+            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
         }
 
         private ListedItem renamingItem;
 
-        public void StartRename()
+        public override void StartRenameItem()
         {
-            renamingItem = FileList.SelectedItem as ListedItem;
+            renamingItem = SelectedItem;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
-            StackPanel stackPanel = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel;
+            // Handle layout differences between tiles browser and photo album
+            StackPanel stackPanel = (App.AppSettings.LayoutMode == 2)
+                ? (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel
+                : (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
             TextBlock textBlock = stackPanel.Children[0] as TextBlock;
             TextBox textBox = stackPanel.Children[1] as TextBox;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
@@ -105,6 +154,31 @@ namespace Files
             textBox.KeyDown += RenameTextBox_KeyDown;
             textBox.Select(0, renamingItem.ItemName.Length - extensionLength);
             isRenamingItem = true;
+        }
+
+        public override void ResetItemOpacity()
+        {
+            foreach (ListedItem listedItem in FileList.Items)
+            {
+                List<Grid> itemContentGrids = new List<Grid>();
+                GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
+                if (gridViewItem == null)
+                {
+                    return;
+                }
+                Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
+                var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+                imageOfItem.Opacity = 1;
+            }
+        }
+
+        public override void SetItemOpacity(ListedItem item)
+        {
+            GridViewItem itemToDimForCut = (GridViewItem)FileList.ContainerFromItem(item);
+            List<Grid> itemContentGrids = new List<Grid>();
+            Interaction.FindChildren(itemContentGrids, itemToDimForCut);
+            var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+            imageOfItem.Opacity = 0.4;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -174,7 +248,7 @@ namespace Files
         {
             if (App.CurrentInstance != null)
             {
-                if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum) && !isRenamingItem)
+                if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
                     if (focusedElement is TextBox)
@@ -194,7 +268,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, 80);
+                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
 
@@ -229,10 +303,40 @@ namespace Files
             {
                 var listedItem = (sender as Grid).DataContext as ListedItem;
 
-                FileList.SelectedItems.Clear(); // Control not clicked, clear selected items
-                FileList.SelectedItems.Add(listedItem);
-                FileList.SelectedItem = listedItem;
+                if (!FileList.SelectedItems.Contains(listedItem))
+                {
+                    SetSelectedItemOnUi(listedItem);
+                }
             }
         }
+
+        private uint _iconSize = UpdateThumbnailSize();
+
+        private static uint UpdateThumbnailSize()
+        {
+            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)
+                return 80; // Small thumbnail
+            else if (App.AppSettings.GridViewSize < 275)
+                return 120; // Medium thumbnail
+            else if (App.AppSettings.GridViewSize < 325)
+                return 160; // Large thumbnail
+            else
+                return 240; // Extra large thumbnail
+        }
+
+        private void AppSettings_GridViewSizeChangeRequested(object sender, EventArgs e)
+        {
+            var iconSize = UpdateThumbnailSize(); // Get new icon size
+
+            // Prevents reloading icons when the icon size hasn't changed
+            if (iconSize != _iconSize)
+            {
+                _iconSize = iconSize; // Update icon size before refreshing
+                NavigationActions.Refresh_Click(null, null); // Refresh icons
+            }
+            else
+                _iconSize = iconSize; // Update icon size
+        }
     }
+
 }
