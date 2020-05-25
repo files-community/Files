@@ -18,6 +18,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -55,12 +56,28 @@ namespace Files.Filesystem
                 {
                     _WorkingDirectory = value;
 
-                    App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-                    if (App.CurrentInstance.SidebarSelectedItem == null)
+                    INavigationControlItem item = null;
+                    List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+
+                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+                    if (item == null)
                     {
-                        App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.FirstOrDefault(x => x.Path != null && x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+                    }
+                    if (item == null)
+                    {
+                        item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+                    }
+                    if (item == null)
+                    {
+                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
                     }
 
+                    if (App.CurrentInstance.SidebarSelectedItem != item)
+                    {
+                        App.CurrentInstance.SidebarSelectedItem = item;
+                    }
+                    
                     NotifyPropertyChanged("WorkingDirectory");
                 }
             }
@@ -369,7 +386,7 @@ namespace Files.Filesystem
             {
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
-
+            watchedItemsOperation.Cancel();
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -581,7 +598,7 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
-                            using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.ReturnOnlyIfCached))
+                            using (var Thumbnail = await matchingStorageItem.GetThumbnailAsync(ThumbnailMode.SingleItem, thumbnailSize, ThumbnailOptions.UseCurrentScale))
                             {
                                 if (Thumbnail != null)
                                 {
@@ -627,6 +644,8 @@ namespace Files.Filesystem
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
         public IReadOnlyList<IStorageItem> watchedItems = null;
+        private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
+
         public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
@@ -696,7 +715,7 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                 };
 
-                await Task.Run(async () => 
+                await Task.Run(() =>
                 {
                     var options = new QueryOptions()
                     {
@@ -707,10 +726,9 @@ namespace Files.Filesystem
                     options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
                     _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
                     _itemQueryResult.ContentsChanged += FileContentsChanged;
-                    watchedItems = await _itemQueryResult.GetItemsAsync();
-
+                    watchedItemsOperation = _itemQueryResult.GetItemsAsync();
+                    watchedItemsOperation.Completed += delegate { watchedItems = watchedItemsOperation.GetResults(); };
                 });
-                
             }
             catch (UnauthorizedAccessException)
             {
@@ -807,7 +825,7 @@ namespace Files.Filesystem
 
         private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
-            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -822,7 +840,8 @@ namespace Files.Filesystem
                     systemTimeOutput.Hour,
                     systemTimeOutput.Minute,
                     systemTimeOutput.Second,
-                    systemTimeOutput.Milliseconds);
+                    systemTimeOutput.Milliseconds,
+                    DateTimeKind.Utc);
                 var itemPath = Path.Combine(pathRoot, findData.cFileName);
                 //var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
                 //var typeText = resourceLoader.GetString("Folder");
@@ -875,7 +894,8 @@ namespace Files.Filesystem
                 systemTimeOutput.Hour,
                 systemTimeOutput.Minute,
                 systemTimeOutput.Second,
-                systemTimeOutput.Milliseconds);
+                systemTimeOutput.Milliseconds,
+                DateTimeKind.Utc);
             long fDataFSize = findData.nFileSizeLow;
             long fileSize;
             if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
@@ -951,7 +971,7 @@ namespace Files.Filesystem
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
-            if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
+            if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
             {
                 if (_cancellationTokenSource.IsCancellationRequested)
                 {
@@ -1010,7 +1030,7 @@ namespace Files.Filesystem
             bool itemThumbnailImgVis;
             bool itemEmptyImgVis;
 
-            if (!(App.CurrentInstance.ContentFrame.SourcePageType == typeof(PhotoAlbum)))
+            if (!(App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
             {
                 try
                 {

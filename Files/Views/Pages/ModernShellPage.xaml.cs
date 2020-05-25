@@ -1,8 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
-using Files.View_Models;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -141,7 +139,7 @@ namespace Files.Views.Pages
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Tag.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
                     else
                     {
@@ -161,7 +159,7 @@ namespace Files.Views.Pages
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
             if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
-                || ItemDisplayFrame.CurrentSourcePageType == typeof(PhotoAlbum))
+                || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
                 App.CurrentInstance.ContentPage.ResetItemOpacity();
@@ -199,7 +197,7 @@ namespace Files.Views.Pages
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
             var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser) 
-                || App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum);
+                || App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
             {
@@ -288,7 +286,7 @@ namespace Files.Views.Pages
                     //    break;
             };
 
-            if (App.CurrentInstance.CurrentPageType == typeof(PhotoAlbum))
+            if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
                 switch (e.Key)
                 {
