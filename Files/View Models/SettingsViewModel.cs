@@ -493,10 +493,30 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
-        public Int32 LayoutMode
+        public int LayoutMode
         {
             get => Get(0); // List View
             set => Set(value);
+        }
+
+        public Type GetLayoutType() {
+            Type type = null;
+            switch (LayoutMode)
+            {
+                case 0:
+                    type = typeof(GenericFileBrowser);
+                    break;
+                case 1:
+                    type = typeof(GridViewBrowser);
+                    break;
+                case 2:
+                    type = typeof(GridViewBrowser);
+                    break;
+                default:
+                    type = typeof(GenericFileBrowser);
+                    break;
+            }
+            return type;
         }
 
         public event EventHandler LayoutModeChangeRequested;

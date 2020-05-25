@@ -146,6 +146,7 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -154,7 +155,6 @@
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
-    <Compile Include="Helpers\NegateConverter.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />

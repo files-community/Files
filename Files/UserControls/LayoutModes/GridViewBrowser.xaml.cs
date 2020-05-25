@@ -43,18 +43,42 @@ namespace Files
             }
         }
 
-        protected override void SetSelectedItemOnUi(ListedItem selectedItem)
+        public override void SetSelectedItemOnUi(ListedItem item)
         {
-            // Required to check if sequences are equal, if not it will result in an infinite loop
-            // between the UI Control and the BaseLayout set function
-            if (FileList.SelectedItem != selectedItem)
+            ClearSelection();
+            FileList.SelectedItems.Add(item);
+        }
+
+        public override void SetSelectedItemsOnUi(List<ListedItem> items)
+        {
+            ClearSelection();
+
+            foreach (ListedItem item in items)
             {
-                FileList.SelectedItem = selectedItem;
-                FileList.UpdateLayout();
+                FileList.SelectedItems.Add(item);
             }
         }
 
-        protected override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
+        public override void SelectAllItems()
+        {
+            ClearSelection();
+            FileList.SelectAll();
+        }
+
+        public override void InvertSelection()
+        {
+            List<ListedItem> allItems = FileList.Items.Cast<ListedItem>().ToList();
+            List<ListedItem> newSelectedItems = allItems.Except(SelectedItems).ToList();
+
+            SetSelectedItemsOnUi(newSelectedItems);
+        }
+
+        public override void ClearSelection()
+        {
+            FileList.SelectedItems.Clear();
+        }
+
+        public override void SetDragModeForItems()
         {
             foreach (ListedItem listedItem in FileList.Items)
             {
@@ -63,20 +87,21 @@ namespace Files
                 if (gridViewItem != null)
                 {
                     List<Grid> grids = new List<Grid>();
-                    Interaction.FindChildren<Grid>(grids, gridViewItem);
+                    Interaction.FindChildren(grids, gridViewItem);
                     var rootItem = grids.Find(x => x.Tag?.ToString() == "ItemRoot");
-                    rootItem.CanDrag = selectedItems.Contains(listedItem);
+                    rootItem.CanDrag = SelectedItems.Contains(listedItem);
                 }
             }
+        }
 
-            // Required to check if sequences are equal, if not it will result in an infinite loop
-            // between the UI Control and the BaseLayout set function
-            if (Enumerable.SequenceEqual<ListedItem>(FileList.SelectedItems.Cast<ListedItem>(), selectedItems))
-                return;
-            FileList.SelectedItems.Clear();
-            foreach (ListedItem selectedItem in selectedItems)
-                FileList.SelectedItems.Add(selectedItem);
-            FileList.UpdateLayout();
+        public override void ScrollIntoView(ListedItem item)
+        {
+            FileList.ScrollIntoView(item);
+        }
+
+        public override int GetSelectedIndex()
+        {
+            return FileList.SelectedIndex;
         }
 
         public override void FocusSelectedItems()
@@ -92,29 +117,27 @@ namespace Files
                 return;
             }
             // The following code is only reachable when a user RightTapped an unselected row
-            FileList.SelectedItems.Clear();
-            FileList.SelectedItems.Add(FileList.ItemFromContainer(parentContainer) as ListedItem);
+            SetSelectedItemOnUi(FileList.ItemFromContainer(parentContainer) as ListedItem);
         }
 
         private void GridViewBrowserViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Page).Properties.IsLeftButtonPressed)
             {
-                FileList.SelectedItem = null;
+                ClearSelection();
             }
         }
 
         private void FileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            base.SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
-            base.SelectedItem = FileList.SelectedItem as ListedItem;
+            SelectedItems = FileList.SelectedItems.Cast<ListedItem>().ToList();
         }
 
         private ListedItem renamingItem;
 
-        public void StartRename()
+        public override void StartRenameItem()
         {
-            renamingItem = FileList.SelectedItem as ListedItem;
+            renamingItem = SelectedItem;
             GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
             // Handle layout differences between tiles browser and photo album
             StackPanel stackPanel = (App.AppSettings.LayoutMode == 2)
@@ -131,6 +154,31 @@ namespace Files
             textBox.KeyDown += RenameTextBox_KeyDown;
             textBox.Select(0, renamingItem.ItemName.Length - extensionLength);
             isRenamingItem = true;
+        }
+
+        public override void ResetItemOpacity()
+        {
+            foreach (ListedItem listedItem in FileList.Items)
+            {
+                List<Grid> itemContentGrids = new List<Grid>();
+                GridViewItem gridViewItem = FileList.ContainerFromItem(listedItem) as GridViewItem;
+                if (gridViewItem == null)
+                {
+                    return;
+                }
+                Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
+                var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+                imageOfItem.Opacity = 1;
+            }
+        }
+
+        public override void SetItemOpacity(ListedItem item)
+        {
+            GridViewItem itemToDimForCut = (GridViewItem)FileList.ContainerFromItem(item);
+            List<Grid> itemContentGrids = new List<Grid>();
+            Interaction.FindChildren(itemContentGrids, itemToDimForCut);
+            var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
+            imageOfItem.Opacity = 0.4;
         }
 
         private void RenameTextBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -255,9 +303,10 @@ namespace Files
             {
                 var listedItem = (sender as Grid).DataContext as ListedItem;
 
-                FileList.SelectedItems.Clear(); // Control not clicked, clear selected items
-                FileList.SelectedItems.Add(listedItem);
-                FileList.SelectedItem = listedItem;
+                if (!FileList.SelectedItems.Contains(listedItem))
+                {
+                    SetSelectedItemOnUi(listedItem);
+                }
             }
         }
 

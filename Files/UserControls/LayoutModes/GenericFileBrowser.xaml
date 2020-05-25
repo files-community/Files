@@ -274,7 +274,7 @@
             <MenuFlyoutItem
                 x:Name="QuickLook"
                 x:Uid="BaseLayoutItemContextFlyoutQuickLook"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook_Click}"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ToggleQuickLook}"
                 Text="QuickLook"
                 Visibility="{x:Bind IsQuickLookEnabled}">
                 <MenuFlyoutItem.Icon>
@@ -332,7 +332,7 @@
             LoadingRow="AllView_LoadingRow"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"
-            RightTapped="{x:Bind local:App.CurrentInstance.InteractionOperations.AllView_RightTapped}"
+            RightTapped="AllView_RightTapped"
             RowDetailsVisibilityMode="Collapsed"
             ScrollViewer.IsScrollInertiaEnabled="True"
             SelectionChanged="AllView_SelectionChanged"

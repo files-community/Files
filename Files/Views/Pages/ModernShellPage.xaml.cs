@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -149,14 +150,7 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                if (App.AppSettings.LayoutMode == 0) // List View
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
-                }
-                else
-                {
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
-                }
+                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
@@ -164,32 +158,11 @@ namespace Files.Views.Pages
 
         private void ItemDisplayFrame_Navigated(object sender, NavigationEventArgs e)
         {
-            if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser))
+            if (ItemDisplayFrame.CurrentSourcePageType == typeof(GenericFileBrowser)
+                || ItemDisplayFrame.CurrentSourcePageType == typeof(GridViewBrowser))
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
-                IEnumerable items = (ItemDisplayFrame.Content as GenericFileBrowser).AllView.ItemsSource;
-                if (items == null)
-                    return;
-                foreach (ListedItem listedItem in items)
-                {
-                    FrameworkElement element = (ItemDisplayFrame.Content as GenericFileBrowser).AllView.Columns[0].GetCellContent(listedItem);
-                    if (element != null)
-                        element.Opacity = 1;
-                }
-            }
-            else if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
-            {
-                // Reset Photo Grid items that may be in "cut" command mode
-                foreach (ListedItem listedItem in (ItemDisplayFrame.Content as GridViewBrowser).FileList.Items)
-                {
-                    List<Grid> itemContentGrids = new List<Grid>();
-                    GridViewItem gridViewItem = (ItemDisplayFrame.Content as GridViewBrowser).FileList.ContainerFromItem(listedItem) as GridViewItem;
-                    if (gridViewItem == null)
-                        return;
-                    Interaction.FindChildren<Grid>(itemContentGrids, gridViewItem);
-                    var imageOfItem = itemContentGrids.Find(x => x.Tag?.ToString() == "ItemImage");
-                    imageOfItem.Opacity = 1;
-                }
+                App.CurrentInstance.ContentPage.ResetItemOpacity();
             }
         }
 
@@ -234,7 +207,7 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): //shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        App.InteractionViewModel.PermanentlyDelete = true;
+                        App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
                     App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
                     break;
 
@@ -318,7 +291,7 @@ namespace Files.Views.Pages
                 switch (e.Key)
                 {
                     case VirtualKey.F2: //F2, rename
-                        if ((App.CurrentInstance.ContentPage).SelectedItems.Count > 0)
+                        if (App.CurrentInstance.ContentPage.IsItemSelected)
                         {
                             App.CurrentInstance.InteractionOperations.RenameItem_Click(null, null);
                         }

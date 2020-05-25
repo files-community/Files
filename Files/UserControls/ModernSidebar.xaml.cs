@@ -108,14 +108,7 @@ namespace Files.Controls
                     }
             }
 
-            if (App.AppSettings.LayoutMode == 0) // List View
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
-            }
-            else // Grid View
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), NavigationPath, new SuppressNavigationTransitionInfo());
-            }
+            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
         }

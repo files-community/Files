@@ -237,14 +237,7 @@ namespace Files.UserControls
                     {
                         await StorageFolder.GetFolderFromPathAsync(CurrentInput);
 
-                        if (App.AppSettings.LayoutMode == 0) // List View
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), CurrentInput); // navigate to folder
-                        }
-                        else
-                        {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), CurrentInput); // navigate to folder
-                        }
+                        App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
@@ -313,14 +306,7 @@ namespace Files.UserControls
             if (itemTappedPath == "Home" || itemTappedPath == "New tab")
                 return;
 
-            if (App.AppSettings.LayoutMode == 0) // List View
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), itemTappedPath); // navigate to folder
-            }
-            else
-            {
-                App.CurrentInstance.ContentFrame.Navigate(typeof(GridViewBrowser), itemTappedPath); // navigate to folder
-            }
+            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
     }
 }
