@@ -9,7 +9,6 @@ namespace Locations
         public string Icon { get; set; }
         public string Text { get; set; }
         public string Tag { get; set; }
-        //public string DominantImageColor { get; set; }
     }
 
     public class ItemLoader

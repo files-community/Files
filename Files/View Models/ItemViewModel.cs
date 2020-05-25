@@ -23,12 +23,10 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using FileAttributes = System.IO.FileAttributes;
 
@@ -737,15 +735,13 @@ namespace Files.Filesystem
             }
             catch (FileNotFoundException)
             {
-                MessageDialog folderGone = new MessageDialog("The folder you've navigated to was not found.", "Did you delete this folder?");
-                await folderGone.ShowAsync();
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog.Title"), ResourceController.GetTranslation("FolderNotFoundDialog.Text"));
                 IsLoadingItems = false;
                 return;
             }
             catch (Exception e)
             {
-                MessageDialog driveGone = new MessageDialog(e.Message, "Did you unplug this drive?");
-                await driveGone.ShowAsync();
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog.Title"), e.Message);
                 IsLoadingItems = false;
                 return;
             }

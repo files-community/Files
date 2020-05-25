@@ -648,6 +648,42 @@
           <source>Tiles View</source>
           <target state="new">Tiles View</target>
         </trans-unit>
+        <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
+          <source>We weren't able to delete this item</source>
+          <target state="new">We weren't able to delete this item</target>
+        </trans-unit>
+        <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Access Denied</source>
+          <target state="new">Access Denied</target>
+        </trans-unit>
+        <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
+          <source>Please insert the necessary drive to access this item.</source>
+          <target state="new">Please insert the necessary drive to access this item.</target>
+        </trans-unit>
+        <trans-unit id="DriveUnpluggedDialog.Title" translate="yes" xml:space="preserve">
+          <source>Drive Unplugged</source>
+          <target state="new">Drive Unplugged</target>
+        </trans-unit>
+        <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to access may have been moved or deleted.</source>
+          <target state="new">The file you are attempting to access may have been moved or deleted.</target>
+        </trans-unit>
+        <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
+          <source>File Not Found</source>
+          <target state="new">File Not Found</target>
+        </trans-unit>
+        <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
+          <source>The file you are attempting to preview may have been moved or deleted.</source>
+          <target state="new">The file you are attempting to preview may have been moved or deleted.</target>
+        </trans-unit>
+        <trans-unit id="FolderNotFoundDialog.Text" translate="yes" xml:space="preserve">
+          <source>The folder you are attempting to access may have been moved or deleted.</source>
+          <target state="new">The folder you are attempting to access may have been moved or deleted.</target>
+        </trans-unit>
+        <trans-unit id="FolderNotFoundDialog.Title" translate="yes" xml:space="preserve">
+          <source>Did you delete this folder?</source>
+          <target state="new">Did you delete this folder?</target>
+        </trans-unit>
       </group>
     </body>
   </file>
