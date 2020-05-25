@@ -34,7 +34,7 @@ namespace Files.Helpers
             {
                 if (Window.Current.Content is Frame rootFrame)
                 {
-                    var d = new ContentDialog
+                    var dialog = new ContentDialog
                     {
                         Title = title,
                         Content = message,
@@ -43,11 +43,11 @@ namespace Files.Helpers
 
                     if (!string.IsNullOrEmpty(secondaryText))
                     {
-                        d.SecondaryButtonText = secondaryText;
+                        dialog.SecondaryButtonText = secondaryText;
                     }
-                    var dr = await d.ShowAsync();
+                    var dialogResult = await dialog.ShowAsync();
 
-                    result = (dr == ContentDialogResult.Primary);
+                    result = (dialogResult == ContentDialogResult.Primary);
                 }
             }
             catch (Exception)

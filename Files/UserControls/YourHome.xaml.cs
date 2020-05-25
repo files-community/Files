@@ -262,16 +262,7 @@ namespace Files
                     break;
             }
 
-            switch (App.AppSettings.LayoutMode)
-            {
-                case 0:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(GenericFileBrowser), NavigationPath); // List View
-                    break;
-
-                case 1:
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(PhotoAlbum), NavigationPath); // Grid View
-                    break;
-            }
+            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath);
 
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }
