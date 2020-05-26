@@ -729,6 +729,15 @@
                                 <FontIcon Glyph="&#xE8A5;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
+                        <MenuFlyoutItem
+                            x:Name="NewFile"
+                            x:Uid="ModernNavigationToolbaNewFile"
+                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewFile_Click}"
+                            Text="File">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8A5;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

@@ -871,6 +871,11 @@ namespace Files.Interacts
             AddItemDialog.CreateFile(AddItemType.BitmapImage);
         }
 
+        public void NewFile_Click(object sneder, RoutedEventArgs e)
+        {
+            AddItemDialog.CreateFile(AddItemType.File);
+        }
+
         public async void ExtractItems_Click(object sender, RoutedEventArgs e)
         {
             var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();

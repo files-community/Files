@@ -26,7 +26,7 @@ namespace Files.Dialogs
             AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true, Type = AddItemType.Folder });
             AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true , Type = AddItemType.TextDocument });
             AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true, Type = AddItemType.BitmapImage });
-            AddItemsList.Add(new AddListItem { Header = "File", SubHeader = "Create a file", Icon = "\xE8A5", IsItemEnabled = true, Type = AddItemType.File });
+            AddItemsList.Add(new AddListItem { Header = "File", SubHeader = "Create a file with file extension", Icon = "\xE8A5", IsItemEnabled = true, Type = AddItemType.File });
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
