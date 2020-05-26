@@ -1,0 +1,652 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en-US" target-language="ta" original="FILES/STRINGS/EN-US/RESOURCES.RESW" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="4.0.6916.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
+        <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
+          <source>Delete Item(s)</source>
+          <target state="translated">உருப்படி(கள்) ஐ நீக்குக</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">இரத்து</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogDeleteButton.Content" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">நீக்கு</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogHeader.Text" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete the selected item(s)?</source>
+          <target state="translated">தேர்ந்தெடுக்கப்பட்ட உருப்படி(கள்) ஐ நீங்கள் நிச்சயம் நீக்க விரும்புகிறீர்களா?</target>
+        </trans-unit>
+        <trans-unit id="ConfirmDeleteDialogPermanentlyDeleteCheckBox.Content" translate="yes" xml:space="preserve">
+          <source>Permanently delete</source>
+          <target state="translated">நிரந்தரமாக நீக்கு</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="translated">புதியத் தாவலில் திற</target>
+        </trans-unit>
+        <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Open in new window</source>
+          <target state="translated">புதியச் சாளரத்தில் திற</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
+          <source>Extract Compressed Archive</source>
+          <target state="translated">சுருக்கப்பட்ட காப்பகத்தை பிரித்தெடு</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">இரத்து</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="translated">பிரித்தெடு</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewTab.Text" translate="yes" xml:space="preserve">
+          <source>New Tab</source>
+          <target state="translated">புதியத் தாவல்</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>New Window</source>
+          <target state="translated">புதிய சாளரம்</target>
+        </trans-unit>
+        <trans-unit id="ModernNavigationToolbaNewFolder.Text" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">கோப்புறை</target>
+        </trans-unit>
+        <trans-unit id="ModernNavigationToolbaNewBitmapImage.Text" translate="yes" xml:space="preserve">
+          <source>Bitmap Image</source>
+          <target state="translated">பிட் வரைபடப் படிமம்</target>
+        </trans-unit>
+        <trans-unit id="ModernNavigationToolbaNewTextDocument.Text" translate="yes" xml:space="preserve">
+          <source>Text Document</source>
+          <target state="translated">உரை ஆவணம்</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarCopyPath.Text" translate="yes" xml:space="preserve">
+          <source>Copy Path</source>
+          <target state="translated">பாதையை நகலெடு</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarPaste.Text" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="translated">ஒட்டு</target>
+        </trans-unit>
+        <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
+          <source>Drives</source>
+          <target state="translated">இயக்ககங்கள்</target>
+        </trans-unit>
+        <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="translated">பெயர்</target>
+        </trans-unit>
+        <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="translated">மாற்றப்பட்ட தேதி</target>
+        </trans-unit>
+        <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="translated">வகை</target>
+        </trans-unit>
+        <trans-unit id="sizeColumn.Header" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="translated">அளவு</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarOpenInTerminal.Text" translate="yes" xml:space="preserve">
+          <source>Open in Terminal...</source>
+          <target state="translated">முனையத்தில் திற...</target>
+        </trans-unit>
+        <trans-unit id="PropertiesCreated.Text" translate="yes" xml:space="preserve">
+          <source>Created:</source>
+          <target state="translated">உருவாக்கியது:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemFileName.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Item Name</source>
+          <target state="translated">உருப்படிப் பெயர்</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
+          <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
+          <target state="translated">இந்த சுருக்கப்பட்ட காப்பகத்தை பிரித்தெடுப்பதற்கு ஒரு இருப்பிடத்தைத் தேர்ந்தெடுக்கவும். இது முடியும் வரை நீங்கள் நடப்பு கோப்புறையில் இருக்க வேண்டும். பிரித்தெடுக்கப்பட்ட உருப்படிகளுடன் ஒரு புதிய தாவல் திறக்கும்.</target>
+        </trans-unit>
+        <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
+          <source>Browse</source>
+          <target state="translated">உலாவு</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemPath.Text" translate="yes" xml:space="preserve">
+          <source>Path:</source>
+          <target state="translated">பாதை:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemSize.Text" translate="yes" xml:space="preserve">
+          <source>Size:</source>
+          <target state="translated" state-qualifier="tm-suggestion">அளவு:</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
+          <source>This action cannot be done</source>
+          <target state="translated">இந்த செயலை செய்ய இயலாது</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogTheDestinationFolder" translate="yes" xml:space="preserve">
+          <source>The destination folder</source>
+          <target state="translated">இலக்கு கோப்புறை</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogIsASubfolder" translate="yes" xml:space="preserve">
+          <source>is a subfolder of the source folder</source>
+          <target state="translated">மூல கோப்புறையின் துணைக் கோப்புறை</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
+          <source>Skip</source>
+          <target state="translated">தவிர்</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">இரத்து</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemType.Text" translate="yes" xml:space="preserve">
+          <source>Item type:</source>
+          <target state="translated">உருப்படி வகை:</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlSelectAll.Text" translate="yes" xml:space="preserve">
+          <source>Select All</source>
+          <target state="translated">அனைத்தையும் தேர்ந்தெடு</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
+          <source>Invert Selection</source>
+          <target state="translated">தேர்வைப் புரட்டு</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlClearSelection.Text" translate="yes" xml:space="preserve">
+          <source>Clear Selection</source>
+          <target state="translated">தேர்வை அழி</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
+          <source>List View</source>
+          <target state="translated">பட்டியல் காட்சி</target>
+        </trans-unit>
+        <trans-unit id="PropertiesModified.Text" translate="yes" xml:space="preserve">
+          <source>Modified:</source>
+          <target state="translated">திருத்தியது:</target>
+        </trans-unit>
+        <trans-unit id="RecentItemClearAll.Text" translate="yes" xml:space="preserve">
+          <source>Clear all items</source>
+          <target state="translated">எல்லா உருப்படிகளையும் அழி</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePath.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter a path</source>
+          <target state="translated">ஒரு பாதையை உள்ளிடுக</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarSearchReigon.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="final" state-qualifier="tm-suggestion">தேடு</target>
+        </trans-unit>
+        <trans-unit id="RecentItemDescription.Text" translate="yes" xml:space="preserve">
+          <source>Files and folders you've previously accessed will show up here</source>
+          <target state="translated">நீங்கள் முன்பு அணுகிய கோப்புகள் மற்றும் கோப்புறைகள் இங்கு காட்டப்படும்</target>
+        </trans-unit>
+        <trans-unit id="RecentItemOpenFileLocation.Text" translate="yes" xml:space="preserve">
+          <source>Open file location</source>
+          <target state="translated">கோப்பு இருப்பிடத்தைத் திற</target>
+        </trans-unit>
+        <trans-unit id="RecentItemRemove.Text" translate="yes" xml:space="preserve">
+          <source>Remove this item</source>
+          <target state="translated">இந்த உருப்படியை அகற்று</target>
+        </trans-unit>
+        <trans-unit id="RecentItems.Text" translate="yes" xml:space="preserve">
+          <source>Recent items</source>
+          <target state="translated">சமீபத்திய உருப்படிகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutAppName.Text" translate="no" xml:space="preserve">
+          <source>Files UWP</source>
+          <target state="final">Files UWP</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
+          <source>License: </source>
+          <target state="translated">உரிமம்</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
+          <source>Special thanks to:</source>
+          <target state="translated">சிறப்பு நன்றிகள்:</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedback.Text" translate="yes" xml:space="preserve">
+          <source>Submit Feedback</source>
+          <target state="translated">பின்னூட்டத்தைச் சமர்ப்பி</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutSubmitFeedbackDescription.Text" translate="yes" xml:space="preserve">
+          <source>Send the developers an issue report with more information</source>
+          <target state="translated">உருவாக்குனர்ளுக்கு கூடுதல் தகவலுடன் ஒரு சிக்கல் அறிக்கையை அனுப்பவும்</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutThirdPartyLicenses.Text" translate="yes" xml:space="preserve">
+          <source>Third Party Licenses</source>
+          <target state="translated">மூன்றாம் தரப்பு உரிமங்கள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutTitle.Text" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">பற்றி</target>
+        </trans-unit>
+        <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
+          <source>Website: </source>
+          <target state="translated">வலைத்தளம்</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Acrylic sidebar</source>
+          <target state="translated">Acrylic பக்கப்பட்டி</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormat.Text" translate="yes" xml:space="preserve">
+          <source>Date format</source>
+          <target state="translated">தேதி வடிவமைப்பு</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTheme.Text" translate="yes" xml:space="preserve">
+          <source>App theme</source>
+          <target state="translated">பயன்பாட்டுக் கருப்பொருள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceTitle.Text" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">தோற்றம்</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
+          <source>Show drive letters</source>
+          <target state="translated">இயக்கக எழுத்துக்களைக் காண்பி</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
+          <source>Show extensions for known file types</source>
+          <target state="translated">அறிந்த கோப்பு வகைகளுக்கு நீட்டிப்புகளைக் காட்டு</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
+          <source>Show hidden files, folders, and drives</source>
+          <target state="translated">மறைந்துள்ள கோப்புகள், கோப்புறைகள் மற்றும் இயக்ககங்களைக் காண்பி</target>
+        </trans-unit>
+        <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">கோப்புகள் மற்றும் கோப்புறைகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
+          <source>Double tap to rename files</source>
+          <target state="translated">கோப்புகளை மறுபெயரிட இரண்டு தட்டு</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="translated">சோதனை</target>
+        </trans-unit>
+        <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">அமைப்புகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAbout.Content" translate="yes" xml:space="preserve">
+          <source>About</source>
+          <target state="translated">பற்றி</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavAppearance.Content" translate="yes" xml:space="preserve">
+          <source>Appearance</source>
+          <target state="translated">தோற்றம்</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
+          <source>Experimental</source>
+          <target state="translated">சோதனை</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavFilesAndFolders.Content" translate="yes" xml:space="preserve">
+          <source>Files and Folders</source>
+          <target state="translated">கோப்புகள் மற்றும் கோப்புறைகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavOnStartup.Content" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">தொடக்கத்தில்</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
+          <source>Page Layouts</source>
+          <target state="translated">பக்கத் தளவமைப்புகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">விருப்பங்கள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsNavSearch.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="final" state-qualifier="tm-suggestion">தேடு</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
+          <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
+          <target state="translated">எச்சரிக்கை: முன் பரிசோதனை அம்சங்கள்!</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupContinueWhereYouLeftOff.Content" translate="yes" xml:space="preserve">
+          <source>Continue where you left off</source>
+          <target state="translated">நீங்கள் விட்ட இடத்திலிருந்து தொடரவும்</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenANewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open a new tab</source>
+          <target state="translated">ஒரு புதிய தாவலைத் திற</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
+          <source>Open a specific page or pages</source>
+          <target state="translated">ஒரு குறிப்பிட்ட பக்கத்தை அல்லது பக்கங்களைத் திற</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
+          <source>On Startup</source>
+          <target state="translated">தொடக்கத்தில்</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesPinOneDrive.Text" translate="yes" xml:space="preserve">
+          <source>Pin OneDrive to the sidebar</source>
+          <target state="translated">OneDriveஐ பக்கப்பட்டியில் பொருத்து</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
+          <source>Show a confirmation dialog when deleting files or folders</source>
+          <target state="translated">கோப்புகள் அல்லது கோப்புறைகளை நீக்கும்போது ஒரு உறுதிப்படுத்தல் பெட்டியைக் காண்பி</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplications.Text" translate="yes" xml:space="preserve">
+          <source>Terminal Applications</source>
+          <target state="translated">முனைய பயன்பாடுகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTitle.Text" translate="yes" xml:space="preserve">
+          <source>Preferences</source>
+          <target state="translated">விருப்பங்கள்</target>
+        </trans-unit>
+        <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
+          <source>Desktop</source>
+          <target state="translated">திரைப்பலகம்</target>
+        </trans-unit>
+        <trans-unit id="SidebarDocuments" translate="yes" xml:space="preserve">
+          <source>Documents</source>
+          <target state="translated">ஆவணங்கள்</target>
+        </trans-unit>
+        <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
+          <source>Downloads</source>
+          <target state="translated">பதிவிறக்கங்கள்</target>
+        </trans-unit>
+        <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
+          <source>Home</source>
+          <target state="translated">முகப்பு</target>
+        </trans-unit>
+        <trans-unit id="SidebarMusic" translate="yes" xml:space="preserve">
+          <source>Music</source>
+          <target state="translated">இசை</target>
+        </trans-unit>
+        <trans-unit id="SidebarPictures" translate="yes" xml:space="preserve">
+          <source>Pictures</source>
+          <target state="translated">புகைப்படங்கள்</target>
+        </trans-unit>
+        <trans-unit id="SideBarUnpinFromSideBar.Text" translate="yes" xml:space="preserve">
+          <source>Unpin from Sidebar</source>
+          <target state="translated">பக்கப்பட்டியிலிருந்து விடுவி</target>
+        </trans-unit>
+        <trans-unit id="SidebarVideos" translate="yes" xml:space="preserve">
+          <source>Videos</source>
+          <target state="translated">காணொளிகள்</target>
+        </trans-unit>
+        <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
+          <source>Settings</source>
+          <target state="translated">அமைப்புகள்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortBy.Text" translate="yes" xml:space="preserve">
+          <source>Sort by</source>
+          <target state="translated">இதன்படி வரிசைப்படுத்து</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByName.Text" translate="yes" xml:space="preserve">
+          <source>Name</source>
+          <target state="translated">பெயர்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDate.Text" translate="yes" xml:space="preserve">
+          <source>Date modified</source>
+          <target state="translated">மாற்றப்பட்ட தேதி</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByType.Text" translate="yes" xml:space="preserve">
+          <source>Type</source>
+          <target state="translated">வகை</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortBySize.Text" translate="yes" xml:space="preserve">
+          <source>Size</source>
+          <target state="translated">அளவு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByAscending.Text" translate="yes" xml:space="preserve">
+          <source>Ascending</source>
+          <target state="translated">ஏறுவரிசை</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutSortByDescending.Text" translate="yes" xml:space="preserve">
+          <source>Descending</source>
+          <target state="translated">இறங்குவரிசை</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRefresh.Text" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">புதுப்பி</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutPaste.Text" translate="yes" xml:space="preserve">
+          <source>Paste</source>
+          <target state="translated">ஒட்டு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutOpenInTerminal.Text" translate="yes" xml:space="preserve">
+          <source>Open in Terminal...</source>
+          <target state="translated">முனையத்தில் திற...</target>
+        </trans-unit>
+        <trans-unit id="PropertiesItemMD5Hash.Text" translate="no" xml:space="preserve">
+          <source>MD5Hash:</source>
+          <target state="final">MD5Hash:</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNew.Text" translate="yes" xml:space="preserve">
+          <source>New</source>
+          <target state="translated">புதிய</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewFolder.Text" translate="yes" xml:space="preserve">
+          <source>Folder</source>
+          <target state="translated">கோப்புறை</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewBitmapImage.Text" translate="yes" xml:space="preserve">
+          <source>Bitmap Image</source>
+          <target state="translated">பிட் வரைபடப் படிமம்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutNewTextDocument.Text" translate="yes" xml:space="preserve">
+          <source>Text Document</source>
+          <target state="translated">உரை ஆவணம்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutPropertiesFolder.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">பண்புகள்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutExtract.Text" translate="yes" xml:space="preserve">
+          <source>Extract</source>
+          <target state="translated">பிரித்தெடு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
+          <source>Open</source>
+          <target state="translated">திற</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewTab.Text" translate="yes" xml:space="preserve">
+          <source>Open in new tab</source>
+          <target state="translated">புதியத் தாவலில் திற</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenInNewWindow.Text" translate="yes" xml:space="preserve">
+          <source>Open in new window</source>
+          <target state="translated">புதியச் சாளரத்தில் திற</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsDesktopBackground.Text" translate="yes" xml:space="preserve">
+          <source>Set as desktop background</source>
+          <target state="translated">திரைப்பலகப் பின்புலமாக அமை</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutShare.Text" translate="yes" xml:space="preserve">
+          <source>Share</source>
+          <target state="translated">பகிர்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCut.Text" translate="yes" xml:space="preserve">
+          <source>Cut</source>
+          <target state="translated">வெட்டு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutCopy.Text" translate="yes" xml:space="preserve">
+          <source>Copy</source>
+          <target state="translated">நகலெடு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutDelete.Text" translate="yes" xml:space="preserve">
+          <source>Delete</source>
+          <target state="translated">நீக்கு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutRename.Text" translate="yes" xml:space="preserve">
+          <source>Rename</source>
+          <target state="translated">மறுபெயரிடு</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutPinToSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Pin to sidebar</source>
+          <target state="translated">பக்கப்பட்டியில் பொருத்து</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutProperties.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">பண்புகள்</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutQuickLook.Text" translate="no" xml:space="preserve">
+          <source>QuickLook</source>
+          <target state="final">QuickLook</target>
+        </trans-unit>
+        <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
+          <source>Welcome to Files</source>
+          <target state="translated">Files இற்கு வருக</target>
+        </trans-unit>
+        <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Grant Permission</source>
+          <target state="translated">அனுமதியை வழங்கு</target>
+        </trans-unit>
+        <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
+          <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
+          <target state="translated">தொடங்க, நீங்கள் உங்கள் கோப்புகளைக் காண்பிக்க அனுமதியை வழங்கவும். இது ஒரு அமைப்புகள் பக்கத்தை திறக்கும், அங்கு நீங்கள் இந்த அனுமதியை எங்களுக்கு வழங்கலாம். நிறைவடைந்தவுடன் பயன்பாட்டை நீங்கள் மீண்டும் திறக்க வேண்டும். </target>
+        </trans-unit>
+        <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
+          <source>File folder</source>
+          <target state="translated">கோப்புக் கோப்புறை</target>
+        </trans-unit>
+        <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
+          <source>File</source>
+          <target state="translated">கோப்பு</target>
+        </trans-unit>
+        <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
+          <source>Enter an item name</source>
+          <target state="translated">ஒரு உருப்படி பெயரை உள்ளிடுக</target>
+        </trans-unit>
+        <trans-unit id="RenameDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Enter an item name without an extension</source>
+          <target state="translated">நீட்டிப்பு இல்லாமல் ஒரு உருப்படி பெயரை உள்ளிடுக</target>
+        </trans-unit>
+        <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Set Name</source>
+          <target state="translated">பெயரை அமை</target>
+        </trans-unit>
+        <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">இரத்து</target>
+        </trans-unit>
+        <trans-unit id="NewTab" translate="yes" xml:space="preserve">
+          <source>New tab</source>
+          <target state="translated">புதியத் தாவல்</target>
+        </trans-unit>
+        <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
+          <source>Windows default</source>
+          <target state="translated">Windows இயல்புநிலை</target>
+        </trans-unit>
+        <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
+          <source>Light</source>
+          <target state="translated">வெளிச்சம்</target>
+        </trans-unit>
+        <trans-unit id="DarkTheme" translate="yes" xml:space="preserve">
+          <source>Dark</source>
+          <target state="translated">இருள்</target>
+        </trans-unit>
+        <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
+          <source>Application</source>
+          <target state="translated">பயன்பாடு</target>
+        </trans-unit>
+        <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
+          <source>System</source>
+          <target state="translated">முறைமை</target>
+        </trans-unit>
+        <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
+          <source>New Folder</source>
+          <target state="translated">புதியக் கோப்புறை</target>
+        </trans-unit>
+        <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
+          <source>New Text Document</source>
+          <target state="translated">புதிய உரை ஆவணம்</target>
+        </trans-unit>
+        <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
+          <source>New Bitmap Image</source>
+          <target state="translated">புதிய பிட் வரைபடப் படிமம்</target>
+        </trans-unit>
+        <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
+          <source>This folder is empty.</source>
+          <target state="translated">இந்தக் கோப்புறை வெறுமையாக உள்ளது</target>
+        </trans-unit>
+        <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Back</source>
+          <target state="translated">பின்</target>
+        </trans-unit>
+        <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Forward</source>
+          <target state="translated">முன்</target>
+        </trans-unit>
+        <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Up</source>
+          <target state="translated">மேல்</target>
+        </trans-unit>
+        <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Refresh</source>
+          <target state="translated">புதுப்பி</target>
+        </trans-unit>
+        <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Create a new item</source>
+          <target state="translated">ஒரு புதிய உருப்படியை உருவாக்கு</target>
+        </trans-unit>
+        <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Search</source>
+          <target state="final" state-qualifier="tm-suggestion">தேடு</target>
+        </trans-unit>
+        <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>More options</source>
+          <target state="translated">மேலும் விருப்பங்கள்</target>
+        </trans-unit>
+        <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">பண்புகள்</target>
+        </trans-unit>
+        <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
+          <source>Attributes:</source>
+          <target state="translated">பண்புக் கூறுகள்:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
+          <source>Properties</source>
+          <target state="translated">பண்புகள்</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>View sample profiles</source>
+          <target state="translated">மாதிரி சுயவிவரங்களைக் காண்க</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogContent" translate="yes" xml:space="preserve">
+          <source>An item with this name already exists in this directory.</source>
+          <target state="translated">இந்தக் கோப்புறையில் இப்பெயருடன் ஏற்கனவே ஒரு உருப்படி உள்ளது.</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogPrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Generate new name</source>
+          <target state="translated">புதியப் பெயரை உற்பத்தி செய்</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Replace existing item</source>
+          <target state="translated">ஏற்கனவே உள்ள உருப்படியை மாற்று</target>
+        </trans-unit>
+        <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
+          <source>Item already exists</source>
+          <target state="translated">உருப்படி ஏற்கனவே உள்ளது</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" translate="yes" xml:space="preserve">
+          <source>Set as lockscreen background</source>
+          <target state="translated">பூட்டுத்திரை பின்புலமாக அமை</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Large)</source>
+          <target state="translated">கட்ட காட்சி (பெரிய)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Medium)</source>
+          <target state="translated">கட்ட காட்சி (நடுத்தரம்)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
+          <source>Grid View (Small)</source>
+          <target state="translated">கட்ட காட்சி (சிறிய)</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
+          <source>Tiles View</source>
+          <target state="translated">ஓடுகள் காட்சி</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
