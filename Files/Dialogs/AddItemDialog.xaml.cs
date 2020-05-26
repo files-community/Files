@@ -32,23 +32,7 @@ namespace Files.Dialogs
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
 	        App.AddItemDialogDisplay.Hide();
-            switch ((e.ClickedItem as AddListItem).Type)
-            {
-                case AddItemType.Folder:
-                    CreateFile(AddItemType.Folder);
-                    break;
-
-                case AddItemType.TextDocument:
-                    CreateFile(AddItemType.TextDocument);
-                    break;
-
-                case AddItemType.BitmapImage:
-                    CreateFile(AddItemType.BitmapImage);
-                    break;
-                case AddItemType.File:
-                    CreateFile(AddItemType.File);
-                    break;
-            }
+	        CreateFile(((AddListItem) e.ClickedItem).Type);
         }
 
         public static async void CreateFile(AddItemType fileType)
