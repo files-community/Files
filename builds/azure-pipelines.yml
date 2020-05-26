@@ -1,5 +1,5 @@
-trigger: none
-pr: none
+trigger:
+- master
 
 pool:
   vmImage: 'windows-latest'
@@ -21,7 +21,7 @@ steps:
       $xmlDoc.Package.Applications.Application.VisualElements.DisplayName="Files UWP - Preview"
       $xmlDoc.Save('$(Build.SourcesDirectory)\Files.Package\Package.appxmanifest')
     failOnStderr: true
-
+  
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
@@ -33,15 +33,16 @@ steps:
     platform: 'x86'
     solution: '**/*.wapproj'
     configuration: '$(buildConfiguration)'
-    msbuildArguments: '/t:build;_GenerateAppxPackage /p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+    msbuildArguments: '/t:build;_GenerateAppxPackage /p:Configuration=Release;Platform="$(buildPlatform)";AppxBundle=Always;AppxBundlePlatforms="$(buildPlatform)"'
 
-- task: store-flight@0
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
   inputs:
-    serviceEndpoint: 'Files'
-    appId: '9NGHP3DX8HDX'
-    flightName: 'Files UWP Fast Ring'
-    packagePath: '$(appxPackageDir)\**\*.msixupload'
-    force: false
-    skipPolling: false
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
 
-    
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
