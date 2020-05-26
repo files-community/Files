@@ -200,7 +200,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutLicense.Text" translate="yes" xml:space="preserve">
           <source>License: </source>
-          <target state="translated">உரிமம்</target>
+          <target state="translated">உரிமம்:</target>
         </trans-unit>
         <trans-unit id="SettingsAboutSpecialThanks.Text" translate="yes" xml:space="preserve">
           <source>Special thanks to:</source>
@@ -224,7 +224,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
           <source>Website: </source>
-          <target state="translated">வலைத்தளம்</target>
+          <target state="translated">வலைத்தளம்:</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
