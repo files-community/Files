@@ -339,6 +339,7 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\ta\Resources.resw" />
     <PRIResource Include="Strings\it-IT\Resources.resw" />
     <PRIResource Include="Strings\uk-UA\Resources.resw" />
     <PRIResource Include="Strings\tr-TR\Resources.resw" />
@@ -531,6 +532,7 @@
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ta.xlf" />
     <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
     <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
     <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
