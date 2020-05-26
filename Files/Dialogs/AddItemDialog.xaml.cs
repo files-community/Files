@@ -30,7 +30,7 @@ namespace Files.Dialogs
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
-        { 
+        {
             App.AddItemDialogDisplay.Hide();
 	        CreateFile(((AddListItem) e.ClickedItem).Type);
         }
