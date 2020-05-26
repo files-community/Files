@@ -23,25 +23,25 @@ namespace Files.Dialogs
         public void AddItemsToList()
         {
             AddItemsList.Clear();
-            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true });
-            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true });
+            AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true, Type = AddItemType.Folder});
+            AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true , Type = AddItemType.TextDocument});
+            AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true, Type = AddItemType.BitmapImage});
         }
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             App.AddItemDialogDisplay.Hide();
-            switch ((e.ClickedItem as AddListItem).Header)
+            switch ((e.ClickedItem as AddListItem).Type)
             {
-                case "Folder":
+                case AddItemType.Folder:
                     CreateFile(AddItemType.Folder);
                     break;
 
-                case "Text Document":
+                case AddItemType.TextDocument:
                     CreateFile(AddItemType.TextDocument);
                     break;
 
-                case "Bitmap Image":
+                case AddItemType.BitmapImage:
                     CreateFile(AddItemType.BitmapImage);
                     break;
             }
@@ -122,5 +122,6 @@ namespace Files.Dialogs
         public string SubHeader { get; set; }
         public string Icon { get; set; }
         public bool IsItemEnabled { get; set; }
+        public AddItemType Type { get; set; }
     }
 }
