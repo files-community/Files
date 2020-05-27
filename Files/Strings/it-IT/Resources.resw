@@ -238,7 +238,7 @@
     <value>Mostra una finestra di conferma per l'eliminazione di file o cartelle</value>
   </data>
   <data name="SettingsPreferencesTerminalApplications.Text" xml:space="preserve">
-    <value>Applicazione per la riga di comando</value>
+    <value>Applicazione per la riga di comando (terminal)</value>
   </data>
   <data name="SettingsPreferencesTitle.Text" xml:space="preserve">
     <value>Preferenze</value>
@@ -385,7 +385,7 @@
     <value>Nuova scheda</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Usa il tema di Windows</value>
+    <value>Tema di Windows</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Chiaro</value>
@@ -464,5 +464,62 @@
   </data>
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Vedi profili di esempio</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>Un elemento con questo nome esiste già in questa cartella.</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Genera nuovo nome</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>L'elemento esiste già</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Sostituisci l'elemento esistente</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+    <value>Imposta come sfondo della schermata di blocco</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+    <value>Icone molto grandi</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+    <value>Icone medie</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+    <value>Icone piccole</value>
+  </data>
+  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+    <value>Elenco</value>
+  </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+    <value>Non è stato possibile eliminare questo elemento</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
+    <value>Accesso Negato</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>Inserire l'unità necessaria per accedere a questo elemento.</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+    <value>Unità scollegata</value>
+  </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Il file a cui stai tentando di accedere potrebbe essere stato spostato o eliminato.</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>File non trovato</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>Il file che si sta tentando di visualizzare in anteprima potrebbe essere stato spostato o eliminato.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>La cartella a cui stai tentando di accedere potrebbe essere stata spostata o eliminata.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>Vuoi eliminare questa cartella?</value>
   </data>
 </root>
