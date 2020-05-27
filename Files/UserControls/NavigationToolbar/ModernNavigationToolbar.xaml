@@ -488,7 +488,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="5">
                     <TextBlock
                         Margin="0,0,0,4"
-                        FontSize="18"
+                        FontSize="16"
                         FontWeight="Normal"
                         Text="{Binding Title}" />
                     <FontIcon FontSize="10" Glyph="&#xE76C;" />
@@ -504,7 +504,7 @@
                 <StackPanel Orientation="Horizontal" Spacing="5">
                     <TextBlock
                         Margin="0,0,0,4"
-                        FontSize="18"
+                        FontSize="16"
                         FontWeight="Medium"
                         Text="{Binding Title}" />
                     <FontIcon FontSize="10" Glyph="&#xE76C;" />
@@ -630,7 +630,7 @@
                 BorderThickness="0"
                 FocusDisengaged="VisiblePath_LostFocus"
                 FontFamily="Segoe UI"
-                FontSize="18"
+                FontSize="16"
                 FontWeight="SemiBold"
                 KeyDown="VisiblePath_TextChanged"
                 LostFocus="VisiblePath_LostFocus"
