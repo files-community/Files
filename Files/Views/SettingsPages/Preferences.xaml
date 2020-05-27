@@ -60,7 +60,38 @@
                         OnContent=""
                         Toggled="OneDrivePin_Toggled" />
                 </Grid>
+                
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="270" />
+                        <ColumnDefinition Width="*" MaxWidth="460" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
 
+                    <TextBlock
+                        x:Uid="SettingsPreferencesPinRecycleBin"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Pin Recycle Bin to the sidebar"
+                        TextWrapping="Wrap" />
+
+                    <ToggleSwitch
+                        x:Name="RecycleBinPin"
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsEnabled="True"
+                        IsOn="{x:Bind local2:App.AppSettings.PinRecycleBinToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        OffContent=""
+                        OnContent=""
+                        Toggled="RecycleBinPin_Toggled" />
+                </Grid>
+                
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="270" />

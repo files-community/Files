@@ -704,6 +704,10 @@
           <source>Hidden</source>
           <target state="new">Hidden</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesPinRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Pin Recycle Bin to the sidebar</source>
+          <target state="new">Pin Recycle Bin to the sidebar</target>
+        </trans-unit>
       </group>
     </body>
   </file>

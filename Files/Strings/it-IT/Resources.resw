@@ -522,4 +522,7 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Vuoi eliminare questa cartella?</value>
   </data>
+  <data name="SettingsPreferencesPinRecycleBin.Text" xml:space="preserve">
+    <value>Fissa il cestino sulla barra laterale</value>
+  </data>
 </root>

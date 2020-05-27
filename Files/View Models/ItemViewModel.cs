@@ -320,7 +320,7 @@ namespace Files.Filesystem
                     // Handle the recycle bin: use the localized folder name
                     PathBoxItem item = new PathBoxItem()
                     {
-                        Title = (string)ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"],
+                        Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                         Path = tag,
                     };
                     App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
@@ -401,7 +401,8 @@ namespace Files.Filesystem
             watchedItemsOperation?.Cancel(); // Can be null
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
-            App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
+            // Can't go up from recycle bin
+            App.CurrentInstance.NavigationToolbar.CanNavigateToParent = !path.StartsWith(App.AppSettings.RecycleBinPath);
         }
 
         public void OrderFiles()
@@ -596,7 +597,7 @@ namespace Files.Filesystem
         }
 
         // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
-        // for file inside the reycle bin (but not on the recycle bin folder itself)
+        // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async void LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
             if (!item.ItemPropertiesInitialized)
@@ -781,7 +782,7 @@ namespace Files.Filesystem
             _rootFolderItem = new ListedItem(null)
             {
                 ItemPropertiesInitialized = true,
-                ItemName = (string)ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"],
+                ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
                 ItemType = ResourceController.GetTranslation("FileFolderListItem"),
                 LoadFolderGlyph = true,
@@ -806,27 +807,28 @@ namespace Files.Filesystem
                     IsLoadingItems = false;
                     return;
                 }
-                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    && response.Message.ContainsKey("Enumerate"))
                 {
-                    var file_list = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
-                    foreach (var item in file_list)
+                    var folderContentsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                    foreach (var item in folderContentsList)
                     {
-                        if (item.isFolder)
+                        if (item.IsFolder)
                         {
                             // Folder
                             _filesAndFolders.Add(new ListedItem(null)
                             {
                                 PrimaryItemAttribute = StorageItemTypes.Folder,
-                                ItemName = item.fileName,
-                                ItemDateModifiedReal = item.recycleDate,
-                                ItemType = item.fileType,
+                                ItemName = item.FileName,
+                                ItemDateModifiedReal = item.RecycleDate,
+                                ItemType = item.FileType,
                                 LoadFolderGlyph = true,
                                 FileImage = null,
                                 LoadFileIcon = false,
-                                ItemPath = item.recyclePath, // this is the true path on disk so other stuff can work as is
+                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                                 LoadUnknownTypeGlyph = false,
-                                FileSize = item.fileSize,
-                                FileSizeBytes = (ulong)item.fileSizeBytes
+                                FileSize = item.FileSize,
+                                FileSizeBytes = (ulong)item.FileSizeBytes
                                 //FolderTooltipText = tooltipString,
                             });
                         }
@@ -835,14 +837,14 @@ namespace Files.Filesystem
                             // File
                             string itemName;
                             if (App.AppSettings.ShowFileExtensions)
-                                itemName = item.fileName;
+                                itemName = item.FileName;
                             else
-                                itemName = Path.GetFileNameWithoutExtension(item.fileName);
+                                itemName = Path.GetFileNameWithoutExtension(item.FileName);
 
                             string itemFileExtension = null;
-                            if (item.fileName.Contains('.'))
+                            if (item.FileName.Contains('.'))
                             {
-                                itemFileExtension = Path.GetExtension(item.fileName);
+                                itemFileExtension = Path.GetExtension(item.FileName);
                             }
 
                             _filesAndFolders.Add(new ListedItem(null)
@@ -854,11 +856,11 @@ namespace Files.Filesystem
                                 LoadFileIcon = false,
                                 LoadFolderGlyph = false,
                                 ItemName = itemName,
-                                ItemDateModifiedReal = item.recycleDate,
-                                ItemType = item.fileType,
-                                ItemPath = item.recyclePath, // this is the true path on disk so other stuff can work as is
-                                FileSize = item.fileSize,
-                                FileSizeBytes = (ulong)item.fileSizeBytes
+                                ItemDateModifiedReal = item.RecycleDate,
+                                ItemType = item.FileType,
+                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                                FileSize = item.FileSize,
+                                FileSizeBytes = (ulong)item.FileSizeBytes
                             });
                         }
                     }

@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -135,7 +136,8 @@ namespace Files
                 }
                 else if (path.StartsWith(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    tabLocationHeader = "Recycle Bin";
+                    var localSettings = ApplicationData.Current.LocalSettings;
+                    tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                     fontIconSource.Glyph = "\xE74D";
                 }
                 else if (App.AppSettings.OneDrivePath != null && path.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
@@ -270,7 +272,8 @@ namespace Files
             }
             else if (currentPathForTabIcon.StartsWith(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
-                tabLocationHeader = "Recycle Bin";
+                var localSettings = ApplicationData.Current.LocalSettings;
+                tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
                 fontIconSource.Glyph = "\xE74D";
             }
             else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))

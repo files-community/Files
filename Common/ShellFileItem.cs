@@ -9,30 +9,30 @@ namespace Files.Common
 {
     public class ShellFileItem
     {
-        public bool isFolder;
-        public string recyclePath;
-        public string fileName;
-        public string filePath;
-        public DateTime recycleDate;
-        public string fileSize;
-        public int fileSizeBytes;
-        public string fileType;
+        public bool IsFolder;
+        public string RecyclePath;
+        public string FileName;
+        public string FilePath;
+        public DateTime RecycleDate;
+        public string FileSize;
+        public long FileSizeBytes;
+        public string FileType;
 
         public ShellFileItem()
         {
 
         }
 
-        public ShellFileItem(bool isFolder, string recyclePath, string fileName, string filePath, DateTime recycleDate, string fileSize, int fileSizeBytes, string fileType)
+        public ShellFileItem(bool isFolder, string recyclePath, string fileName, string filePath, DateTime recycleDate, string fileSize, long fileSizeBytes, string fileType)
         {
-            this.isFolder = isFolder;
-            this.recyclePath = recyclePath;
-            this.fileName = fileName;
-            this.filePath = filePath;
-            this.recycleDate = recycleDate;
-            this.fileSize = fileSize;
-            this.fileSizeBytes = fileSizeBytes;
-            this.fileType = fileType;
+            this.IsFolder = isFolder;
+            this.RecyclePath = recyclePath;
+            this.FileName = fileName;
+            this.FilePath = filePath;
+            this.RecycleDate = recycleDate;
+            this.FileSize = fileSize;
+            this.FileSizeBytes = fileSizeBytes;
+            this.FileType = fileType;
         }
     }
 }

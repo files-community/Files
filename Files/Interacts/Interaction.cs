@@ -744,13 +744,6 @@ namespace Files.Interacts
 
         public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
-            if (destinationPath.StartsWith(App.AppSettings.RecycleBinPath))
-            {
-                // Cannot copy/paste to recycle bin
-                // TODO: do this the right way (customize contextmenu, ...)
-                return;
-            }
-
             itemsToPaste = await packageView.GetStorageItemsAsync();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;

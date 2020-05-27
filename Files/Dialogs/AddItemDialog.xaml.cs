@@ -54,10 +54,6 @@ namespace Files.Dialogs
             {
                 currentPath = TabInstance.ViewModel.WorkingDirectory;
             }
-            if (currentPath.StartsWith(App.AppSettings.RecycleBinPath))
-            {
-                return; // Cannot create files in RecycleBin
-            }
             StorageFolder folderToCreateItem = await StorageFolder.GetFolderFromPathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();
 

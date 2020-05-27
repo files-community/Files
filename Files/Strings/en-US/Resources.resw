@@ -357,6 +357,9 @@
   <data name="SettingsPreferencesPinOneDrive.Text" xml:space="preserve">
     <value>Pin OneDrive to the sidebar</value>
   </data>
+  <data name="SettingsPreferencesPinRecycleBin.Text" xml:space="preserve">
+    <value>Pin Recycle Bin to the sidebar</value>
+  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
