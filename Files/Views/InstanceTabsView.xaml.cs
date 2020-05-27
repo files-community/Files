@@ -278,7 +278,7 @@ namespace Files
                         if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
                         {
                             fontIconSource.Glyph = "\xEDA2";
-                            tabLocationHeader = NormalizePath(currentPathForTabIcon);
+                            tabLocationHeader = NormalizePath(currentPathForTabIcon.EndsWith("\\") ? currentPathForTabIcon : currentPathForTabIcon + "\\");
                         }
                         else
                         {
