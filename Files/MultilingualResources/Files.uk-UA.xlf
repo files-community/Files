@@ -686,6 +686,14 @@
           <source>Did you delete this folder?</source>
           <target state="translated">Ви видалили цю папку?</target>
         </trans-unit>
+        <trans-unit id="LayoutModeButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Layout mode</source>
+          <target state="new">Layout mode</target>
+        </trans-unit>
+        <trans-unit id="SelectionOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="new">Selection options</target>
+        </trans-unit>
       </group>
     </body>
   </file>
