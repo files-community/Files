@@ -465,4 +465,61 @@
   <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
     <value>Beispielprofile anzeigen</value>
   </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>In diesem Verzeichnis existiert bereits eine Datei oder ein Ordner mit diesem Namen.</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>Neuen Namen erstellen</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Datei oder Ordner existiert bereits</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>Bestehende Datei oder Ordner ersetzen</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+    <value>Als Sperrbildschirm festlegen</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+    <value>Rasteransicht (Groß)</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+    <value>Rasteransicht (Mittel)</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+    <value>Rasteransicht (Klein)</value>
+  </data>
+  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+    <value>Fließenansicht</value>
+  </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+    <value>Löschen der Datei oder des Ordners nicht möglich</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
+    <value>Zugriff verweigert</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>Schließen Sie bitte das entsprechende Laufwerk an, um auf diese Datei zuzugreifen.</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+    <value>Laufwerk getrennt</value>
+  </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>Die Datei auf die sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>Datei nicht gefunden</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>Die Datei die sie anzeigen möchten wurde eventuell verschoben oder gelöscht.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>Die Datei auf die sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>Haben Sie diesen Ordner gelöscht?</value>
+  </data>
 </root>
