@@ -669,7 +669,7 @@
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to access may have been moved or deleted.</source>
-          <target state="translated">Die Datei auf die sie zugreifen möchten wurde eventuell verschoben oder gelöscht./target>
+          <target state="translated">Die Datei auf die sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</target>
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
