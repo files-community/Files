@@ -126,7 +126,7 @@
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewFile_Click}"
                     Text="File">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8A5;" />
+                        <FontIcon Glyph="&#xE7C3;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
