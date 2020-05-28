@@ -24,6 +24,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
+                x:Uid="StatusBarControlSelectionOptions"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -32,7 +33,8 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}">
+                Style="{StaticResource ToolBarButtonStyle}" 
+                ToolTipService.ToolTip="Selection options">
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem
@@ -58,6 +60,7 @@
             </Button>
 
             <Button
+                x:Uid="StatusBarControlLayoutMode"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -66,7 +69,8 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}">
+                Style="{StaticResource ToolBarButtonStyle}" 
+                ToolTipService.ToolTip="Layout mode">
                 <Button.Flyout>
                     <MenuFlyout>
                         <MenuFlyoutItem

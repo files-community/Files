@@ -627,4 +627,10 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Did you delete this folder?</value>
   </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Layout mode</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Selection options</value>
+  </data>
 </root>

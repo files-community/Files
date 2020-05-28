@@ -686,6 +686,14 @@
           <source>Did you delete this folder?</source>
           <target state="translated">¿Has eliminado esta carpeta?</target>
         </trans-unit>
+        <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Layout mode</source>
+          <target state="translated">Tipo de vista</target>
+        </trans-unit>
+        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Selection options</source>
+          <target state="translated">Opciones de selección</target>
+        </trans-unit>
       </group>
     </body>
   </file>
