@@ -24,7 +24,7 @@
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button
-                x:Uid="SelectionOptionsButton"
+                x:Uid="StatusBarControlSelectionOptions"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
@@ -60,7 +60,7 @@
             </Button>
 
             <Button
-                x:Uid="LayoutmodeButton"
+                x:Uid="StatusBarControlLayoutMode"
                 Width="34"
                 Height="30"
                 Margin="2,0,2,0"
