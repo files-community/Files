@@ -42,12 +42,6 @@
             Spacing="10">
 
             <Button
-                x:Name="btnCancel"
-                x:Uid="ConfirmDeleteDialogCancelButton"
-                Click="btnCancel_Click"
-                Content="Cancel" />
-
-            <Button
                 x:Name="btnDelete"
                 x:Uid="ConfirmDeleteDialogDeleteButton"
                 Background="{ThemeResource SystemAccentColor}"
@@ -56,8 +50,15 @@
                 TabIndex="0">
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Enter" />
+                    <KeyboardAccelerator Key="Space" />
                 </Button.KeyboardAccelerators>
             </Button>
+
+            <Button
+                x:Name="btnCancel"
+                x:Uid="ConfirmDeleteDialogCancelButton"
+                Click="btnCancel_Click"
+                Content="Cancel" />
         </StackPanel>
     </Grid>
 </ContentDialog>
