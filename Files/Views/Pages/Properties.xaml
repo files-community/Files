@@ -216,11 +216,11 @@
                     Margin="20,0,0,0"
                     Orientation="Horizontal">
                     <CheckBox 
-                        x:Uid="PropertiesReadOnly"
+                        x:Uid="PropertiesDialogReadOnly"
                         Content="Read-only"
                         IsEnabled="False" />
                     <CheckBox
-                        x:Uid="PropertiesHidden"
+                        x:Uid="PropertiesDialogHidden"
                         Content="Hidden" 
                         IsEnabled="False" />
                 </StackPanel>
