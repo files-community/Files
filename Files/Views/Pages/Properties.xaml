@@ -36,7 +36,7 @@
             Grid.Row="1"
             Padding="14"
             VerticalAlignment="Top">
-            <Grid RowSpacing="11">
+            <Grid RowSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -90,7 +90,7 @@
                     x:Uid="PropertiesItemFileName"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Margin="20,0,0,0"
+                    Margin="20,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     BorderThickness="1"
