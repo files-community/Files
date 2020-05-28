@@ -36,7 +36,7 @@
             Grid.Row="1"
             Padding="14"
             VerticalAlignment="Top">
-            <Grid RowSpacing="12">
+            <Grid RowSpacing="11">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
