@@ -278,7 +278,7 @@ namespace Files
                         if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
                         {
                             fontIconSource.Glyph = "\xEDA2";
-                            tabLocationHeader = NormalizePath(currentPathForTabIcon.EndsWith("\\") ? currentPathForTabIcon : currentPathForTabIcon + "\\");
+                            tabLocationHeader = NormalizePath(currentPathForTabIcon);
                         }
                         else
                         {
@@ -311,18 +311,14 @@ namespace Files
             }
             else
             {
-                if (path.Contains('\\'))
+                if (!path.EndsWith(Path.DirectorySeparatorChar))
                 {
-                    return Path.GetFullPath(new Uri(path).LocalPath)
-                    .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                    .ToUpperInvariant();
+                    path += Path.DirectorySeparatorChar;
                 }
-                else
-                {
-                    return Path.GetFullPath(path)
-                    .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                    .ToUpperInvariant();
-                }
+
+                return Path.GetFullPath(new Uri(path).LocalPath)
+                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
+                .ToUpperInvariant();
             }
         }
 
