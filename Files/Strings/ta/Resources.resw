@@ -154,7 +154,7 @@
     <value>சமீபத்திய உருப்படிகள்</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
-    <value>உரிமம்:</value>
+    <value>உரிமம்: </value>
   </data>
   <data name="SettingsAboutSpecialThanks.Text" xml:space="preserve">
     <value>சிறப்பு நன்றிகள்:</value>
@@ -172,7 +172,7 @@
     <value>பற்றி</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>வலைத்தளம்:</value>
+    <value>வலைத்தளம்: </value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Acrylic பக்கப்பட்டி</value>
@@ -482,5 +482,35 @@
   </data>
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
     <value>ஓடுகள் காட்சி</value>
+  </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>சரி</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Text" xml:space="preserve">
+    <value>இந்த உருப்படியை எங்களால் நீக்க இயலவில்லை</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
+    <value>அணுகல் மறுக்கப்பட்டது</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>இந்த உருப்படியை அணுக தேவையான இயக்கத்தை செருகவும்.</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+    <value>இயக்கம் துண்டிக்கப்பட்டது</value>
+  </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>நீங்கள் அணுக முயற்சிக்கும் கோப்பு நகர்த்தப்பட்டிருக்கலாம் அல்லது நீக்கப்பட்டு இருக்கலாம்.</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>கோப்பு காணவில்லை</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>நீங்கள் முன்னோட்டமிட முயற்சிக்கும் கோப்பு நகர்த்தப்பட்டு அல்லது நீக்கப்பட்டு இருக்கலாம்.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>நீங்கள் அணுக முயற்சிக்கும் கோப்புறை நகர்த்தப்பட்டு அல்லது நீக்கப்பட்டு இருக்கலாம்.</value>
+  </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>நீங்கள் இந்தக் கோப்புறையை நீக்கீவிட்டீர்களா?</value>
   </data>
 </root>
