@@ -687,11 +687,11 @@
           <source>Did you delete this folder?</source>
           <target state="translated">Vuoi eliminare questa cartella?</target>
         </trans-unit>
-        <trans-unit id="LayoutModeButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
           <target state="new">Layout mode</target>
         </trans-unit>
-        <trans-unit id="SelectionOptionsButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
           <target state="new">Selection options</target>
         </trans-unit>
