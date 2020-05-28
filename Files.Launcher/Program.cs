@@ -16,6 +16,8 @@ namespace FilesFullTrust
 {
     internal class Program
     {
+        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+
         //Put all the variables required for the DLLImports here
         enum RecycleFlags : uint { SHERB_NOCONFIRMATION = 0x00000001, SHERB_NOPROGRESSUI = 0x00000002, SHERB_NOSOUND = 0x00000004 }
 
@@ -26,6 +28,12 @@ namespace FilesFullTrust
         [STAThread]
         private static void Main(string[] args)
         {
+            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
+            NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+
+            AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
+
             if (HandleCommandLineArgs())
             {
                 // Handles OpenShellCommandInExplorer
@@ -36,10 +44,6 @@ namespace FilesFullTrust
             // This happens if multiple instances of the UWP app are launched
             var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
             if (!isNew) return;
-
-            Console.WriteLine("*****************************");
-            Console.WriteLine("**** Files UWP FullTrust ****");
-            Console.WriteLine("*****************************");
 
             // Create shell COM object and get recycle bin folder
             recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
@@ -66,17 +70,10 @@ namespace FilesFullTrust
             }
         }
 
-        private static string GetFileStringProperty(ShellItem folderItem, Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey)
+        private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
         {
-            var ps = ((Vanara.PInvoke.Shell32.IShellItem2)folderItem.IShellItem).GetPropertyStore(Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_DEFAULT, typeof(Vanara.PInvoke.PropSys.IPropertyStore).GUID);
-            var pv = new Vanara.PInvoke.Ole32.PROPVARIANT();
-            ps.GetValue(propertyKey, pv);
-            var pdesc = PropertyDescription.Create(propertyKey);
-            var pvalue = pdesc?.FormatForDisplay(pv, Vanara.PInvoke.PropSys.PROPDESC_FORMAT_FLAGS.PDFF_DEFAULT);
-            pdesc?.Dispose();
-            pv.Dispose();
-            Marshal.ReleaseComObject(ps);
-            return pvalue;
+            var exception = e.ExceptionObject as Exception;
+            Logger.Error(exception, exception.Message);
         }
 
         private static bool HandleCommandLineArgs()
@@ -184,16 +181,24 @@ namespace FilesFullTrust
                             var folderContentsList = new List<ShellFileItem>();
                             foreach (var folderItem in recycler)
                             {
-                                string recyclePath = folderItem.FileSystemPath; // True path on disk
-                                string fileName = Path.GetFileName(folderItem.FileInfo.DisplayName); // Original file name
-                                string filePath = Path.GetDirectoryName(folderItem.FileInfo.DisplayName); // Original file path
-                                DateTime recycleDate = folderItem.FileInfo.CreationTime; // This is LocalTime
-                                string fileSize = GetFileStringProperty(folderItem, Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                                //string fileSize = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size]; // Library bug?
-                                long fileSizeBytes = folderItem.FileInfo.Length;
-                                string fileType = folderItem.FileInfo.TypeName;
-                                bool isFolder = folderItem.FileInfo.Attributes.HasFlag(FileAttributes.Directory); //folderItem.IsFolder includes .zip
-                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
+                                try
+                                {
+                                    folderItem.Properties.ReadOnly = true;
+                                    folderItem.Properties.NoInheritedProperties = false;
+                                    string recyclePath = folderItem.FileSystemPath; // True path on disk
+                                    string fileName = Path.GetFileName(folderItem.FileInfo.DisplayName); // Original file name
+                                    string filePath = Path.GetDirectoryName(folderItem.FileInfo.DisplayName); // Original file path
+                                    DateTime recycleDate = folderItem.FileInfo.CreationTime; // This is LocalTime
+                                    string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
+                                    long fileSizeBytes = folderItem.IsFolder ? 0 : folderItem.FileInfo.Length;
+                                    string fileType = folderItem.FileInfo.TypeName;
+                                    bool isFolder = folderItem.FileInfo.Attributes.HasFlag(FileAttributes.Directory); //folderItem.IsFolder includes .zip
+                                    folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
+                                }
+                                catch (System.IO.FileNotFoundException)
+                                {
+                                    // Happens if files are being deleted
+                                }
                             }
                             responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
                             await args.Request.SendResponseAsync(responseEnum);

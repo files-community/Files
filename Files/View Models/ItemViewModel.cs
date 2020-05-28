@@ -25,7 +25,6 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -78,7 +77,7 @@ namespace Files.Filesystem
                     {
                         App.CurrentInstance.SidebarSelectedItem = item;
                     }
-                    
+
                     NotifyPropertyChanged("WorkingDirectory");
                 }
             }
@@ -399,10 +398,13 @@ namespace Files.Filesystem
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
             watchedItemsOperation?.Cancel(); // Can be null
-            App.CurrentInstance.NavigationToolbar.CanGoBack = true;
-            App.CurrentInstance.NavigationToolbar.CanGoForward = true;
-            // Can't go up from recycle bin
-            App.CurrentInstance.NavigationToolbar.CanNavigateToParent = !path.StartsWith(App.AppSettings.RecycleBinPath);
+            if (WorkingDirectory == null || !WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Can't go up from recycle bin
+                App.CurrentInstance.NavigationToolbar.CanGoBack = true;
+                App.CurrentInstance.NavigationToolbar.CanGoForward = true;
+                App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
+            }
         }
 
         public void OrderFiles()
