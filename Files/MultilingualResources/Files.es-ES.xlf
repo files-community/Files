@@ -694,6 +694,14 @@
           <source>Selection options</source>
           <target state="translated">Opciones de selección</target>
         </trans-unit>
+        <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
+          <source>Read-only</source>
+          <target state="translated">Solo lectura</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
+          <source>Hidden</source>
+          <target state="translated">Oculto</target>
+        </trans-unit>
       </group>
     </body>
   </file>

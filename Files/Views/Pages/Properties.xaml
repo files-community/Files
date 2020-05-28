@@ -36,7 +36,7 @@
             Grid.Row="1"
             Padding="14"
             VerticalAlignment="Top">
-            <Grid RowSpacing="8">
+            <Grid RowSpacing="12">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -90,7 +90,7 @@
                     x:Uid="PropertiesItemFileName"
                     Grid.Row="0"
                     Grid.Column="1"
-                    Margin="0"
+                    Margin="20,0"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center"
                     BorderThickness="1"
@@ -106,7 +106,8 @@
                     x:Uid="PropertiesItemType"
                     Grid.Row="2"
                     Grid.Column="0"
-                    Text="Item type:" />
+                    Text="Item type:" 
+                    FontWeight="SemiBold" />
                 <TextBlock
                     x:Name="itemTypeValue"
                     Grid.Row="2"
@@ -119,7 +120,8 @@
                     x:Uid="PropertiesItemPath"
                     Grid.Row="3"
                     Grid.Column="0"
-                    Text="Path:" />
+                    Text="Path:" 
+                    FontWeight="SemiBold" />
                 <TextBlock
                     x:Name="itemPathValue"
                     Grid.Row="3"
@@ -133,7 +135,8 @@
                     x:Uid="PropertiesItemSize"
                     Grid.Row="4"
                     Grid.Column="0"
-                    Text="Size:" />
+                    Text="Size:" 
+                    FontWeight="SemiBold" />
                 <TextBlock
                     x:Name="itemSizeValue"
                     Grid.Row="4"
@@ -148,7 +151,8 @@
                     Grid.Row="5"
                     Grid.Column="0"
                     Text="MD5Hash:"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" 
+                    FontWeight="SemiBold" />
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Row="5"
@@ -175,7 +179,8 @@
                     x:Uid="PropertiesCreated"
                     Grid.Row="7"
                     Grid.Column="0"
-                    Text="Created:" />
+                    Text="Created:" 
+                    FontWeight="SemiBold" />
                 <TextBlock
                     x:Name="itemCreatedTimestampValue"
                     Grid.Row="7"
@@ -188,7 +193,8 @@
                     x:Uid="PropertiesModified"
                     Grid.Row="8"
                     Grid.Column="0"
-                    Text="Modified:" />
+                    Text="Modified:" 
+                    FontWeight="SemiBold" />
                 <TextBlock
                     x:Name="itemModifiedTimestampValue"
                     Grid.Row="8"
@@ -202,14 +208,21 @@
                     Grid.Row="9"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Text="Attributes:" />
+                    Text="Attributes:" 
+                    FontWeight="SemiBold" />
                 <StackPanel
                     Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     Orientation="Horizontal">
-                    <CheckBox Content="Read-only" IsEnabled="False" />
-                    <CheckBox Content="Hidden" IsEnabled="False" />
+                    <CheckBox 
+                        x:Uid="PropertiesDialogReadOnly"
+                        Content="Read-only"
+                        IsEnabled="False" />
+                    <CheckBox
+                        x:Uid="PropertiesDialogHidden"
+                        Content="Hidden" 
+                        IsEnabled="False" />
                 </StackPanel>
             </Grid>
         </StackPanel>
