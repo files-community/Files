@@ -199,6 +199,10 @@ namespace FilesFullTrust
                                 {
                                     // Happens if files are being deleted
                                 }
+                                finally
+                                {
+                                    folderItem?.Dispose();
+                                }
                             }
                             responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
                             await args.Request.SendResponseAsync(responseEnum);
