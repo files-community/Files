@@ -645,4 +645,10 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Selection options</value>
   </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Read-only</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Hidden</value>
+  </data>
 </root>
