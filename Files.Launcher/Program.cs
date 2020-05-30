@@ -263,7 +263,8 @@ namespace FilesFullTrust
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = executable;
-                process.StartInfo.CreateNoWindow = true;
+                // Show window is no arguments (opening terminal)
+                process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(arguments);
                 process.StartInfo.Arguments = arguments;
                 process.Start();
             }

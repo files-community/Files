@@ -398,11 +398,11 @@ namespace Files.Filesystem
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
             watchedItemsOperation?.Cancel(); // Can be null
-            if (WorkingDirectory == null || !WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            App.CurrentInstance.NavigationToolbar.CanGoBack = true;
+            App.CurrentInstance.NavigationToolbar.CanGoForward = true;
+            if (!(WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false))
             {
                 // Can't go up from recycle bin
-                App.CurrentInstance.NavigationToolbar.CanGoBack = true;
-                App.CurrentInstance.NavigationToolbar.CanGoForward = true;
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
         }

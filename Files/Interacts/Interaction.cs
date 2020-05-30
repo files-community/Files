@@ -1,43 +1,40 @@
 using Files.Dialogs;
 using Files.Filesystem;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using Files.Helpers;
+using Files.Views.Pages;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.Foundation.Metadata;
+using Windows.Security.Cryptography;
+using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.System;
+using Windows.System.UserProfile;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.WindowManagement;
+using Windows.UI.WindowManagement.Preview;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.System.UserProfile;
 using static Files.Dialogs.ConfirmDeleteDialog;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
-using Files.Views.Pages;
-using Windows.Foundation.Metadata;
-using Windows.UI.WindowManagement;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.WindowManagement.Preview;
-using Windows.UI;
-using Windows.Security.Cryptography.Core;
-using Windows.Security.Cryptography;
-using Windows.Storage.Streams;
-using GalaSoft.MvvmLight.Command;
-using Files.Helpers;
-using Windows.UI.Xaml.Data;
-using Windows.Foundation.Collections;
 
 namespace Files.Interacts
 {
@@ -652,6 +649,11 @@ namespace Files.Interacts
 
             CurrentInstance.NavigationToolbar.CanGoForward = false;
             return true;
+        }
+
+        public async void RestoreItem_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         public async void CutItem_Click(object sender, RoutedEventArgs e)

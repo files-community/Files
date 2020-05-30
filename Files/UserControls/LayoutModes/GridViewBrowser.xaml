@@ -207,7 +207,18 @@
                     <FontIcon Glyph="&#xE72D;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutSeparator />
+            <MenuFlyoutSeparator 
+                x:Name="FileActionsSeparator"/>
+            <MenuFlyoutItem
+                x:Name="RestoreItem"
+                x:Uid="BaseLayoutItemContextFlyoutRestore"
+                x:Load="False"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RestoreItem_Click}"
+                Text="Restore">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7A7;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="CutItem"
                 x:Uid="BaseLayoutItemContextFlyoutCut"
