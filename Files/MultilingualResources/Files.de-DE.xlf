@@ -703,10 +703,6 @@
           <source>Hidden</source>
           <target state="new">Hidden</target>
         </trans-unit>
-        <trans-unit id="SettingsPreferencesPinRecycleBin.Text" translate="yes" xml:space="preserve">
-          <source>Pin Recycle Bin to the sidebar</source>
-          <target state="new">Pin Recycle Bin to the sidebar</target>
-        </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
           <target state="new">Empty recycle bin</target>
@@ -714,6 +710,10 @@
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
           <target state="new">Restore</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Enable Recycle Bin support</source>
+          <target state="new">Enable Recycle Bin support</target>
         </trans-unit>
       </group>
     </body>

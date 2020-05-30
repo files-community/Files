@@ -69,12 +69,5 @@ namespace Files.SettingsPages
             App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
             OneDrivePin.IsEnabled = true;
         }
-
-        private void RecycleBinPin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            RecycleBinPin.IsEnabled = false;
-            App.AppSettings.PinRecycleBinToSideBar = RecycleBinPin.IsOn;
-            RecycleBinPin.IsEnabled = true;
-        }
     }
 }
