@@ -245,6 +245,13 @@ namespace Files
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not rename files and folders inside the recycle bin
+                AllView.CancelEdit(); // cancel the edit operation
+                return;
+            }
+
             // Check if the double tap to rename files setting is off
             if (App.AppSettings.DoubleTapToRenameFiles == false)
             {
