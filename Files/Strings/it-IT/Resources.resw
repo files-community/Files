@@ -525,4 +525,10 @@
   <data name="SettingsPreferencesPinRecycleBin.Text" xml:space="preserve">
     <value>Fissa il cestino sulla barra laterale</value>
   </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Svuota cestino</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
 </root>

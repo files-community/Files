@@ -707,6 +707,14 @@
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="translated">Fissa il cestino sulla barra laterale</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Empty recycle bin</source>
+          <target state="translated">Svuota cestino</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
+          <source>Restore</source>
+          <target state="translated">Ripristina</target>
+        </trans-unit>
       </group>
     </body>
   </file>

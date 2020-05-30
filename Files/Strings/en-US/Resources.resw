@@ -642,4 +642,10 @@
   <data name="PropertiesDialogHidden.Content" xml:space="preserve">
     <value>Hidden</value>
   </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Empty recycle bin</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Restore</value>
+  </data>
 </root>

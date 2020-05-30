@@ -708,6 +708,14 @@
           <source>Pin Recycle Bin to the sidebar</source>
           <target state="new">Pin Recycle Bin to the sidebar</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Empty recycle bin</source>
+          <target state="new">Empty recycle bin</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
+          <source>Restore</source>
+          <target state="new">Restore</target>
+        </trans-unit>
       </group>
     </body>
   </file>
