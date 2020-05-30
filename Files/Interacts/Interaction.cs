@@ -653,7 +653,22 @@ namespace Files.Interacts
 
         public async void RestoreItem_Click(object sender, RoutedEventArgs e)
         {
-
+            if (App.CurrentInstance.ContentPage.IsItemSelected)
+            {
+                foreach (ListedItem listedItem in App.CurrentInstance.ContentPage.SelectedItems)
+                {
+                    // We could do this in UWP if ListedItem contained the original file path
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet();
+                        value.Add("Arguments", "RecycleBin");
+                        value.Add("action", "Restore");
+                        value.Add("SourceFile", listedItem.ItemPath);
+                        // Send request to fulltrust process to restore the file
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                }
+            }
         }
 
         public async void CutItem_Click(object sender, RoutedEventArgs e)

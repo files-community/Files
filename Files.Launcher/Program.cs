@@ -180,10 +180,6 @@ namespace FilesFullTrust
                             // Shell function to empty recyclebin
                             Vanara.PInvoke.Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Vanara.PInvoke.Shell32.SHERB.SHERB_NOCONFIRMATION | Vanara.PInvoke.Shell32.SHERB.SHERB_NOPROGRESSUI);
                         }
-                        else if (action == "Restore")
-                        {
-
-                        }
                         else if (action == "Query")
                         {
                             var responseQuery = new ValueSet();
@@ -193,11 +189,42 @@ namespace FilesFullTrust
                             // TODO: use this when updated library is released
                             //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
                             //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
-                            var numItems = queryBinInfo.i64NumItems;
-                            var binSize = queryBinInfo.i64Size;
-                            responseQuery.Add("NumItems", numItems);
-                            responseQuery.Add("BinSize", binSize);
-                            await args.Request.SendResponseAsync(responseQuery);
+                            if (res == Vanara.PInvoke.HRESULT.S_OK)
+                            {
+                                var numItems = queryBinInfo.i64NumItems;
+                                var binSize = queryBinInfo.i64Size;
+                                responseQuery.Add("NumItems", numItems);
+                                responseQuery.Add("BinSize", binSize);
+                                await args.Request.SendResponseAsync(responseQuery);
+                            }
+                        }
+                        else if (action == "Restore")
+                        {
+                            try
+                            {
+                                var sourceFilePath = (string)args.Request.Message["SourceFile"];
+                                using var sourceFile = new ShellItem(sourceFilePath);
+                                string originalFilePath = sourceFile.FileInfo.DisplayName;
+                                await System.Threading.Tasks.Task.Run(() =>
+                                {
+                                    if (sourceFile.FileInfo.Attributes.HasFlag(FileAttributes.Directory))
+                                    {
+                                        System.IO.Directory.Move(sourceFilePath, originalFilePath);
+                                    }
+                                    else
+                                    {
+                                        System.IO.File.Move(sourceFilePath, originalFilePath);
+                                    }
+                                    // Recycle bin also stores a file starting with $I for each item
+                                    var iFilePath = Path.Combine(Path.GetDirectoryName(sourceFilePath), Path.GetFileName(sourceFilePath).Replace("$R", "$I"));
+                                    System.IO.File.Delete(iFilePath);
+                                });
+                            }
+                            catch (System.IO.IOException ex)
+                            {
+                                // If destination file exists
+                                // TODO: display dialog to the user
+                            }
                         }
                         else if (action == "Enumerate")
                         {
@@ -226,7 +253,7 @@ namespace FilesFullTrust
                                 }
                                 finally
                                 {
-                                    folderItem?.Dispose();
+                                    folderItem.Dispose();
                                 }
                             }
                             responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
