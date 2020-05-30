@@ -92,6 +92,8 @@ namespace Files.Filesystem
         public string ItemPath { get; set; }
         public string FileSize { get; set; }
         public ulong FileSizeBytes { get; set; }
+        // For recycle bin elements (path + name)
+        public string ItemOriginalPath { get; set; }
 
         public DateTimeOffset ItemDateModifiedReal
         {

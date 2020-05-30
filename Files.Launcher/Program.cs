@@ -198,34 +198,6 @@ namespace FilesFullTrust
                                 await args.Request.SendResponseAsync(responseQuery);
                             }
                         }
-                        else if (action == "Restore")
-                        {
-                            try
-                            {
-                                var sourceFilePath = (string)args.Request.Message["SourceFile"];
-                                using var sourceFile = new ShellItem(sourceFilePath);
-                                string originalFilePath = sourceFile.FileInfo.DisplayName;
-                                await System.Threading.Tasks.Task.Run(() =>
-                                {
-                                    if (sourceFile.FileInfo.Attributes.HasFlag(FileAttributes.Directory))
-                                    {
-                                        System.IO.Directory.Move(sourceFilePath, originalFilePath);
-                                    }
-                                    else
-                                    {
-                                        System.IO.File.Move(sourceFilePath, originalFilePath);
-                                    }
-                                    // Recycle bin also stores a file starting with $I for each item
-                                    var iFilePath = Path.Combine(Path.GetDirectoryName(sourceFilePath), Path.GetFileName(sourceFilePath).Replace("$R", "$I"));
-                                    System.IO.File.Delete(iFilePath);
-                                });
-                            }
-                            catch (System.IO.IOException ex)
-                            {
-                                // If destination file exists
-                                // TODO: display dialog to the user
-                            }
-                        }
                         else if (action == "Enumerate")
                         {
                             // Enumerate recyclebin contents and send response to UWP
@@ -239,7 +211,7 @@ namespace FilesFullTrust
                                     folderItem.Properties.NoInheritedProperties = false;
                                     string recyclePath = folderItem.FileSystemPath; // True path on disk
                                     string fileName = Path.GetFileName(folderItem.FileInfo.DisplayName); // Original file name
-                                    string filePath = Path.GetDirectoryName(folderItem.FileInfo.DisplayName); // Original file path
+                                    string filePath = folderItem.FileInfo.DisplayName; // Original file path
                                     DateTime recycleDate = folderItem.FileInfo.CreationTime; // This is LocalTime
                                     string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
                                     long fileSizeBytes = folderItem.IsFolder ? 0 : folderItem.FileInfo.Length;

@@ -828,6 +828,7 @@ namespace Files.Filesystem
                                 FileImage = null,
                                 LoadFileIcon = false,
                                 ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                                ItemOriginalPath = item.FilePath,
                                 LoadUnknownTypeGlyph = false,
                                 FileSize = item.FileSize,
                                 FileSizeBytes = (ulong)item.FileSizeBytes
@@ -861,6 +862,7 @@ namespace Files.Filesystem
                                 ItemDateModifiedReal = item.RecycleDate,
                                 ItemType = item.FileType,
                                 ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                                ItemOriginalPath = item.FilePath,
                                 FileSize = item.FileSize,
                                 FileSizeBytes = (ulong)item.FileSizeBytes
                             });
