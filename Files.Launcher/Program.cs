@@ -18,12 +18,18 @@ namespace FilesFullTrust
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        //Put all the variables required for the DLLImports here
-        enum RecycleFlags : uint { SHERB_NOCONFIRMATION = 0x00000001, SHERB_NOPROGRESSUI = 0x00000002, SHERB_NOSOUND = 0x00000004 }
+        // TODO: remove this when updated library is released
+        [DllImport("shell32.dll")]
+        static extern Vanara.PInvoke.HRESULT SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
 
-        [DllImport("Shell32.dll")]
-        static extern int SHEmptyRecycleBin
-              (IntPtr hwnd, string pszRootPath, RecycleFlags dwFlags);
+        // TODO: remove this when updated library is released
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
+        struct SHQUERYRBINFO
+        {
+            public uint cbSize;
+            public long i64Size;
+            public long i64NumItems;
+        }
 
         [STAThread]
         private static void Main(string[] args)
@@ -53,7 +59,7 @@ namespace FilesFullTrust
             var watcher = new ShellItemChangeWatcher(recycler, false);
             watcher.NotifyFilter = ChangeFilters.AllDiskEvents;
             watcher.Changed += Watcher_Changed;
-            //watcher.EnableRaisingEvents = true; // Wait for release of updated library
+            //watcher.EnableRaisingEvents = true; // TODO: uncomment this when updated library is released
 
             try
             {
@@ -172,7 +178,26 @@ namespace FilesFullTrust
                         if (action == "Empty")
                         {
                             // Shell function to empty recyclebin
-                            SHEmptyRecycleBin(IntPtr.Zero, null, RecycleFlags.SHERB_NOCONFIRMATION | RecycleFlags.SHERB_NOPROGRESSUI);
+                            Vanara.PInvoke.Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Vanara.PInvoke.Shell32.SHERB.SHERB_NOCONFIRMATION | Vanara.PInvoke.Shell32.SHERB.SHERB_NOPROGRESSUI);
+                        }
+                        else if (action == "Restore")
+                        {
+
+                        }
+                        else if (action == "Query")
+                        {
+                            var responseQuery = new ValueSet();
+                            SHQUERYRBINFO queryBinInfo = new SHQUERYRBINFO();
+                            queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(SHQUERYRBINFO));
+                            var res = SHQueryRecycleBin("", ref queryBinInfo);
+                            // TODO: use this when updated library is released
+                            //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
+                            //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                            var numItems = queryBinInfo.i64NumItems;
+                            var binSize = queryBinInfo.i64Size;
+                            responseQuery.Add("NumItems", numItems);
+                            responseQuery.Add("BinSize", binSize);
+                            await args.Request.SendResponseAsync(responseQuery);
                         }
                         else if (action == "Enumerate")
                         {

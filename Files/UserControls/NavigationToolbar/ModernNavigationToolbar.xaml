@@ -693,6 +693,7 @@
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
@@ -807,6 +808,7 @@
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
                             x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
                             Text="Open in Terminal..." />
                     </MenuFlyout>

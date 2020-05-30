@@ -167,6 +167,8 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            App.InteractionViewModel.IsPageTypeNotRecycleBin = 
+                !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
             await App.CurrentInstance.ViewModel.RefreshItems();
 

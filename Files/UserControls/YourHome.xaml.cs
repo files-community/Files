@@ -49,6 +49,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             App.InteractionViewModel.IsPageTypeNotHome = false;
+            App.InteractionViewModel.IsPageTypeNotRecycleBin = true;
             var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();

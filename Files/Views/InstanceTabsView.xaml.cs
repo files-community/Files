@@ -3,14 +3,12 @@ using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
-using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -444,6 +442,15 @@ namespace Files
                     else
                     {
                         App.InteractionViewModel.IsPageTypeNotHome = true;
+                    }
+                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() ==
+                        ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"))
+                    {
+                        App.InteractionViewModel.IsPageTypeNotRecycleBin = false;
+                    }
+                    else
+                    {
+                        App.InteractionViewModel.IsPageTypeNotRecycleBin = true;
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
