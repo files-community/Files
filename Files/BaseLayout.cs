@@ -190,15 +190,31 @@ namespace Files
         {
             var menuItem = this.FindName(nameToUnload) as DependencyObject;
             if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
-                (menuItem as MenuFlyoutItem).Visibility = Visibility.Collapsed;
+                (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
         }
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
             if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
+                (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
+                UnloadMenuFlyoutItemByName("NewEmptySpace");
+            }
+            else
+            {
+                UnloadMenuFlyoutItemByName("EmptyRecycleBin");
+                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = true;
+                (this.FindName("NewEmptySpace") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+            }
+        }
+
+        public void RightClickItemContextMenu_Opening(object sender, object e)        
+        {
+            if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
                 // In recycle bin many actions do not make sense (e.g. rename)
-                OpenRecycleBinRightClinkContextMenu();
+                OpenRecycleBinRightClickContextMenu();
             }
             else
             {
@@ -210,7 +226,7 @@ namespace Files
         {
             // Remove recycle bin restore action and show separator
             UnloadMenuFlyoutItemByName("RestoreItem");
-            (this.FindName("FileActionsSeparator") as MenuFlyoutSeparator).Visibility = Visibility.Visible;
+            (this.FindName("FileActionsSeparator") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
 
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
@@ -230,12 +246,12 @@ namespace Files
                         if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
-                            (this.FindName("UnzipItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("UnzipItem");
                         }
                         else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
-                            (this.FindName("OpenItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("OpenItem");
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
@@ -252,9 +268,9 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenItem");
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
-                    (this.FindName("OpenInNewTab") as MenuFlyoutItem).Visibility = Visibility.Visible;
-                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
                     //this.FindName("OpenInNewTab");
                     //this.FindName("OpenInNewWindowItem");
@@ -262,7 +278,7 @@ namespace Files
                 }
                 else if (selectedFileSystemItems.Count > 5)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
@@ -274,7 +290,7 @@ namespace Files
             App.InteractionViewModel.CheckForImage();
         }
 
-        private void OpenRecycleBinRightClinkContextMenu()
+        private void OpenRecycleBinRightClickContextMenu()
         {
             // Remove everything except "Delete", "Cut", "Properties"
             UnloadMenuFlyoutItemByName("UnzipItem");
@@ -289,8 +305,11 @@ namespace Files
 
             // Show "Restore" action and hide separator
             // Restore is the first action of the list
-            (this.FindName("RestoreItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
-            (this.FindName("FileActionsSeparator") as MenuFlyoutSeparator).Visibility = Visibility.Collapsed;
+            (this.FindName("RestoreItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+            (this.FindName("FileActionsSeparator") as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
+
+            // Don't show image operations
+            App.InteractionViewModel.IsSelectedItemImage = false;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

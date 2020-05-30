@@ -736,6 +736,18 @@ namespace Files.Interacts
             Abort
         }
 
+        public async void EmptyRecycleBin_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "RecycleBin");
+                value.Add("action", "Empty");
+                // Send request to fulltrust process to empty recyclebin
+                await App.Connection.SendMessageAsync(value);
+            }
+        }
+
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             DataPackageView packageView = Clipboard.GetContent();
