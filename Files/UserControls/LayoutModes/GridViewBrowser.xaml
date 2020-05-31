@@ -582,10 +582,10 @@
             SelectionMode="Extended">
             <Interactivity:Interaction.Behaviors>
                 <Core:DataTriggerBehavior Binding="{x:Bind local:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
-                    <Core:ChangePropertyAction TargetObject="{Binding ElementName=FileList}" PropertyName="ItemContainerStyle" Value="{StaticResource DataGridRowRecycleBinContextFlyout}" />
+                    <Core:ChangePropertyAction TargetObject="{Binding ElementName=FileList}" PropertyName="ItemContainerStyle" Value="{StaticResource GridViewItemRecycleBinContextFlyout}" />
                 </Core:DataTriggerBehavior>
                 <Core:DataTriggerBehavior Binding="{x:Bind local:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
-                    <Core:ChangePropertyAction TargetObject="{Binding ElementName=FileList}" PropertyName="ItemContainerStyle" Value="{StaticResource DataGridRowStandardContextFlyout}" />
+                    <Core:ChangePropertyAction TargetObject="{Binding ElementName=FileList}" PropertyName="ItemContainerStyle" Value="{StaticResource GridViewItemStandardContextFlyout}" />
                 </Core:DataTriggerBehavior>
             </Interactivity:Interaction.Behaviors>
         </GridView>
