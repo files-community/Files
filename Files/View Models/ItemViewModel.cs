@@ -831,8 +831,8 @@ namespace Files.Filesystem
                                 ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                                 ItemOriginalPath = item.FilePath,
                                 LoadUnknownTypeGlyph = false,
-                                FileSize = item.FileSize,
-                                FileSizeBytes = (ulong)item.FileSizeBytes
+                                FileSize = null,
+                                FileSizeBytes = 0
                                 //FolderTooltipText = tooltipString,
                             });
                         }

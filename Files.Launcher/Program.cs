@@ -215,7 +215,7 @@ namespace FilesFullTrust
                                     var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
                                     var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
                                     string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                                    ulong fileSizeBytes = folderItem.IsFolder ? 0 : (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
+                                    ulong fileSizeBytes = (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
                                     string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
                                     bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
                                     folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
