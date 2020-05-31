@@ -19,6 +19,8 @@ namespace FilesFullTrust
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
+        private static Guid _id = Guid.NewGuid();
+
         [STAThread]
         private static void Main(string[] args)
         {
@@ -26,7 +28,7 @@ namespace FilesFullTrust
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
-            Logger.Info("Start full trust");
+            Logger.Info("Start full trust: {0}", _id);
 
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
@@ -41,7 +43,7 @@ namespace FilesFullTrust
             var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
             if (!isNew) return;
 
-            Logger.Info("Keep running");
+            Logger.Info("Keep running: {0}, IsNew: {1}", _id, isNew);
 
             // Create shell COM object and get recycle bin folder
             recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
@@ -67,7 +69,7 @@ namespace FilesFullTrust
                 recycler?.Dispose();
             }
 
-            Logger.Info("Exiting");
+            Logger.Info("Exiting: {0}", _id);
         }
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
@@ -137,12 +139,12 @@ namespace FilesFullTrust
                 connection = null;
             }
 
-            Logger.Info("Connection open");
+            Logger.Info("Connection open: {0}", _id);
         }
 
         private static async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
-            Logger.Info("NEW REQUEST");
+            Logger.Info("NEW REQUEST: {0}", _id);
 
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
@@ -151,6 +153,7 @@ namespace FilesFullTrust
             if (args.Request.Message == null)
             {
                 messageDeferral.Complete();
+                Logger.Info("NO MESSAGE: {0}", _id);
                 return;
             }
 
@@ -163,18 +166,19 @@ namespace FilesFullTrust
                     // Requests from UWP app are sent via AppService connection
                     var arguments = (string)args.Request.Message["Arguments"];
                     var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                    Logger.Info("Request: {0}, Arguments: {1}", _id, arguments);
 
                     if (arguments == "Terminate")
                     {
                         // Exit fulltrust process (UWP is closed or suspended)
                         appServiceExit.Set();
                         messageDeferral.Complete();
-                        Logger.Info("TERMINATE");
+                        Logger.Info("TERMINATE: {0}", _id);
                     }
                     else if (arguments == "RecycleBin")
                     {
                         var action = (string)args.Request.Message["action"];
-                        Logger.Info(action);
+                        Logger.Info("RecycleBin: {0}, Action: {0}", _id, action);
 
                         if (action == "Empty")
                         {
@@ -233,7 +237,7 @@ namespace FilesFullTrust
                             responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
                             await args.Request.SendResponseAsync(responseEnum);
 
-                            Logger.Info("DONE ENUM");
+                            Logger.Info("DONE ENUM: {0}", _id);
                         }
                     }
                     else if (arguments == "StartupTasks")
@@ -270,6 +274,7 @@ namespace FilesFullTrust
                 }
                 else if (args.Request.Message.ContainsKey("Application"))
                 {
+                    Logger.Info("LAUNCH REQUEST: {0}", _id);
                     HandleApplicationLaunch(args);
                 }
             }
@@ -278,7 +283,7 @@ namespace FilesFullTrust
                 // Complete the deferral so that the platform knows that we're done responding to the app service call.
                 // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
                 messageDeferral.Complete();
-                Logger.Info("DONE REQUEST");
+                Logger.Info("DONE REQUEST: {0}", _id);
             }
         }
 
