@@ -546,4 +546,13 @@
   <data name="PropertiesDialogHidden.Content" xml:space="preserve">
     <value>Oculto</value>
   </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Vaciar papelera de reciclaje</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>Mostrar la papelera de reciclaje en la barra lateral</value>
+  </data>
 </root>
