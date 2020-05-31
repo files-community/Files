@@ -70,6 +70,7 @@ namespace FilesFullTrust
                 recycler?.Dispose();
             }
 
+            mutex.ReleaseMutex();
             Logger.Info("Exiting: {0}", _id);
         }
 
