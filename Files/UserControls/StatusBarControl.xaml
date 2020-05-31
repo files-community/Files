@@ -33,7 +33,7 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}" 
+                Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Selection options">
                 <Button.Flyout>
                     <MenuFlyout>
@@ -69,7 +69,7 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
-                Style="{StaticResource ToolBarButtonStyle}" 
+                Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Layout mode">
                 <Button.Flyout>
                     <MenuFlyout>
@@ -94,7 +94,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
                             Text="Grid View (Small)">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE80A;"/>
+                                <FontIcon Glyph="&#xE80A;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.CommandLine
 {
@@ -64,7 +62,7 @@ namespace Files.CommandLine
             return commands;
         }
 
-        static string[] SplitArguments(string commandLine)
+        private static string[] SplitArguments(string commandLine)
         {
             char[] commandLineCharArray = commandLine.ToCharArray();
             bool isInQuote = false;
@@ -89,7 +87,7 @@ namespace Files.CommandLine
             if (args != null)
             {
                 //if - or / are not used then add the command as-is
-                
+
                 if (args.Length > 2)
                 {
                     for (int i = 0; i < args.Length; i++)

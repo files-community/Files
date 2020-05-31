@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Files.Helpers
 {
-    class DialogDisplayHelper
+    internal class DialogDisplayHelper
     {
         /// <summary>
         /// Standard dialog, to ensure consistency.

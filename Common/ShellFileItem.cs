@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Files.Common
 {
@@ -20,7 +15,6 @@ namespace Files.Common
 
         public ShellFileItem()
         {
-
         }
 
         public ShellFileItem(bool isFolder, string recyclePath, string fileName, string filePath, DateTime recycleDate, string fileSize, ulong fileSizeBytes, string fileType)

@@ -26,7 +26,7 @@ namespace FilesFullTrust
             DISPLAYVALUE
         }
 
-        public static List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> RecyledFileProperties = 
+        public static List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> RecyledFileProperties =
             new List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)>
         {
             (Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, PropertyReturnType.RAWVALUE),
@@ -53,7 +53,7 @@ namespace FilesFullTrust
                     {
                         propValueList.Add(propVariant.Value);
                     }
-                    else if(prop.returnType == PropertyReturnType.DISPLAYVALUE)
+                    else if (prop.returnType == PropertyReturnType.DISPLAYVALUE)
                     {
                         using var pDesc = PropertyDescription.Create(prop.propertyKey);
                         var pValue = pDesc?.FormatForDisplay(propVariant, Vanara.PInvoke.PropSys.PROPDESC_FORMAT_FLAGS.PDFF_DEFAULT);

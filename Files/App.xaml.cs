@@ -193,7 +193,7 @@ namespace Files
                 if (App.CurrentInstance != null)
                 {
                     DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems) 
+                    if (packageView.Contains(StandardDataFormats.StorageItems)
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
                         && !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
                     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.Background;
@@ -22,7 +21,7 @@ namespace MessageRelay
 
         /// <summary>
         /// When an AppServiceConnection of type 'FilesInteropService' (as
-        /// defined in Package.appxmanifest) is instantiated and OpenAsync() is called 
+        /// defined in Package.appxmanifest) is instantiated and OpenAsync() is called
         /// on it, then one of these StartupTask's in instantiated and Run() is called.
         /// </summary>
         /// <param name="taskInstance"></param>

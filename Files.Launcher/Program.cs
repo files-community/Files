@@ -79,7 +79,7 @@ namespace FilesFullTrust
 
                 if (arguments == "ShellCommand")
                 {
-                    // Kill the process. This is a BRUTAL WAY to kill a process.                    
+                    // Kill the process. This is a BRUTAL WAY to kill a process.
 #if DEBUG
                     // In debug mode this kills this process too??
 #else
@@ -232,7 +232,7 @@ namespace FilesFullTrust
                     }
                     else if (arguments == "ShellCommand")
                     {
-                        // Kill the process. This is a BRUTAL WAY to kill a process.                    
+                        // Kill the process. This is a BRUTAL WAY to kill a process.
 #if DEBUG
                         // In debug mode this kills this process too??
 #else

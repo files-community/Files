@@ -1,32 +1,25 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Files.Filesystem;
+using Files.Helpers;
+using Files.Interacts;
+using Files.Views.Pages;
 using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
-using Files.Interacts;
-using Windows.System;
 using Windows.UI.Xaml.Navigation;
-using System.ComponentModel;
-using System.Runtime.InteropServices;
-using System.IO;
-using Windows.UI.Popups;
-using System.Threading.Tasks;
-using System.Runtime.CompilerServices;
-using System.Linq;
-using Files.Filesystem;
-using Files.View_Models;
-using Files.Controls;
-using Files.Views.Pages;
-using Files.Helpers;
 
 namespace Files
 {
     public sealed partial class YourHome : Page
     {
-        ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
-        EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
+        private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
+        private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
 
         public YourHome()
         {
@@ -293,6 +286,7 @@ namespace Files
     public class EmptyRecentsText : INotifyPropertyChanged
     {
         private Visibility visibility;
+
         public Visibility Visibility
         {
             get
@@ -310,6 +304,7 @@ namespace Files
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

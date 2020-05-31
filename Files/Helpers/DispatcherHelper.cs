@@ -7,7 +7,7 @@ namespace Files.Helpers
     /// <summary>
     /// This class provides static methods helper for executing code in UI thread of the main window.
     /// </summary>
-    static class DispatcherHelper
+    internal static class DispatcherHelper
     { /// <summary>
       /// This struct represents an awaitable dispatcher.
       /// </summary>

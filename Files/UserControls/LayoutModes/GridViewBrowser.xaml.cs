@@ -338,5 +338,4 @@ namespace Files
                 _iconSize = iconSize; // Update icon size
         }
     }
-
 }

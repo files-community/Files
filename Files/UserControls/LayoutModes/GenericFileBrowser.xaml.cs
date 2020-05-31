@@ -1,7 +1,6 @@
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -9,17 +8,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.DataTransfer;
-using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -85,6 +78,7 @@ namespace Files
 
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
@@ -130,7 +124,7 @@ namespace Files
 
             SetSelectedItemsOnUi(newSelectedItems);
         }
-        
+
         public override void ClearSelection()
         {
             AllView.SelectedItems.Clear();

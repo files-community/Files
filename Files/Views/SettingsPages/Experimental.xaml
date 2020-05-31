@@ -33,7 +33,7 @@
                     x:Uid="SettingsExperimentalDescription"
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
-                
+
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="270" />
