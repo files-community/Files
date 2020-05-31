@@ -114,7 +114,7 @@ namespace Files
                 ItemProperties.LoadFileIcon = false;
                 ItemProperties.LoadFolderGlyph = true;
                 ItemProperties.LoadUnknownTypeGlyph = false;
-                ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;                
+                ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;
             }
         }
 

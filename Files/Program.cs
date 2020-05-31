@@ -2,15 +2,14 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
-using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Files
 {
-    class Program
+    internal class Program
     {
-        static void Main()
+        private static void Main()
         {
             var args = Environment.GetCommandLineArgs();
 
@@ -30,6 +29,7 @@ namespace Files
                                 //Exit..
 
                                 return;
+
                             default:
                                 break;
                         }

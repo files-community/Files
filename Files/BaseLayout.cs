@@ -167,7 +167,7 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            App.InteractionViewModel.IsPageTypeNotRecycleBin = 
+            App.InteractionViewModel.IsPageTypeNotRecycleBin =
                 !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
             await App.CurrentInstance.ViewModel.RefreshItems();
@@ -211,7 +211,7 @@ namespace Files
             }
         }
 
-        public void RightClickItemContextMenu_Opening(object sender, object e)        
+        public void RightClickItemContextMenu_Opening(object sender, object e)
         {
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
@@ -389,6 +389,7 @@ namespace Files
 
         // VirtualKey doesn't support / accept plus and minus by default.
         public readonly VirtualKey plusKey = (VirtualKey)187;
+
         public readonly VirtualKey minusKey = (VirtualKey)189;
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -421,6 +422,5 @@ namespace Files
                 e.Handled = true;
             }
         }
-
     }
 }

@@ -17,6 +17,7 @@ namespace Files.Filesystem
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
         private DriveType _type;
+
         public DriveType Type
         {
             get => _type;

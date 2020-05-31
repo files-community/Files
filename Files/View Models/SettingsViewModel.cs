@@ -575,12 +575,15 @@ namespace Files.View_Models
                 case 0:
                     type = typeof(GenericFileBrowser);
                     break;
+
                 case 1:
                     type = typeof(GridViewBrowser);
                     break;
+
                 case 2:
                     type = typeof(GridViewBrowser);
                     break;
+
                 default:
                     type = typeof(GenericFileBrowser);
                     break;
@@ -636,7 +639,7 @@ namespace Files.View_Models
             _GridViewSize = Get(125, "GridViewSize"); // Get GridView Size
         }
 
-        private int _GridViewSize = 125; // Default Size 
+        private int _GridViewSize = 125; // Default Size
 
         public int GridViewSize
         {
