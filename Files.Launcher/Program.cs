@@ -26,6 +26,8 @@ namespace FilesFullTrust
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
+            Logger.Info("Start full trust");
+
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
             if (HandleCommandLineArgs())
@@ -38,6 +40,8 @@ namespace FilesFullTrust
             // This happens if multiple instances of the UWP app are launched
             var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
             if (!isNew) return;
+
+            Logger.Info("Keep running");
 
             // Create shell COM object and get recycle bin folder
             recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
@@ -62,6 +66,8 @@ namespace FilesFullTrust
                 watcher?.Dispose();
                 recycler?.Dispose();
             }
+
+            Logger.Info("Exiting");
         }
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
@@ -130,10 +136,14 @@ namespace FilesFullTrust
                 connection.Dispose();
                 connection = null;
             }
+
+            Logger.Info("Connection open");
         }
 
         private static async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
         {
+            Logger.Info("NEW REQUEST");
+
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
             var messageDeferral = args.GetDeferral();
@@ -159,10 +169,12 @@ namespace FilesFullTrust
                         // Exit fulltrust process (UWP is closed or suspended)
                         appServiceExit.Set();
                         messageDeferral.Complete();
+                        Logger.Info("TERMINATE");
                     }
                     else if (arguments == "RecycleBin")
                     {
                         var action = (string)args.Request.Message["action"];
+                        Logger.Info(action);
 
                         if (action == "Empty")
                         {
@@ -220,6 +232,8 @@ namespace FilesFullTrust
                             }
                             responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
                             await args.Request.SendResponseAsync(responseEnum);
+
+                            Logger.Info("DONE ENUM");
                         }
                     }
                     else if (arguments == "StartupTasks")
@@ -264,6 +278,7 @@ namespace FilesFullTrust
                 // Complete the deferral so that the platform knows that we're done responding to the app service call.
                 // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
                 messageDeferral.Complete();
+                Logger.Info("DONE REQUEST");
             }
         }
 
