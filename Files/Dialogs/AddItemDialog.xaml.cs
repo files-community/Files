@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.Dialogs

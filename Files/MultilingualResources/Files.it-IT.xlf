@@ -8,7 +8,7 @@
       <group id="FILES/STRINGS/EN-US/RESOURCES.RESW" datatype="resx">
         <trans-unit id="ConfirmDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Delete Item(s)</source>
-          <target state="translated">Elima gli elementi</target>
+          <target state="translated">Elimina gli elementi</target>
         </trans-unit>
         <trans-unit id="ConfirmDeleteDialogCancelButton.Content" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -718,6 +718,18 @@
         <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
           <source>Hidden</source>
           <target state="new">Hidden</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Empty recycle bin</source>
+          <target state="translated">Svuota cestino</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
+          <source>Restore</source>
+          <target state="translated">Ripristina</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
+          <source>Enable Recycle Bin support</source>
+          <target state="translated">Abilita il supporto al Cestino</target>
         </trans-unit>
       </group>
     </body>

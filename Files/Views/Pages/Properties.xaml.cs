@@ -80,7 +80,7 @@ namespace Files
 
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    // get file MD5 hash
+                    // Get file MD5 hash
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
                     ItemProperties.ItemMD5HashProgressVisibility = Visibility.Visible;
                     ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
@@ -96,7 +96,17 @@ namespace Files
             else
             {
                 var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
-                var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                {
+                    // GetFolderFromPathAsync cannot access recyclebin folder
+                    // Currently a fake timestamp is used
+                    ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectory.ItemDateModifiedReal);
+                }
+                else
+                {
+                    var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                    ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectoryStorageItem.DateCreated);
+                }
                 ItemProperties.ItemName = parentDirectory.ItemName;
                 ItemProperties.ItemType = parentDirectory.ItemType;
                 ItemProperties.ItemPath = parentDirectory.ItemPath;
@@ -104,8 +114,7 @@ namespace Files
                 ItemProperties.LoadFileIcon = false;
                 ItemProperties.LoadFolderGlyph = true;
                 ItemProperties.LoadUnknownTypeGlyph = false;
-                ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;
-                ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectoryStorageItem.DateCreated);
+                ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;                
             }
         }
 

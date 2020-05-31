@@ -1,6 +1,5 @@
 using Files.Filesystem;
 using Files.Interacts;
-using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -157,7 +156,9 @@ namespace Files
             AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
             App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
 
-            if (App.CurrentInstance.ViewModel.WorkingDirectory == Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory))
+            // pathRoot will be empty on recycle bin path
+            string pathRoot = Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory);
+            if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.ViewModel.WorkingDirectory == pathRoot)
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             }
@@ -166,6 +167,8 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
             App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            App.InteractionViewModel.IsPageTypeNotRecycleBin = 
+                !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
             await App.CurrentInstance.ViewModel.RefreshItems();
 
@@ -189,10 +192,26 @@ namespace Files
         {
             var menuItem = this.FindName(nameToUnload) as DependencyObject;
             if (menuItem != null) // Prevent crash if the MenuFlyoutItem is missing
-                (menuItem as MenuFlyoutItem).Visibility = Visibility.Collapsed;
+                (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
         }
 
         public void RightClickContextMenu_Opening(object sender, object e)
+        {
+            if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
+                UnloadMenuFlyoutItemByName("NewEmptySpace");
+            }
+            else
+            {
+                UnloadMenuFlyoutItemByName("EmptyRecycleBin");
+                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = true;
+                (this.FindName("NewEmptySpace") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+            }
+        }
+
+        public void RightClickItemContextMenu_Opening(object sender, object e)        
         {
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
@@ -212,12 +231,12 @@ namespace Files
                         if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
-                            (this.FindName("UnzipItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("UnzipItem");
                         }
                         else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
-                            (this.FindName("OpenItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("OpenItem");
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
@@ -234,9 +253,9 @@ namespace Files
                 UnloadMenuFlyoutItemByName("OpenItem");
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
-                    (this.FindName("OpenInNewTab") as MenuFlyoutItem).Visibility = Visibility.Visible;
-                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
                     //this.FindName("OpenInNewTab");
                     //this.FindName("OpenInNewWindowItem");
@@ -244,7 +263,7 @@ namespace Files
                 }
                 else if (selectedFileSystemItems.Count > 5)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItem).Visibility = Visibility.Visible;
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");

@@ -1,8 +1,8 @@
 ﻿using Files.CommandLine;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml;
 

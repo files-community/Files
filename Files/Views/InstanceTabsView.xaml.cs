@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Common;
+using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -131,6 +132,12 @@ namespace Files
                     tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
                     fontIconSource.Glyph = "\xE8B2";
                 }
+                else if (path.StartsWith(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    var localSettings = ApplicationData.Current.LocalSettings;
+                    tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                    fontIconSource.Glyph = "\xE74D";
+                }
                 else if (App.AppSettings.OneDrivePath != null && path.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
                 {
                     tabLocationHeader = "OneDrive";
@@ -260,6 +267,12 @@ namespace Files
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
                 fontIconSource.Glyph = "\xE8B2";
+            }
+            else if (currentPathForTabIcon.StartsWith(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                var localSettings = ApplicationData.Current.LocalSettings;
+                tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                fontIconSource.Glyph = "\xE74D";
             }
             else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
             {
@@ -429,6 +442,15 @@ namespace Files
                     else
                     {
                         App.InteractionViewModel.IsPageTypeNotHome = true;
+                    }
+                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() ==
+                        ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"))
+                    {
+                        App.InteractionViewModel.IsPageTypeNotRecycleBin = false;
+                    }
+                    else
+                    {
+                        App.InteractionViewModel.IsPageTypeNotRecycleBin = true;
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);

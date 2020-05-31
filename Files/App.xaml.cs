@@ -13,12 +13,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -66,7 +63,7 @@ namespace Files
         {
             InitializeComponent();
             Suspending += OnSuspending;
-
+            LeavingBackground += OnLeavingBackground;
             // Initialize NLog
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -86,6 +83,69 @@ namespace Files
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
             SelectedItemPropertiesViewModel = new SelectedItemPropertiesViewModel();
+        }
+
+        private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
+        {
+            // Need to reinitialize AppService when app is resuming
+            InitializeAppServiceConnection();
+        }
+
+        public static AppServiceConnection Connection;
+        public static Action AppServiceConnected;
+
+        private async void InitializeAppServiceConnection()
+        {
+            Connection = new AppServiceConnection();
+            Connection.AppServiceName = "FilesInteropService";
+            Connection.PackageFamilyName = Package.Current.Id.FamilyName;
+            Connection.RequestReceived += Connection_RequestReceived;
+            Connection.ServiceClosed += Connection_ServiceClosed;
+
+            AppServiceConnectionStatus status = await Connection.OpenAsync();
+            if (status != AppServiceConnectionStatus.Success)
+            {
+                // TODO: error handling
+                Connection.Dispose();
+                Connection = null;
+            }
+
+            // Launch fulltrust process
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+
+            AppServiceConnected?.Invoke();
+        }
+
+        private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
+        {
+            Connection = null;
+        }
+
+        private async void Connection_RequestReceived(AppServiceConnection sender, AppServiceRequestReceivedEventArgs args)
+        {
+            // Get a deferral because we use an awaitable API below to respond to the message
+            // and we don't want this call to get cancelled while we are waiting.
+            var messageDeferral = args.GetDeferral();
+
+            // The fulltrust process signaled that something in the recycle bin folder has changed
+            if (args.Request.Message.ContainsKey("FileSystem"))
+            {
+                var path = (string)args.Request.Message["FileSystem"];
+                Debug.WriteLine("{0}: {1}", path, args.Request.Message["Type"]);
+                if (App.CurrentInstance.ViewModel.CurrentFolder?.ItemPath == path)
+                {
+                    // If we are currently displaying the reycle bin lets refresh the items
+                    await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                        async () =>
+                        {
+                            await App.CurrentInstance.ViewModel.RefreshItems();
+                        });
+                }
+            }
+
+            // Complete the deferral so that the platform knows that we're done responding to the app service call.
+            // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
+            messageDeferral.Complete();
         }
 
         private void RegisterUncaughtExceptionLogger()
@@ -133,7 +193,9 @@ namespace Files
                 if (App.CurrentInstance != null)
                 {
                     DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems) && App.CurrentInstance.CurrentPageType != typeof(YourHome))
+                    if (packageView.Contains(StandardDataFormats.StorageItems) 
+                        && App.CurrentInstance.CurrentPageType != typeof(YourHome)
+                        && !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
                     {
                         App.PS.IsEnabled = true;
                     }
@@ -357,6 +419,11 @@ namespace Files
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
+            if (Connection != null)
+            {
+                Connection.Dispose();
+                Connection = null;
+            }
             AppSettings.Dispose();
             deferral.Complete();
         }

@@ -49,6 +49,7 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             App.InteractionViewModel.IsPageTypeNotHome = false;
+            App.InteractionViewModel.IsPageTypeNotRecycleBin = true;
             var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
@@ -144,6 +145,11 @@ namespace Files
                 catch (UnauthorizedAccessException)
                 {
                     // Skip item until consent is provided
+                }
+                catch (COMException ex)
+                {
+                    mostRecentlyUsed.Remove(mruToken);
+                    System.Diagnostics.Debug.WriteLine(ex);
                 }
             }
 
@@ -257,8 +263,12 @@ namespace Files
                     NavigationPath = App.AppSettings.MusicPath;
                     break;
 
-                case ("Videos"):
+                case "Videos":
                     NavigationPath = App.AppSettings.VideosPath;
+                    break;
+
+                case "RecycleBin":
+                    NavigationPath = App.AppSettings.RecycleBinPath;
                     break;
             }
 

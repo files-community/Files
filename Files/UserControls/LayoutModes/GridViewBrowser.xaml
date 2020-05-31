@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core" 
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,7 +15,7 @@
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
-        <MenuFlyout x:Key="BaseLayoutContextFlyout">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout"  Opening="RightClickContextMenu_Opening">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -121,6 +123,16 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
+            <MenuFlyoutItem
+                x:Name="EmptyRecycleBin"
+                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                IsEnabled="True"
+                Text="Empty recycle bin">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PropertiesFolder"
@@ -133,7 +145,7 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" Opening="RightClickContextMenu_Opening">
+        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Uid="BaseLayoutItemContextFlyoutExtract"
@@ -278,6 +290,47 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
+        <MenuFlyout x:Key="BaseLayoutRecycleBinItemContextFlyout">
+            <MenuFlyoutItem
+                x:Name="RestoreRecycleBinItem"
+                x:Uid="BaseLayoutItemContextFlyoutRestore"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RestoreItem_Click}"
+                Text="Restore">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7A7;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <!--<MenuFlyoutItem
+                x:Name="CutRecycleBinItem"
+                x:Uid="BaseLayoutItemContextFlyoutCut"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
+                Text="Cut">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C6;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>-->
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="DeleteRecycleBinItem"
+                x:Uid="BaseLayoutItemContextFlyoutDelete"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
+                Text="Delete">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="PropertiesRecycleBinItem"
+                x:Uid="BaseLayoutItemContextFlyoutProperties"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
+                Text="Properties">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE946;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+        
         <DataTemplate x:Name="GridViewBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
                 Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
@@ -464,6 +517,12 @@
             </Grid>
         </DataTemplate>
 
+        <Style x:Key="GridViewItemStandardContextFlyout" TargetType="GridViewItem">
+            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
+        </Style>
+        <Style x:Key="GridViewItemRecycleBinContextFlyout" TargetType="GridViewItem">
+            <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
+        </Style>
     </local:BaseLayout.Resources>
 
     <Grid
@@ -521,11 +580,14 @@
             PreviewKeyDown="FileList_PreviewKeyDown"
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="Extended">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutItemContextFlyout}" />
-                </Style>
-            </GridView.ItemContainerStyle>
+            <Interactivity:Interaction.Behaviors>
+                <Core:DataTriggerBehavior Binding="{x:Bind local:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
+                    <Core:ChangePropertyAction TargetObject="{Binding ElementName=FileList}" PropertyName="ItemContainerStyle" Value="{StaticResource GridViewItemRecycleBinContextFlyout}" />
+                </Core:DataTriggerBehavior>
+                <Core:DataTriggerBehavior Binding="{x:Bind local:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
+                    <Core:ChangePropertyAction TargetObject="{Binding ElementName=FileList}" PropertyName="ItemContainerStyle" Value="{StaticResource GridViewItemStandardContextFlyout}" />
+                </Core:DataTriggerBehavior>
+            </Interactivity:Interaction.Behaviors>
         </GridView>
     </Grid>
 </local:BaseLayout>

@@ -1,4 +1,5 @@
 using ByteSizeLib;
+using Files.Common;
 using Files.Enums;
 using Files.Helpers;
 using Files.Interacts;
@@ -19,6 +20,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
@@ -75,7 +77,7 @@ namespace Files.Filesystem
                     {
                         App.CurrentInstance.SidebarSelectedItem = item;
                     }
-                    
+
                     NotifyPropertyChanged("WorkingDirectory");
                 }
             }
@@ -84,7 +86,7 @@ namespace Files.Filesystem
         public ObservableCollection<ListedItem> _filesAndFolders;
         private StorageItemQueryResult _itemQueryResult;
         public StorageFileQueryResult _fileQueryResult;
-        private CancellationTokenSource _cancellationTokenSource;
+        private CancellationTokenSource _addFilesCTS, _semaphoreCTS;
         private StorageFolder _rootFolder;
         private ListedItem _rootFolderItem;
         private QueryOptions _options;
@@ -274,7 +276,8 @@ namespace Files.Filesystem
             //(App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.ShareItems.PropertyChanged += ShareItems_PropertyChanged;
             //(App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.LayoutItems.PropertyChanged += LayoutItems_PropertyChanged;
             //(App.CurrentInstance as ProHome).RibbonArea.RibbonViewModel.AlwaysPresentCommands.PropertyChanged += AlwaysPresentCommands_PropertyChanged;
-            _cancellationTokenSource = new CancellationTokenSource();
+            _addFilesCTS = new CancellationTokenSource();
+            _semaphoreCTS = new CancellationTokenSource();
 
             jumpTimer.Interval = TimeSpan.FromSeconds(0.8);
             jumpTimer.Tick += JumpTimer_Tick;
@@ -311,7 +314,17 @@ namespace Files.Filesystem
             {
                 string componentLabel = null;
                 string tag = "";
-                if (s.Contains(":"))
+                if (s.StartsWith(App.AppSettings.RecycleBinPath))
+                {
+                    // Handle the recycle bin: use the localized folder name
+                    PathBoxItem item = new PathBoxItem()
+                    {
+                        Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                        Path = tag,
+                    };
+                    App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
+                }
+                else if (s.Contains(":"))
                 {
                     if (App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
                     {
@@ -372,7 +385,7 @@ namespace Files.Filesystem
         {
             if (IsLoadingItems == false) { return; }
 
-            _cancellationTokenSource.Cancel();
+            _addFilesCTS.Cancel();
             _filesAndFolders.Clear();
             //_folderQueryResult.ContentsChanged -= FolderContentsChanged;
             if (_fileQueryResult != null)
@@ -384,10 +397,14 @@ namespace Files.Filesystem
             {
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            watchedItemsOperation.Cancel();
+            watchedItemsOperation?.Cancel(); // Can be null
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
-            App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
+            if (!(WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false))
+            {
+                // Can't go up from recycle bin
+                App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
+            }
         }
 
         public void OrderFiles()
@@ -581,6 +598,8 @@ namespace Files.Filesystem
             }
         }
 
+        // This works for recycle bin as well as GetFileFromPathAsync/GetFolderFromPathAsync work
+        // for file inside the recycle bin (but not on the recycle bin folder itself)
         public async void LoadExtendedItemProperties(ListedItem item, uint thumbnailSize = 20)
         {
             if (!item.ItemPropertiesInitialized)
@@ -653,48 +672,213 @@ namespace Files.Filesystem
             instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
 
-            IsLoadingItems = true;
-            EmptyTextState.IsVisible = Visibility.Collapsed;
-            WorkingDirectory = path;
-            _filesAndFolders.Clear();
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            LoadIndicator.IsVisible = Visibility.Visible;
-
-            switch (WorkingDirectory)
+            try
             {
-                case "Desktop":
-                    WorkingDirectory = App.AppSettings.DesktopPath;
-                    break;
-
-                case "Downloads":
-                    WorkingDirectory = App.AppSettings.DownloadsPath;
-                    break;
-
-                case "Documents":
-                    WorkingDirectory = App.AppSettings.DocumentsPath;
-                    break;
-
-                case "Pictures":
-                    WorkingDirectory = App.AppSettings.PicturesPath;
-                    break;
-
-                case "Music":
-                    WorkingDirectory = App.AppSettings.MusicPath;
-                    break;
-
-                case "Videos":
-                    WorkingDirectory = App.AppSettings.VideosPath;
-                    break;
-
-                case "OneDrive":
-                    WorkingDirectory = App.AppSettings.OneDrivePath;
-                    break;
+                // Only one instance at a time should access this function
+                // Wait here until the previous one has ended
+                // If we're waiting and a new update request comes through
+                // simply drop this instance
+                await semaphoreSlim.WaitAsync(_semaphoreCTS.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                return;
             }
 
-            App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
-            App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+            try
+            {
+                // Drop all the other waiting instances
+                _semaphoreCTS.Cancel();
+                _semaphoreCTS.Dispose();
+                _semaphoreCTS = new CancellationTokenSource();
 
+                IsLoadingItems = true;
+                EmptyTextState.IsVisible = Visibility.Collapsed;
+                WorkingDirectory = path;
+                _filesAndFolders.Clear();
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                LoadIndicator.IsVisible = Visibility.Visible;
+
+                switch (WorkingDirectory)
+                {
+                    case "Desktop":
+                        WorkingDirectory = App.AppSettings.DesktopPath;
+                        break;
+
+                    case "Downloads":
+                        WorkingDirectory = App.AppSettings.DownloadsPath;
+                        break;
+
+                    case "Documents":
+                        WorkingDirectory = App.AppSettings.DocumentsPath;
+                        break;
+
+                    case "Pictures":
+                        WorkingDirectory = App.AppSettings.PicturesPath;
+                        break;
+
+                    case "Music":
+                        WorkingDirectory = App.AppSettings.MusicPath;
+                        break;
+
+                    case "Videos":
+                        WorkingDirectory = App.AppSettings.VideosPath;
+                        break;
+
+                    case "RecycleBin":
+                        WorkingDirectory = App.AppSettings.RecycleBinPath;
+                        break;
+
+                    case "OneDrive":
+                        WorkingDirectory = App.AppSettings.OneDrivePath;
+                        break;
+                }
+
+                App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
+                App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
+
+                if (path.StartsWith(App.AppSettings.RecycleBinPath))
+                {
+                    // Recycle bin is special as files are enumerated by the fulltrust process
+                    await EnumerateItemsFromSpecialFolder(path);
+                }
+                else
+                {
+                    await EnumerateItemsFromStandardFolder(path);
+                }
+
+                if (FilesAndFolders.Count == 0)
+                {
+                    if (_addFilesCTS.IsCancellationRequested)
+                    {
+                        _addFilesCTS.Dispose();
+                        _addFilesCTS = new CancellationTokenSource();
+                        IsLoadingItems = false;
+                        return;
+                    }
+                    EmptyTextState.IsVisible = Visibility.Visible;
+                }
+                else
+                {
+                    EmptyTextState.IsVisible = Visibility.Collapsed;
+                }
+
+                OrderFiles();
+                stopwatch.Stop();
+                Debug.WriteLine("Loading of items in " + WorkingDirectory + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
+                App.CurrentInstance.NavigationToolbar.CanRefresh = true;
+                LoadIndicator.IsVisible = Visibility.Collapsed;
+                IsLoadingItems = false;
+            }
+            finally
+            {
+                semaphoreSlim.Release();
+            }
+        }
+
+        private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
+
+        public async Task EnumerateItemsFromSpecialFolder(string path)
+        {
+            _rootFolderItem = new ListedItem(null)
+            {
+                ItemPropertiesInitialized = true,
+                ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
+                ItemType = ResourceController.GetTranslation("FileFolderListItem"),
+                LoadFolderGlyph = true,
+                FileImage = null,
+                LoadFileIcon = false,
+                ItemPath = App.AppSettings.RecycleBinPath,
+                LoadUnknownTypeGlyph = false,
+                FileSize = null,
+                FileSizeBytes = 0
+            };
+
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "RecycleBin");
+                value.Add("action", "Enumerate");
+                // Send request to fulltrust process to enumerate recyclebin items
+                var response = await App.Connection.SendMessageAsync(value);
+                // If the request was canceled return now
+                if (_addFilesCTS.IsCancellationRequested)
+                {
+                    IsLoadingItems = false;
+                    return;
+                }
+                if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
+                    && response.Message.ContainsKey("Enumerate"))
+                {
+                    var folderContentsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
+                    for (int count = 0; count < folderContentsList.Count; count++)
+                    {
+                        var item = folderContentsList[count];
+                        if (item.IsFolder)
+                        {
+                            // Folder
+                            _filesAndFolders.Add(new ListedItem(null)
+                            {
+                                PrimaryItemAttribute = StorageItemTypes.Folder,
+                                ItemName = item.FileName,
+                                ItemDateModifiedReal = item.RecycleDate,
+                                ItemType = item.FileType,
+                                LoadFolderGlyph = true,
+                                FileImage = null,
+                                LoadFileIcon = false,
+                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                                ItemOriginalPath = item.FilePath,
+                                LoadUnknownTypeGlyph = false,
+                                FileSize = null,
+                                FileSizeBytes = 0
+                                //FolderTooltipText = tooltipString,
+                            });
+                        }
+                        else
+                        {
+                            // File
+                            string itemName;
+                            if (App.AppSettings.ShowFileExtensions)
+                                itemName = item.FileName;
+                            else
+                                itemName = Path.GetFileNameWithoutExtension(item.FileName);
+
+                            string itemFileExtension = null;
+                            if (item.FileName.Contains('.'))
+                            {
+                                itemFileExtension = Path.GetExtension(item.FileName);
+                            }
+
+                            _filesAndFolders.Add(new ListedItem(null)
+                            {
+                                PrimaryItemAttribute = StorageItemTypes.File,
+                                FileExtension = itemFileExtension,
+                                LoadUnknownTypeGlyph = true,
+                                FileImage = null,
+                                LoadFileIcon = false,
+                                LoadFolderGlyph = false,
+                                ItemName = itemName,
+                                ItemDateModifiedReal = item.RecycleDate,
+                                ItemType = item.FileType,
+                                ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
+                                ItemOriginalPath = item.FilePath,
+                                FileSize = item.FileSize,
+                                FileSizeBytes = (ulong)item.FileSizeBytes
+                            });
+                        }
+                        if (count % 64 == 0)
+                        {
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                        }
+                    }
+                }
+            }
+        }
+
+        public async Task EnumerateItemsFromStandardFolder(string path)
+        {
             try
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
@@ -775,7 +959,7 @@ namespace Files.Filesystem
                             }
                         }
                     }
-                    if (_cancellationTokenSource.IsCancellationRequested)
+                    if (_addFilesCTS.IsCancellationRequested)
                     {
                         break;
                     }
@@ -788,25 +972,6 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
-
-            if (FilesAndFolders.Count == 0)
-            {
-                if (_cancellationTokenSource.IsCancellationRequested)
-                {
-                    _cancellationTokenSource.Dispose();
-                    _cancellationTokenSource = new CancellationTokenSource();
-                    IsLoadingItems = false;
-                    return;
-                }
-                EmptyTextState.IsVisible = Visibility.Visible;
-            }
-
-            OrderFiles();
-            stopwatch.Stop();
-            Debug.WriteLine("Loading of items in " + WorkingDirectory + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
-            App.CurrentInstance.NavigationToolbar.CanRefresh = true;
-            LoadIndicator.IsVisible = Visibility.Collapsed;
-            IsLoadingItems = false;
         }
 
         public void AddFolder(string folderPath)
@@ -823,7 +988,7 @@ namespace Files.Filesystem
         {
             if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser)))
             {
-                if (_cancellationTokenSource.IsCancellationRequested)
+                if (_addFilesCTS.IsCancellationRequested)
                 {
                     IsLoadingItems = false;
                     return;
@@ -933,7 +1098,7 @@ namespace Files.Filesystem
             itemEmptyImgVis = true;
             itemThumbnailImgVis = false;
 
-            if (_cancellationTokenSource.IsCancellationRequested)
+            if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
                 return;
@@ -969,7 +1134,7 @@ namespace Files.Filesystem
 
             if ((App.CurrentInstance.ContentFrame.SourcePageType == typeof(GenericFileBrowser)) || (App.CurrentInstance.ContentFrame.SourcePageType == typeof(GridViewBrowser)))
             {
-                if (_cancellationTokenSource.IsCancellationRequested)
+                if (_addFilesCTS.IsCancellationRequested)
                 {
                     IsLoadingItems = false;
                     return;
@@ -1077,7 +1242,7 @@ namespace Files.Filesystem
                     itemThumbnailImgVis = false;
                 }
             }
-            if (_cancellationTokenSource.IsCancellationRequested)
+            if (_addFilesCTS.IsCancellationRequested)
             {
                 IsLoadingItems = false;
                 return;
@@ -1204,7 +1369,8 @@ namespace Files.Filesystem
 
         public void Dispose()
         {
-            _cancellationTokenSource?.Dispose();
+            _addFilesCTS?.Dispose();
+            _semaphoreCTS?.Dispose();
         }
     }
 }

@@ -47,6 +47,14 @@ namespace Files.Controls
             set => Set(ref _IsPageTypeNotHome, value);
         }
 
+        private bool _IsPageTypeNotRecycleBin = false;
+
+        public bool IsPageTypeNotRecycleBin
+        {
+            get => _IsPageTypeNotRecycleBin;
+            set => Set(ref _IsPageTypeNotRecycleBin, value);
+        }
+
         public void CheckForImage()
         {
             //check if the selected item is an image file

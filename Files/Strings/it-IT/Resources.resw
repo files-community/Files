@@ -13,7 +13,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ConfirmDeleteDialog.Title" xml:space="preserve">
-    <value>Elima gli elementi</value>
+    <value>Elimina gli elementi</value>
   </data>
   <data name="ConfirmDeleteDialogCancelButton.Content" xml:space="preserve">
     <value>Annulla</value>
@@ -521,5 +521,14 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Vuoi eliminare questa cartella?</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Svuota cestino</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>Abilita il supporto al Cestino</value>
   </data>
 </root>

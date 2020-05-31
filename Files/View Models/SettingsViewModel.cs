@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿using Files.Common;
+using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
@@ -13,9 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel;
+using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.UI.Xaml;
 
 namespace Files.View_Models
 {
@@ -34,6 +34,7 @@ namespace Files.View_Models
             DetectAcrylicPreference();
             DetectDateTimeFormat();
             PinSidebarLocationItems();
+            DetectRecycleBinPreference();
             DetectQuickLook();
             DetectGridViewSize();
 
@@ -46,6 +47,7 @@ namespace Files.View_Models
             Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
             Analytics.TrackEvent("ThemeValue " + ThemeHelper.RootTheme.ToString());
             Analytics.TrackEvent("PinOneDriveToSideBar " + PinOneDriveToSideBar.ToString());
+            Analytics.TrackEvent("PinRecycleBinToSideBar " + PinRecycleBinToSideBar.ToString());
             Analytics.TrackEvent("DoubleTapToRenameFiles " + DoubleTapToRenameFiles.ToString());
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
@@ -55,8 +57,17 @@ namespace Files.View_Models
         public async void DetectQuickLook()
         {
             // Detect QuickLook
-            localSettings.Values["Arguments"] = "StartupTasks";
-            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
+            if (App.Connection != null)
+            {
+                var value = new ValueSet();
+                value.Add("Arguments", "StartupTasks");
+                await App.Connection.SendMessageAsync(value);
+                App.AppServiceConnected -= DetectQuickLook;
+            }
+            else
+            {
+                App.AppServiceConnected += DetectQuickLook;
+            }
         }
 
         private void PinSidebarLocationItems()
@@ -395,6 +406,63 @@ namespace Files.View_Models
             }
         }
 
+        // Any distinguishable path here is fine
+        // Currently is the command to open the folder from cmd ("cmd /c start Shell:RecycleBinFolder")
+        public string RecycleBinPath = @"Shell:RecycleBinFolder";
+
+        private void DetectRecycleBinPreference()
+        {
+            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = false; }
+
+            if ((bool)localSettings.Values["PinRecycleBin"] == true)
+            {
+                PinRecycleBinToSideBar = true;
+            }
+            else
+            {
+                PinRecycleBinToSideBar = false;
+            }
+        }
+
+        private bool _PinRecycleBinToSideBar = false;
+
+        public bool PinRecycleBinToSideBar
+        {
+            get => _PinRecycleBinToSideBar;
+            set
+            {
+                if (value != _PinRecycleBinToSideBar)
+                {
+                    Set(ref _PinRecycleBinToSideBar, value);
+                    if (value == true)
+                    {
+                        localSettings.Values["PinRecycleBin"] = true;
+                        var recycleBinItem = new LocationItem
+                        {
+                            Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                            Glyph = "\uE74D",
+                            IsDefaultLocation = true,
+                            Path = RecycleBinPath
+                        };
+                        // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
+                        // TODO: the very first time the app is launched localized name not available
+                        App.sideBarItems.Insert(App.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                    }
+                    else
+                    {
+                        localSettings.Values["PinRecycleBin"] = false;
+                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        {
+                            if (item is LocationItem && item.Path == RecycleBinPath)
+                            {
+                                App.sideBarItems.Remove(item);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
         public string DesktopPath = UserDataPaths.GetDefault().Desktop;
 
         public string DocumentsPath = UserDataPaths.GetDefault().Documents;
@@ -499,7 +567,8 @@ namespace Files.View_Models
             set => Set(value);
         }
 
-        public Type GetLayoutType() {
+        public Type GetLayoutType()
+        {
             Type type = null;
             switch (LayoutMode)
             {

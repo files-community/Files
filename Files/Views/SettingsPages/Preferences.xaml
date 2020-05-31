@@ -60,7 +60,7 @@
                         OnContent=""
                         Toggled="OneDrivePin_Toggled" />
                 </Grid>
-
+                
                 <Grid HorizontalAlignment="Stretch">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="270" />

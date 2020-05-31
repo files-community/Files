@@ -4,9 +4,8 @@ using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using Windows.ApplicationModel;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -255,11 +254,13 @@ namespace Files.UserControls
                             {
                                 if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
-                                    localSettings.Values["Application"] = item.Path;
-                                    localSettings.Values["Arguments"] = String.Format(item.arguments, App.CurrentInstance.ViewModel.WorkingDirectory);
-
-                                    await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
+                                    if (App.Connection != null)
+                                    {
+                                        var value = new ValueSet();
+                                        value.Add("Application", item.Path);
+                                        value.Add("Arguments", String.Format(item.arguments, App.CurrentInstance.ViewModel.WorkingDirectory));
+                                        await App.Connection.SendMessageAsync(value);
+                                    }
                                     return;
                                 }
                             }
