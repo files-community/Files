@@ -18,19 +18,6 @@ namespace FilesFullTrust
     {
         private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
 
-        // TODO: remove this when updated library is released
-        [DllImport("shell32.dll")]
-        static extern Vanara.PInvoke.HRESULT SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
-
-        // TODO: remove this when updated library is released
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
-        struct SHQUERYRBINFO
-        {
-            public uint cbSize;
-            public long i64Size;
-            public long i64NumItems;
-        }
-
         [STAThread]
         private static void Main(string[] args)
         {
@@ -183,9 +170,9 @@ namespace FilesFullTrust
                         else if (action == "Query")
                         {
                             var responseQuery = new ValueSet();
-                            SHQUERYRBINFO queryBinInfo = new SHQUERYRBINFO();
-                            queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(SHQUERYRBINFO));
-                            var res = SHQueryRecycleBin("", ref queryBinInfo);
+                            Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
+                            queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(Win32API.SHQUERYRBINFO));
+                            var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
                             // TODO: use this when updated library is released
                             //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
                             //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);

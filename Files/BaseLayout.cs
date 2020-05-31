@@ -213,23 +213,6 @@ namespace Files
 
         public void RightClickItemContextMenu_Opening(object sender, object e)        
         {
-            if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
-            {
-                // In recycle bin many actions do not make sense (e.g. rename)
-                OpenRecycleBinRightClickContextMenu();
-            }
-            else
-            {
-                OpenStandardRightClickContextMenu();
-            }
-        }
-
-        private void OpenStandardRightClickContextMenu()
-        {
-            // Remove recycle bin restore action and show separator
-            UnloadMenuFlyoutItemByName("RestoreItem");
-            (this.FindName("FileActionsSeparator") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
@@ -290,28 +273,6 @@ namespace Files
 
             //check if the selected file is an image
             App.InteractionViewModel.CheckForImage();
-        }
-
-        private void OpenRecycleBinRightClickContextMenu()
-        {
-            // Remove everything except "Delete", "Cut", "Properties"
-            UnloadMenuFlyoutItemByName("UnzipItem");
-            UnloadMenuFlyoutItemByName("OpenItem");
-            UnloadMenuFlyoutItemByName("OpenInNewTab");
-            UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
-            UnloadMenuFlyoutItemByName("ShareItem");
-            UnloadMenuFlyoutItemByName("CopyItem");
-            UnloadMenuFlyoutItemByName("RenameItem");
-            UnloadMenuFlyoutItemByName("SidebarPinItem");
-            UnloadMenuFlyoutItemByName("QuickLook");
-
-            // Show "Restore" action and hide separator
-            // Restore is the first action of the list
-            (this.FindName("RestoreItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-            (this.FindName("FileActionsSeparator") as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
-
-            // Don't show image operations
-            App.InteractionViewModel.IsSelectedItemImage = false;
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
