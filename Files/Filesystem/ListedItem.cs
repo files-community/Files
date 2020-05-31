@@ -158,8 +158,7 @@ namespace Files.Filesystem
             else
             {
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
-            }
-            
+            }            
         }
     }
 }
