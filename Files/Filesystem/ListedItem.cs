@@ -2,7 +2,6 @@
 using System;
 using System.ComponentModel;
 using Windows.Storage;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
@@ -92,6 +91,7 @@ namespace Files.Filesystem
         public string ItemPath { get; set; }
         public string FileSize { get; set; }
         public ulong FileSizeBytes { get; set; }
+
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
 

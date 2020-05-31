@@ -70,46 +70,58 @@
             <muxc:NavigationView.MenuItems>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavAppearance"
+                    BorderThickness="0.8"
                     Content="Appearance"
-                    IsSelected="True"
-                    BorderThickness="0.8">
+                    IsSelected="True">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon HorizontalAlignment="Left" Glyph="&#xE790;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavOnStartup"
-                    Content="On Startup"
-                    BorderThickness="0.8">
+                    BorderThickness="0.8"
+                    Content="On Startup">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE7E8;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
                 <muxc:NavigationViewItem
                     x:Uid="SettingsNavPageLayouts"
+                    BorderThickness="0.8"
                     Content="Page Layouts"
-                    Visibility="Collapsed"
-                    BorderThickness="0.8">
+                    Visibility="Collapsed">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE737;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem x:Uid="SettingsNavPreferences" Content="Preferences" BorderThickness="0.8">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavPreferences"
+                    BorderThickness="0.8"
+                    Content="Preferences">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE713;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem x:Uid="SettingsNavFilesAndFolders" Content="Files and Folders" BorderThickness="0.8">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavFilesAndFolders"
+                    BorderThickness="0.8"
+                    Content="Files and Folders">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xEC50;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem x:Uid="SettingsNavExperimental" Content="Experimental" BorderThickness="0.8">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavExperimental"
+                    BorderThickness="0.8"
+                    Content="Experimental">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xF1AD;" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
-                <muxc:NavigationViewItem x:Uid="SettingsNavAbout" Content="About" BorderThickness="0.8">
+                <muxc:NavigationViewItem
+                    x:Uid="SettingsNavAbout"
+                    BorderThickness="0.8"
+                    Content="About">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE946;" />
                     </muxc:NavigationViewItem.Icon>

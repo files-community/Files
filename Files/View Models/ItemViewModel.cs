@@ -660,6 +660,7 @@ namespace Files.Filesystem
         {
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
+
         public IReadOnlyList<IStorageItem> watchedItems = null;
         private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
 
@@ -1307,7 +1308,6 @@ namespace Files.Filesystem
             //var folders = items.TakeWhile(x => x.IsOfType(StorageItemTypes.Folder)).Cast<StorageFolder>();
             //var files = items.TakeWhile(x => x.IsOfType(StorageItemTypes.File)).Cast<StorageFile>();
 
-
             //// modifying a file also results in a new unique FolderRelativeId so no need to check for DateModified explicitly
 
             //var addedFiles = files.Select(f => f.FolderRelativeId).Except(_filesAndFolders.Select(f => f.FolderRelativeId));
@@ -1345,7 +1345,6 @@ namespace Files.Filesystem
             //        RemoveFileOrFolder(toRemove);
             //    });
             //}
-
 
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             async () =>

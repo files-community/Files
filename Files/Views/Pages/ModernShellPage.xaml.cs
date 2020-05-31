@@ -2,8 +2,6 @@
 using Files.Interacts;
 using Files.UserControls;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using Windows.Storage;
 using Windows.System;
@@ -205,7 +203,7 @@ namespace Files.Views.Pages
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
             var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
             var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
-            var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser) 
+            var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser)
                 || App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser);
 
             switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)

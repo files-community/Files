@@ -4,22 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Windows.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local1="using:Files.Helpers"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="475"
     d:DesignWidth="400"
-    mc:Ignorable="d"
-    RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}">
+    RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
+    mc:Ignorable="d">
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
+            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
             FallbackColor="{x:Bind local:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
             TintColor="{x:Bind local:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}"
-            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
+            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -106,8 +106,8 @@
                     x:Uid="PropertiesItemType"
                     Grid.Row="2"
                     Grid.Column="0"
-                    Text="Item type:" 
-                    FontWeight="SemiBold" />
+                    FontWeight="SemiBold"
+                    Text="Item type:" />
                 <TextBlock
                     x:Name="itemTypeValue"
                     Grid.Row="2"
@@ -120,8 +120,8 @@
                     x:Uid="PropertiesItemPath"
                     Grid.Row="3"
                     Grid.Column="0"
-                    Text="Path:" 
-                    FontWeight="SemiBold" />
+                    FontWeight="SemiBold"
+                    Text="Path:" />
                 <TextBlock
                     x:Name="itemPathValue"
                     Grid.Row="3"
@@ -135,8 +135,8 @@
                     x:Uid="PropertiesItemSize"
                     Grid.Row="4"
                     Grid.Column="0"
-                    Text="Size:" 
-                    FontWeight="SemiBold" />
+                    FontWeight="SemiBold"
+                    Text="Size:" />
                 <TextBlock
                     x:Name="itemSizeValue"
                     Grid.Row="4"
@@ -150,9 +150,9 @@
                     x:Uid="PropertiesItemMD5Hash"
                     Grid.Row="5"
                     Grid.Column="0"
+                    FontWeight="SemiBold"
                     Text="MD5Hash:"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" 
-                    FontWeight="SemiBold" />
+                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Row="5"
@@ -179,8 +179,8 @@
                     x:Uid="PropertiesCreated"
                     Grid.Row="7"
                     Grid.Column="0"
-                    Text="Created:" 
-                    FontWeight="SemiBold" />
+                    FontWeight="SemiBold"
+                    Text="Created:" />
                 <TextBlock
                     x:Name="itemCreatedTimestampValue"
                     Grid.Row="7"
@@ -193,8 +193,8 @@
                     x:Uid="PropertiesModified"
                     Grid.Row="8"
                     Grid.Column="0"
-                    Text="Modified:" 
-                    FontWeight="SemiBold" />
+                    FontWeight="SemiBold"
+                    Text="Modified:" />
                 <TextBlock
                     x:Name="itemModifiedTimestampValue"
                     Grid.Row="8"
@@ -208,20 +208,20 @@
                     Grid.Row="9"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Text="Attributes:" 
-                    FontWeight="SemiBold" />
+                    FontWeight="SemiBold"
+                    Text="Attributes:" />
                 <StackPanel
                     Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     Orientation="Horizontal">
-                    <CheckBox 
+                    <CheckBox
                         x:Uid="PropertiesDialogReadOnly"
                         Content="Read-only"
                         IsEnabled="False" />
                     <CheckBox
                         x:Uid="PropertiesDialogHidden"
-                        Content="Hidden" 
+                        Content="Hidden"
                         IsEnabled="False" />
                 </StackPanel>
             </Grid>

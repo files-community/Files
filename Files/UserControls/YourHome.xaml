@@ -7,82 +7,91 @@
     xmlns:list="using:Locations"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
-    mc:Ignorable="d" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    mc:Ignorable="d">
     <Page.Resources>
-        <Style x:Key="AdaptiveGridViewItemContainerStyle2" BasedOn="{StaticResource GridViewItemExpanded}" TargetType="GridViewItem">
+        <Style
+            x:Key="AdaptiveGridViewItemContainerStyle2"
+            BasedOn="{StaticResource GridViewItemExpanded}"
+            TargetType="GridViewItem">
             <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="CornerRadius" Value="4"/>
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="4" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="0,0,8,0" />
         </Style>
-        <Style x:Key="ListViewItemContainerStyle1" BasedOn="{StaticResource ListViewItemRevealStyle}" TargetType="ListViewItem">
+        <Style
+            x:Key="ListViewItemContainerStyle1"
+            BasedOn="{StaticResource ListViewItemRevealStyle}"
+            TargetType="ListViewItem">
             <Setter Property="Padding" Value="12,0" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="VerticalContentAlignment" Value="Stretch" />
         </Style>
     </Page.Resources>
-    <Grid RowSpacing="10" Margin="14,14,14,0" >
+    <Grid Margin="14,14,14,0" RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
-            <RowDefinition/>
+            <RowDefinition />
         </Grid.RowDefinitions>
         <controls:AdaptiveGridView
-                x:Name="CardsList"
-                Grid.Row="0"
-                ItemHeight="90"
-                DesiredWidth="100"
-                IsItemClickEnabled="True"
-                SelectionMode="None"
-                StretchContentForSingleRow="True"
-                ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}"
-                ItemsSource="{x:Bind list:ItemLoader.itemsAdded}"
-                OneRowModeEnabled="True"
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden" 
-                HorizontalAlignment="Stretch">
+            x:Name="CardsList"
+            Grid.Row="0"
+            HorizontalAlignment="Stretch"
+            DesiredWidth="100"
+            IsItemClickEnabled="True"
+            ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}"
+            ItemHeight="90"
+            ItemsSource="{x:Bind list:ItemLoader.itemsAdded}"
+            OneRowModeEnabled="True"
+            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+            SelectionMode="None"
+            StretchContentForSingleRow="True">
             <controls:AdaptiveGridView.ItemTemplate>
                 <DataTemplate x:DataType="list:FavoriteLocationItem">
                     <Grid>
                         <Grid>
                             <Button
-                                        Padding="0"
-                                        CornerRadius="4"
+                                Padding="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Background="{ThemeResource YourHomeCardBackgroundColor}"
                                 BorderThickness="1"
+                                Click="Button_Click"
+                                CornerRadius="4"
                                 Style="{StaticResource ButtonRevealStyle}"
-                                        HorizontalContentAlignment="Stretch"
-                                        VerticalContentAlignment="Stretch"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Background="{ThemeResource YourHomeCardBackgroundColor}"
-                                                Tag="{x:Bind Tag}"
-                                                Click="Button_Click">
+                                Tag="{x:Bind Tag}">
 
-                                <Grid Margin="8,14" RowSpacing="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <Grid
+                                    Margin="8,14"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch"
+                                    RowSpacing="2">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
                                     <FontIcon
-                                                Grid.Row="0"
-                                                FontSize="28"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Stretch"
-                                                        Glyph="{x:Bind Icon}" />
+                                        Grid.Row="0"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        FontSize="28"
+                                        Glyph="{x:Bind Icon}" />
                                     <TextBlock
-                                                        x:Name="ItemLocationName"
-                                                        Grid.Row="1"
-                                                FontSize="14"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Stretch"
-                                                FontWeight="Medium"
-                                                HorizontalTextAlignment="Center"
-                                                TextWrapping="WrapWholeWords"
-                                                        Text="{x:Bind Text}"/>
-
+                                        x:Name="ItemLocationName"
+                                        Grid.Row="1"
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch"
+                                        FontSize="14"
+                                        FontWeight="Medium"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{x:Bind Text}"
+                                        TextWrapping="WrapWholeWords" />
                                 </Grid>
-
                             </Button>
                         </Grid>
                     </Grid>
@@ -90,62 +99,65 @@
             </controls:AdaptiveGridView.ItemTemplate>
         </controls:AdaptiveGridView>
 
-        <Grid x:Name="RecentsListGrid" Grid.Row="1" Grid.Column="0">
+        <Grid
+            x:Name="RecentsListGrid"
+            Grid.Row="1"
+            Grid.Column="0">
             <StackPanel Orientation="Vertical">
                 <TextBlock
-                            x:Uid="RecentItems"
-                            Margin="0,0,0,0"
-                            HorizontalAlignment="Left"
-                            FontFamily="Segoe UI"
-                            FontSize="14"
-                            FontWeight="Medium"
-                            Text="Recent files" />
+                    x:Uid="RecentItems"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Left"
+                    FontFamily="Segoe UI"
+                    FontSize="14"
+                    FontWeight="Medium"
+                    Text="Recent files" />
                 <TextBlock
-                            x:Uid="RecentItemDescription"
-                            Margin="0,24,0,0"
-                            HorizontalAlignment="Stretch"
-                            FontSize="14"
-                            Text="Files you've accessed before will show up here"
-                            TextAlignment="Center"
-                            TextWrapping="WrapWholeWords"
-                            Visibility="{x:Bind Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    x:Uid="RecentItemDescription"
+                    Margin="0,24,0,0"
+                    HorizontalAlignment="Stretch"
+                    FontSize="14"
+                    Text="Files you've accessed before will show up here"
+                    TextAlignment="Center"
+                    TextWrapping="WrapWholeWords"
+                    Visibility="{x:Bind Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 <ListView
-                            x:Name="RecentsView"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            IsItemClickEnabled="True"
-                            IsRightTapEnabled="True"
-                            ItemClick="RecentsView_ItemClick"
-                            ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}"
-                            ItemsSource="{x:Bind recentItemsCollection}"
-                            SelectionMode="None">
+                    x:Name="RecentsView"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    IsItemClickEnabled="True"
+                    IsRightTapEnabled="True"
+                    ItemClick="RecentsView_ItemClick"
+                    ItemContainerStyle="{StaticResource ListViewItemContainerStyle1}"
+                    ItemsSource="{x:Bind recentItemsCollection}"
+                    SelectionMode="None">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="local:RecentItem">
                             <Grid
                                 Padding="2.5"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
-                                ColumnSpacing="14"
                                 Background="Transparent"
+                                ColumnSpacing="14"
                                 ToolTipService.ToolTip="{x:Bind RecentPath}">
                                 <Grid.ContextFlyout>
                                     <MenuFlyout>
                                         <MenuFlyoutItem
-                                                    x:Name="mfi_RemoveOneItem"
-                                                    x:Uid="RecentItemRemove"
-                                                    Click="RemoveOneFrequentItem"
-                                                    Icon="Remove"
-                                                    Text="Remove this item" />
+                                            x:Name="mfi_RemoveOneItem"
+                                            x:Uid="RecentItemRemove"
+                                            Click="RemoveOneFrequentItem"
+                                            Icon="Remove"
+                                            Text="Remove this item" />
                                         <MenuFlyoutItem
-                                                    x:Uid="RecentItemClearAll"
-                                                    Click="MenuFlyoutItem_Click"
-                                                    Icon="Delete"
-                                                    Text="Clear all items" />
+                                            x:Uid="RecentItemClearAll"
+                                            Click="MenuFlyoutItem_Click"
+                                            Icon="Delete"
+                                            Text="Clear all items" />
                                         <MenuFlyoutItem
-                                                    x:Uid="RecentItemOpenFileLocation"
-                                                    Click="OpenFileLocation_Click"
-                                                    Text="Open file location"
-                                                    Visibility="{x:Bind IsFile}">
+                                            x:Uid="RecentItemOpenFileLocation"
+                                            Click="OpenFileLocation_Click"
+                                            Text="Open file location"
+                                            Visibility="{x:Bind IsFile}">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;" />
                                             </MenuFlyoutItem.Icon>
@@ -158,42 +170,42 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid
-                                            Grid.Column="0"
-                                            Margin="0,0,0,0"
-                                            VerticalAlignment="Stretch">
+                                    Grid.Column="0"
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Stretch">
                                     <FontIcon
-                                                FontFamily="Segoe MDL2 Assets"
-                                                FontSize="24"
-                                                Foreground="#ffe793"
-                                                Glyph="&#xE8D5;"
-                                                Visibility="{x:Bind FolderImg}" />
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="24"
+                                        Foreground="#ffe793"
+                                        Glyph="&#xE8D5;"
+                                        Visibility="{x:Bind FolderImg}" />
                                     <FontIcon
-                                                FontFamily="Segoe MDL2 Assets"
-                                                FontSize="24"
-                                                Glyph="&#xE7C3;"
-                                                Visibility="{x:Bind EmptyImgVis}" />
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="24"
+                                        Glyph="&#xE7C3;"
+                                        Visibility="{x:Bind EmptyImgVis}" />
                                     <Image
-                                                Width="24"
-                                                Height="24"
-                                                Source="{x:Bind FileImg}"
-                                                Stretch="UniformToFill"
-                                                Visibility="{x:Bind FileIconVis}" />
+                                        Width="24"
+                                        Height="24"
+                                        Source="{x:Bind FileImg}"
+                                        Stretch="UniformToFill"
+                                        Visibility="{x:Bind FileIconVis}" />
                                 </Grid>
                                 <TextBlock
-                                            Grid.Column="1"
-                                            VerticalAlignment="Center"
-                                            Text="{x:Bind Name}"
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="NoWrap" />
+                                    Grid.Column="1"
+                                    VerticalAlignment="Center"
+                                    Text="{x:Bind Name}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
                                 <TextBlock
-                                            Grid.Column="2"
-                                            Margin="0,0,0,0"
-                                            VerticalAlignment="Center"
-                                            FontSize="10"
-                                            Foreground="DimGray"
-                                            Text="{x:Bind RecentPath}"
-                                            TextTrimming="CharacterEllipsis"
-                                            TextWrapping="NoWrap" />
+                                    Grid.Column="2"
+                                    Margin="0,0,0,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="10"
+                                    Foreground="DimGray"
+                                    Text="{x:Bind RecentPath}"
+                                    TextTrimming="CharacterEllipsis"
+                                    TextWrapping="NoWrap" />
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
