@@ -730,6 +730,34 @@
           <source>Enable Recycle Bin support</source>
           <target state="new">Enable Recycle Bin support</target>
         </trans-unit>
+        <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
+          <source>{0} days ago</source>
+          <target state="new">{0} days ago</target>
+        </trans-unit>
+        <trans-unit id="HoursAgo" translate="yes" xml:space="preserve">
+          <source>{0} hours ago</source>
+          <target state="new">{0} hours ago</target>
+        </trans-unit>
+        <trans-unit id="DayAgo" translate="yes" xml:space="preserve">
+          <source>{0} day ago</source>
+          <target state="new">{0} day ago</target>
+        </trans-unit>
+        <trans-unit id="HourAgo" translate="yes" xml:space="preserve">
+          <source>{0} hour ago</source>
+          <target state="new">{0} hour ago</target>
+        </trans-unit>
+        <trans-unit id="MinutesAgo" translate="yes" xml:space="preserve">
+          <source>{0} minutes ago</source>
+          <target state="new">{0} minutes ago</target>
+        </trans-unit>
+        <trans-unit id="MinuteAgo" translate="yes" xml:space="preserve">
+          <source>{0} minute ago</source>
+          <target state="new">{0} minute ago</target>
+        </trans-unit>
+        <trans-unit id="SecondsAgo" translate="yes" xml:space="preserve">
+          <source>{0} seconds ago</source>
+          <target state="new">{0} seconds ago</target>
+        </trans-unit>
       </group>
     </body>
   </file>

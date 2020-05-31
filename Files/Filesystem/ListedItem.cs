@@ -1,6 +1,7 @@
 ﻿using Files.Enums;
 using System;
 using System.ComponentModel;
+using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -130,22 +131,35 @@ namespace Files.Filesystem
             {
                 return d.ToString(returnformat);
             }
+            else if (elapsed.TotalDays > 2)
+            {
+                return string.Format(ResourceController.GetTranslation("DaysAgo"), elapsed.Days);
+            }
             else if (elapsed.TotalDays > 1)
             {
-                return $"{elapsed.Days} days ago";
+                return string.Format(ResourceController.GetTranslation("DayAgo"), elapsed.Days);
+            }
+            else if (elapsed.TotalHours > 2)
+            {
+                return string.Format(ResourceController.GetTranslation("HoursAgo"), elapsed.Hours);
             }
             else if (elapsed.TotalHours > 1)
             {
-                return $"{elapsed.Hours} hours ago";
+                return string.Format(ResourceController.GetTranslation("HourAgo"), elapsed.Hours);
+            }
+            else if (elapsed.TotalMinutes > 2)
+            {
+                return string.Format(ResourceController.GetTranslation("MinutesAgo"), elapsed.Minutes);
             }
             else if (elapsed.TotalMinutes > 1)
             {
-                return $"{elapsed.Minutes} minutes ago";
+                return string.Format(ResourceController.GetTranslation("MinuteAgo"), elapsed.Minutes);
             }
             else
             {
-                return $"{elapsed.Seconds} seconds ago";
+                return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
             }
+            
         }
-    }
+}
 }
