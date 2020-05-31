@@ -207,17 +207,17 @@ namespace FilesFullTrust
                             {
                                 try
                                 {
-                                    folderItem.Properties.ReadOnly = true;
-                                    folderItem.Properties.NoInheritedProperties = false;
+                                    //folderItem.Properties.ReadOnly = true;
+                                    //folderItem.Properties.NoInheritedProperties = false;
                                     string recyclePath = folderItem.FileSystemPath; // True path on disk
-                                    string fileName = Path.GetFileName(folderItem.FileInfo.DisplayName); // Original file name
-                                    string filePath = folderItem.FileInfo.DisplayName; // Original file path
-                                    DateTime recycleDate = folderItem.FileInfo.CreationTime; // This is LocalTime
-                                    string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                                    long fileSizeBytes = folderItem.IsFolder ? 0 : folderItem.FileInfo.Length;
-                                    string fileType = folderItem.FileInfo.TypeName;
-                                    bool isFolder = folderItem.FileInfo.Attributes.HasFlag(FileAttributes.Directory); //folderItem.IsFolder includes .zip
-                                    folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
+                                    //string fileName = Path.GetFileName(folderItem.FileInfo.DisplayName); // Original file name
+                                    //string filePath = folderItem.FileInfo.DisplayName; // Original file path
+                                    //DateTime recycleDate = folderItem.FileInfo.CreationTime; // This is LocalTime
+                                    //string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
+                                    //long fileSizeBytes = folderItem.IsFolder ? 0 : folderItem.FileInfo.Length;
+                                    //string fileType = folderItem.FileInfo.TypeName;
+                                    //bool isFolder = folderItem.FileInfo.Attributes.HasFlag(FileAttributes.Directory); //folderItem.IsFolder includes .zip
+                                    folderContentsList.Add(new ShellFileItem(folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip", recyclePath, Path.GetFileName(folderItem.Name), Path.GetDirectoryName(folderItem.Name), DateTime.Now, "0 Kb", 0, "Some stuff"));
                                 }
                                 catch (System.IO.FileNotFoundException)
                                 {

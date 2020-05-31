@@ -743,15 +743,23 @@ namespace Files.Interacts
                     // Dim opacities accordingly
                     CurrentInstance.ContentPage.SetItemOpacity(listedItem);
 
-                    if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                    try
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(listedItem.ItemPath);
-                        items.Add(item);
+                        if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        {
+                            var item = await StorageFile.GetFileFromPathAsync(listedItem.ItemPath);
+                            items.Add(item);
+                        }
+                        else
+                        {
+                            var item = await StorageFolder.GetFolderFromPathAsync(listedItem.ItemPath);
+                            items.Add(item);
+                        }
                     }
-                    else
+                    catch (FileNotFoundException)
                     {
-                        var item = await StorageFolder.GetFolderFromPathAsync(listedItem.ItemPath);
-                        items.Add(item);
+                        CurrentInstance.ContentPage.ResetItemOpacity();
+                        return;
                     }
                 }
             }
@@ -868,10 +876,18 @@ namespace Files.Interacts
                     }
                     else
                     {
-                        StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
-                        pastedItems.Add(pastedFolder);
-                        if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                            CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
+                        try
+                        {
+                            StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
+                            pastedItems.Add(pastedFolder);
+                            if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
+                                CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            // Folder was moved/deleted in the meantime
+                            continue;
+                        }
                     }
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
@@ -880,11 +896,19 @@ namespace Files.Interacts
                     {
                         (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count);
                     }
-                    StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                    StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
-                    pastedItems.Add(pastedFile);
-                    if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                        CurrentInstance.ViewModel.AddFile(pastedFile.Path);
+                    try
+                    {
+                        StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                        StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                        pastedItems.Add(pastedFile);
+                        if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
+                            CurrentInstance.ViewModel.AddFile(pastedFile.Path);
+                    }
+                    catch (FileNotFoundException)
+                    {
+                        // File was moved/deleted in the meantime
+                        continue;
+                    }
                 }
             }
 
@@ -892,15 +916,23 @@ namespace Files.Interacts
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
-                    if (item.IsOfType(StorageItemTypes.File))
+                    try
                     {
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
-                        await file.DeleteAsync();
+                        if (item.IsOfType(StorageItemTypes.File))
+                        {
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
+                            await file.DeleteAsync();
+                        }
+                        else if (item.IsOfType(StorageItemTypes.Folder))
+                        {
+                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                            await folder.DeleteAsync();
+                        }
                     }
-                    else if (item.IsOfType(StorageItemTypes.Folder))
+                    catch (FileNotFoundException)
                     {
-                        StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                        await folder.DeleteAsync();
+                        // File or Folder was moved/deleted in the meantime
+                        continue;
                     }
                     ListedItem listedItem = CurrentInstance.ViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                     if (listedItem != null)
@@ -911,8 +943,11 @@ namespace Files.Interacts
             {
                 List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
                 List<ListedItem> copiedItems = CurrentInstance.ViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
-                CurrentInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
-                CurrentInstance.ContentPage.FocusSelectedItems();
+                if (copiedItems.Any())
+                {
+                    CurrentInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
+                    CurrentInstance.ContentPage.FocusSelectedItems();
+                }
             }
             packageView.ReportOperationCompleted(acceptedOperation);
         }
