@@ -813,8 +813,9 @@ namespace Files.Filesystem
                     && response.Message.ContainsKey("Enumerate"))
                 {
                     var folderContentsList = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ShellFileItem>>((string)response.Message["Enumerate"]);
-                    foreach (var item in folderContentsList)
+                    for (int count = 0; count < folderContentsList.Count; count++)
                     {
+                        var item = folderContentsList[count];
                         if (item.IsFolder)
                         {
                             // Folder
@@ -866,6 +867,10 @@ namespace Files.Filesystem
                                 FileSize = item.FileSize,
                                 FileSizeBytes = (ulong)item.FileSizeBytes
                             });
+                        }
+                        if (count % 64 == 0)
+                        {
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
                         }
                     }
                 }
