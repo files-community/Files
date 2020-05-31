@@ -310,7 +310,7 @@
     <value>Documento de Texto</value>
   </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
-    <value>Vista en Lista</value>
+    <value>Detalles</value>
   </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Ajustes</value>
@@ -481,16 +481,16 @@
     <value>Establecer como fondo de pantalla de bloqueo</value>
   </data>
   <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
-    <value>Vista en cuadrícula (Grande)</value>
+    <value>Iconos grandes</value>
   </data>
   <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
-    <value>Vista en cuadrícula (Mediano)</value>
+    <value>Iconos medianos</value>
   </data>
   <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
-    <value>Vista en cuadrícula (Pequeño)</value>
+    <value>Iconos pequeños</value>
   </data>
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
-    <value>Vista en iconos</value>
+    <value>Iconos</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>Aceptar</value>
@@ -527,6 +527,18 @@
   </data>
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Opciones de selección</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>El archivo no se puede eliminar porque otra aplicación tiene abierto el archivo</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>Archivo en uso</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Reintentar</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Aceptar</value>
   </data>
   <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
     <value>Solo lectura</value>
