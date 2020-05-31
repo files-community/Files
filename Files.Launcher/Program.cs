@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using Vanara.Extensions;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
@@ -162,6 +163,7 @@ namespace FilesFullTrust
                     else if (arguments == "RecycleBin")
                     {
                         var action = (string)args.Request.Message["action"];
+
                         if (action == "Empty")
                         {
                             // Shell function to empty recyclebin
@@ -200,7 +202,7 @@ namespace FilesFullTrust
                                     string fileName = Path.GetFileName(folderItem.Name); // Original file name
                                     string filePath = folderItem.Name; // Original file path + name
                                     var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
-                                    var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
+                                    var recycleDate = dt.ToDateTime(DateTimeKind.Utc).ToLocalTime(); // Use LocalTime
                                     string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
                                     ulong fileSizeBytes = (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
                                     string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
