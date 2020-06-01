@@ -40,7 +40,7 @@ namespace FilesFullTrust
 
             // Only one instance of the fulltrust process allowed
             // This happens if multiple instances of the UWP app are launched
-            using var mutex = new Mutex(true, @"Global\FilesUwpFullTrust", out bool isNew);
+            using var mutex = new Mutex(true, @"FilesUwpFullTrust", out bool isNew);
             if (!isNew) return;
 
             Logger.Info("Keep running: {0}, IsNew: {1}", _id, isNew);
