@@ -19,7 +19,7 @@
     <value>Nombre</value>
   </data>
   <data name="PropertiesItemPath.Text" xml:space="preserve">
-    <value>Destino:</value>
+    <value>Ubicación:</value>
   </data>
   <data name="PropertiesItemSize.Text" xml:space="preserve">
     <value>Tamaño:</value>
@@ -529,7 +529,7 @@
     <value>Opciones de selección</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>El archivo no se puede eliminar porque otra aplicación tiene abierto el archivo</value>
+    <value>El archivo no se puede eliminar porque otra aplicación tiene abierto el archivo.</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
     <value>Archivo en uso</value>
@@ -545,5 +545,35 @@
   </data>
   <data name="PropertiesDialogHidden.Content" xml:space="preserve">
     <value>Oculto</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Vaciar papelera de reciclaje</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>Mostrar la papelera de reciclaje en la barra lateral</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>Hace {0} días</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>Hace {0} horas</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>Hace {0} día</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>Hace {0} hora</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>Hace {0} minutos</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>Hace {0} minuto</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>Hace {0} segundos</value>
   </data>
 </root>
