@@ -20,7 +20,7 @@
             AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}" />
     </Page.Background>
 
-    <Grid x:Name="rootGrid" Background="Transparent">
+    <Grid x:Name="rootGrid" Background="Transparent" Canvas.ZIndex="1000">
         <Grid.Resources>
             <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
                 <Setter Property="VerticalAlignment" Value="Top" />
@@ -39,7 +39,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid x:Name="TabContainerGrid"
-                                      Margin="200,0,0,0"
+                                      Margin="200,0,0,0" Canvas.ZIndex="1000"
                                       Background="{TemplateBinding Background}"
                                       XYFocusKeyboardNavigation="Enabled">
 
