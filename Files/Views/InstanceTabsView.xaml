@@ -20,7 +20,10 @@
             TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
 
-    <Grid x:Name="rootGrid" Background="Transparent">
+    <Grid
+        x:Name="rootGrid"
+        Padding="0,8,0,0"
+        Background="Transparent">
         <Grid.Resources>
             <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
                 <Setter Property="VerticalAlignment" Value="Top" />
@@ -40,7 +43,7 @@
 
                                 <Grid
                                     x:Name="TabContainerGrid"
-                                    Margin="200,0,0,0"
+                                    Margin="208,0,0,0"
                                     Background="{TemplateBinding Background}"
                                     XYFocusKeyboardNavigation="Enabled">
 
@@ -118,7 +121,7 @@
             SelectionChanged="TabStrip_SelectionChanged"
             Style="{StaticResource DefaultTabViewStyle}"
             TabCloseRequested="TabStrip_TabCloseRequested"
-            TabWidthMode="Equal">
+            TabWidthMode="SizeToContent">
             <muxc:TabView.Resources>
                 <ThemeResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
                 <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>
