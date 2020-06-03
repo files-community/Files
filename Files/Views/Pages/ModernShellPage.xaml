@@ -31,10 +31,11 @@
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
+                BlurRadius="4"
                 Canvas.ZIndex="100"
-                OffsetX="-4"
+                OffsetX="-2"
                 OffsetY="10"
-                ShadowOpacity=".07">
+                ShadowOpacity=".04">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
