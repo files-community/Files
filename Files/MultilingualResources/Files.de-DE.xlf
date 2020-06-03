@@ -760,6 +760,10 @@
           <source>{0} seconds ago</source>
           <target state="new">{0} seconds ago</target>
         </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Path</source>
+          <target state="new">Path</target>
+        </trans-unit>
       </group>
     </body>
   </file>

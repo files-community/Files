@@ -681,4 +681,7 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} seconds ago</value>
   </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Path</value>
+  </data>
 </root>
