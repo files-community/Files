@@ -7,6 +7,14 @@ namespace Files.Controls
 {
     public class InteractionViewModel : ViewModelBase
     {
+        private int _TabStripSelectedIndex = 0;
+
+        public int TabStripSelectedIndex
+        {
+            get => _TabStripSelectedIndex;
+            set { if (value >= 0) { Set(ref _TabStripSelectedIndex, value); } }
+        }
+
         private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
 
         public Thickness TabsLeftMargin

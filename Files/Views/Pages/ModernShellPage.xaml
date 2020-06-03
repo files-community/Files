@@ -23,7 +23,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:ModernSidebar x:Name="SidebarControl" Margin="0,-32,0,0" />
+            <controls:ModernSidebar x:Name="SidebarControl" />
         </Grid>
 
         <Grid Grid.Column="1">
@@ -35,7 +35,7 @@
                 OffsetX="-4"
                 OffsetY="10"
                 ShadowOpacity=".07">
-                <Grid>
+                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0,32,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />

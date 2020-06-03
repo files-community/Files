@@ -425,10 +425,15 @@ namespace Files
                     {
                         TabStrip.SelectedItem = itemToReselect;
                     }
+                    else
+                    {
+                        TabStrip.SelectedIndex = App.InteractionViewModel.TabStripSelectedIndex;
+                    }
                 }
             }
             else
             {
+                App.InteractionViewModel.TabStripSelectedIndex = TabStrip.SelectedIndex;
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
