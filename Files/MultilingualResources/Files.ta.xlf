@@ -315,8 +315,9 @@
           <target state="translated">ஒரு புதிய தாவலைத் திற</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page or pages</source>
-          <target state="translated">ஒரு குறிப்பிட்ட பக்கத்தை அல்லது பக்கங்களைத் திற</target>
+          <source>Open a specific page</source>
+          <target state="needs-review-translation">ஒரு குறிப்பிட்ட பக்கத்தை அல்லது பக்கங்களைத் திற</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>

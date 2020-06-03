@@ -62,7 +62,19 @@ namespace Files
                 return;
             }
 
-            if (string.IsNullOrEmpty(navArgs))
+            if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
+            {
+                try
+                {
+                    AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                }
+                catch (Exception)
+                {
+                    AddNewTab(typeof(ModernShellPage), "New tab");
+                }
+            }
+
+            else if (string.IsNullOrEmpty(navArgs))
             {
                 AddNewTab(typeof(ModernShellPage), "New tab");
             }
