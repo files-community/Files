@@ -1026,7 +1026,7 @@ namespace Files.Interacts
                 int totalCount = zipArchive.Entries.Count;
                 int index = 0;
 
-                (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Visible;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
                 foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                 {
@@ -1044,7 +1044,7 @@ namespace Files.Interacts
                     index++;
                     if (index == totalCount)
                     {
-                        (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Collapsed;
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
                 }
                 await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)

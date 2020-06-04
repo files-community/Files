@@ -219,7 +219,6 @@
     <Compile Include="UserControls\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interacts\LoadingIndicator.cs" />
     <Compile Include="Views\Pages\ModernShellPage.xaml.cs">
       <DependentUpon>ModernShellPage.xaml</DependentUpon>
     </Compile>
