@@ -756,7 +756,7 @@
         </trans-unit>
         <trans-unit id="SecondsAgo" translate="yes" xml:space="preserve">
           <source>{0} seconds ago</source>
-          <target state="new">{0} நொடிகள் முன்பு</target>
+          <target state="translated">{0} நொடிகள் முன்பு</target>
         </trans-unit>
       </group>
     </body>
