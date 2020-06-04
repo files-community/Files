@@ -127,19 +127,13 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-
-            var terminalId = 1;
-
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+            var terminal = App.AppSettings.TerminalsModel.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Application", terminal.Path);
-                value.Add("Arguments", String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                value.Add("Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory));
                 await App.Connection.SendMessageAsync(value);
             }
         }
