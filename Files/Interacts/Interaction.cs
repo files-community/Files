@@ -520,6 +520,7 @@ namespace Files.Interacts
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
+                    App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
                     return; //return if the result isn't delete
                 }
             }
