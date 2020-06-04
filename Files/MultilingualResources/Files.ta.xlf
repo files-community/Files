@@ -724,7 +724,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
-          <target state="new">மீட்டெடு</target>
+          <target state="translated">மீட்டெடு</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
