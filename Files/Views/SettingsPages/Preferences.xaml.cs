@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -32,10 +33,7 @@ namespace Files.SettingsPages
         {
             base.OnNavigatedTo(e);
 
-            var terminalId = 1;
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.TerminalsModel.GetDefaultTerminal();
         }
 
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -54,7 +52,15 @@ namespace Files.SettingsPages
 
             var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
 
-            localSettings.Values["terminal_id"] = selectedTerminal.Id;
+            App.AppSettings.TerminalsModel.DefaultTerminalId = selectedTerminal.Id;
+
+            SaveTerminalSettings();
+        }
+
+        private async void SaveTerminalSettings()
+        {
+            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile, 
+                JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
         }
 
         private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)

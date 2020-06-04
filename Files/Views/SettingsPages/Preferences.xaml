@@ -132,7 +132,7 @@
                             MinWidth="120"
                             MaxWidth="185"
                             HorizontalAlignment="Stretch"
-                            ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
+                            ItemsSource="{x:Bind local2:App.AppSettings.TerminalsModel.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:TerminalModel">

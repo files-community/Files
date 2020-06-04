@@ -248,9 +248,7 @@ namespace Files.UserControls
                         catch (Exception ex) // Not a file or not accessible
                         {
                             // Launch terminal application if possible
-                            var localSettings = ApplicationData.Current.LocalSettings;
-
-                            foreach (var item in App.AppSettings.Terminals)
+                            foreach (var item in App.AppSettings.TerminalsModel.Terminals)
                             {
                                 if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
@@ -258,7 +256,7 @@ namespace Files.UserControls
                                     {
                                         var value = new ValueSet();
                                         value.Add("Application", item.Path);
-                                        value.Add("Arguments", String.Format(item.arguments, App.CurrentInstance.ViewModel.WorkingDirectory));
+                                        value.Add("Arguments", String.Format(item.Arguments, App.CurrentInstance.ViewModel.WorkingDirectory));
                                         await App.Connection.SendMessageAsync(value);
                                     }
                                     return;
