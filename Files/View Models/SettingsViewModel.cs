@@ -366,6 +366,23 @@ namespace Files.View_Models
                     await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
                 }
             }
+
+            //Ensure Windows Terminal is not already in List
+            if (TerminalsModel.Terminals.FirstOrDefault(x => x.Path.Equals("flute.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            {
+                if (await IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"))
+                {
+                    TerminalsModel.Terminals.Add(new TerminalModel()
+                    {
+                        Id = TerminalsModel.Terminals.Count + 1,
+                        Name = "Fluent Terminal",
+                        Path = "flute.exe",
+                        Arguments = "new \"{0}\"",
+                        Icon = ""
+                    });
+                    await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
+                }
+            }
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
