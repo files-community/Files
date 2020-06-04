@@ -761,7 +761,7 @@
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
-          <target state="new">The requested operation is not supported</target>
+          <target state="translated">L'operazione richiesta non è supportata</target>
         </trans-unit>
       </group>
     </body>
