@@ -704,7 +704,7 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
-          <target state="new">மீண்டும் முயலவும்</target>
+          <target state="translated">மீண்டும் முயலவும்</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
