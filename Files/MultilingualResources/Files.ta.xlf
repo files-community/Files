@@ -728,7 +728,7 @@
         </trans-unit>
         <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
-          <target state="new">மறுசுழற்சிக் கூடை ஆதரவை இயக்கு</target>
+          <target state="translated">மறுசுழற்சிக் கூடை ஆதரவை இயக்கு</target>
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
