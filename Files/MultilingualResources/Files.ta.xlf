@@ -716,7 +716,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">மறைந்த</target>
+          <target state="translated">மறைந்த</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
