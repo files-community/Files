@@ -720,7 +720,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">மறுசுழற்சிக் கூடையைக் காலியாக்கு</target>
+          <target state="translated">மறுசுழற்சிக் கூடையைக் காலியாக்கு</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
