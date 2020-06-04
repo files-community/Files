@@ -700,7 +700,7 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="new">கோப்புப் பயன்பாட்டில் உள்ளது</target>
+          <target state="translated">கோப்புப் பயன்பாட்டில் உள்ளது</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
