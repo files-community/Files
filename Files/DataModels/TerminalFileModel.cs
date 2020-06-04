@@ -17,7 +17,11 @@ namespace Files.DataModels
 
         public TerminalModel GetDefaultTerminal()
         {
-            return Terminals.Single(x => x.Id == DefaultTerminalId);
+            if (DefaultTerminalId != 0)
+            {
+                return Terminals.Single(x => x.Id == DefaultTerminalId);
+            }
+            return Terminals.First();
         }
     }
 }
