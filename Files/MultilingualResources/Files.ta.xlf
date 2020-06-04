@@ -696,7 +696,7 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
-          <target state="new">நீங்கள் நீக்க முயற்சிக்கும் கோப்பானது தற்போது பயன்பாட்டில் உள்ளது.</target>
+          <target state="translated">நீங்கள் நீக்க முயற்சிக்கும் கோப்பானது தற்போது பயன்பாட்டில் உள்ளது.</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
