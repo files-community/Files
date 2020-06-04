@@ -367,7 +367,7 @@ namespace Files.View_Models
                 }
             }
 
-            //Ensure Windows Terminal is not already in List
+            //Ensure Fluent Terminal is not already in List
             if (TerminalsModel.Terminals.FirstOrDefault(x => x.Path.Equals("flute.exe", StringComparison.OrdinalIgnoreCase)) == null)
             {
                 if (await IsAppInstalledAsync("53621FSApps.FluentTerminal_87x1pks76srcp"))
