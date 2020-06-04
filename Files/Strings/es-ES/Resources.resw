@@ -576,7 +576,7 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>Hace {0} segundos</value>
   </data>
-  <data name="DriveSpace" xml:space="preserve">
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} disponibles de {1}</value>
   </data>
 </root>
