@@ -507,8 +507,11 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             var deleteFromRecycleBin = CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
-            // Permanently delete if deleting from recycle bin
-            App.InteractionViewModel.PermanentlyDelete = deleteFromRecycleBin ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
+            if (deleteFromRecycleBin)
+            {
+                // Permanently delete if deleting from recycle bin
+                App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
+            }
 
             if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
