@@ -49,7 +49,7 @@ namespace Files.Filesystem
                 SpaceUsed = MaxSpace -
                             Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).GigaBytes);
                 MaxSpace = Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).GigaBytes);
-                SpaceText = String.Format("{0} of {1}",
+                SpaceText = String.Format(ResourceController.GetTranslation("DriveSpace"),
                     ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).ToString(),
                     ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).ToString());
             }

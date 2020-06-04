@@ -759,6 +759,10 @@
           <source>{0} seconds ago</source>
           <target state="new">{0} seconds ago</target>
         </trans-unit>
+        <trans-unit id="DriveSpace" translate="yes" xml:space="preserve">
+          <source>{0} free of {1}</source>
+          <target state="new">{0} free of {1}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
