@@ -329,9 +329,9 @@ namespace Files.View_Models
                 Icon = ""
             };
 
-            bool isWindowsTerminalAdded = await TerminalsModel.AddTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isFluentTerminalAdded = await TerminalsModel.AddTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
-            if (isWindowsTerminalAdded || isFluentTerminalAdded)
+            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
+            if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
             {
                 await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
             }
