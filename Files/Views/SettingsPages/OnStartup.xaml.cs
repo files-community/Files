@@ -14,7 +14,6 @@ namespace Files.SettingsPages
 
         private async void btnOpenASpecificPageOnStartupPath_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");
 

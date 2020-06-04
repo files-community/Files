@@ -529,14 +529,14 @@ namespace Files.View_Models
         {
             get => Get(false);
             set => Set(value);
-        } 
-        
+        }
+
         public bool OpenNewTabPageOnStartup
         {
             get => Get(true);
             set => Set(value);
         }
-        
+
         public bool OpenASpecificPageOnStartup
         {
             get => Get(false);

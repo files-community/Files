@@ -73,7 +73,6 @@ namespace Files
                     AddNewTab(typeof(ModernShellPage), "New tab");
                 }
             }
-
             else if (string.IsNullOrEmpty(navArgs))
             {
                 AddNewTab(typeof(ModernShellPage), "New tab");
