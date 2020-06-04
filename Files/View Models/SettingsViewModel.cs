@@ -14,10 +14,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using Windows.System;
 
 namespace Files.View_Models
 {
@@ -277,43 +275,6 @@ namespace Files.View_Models
             }
         }
 
-        private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
-
-        /// <summary>
-        /// Check if target <paramref name="packageName"/> is installed on this device.
-        /// </summary>
-        /// <param name="packageName">Package name in format: "949FFEAB.Email.cz_refxrrjvvv3cw"</param>
-        /// <returns>True is app is installed on this device, false otherwise.</returns>
-        public static async Task<bool> IsAppInstalledAsync(string packageName)
-        {
-            try
-            {
-                bool appInstalled;
-                LaunchQuerySupportStatus result = await Launcher.QueryUriSupportAsync(dummyUri, LaunchQuerySupportType.Uri, packageName);
-                switch (result)
-                {
-                    case LaunchQuerySupportStatus.Available:
-                    case LaunchQuerySupportStatus.NotSupported:
-                        appInstalled = true;
-                        break;
-                    //case LaunchQuerySupportStatus.AppNotInstalled:
-                    //case LaunchQuerySupportStatus.AppUnavailable:
-                    //case LaunchQuerySupportStatus.Unknown:
-                    default:
-                        appInstalled = false;
-                        break;
-                }
-
-                Debug.WriteLine($"App {packageName}, query status: {result}, installed: {appInstalled}");
-                return appInstalled;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error checking if app {packageName} is installed. Error: {ex}");
-                return false;
-            }
-        }
-
         public TerminalFileModel TerminalsModel { get; set; }
 
         public StorageFile TerminalsModelFile;
@@ -350,21 +311,29 @@ namespace Files.View_Models
                 TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
             }
 
-            //Ensure Windows Terminal is not already in List
-            if (TerminalsModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            var windowsTerminal = new TerminalModel()
             {
-                if (await IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe"))
-                {
-                    TerminalsModel.Terminals.Add(new TerminalModel()
-                    {
-                        Id = TerminalsModel.Terminals.Count + 1,
-                        Name = "Windows Terminal",
-                        Path = "wt.exe",
-                        Arguments = "-d {0}",
-                        Icon = ""
-                    });
-                    await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
-                }
+                Id = TerminalsModel.Terminals.Count + 1,
+                Name = "Windows Terminal",
+                Path = "wt.exe",
+                Arguments = "-d {0}",
+                Icon = ""
+            };
+
+            var fluentTerminal = new TerminalModel()
+            {
+                Id = TerminalsModel.Terminals.Count + 1,
+                Name = "Fluent Terminal",
+                Path = "flute.exe",
+                Arguments = "new \"{0}\"",
+                Icon = ""
+            };
+
+            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
+            if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
+            {
+                await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
             }
         }
 
