@@ -418,22 +418,18 @@ namespace Files
         {
             if (TabStrip.SelectedItem == null)
             {
-                if (e.RemovedItems.Count > 0)
+                if (e.RemovedItems.Count > 0 && e.AddedItems.Count == 0)
                 {
                     var itemToReselect = e.RemovedItems[0];
                     if (TabStrip.TabItems.Contains(itemToReselect))
                     {
                         TabStrip.SelectedItem = itemToReselect;
                     }
-                    else
-                    {
-                        TabStrip.SelectedIndex = App.InteractionViewModel.TabStripSelectedIndex;
-                    }
                 }
             }
             else
             {
-                App.InteractionViewModel.TabStripSelectedIndex = TabStrip.SelectedIndex;
+                //App.InteractionViewModel.TabStripSelectedIndex = TabStrip.SelectedIndex;
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
@@ -488,6 +484,16 @@ namespace Files
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
             AddNewTab(typeof(ModernShellPage), "New tab");
+        }
+
+        private void TabStrip_Loaded(object sender, RoutedEventArgs e)
+        {
+            TabStrip.SelectedIndex = App.InteractionViewModel.TabStripSelectedIndex;
+        }
+
+        private void TabStrip_Unloaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("TEST UNLOADED");
         }
     }
 

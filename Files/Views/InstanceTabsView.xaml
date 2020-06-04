@@ -536,9 +536,11 @@
                         <Grid >
                             <muxc:TabView
                             x:Name="TabStrip"
-                            SelectedIndex="{x:Bind local:App.InteractionViewModel.TabStripSelectedIndex, Mode=OneWay}"
+                            SelectedIndex="{x:Bind local:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             VerticalAlignment="Stretch"
                             x:FieldModifier="public"
+                                Loaded="TabStrip_Loaded"
+                                Unloaded="TabStrip_Unloaded"
                             Background="Transparent"
                             IsAddTabButtonVisible="False"
                             SelectionChanged="TabStrip_SelectionChanged"
