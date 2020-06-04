@@ -760,6 +760,10 @@
           <source>{0} seconds ago</source>
           <target state="new">{0} seconds ago</target>
         </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
+          <source>The requested operation is not supported</source>
+          <target state="new">The requested operation is not supported</target>
+        </trans-unit>
       </group>
     </body>
   </file>
