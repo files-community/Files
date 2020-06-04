@@ -1,5 +1,6 @@
 ﻿{
   "version": 1,
+  "defaultTerminalId": 1,
   "terminals": [
     {
       "id": 1,

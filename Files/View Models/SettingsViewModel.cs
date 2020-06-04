@@ -277,58 +277,6 @@ namespace Files.View_Models
             }
         }
 
-        private async void LoadTerminalApps()
-        {
-            var localFolder = ApplicationData.Current.LocalFolder;
-            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            StorageFile file;
-            try
-            {
-                file = await localSettingsFolder.GetFileAsync("terminal.json");
-            }
-            catch (FileNotFoundException)
-            {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
-
-                file = await localSettingsFolder.CreateFileAsync("terminal.json");
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
-            }
-
-            var content = await FileIO.ReadTextAsync(file);
-            TerminalFileModel terminalsFileModel = null;
-            try
-            {
-                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
-            }
-            catch (JsonSerializationException)
-            {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
-
-                file = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
-                var defaultContent = await FileIO.ReadTextAsync(file);
-                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
-            }
-
-            //Ensure Windows Terminal is not already in List
-            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            {
-                if (await IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe"))
-                {
-                    terminalsFileModel.Terminals.Add(new TerminalModel()
-                    {
-                        Id = terminalsFileModel.Terminals.Count + 1,
-                        Name = "Windows Terminal",
-                        Path = "wt.exe",
-                        arguments = "-d {0}",
-                        icon = ""
-                    });
-                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-                }
-            }
-            Terminals = terminalsFileModel?.Terminals ?? new List<TerminalModel>();
-        }
-
         private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
 
         /// <summary>
@@ -366,12 +314,58 @@ namespace Files.View_Models
             }
         }
 
-        private IList<TerminalModel> _Terminals = null;
+        public TerminalFileModel TerminalsModel { get; set; }
 
-        public IList<TerminalModel> Terminals
+        public StorageFile TerminalsModelFile;
+
+        private async void LoadTerminalApps()
         {
-            get => _Terminals;
-            set => Set(ref _Terminals, value);
+            var localFolder = ApplicationData.Current.LocalFolder;
+            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
+            try
+            {
+                TerminalsModelFile = await localSettingsFolder.GetFileAsync("terminal.json");
+            }
+            catch (FileNotFoundException)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
+
+                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json");
+                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
+            }
+
+            var content = await FileIO.ReadTextAsync(TerminalsModelFile);
+
+            try
+            {
+                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+            }
+            catch (JsonSerializationException)
+            {
+                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
+
+                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
+                var defaultContent = await FileIO.ReadTextAsync(TerminalsModelFile);
+                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+            }
+
+            //Ensure Windows Terminal is not already in List
+            if (TerminalsModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            {
+                if (await IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe"))
+                {
+                    TerminalsModel.Terminals.Add(new TerminalModel()
+                    {
+                        Id = TerminalsModel.Terminals.Count + 1,
+                        Name = "Windows Terminal",
+                        Path = "wt.exe",
+                        Arguments = "-d {0}",
+                        Icon = ""
+                    });
+                    await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
+                }
+            }
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
