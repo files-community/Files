@@ -748,7 +748,7 @@
         </trans-unit>
         <trans-unit id="MinutesAgo" translate="yes" xml:space="preserve">
           <source>{0} minutes ago</source>
-          <target state="new">{0} நிமிடங்கள் முன்பு</target>
+          <target state="translated">{0} நிமிடங்கள் முன்பு</target>
         </trans-unit>
         <trans-unit id="MinuteAgo" translate="yes" xml:space="preserve">
           <source>{0} minute ago</source>
