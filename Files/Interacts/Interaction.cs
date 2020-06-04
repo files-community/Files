@@ -127,19 +127,13 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-
-            var terminalId = 1;
-
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+            var terminal = App.AppSettings.TerminalsModel.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Application", terminal.Path);
-                value.Add("Arguments", String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                value.Add("Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory));
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -507,8 +501,11 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             var deleteFromRecycleBin = CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
-            // Permanently delete if deleting from recycle bin
-            App.InteractionViewModel.PermanentlyDelete = deleteFromRecycleBin ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
+            if (deleteFromRecycleBin)
+            {
+                // Permanently delete if deleting from recycle bin
+                App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
+            }
 
             if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
@@ -517,6 +514,7 @@ namespace Files.Interacts
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
+                    App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
                     return; //return if the result isn't delete
                 }
             }
