@@ -760,8 +760,8 @@
           <target state="translated">Hace {0} segundos</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Path</source>
-          <target state="new">Path</target>
+          <source>New Tab</source>
+          <target state="new">New Tab</target>
         </trans-unit>
       </group>
     </body>

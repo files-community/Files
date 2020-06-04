@@ -53,14 +53,27 @@
                     FontSize="16"
                     IsChecked="{x:Bind local:App.AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <TextBox
-                    x:Uid="SettingsOnStartupOpenASpecificPagePath"
-                    Width="250"
-                    Margin="12,0,0,0"
-                    HorizontalAlignment="Left"
-                    PlaceholderText="Path"
-                    Text="{x:Bind local:App.AppSettings.OpenASpecificPageOnStartupPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}" />
+                <StackPanel Orientation="Horizontal" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
+                    <TextBox
+                        x:Uid="SettingsOnStartupOpenASpecificPagePath"
+                        Width="240"
+                        Margin="12,0,0,0"
+                        HorizontalAlignment="Left"
+                        BorderThickness="1,1,0,1"
+                        CornerRadius="2,0,0,2"
+                        IsEnabled="False"
+                        PlaceholderText="New Tab"
+                        Text="{x:Bind local:App.AppSettings.OpenASpecificPageOnStartupPath, Mode=OneWay}" />
+
+                    <Button
+                        x:Name="btnOpenASpecificPageOnStartupPath"
+                        Height="33"
+                        Click="btnOpenASpecificPageOnStartupPath_Click"
+                        Content="&#xE838;"
+                        CornerRadius="0,2,2,0"
+                        FontFamily="Segoe MDL2 Assets"
+                        Style="{ThemeResource AccentButtonStyle}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -682,6 +682,6 @@
     <value>{0} seconds ago</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
-    <value>Path</value>
+    <value>New Tab</value>
   </data>
 </root>
