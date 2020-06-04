@@ -14,8 +14,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.System;
 
 namespace Files.View_Models
 {
@@ -308,25 +310,60 @@ namespace Files.View_Models
                 terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
             }
 
-            // Ensure Windows Terminal is not already in List
-            //if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            //{
-            //    PackageManager packageManager = new PackageManager();
-            //    var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            //    if (terminalPackage != null)
-            //    {
-            //        terminalsFileModel.Terminals.Add(new TerminalModel()
-            //        {
-            //            Id = terminalsFileModel.Terminals.Count + 1,
-            //            Name = "Windows Terminal",
-            //            Path = "wt.exe",
-            //            arguments = "-d {0}",
-            //            icon = ""
-            //        });
-            //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-            //    }
-            //}
+            //Ensure Windows Terminal is not already in List
+            if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
+            {
+                if (await IsAppInstalledAsync("Microsoft.WindowsTerminal_8wekyb3d8bbwe"))
+                {
+                    terminalsFileModel.Terminals.Add(new TerminalModel()
+                    {
+                        Id = terminalsFileModel.Terminals.Count + 1,
+                        Name = "Windows Terminal",
+                        Path = "wt.exe",
+                        arguments = "-d {0}",
+                        icon = ""
+                    });
+                    await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
+                }
+            }
             Terminals = terminalsFileModel?.Terminals ?? new List<TerminalModel>();
+        }
+
+        private static readonly Uri dummyUri = new Uri("mailto:dummy@dummy.com");
+
+        /// <summary>
+        /// Check if target <paramref name="packageName"/> is installed on this device.
+        /// </summary>
+        /// <param name="packageName">Package name in format: "949FFEAB.Email.cz_refxrrjvvv3cw"</param>
+        /// <returns>True is app is installed on this device, false otherwise.</returns>
+        public static async Task<bool> IsAppInstalledAsync(string packageName)
+        {
+            try
+            {
+                bool appInstalled;
+                LaunchQuerySupportStatus result = await Launcher.QueryUriSupportAsync(dummyUri, LaunchQuerySupportType.Uri, packageName);
+                switch (result)
+                {
+                    case LaunchQuerySupportStatus.Available:
+                    case LaunchQuerySupportStatus.NotSupported:
+                        appInstalled = true;
+                        break;
+                    //case LaunchQuerySupportStatus.AppNotInstalled:
+                    //case LaunchQuerySupportStatus.AppUnavailable:
+                    //case LaunchQuerySupportStatus.Unknown:
+                    default:
+                        appInstalled = false;
+                        break;
+                }
+
+                Debug.WriteLine($"App {packageName}, query status: {result}, installed: {appInstalled}");
+                return appInstalled;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error checking if app {packageName} is installed. Error: {ex}");
+                return false;
+            }
         }
 
         private IList<TerminalModel> _Terminals = null;
