@@ -840,6 +840,19 @@ namespace Files.Interacts
 
         public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                // Happens if you copy some text and then you Ctrl+V in FilesUWP
+                // Should this be done in ModernShellPage?
+                return;
+            }
+            if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not paste files and folders inside the recycle bin
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
+                return;
+            }
+
             itemsToPaste = await packageView.GetStorageItemsAsync();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;

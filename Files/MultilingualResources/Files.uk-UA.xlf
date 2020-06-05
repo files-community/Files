@@ -767,6 +767,10 @@
           <source>New Tab</source>
           <target state="new">New Tab</target>
         </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
+          <source>The requested operation is not supported</source>
+          <target state="new">The requested operation is not supported</target>
+        </trans-unit>
       </group>
     </body>
   </file>
