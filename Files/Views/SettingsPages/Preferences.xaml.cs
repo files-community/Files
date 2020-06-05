@@ -1,4 +1,5 @@
 ﻿using Files.DataModels;
+using Files.View_Models;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Preferences : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
