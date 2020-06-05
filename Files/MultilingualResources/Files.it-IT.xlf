@@ -764,6 +764,10 @@
           <source>New Tab</source>
           <target state="new">New Tab</target>
         </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
+          <source>The requested operation is not supported</source>
+          <target state="translated">L'operazione richiesta non è supportata</target>
+        </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
           <target state="new">{0} free of {1}</target>

@@ -684,6 +684,9 @@
   <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
     <value>New Tab</value>
   </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>The requested operation is not supported</value>
+  </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} free of {1}</value>
   </data>
