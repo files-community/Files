@@ -531,4 +531,7 @@
   <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
     <value>Abilita il supporto al Cestino</value>
   </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>L'operazione richiesta non è supportata</value>
+  </data>
 </root>

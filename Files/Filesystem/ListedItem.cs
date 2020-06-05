@@ -1,7 +1,6 @@
 ﻿using Files.Enums;
 using System;
 using System.ComponentModel;
-using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -158,7 +157,7 @@ namespace Files.Filesystem
             else
             {
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
-            }            
+            }
         }
     }
 }

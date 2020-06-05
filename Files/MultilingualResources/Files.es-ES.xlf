@@ -762,6 +762,10 @@
           <source>New Tab</source>
           <target state="translated">Nueva pestaña</target>
         </trans-unit>
+        <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
+          <source>The requested operation is not supported</source>
+          <target state="new">The requested operation is not supported</target>
+        </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
           <target state="translated">{0} disponibles de {1}</target>
