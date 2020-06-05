@@ -87,11 +87,11 @@ namespace Files.View_Models
                     DateTimeOffset dateCreated;
                     if (App.CurrentInstance.ContentPage.SelectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        dateCreated = StorageFolder.GetFolderFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath).GetResults().DateCreated;
+                        dateCreated = App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath).AsAsyncOperation<StorageFolderWithPath>().GetResults().Folder.DateCreated;
                     }
                     else if (App.CurrentInstance.ContentPage.SelectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        dateCreated = StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath).GetResults().DateCreated;
+                        dateCreated = App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath).AsAsyncOperation<StorageFileWithPath>().GetResults().File.DateCreated;
                     }
                     return ListedItem.GetFriendlyDate(dateCreated);
                 }

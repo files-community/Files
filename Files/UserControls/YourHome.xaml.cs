@@ -111,11 +111,19 @@ namespace Files
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
                     if (item.IsOfType(StorageItemTypes.File))
                     {
+                        using (var inputStream = await ((StorageFile)item).OpenReadAsync())
+                        using (var classicStream = inputStream.AsStreamForRead())
+                        using (var streamReader = new StreamReader(classicStream))
+                        {
+                            // Try to read the file to check if still exists
+                            streamReader.Peek();
+                        }
+
                         ItemName = item.Name;
-                        ItemPath = item.Path;
+                        ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
                         ItemType = StorageItemTypes.File;
                         ItemImage = new BitmapImage();
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(ItemPath);
+                        StorageFile file = (StorageFile)item;
                         var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 30, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
                         if (thumbnail == null)
                         {
@@ -183,7 +191,7 @@ namespace Files
             }
             catch (COMException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog.Title"), ResourceController.GetTranslation("DriveUnpluggedDialog.Text"));
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), ResourceController.GetTranslation("DriveUnpluggedDialog/Text"));
             }
         }
 
@@ -209,7 +217,7 @@ namespace Files
                         foreach (var element in mru.Entries)
                         {
                             var f = await mru.GetItemAsync(element.Token);
-                            if (f.Path.Equals(vm.RecentPath))
+                            if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
                             {
                                 mru.Remove(element.Token);
                                 if (recentItemsCollection.Count == 0)

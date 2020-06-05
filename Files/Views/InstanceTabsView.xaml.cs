@@ -299,8 +299,9 @@ namespace Files
                     if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
                     {
                         var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPathForTabIcon).Contains(x.ToUpperInvariant()));
 
-                        if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
+                        if (matchingDriveName == null)
                         {
                             fontIconSource.Glyph = "\xEDA2";
                             tabLocationHeader = NormalizePath(currentPathForTabIcon);
@@ -308,7 +309,7 @@ namespace Files
                         else
                         {
                             fontIconSource.Glyph = "\xE88E";
-                            tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(currentPathForTabIcon)).DisplayName;
+                            tabLocationHeader = matchingDriveName;
                         }
                     }
                     else

@@ -434,6 +434,7 @@ namespace Files
         public string Glyph { get; set; } = null;
         public string Text { get; set; }
         public string Path { get; set; }
+        public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.LinuxDistro;
         public Uri Logo { get; set; }
     }

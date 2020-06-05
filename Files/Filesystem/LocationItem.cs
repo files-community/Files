@@ -1,10 +1,13 @@
-﻿namespace Files.Filesystem
+﻿using Windows.Storage;
+
+namespace Files.Filesystem
 {
     public class LocationItem : INavigationControlItem
     {
         public string Glyph { get; set; }
         public string Text { get; set; }
         public string Path { get; set; }
+        public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Location;
         public bool IsDefaultLocation { get; set; }
     }
@@ -14,6 +17,7 @@
         public string Glyph { get; set; } = null;
         public string Text { get; set; }
         public string Path { get; set; } = null;
+        public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType => NavigationControlItemType.Header;
     }
 }

@@ -121,7 +121,7 @@ namespace Files.Filesystem
             }
 
             // If drive already in list, skip.
-            if (Drives.Any(x => x.Path == root.Name))
+            if (Drives.Any(x => string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
             {
                 return;
             }

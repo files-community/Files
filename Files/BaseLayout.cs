@@ -1,4 +1,5 @@
 using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.Views.Pages;
 using System;
@@ -154,7 +155,7 @@ namespace Files
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
-            App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
+            await App.CurrentInstance.ViewModel.SetWorkingDirectory(parameters);
 
             // pathRoot will be empty on recycle bin path
             string pathRoot = Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory);
@@ -327,9 +328,9 @@ namespace Files
             foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
-                    selectedStorageItems.Add(await StorageFile.GetFileFromPathAsync(item.ItemPath));
+                    selectedStorageItems.Add((await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(item.ItemPath)).File);
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    selectedStorageItems.Add(await StorageFolder.GetFolderFromPathAsync(item.ItemPath));
+                    selectedStorageItems.Add((await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(item.ItemPath)).Folder);
             }
 
             if (selectedStorageItems.Count == 0)

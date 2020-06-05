@@ -208,7 +208,7 @@ namespace Files.UserControls
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ViewModel.WorkingDirectory = "New tab";
+                    await App.CurrentInstance.ViewModel.SetWorkingDirectory("New tab");
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -234,7 +234,7 @@ namespace Files.UserControls
 
                     try
                     {
-                        await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                        await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(CurrentInput);
 
                         App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
                     }
@@ -242,7 +242,7 @@ namespace Files.UserControls
                     {
                         try
                         {
-                            await StorageFile.GetFileFromPathAsync(CurrentInput);
+                            await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(CurrentInput);
                             await Interaction.InvokeWin32Component(CurrentInput);
                         }
                         catch (Exception ex) // Not a file or not accessible

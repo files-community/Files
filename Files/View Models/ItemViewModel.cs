@@ -3,7 +3,6 @@ using Files.Common;
 using Files.Enums;
 using Files.Helpers;
 using Files.Interacts;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -40,46 +39,79 @@ namespace Files.Filesystem
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public ListedItem CurrentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
-        private string _WorkingDirectory;
 
+        public StorageFolderWithPath CurrentStorageFolder { get; private set; }
+        private string _customPath;
         public string WorkingDirectory
         {
             get
             {
-                return _WorkingDirectory;
+                return CurrentStorageFolder?.Path ?? _customPath;
             }
+        }
+        private StorageFolderWithPath _workingRoot;
 
-            set
+        public async Task SetWorkingDirectory(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return;
+            if (WorkingDirectory == value)
+                return;
+
+            INavigationControlItem item = null;
+            List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+
+            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+            if (item == null)
             {
-                if (!string.IsNullOrWhiteSpace(value))
-                {
-                    _WorkingDirectory = value;
-
-                    INavigationControlItem item = null;
-                    List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
-
-                    item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-                    if (item == null)
-                    {
-                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-                    }
-                    if (item == null)
-                    {
-                        item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-                    }
-                    if (item == null)
-                    {
-                        item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-                    }
-
-                    if (App.CurrentInstance.SidebarSelectedItem != item)
-                    {
-                        App.CurrentInstance.SidebarSelectedItem = item;
-                    }
-
-                    NotifyPropertyChanged("WorkingDirectory");
-                }
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
             }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+            }
+
+            if (!Path.IsPathRooted(value))
+            {
+                _workingRoot = null;
+            }
+            else if (!Path.IsPathRooted(WorkingDirectory) || Path.GetPathRoot(WorkingDirectory) != Path.GetPathRoot(value))
+            {
+                _workingRoot = await StorageFileExtensions.GetFolderFromRelativePathAsync(Path.GetPathRoot(value), item?.Root != null ?
+                    new StorageFolderWithPath(item.Root, Path.GetPathRoot(value)) : null);
+            }
+
+            if (App.CurrentInstance.SidebarSelectedItem != item)
+            {
+                App.CurrentInstance.SidebarSelectedItem = item;
+            }
+
+            if (!Path.IsPathRooted(value))
+            {
+                CurrentStorageFolder = null;
+                _customPath = value;
+            }
+            else
+            {
+                CurrentStorageFolder = await StorageFileExtensions.GetFolderFromRelativePathAsync(value, _workingRoot, CurrentStorageFolder);
+                _customPath = null;
+            }
+
+            NotifyPropertyChanged("WorkingDirectory");
+        }
+
+        public async Task<StorageFolderWithPath> GetFolderFromRelativePathAsync(string value)
+        {
+            return await StorageFileExtensions.GetFolderFromRelativePathAsync(value, _workingRoot, CurrentStorageFolder);
+        }
+
+        public async Task<StorageFileWithPath> GetFileFromRelativePathAsync(string value)
+        {
+            return await StorageFileExtensions.GetFileFromRelativePathAsync(value, _workingRoot, CurrentStorageFolder);
         }
 
         public ObservableCollection<ListedItem> _filesAndFolders;
@@ -303,65 +335,9 @@ namespace Files.Filesystem
             {
                 Weight = FontWeights.SemiBold.Weight
             };
-            List<string> pathComponents = new List<string>();
-            // If path is a library, simplify it
-
-            // If path is found to not be a library
-            pathComponents = WorkingDirectory.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
-            int index = 0;
-            foreach (string s in pathComponents)
+            foreach (var component in StorageFileExtensions.GetDirectoryPathComponents(WorkingDirectory))
             {
-                string componentLabel = null;
-                string tag = "";
-                if (s.StartsWith(App.AppSettings.RecycleBinPath))
-                {
-                    // Handle the recycle bin: use the localized folder name
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                        Path = tag,
-                    };
-                    App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
-                }
-                else if (s.Contains(":"))
-                {
-                    if (App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
-                    {
-                        componentLabel = App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
-                    }
-                    else
-                    {
-                        componentLabel = @"Drive (" + s + @"\)";
-                    }
-                    tag = s + @"\";
-
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = componentLabel,
-                        Path = tag,
-                    };
-                    App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
-                }
-                else
-                {
-                    componentLabel = s;
-                    foreach (string part in pathComponents.GetRange(0, index + 1))
-                    {
-                        tag = tag + part + @"\";
-                    }
-                    if (index == 0)
-                    {
-                        tag = "\\\\" + tag;
-                    }
-
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = componentLabel,
-                        Path = tag,
-                    };
-                    App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
-                }
-                index++;
+                App.CurrentInstance.NavigationToolbar.PathComponents.Add(component);
             }
         }
 
@@ -609,7 +585,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        var matchingStorageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                        StorageFile matchingStorageItem = (await GetFileFromRelativePathAsync(item.ItemPath)).File;
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
@@ -637,7 +613,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        var matchingStorageItem = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                        StorageFolder matchingStorageItem = (await GetFolderFromRelativePathAsync(item.ItemPath)).Folder;
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
@@ -694,44 +670,47 @@ namespace Files.Filesystem
 
                 IsLoadingItems = true;
                 EmptyTextState.IsVisible = Visibility.Collapsed;
-                WorkingDirectory = path;
                 _filesAndFolders.Clear();
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
-                switch (WorkingDirectory)
+                switch (path)
                 {
                     case "Desktop":
-                        WorkingDirectory = App.AppSettings.DesktopPath;
+                        await SetWorkingDirectory(App.AppSettings.DesktopPath);
                         break;
 
                     case "Downloads":
-                        WorkingDirectory = App.AppSettings.DownloadsPath;
+                        await SetWorkingDirectory(App.AppSettings.DownloadsPath);
                         break;
 
                     case "Documents":
-                        WorkingDirectory = App.AppSettings.DocumentsPath;
+                        await SetWorkingDirectory(App.AppSettings.DocumentsPath);
                         break;
 
                     case "Pictures":
-                        WorkingDirectory = App.AppSettings.PicturesPath;
+                        await SetWorkingDirectory(App.AppSettings.PicturesPath);
                         break;
 
                     case "Music":
-                        WorkingDirectory = App.AppSettings.MusicPath;
+                        await SetWorkingDirectory(App.AppSettings.MusicPath);
                         break;
 
                     case "Videos":
-                        WorkingDirectory = App.AppSettings.VideosPath;
+                        await SetWorkingDirectory(App.AppSettings.VideosPath);
                         break;
 
                     case "RecycleBin":
-                        WorkingDirectory = App.AppSettings.RecycleBinPath;
+                        await SetWorkingDirectory(App.AppSettings.RecycleBinPath);
                         break;
 
                     case "OneDrive":
-                        WorkingDirectory = App.AppSettings.OneDrivePath;
+                        await SetWorkingDirectory(App.AppSettings.OneDrivePath);
+                        break;
+
+                    default:
+                        await SetWorkingDirectory(path);
                         break;
                 }
 
@@ -879,38 +858,12 @@ namespace Files.Filesystem
 
         public async Task EnumerateItemsFromStandardFolder(string path)
         {
+            // Flag to use FindFirstFileExFromApp or StorageFolder enumeration
+            bool enumFromStorageFolder = false;
+
             try
             {
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
-                _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
-                {
-                    ItemPropertiesInitialized = true,
-                    ItemName = _rootFolder.Name,
-                    ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
-                    ItemType = _rootFolder.DisplayType,
-                    LoadFolderGlyph = true,
-                    FileImage = null,
-                    LoadFileIcon = false,
-                    ItemPath = _rootFolder.Path,
-                    LoadUnknownTypeGlyph = false,
-                    FileSize = null,
-                    FileSizeBytes = 0
-                };
-
-                await Task.Run(() =>
-                {
-                    var options = new QueryOptions()
-                    {
-                        FolderDepth = FolderDepth.Shallow,
-                        IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
-                    };
-                    options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
-                    options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
-                    _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
-                    _itemQueryResult.ContentsChanged += FileContentsChanged;
-                    watchedItemsOperation = _itemQueryResult.GetItemsAsync();
-                    watchedItemsOperation.Completed += delegate { watchedItems = watchedItemsOperation.GetResults(); };
-                });
             }
             catch (UnauthorizedAccessException)
             {
@@ -919,58 +872,133 @@ namespace Files.Filesystem
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog.Title"), ResourceController.GetTranslation("FolderNotFoundDialog.Text"));
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog/Title"), ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
                 IsLoadingItems = false;
                 return;
             }
             catch (Exception e)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog.Title"), e.Message);
-                IsLoadingItems = false;
-                return;
+                if (_workingRoot != null)
+                {
+                    _rootFolder = CurrentStorageFolder.Folder;
+                    enumFromStorageFolder = true;
+                }
+                else
+                {
+                    await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), e.Message);
+                    IsLoadingItems = false;
+                    return;
+                }
             }
 
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-            var count = 0;
-            if (hFile.ToInt64() != -1)
+            _rootFolderItem = new ListedItem(_rootFolder.FolderRelativeId)
             {
-                do
+                ItemPropertiesInitialized = true,
+                ItemName = _rootFolder.Name,
+                ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
+                ItemType = _rootFolder.DisplayType,
+                LoadFolderGlyph = true,
+                FileImage = null,
+                LoadFileIcon = false,
+                ItemPath = _rootFolder.Path,
+                LoadUnknownTypeGlyph = false,
+                FileSize = null,
+                FileSizeBytes = 0
+            };
+
+            await Task.Run(() =>
+            {
+                var options = new QueryOptions()
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                    FolderDepth = FolderDepth.Shallow,
+                    IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
+                };
+                options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
+                options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
+                _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
+                _itemQueryResult.ContentsChanged += FileContentsChanged;
+                watchedItemsOperation = _itemQueryResult.GetItemsAsync();
+                watchedItemsOperation.Completed += delegate { watchedItems = watchedItemsOperation.GetResults(); };
+            });
+
+            if (enumFromStorageFolder)
+            {
+                var count = 0;
+                foreach (StorageFolder folderInDir in await _rootFolder.GetFoldersAsync())
+                {
+                    await AddFolder(folderInDir);
+                    ++count;
+
+                    if (_addFilesCTS.IsCancellationRequested)
                     {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                        {
-                            if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
-                            {
-                                AddFile(findData, path);
-                                ++count;
-                            }
-                        }
-                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                        {
-                            if (findData.cFileName != "." && findData.cFileName != "..")
-                            {
-                                AddFolder(findData, path);
-                                ++count;
-                            }
-                        }
+                        break;
+                    }
+                    if (count % 64 == 0)
+                    {
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                    }
+                }
+                foreach (StorageFile fileInDir in await _rootFolder.GetFilesAsync())
+                {
+                    if (!fileInDir.Name.EndsWith(".lnk") && !fileInDir.Name.EndsWith(".url"))
+                    {
+                        await AddFile(fileInDir);
+                        ++count;
                     }
                     if (_addFilesCTS.IsCancellationRequested)
                     {
                         break;
                     }
-
                     if (count % 64 == 0)
                     {
                         await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
                     }
-                } while (FindNextFile(hFile, out findData));
+                }
+            }
+            else
+            {
+                FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+                int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 
-                FindClose(hFile);
+                IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                      additionalFlags);
+                var count = 0;
+                if (hFile.ToInt64() != -1)
+                {
+                    do
+                    {
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                        {
+                            if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                            {
+                                if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+                                {
+                                    AddFile(findData, path);
+                                    ++count;
+                                }
+                            }
+                            else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                            {
+                                if (findData.cFileName != "." && findData.cFileName != "..")
+                                {
+                                    AddFolder(findData, path);
+                                    ++count;
+                                }
+                            }
+                        }
+                        if (_addFilesCTS.IsCancellationRequested)
+                        {
+                            break;
+                        }
+
+                        if (count % 64 == 0)
+                        {
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                        }
+                    } while (FindNextFile(hFile, out findData));
+
+                    FindClose(hFile);
+                }
             }
         }
 
@@ -1128,7 +1156,7 @@ namespace Files.Filesystem
             return;
         }
 
-        private async Task AddFolder(StorageFolder folder)
+        public async Task AddFolder(StorageFolder folder)
         {
             var basicProperties = await folder.GetBasicPropertiesAsync();
 
@@ -1157,30 +1185,31 @@ namespace Files.Filesystem
                 //string tooltipString = dateCreatedText + "\n" + "Folders: " + firstFoldersText + "\n" + "Files: " + firstFilesText;
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
-                    //FolderTooltipText = tooltipString,
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemName = folder.Name,
                     ItemDateModifiedReal = basicProperties.DateModified,
                     ItemType = folder.DisplayType,
                     LoadFolderGlyph = true,
                     FileImage = null,
                     LoadFileIcon = false,
-                    ItemPath = folder.Path,
+                    ItemPath = string.IsNullOrEmpty(folder.Path) ? Path.Combine(CurrentStorageFolder.Path, folder.Name) : folder.Path,
                     LoadUnknownTypeGlyph = false,
                     FileSize = null,
-                    FileSizeBytes = 0
+                    FileSizeBytes = 0,
+                    //FolderTooltipText = tooltipString,
                 });
 
                 EmptyTextState.IsVisible = Visibility.Collapsed;
             }
         }
 
-        private async Task AddFile(StorageFile file)
+        public async Task AddFile(StorageFile file)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
 
             var itemName = file.DisplayName;
             var itemDate = basicProperties.DateModified;
-            var itemPath = file.Path;
+            var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(CurrentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
@@ -1249,6 +1278,7 @@ namespace Files.Filesystem
             }
             _filesAndFolders.Add(new ListedItem(file.FolderRelativeId)
             {
+                PrimaryItemAttribute = StorageItemTypes.File,
                 FileExtension = itemFileExtension,
                 LoadUnknownTypeGlyph = itemEmptyImgVis,
                 FileImage = icon,

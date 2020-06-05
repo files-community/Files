@@ -57,7 +57,7 @@ namespace Files.Interacts
         public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
             // Get the path of the selected file
-            StorageFile sourceFile = await StorageFile.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+            StorageFile sourceFile = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath)).File;
 
             // Get the app's local folder to use as the destination folder.
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -74,7 +74,7 @@ namespace Files.Interacts
         public async void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
             // Get the path of the selected file
-            StorageFile sourceFile = await StorageFile.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+            StorageFile sourceFile = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath)).File;
 
             // Get the app's local folder to use as the destination folder.
             StorageFolder localFolder = ApplicationData.Current.LocalFolder;
@@ -166,7 +166,7 @@ namespace Files.Interacts
                     {
                         try
                         {
-                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
+                            StorageFolder fol = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(itemPath)).Folder;
                             var name = fol.DisplayName;
                             var content = name;
                             var icon = "\uE8B7";
@@ -337,27 +337,29 @@ namespace Files.Interacts
                     var clickedOnItemPath = clickedOnItem.ItemPath;
                     if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        // Add location to MRU List
-                        mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItemPath));
+                        var childFolder = await CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(clickedOnItem.ItemPath);
 
-                        CurrentInstance.ViewModel.WorkingDirectory = clickedOnItemPath;
-                        CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(childFolder.Folder, childFolder.Path);
+
+                        CurrentInstance.NavigationToolbar.PathControlDisplayText = childFolder.Path;
 
                         CurrentInstance.ContentPage.AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
-                        CurrentInstance.ContentFrame.Navigate(sourcePageType, clickedOnItemPath, new SuppressNavigationTransitionInfo());
+                        CurrentInstance.ContentFrame.Navigate(sourcePageType, childFolder.Path, new SuppressNavigationTransitionInfo());
                     }
                     else
                     {
+                        var childFile = await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(clickedOnItem.ItemPath);
                         // Add location to MRU List
-                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
+                        mostRecentlyUsed.Add(childFile.File, childFile.Path);
+
                         if (displayApplicationPicker)
                         {
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
                             var options = new LauncherOptions
                             {
                                 DisplayApplicationPicker = true
                             };
-                            await Launcher.LaunchFileAsync(file, options);
+                            await Launcher.LaunchFileAsync(childFile.File, options);
                         }
                         else
                         {
@@ -375,16 +377,16 @@ namespace Files.Interacts
                         }
                         else
                         {
+                            var childFile = await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(clickedOnItem.ItemPath);
                             // Add location to MRU List
-                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
+                            mostRecentlyUsed.Add(childFile.File, childFile.Path);
                             if (displayApplicationPicker)
                             {
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
                                 var options = new LauncherOptions
                                 {
                                     DisplayApplicationPicker = true
                                 };
-                                await Launcher.LaunchFileAsync(file, options);
+                                await Launcher.LaunchFileAsync(childFile.File, options);
                             }
                             else
                             {
@@ -481,12 +483,12 @@ namespace Files.Interacts
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    var folderAsItem = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                    var folderAsItem = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(item.ItemPath)).Folder;
                     items.Add(folderAsItem);
                 }
                 else
                 {
-                    var fileAsItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                    var fileAsItem = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(item.ItemPath)).File;
                     items.Add(fileAsItem);
                 }
             }
@@ -541,11 +543,11 @@ namespace Files.Interacts
                     {
                         if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
+                            item = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(storItem.ItemPath)).File;
                         }
                         else
                         {
-                            item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
+                            item = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(storItem.ItemPath)).Folder;
                         }
 
                         await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
@@ -555,11 +557,11 @@ namespace Files.Interacts
                         // try again
                         if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
+                            item = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(storItem.ItemPath)).File;
                         }
                         else
                         {
-                            item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
+                            item = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(storItem.ItemPath)).Folder;
                         }
 
                         await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
@@ -569,7 +571,7 @@ namespace Files.Interacts
                     {
                         // Recycle bin also stores a file starting with $I for each item
                         var iFilePath = Path.Combine(Path.GetDirectoryName(storItem.ItemPath), Path.GetFileName(storItem.ItemPath).Replace("$R", "$I"));
-                        await (await StorageFile.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        await ((await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(iFilePath)).File).DeleteAsync(StorageDeleteOption.PermanentDelete);
                     }
 
                     CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
@@ -586,7 +588,7 @@ namespace Files.Interacts
             }
             catch (IOException)
             {
-                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog.Title"), ResourceController.GetTranslation("FileInUseDeleteDialog.Text"), ResourceController.GetTranslation("FileInUseDeleteDialog.PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog.SecondaryButtonText")))
+                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog/Title"), ResourceController.GetTranslation("FileInUseDeleteDialog/Text"), ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
                     DeleteItem_Click(null, null);
                 }
@@ -614,12 +616,12 @@ namespace Files.Interacts
                 {
                     if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                     {
-                        var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                        var folder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(item.ItemPath)).Folder;
                         await folder.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                     else
                     {
-                        var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                        var file = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(item.ItemPath)).File;
                         await file.RenameAsync(newName, NameCollisionOption.FailIfExists);
                     }
                 }
@@ -640,13 +642,13 @@ namespace Files.Interacts
                     {
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                            var folder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(item.ItemPath)).Folder;
 
                             await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
                         }
                         else
                         {
-                            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                            var file = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(item.ItemPath)).File;
 
                             await file.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
                         }
@@ -655,13 +657,13 @@ namespace Files.Interacts
                     {
                         if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            var folder = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+                            var folder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(item.ItemPath)).Folder;
 
                             await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         }
                         else
                         {
-                            var file = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+                            var file = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(item.ItemPath)).File;
 
                             await file.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
                         }
@@ -683,19 +685,20 @@ namespace Files.Interacts
                     {
                         if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                         {
-                            StorageFolder sourceFolder = await StorageFolder.GetFolderFromPathAsync(listedItem.ItemPath);
-                            await MoveDirectoryAsync(sourceFolder, Path.GetDirectoryName(listedItem.ItemOriginalPath), listedItem.ItemName);
+                            StorageFolder sourceFolder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(listedItem.ItemPath)).Folder;
+                            StorageFolder destFolder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(Path.GetDirectoryName(listedItem.ItemOriginalPath))).Folder;
+                            await MoveDirectoryAsync(sourceFolder, destFolder, listedItem.ItemName);
                             await sourceFolder.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         }
                         else
                         {
-                            var file = await StorageFile.GetFileFromPathAsync(listedItem.ItemPath);
-                            var destinationFolder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(listedItem.ItemOriginalPath));
+                            var file = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(listedItem.ItemPath)).File;
+                            var destinationFolder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(Path.GetDirectoryName(listedItem.ItemOriginalPath))).Folder;
                             await file.MoveAsync(destinationFolder, Path.GetFileName(listedItem.ItemOriginalPath), NameCollisionOption.GenerateUniqueName);
                         }
                         // Recycle bin also stores a file starting with $I for each item
                         var iFilePath = Path.Combine(Path.GetDirectoryName(listedItem.ItemPath), Path.GetFileName(listedItem.ItemPath).Replace("$R", "$I"));
-                        await (await StorageFile.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        await ((await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(iFilePath)).File).DeleteAsync(StorageDeleteOption.PermanentDelete);
                     }
                     catch (UnauthorizedAccessException)
                     {
@@ -713,11 +716,10 @@ namespace Files.Interacts
             }
         }
 
-        public async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, string DestinationPath, string sourceRootName)
+        public async Task<StorageFolder> MoveDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName)
         {
-            StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
             var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.FailIfExists);
-            DestinationFolder = await StorageFolder.GetFolderFromPathAsync(createdRoot.Path);
+            DestinationFolder = createdRoot;
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
@@ -725,7 +727,7 @@ namespace Files.Interacts
             }
             foreach (StorageFolder folderinSourceDir in await SourceFolder.GetFoldersAsync())
             {
-                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder.Path, folderinSourceDir.Name);
+                await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
             }
             return createdRoot;
         }
@@ -752,12 +754,12 @@ namespace Files.Interacts
                     {
                         if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                         {
-                            var item = await StorageFile.GetFileFromPathAsync(listedItem.ItemPath);
+                            var item = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(listedItem.ItemPath)).File;
                             items.Add(item);
                         }
                         else
                         {
-                            var item = await StorageFolder.GetFolderFromPathAsync(listedItem.ItemPath);
+                            var item = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(listedItem.ItemPath)).Folder;
                             items.Add(item);
                         }
                     }
@@ -793,12 +795,12 @@ namespace Files.Interacts
                 {
                     if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                     {
-                        var item = await StorageFile.GetFileFromPathAsync(listedItem.ItemPath);
+                        var item = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(listedItem.ItemPath)).File;
                         items.Add(item);
                     }
                     else
                     {
-                        var item = await StorageFolder.GetFolderFromPathAsync(listedItem.ItemPath);
+                        var item = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(listedItem.ItemPath)).Folder;
                         items.Add(item);
                     }
                 }
@@ -865,7 +867,7 @@ namespace Files.Interacts
             {
                 if (item.IsOfType(StorageItemTypes.Folder))
                 {
-                    if (destinationPath.IsSubPathOf(item.Path))
+                    if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
                     {
                         ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
                         Binding themeBind = new Binding();
@@ -896,10 +898,13 @@ namespace Files.Interacts
                     {
                         try
                         {
-                            StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
+                            StorageFolder pastedFolder = await CloneDirectoryAsync(
+                                (StorageFolder)item, 
+                                (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(destinationPath)).Folder, 
+                                item.Name, false);
                             pastedItems.Add(pastedFolder);
                             if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                                CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
+                                await CurrentInstance.ViewModel.AddFolder(pastedFolder);
                         }
                         catch (FileNotFoundException)
                         {
@@ -916,11 +921,14 @@ namespace Files.Interacts
                     }
                     try
                     {
-                        StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                        StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                        StorageFile clipboardFile = (StorageFile)item;
+                        StorageFile pastedFile = await clipboardFile.CopyAsync(
+                            (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(destinationPath)).Folder, 
+                            item.Name, 
+                            NameCollisionOption.GenerateUniqueName);
                         pastedItems.Add(pastedFile);
                         if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                            CurrentInstance.ViewModel.AddFile(pastedFile.Path);
+                            await CurrentInstance.ViewModel.AddFile(pastedFile);
                     }
                     catch (FileNotFoundException)
                     {
@@ -938,12 +946,12 @@ namespace Files.Interacts
                     {
                         if (item.IsOfType(StorageItemTypes.File))
                         {
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
+                            StorageFile file = (StorageFile)item;
                             await file.DeleteAsync();
                         }
                         else if (item.IsOfType(StorageItemTypes.Folder))
                         {
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                            StorageFolder folder = (StorageFolder)item;
                             await folder.DeleteAsync();
                         }
                     }
@@ -970,12 +978,10 @@ namespace Files.Interacts
             packageView.ReportOperationCompleted(acceptedOperation);
         }
 
-        public async Task<StorageFolder> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
+        public async Task<StorageFolder> CloneDirectoryAsync(StorageFolder SourceFolder, StorageFolder DestinationFolder, string sourceRootName, bool suppressProgressFlyout)
         {
-            StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
-            StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
             var createdRoot = await DestinationFolder.CreateFolderAsync(sourceRootName, CreationCollisionOption.GenerateUniqueName);
-            DestinationFolder = await StorageFolder.GetFolderFromPathAsync(createdRoot.Path);
+            DestinationFolder = createdRoot;
 
             foreach (StorageFile fileInSourceDir in await SourceFolder.GetFilesAsync())
             {
@@ -999,7 +1005,7 @@ namespace Files.Interacts
                     }
                 }
 
-                await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
+                await CloneDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name, false);
             }
             return createdRoot;
         }
@@ -1022,7 +1028,7 @@ namespace Files.Interacts
         public async void ExtractItems_Click(object sender, RoutedEventArgs e)
         {
             var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();
-            StorageFile selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[selectedIndex].ItemPath);
+            StorageFile selectedItem = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(CurrentInstance.ViewModel.FilesAndFolders[selectedIndex].ItemPath)).File;
 
             ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.WorkingDirectory);
             await extractFilesDialog.ShowAsync();
@@ -1030,6 +1036,7 @@ namespace Files.Interacts
             {
                 var bufferItem = await selectedItem.CopyAsync(ApplicationData.Current.TemporaryFolder, selectedItem.DisplayName, NameCollisionOption.ReplaceExisting);
                 string destinationPath = ApplicationData.Current.LocalSettings.Values["Extract_Destination_Path"].ToString();
+                StorageFolder destinationFolder = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(destinationPath)).Folder;
                 //ZipFile.ExtractToDirectory(selectedItem.Path, destinationPath, );
                 var destFolder_InBuffer = await ApplicationData.Current.TemporaryFolder.CreateFolderAsync(selectedItem.DisplayName + "_Extracted", CreationCollisionOption.ReplaceExisting);
                 using FileStream fs = new FileStream(bufferItem.Path, FileMode.Open);
@@ -1058,7 +1065,7 @@ namespace Files.Interacts
                         App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
                 }
-                await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
+                await CloneDirectoryAsync(destFolder_InBuffer, destinationFolder, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
                 {
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
@@ -1115,7 +1122,7 @@ namespace Files.Interacts
         public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
+            var itemFromPath = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(fileItem.ItemPath)).File;
             var stream = await itemFromPath.OpenStreamForReadAsync();
             var inputStream = stream.AsInputStream();
             uint capacity = 100000000;

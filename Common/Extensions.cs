@@ -1,10 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Files.Common
 {
     public static class Extensions
     {
+        public static IEnumerable<TSource> ExceptBy<TSource, TKey>(
+            this IEnumerable<TSource> source,
+            IEnumerable<TSource> other,
+            Func<TSource, TKey> keySelector)
+        {
+            var set = new HashSet<TKey>(other.Select(keySelector));
+            foreach (var item in source)
+                if (set.Add(keySelector(item)))
+                    yield return item;
+        }
+
         public static TOut Get<TOut, TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TOut defaultValue = default(TOut))
         {
             // If setting doesn't exist, create it.

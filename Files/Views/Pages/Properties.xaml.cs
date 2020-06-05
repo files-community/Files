@@ -53,11 +53,11 @@ namespace Files
 
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    selectedStorageItem = (await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(selectedItem.ItemPath)).File;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+                    selectedStorageItem = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(selectedItem.ItemPath)).Folder;
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -72,7 +72,7 @@ namespace Files
 
                 if (!App.CurrentInstance.ContentPage.SelectedItem.LoadFolderGlyph)
                 {
-                    var thumbnail = await (await StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath)).GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 80, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
+                    var thumbnail = await ((await App.CurrentInstance.ViewModel.GetFileFromRelativePathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath))).File.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 80, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
                     var bitmap = new BitmapImage();
                     await bitmap.SetSourceAsync(thumbnail);
                     ItemProperties.FileIconSource = bitmap;
@@ -104,7 +104,7 @@ namespace Files
                 }
                 else
                 {
-                    var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                    var parentDirectoryStorageItem = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(parentDirectory.ItemPath)).Folder;
                     ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectoryStorageItem.DateCreated);
                 }
                 ItemProperties.ItemName = parentDirectory.ItemName;

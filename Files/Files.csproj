@@ -150,6 +150,7 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Filesystem\StorageFileExtensions.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
