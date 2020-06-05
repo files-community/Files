@@ -114,6 +114,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -154,6 +155,7 @@
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
+    <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />

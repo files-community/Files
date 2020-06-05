@@ -6,6 +6,7 @@ using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.UI.Xaml.Controls;
+using NLog.Common;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +31,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
+using static Files.Helpers.NativeDirectoryChangesHelper;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
@@ -396,7 +398,7 @@ namespace Files.Filesystem
             {
                 _itemQueryResult.ContentsChanged -= FileContentsChanged;
             }
-            watchedItemsOperation?.Cancel(); // Can be null
+            //watchedItemsOperation?.Cancel(); // Can be null
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             if (!(WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false))
@@ -660,9 +662,6 @@ namespace Files.Filesystem
             await AddItemsToCollectionAsync(WorkingDirectory);
         }
 
-        public IReadOnlyList<IStorageItem> watchedItems = null;
-        private IAsyncOperation<IReadOnlyList<IStorageItem>> watchedItemsOperation;
-
         public async Task RapidAddItemsToCollectionAsync(string path)
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
@@ -896,21 +895,6 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 };
-
-                await Task.Run(() =>
-                {
-                    var options = new QueryOptions()
-                    {
-                        FolderDepth = FolderDepth.Shallow,
-                        IndexerOption = IndexerOption.OnlyUseIndexerAndOptimizeForIndexedProperties
-                    };
-                    options.SetPropertyPrefetch(PropertyPrefetchOptions.None, null);
-                    options.SetThumbnailPrefetch(ThumbnailMode.ListView, 0, ThumbnailOptions.ReturnOnlyIfCached);
-                    _itemQueryResult = _rootFolder.CreateItemQueryWithOptions(options);
-                    _itemQueryResult.ContentsChanged += FileContentsChanged;
-                    watchedItemsOperation = _itemQueryResult.GetItemsAsync();
-                    watchedItemsOperation.Completed += delegate { watchedItems = watchedItemsOperation.GetResults(); };
-                });
             }
             catch (UnauthorizedAccessException)
             {
@@ -935,6 +919,26 @@ namespace Files.Filesystem
 
             IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
+            
+            IntPtr hDir = NativeDirectoryChangesHelper.CreateFileFromApp(path, 1, 1 | 2 | 4, IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
+
+            int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+            FILE_NOTIFY_INFORMATION NOTIFY_INFORMATION = new FILE_NOTIFY_INFORMATION();
+            LpoverlappedCompletionRoutine callback = WatcherCompletionRoutine;
+            IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(NOTIFY_INFORMATION));
+            Marshal.StructureToPtr(NOTIFY_INFORMATION, pnt, false);
+            Overlapped overlapped = new Overlapped();
+            overlapped.EventHandleIntPtr = CreateEvent(IntPtr.Zero, false, false, null);
+            const UInt32 INFINITE = 0xFFFFFFFF;
+            Task.Run(() => {
+                NativeDirectoryChangesHelper.ReadDirectoryChangesW(hDir, pnt,
+                    Marshal.SizeOf(typeof(FILE_NOTIFY_INFORMATION)), false,
+                    notifyFilters, out uint size,
+                    overlapped, callback);
+                WaitForSingleObjectEx(overlapped.EventHandleIntPtr, INFINITE, true);
+            });
+            var x = Marshal.GetLastWin32Error();
+
             var count = 0;
             if (hFile.ToInt64() != -1)
             {
@@ -972,6 +976,12 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
+        }
+
+        public void WatcherCompletionRoutine(uint dwErrorCode, uint dwNumberOfBytesTransfered, 
+            OVERLAPPED lpOverlapped) 
+        {
+            Debug.WriteLine("Changes detected!!!!!!!!");
         }
 
         public void AddFolder(string folderPath)
