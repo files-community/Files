@@ -218,6 +218,7 @@ namespace Files
                 Width = 200,
                 IconSource = tabIcon,
                 Transitions = null,
+                Style = rootGrid.Resources["TabItemStyle"] as Style,
                 ContentTransitions = null
             };
             tabView.TabItems.Add(tvi);

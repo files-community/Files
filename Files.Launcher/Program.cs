@@ -35,21 +35,21 @@ namespace FilesFullTrust
 
             // Only one instance of the fulltrust process allowed
             // This happens if multiple instances of the UWP app are launched
-            var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
+            using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
             if (!isNew) return;
-
-            // Create shell COM object and get recycle bin folder
-            recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
-            Windows.Storage.ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
-
-            // Create shell watcher to monitor recycle bin folder
-            var watcher = new ShellItemChangeWatcher(recycler, false);
-            watcher.NotifyFilter = ChangeFilters.AllDiskEvents;
-            watcher.Changed += Watcher_Changed;
-            //watcher.EnableRaisingEvents = true; // TODO: uncomment this when updated library is released
 
             try
             {
+                // Create shell COM object and get recycle bin folder
+                recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                Windows.Storage.ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
+
+                // Create shell watcher to monitor recycle bin folder
+                watcher = new ShellItemChangeWatcher(recycler, false);
+                watcher.NotifyFilter = ChangeFilters.AllDiskEvents;
+                watcher.Changed += Watcher_Changed;
+                //watcher.EnableRaisingEvents = true; // TODO: uncomment this when updated library is released
+
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
                 InitializeAppServiceConnection();
@@ -60,6 +60,8 @@ namespace FilesFullTrust
                 connection?.Dispose();
                 watcher?.Dispose();
                 recycler?.Dispose();
+                appServiceExit?.Dispose();
+                mutex?.ReleaseMutex();
             }
         }
 
@@ -113,6 +115,7 @@ namespace FilesFullTrust
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static ShellFolder recycler;
+        private static ShellItemChangeWatcher watcher;
 
         private static async void InitializeAppServiceConnection()
         {
