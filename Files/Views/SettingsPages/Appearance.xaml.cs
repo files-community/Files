@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.View_Models;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -9,6 +10,8 @@ namespace Files.SettingsPages
 {
     public sealed partial class Appearance : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public Appearance()
         {
             InitializeComponent();
