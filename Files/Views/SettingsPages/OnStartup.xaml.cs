@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.View_Models;
+using System;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml.Controls;
@@ -7,6 +8,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class OnStartup : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         public OnStartup()
         {
             InitializeComponent();

@@ -2,7 +2,6 @@
 using Files.View_Models;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -61,7 +60,7 @@ namespace Files.SettingsPages
 
         private async void SaveTerminalSettings()
         {
-            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile, 
+            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
                 JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
         }
 
