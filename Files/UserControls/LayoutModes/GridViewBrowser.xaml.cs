@@ -146,10 +146,8 @@ namespace Files
             // Handle layout differences between tiles browser and photo album
             if (App.AppSettings.LayoutMode == 2)
             {
-                Popup popup =
-                    (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                TextBlock textBlock =
-                    (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
+                Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
+                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
                 textBox = popup.Child as TextBox;
                 popup.IsOpen = true;                
             }
