@@ -531,6 +531,24 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool OpenNewTabPageOnStartup
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool OpenASpecificPageOnStartup
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public string OpenASpecificPageOnStartupPath
+        {
+            get => Get("");
+            set => Set(value);
+        }
+
         private void DetectAcrylicPreference()
         {
             if (localSettings.Values["AcrylicEnabled"] == null) { localSettings.Values["AcrylicEnabled"] = true; }
