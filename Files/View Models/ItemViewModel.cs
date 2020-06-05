@@ -384,6 +384,8 @@ namespace Files.Filesystem
 
         public void CancelLoadAndClearFiles()
         {
+            CancelChangeWatcher();  // Cancel directory item change watcher
+
             if (IsLoadingItems == false) { return; }
 
             _addFilesCTS.Cancel();
@@ -919,24 +921,9 @@ namespace Files.Filesystem
 
             IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
-            
-            IntPtr hDir = NativeDirectoryChangesHelper.CreateFileFromApp(path, 1, 1 | 2 | 4, IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics, IntPtr.Zero);
 
-            int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
-            FILE_NOTIFY_INFORMATION NOTIFY_INFORMATION = new FILE_NOTIFY_INFORMATION();
-            LpoverlappedCompletionRoutine callback = WatcherCompletionRoutine;
-            IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(NOTIFY_INFORMATION));
-            Marshal.StructureToPtr(NOTIFY_INFORMATION, pnt, false);
-            Overlapped overlapped = new Overlapped();
-            overlapped.EventHandleIntPtr = CreateEvent(IntPtr.Zero, false, false, null);
-            const UInt32 INFINITE = 0xFFFFFFFF;
-            Task.Run(() => {
-                NativeDirectoryChangesHelper.ReadDirectoryChangesW(hDir, pnt,
-                    Marshal.SizeOf(typeof(FILE_NOTIFY_INFORMATION)), false,
-                    notifyFilters, out uint size,
-                    overlapped, callback);
-                WaitForSingleObjectEx(overlapped.EventHandleIntPtr, INFINITE, true);
-            });
+            WatchForDirectoryChanges(path);
+
             var x = Marshal.GetLastWin32Error();
 
             var count = 0;
@@ -978,10 +965,54 @@ namespace Files.Filesystem
             }
         }
 
+        IntPtr hDir;
+        private void WatchForDirectoryChanges(string path)
+        {
+            hDir = NativeDirectoryChangesHelper.CreateFileFromApp(path, 1, 1 | 2 | 4, 
+                IntPtr.Zero, 3,
+                (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+                    FILE_NOTIFY_INFORMATION NOTIFY_INFORMATION = new FILE_NOTIFY_INFORMATION();
+                    LpoverlappedCompletionRoutine callback = WatcherCompletionRoutine;
+                    IntPtr pnt = Marshal.AllocHGlobal(Marshal.SizeOf(NOTIFY_INFORMATION));
+                    Marshal.StructureToPtr(NOTIFY_INFORMATION, pnt, false);
+                    Overlapped overlapped = new Overlapped();
+                    overlapped.EventHandleIntPtr = CreateEvent(IntPtr.Zero, false, false, null);
+                    const UInt32 INFINITE = 0xFFFFFFFF;
+                    const UInt32 WAIT_ABANDONED = 0x00000080;
+                    const UInt32 WAIT_OBJECT_0 = 0x00000000;
+                    const UInt32 WAIT_TIMEOUT = 0x00000102;
+                    NativeDirectoryChangesHelper.ReadDirectoryChangesW(hDir, pnt,
+                        Marshal.SizeOf(typeof(FILE_NOTIFY_INFORMATION)), false,
+                        notifyFilters, out uint size,
+                        overlapped, callback);
+
+                    var rc = WaitForSingleObjectEx(overlapped.EventHandleIntPtr, INFINITE, true);
+                    Debug.WriteLine("\n\nTask running...\n\n");
+                    if(WorkingDirectory != path)
+                    {
+                        break;
+                    }
+                }
+                Debug.WriteLine("\n\nTask exiting...\n\n");
+            });
+        }
+
         public void WatcherCompletionRoutine(uint dwErrorCode, uint dwNumberOfBytesTransfered, 
             OVERLAPPED lpOverlapped) 
         {
             Debug.WriteLine("Changes detected!!!!!!!!");
+        }
+
+        public void CancelChangeWatcher()
+        {
+            var x = CancelIo(hDir);
+            Debug.WriteLine("\n\nTask exiting...\n\n");
         }
 
         public void AddFolder(string folderPath)
