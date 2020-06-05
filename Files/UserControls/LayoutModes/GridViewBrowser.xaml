@@ -398,12 +398,13 @@
                     Text="{x:Bind ItemName}"
                     TextTrimming="CharacterEllipsis"
                     TextWrapping="NoWrap" />
-                <Popup Grid.Row="1"
-                       x:Name="EditPopup"
-                       x:Load="False">
+                <Popup
+                    x:Name="EditPopup"
+                    Grid.Row="1"
+                    x:Load="False">
                     <TextBox
-                        Margin="0"
                         Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                        Margin="0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Text="{x:Bind ItemName}"
@@ -548,10 +549,10 @@
         </Grid.KeyboardAccelerators>
         <muxc:ProgressBar
             x:Name="progBar"
+            VerticalAlignment="Top"
             x:Load="{x:Bind local:App.InteractionViewModel.IsContentLoadingIndicatorVisible, Mode=OneWay}"
             Background="Transparent"
-            VerticalAlignment="Top"
-            IsIndeterminate="True"/>
+            IsIndeterminate="True" />
         <TextBlock
             x:Name="EmptyText"
             x:Uid="EmptyFolder"

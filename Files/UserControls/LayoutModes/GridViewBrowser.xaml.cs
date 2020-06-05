@@ -149,7 +149,7 @@ namespace Files
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
                 textBox = popup.Child as TextBox;
-                popup.IsOpen = true;                
+                popup.IsOpen = true;
             }
             else
             {
@@ -160,7 +160,7 @@ namespace Files
                 textBlock.Visibility = Visibility.Collapsed;
                 textBox.Visibility = Visibility.Visible;
             }
-            
+
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
@@ -236,7 +236,7 @@ namespace Files
             {
                 Popup popup = (textBox.Parent) as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
-                popup.IsOpen = false;                
+                popup.IsOpen = false;
             }
             else
             {
