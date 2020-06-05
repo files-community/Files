@@ -58,7 +58,7 @@
                         Grid.Column="2"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}"
+                        IsOn="{Binding AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}"
                         OffContent=""
                         OnContent="" />
                 </Grid>
