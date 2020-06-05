@@ -529,7 +529,7 @@
     <value>Opciones de selección</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>El archivo no se puede eliminar porque otra aplicación tiene abierto el archivo.</value>
+    <value>La acción no se puede completar porque otro programa tiene abierto el archivo.</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
     <value>Archivo en uso</value>
@@ -575,5 +575,8 @@
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>Hace {0} segundos</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} disponibles de {1}</value>
   </data>
 </root>
