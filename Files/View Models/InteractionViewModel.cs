@@ -8,6 +8,7 @@ namespace Files.Controls
     public class InteractionViewModel : ViewModelBase
     {
         private bool _IsContentLoadingIndicatorVisible = false;
+
         public bool IsContentLoadingIndicatorVisible
         {
             get => _IsContentLoadingIndicatorVisible;

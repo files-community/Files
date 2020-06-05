@@ -110,7 +110,7 @@
                         Grid.Column="2"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
+                        IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
                         OffContent=""
                         OnContent="" />
                 </Grid>

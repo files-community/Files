@@ -362,7 +362,7 @@
             x:Load="{x:Bind local:App.InteractionViewModel.IsContentLoadingIndicatorVisible, Mode=OneWay}"
             Background="Transparent"
             VerticalAlignment="Top"
-            IsIndeterminate="True"/>
+            IsIndeterminate="True" />
         <TextBlock
             x:Name="EmptyText"
             x:Uid="EmptyFolder"

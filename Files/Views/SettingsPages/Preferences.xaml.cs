@@ -1,7 +1,7 @@
 ﻿using Files.DataModels;
+using Files.View_Models;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -11,6 +11,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Preferences : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
@@ -59,7 +60,7 @@ namespace Files.SettingsPages
 
         private async void SaveTerminalSettings()
         {
-            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile, 
+            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
                 JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
         }
 
