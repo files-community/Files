@@ -121,7 +121,7 @@
     <value>Abrir una nueva ventana</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abrir en una página específica o páginas</value>
+    <value>Abrir en una página específica</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>En el inicio</value>
@@ -575,6 +575,9 @@
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>Hace {0} segundos</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Nueva pestaña</value>
   </data>
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} disponibles de {1}</value>
