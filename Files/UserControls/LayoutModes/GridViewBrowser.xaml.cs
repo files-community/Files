@@ -6,6 +6,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Interaction = Files.Interacts.Interaction;
 
@@ -138,21 +139,35 @@ namespace Files
         public override void StartRenameItem()
         {
             renamingItem = SelectedItem;
-            GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
-            // Handle layout differences between tiles browser and photo album
-            StackPanel stackPanel = (App.AppSettings.LayoutMode == 2)
-                ? (gridViewItem.ContentTemplateRoot as Grid).Children[1] as StackPanel
-                : (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
-            TextBlock textBlock = stackPanel.Children[0] as TextBlock;
-            TextBox textBox = stackPanel.Children[1] as TextBox;
             int extensionLength = renamingItem.FileExtension?.Length ?? 0;
+            GridViewItem gridViewItem = FileList.ContainerFromItem(renamingItem) as GridViewItem;
+            TextBox textBox = null;
 
-            textBlock.Visibility = Visibility.Collapsed;
-            textBox.Visibility = Visibility.Visible;
+            // Handle layout differences between tiles browser and photo album
+            if (App.AppSettings.LayoutMode == 2)
+            {
+                Popup popup =
+                    (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
+                TextBlock textBlock =
+                    (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
+                textBox = popup.Child as TextBox;
+                popup.IsOpen = true;                
+            }
+            else
+            {
+                StackPanel stackPanel =
+                    (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
+                TextBlock textBlock = stackPanel.Children[0] as TextBlock;
+                textBox = stackPanel.Children[1] as TextBox;
+                textBlock.Visibility = Visibility.Collapsed;
+                textBox.Visibility = Visibility.Visible;
+            }
+            
             textBox.Focus(FocusState.Pointer);
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
             textBox.Select(0, renamingItem.ItemName.Length - extensionLength);
+
             isRenamingItem = true;
         }
 
@@ -219,12 +234,22 @@ namespace Files
 
         private void EndRename(TextBox textBox)
         {
-            StackPanel parentPanel = textBox.Parent as StackPanel;
-            TextBlock textBlock = parentPanel.Children[0] as TextBlock;
-            textBox.Visibility = Visibility.Collapsed;
-            textBlock.Visibility = Visibility.Visible;
+            if (App.AppSettings.LayoutMode == 2)
+            {
+                Popup popup = (textBox.Parent) as Popup;
+                TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
+                popup.IsOpen = false;                
+            }
+            else
+            {
+                StackPanel parentPanel = textBox.Parent as StackPanel;
+                TextBlock textBlock = parentPanel.Children[0] as TextBlock;
+                textBox.Visibility = Visibility.Collapsed;
+                textBlock.Visibility = Visibility.Visible;
+            }
+
             textBox.LostFocus -= RenameTextBox_LostFocus;
-            textBox.KeyDown += RenameTextBox_KeyDown;
+            textBox.KeyDown -= RenameTextBox_KeyDown;
             isRenamingItem = false;
         }
 
