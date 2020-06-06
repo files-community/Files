@@ -133,7 +133,7 @@ namespace Files.Filesystem
             // Update the collection on the ui-thread.
             try
             {
-                CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     Drives.Add(driveItem);
                     DeviceWatcher_EnumerationCompleted(null, null);
@@ -162,7 +162,7 @@ namespace Files.Filesystem
                 // Update the collection on the ui-thread.
                 try
                 {
-                    CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                     {
                         Drives.Remove(drive);
                         DeviceWatcher_EnumerationCompleted(null, null);
