@@ -54,7 +54,7 @@ namespace Files.Dialogs
             {
                 currentPath = TabInstance.ViewModel.WorkingDirectory;
             }
-            StorageFolder folderToCreateItem = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(currentPath)).Folder;
+            StorageFolderWithPath folderToCreateItem = await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(currentPath);
             RenameDialog renameDialog = new RenameDialog();
 
             var renameResult = await renameDialog.ShowAsync();
@@ -70,39 +70,42 @@ namespace Files.Dialogs
                 StorageFolder folder;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
+                    folder = await folderToCreateItem.Folder.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
-                    folder = await folderToCreateItem.CreateFolderAsync(ResourceController.GetTranslation("NewFolder"), CreationCollisionOption.GenerateUniqueName);
+                    folder = await folderToCreateItem.Folder.CreateFolderAsync(ResourceController.GetTranslation("NewFolder"), CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { PrimaryItemAttribute = StorageItemTypes.Folder, ItemName = folder.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = false, LoadFolderGlyph = true, LoadFileIcon = false, ItemType = "Folder", FileImage = null, ItemPath = folder.Path });
+                var folderPath = string.IsNullOrEmpty(folder.Path) ? System.IO.Path.Combine(folderToCreateItem.Path, folder.Name) : folder.Path;
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(folder.FolderRelativeId) { PrimaryItemAttribute = StorageItemTypes.Folder, ItemName = folder.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = false, LoadFolderGlyph = true, LoadFileIcon = false, ItemType = "Folder", FileImage = null, ItemPath = folderPath });
             }
             else if (fileType == AddItemType.TextDocument)
             {
                 StorageFile item;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    item = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
+                    item = await folderToCreateItem.Folder.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
-                    item = await folderToCreateItem.CreateFileAsync(ResourceController.GetTranslation("NewTextDocument") + ".txt", CreationCollisionOption.GenerateUniqueName);
+                    item = await folderToCreateItem.Folder.CreateFileAsync(ResourceController.GetTranslation("NewTextDocument") + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { PrimaryItemAttribute = StorageItemTypes.File, ItemName = item.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = true, LoadFolderGlyph = false, LoadFileIcon = false, ItemType = item.DisplayType, FileImage = null, ItemPath = item.Path, FileExtension = item.FileType });
+                var itemPath = string.IsNullOrEmpty(item.Path) ? System.IO.Path.Combine(folderToCreateItem.Path, item.Name) : item.Path;
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { PrimaryItemAttribute = StorageItemTypes.File, ItemName = item.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = true, LoadFolderGlyph = false, LoadFileIcon = false, ItemType = item.DisplayType, FileImage = null, ItemPath = itemPath, FileExtension = item.FileType });
             }
             else if (fileType == AddItemType.BitmapImage)
             {
                 StorageFile item;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    item = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                    item = await folderToCreateItem.Folder.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
-                    item = await folderToCreateItem.CreateFileAsync(ResourceController.GetTranslation("NewBitmapImage") + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                    item = await folderToCreateItem.Folder.CreateFileAsync(ResourceController.GetTranslation("NewBitmapImage") + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
-                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { PrimaryItemAttribute = StorageItemTypes.File, ItemName = item.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = true, LoadFolderGlyph = false, LoadFileIcon = false, ItemType = item.DisplayType, FileImage = null, ItemPath = item.Path, FileExtension = item.FileType });
+                var itemPath = string.IsNullOrEmpty(item.Path) ? System.IO.Path.Combine(folderToCreateItem.Path, item.Name) : item.Path;
+                TabInstance.ViewModel.AddFileOrFolder(new ListedItem(item.FolderRelativeId) { PrimaryItemAttribute = StorageItemTypes.File, ItemName = item.DisplayName, ItemDateModifiedReal = DateTimeOffset.Now, LoadUnknownTypeGlyph = true, LoadFolderGlyph = false, LoadFileIcon = false, ItemType = item.DisplayType, FileImage = null, ItemPath = itemPath, FileExtension = item.FileType });
             }
         }
     }
