@@ -77,6 +77,27 @@ namespace Files
 
     public static class StorageFileExtensions
     {
+        public static INavigationControlItem GetMatchingSidebarItem(string value)
+        {
+            INavigationControlItem item = null;
+            List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+
+            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
+            }
+            if (item == null)
+            {
+                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
+            }
+            return item;
+        }
+
         public static List<PathBoxItem> GetDirectoryPathComponents(string value)
         {
             List<string> pathComponents = new List<string>();
@@ -161,7 +182,7 @@ namespace Files
             {
                 var currComponents = GetDirectoryPathComponents(value);
 
-                if (Path.GetPathRoot(value) == value)
+                if (rootFolder.Path == value)
                 {
                     return rootFolder;
                 }

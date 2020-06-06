@@ -234,7 +234,9 @@ namespace Files.UserControls
 
                     try
                     {
-                        await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(CurrentInput);
+                        var item = StorageFileExtensions.GetMatchingSidebarItem(CurrentInput);
+                        await StorageFileExtensions.GetFolderFromRelativePathAsync(CurrentInput, item?.Root != null ?
+                            new StorageFolderWithPath(item.Root, System.IO.Path.GetPathRoot(CurrentInput)) : null);
 
                         App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
                     }

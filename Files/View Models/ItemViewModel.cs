@@ -58,22 +58,7 @@ namespace Files.Filesystem
             if (WorkingDirectory == value)
                 return;
 
-            INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
-
-            item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value + "\\", StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => value.StartsWith(x.Path, StringComparison.OrdinalIgnoreCase));
-            }
-            if (item == null)
-            {
-                item = sidebarItems.FirstOrDefault(x => x.Path.Equals(Path.GetPathRoot(value), StringComparison.OrdinalIgnoreCase));
-            }
+            var item = StorageFileExtensions.GetMatchingSidebarItem(value);
 
             if (!Path.IsPathRooted(value))
             {
@@ -900,7 +885,7 @@ namespace Files.Filesystem
                 LoadFolderGlyph = true,
                 FileImage = null,
                 LoadFileIcon = false,
-                ItemPath = _rootFolder.Path,
+                ItemPath = string.IsNullOrEmpty(_rootFolder.Path) ? CurrentStorageFolder.Path : _rootFolder.Path,
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0
