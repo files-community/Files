@@ -105,11 +105,11 @@ namespace FilesFullTrust
 
         private static async void Watcher_Changed(object sender, ShellItemChangeWatcher.ShellItemChangeEventArgs e)
         {
-            Console.WriteLine($"File: {e.ChangedItems.FirstOrDefault()?.FileSystemPath} {e.ChangeType}");
+            Console.WriteLine($"File: {e.ChangedItems.FirstOrDefault()?.ParsingName} {e.ChangeType}");
             if (connection != null)
             {
                 // Send message to UWP app to refresh items
-                await connection.SendMessageAsync(new ValueSet() { { "FileSystem", @"Shell:RecycleBinFolder" }, { "Path", e.ChangedItems.FirstOrDefault()?.FileSystemPath }, { "Type", e.ChangeType.ToString() } });
+                await connection.SendMessageAsync(new ValueSet() { { "FileSystem", @"Shell:RecycleBinFolder" }, { "Path", e.ChangedItems.FirstOrDefault()?.ParsingName }, { "Type", e.ChangeType.ToString() } });
             }
         }
 
