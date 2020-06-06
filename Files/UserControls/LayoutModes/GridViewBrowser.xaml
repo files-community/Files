@@ -170,6 +170,7 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="OpenItemWithAppPicker"
+                x:Uid="BaseLayoutItemContextFlyoutOpenItemWith"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItemWithApplicationPicker_Click}"
                 Tag="OpenWith"
