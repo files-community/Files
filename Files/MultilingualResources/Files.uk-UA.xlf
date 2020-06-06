@@ -771,6 +771,10 @@
           <source>The requested operation is not supported</source>
           <target state="new">The requested operation is not supported</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
+          <source>Open With</source>
+          <target state="new">Open With</target>
+        </trans-unit>
       </group>
     </body>
   </file>
