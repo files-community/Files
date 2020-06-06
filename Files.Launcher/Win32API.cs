@@ -7,19 +7,6 @@ namespace FilesFullTrust
 {
     internal class Win32API
     {
-        // TODO: remove this when updated library is released
-        [DllImport("shell32.dll")]
-        public static extern Vanara.PInvoke.HRESULT SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
-
-        // TODO: remove this when updated library is released
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
-        public struct SHQUERYRBINFO
-        {
-            public uint cbSize;
-            public long i64Size;
-            public long i64NumItems;
-        }
-
         public enum PropertyReturnType
         {
             RAWVALUE,

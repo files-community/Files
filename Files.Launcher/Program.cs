@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
@@ -48,7 +49,7 @@ namespace FilesFullTrust
                 watcher = new ShellItemChangeWatcher(recycler, false);
                 watcher.NotifyFilter = ChangeFilters.AllDiskEvents;
                 watcher.Changed += Watcher_Changed;
-                //watcher.EnableRaisingEvents = true; // TODO: uncomment this when updated library is released
+                watcher.EnableRaisingEvents = true;
 
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
@@ -173,12 +174,8 @@ namespace FilesFullTrust
                         else if (action == "Query")
                         {
                             var responseQuery = new ValueSet();
-                            Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
-                            queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(Win32API.SHQUERYRBINFO));
-                            var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
-                            // TODO: use this when updated library is released
-                            //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
-                            //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                            Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
+                            var res = Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
                             if (res == Vanara.PInvoke.HRESULT.S_OK)
                             {
                                 var numItems = queryBinInfo.i64NumItems;
@@ -197,8 +194,6 @@ namespace FilesFullTrust
                             {
                                 try
                                 {
-                                    folderItem.Properties.ReadOnly = true;
-                                    folderItem.Properties.NoInheritedProperties = false;
                                     string recyclePath = folderItem.FileSystemPath; // True path on disk
                                     string fileName = Path.GetFileName(folderItem.Name); // Original file name
                                     string filePath = folderItem.Name; // Original file path + name
@@ -271,6 +266,14 @@ namespace FilesFullTrust
         private static void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
         {
             var arguments = args.Request.Message.Get<string, string, object>("Arguments");
+            var application = (string)args.Request.Message["Application"];
+            if (application.StartsWith("\\\\?\\"))
+            {
+                using var computer = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
+                using var device = computer.FirstOrDefault(i => application.Replace("\\\\?\\", "").StartsWith(i.Name));
+                var itemPath = Regex.Replace(application, @"^\\\\\?\\[^\\]*\\?", "");
+                application = device != null ? Path.Combine(device.ParsingName, itemPath) : application;
+            }
 
             try
             {
