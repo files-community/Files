@@ -773,6 +773,10 @@
           <source>{0} free of {1}</source>
           <target state="new">{0} free of {1}</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
+          <source>Open With</source>
+          <target state="new">Open With</target>
+        </trans-unit>
       </group>
     </body>
   </file>

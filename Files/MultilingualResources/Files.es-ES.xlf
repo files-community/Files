@@ -770,6 +770,10 @@
           <source>{0} free of {1}</source>
           <target state="translated">{0} disponibles de {1}</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
+          <source>Open With</source>
+          <target state="translated">Abrir con</target>
+        </trans-unit>
       </group>
     </body>
   </file>
