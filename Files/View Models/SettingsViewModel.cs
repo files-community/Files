@@ -275,66 +275,66 @@ namespace Files.View_Models
             }
         }
 
+        public TerminalFileModel TerminalsModel { get; set; }
+
+        public StorageFile TerminalsModelFile;
+
         private async void LoadTerminalApps()
         {
             var localFolder = ApplicationData.Current.LocalFolder;
             var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            StorageFile file;
             try
             {
-                file = await localSettingsFolder.GetFileAsync("terminal.json");
+                TerminalsModelFile = await localSettingsFolder.GetFileAsync("terminal.json");
             }
             catch (FileNotFoundException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
-                file = await localSettingsFolder.CreateFileAsync("terminal.json");
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json");
+                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
             }
 
-            var content = await FileIO.ReadTextAsync(file);
-            TerminalFileModel terminalsFileModel = null;
+            var content = await FileIO.ReadTextAsync(TerminalsModelFile);
+
             try
             {
-                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
             }
             catch (JsonSerializationException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
-                file = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
-                var defaultContent = await FileIO.ReadTextAsync(file);
-                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
+                var defaultContent = await FileIO.ReadTextAsync(TerminalsModelFile);
+                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
             }
 
-            // Ensure Windows Terminal is not already in List
-            //if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            //{
-            //    PackageManager packageManager = new PackageManager();
-            //    var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            //    if (terminalPackage != null)
-            //    {
-            //        terminalsFileModel.Terminals.Add(new TerminalModel()
-            //        {
-            //            Id = terminalsFileModel.Terminals.Count + 1,
-            //            Name = "Windows Terminal",
-            //            Path = "wt.exe",
-            //            arguments = "-d {0}",
-            //            icon = ""
-            //        });
-            //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-            //    }
-            //}
-            Terminals = terminalsFileModel?.Terminals ?? new List<TerminalModel>();
-        }
+            var windowsTerminal = new TerminalModel()
+            {
+                Id = TerminalsModel.Terminals.Count + 1,
+                Name = "Windows Terminal",
+                Path = "wt.exe",
+                Arguments = "-d {0}",
+                Icon = ""
+            };
 
-        private IList<TerminalModel> _Terminals = null;
+            var fluentTerminal = new TerminalModel()
+            {
+                Id = TerminalsModel.Terminals.Count + 1,
+                Name = "Fluent Terminal",
+                Path = "flute.exe",
+                Arguments = "new \"{0}\"",
+                Icon = ""
+            };
 
-        public IList<TerminalModel> Terminals
-        {
-            get => _Terminals;
-            set => Set(ref _Terminals, value);
+            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
+            if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
+            {
+                await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
+            }
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
@@ -528,6 +528,24 @@ namespace Files.View_Models
         public bool AreLinuxFilesSupported
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        public bool OpenNewTabPageOnStartup
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool OpenASpecificPageOnStartup
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public string OpenASpecificPageOnStartupPath
+        {
+            get => Get("");
             set => Set(value);
         }
 

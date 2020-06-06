@@ -58,7 +58,7 @@
                         Grid.Column="2"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local2:App.AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}"
+                        IsOn="{Binding AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}"
                         OffContent=""
                         OnContent="" />
                 </Grid>
@@ -87,7 +87,7 @@
                         Grid.Column="2"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local2:App.AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}"
+                        IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}"
                         OffContent=""
                         OnContent="" />
                 </Grid>

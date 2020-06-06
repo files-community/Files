@@ -127,19 +127,13 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-
-            var terminalId = 1;
-
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+            var terminal = App.AppSettings.TerminalsModel.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Application", terminal.Path);
-                value.Add("Arguments", String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                value.Add("Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory));
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -846,6 +840,19 @@ namespace Files.Interacts
 
         public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                // Happens if you copy some text and then you Ctrl+V in FilesUWP
+                // Should this be done in ModernShellPage?
+                return;
+            }
+            if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not paste files and folders inside the recycle bin
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
+                return;
+            }
+
             itemsToPaste = await packageView.GetStorageItemsAsync();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
@@ -1030,7 +1037,7 @@ namespace Files.Interacts
                 int totalCount = zipArchive.Entries.Count;
                 int index = 0;
 
-                (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Visible;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
                 foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                 {
@@ -1048,7 +1055,7 @@ namespace Files.Interacts
                     index++;
                     if (index == totalCount)
                     {
-                        (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Collapsed;
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
                 }
                 await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)

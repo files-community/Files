@@ -349,7 +349,7 @@
     <value>Open a new tab</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page or pages</value>
+    <value>Open a specific page</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
@@ -680,5 +680,14 @@
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} seconds ago</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>The requested operation is not supported</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} free of {1}</value>
   </data>
 </root>

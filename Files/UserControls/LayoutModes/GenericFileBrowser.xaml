@@ -357,13 +357,12 @@
                 Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
-        <ProgressBar
+        <muxc:ProgressBar
             x:Name="progBar"
-            Height="10"
-            VerticalAlignment="Top"
+            x:Load="{x:Bind local:App.InteractionViewModel.IsContentLoadingIndicatorVisible, Mode=OneWay}"
             Background="Transparent"
-            IsIndeterminate="True"
-            Visibility="{x:Bind AssociatedViewModel.LoadIndicator.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            VerticalAlignment="Top"
+            IsIndeterminate="True" />
         <TextBlock
             x:Name="EmptyText"
             x:Uid="EmptyFolder"

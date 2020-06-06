@@ -80,7 +80,7 @@
                         Grid.Column="1"
                         Width="40"
                         HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.ShowFileExtensions, Mode=TwoWay}"
+                        IsOn="{Binding AppSettings.ShowFileExtensions, Mode=TwoWay}"
                         OffContent=""
                         OnContent="" />
                 </Grid>

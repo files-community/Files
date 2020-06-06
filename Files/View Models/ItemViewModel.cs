@@ -37,7 +37,6 @@ namespace Files.Filesystem
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
         public EmptyFolderTextState EmptyTextState { get; set; } = new EmptyFolderTextState();
-        public LoadingIndicator LoadIndicator { get; set; } = new LoadingIndicator();
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public ListedItem CurrentFolder { get => _rootFolderItem; }
         public CollectionViewSource viewSource;
@@ -699,7 +698,7 @@ namespace Files.Filesystem
                 _filesAndFolders.Clear();
                 Stopwatch stopwatch = new Stopwatch();
                 stopwatch.Start();
-                LoadIndicator.IsVisible = Visibility.Visible;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
                 switch (WorkingDirectory)
                 {
@@ -769,7 +768,7 @@ namespace Files.Filesystem
                 stopwatch.Stop();
                 Debug.WriteLine("Loading of items in " + WorkingDirectory + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
                 App.CurrentInstance.NavigationToolbar.CanRefresh = true;
-                LoadIndicator.IsVisible = Visibility.Collapsed;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 IsLoadingItems = false;
             }
             finally
@@ -1281,7 +1280,7 @@ namespace Files.Filesystem
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
             () =>
             {
-                LoadIndicator.IsVisible = Visibility.Visible;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
             });
             _filesRefreshing = true;
 
@@ -1350,7 +1349,7 @@ namespace Files.Filesystem
             async () =>
             {
                 await RefreshItems();
-                LoadIndicator.IsVisible = Visibility.Collapsed;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
             });
 
             _filesRefreshing = false;

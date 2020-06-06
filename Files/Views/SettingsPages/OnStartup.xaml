@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     mc:Ignorable="d">
@@ -33,7 +34,7 @@
                     VerticalAlignment="Center"
                     Content="Open a new tab"
                     FontSize="16"
-                    IsChecked="True" />
+                    IsChecked="{x:Bind AppSettings.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
@@ -44,12 +45,35 @@
                     IsEnabled="False" />
 
                 <RadioButton
+                    x:Name="OpenSpecificPage"
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Content="Open a specific page or pages"
+                    Content="Open a specific page"
                     FontSize="16"
-                    IsEnabled="False" />
+                    IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+                <StackPanel Orientation="Horizontal" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
+                    <TextBox
+                        x:Uid="SettingsOnStartupOpenASpecificPagePath"
+                        Width="240"
+                        Margin="12,0,0,0"
+                        HorizontalAlignment="Left"
+                        BorderThickness="1,1,0,1"
+                        CornerRadius="2,0,0,2"
+                        IsEnabled="False"
+                        PlaceholderText="New Tab"
+                        Text="{x:Bind AppSettings.OpenASpecificPageOnStartupPath, Mode=OneWay}" />
+
+                    <Button
+                        x:Name="btnOpenASpecificPageOnStartupPath"
+                        Height="33"
+                        Click="btnOpenASpecificPageOnStartupPath_Click"
+                        Content="&#xE838;"
+                        CornerRadius="0,2,2,0"
+                        FontFamily="Segoe MDL2 Assets"
+                        Style="{ThemeResource AccentButtonStyle}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -7,6 +7,14 @@ namespace Files.Controls
 {
     public class InteractionViewModel : ViewModelBase
     {
+        private bool _IsContentLoadingIndicatorVisible = false;
+
+        public bool IsContentLoadingIndicatorVisible
+        {
+            get => _IsContentLoadingIndicatorVisible;
+            set => Set(ref _IsContentLoadingIndicatorVisible, value);
+        }
+
         private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
 
         public Thickness TabsLeftMargin
