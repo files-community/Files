@@ -102,7 +102,7 @@ namespace Files.View_Models
                 {
                     try
                     {
-                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
+                        StorageFolder fol = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(locationPath)).Folder;
                         var name = fol.DisplayName;
                         var content = name;
                         var icon = "\uE8B7";
@@ -347,7 +347,7 @@ namespace Files.View_Models
 
         public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
 
-        private void DetectOneDrivePreference()
+        private async void DetectOneDrivePreference()
         {
             if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
 
@@ -362,7 +362,7 @@ namespace Files.View_Models
 
             try
             {
-                StorageFolder.GetFolderFromPathAsync(OneDrivePath);
+                await StorageFolder.GetFolderFromPathAsync(OneDrivePath);
             }
             catch (Exception)
             {
@@ -739,10 +739,13 @@ namespace Files.View_Models
             {
                 originalValue = Get(originalValue, propertyName);
 
+                _roamingSettings.Values[propertyName] = value;
                 if (!base.Set(ref originalValue, value, propertyName)) return false;
             }
-
-            _roamingSettings.Values[propertyName] = value;
+            else
+            {
+                _roamingSettings.Values[propertyName] = value;
+            }
 
             return true;
         }

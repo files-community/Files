@@ -19,15 +19,11 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
 
-            try
-            {
-                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
-            }
-            catch (Exception)
+            StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath).AsTask().ContinueWith(t =>
             {
                 App.AppSettings.PinOneDriveToSideBar = false;
                 OneDrivePin.IsEnabled = false;
-            }
+            }, System.Threading.Tasks.TaskContinuationOptions.OnlyOnFaulted);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -62,13 +58,6 @@ namespace Files.SettingsPages
         {
             await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
                 JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
-        }
-
-        private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            OneDrivePin.IsEnabled = false;
-            App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
-            OneDrivePin.IsEnabled = true;
         }
     }
 }
