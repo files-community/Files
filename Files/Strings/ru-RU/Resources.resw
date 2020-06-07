@@ -585,13 +585,13 @@
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
     <value>Открыть с помощью</value>
   </data>
-  <data name="FileNameTeachingTipUid.Subtitle" xml:space="preserve">
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
-  <data name="FileNameTeachingTipUid.CloseButtonContent" xml:space="preserve">
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>OK</value>
   </data>
-  <data name="RenameDialogSymbolsTipUid.Text" xml:space="preserve">
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
 </root>

@@ -774,15 +774,15 @@
           <source>Open With</source>
           <target state="translated">Відкрити за допомогою</target>
         </trans-unit>
-        <trans-unit id="FileNameTeachingTipUid.Subtitle" translate="yes" xml:space="preserve">
+        <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
           <target state="translated">Ім'я елемента не повинно містити таких знаків: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
-        <trans-unit id="FileNameTeachingTipUid.CloseButtonContent" translate="yes" xml:space="preserve">
+        <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
           <target state="translated">OK</target>
         </trans-unit>
-        <trans-unit id="RenameDialogSymbolsTipUid.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
           <target state="translated">Ім'я елемента не повинно містити таких знаків: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
