@@ -2,6 +2,7 @@
 using Files.View_Models;
 using Newtonsoft.Json;
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
@@ -25,7 +26,7 @@ namespace Files.SettingsPages
                 {
                     App.AppSettings.PinOneDriveToSideBar = false;
                     OneDrivePin.IsEnabled = false;
-                }, TaskContinuationOptions.OnlyOnFaulted);
+                }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
