@@ -58,7 +58,7 @@ namespace Files.Dialogs
             RenameDialog renameDialog = new RenameDialog();
 
             var renameResult = await renameDialog.ShowAsync();
-            if (renameResult == ContentDialogResult.Secondary)
+            if (renameResult != ContentDialogResult.Primary)
             {
                 return;
             }
