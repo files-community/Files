@@ -576,4 +576,22 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} свободно из {1}</value>
   </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Новая вкладка</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>Запрошенная операция не поддерживается</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Открыть с помощью</value>
+  </data>
+  <data name="FileNameTeachingTipUid.Subtitle" xml:space="preserve">
+    <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTipUid.CloseButtonContent" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTipUid.Text" xml:space="preserve">
+    <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
+  </data>
 </root>

@@ -570,4 +570,22 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} вільно з {1}</value>
   </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Нова вкладка</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>Дана операція не підтримується</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Відкрити за допомогою</value>
+  </data>
+  <data name="FileNameTeachingTipUid.Subtitle" xml:space="preserve">
+    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTipUid.CloseButtonContent" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTipUid.Text" xml:space="preserve">
+    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+  </data>
 </root>
