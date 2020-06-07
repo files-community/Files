@@ -102,7 +102,7 @@ namespace Files.View_Models
                 {
                     try
                     {
-                        StorageFolder fol = (await App.CurrentInstance.ViewModel.GetFolderFromRelativePathAsync(locationPath)).Folder;
+                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
                         var name = fol.DisplayName;
                         var content = name;
                         var icon = "\uE8B7";
