@@ -730,7 +730,7 @@ namespace Files.Filesystem
 
                 OrderFiles();
                 stopwatch.Stop();
-                Debug.WriteLine("Loading of items in " + WorkingDirectory + " completed in " + stopwatch.ElapsedMilliseconds + " milliseconds.\n");
+                Debug.WriteLine($"Loading of items in {WorkingDirectory} completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
                 App.CurrentInstance.NavigationToolbar.CanRefresh = true;
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 IsLoadingItems = false;
@@ -908,8 +908,14 @@ namespace Files.Filesystem
 
             if (enumFromStorageFolder)
             {
+                Stopwatch stopwatch = new Stopwatch();
+                stopwatch.Start();
+                var folderList = await _rootFolder.GetFoldersAsync();
+                stopwatch.Stop();
+                Debug.WriteLine($"Enumerating folders in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+
                 var count = 0;
-                foreach (StorageFolder folderInDir in await _rootFolder.GetFoldersAsync())
+                foreach (StorageFolder folderInDir in folderList)
                 {
                     await AddFolder(folderInDir);
                     ++count;
@@ -1192,7 +1198,9 @@ namespace Files.Filesystem
         {
             var basicProperties = await file.GetBasicPropertiesAsync();
 
-            var itemName = file.DisplayName;
+            // Display name does not include extension
+            var itemName = string.IsNullOrEmpty(file.DisplayName) || App.AppSettings.ShowFileExtensions ?
+                file.Name : file.DisplayName;
             var itemDate = basicProperties.DateModified;
             var itemPath = string.IsNullOrEmpty(file.Path) ? Path.Combine(CurrentStorageFolder.Path, file.Name) : file.Path;
             var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();

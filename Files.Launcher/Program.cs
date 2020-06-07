@@ -263,21 +263,25 @@ namespace FilesFullTrust
             }
         }
 
-        private static void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
+        private static async void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
         {
             var arguments = args.Request.Message.Get<string, string, object>("Arguments");
             var application = (string)args.Request.Message["Application"];
             if (application.StartsWith("\\\\?\\"))
             {
-                using var computer = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
-                using var device = computer.FirstOrDefault(i => application.Replace("\\\\?\\", "").StartsWith(i.Name));
+                var deviceId = await Win32API.StartSTATask<string>(() =>
+                {
+                    using var computer = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
+                    using var device = computer.FirstOrDefault(i => application.Replace("\\\\?\\", "").StartsWith(i.Name));
+                    return device?.ParsingName;
+                });
                 var itemPath = Regex.Replace(application, @"^\\\\\?\\[^\\]*\\?", "");
-                application = device != null ? Path.Combine(device.ParsingName, itemPath) : application;
+                application = deviceId != null ? Path.Combine(deviceId, itemPath) : application;
             }
 
             try
             {
-                var executable = (string)args.Request.Message["Application"];
+                var executable = application;
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = executable;
@@ -288,7 +292,7 @@ namespace FilesFullTrust
             }
             catch (Win32Exception)
             {
-                var executable = (string)args.Request.Message["Application"];
+                var executable = application;
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = true;
                 process.StartInfo.Verb = "runas";
