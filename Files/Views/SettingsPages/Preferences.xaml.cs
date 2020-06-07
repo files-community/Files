@@ -2,6 +2,7 @@
 using Files.View_Models;
 using Newtonsoft.Json;
 using System;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -19,15 +20,12 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
 
-            try
-            {
-                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
-            }
-            catch (Exception)
-            {
-                App.AppSettings.PinOneDriveToSideBar = false;
-                OneDrivePin.IsEnabled = false;
-            }
+            StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath).AsTask()
+                    .ContinueWith((t) =>
+                {
+                    App.AppSettings.PinOneDriveToSideBar = false;
+                    OneDrivePin.IsEnabled = false;
+                }, TaskContinuationOptions.OnlyOnFaulted);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
