@@ -120,6 +120,7 @@
                 </StackPanel>
                 <Button
                     x:Name="OpenLogLocationButton"
+                    x:Uid="OpenLogLocationButton"
                     Content="Open Log location"
                     Click="OpenLogLocationButton_Click" />
             </StackPanel>
