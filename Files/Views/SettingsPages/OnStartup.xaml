@@ -34,6 +34,7 @@
                     VerticalAlignment="Center"
                     Content="Open a new tab"
                     FontSize="16"
+                    GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
@@ -42,6 +43,7 @@
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
                     FontSize="16"
+                    GroupName="StartupPageSettingRadioGroup"
                     IsEnabled="False" />
 
                 <RadioButton
@@ -51,6 +53,7 @@
                     VerticalAlignment="Center"
                     Content="Open a specific page"
                     FontSize="16"
+                    GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Orientation="Horizontal" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">

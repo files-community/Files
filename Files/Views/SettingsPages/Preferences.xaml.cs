@@ -63,12 +63,5 @@ namespace Files.SettingsPages
             await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
                 JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
         }
-
-        private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            OneDrivePin.IsEnabled = false;
-            App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
-            OneDrivePin.IsEnabled = true;
-        }
     }
 }
