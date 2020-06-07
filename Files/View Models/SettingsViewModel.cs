@@ -739,10 +739,13 @@ namespace Files.View_Models
             {
                 originalValue = Get(originalValue, propertyName);
 
+                _roamingSettings.Values[propertyName] = value;
                 if (!base.Set(ref originalValue, value, propertyName)) return false;
             }
-
-            _roamingSettings.Values[propertyName] = value;
+            else
+            {
+                _roamingSettings.Values[propertyName] = value;
+            }
 
             return true;
         }

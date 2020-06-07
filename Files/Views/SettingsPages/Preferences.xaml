@@ -55,10 +55,9 @@
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="True"
-                        IsOn="{Binding AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         OffContent=""
-                        OnContent=""
-                        Toggled="OneDrivePin_Toggled" />
+                        OnContent="" />
                 </Grid>
 
                 <Grid HorizontalAlignment="Stretch">
@@ -86,7 +85,7 @@
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="True"
-                        IsOn="{Binding AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         OffContent=""
                         OnContent="" />
                 </Grid>
