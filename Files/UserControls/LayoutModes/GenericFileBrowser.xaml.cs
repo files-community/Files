@@ -286,7 +286,7 @@ namespace Files
                 return;
             }
 
-            renamingTextBox.Text = renamingTextBox.Text.Trim(new char[] { ' ', '.' });
+            renamingTextBox.Text = renamingTextBox.Text.Trim().TrimEnd('.');
 
             var selectedItem = e.Row.DataContext as ListedItem;
             string newItemName = renamingTextBox.Text;

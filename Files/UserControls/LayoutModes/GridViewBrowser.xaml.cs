@@ -241,7 +241,7 @@ namespace Files
         private async void CommitRename(TextBox textBox)
         {
             EndRename(textBox);
-            string newItemName = textBox.Text.Trim(new char[] { ' ', '.' });
+            string newItemName = textBox.Text.Trim().TrimEnd('.');
 
             bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(renamingItem, oldItemName, newItemName);
             if (!successful)
