@@ -14,6 +14,8 @@ namespace Files
 {
     public sealed partial class GridViewBrowser : BaseLayout
     {
+        public string oldItemName;
+
         public GridViewBrowser()
         {
             this.InitializeComponent();
@@ -149,7 +151,9 @@ namespace Files
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
                 textBox = popup.Child as TextBox;
+                textBox.Text = textBlock.Text;
                 popup.IsOpen = true;
+                oldItemName = textBlock.Text;
             }
             else
             {
@@ -157,6 +161,8 @@ namespace Files
                     (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
                 TextBlock textBlock = stackPanel.Children[0] as TextBlock;
                 textBox = stackPanel.Children[1] as TextBox;
+                textBox.Text = textBlock.Text;
+                oldItemName = textBlock.Text;
                 textBlock.Visibility = Visibility.Collapsed;
                 textBox.Visibility = Visibility.Visible;
             }
@@ -167,6 +173,20 @@ namespace Files
             textBox.Select(0, renamingItem.ItemName.Length - extensionLength);
 
             isRenamingItem = true;
+        }
+
+        private void GridViewTextBoxItemName_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedCharacters(textBox.Text))
+            {
+                FileNameTeachingTip.IsOpen = true;
+            }
+            else
+            {
+                FileNameTeachingTip.IsOpen = false;
+            }
         }
 
         public override void ResetItemOpacity()
@@ -200,6 +220,7 @@ namespace Files
             {
                 TextBox textBox = sender as TextBox;
                 textBox.LostFocus -= RenameTextBox_LostFocus;
+                textBox.Text = oldItemName;
                 EndRename(textBox);
                 e.Handled = true;
             }
@@ -220,21 +241,20 @@ namespace Files
         private async void CommitRename(TextBox textBox)
         {
             EndRename(textBox);
-            var selectedItem = renamingItem;
-            string currentName = selectedItem.ItemName;
-            string newName = textBox.Text;
+            string newItemName = textBox.Text.Trim(new char[] { ' ', '.' });
 
-            if (newName == null)
-                return;
-
-            await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, currentName, newName);
+            bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(renamingItem, oldItemName, newItemName);
+            if (!successful)
+            {
+                renamingItem.ItemName = oldItemName;
+            }
         }
 
         private void EndRename(TextBox textBox)
         {
             if (App.AppSettings.LayoutMode == 2)
             {
-                Popup popup = (textBox.Parent) as Popup;
+                Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
                 popup.IsOpen = false;
             }
@@ -248,6 +268,7 @@ namespace Files
 
             textBox.LostFocus -= RenameTextBox_LostFocus;
             textBox.KeyDown -= RenameTextBox_KeyDown;
+            FileNameTeachingTip.IsOpen = false;
             isRenamingItem = false;
         }
 

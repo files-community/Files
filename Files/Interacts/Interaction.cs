@@ -10,6 +10,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -608,12 +609,54 @@ namespace Files.Interacts
             }
         }
 
+        public bool ContainsRestrictedCharacters(string input)
+        {
+            Regex regex = new Regex("\\\\|\\/|\\:|\\*|\\?|\\\"|\\<|\\>|\\|"); //restricted symbols for file names
+            MatchCollection matches = regex.Matches(input);
+            if (matches.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static readonly List<string> RestrictedFileNames = new List<string>()
+        {
+                "CON", "PRN", "AUX",
+                "NUL", "COM1", "COM2",
+                "COM3", "COM4", "COM5",
+                "COM6", "COM7", "COM8",
+                "COM9", "LPT1", "LPT2",
+                "LPT3", "LPT4", "LPT5",
+                "LPT6", "LPT7", "LPT8", "LPT9"
+        };
+
+        public bool ContainsRestrictedFileName(string input)
+        {
+
+            foreach (var name in RestrictedFileNames)
+            {
+                Regex regex = new Regex($"^{name}($|\\.)(.+)?");
+                MatchCollection matches = regex.Matches(input.ToUpper());
+                if (matches.Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public async Task<bool> RenameFileItem(ListedItem item, string oldName, string newName)
         {
             if (oldName == newName)
+            {
                 return true;
+            }
 
-            if (!string.IsNullOrWhiteSpace(newName))
+            if (!string.IsNullOrWhiteSpace(newName)
+                && !ContainsRestrictedCharacters(newName)
+                && !ContainsRestrictedFileName(newName))
             {
                 try
                 {
@@ -629,7 +672,6 @@ namespace Files.Interacts
                     }
                 }
                 catch (Exception)
-
                 {
                     var ItemAlreadyExistsDialog = new ContentDialog()
                     {
@@ -672,6 +714,10 @@ namespace Files.Interacts
                         }
                     }
                 }
+            }
+            else
+            {
+                return false;
             }
 
             CurrentInstance.NavigationToolbar.CanGoForward = false;
