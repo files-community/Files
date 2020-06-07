@@ -115,6 +115,8 @@ namespace Files
                 ItemProperties.LoadFolderGlyph = true;
                 ItemProperties.LoadUnknownTypeGlyph = false;
                 ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;
+                ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
+                ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
             }
         }
 
