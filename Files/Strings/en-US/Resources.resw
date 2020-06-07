@@ -690,4 +690,7 @@
   <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
     <value>{0} free of {1}</value>
   </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Open With</value>
+  </data>
 </root>

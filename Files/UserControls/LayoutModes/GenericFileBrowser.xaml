@@ -169,6 +169,17 @@
                 Tag="Open_FlyoutItem"
                 Text="Open">
                 <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1A5;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="OpenItemWithAppPicker"
+                x:Load="False"
+                x:Uid="BaseLayoutItemContextFlyoutOpenItemWith"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenItemWithApplicationPicker_Click}"
+                Tag="OpenWith"
+                Text="Open With">
+                <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7AC;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>

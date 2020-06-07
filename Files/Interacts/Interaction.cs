@@ -314,6 +314,11 @@ namespace Files.Interacts
             OpenSelectedItems(false);
         }
 
+        public void OpenItemWithApplicationPicker_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSelectedItems(true);
+        }
+
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
             if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
