@@ -20,7 +20,7 @@ namespace Files.Helpers
         [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
         public static extern IntPtr CreateEvent(IntPtr lpEventAttributes, bool bManualReset, bool bInitialState, string lpName);
 
-        [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError =true)]
+        [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
         public static extern UInt32 WaitForSingleObjectEx(IntPtr hHandle, UInt32 dwMilliseconds, bool bAlertable);
 
         public enum File_Attributes : uint
@@ -71,11 +71,11 @@ namespace Files.Helpers
         CallingConvention = CallingConvention.StdCall,
         SetLastError = true)]
         public static extern IntPtr CreateFile2FromApp(
-            string     lpFileName,
-            uint       dwDesiredAccess,
-            uint       dwShareMode,
-            uint       dwCreationDisposition,
-            IntPtr     pCreateExParams
+            string lpFileName,
+            uint dwDesiredAccess,
+            uint dwShareMode,
+            uint dwCreationDisposition,
+            IntPtr pCreateExParams
         );
 
 
@@ -111,16 +111,16 @@ namespace Files.Helpers
 
         public struct FILE_NOTIFY_INFORMATION
         {
-            uint NextEntryOffset;
-            uint Action;
-            uint FileNameLength;
-            IntPtr FileName;
+            public uint NextEntryOffset;
+            public uint Action;
+            public uint FileNameLength;
+            public IntPtr FileName;
         }
 
         [DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool ReadDirectoryChangesW(IntPtr hDirectory, IntPtr lpBuffer,
-            int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, out uint
-            lpBytesReturned, Overlapped lpOverlapped,
+        public static extern bool ReadDirectoryChangesW(IntPtr hDirectory, ref byte lpBuffer,
+            int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, out int
+            lpBytesReturned, ref OVERLAPPED lpOverlapped,
             LpoverlappedCompletionRoutine lpCompletionRoutine);
     }
 }
