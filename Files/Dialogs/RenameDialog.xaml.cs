@@ -28,6 +28,7 @@ namespace Files.Dialogs
             {
                 RenameDialogSymbolsTip.Opacity = 1;
                 IsPrimaryButtonEnabled = false;
+                return;
             }
             else
             {
