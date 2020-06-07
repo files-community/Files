@@ -171,15 +171,12 @@ namespace Files
             textBox.LostFocus += RenameTextBox_LostFocus;
             textBox.KeyDown += RenameTextBox_KeyDown;
 
-            if (App.AppSettings.ShowFileExtensions == true)
+            int selectedTextLength = SelectedItem.ItemName.Length;
+            if (App.AppSettings.ShowFileExtensions)
             {
-                textBox.Select(0, SelectedItem.ItemName.Length - extensionLength);
+                selectedTextLength -= extensionLength;
             }
-            else
-            {
-                textBox.Select(0, SelectedItem.ItemName.Length);
-            }
-
+            textBox.Select(0, selectedTextLength);
             isRenamingItem = true;
         }
 
