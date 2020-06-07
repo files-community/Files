@@ -384,6 +384,13 @@
             TextWrapping="Wrap"
             Visibility="{x:Bind AssociatedViewModel.EmptyTextState.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
+        <muxc:TeachingTip
+            x:Name="FileNameTeachingTip"
+            x:Uid="FileNameTeachingTip"
+            Subtitle="The item name must not contain the following characters: \ / : * ? &quot; &lt; &gt; |"
+            PreferredPlacement="Auto"
+            CloseButtonContent="OK" />
+
         <controls:DataGrid
             x:Name="AllView"
             Grid.Row="3"

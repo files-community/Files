@@ -19,5 +19,31 @@ namespace Files.Dialogs
         {
             storedRenameInput = inputBox.Text;
         }
+
+        private void RenameInput_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedCharacters(textBox.Text))
+            {
+                RenameDialogSymbolsTip.Opacity = 1;
+                IsPrimaryButtonEnabled = false;
+                return;
+            }
+            else
+            {
+                RenameDialogSymbolsTip.Opacity = 0;
+                IsPrimaryButtonEnabled = true;
+            }
+
+            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedFileName(textBox.Text))
+            {
+                IsPrimaryButtonEnabled = false;
+            }
+            else
+            {
+                IsPrimaryButtonEnabled = true;
+            }
+        }
     }
 }

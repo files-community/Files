@@ -19,9 +19,22 @@
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
 
     <Grid MinWidth="300">
-        <TextBox x:Name="RenameInput"
-                 x:Uid="RenameDialogInputText"
-                 PlaceholderText="Enter an item name without an extension"
-                 Height="35" />
+        <StackPanel
+            Orientation="Vertical"
+            Spacing="4">
+            <TextBox 
+                x:Name="RenameInput"
+                x:Uid="RenameDialogInputText"
+                PlaceholderText="Enter an item name without an extension"
+                Height="35"
+                TextChanged="RenameInput_TextChanged" />
+            <TextBlock
+                x:Name="RenameDialogSymbolsTip"
+                x:Uid="RenameDialogSymbolsTip"
+                Margin="0,0,4,0"
+                TextWrapping="Wrap"
+                Opacity="0"/>
+        </StackPanel>
+        
     </Grid>
 </ContentDialog>
