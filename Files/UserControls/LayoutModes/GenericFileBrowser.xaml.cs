@@ -260,8 +260,17 @@ namespace Files
 
             renamingTextBox = e.EditingElement as TextBox;
             renamingTextBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
-            renamingTextBox.Select(0, SelectedItem.ItemName.Length - extensionLength);
             renamingTextBox.TextChanged += TextBox_TextChanged;
+
+            if (App.AppSettings.ShowFileExtensions == true)
+            {
+                renamingTextBox.Select(0, SelectedItem.ItemName.Length - extensionLength);  
+            }
+            else
+            {
+                renamingTextBox.Select(0, SelectedItem.ItemName.Length);
+            }
+
             isRenamingItem = true;
         }
 
