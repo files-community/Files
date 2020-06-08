@@ -18,7 +18,7 @@ namespace Files.Filesystem
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
-        public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
+        public IList<DriveItem> Drives { get; } = new List<DriveItem>();
         public bool ShowUserConsentOnInit { get; set; } = false;
         private DeviceWatcher _deviceWatcher;
 
@@ -51,7 +51,7 @@ namespace Files.Filesystem
         {
             try
             {
-                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                     {
@@ -82,7 +82,7 @@ namespace Files.Filesystem
 
         private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
                 if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                 {
@@ -133,7 +133,7 @@ namespace Files.Filesystem
             // Update the collection on the ui-thread.
             try
             {
-                CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     Drives.Add(driveItem);
                     DeviceWatcher_EnumerationCompleted(null, null);
@@ -162,7 +162,7 @@ namespace Files.Filesystem
                 // Update the collection on the ui-thread.
                 try
                 {
-                    CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                     {
                         Drives.Remove(drive);
                         DeviceWatcher_EnumerationCompleted(null, null);

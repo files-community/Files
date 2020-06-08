@@ -1113,7 +1113,7 @@ namespace Files.Interacts
                     .ContinueWith(async (x) =>
                 {
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var instanceTabsView = rootFrame.Content as InstanceTabsView;

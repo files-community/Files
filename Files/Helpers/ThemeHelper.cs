@@ -1,4 +1,5 @@
-﻿using Windows.Storage;
+﻿using System;
+using Windows.Storage;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -90,13 +91,13 @@ namespace Files.Helpers
             UiSettings.ColorValuesChanged += UiSettings_ColorValuesChanged;
         }
 
-        private static void UiSettings_ColorValuesChanged(UISettings sender, object args)
+        private static async void UiSettings_ColorValuesChanged(UISettings sender, object args)
         {
             // Make sure we have a reference to our window so we dispatch a UI change
             if (_CurrentApplicationWindow != null)
             {
                 // Dispatch on UI thread so that we have a current appbar to access and change
-                _CurrentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                await _CurrentApplicationWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
                 {
                     UpdateTheme();
                 });
