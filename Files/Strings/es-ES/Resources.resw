@@ -46,7 +46,7 @@
     <value>Recientes</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Archivos UWP</value>
+    <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>Licencia: </value>
@@ -64,7 +64,7 @@
     <value>Licencias de terceros</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>Sobre nosotros</value>
+    <value>Acerca de Files UWP</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Sitio web: </value>
@@ -94,7 +94,7 @@
     <value>Carpetas y archivos</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Sobre nosotros</value>
+    <value>Acerca de Files UWP</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Apariencia</value>
@@ -596,5 +596,8 @@
   </data>
   <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
     <value>El nombre de archivo no puede contener ninguno de los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Abrir ubicación del archivo de registro (log)</value>
   </data>
 </root>
