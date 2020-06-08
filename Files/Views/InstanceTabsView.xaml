@@ -549,7 +549,7 @@
                             x:Name="AddTabButton"
                             Width="28"
                             Height="28"
-                            Margin="2,0"
+                            Margin="2,7,0,0"
                             Background="Transparent"
                             Click="AddTabButton_Click">
                             <Button.Content>
