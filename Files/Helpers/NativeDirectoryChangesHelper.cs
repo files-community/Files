@@ -12,6 +12,9 @@ namespace Files.Helpers
     public class NativeDirectoryChangesHelper
     {
         [DllImport("api-ms-win-core-io-l1-1-1.dll")]
+        public static extern bool GetOverlappedResult(IntPtr hFile, OVERLAPPED lpOverlapped, out int lpNumberOfBytesTransferred, bool bWait);
+
+        [DllImport("api-ms-win-core-io-l1-1-1.dll")]
         public static extern bool CancelIo(IntPtr hFile);
 
         [DllImport("api-ms-win-core-synch-l1-2-0.dll")]
@@ -84,42 +87,60 @@ namespace Files.Helpers
             OVERLAPPED lpOverlapped
         );
 
-        [StructLayout(LayoutKind.Explicit, Size = 20)]
-        public struct OVERLAPPED
+        public unsafe struct OVERLAPPED
         {
-            [FieldOffset(0)]
-            public uint Internal;
-
-            [FieldOffset(4)]
-            public uint InternalHigh;
-
-            [FieldOffset(8)]
-            public uint Offset;
-
-            [FieldOffset(12)]
-            public uint OffsetHigh;
-
-            [FieldOffset(8)]
-            public IntPtr Pointer;
-
-            [FieldOffset(16)]
+            public IntPtr Internal;
+            public IntPtr InternalHigh;
+            public Union PointerAndOffset;
             public IntPtr hEvent;
+
+            [StructLayout(LayoutKind.Explicit)]
+            public struct Union
+            {
+                [FieldOffset(0)] public void* IntPtr;
+                [FieldOffset(0)] public OffsetPair Offset;
+
+                public struct OffsetPair { public uint Offset; public uint OffsetHigh; }
+            }
         }
+
+
+        //[StructLayout(LayoutKind.Explicit, Size = 20)]
+        //public struct OVERLAPPED
+        //{
+        //    [FieldOffset(0)]
+        //    public uint Internal;
+
+        //    [FieldOffset(4)]
+        //    public uint InternalHigh;
+
+        //    [FieldOffset(8)]
+        //    public uint Offset;
+
+        //    [FieldOffset(12)]
+        //    public uint OffsetHigh;
+
+        //    [FieldOffset(8)]
+        //    public IntPtr Pointer;
+
+        //    [FieldOffset(16)]
+        //    public IntPtr hEvent;
+        //}
 
         public const int FILE_NOTIFY_CHANGE_FILE_NAME = 1;
         public const int FILE_NOTIFY_CHANGE_DIR_NAME = 2;
 
-        public struct FILE_NOTIFY_INFORMATION
+        public unsafe struct FILE_NOTIFY_INFORMATION
         {
             public uint NextEntryOffset;
             public uint Action;
             public uint FileNameLength;
-            public IntPtr FileName;
+            public fixed char FileName[1];
         }
 
         [DllImport("api-ms-win-core-file-l2-1-0.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool ReadDirectoryChangesW(IntPtr hDirectory, ref byte lpBuffer,
-            int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, out int
+        public unsafe static extern bool ReadDirectoryChangesW(IntPtr hDirectory, byte* lpBuffer,
+            int nBufferLength, bool bWatchSubtree, int dwNotifyFilter, int*
             lpBytesReturned, ref OVERLAPPED lpOverlapped,
             LpoverlappedCompletionRoutine lpCompletionRoutine);
     }

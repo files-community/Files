@@ -969,14 +969,14 @@ namespace Files.Filesystem
         byte[] buff;
         //IntPtr pnt;
         
-        private void WatchForDirectoryChanges(string path)
+        private unsafe void WatchForDirectoryChanges(string path)
         {
-            hDir = NativeDirectoryChangesHelper.CreateFileFromApp(path, 1, 1 | 2 | 4, 
-                IntPtr.Zero, 3,
-                (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
+            hDir = NativeDirectoryChangesHelper.CreateFileFromApp(path, 1, 1 | 2 | 4,
+                IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
 
             Task.Run(() =>
             {
+
                 while (true)
                 {
                     int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
@@ -990,16 +990,64 @@ namespace Files.Filesystem
                     const UInt32 WAIT_ABANDONED = 0x00000080;
                     const UInt32 WAIT_OBJECT_0 = 0x00000000;
                     const UInt32 WAIT_TIMEOUT = 0x00000102;
-                    var size = Marshal.SizeOf<FILE_NOTIFY_INFORMATION>();
-                    buff = new byte[size + 4096];
-                    ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
 
-                    NativeDirectoryChangesHelper.ReadDirectoryChangesW(hDir, ref buff[size],
-                        Marshal.SizeOf(typeof(FILE_NOTIFY_INFORMATION)), false,
-                        notifyFilters, out int amount,
-                        ref overlapped, callback);
+                    buff = new byte[4096];
+                    fixed (byte* pBuff = buff)
+                    {
+                        ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
 
-                    var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+                        NativeDirectoryChangesHelper.ReadDirectoryChangesW(hDir, pBuff,
+                            4096, false,
+                            notifyFilters, null,
+                            ref overlapped, null);
+
+                        var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+
+                    }
+
+                    const UInt32 FILE_ACTION_ADDED = 0x00000001;
+                    const UInt32 FILE_ACTION_REMOVED = 0x00000002;
+                    const UInt32 FILE_ACTION_MODIFIED = 0x00000003;
+                    const UInt32 FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
+                    const UInt32 FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
+
+                    uint offset = 0;
+                    ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+                    do
+                    {
+                        fixed (char* name = notifyInfo.FileName)
+                        {
+                            var FileName = new string(name, 0, (int)notifyInfo.FileNameLength / 2);
+                            switch (notifyInfo.Action)
+                            {
+
+                                case FILE_ACTION_ADDED:
+                                    Debug.WriteLine("File " + FileName + " added to working directory.");
+                                    break;
+                                case FILE_ACTION_REMOVED:
+                                    Debug.WriteLine("File " + FileName + " removed from working directory.");
+                                    break;
+                                case FILE_ACTION_MODIFIED:
+                                    Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
+                                    break;
+                                case FILE_ACTION_RENAMED_OLD_NAME:
+                                    Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
+                                    break;
+                                case FILE_ACTION_RENAMED_NEW_NAME:
+                                    Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
+                                    break;
+                                default:
+                                    Debug.WriteLine("File " + FileName + " performed an action in the working directory.");
+                                    break;
+                            }
+                        }
+
+                        
+                        offset += notifyInfo.NextEntryOffset;
+
+                    } while (notifyInfo.NextEntryOffset != 0);
+
+
                     Debug.WriteLine("\n\nTask running...\n\n");
                     if(WorkingDirectory != path)
                     {
@@ -1013,40 +1061,6 @@ namespace Files.Filesystem
         public void WatcherCompletionRoutine(uint dwErrorCode, uint dwNumberOfBytesTransfered, 
             OVERLAPPED lpOverlapped) 
         {
-            const UInt32 FILE_ACTION_ADDED = 0x00000001;
-            const UInt32 FILE_ACTION_REMOVED = 0x00000002;
-            const UInt32 FILE_ACTION_MODIFIED = 0x00000003;
-            const UInt32 FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
-            const UInt32 FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
-
-            uint offset = 0;
-            ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-            do
-            {
-                switch (notifyInfo.Action)
-                {
-                    case FILE_ACTION_ADDED:
-                        Debug.WriteLine("File " + notifyInfo.FileName + " added to working directory.");
-                        break;
-                    case FILE_ACTION_REMOVED:
-                        Debug.WriteLine("File " + notifyInfo.FileName + " removed from working directory.");
-                        break;
-                    case FILE_ACTION_MODIFIED:
-                        Debug.WriteLine("File " + notifyInfo.FileName + " had attributes modified in the working directory.");
-                        break;
-                    case FILE_ACTION_RENAMED_OLD_NAME:
-                        Debug.WriteLine("File " + notifyInfo.FileName + " will be renamed in the working directory.");
-                        break;
-                    case FILE_ACTION_RENAMED_NEW_NAME:
-                        Debug.WriteLine("File " + notifyInfo.FileName + " was renamed in the working directory.");
-                        break;
-                    default:
-                        Debug.WriteLine("File " + notifyInfo.FileName + " performed an action in the working directory.");
-                        break;
-                }
-                offset += notifyInfo.NextEntryOffset;
-
-            } while (notifyInfo.NextEntryOffset != 0);
             Debug.WriteLine("Changes detected!!!!!!!!");
         }
 
