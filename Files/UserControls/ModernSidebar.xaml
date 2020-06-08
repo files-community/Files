@@ -32,7 +32,7 @@
                     DataContext="{x:Bind}"
                     IsRightTapEnabled="True"
                     IsTabStop="False"
-                    RightTapped="NavigationViewItem_RightTapped"
+                    RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon Glyph="{x:Bind Glyph}" />
@@ -46,6 +46,8 @@
                     BorderThickness="0.8"
                     Content="{x:Bind Text}"
                     DataContext="{x:Bind}"
+                    IsRightTapEnabled="True"
+                    RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind SpaceText}"
                     Visibility="{x:Bind ItemVisibility}">
