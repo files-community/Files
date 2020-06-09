@@ -138,7 +138,7 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
@@ -170,7 +170,7 @@ namespace Files
             App.InteractionViewModel.IsPageTypeNotRecycleBin =
                 !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
-            await App.CurrentInstance.ViewModel.RefreshItems();
+            App.CurrentInstance.ViewModel.RefreshItems();
 
             App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
