@@ -939,10 +939,6 @@ namespace Files.Filesystem
             IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
                                                   additionalFlags);
 
-            WatchForDirectoryChanges(path);
-
-            var x = Marshal.GetLastWin32Error();
-
             var count = 0;
             if (hFile.ToInt64() != -1)
             {
@@ -980,6 +976,8 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
+            WatchForDirectoryChanges(path);
+
         }
 
         IntPtr hDir;
