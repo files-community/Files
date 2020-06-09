@@ -499,24 +499,29 @@
           <target state="translated">Ця папка порожня.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back</source>
-          <target state="translated">Назад</target>
+          <source>Back (Alt + Left arrow)</source>
+          <target state="needs-review-translation">Назад</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward</source>
-          <target state="translated">Вперед</target>
+          <source>Forward (Alt + Right arrow)</source>
+          <target state="needs-review-translation">Вперед</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Up</source>
-          <target state="translated">Вгору</target>
+          <source>Up (Alt + Up Arrow)</source>
+          <target state="needs-review-translation">Вгору</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Refresh</source>
-          <target state="translated">Оновити</target>
+          <source>Refresh (F5)</source>
+          <target state="needs-review-translation">Оновити</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item</source>
-          <target state="translated">Створити</target>
+          <source>Create a new item (Ctrl + Shift + N)</source>
+          <target state="needs-review-translation">Створити</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -789,6 +794,10 @@
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open Log location</source>
           <target state="translated">Відкрити розташування Лог файлу</target>
+        </trans-unit>
+        <trans-unit id="AddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl + T)</source>
+          <target state="new">New tab (Ctrl + T)</target>
         </trans-unit>
       </group>
     </body>

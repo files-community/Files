@@ -536,7 +536,7 @@
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Back">
+                ToolTipService.ToolTip="Back (Alt + Left arrow)">
                 <Button.Content>
                     &#xE72B;
                 </Button.Content>
@@ -559,7 +559,7 @@
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Forward">
+                ToolTipService.ToolTip="Forward (Alt + Right arrow)">
                 <Button.Content>
                     &#xE72A;
                 </Button.Content>
@@ -580,7 +580,7 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Up"
+                ToolTipService.ToolTip="Up (Alt + Up Arrow)"
                 Visibility="Visible">
                 <Button.Content>
                     &#xE74A;
@@ -602,7 +602,7 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Refresh">
+                ToolTipService.ToolTip="Refresh (F5)">
                 <Button.Content>
                     &#xE72C;
                 </Button.Content>
@@ -698,7 +698,7 @@
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Create a new item"
+                ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
                 Visibility="Visible">
                 <Button.Content>
                     <FontIcon FontSize="14" Glyph="&#xE710;" />

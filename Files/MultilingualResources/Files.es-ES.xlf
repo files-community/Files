@@ -499,24 +499,24 @@
           <target state="translated">Esta carpeta está vacía.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back</source>
-          <target state="translated">Atrás</target>
+          <source>Back (Alt + Left arrow)</source>
+          <target state="translated">Atrás (Alt + Flecha izquierda)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward</source>
-          <target state="translated">Adelante</target>
+          <source>Forward (Alt + Right arrow)</source>
+          <target state="translated">Adelante (Alt + Flecha derecha)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Up</source>
-          <target state="translated">Arriba</target>
+          <source>Up (Alt + Up Arrow)</source>
+          <target state="translated">Arriba (Alt + Flecha arriba)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Refresh</source>
-          <target state="translated">Actualizar</target>
+          <source>Refresh (F5)</source>
+          <target state="translated">Actualizar (F5)</target>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item</source>
-          <target state="translated">Crear un nuevo elemento</target>
+          <source>Create a new item (Ctrl + Shift + N)</source>
+          <target state="translated">Crear un nuevo elemento (Ctrl + Shift + N)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -789,6 +789,10 @@
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open Log location</source>
           <target state="translated">Abrir ubicación del archivo de registro (log)</target>
+        </trans-unit>
+        <trans-unit id="AddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl + T)</source>
+          <target state="translated">Nueva pestaña (Ctrl + T)</target>
         </trans-unit>
       </group>
     </body>
