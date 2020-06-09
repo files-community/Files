@@ -473,7 +473,7 @@ namespace Files
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }
@@ -494,6 +494,21 @@ namespace Files
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
             AddNewTab(typeof(ModernShellPage), "New tab");
+        }
+
+        public static T GetCurrentSelectedTabInstance<T>()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            var selectedTabContent = ((instanceTabsView.TabStrip.SelectedItem as TabViewItem).Content as Grid);
+            foreach (UIElement uiElement in selectedTabContent.Children)
+            {
+                if (uiElement.GetType() == typeof(Frame))
+                {
+                    return (T)((uiElement as Frame).Content);
+                }
+            }
+            return default;
         }
     }
 
