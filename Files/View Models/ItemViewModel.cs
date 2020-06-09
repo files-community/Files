@@ -373,13 +373,30 @@ namespace Files.Filesystem
             EmptyTextState.IsVisible = Visibility.Collapsed;
         }
 
-        public void RemoveFileOrFolder(ListedItem item)
+        public async void AddFileOrFolder(string path)
         {
-            _filesAndFolders.Remove(item);
-            if (_filesAndFolders.Count == 0)
+            try
             {
-                EmptyTextState.IsVisible = Visibility.Visible;
+                await StorageFile.GetFileFromPathAsync(path);
+                AddFile(path);
             }
+            catch (Exception)
+            {
+                AddFolder(path);
+            }
+        }
+
+        public async void RemoveFileOrFolder(ListedItem item)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
+                _filesAndFolders.Remove(item);
+                if (_filesAndFolders.Count == 0)
+                {
+                    EmptyTextState.IsVisible = Visibility.Visible;
+                }
+            });
         }
 
         public void CancelLoadAndClearFiles()
@@ -967,7 +984,6 @@ namespace Files.Filesystem
 
         IntPtr hDir;
         byte[] buff;
-        //IntPtr pnt;
         
         private unsafe void WatchForDirectoryChanges(string path)
         {
@@ -1015,25 +1031,31 @@ namespace Files.Filesystem
                     ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
                     do
                     {
+                        notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+
                         fixed (char* name = notifyInfo.FileName)
                         {
-                            var FileName = new string(name, 0, (int)notifyInfo.FileNameLength / 2);
+                            var FileName = Path.Combine(path, new string(name, 0, (int)notifyInfo.FileNameLength / 2));
                             switch (notifyInfo.Action)
                             {
 
                                 case FILE_ACTION_ADDED:
+                                    AddFileOrFolder(FileName);
                                     Debug.WriteLine("File " + FileName + " added to working directory.");
                                     break;
                                 case FILE_ACTION_REMOVED:
+                                    RemoveFileOrFolder(FilesAndFolders.First(x => x.ItemPath.Equals(FileName)));
                                     Debug.WriteLine("File " + FileName + " removed from working directory.");
                                     break;
                                 case FILE_ACTION_MODIFIED:
                                     Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
                                     break;
                                 case FILE_ACTION_RENAMED_OLD_NAME:
+                                    RemoveFileOrFolder(FilesAndFolders.First(x => x.ItemPath.Equals(FileName)));
                                     Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
                                     break;
                                 case FILE_ACTION_RENAMED_NEW_NAME:
+                                    AddFileOrFolder(FileName);
                                     Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
                                     break;
                                 default:
@@ -1080,29 +1102,29 @@ namespace Files.Filesystem
             AddFolder(findData, Directory.GetParent(folderPath).FullName);
         }
 
-        private void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
+        private async void AddFolder(WIN32_FIND_DATA findData, string pathRoot)
         {
-            if ((App.CurrentInstance.CurrentPageType) == typeof(GenericFileBrowser) || (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser)))
+            if (_addFilesCTS.IsCancellationRequested)
             {
-                if (_addFilesCTS.IsCancellationRequested)
-                {
-                    IsLoadingItems = false;
-                    return;
-                }
-                FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
-                var itemDate = new DateTime(
-                    systemTimeOutput.Year,
-                    systemTimeOutput.Month,
-                    systemTimeOutput.Day,
-                    systemTimeOutput.Hour,
-                    systemTimeOutput.Minute,
-                    systemTimeOutput.Second,
-                    systemTimeOutput.Milliseconds,
-                    DateTimeKind.Utc);
-                var itemPath = Path.Combine(pathRoot, findData.cFileName);
-                //var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
-                //var typeText = resourceLoader.GetString("Folder");
-
+                IsLoadingItems = false;
+                return;
+            }
+            FileTimeToSystemTime(ref findData.ftLastWriteTime, out SYSTEMTIME systemTimeOutput);
+            var itemDate = new DateTime(
+                systemTimeOutput.Year,
+                systemTimeOutput.Month,
+                systemTimeOutput.Day,
+                systemTimeOutput.Hour,
+                systemTimeOutput.Minute,
+                systemTimeOutput.Second,
+                systemTimeOutput.Milliseconds,
+                DateTimeKind.Utc);
+            var itemPath = Path.Combine(pathRoot, findData.cFileName);
+            //var resourceLoader = Windows.ApplicationModel.Resources.ResourceLoader.GetForViewIndependentUse();
+            //var typeText = resourceLoader.GetString("Folder");
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
+            {
                 _filesAndFolders.Add(new ListedItem(null)
                 {
                     PrimaryItemAttribute = StorageItemTypes.Folder,
@@ -1118,9 +1140,9 @@ namespace Files.Filesystem
                     FileSizeBytes = 0
                     //FolderTooltipText = tooltipString,
                 });
-
+            
                 EmptyTextState.IsVisible = Visibility.Collapsed;
-            }
+            });
         }
 
         public void AddFile(string filePath)
@@ -1133,7 +1155,7 @@ namespace Files.Filesystem
             AddFile(findData, Directory.GetParent(filePath).FullName);
         }
 
-        private void AddFile(WIN32_FIND_DATA findData, string pathRoot)
+        private async void AddFile(WIN32_FIND_DATA findData, string pathRoot)
         {
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
@@ -1186,36 +1208,39 @@ namespace Files.Filesystem
             }
 
             bool itemFolderImgVis = false;
-
-            BitmapImage icon = new BitmapImage();
-            bool itemThumbnailImgVis;
-            bool itemEmptyImgVis;
-
-            itemEmptyImgVis = true;
-            itemThumbnailImgVis = false;
-
-            if (_addFilesCTS.IsCancellationRequested)
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+            () =>
             {
-                IsLoadingItems = false;
-                return;
-            }
-            _filesAndFolders.Add(new ListedItem(null)
-            {
-                PrimaryItemAttribute = StorageItemTypes.File,
-                FileExtension = itemFileExtension,
-                LoadUnknownTypeGlyph = itemEmptyImgVis,
-                FileImage = icon,
-                LoadFileIcon = itemThumbnailImgVis,
-                LoadFolderGlyph = itemFolderImgVis,
-                ItemName = itemName,
-                ItemDateModifiedReal = itemDate,
-                ItemType = itemType,
-                ItemPath = itemPath,
-                FileSize = itemSize,
-                FileSizeBytes = itemSizeBytes
+                BitmapImage icon = new BitmapImage();
+                bool itemThumbnailImgVis;
+                bool itemEmptyImgVis;
+
+                itemEmptyImgVis = true;
+                itemThumbnailImgVis = false;
+
+                if (_addFilesCTS.IsCancellationRequested)
+                {
+                    IsLoadingItems = false;
+                    return;
+                }
+                _filesAndFolders.Add(new ListedItem(null)
+                {
+                    PrimaryItemAttribute = StorageItemTypes.File,
+                    FileExtension = itemFileExtension,
+                    LoadUnknownTypeGlyph = itemEmptyImgVis,
+                    FileImage = icon,
+                    LoadFileIcon = itemThumbnailImgVis,
+                    LoadFolderGlyph = itemFolderImgVis,
+                    ItemName = itemName,
+                    ItemDateModifiedReal = itemDate,
+                    ItemType = itemType,
+                    ItemPath = itemPath,
+                    FileSize = itemSize,
+                    FileSizeBytes = itemSizeBytes
+                });
+
+                EmptyTextState.IsVisible = Visibility.Collapsed;
             });
-
-            EmptyTextState.IsVisible = Visibility.Collapsed;
         }
 
         public async Task AddItemsToCollectionAsync(string path)
