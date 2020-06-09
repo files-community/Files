@@ -6,6 +6,7 @@ using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -79,12 +80,6 @@ namespace Files.View_Models
         private void AddDefaultLocations()
         {
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDesktop"), Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDownloads"), Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDocuments"), Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
         }
 
         public List<string> LinesToRemoveFromFile = new List<string>();
@@ -94,6 +89,20 @@ namespace Files.View_Models
             StorageFile ListFile;
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
             ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
+
+            if (SystemInformation.IsFirstRun || SystemInformation.IsAppUpdated)
+            {
+                var ListFile1 = await cacheFolder.GetFileAsync("PinnedItems.txt");
+                List<string> items = new List<string>();
+                items.Add(DesktopPath);
+                items.Add(DownloadsPath);
+                items.Add(DocumentsPath);
+                items.Add(PicturesPath);
+                items.Add(MusicPath);
+                items.Add(VideosPath);
+
+                await FileIO.AppendLinesAsync(ListFile1, items);
+            }
 
             if (ListFile != null)
             {
@@ -105,7 +114,36 @@ namespace Files.View_Models
                         StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
                         var name = fol.DisplayName;
                         var content = name;
-                        var icon = "\uE8B7";
+                        var icon = "";
+
+                        if (locationPath == DesktopPath)
+                        {
+                            icon = "\uE8FC";
+                        }
+                        else if (locationPath == DownloadsPath)
+                        {
+                            icon = "\uE896";
+                        }
+                        else if (locationPath == DocumentsPath)
+                        {
+                            icon = "\uE8A5";
+                        }
+                        else if (locationPath == PicturesPath)
+                        {
+                            icon = "\uEB9F";
+                        }
+                        else if (locationPath == MusicPath)
+                        {
+                            icon = "\uEC4F";
+                        }
+                        else if (locationPath == VideosPath)
+                        {
+                            icon = "\uE8B2";
+                        }
+                        else
+                        {
+                            icon = "\uE8B7";
+                        }
 
                         bool isDuplicate = false;
                         foreach (INavigationControlItem sbi in App.sideBarItems)
