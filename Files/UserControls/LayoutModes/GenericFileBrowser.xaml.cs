@@ -20,7 +20,7 @@ namespace Files
 {
     public sealed partial class GenericFileBrowser : BaseLayout
     {
-        public string previousFileName;
+        private string oldItemName;
         private DataGridColumn _sortedColumn;
 
         public DataGridColumn SortedColumn
@@ -237,6 +237,7 @@ namespace Files
             }
         }
 
+        private TextBox renamingTextBox;
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
             if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
@@ -254,35 +255,60 @@ namespace Files
                 return;
             }
 
-            var textBox = e.EditingElement as TextBox;
-            var selectedItem = SelectedItem;
-            int extensionLength = selectedItem.FileExtension?.Length ?? 0;
+            int extensionLength = SelectedItem.FileExtension?.Length ?? 0;
+            oldItemName = SelectedItem.ItemName;
 
-            previousFileName = selectedItem.ItemName;
-            textBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
-            textBox.Select(0, selectedItem.ItemName.Length - extensionLength);
+            renamingTextBox = e.EditingElement as TextBox;
+            renamingTextBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
+
+            int selectedTextLength = SelectedItem.ItemName.Length;
+            if (App.AppSettings.ShowFileExtensions)
+            {
+                selectedTextLength -= extensionLength;
+            }
+            renamingTextBox.Select(0, selectedTextLength);
+            renamingTextBox.TextChanged += TextBox_TextChanged;
             isRenamingItem = true;
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            if (App.CurrentInstance.InteractionOperations.ContainsRestrictedCharacters(textBox.Text))
+            {
+                FileNameTeachingTip.IsOpen = true;
+            }
+            else
+            {
+                FileNameTeachingTip.IsOpen = false;
+            }
         }
 
         private async void AllView_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             if (e.EditAction == DataGridEditAction.Cancel)
+            {
                 return;
+            }
+
+            renamingTextBox.Text = renamingTextBox.Text.Trim().TrimEnd('.');
 
             var selectedItem = e.Row.DataContext as ListedItem;
-            string currentName = previousFileName;
-            string newName = (e.EditingElement as TextBox).Text;
+            string newItemName = renamingTextBox.Text;
 
-            bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, currentName, newName);
+            bool successful = await App.CurrentInstance.InteractionOperations.RenameFileItem(selectedItem, oldItemName, newItemName);
             if (!successful)
             {
-                selectedItem.ItemName = currentName;
-                ((sender as DataGrid).Columns[1].GetCellContent(e.Row) as TextBlock).Text = currentName;
+                selectedItem.ItemName = oldItemName;
+                renamingTextBox.Text = oldItemName;
             }
         }
 
         private void AllView_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
+            renamingTextBox.TextChanged -= TextBox_TextChanged;
+            FileNameTeachingTip.IsOpen = false;
             isRenamingItem = false;
         }
 

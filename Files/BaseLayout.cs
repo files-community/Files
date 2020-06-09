@@ -231,6 +231,7 @@ namespace Files
                         if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
+                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("UnzipItem");
                         }
@@ -238,6 +239,8 @@ namespace Files
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("OpenItem");
+
+                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
                     }
@@ -245,12 +248,15 @@ namespace Files
                 else if (selectedFileSystemItems.Count > 1)
                 {
                     UnloadMenuFlyoutItemByName("OpenItem");
+                    UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
             }
             else     // All are Folders
             {
                 UnloadMenuFlyoutItemByName("OpenItem");
+                UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;

@@ -34,7 +34,8 @@
                     VerticalAlignment="Center"
                     Content="Open a new tab"
                     FontSize="16"
-                    IsChecked="{x:Bind local:App.AppSettings.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    GroupName="StartupPageSettingRadioGroup"
+                    IsChecked="{x:Bind AppSettings.OpenNewTabPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <RadioButton
                     x:Uid="SettingsOnStartupContinueWhereYouLeftOff"
@@ -42,6 +43,7 @@
                     VerticalAlignment="Center"
                     Content="Continue where you left off"
                     FontSize="16"
+                    GroupName="StartupPageSettingRadioGroup"
                     IsEnabled="False" />
 
                 <RadioButton
@@ -51,7 +53,8 @@
                     VerticalAlignment="Center"
                     Content="Open a specific page"
                     FontSize="16"
-                    IsChecked="{x:Bind local:App.AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    GroupName="StartupPageSettingRadioGroup"
+                    IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
                 <StackPanel Orientation="Horizontal" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
                     <TextBox
@@ -63,7 +66,7 @@
                         CornerRadius="2,0,0,2"
                         IsEnabled="False"
                         PlaceholderText="New Tab"
-                        Text="{x:Bind local:App.AppSettings.OpenASpecificPageOnStartupPath, Mode=OneWay}" />
+                        Text="{x:Bind AppSettings.OpenASpecificPageOnStartupPath, Mode=OneWay}" />
 
                     <Button
                         x:Name="btnOpenASpecificPageOnStartupPath"

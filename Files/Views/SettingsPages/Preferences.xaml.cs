@@ -1,7 +1,9 @@
 ﻿using Files.DataModels;
+using Files.View_Models;
 using Newtonsoft.Json;
 using System;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -11,6 +13,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Preferences : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
@@ -18,15 +21,12 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
 
-            try
-            {
-                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
-            }
-            catch (Exception)
-            {
-                App.AppSettings.PinOneDriveToSideBar = false;
-                OneDrivePin.IsEnabled = false;
-            }
+            StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath).AsTask()
+                    .ContinueWith((t) =>
+                {
+                    App.AppSettings.PinOneDriveToSideBar = false;
+                    OneDrivePin.IsEnabled = false;
+                }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -59,15 +59,8 @@ namespace Files.SettingsPages
 
         private async void SaveTerminalSettings()
         {
-            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile, 
+            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
                 JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
-        }
-
-        private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            OneDrivePin.IsEnabled = false;
-            App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
-            OneDrivePin.IsEnabled = true;
         }
     }
 }

@@ -7,7 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     CornerRadius="4"
-    Grid.RowSpan="4"
     DefaultButton="Primary"
     Title="Enter an item name"
     BorderThickness="0"
@@ -16,12 +15,25 @@
     PrimaryButtonText="Set Name"
     SecondaryButtonText="Cancel"
     x:Uid="RenameDialog"
-    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
+    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    KeyDown="NameDialog_KeyDown">
 
     <Grid MinWidth="300">
-        <TextBox x:Name="RenameInput"
-                 x:Uid="RenameDialogInputText"
-                 PlaceholderText="Enter an item name without an extension"
-                 Height="35" />
+        <StackPanel
+            Orientation="Vertical"
+            Spacing="4">
+            <TextBox 
+                x:Name="RenameInput"
+                x:Uid="RenameDialogInputText"
+                PlaceholderText="Enter an item name without an extension"
+                Height="35"
+                TextChanged="RenameInput_TextChanged" />
+            <TextBlock
+                x:Name="RenameDialogSymbolsTip"
+                x:Uid="RenameDialogSymbolsTip"
+                Margin="0,0,4,0"
+                TextWrapping="Wrap"
+                Opacity="0"/>
+        </StackPanel>
     </Grid>
 </ContentDialog>

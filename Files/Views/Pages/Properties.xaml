@@ -214,7 +214,8 @@
                     Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
-                    Orientation="Horizontal">
+                    Orientation="Horizontal"
+                    Spacing="16">
                     <CheckBox
                         x:Uid="PropertiesDialogReadOnly"
                         Content="Read-only"
