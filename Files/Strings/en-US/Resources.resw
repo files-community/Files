@@ -705,7 +705,7 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Open Log location</value>
   </data>
-  <data name="AddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
     <value>New tab (Ctrl + T)</value>
   </data>
 </root>
