@@ -114,7 +114,7 @@ namespace Files.View_Models
                         StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
                         var name = fol.DisplayName;
                         var content = name;
-                        var icon = "";
+                        var icon = "\uE8B7";
 
                         if (locationPath == DesktopPath)
                         {
@@ -139,10 +139,6 @@ namespace Files.View_Models
                         else if (locationPath == VideosPath)
                         {
                             icon = "\uE8B2";
-                        }
-                        else
-                        {
-                            icon = "\uE8B7";
                         }
 
                         bool isDuplicate = false;
