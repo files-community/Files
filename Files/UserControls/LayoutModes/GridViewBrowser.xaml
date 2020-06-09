@@ -353,7 +353,6 @@
                 DataContextChanged="FileListGridItem_DataContextChanged"
                 EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                 IsRightTapEnabled="True"
-                Margin="10,0,10,0"
                 PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
                 Tag="ItemRoot"
@@ -403,7 +402,7 @@
                 </Grid>
                 <TextBlock
                     Grid.Row="1"
-                    Margin="0,0,0,10"
+                    Margin="5,0,5,10"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalTextAlignment="Center"
