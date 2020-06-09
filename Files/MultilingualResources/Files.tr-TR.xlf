@@ -502,12 +502,12 @@
           <target state="new">This folder is empty.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back (Alt + Left arrow)</source>
-          <target state="new">Back (Alt + Left arrow)</target>
+          <source>Back (Alt + Left Arrow)</source>
+          <target state="new">Back (Alt + Left Arrow)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward (Alt + Right arrow)</source>
-          <target state="new">Forward (Alt + Right arrow)</target>
+          <source>Forward (Alt + Right Arrow)</source>
+          <target state="new">Forward (Alt + Right Arrow)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
@@ -793,7 +793,7 @@
           <source>Open Log location</source>
           <target state="new">Open Log location</target>
         </trans-unit>
-        <trans-unit id="AddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
           <target state="new">New tab (Ctrl + T)</target>
         </trans-unit>

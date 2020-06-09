@@ -547,7 +547,7 @@
                         </Grid.ColumnDefinitions>
                         <Button
                             x:Name="AddTabButton"
-                            x:Uid="AddNewTab"
+                            x:Uid="TabStripAddNewTab"
                             Width="28"
                             Height="28"
                             Margin="2,7,0,0"

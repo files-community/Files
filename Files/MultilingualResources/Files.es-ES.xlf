@@ -499,16 +499,16 @@
           <target state="translated">Esta carpeta está vacía.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back (Alt + Left arrow)</source>
-          <target state="translated">Atrás (Alt + Flecha izquierda)</target>
+          <source>Back (Alt + Left Arrow)</source>
+          <target state="translated">Atrás (Alt + Flecha Izquierda)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward (Alt + Right arrow)</source>
-          <target state="translated">Adelante (Alt + Flecha derecha)</target>
+          <source>Forward (Alt + Right Arrow)</source>
+          <target state="translated">Adelante (Alt + Flecha Derecha)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
-          <target state="translated">Arriba (Alt + Flecha arriba)</target>
+          <target state="translated">Arriba (Alt + Flecha Arriba)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
@@ -790,7 +790,7 @@
           <source>Open Log location</source>
           <target state="translated">Abrir ubicación del archivo de registro (log)</target>
         </trans-unit>
-        <trans-unit id="AddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
           <target state="translated">Nueva pestaña (Ctrl + T)</target>
         </trans-unit>

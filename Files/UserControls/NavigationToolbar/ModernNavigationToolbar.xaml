@@ -536,7 +536,7 @@
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Back (Alt + Left arrow)">
+                ToolTipService.ToolTip="Back (Alt + Left Arrow)">
                 <Button.Content>
                     &#xE72B;
                 </Button.Content>
@@ -559,7 +559,7 @@
                 FontFamily="Segoe MDL2 Assets"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward}"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Forward (Alt + Right arrow)">
+                ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
                 <Button.Content>
                     &#xE72A;
                 </Button.Content>

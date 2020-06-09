@@ -541,10 +541,10 @@
     <value>This folder is empty.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back (Alt + Left arrow)</value>
+    <value>Back (Alt + Left Arrow)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Forward (Alt + Right arrow)</value>
+    <value>Forward (Alt + Right Arrow)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Up (Alt + Up Arrow)</value>

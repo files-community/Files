@@ -502,12 +502,12 @@
           <target state="translated">该文件夹为空。</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back (Alt + Left arrow)</source>
+          <source>Back (Alt + Left Arrow)</source>
           <target state="needs-review-translation">返回</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward (Alt + Right arrow)</source>
+          <source>Forward (Alt + Right Arrow)</source>
           <target state="needs-review-translation">前进</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -798,7 +798,7 @@
           <source>Open Log location</source>
           <target state="new">Open Log location</target>
         </trans-unit>
-        <trans-unit id="AddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+        <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
           <target state="new">New tab (Ctrl + T)</target>
         </trans-unit>
