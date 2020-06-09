@@ -353,6 +353,7 @@
                 DataContextChanged="FileListGridItem_DataContextChanged"
                 EffectiveViewportChanged="Grid_EffectiveViewportChanged"
                 IsRightTapEnabled="True"
+                Margin="10,0,10,0"
                 PointerPressed="FileListGridItem_PointerPressed"
                 RightTapped="StackPanel_RightTapped"
                 Tag="ItemRoot"
