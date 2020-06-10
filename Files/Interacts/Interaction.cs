@@ -377,7 +377,7 @@ namespace Files.Interacts
                         CurrentInstance.ViewModel.WorkingDirectory = clickedOnItemPath;
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
-                        CurrentInstance.ContentPage.AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
+                        CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
                         CurrentInstance.ContentFrame.Navigate(sourcePageType, clickedOnItemPath, new SuppressNavigationTransitionInfo());
                     }
                     else
@@ -977,8 +977,6 @@ namespace Files.Interacts
                         {
                             StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
                             pastedItems.Add(pastedFolder);
-                            if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                                CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
                         }
                         catch (FileNotFoundException)
                         {
@@ -998,8 +996,6 @@ namespace Files.Interacts
                         StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                         StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
                         pastedItems.Add(pastedFile);
-                        if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                            CurrentInstance.ViewModel.AddFile(pastedFile.Path);
                     }
                     catch (FileNotFoundException)
                     {
@@ -1032,8 +1028,6 @@ namespace Files.Interacts
                         continue;
                     }
                     ListedItem listedItem = CurrentInstance.ViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
-                    if (listedItem != null)
-                        CurrentInstance.ViewModel.RemoveFileOrFolder(listedItem);
                 }
             }
             if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)

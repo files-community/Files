@@ -138,7 +138,7 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
@@ -153,7 +153,7 @@ namespace Files
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
-            AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
+            AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
             App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
 
             // pathRoot will be empty on recycle bin path
@@ -170,7 +170,7 @@ namespace Files
             App.InteractionViewModel.IsPageTypeNotRecycleBin =
                 !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
-            await App.CurrentInstance.ViewModel.RefreshItems();
+            App.CurrentInstance.ViewModel.RefreshItems();
 
             App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
@@ -181,10 +181,6 @@ namespace Files
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            if (App.CurrentInstance.ViewModel._fileQueryResult != null)
-            {
-                App.CurrentInstance.ViewModel._fileQueryResult.ContentsChanged -= App.CurrentInstance.ViewModel.FileContentsChanged;
-            }
             App.AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
         }
 
@@ -289,7 +285,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = InstanceTabsView.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

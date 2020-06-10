@@ -382,7 +382,7 @@
             VerticalAlignment="Top"
             Text="This folder is empty."
             TextWrapping="Wrap"
-            Visibility="{x:Bind AssociatedViewModel.EmptyTextState.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            x:Load="{x:Bind AssociatedViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}" />
 
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
