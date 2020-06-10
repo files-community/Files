@@ -460,10 +460,10 @@
     <value>新しいタブ</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
-    <value>ライトテーマ</value>
+    <value>明るい</value>
   </data>
   <data name="DarkTheme" xml:space="preserve">
-    <value>暗いテーマ</value>
+    <value>暗い</value>
   </data>
   <data name="ApplicationTimeStye" xml:space="preserve">
     <value>アプリ</value>
@@ -533,5 +533,176 @@
   </data>
   <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
     <value>アクセスが拒否されました</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>システム設定の使用</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>選択を反転</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>プロパティ：</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>プロパティ</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>新しいタブで開く</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>新しいウィンドウで開きます</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>実験的機能</value>
+  </data>
+  <data name="SettingsExperimentalDescription.Text" xml:space="preserve">
+    <value>注：これらは実験的な機能です！</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>実験的機能</value>
+  </data>
+  <data name="SettingsExperimentalDoubleTapToRenameFiles.Text" xml:space="preserve">
+    <value>ダブルクリックして名前を変更</value>
+  </data>
+  <data name="SettingsPreferencesTerminalApplicationsSampleProfiles.ToolTipService.ToolTip" xml:space="preserve">
+    <value>デフォルトのオプション</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogContent" xml:space="preserve">
+    <value>同じ名前のファイルがターゲットディレクトリにすでに存在します。</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogPrimaryButtonText" xml:space="preserve">
+    <value>名前の変更</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>ファイルが既に存在します</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogSecondaryButtonText" xml:space="preserve">
+    <value>既存のファイルを置き換える</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutSetAsLockscreenBackground.Text" xml:space="preserve">
+    <value>ロック画面の背景として設定</value>
+  </data>
+  <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
+    <value>サムネイル（大）</value>
+  </data>
+  <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
+    <value>サムネイル（中）</value>
+  </data>
+  <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
+    <value>サムネイル（小）</value>
+  </data>
+  <data name="StatusBarControlTilesView.Text" xml:space="preserve">
+    <value>タイルビュー</value>
+  </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>承知</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Text" xml:space="preserve">
+    <value>ドライブを挿入してください</value>
+  </data>
+  <data name="DriveUnpluggedDialog.Title" xml:space="preserve">
+    <value>ドライブがイジェクトされました</value>
+  </data>
+  <data name="FileNotFoundDialog.Text" xml:space="preserve">
+    <value>ターゲットファイルが移動または削除された可能性があります。</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>ファイルが存在しません</value>
+  </data>
+  <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
+    <value>ターゲットファイルが移動または削除された可能性があります。</value>
+  </data>
+  <data name="FolderNotFoundDialog.Text" xml:space="preserve">
+    <value>ターゲットフォルダが移動または削除された可能性があります。</value>
+  </data>
+  <data name="FolderNotFoundDialog.Title" xml:space="preserve">
+    <value>このフォルダを削除してもよろしいですか？</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>オプション</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>ターゲットファイルは他のプログラムによって使用されています。</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>ファイルがビジーです</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>リトライ</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>承知</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>読み取り専用</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>隠しファイル</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>ごみ箱を空にする</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>ごみ箱を有効にする</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} 時間前</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>{0} 時間前</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} 分前</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>{0} 分前</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>{0} 秒前</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>新しいタブ</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>この操作はサポートされていません</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} 利用可能、合計 {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>プログラムから開く</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>ファイル名に次の文字を含めることはできません：\ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>承知</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>ファイル名に次の文字を含めることはできません：\ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>ログの場所を開く</value>
   </data>
 </root>
