@@ -35,7 +35,7 @@ namespace Files.DataModels
 
         public void ResetToDefaultTerminal()
         {
-            DefaultTerminalPath = "CMD";
+            DefaultTerminalPath = "cmd.exe";
         }
 
         public async Task<bool> AddOrRemoveTerminal(TerminalModel terminal, string packageName)
