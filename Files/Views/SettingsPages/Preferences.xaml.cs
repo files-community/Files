@@ -52,7 +52,7 @@ namespace Files.SettingsPages
 
             var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
 
-            App.AppSettings.TerminalsModel.DefaultTerminalId = selectedTerminal.Id;
+            App.AppSettings.TerminalsModel.DefaultTerminalPath = selectedTerminal.Path;
 
             SaveTerminalSettings();
         }
