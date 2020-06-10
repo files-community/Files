@@ -67,38 +67,35 @@ namespace Files.Dialogs
 
             if (fileType == AddItemType.Folder)
             {
-                StorageFolder folder;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    folder = await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
+                    await folderToCreateItem.CreateFolderAsync(userInput, CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
-                    folder = await folderToCreateItem.CreateFolderAsync(ResourceController.GetTranslation("NewFolder"), CreationCollisionOption.GenerateUniqueName);
+                    await folderToCreateItem.CreateFolderAsync(ResourceController.GetTranslation("NewFolder"), CreationCollisionOption.GenerateUniqueName);
                 }
             }
             else if (fileType == AddItemType.TextDocument)
             {
-                StorageFile item;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    item = await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
+                    await folderToCreateItem.CreateFileAsync(userInput + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
-                    item = await folderToCreateItem.CreateFileAsync(ResourceController.GetTranslation("NewTextDocument") + ".txt", CreationCollisionOption.GenerateUniqueName);
+                    await folderToCreateItem.CreateFileAsync(ResourceController.GetTranslation("NewTextDocument") + ".txt", CreationCollisionOption.GenerateUniqueName);
                 }
             }
             else if (fileType == AddItemType.BitmapImage)
             {
-                StorageFile item;
                 if (!string.IsNullOrWhiteSpace(userInput))
                 {
-                    item = await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                    await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
                 else
                 {
-                    item = await folderToCreateItem.CreateFileAsync(ResourceController.GetTranslation("NewBitmapImage") + ".bmp", CreationCollisionOption.GenerateUniqueName);
+                    await folderToCreateItem.CreateFileAsync(ResourceController.GetTranslation("NewBitmapImage") + ".bmp", CreationCollisionOption.GenerateUniqueName);
                 }
             }
         }
