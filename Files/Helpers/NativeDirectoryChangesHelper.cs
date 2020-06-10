@@ -87,7 +87,6 @@ namespace Files.Helpers
             IntPtr pCreateExParams
         );
 
-
         public delegate void LpoverlappedCompletionRoutine(uint dwErrorCode,
             uint dwNumberOfBytesTransfered,
             OVERLAPPED lpOverlapped
@@ -109,29 +108,6 @@ namespace Files.Helpers
                 public struct OffsetPair { public uint Offset; public uint OffsetHigh; }
             }
         }
-
-
-        //[StructLayout(LayoutKind.Explicit, Size = 20)]
-        //public struct OVERLAPPED
-        //{
-        //    [FieldOffset(0)]
-        //    public uint Internal;
-
-        //    [FieldOffset(4)]
-        //    public uint InternalHigh;
-
-        //    [FieldOffset(8)]
-        //    public uint Offset;
-
-        //    [FieldOffset(12)]
-        //    public uint OffsetHigh;
-
-        //    [FieldOffset(8)]
-        //    public IntPtr Pointer;
-
-        //    [FieldOffset(16)]
-        //    public IntPtr hEvent;
-        //}
 
         public const int FILE_NOTIFY_CHANGE_FILE_NAME = 1;
         public const int FILE_NOTIFY_CHANGE_DIR_NAME = 2;
