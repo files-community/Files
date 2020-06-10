@@ -11,6 +11,9 @@ namespace Files.Helpers
 {
     public class NativeDirectoryChangesHelper
     {
+        [DllImport("api-ms-win-core-handle-l1-1-0.dll")]
+        public static extern bool CloseHandle(IntPtr hObject);
+
         [DllImport("api-ms-win-core-io-l1-1-1.dll")]
         public static extern bool GetOverlappedResult(IntPtr hFile, OVERLAPPED lpOverlapped, out int lpNumberOfBytesTransferred, bool bWait);
 
@@ -22,6 +25,9 @@ namespace Files.Helpers
 
         [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
         public static extern IntPtr CreateEvent(IntPtr lpEventAttributes, bool bManualReset, bool bInitialState, string lpName);
+
+        [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
+        public static extern bool ResetEvent(IntPtr hEvent);
 
         [DllImport("api-ms-win-core-synch-l1-2-0.dll", SetLastError = true)]
         public static extern UInt32 WaitForSingleObjectEx(IntPtr hHandle, UInt32 dwMilliseconds, bool bAlertable);
