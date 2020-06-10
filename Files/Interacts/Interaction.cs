@@ -172,6 +172,31 @@ namespace Files.Interacts
                             var content = name;
                             var icon = "\uE8B7";
 
+                            if (itemPath == App.AppSettings.DesktopPath)
+                            {
+                                icon = "\uE8FC";
+                            }
+                            else if (itemPath == App.AppSettings.DownloadsPath)
+                            {
+                                icon = "\uE896";
+                            }
+                            else if (itemPath == App.AppSettings.DocumentsPath)
+                            {
+                                icon = "\uE8A5";
+                            }
+                            else if (itemPath == App.AppSettings.PicturesPath)
+                            {
+                                icon = "\uEB9F";
+                            }
+                            else if (itemPath == App.AppSettings.MusicPath)
+                            {
+                                icon = "\uEC4F";
+                            }
+                            else if (itemPath == App.AppSettings.VideosPath)
+                            {
+                                icon = "\uE8B2";
+                            }
+
                             bool isDuplicate = false;
                             foreach (INavigationControlItem sbi in App.sideBarItems)
                             {

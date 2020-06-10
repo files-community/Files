@@ -547,11 +547,13 @@
                         </Grid.ColumnDefinitions>
                         <Button
                             x:Name="AddTabButton"
+                            x:Uid="TabStripAddNewTab"
                             Width="28"
                             Height="28"
                             Margin="2,7,0,0"
                             Background="Transparent"
-                            Click="AddTabButton_Click">
+                            Click="AddTabButton_Click"
+                            ToolTipService.ToolTip="New tab (Ctrl + T)" >
                             <Button.Content>
                                 <FontIcon FontSize="10" Glyph="&#xE710;" />
                             </Button.Content>
