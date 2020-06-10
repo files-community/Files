@@ -34,6 +34,7 @@ namespace Files.Filesystem
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
+        private volatile bool IsWatching = false;
         private IntPtr hWatchDir;
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public ListedItem CurrentFolder { get; private set; }
@@ -364,7 +365,7 @@ namespace Files.Filesystem
         public void CancelLoadAndClearFiles()
         {
             CancelChangeWatcher();  // Cancel directory item change watcher
-
+            App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             if (IsLoadingItems == false) { return; }
 
             _addFilesCTS.Cancel();
@@ -834,7 +835,7 @@ namespace Files.Filesystem
 
                     if (count % 64 == 0)
                     {
-                        //await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
                     }
                 } while (FindNextFile(hFile, out findData));
 
@@ -842,16 +843,19 @@ namespace Files.Filesystem
             }
 
         }
-        
-        private void WatchForDirectoryChanges(string path)
+
+        private async void WatchForDirectoryChanges(string path)
         {
+            IsWatching = true;
             hWatchDir = CreateFileFromApp(path, 1, 1 | 2 | 4,
                 IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
 
-            Task.Run(() =>
-            {
 
-                while (true)
+
+            while (true)
+            {
+                byte[] buff = new byte[4096];
+                var thrItem = Windows.System.Threading.ThreadPool.RunAsync((x) =>
                 {
                     int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
 
@@ -859,7 +863,6 @@ namespace Files.Filesystem
                     overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
                     const uint INFINITE = 0xFFFFFFFF;
 
-                    byte[] buff = new byte[4096];
                     unsafe
                     {
                         fixed (byte* pBuff = buff)
@@ -875,68 +878,90 @@ namespace Files.Filesystem
                         }
                     }
 
+                });
+                var uiThreadScheduler = TaskScheduler.FromCurrentSynchronizationContext();
+                await thrItem.AsTask().ContinueWith((x) =>
+                 {
+                     const uint FILE_ACTION_ADDED = 0x00000001;
+                     const uint FILE_ACTION_REMOVED = 0x00000002;
+                     const uint FILE_ACTION_MODIFIED = 0x00000003;
+                     const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
+                     const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
 
-                    const uint FILE_ACTION_ADDED = 0x00000001;
-                    const uint FILE_ACTION_REMOVED = 0x00000002;
-                    const uint FILE_ACTION_MODIFIED = 0x00000003;
-                    const uint FILE_ACTION_RENAMED_OLD_NAME = 0x00000004;
-                    const uint FILE_ACTION_RENAMED_NEW_NAME = 0x00000005;
+                     uint offset = 0;
+                     ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+                     do
+                     {
+                         notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
+                         string FileName = null;
+                         unsafe
+                         {
+                             fixed (char* name = notifyInfo.FileName)
+                             {
+                                 FileName = Path.Combine(path, new string(name, 0, (int)notifyInfo.FileNameLength / 2));
+                             }
+                         }
 
-                    uint offset = 0;
-                    ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-                    do
-                    {
-                        notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-                        string FileName = null;
-                        unsafe
-                        {
-                            fixed (char* name = notifyInfo.FileName)
-                            {
-                                FileName = Path.Combine(path, new string(name, 0, (int)notifyInfo.FileNameLength / 2));
-                            }
-                        }
-                        uint action = notifyInfo.Action;
-                        CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, 
-                            () =>
-                        {
-                            switch (action)
-                            {
-                                case FILE_ACTION_ADDED:
-                                    AddFileOrFolder(FileName);
-                                    Debug.WriteLine("File " + FileName + " added to working directory.");
-                                    break;
-                                case FILE_ACTION_REMOVED:
-                                    RemoveFileOrFolder(FilesAndFolders.First(x => x.ItemPath.Equals(FileName)));
-                                    Debug.WriteLine("File " + FileName + " removed from working directory.");
-                                    break;
-                                case FILE_ACTION_MODIFIED:
-                                    Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
-                                    break;
-                                case FILE_ACTION_RENAMED_OLD_NAME:
-                                    RemoveFileOrFolder(FilesAndFolders.First(x => x.ItemPath.Equals(FileName)));
-                                    Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
-                                    break;
-                                case FILE_ACTION_RENAMED_NEW_NAME:
-                                    AddFileOrFolder(FileName);
-                                    Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
-                                    break;
-                                default:
-                                    Debug.WriteLine("File " + FileName + " performed an action in the working directory.");
-                                    break;
-                            }
-                        });
-                        offset += notifyInfo.NextEntryOffset;
+                         uint action = notifyInfo.Action;
+                         //await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                         //    () =>
+                         //    {
+                                 switch (action)
+                                 {
+                                     case FILE_ACTION_ADDED:
+                                         if (!FilesAndFolders.Select(x => x.ItemPath).Contains(FileName))
+                                         {
+                                             AddFileOrFolder(FileName);
+                                             Debug.WriteLine("File " + FileName + " added to working directory.");
+                                         }
+                                         break;
+                                     case FILE_ACTION_REMOVED:
+                                         if (FilesAndFolders.Select(x => x.ItemPath).Contains(FileName))
+                                         {
+                                             RemoveFileOrFolder(FilesAndFolders.First(x => x.ItemPath.Equals(FileName)));
+                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
+                                         }
+                                         break;
+                                     case FILE_ACTION_MODIFIED:
+                                         Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
+                                         break;
+                                     case FILE_ACTION_RENAMED_OLD_NAME:
+                                         if (FilesAndFolders.Select(x => x.ItemPath).Contains(FileName))
+                                         {
+                                             RemoveFileOrFolder(FilesAndFolders.First(x => x.ItemPath.Equals(FileName)));
+                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
+                                         }
+                                         break;
+                                     case FILE_ACTION_RENAMED_NEW_NAME:
+                                         if (!FilesAndFolders.Select(x => x.ItemPath).Contains(FileName))
+                                         {
+                                             AddFileOrFolder(FileName);
+                                             Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
+                                         }
+                                         break;
+                                     default:
+                                         Debug.WriteLine("File " + FileName + " performed an action in the working directory.");
+                                         break;
+                                 }
+                             //});
+                         offset += notifyInfo.NextEntryOffset;
 
-                    } while (notifyInfo.NextEntryOffset != 0);
+                     } while (notifyInfo.NextEntryOffset != 0);
 
-                    Debug.WriteLine("\n\nTask running...\n\n");
-                    if(WorkingDirectory != path)
-                    {
-                        break;
-                    }
+                     Debug.WriteLine("\n\nTask running...\n\n");
+
+                 }, uiThreadScheduler);
+
+                if (WorkingDirectory != path)
+                {
+                    break;
                 }
                 Debug.WriteLine("\n\nTask exiting...\n\n");
-            });
+
+
+                IsWatching = false;
+            }
+        
         }
 
         public void AddFileOrFolder(ListedItem item)
