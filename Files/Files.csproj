@@ -530,6 +530,7 @@
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
@@ -553,6 +554,7 @@
       <Name>Files.MessageRelay</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
