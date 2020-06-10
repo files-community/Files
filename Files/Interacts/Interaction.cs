@@ -35,12 +35,15 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using NLog;
 using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Interacts
 {
     public class Interaction
     {
+	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
 
@@ -1166,6 +1169,7 @@ namespace Files.Interacts
                 {
                     var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
 
+                    Logger.Info("Toggle QuickLook");
                     Debug.WriteLine("Toggle QuickLook");
                     if (App.Connection != null)
                     {

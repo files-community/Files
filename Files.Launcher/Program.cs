@@ -156,6 +156,8 @@ namespace FilesFullTrust
                     var arguments = (string)args.Request.Message["Arguments"];
                     var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
+                    Logger.Info($"Argument: {arguments}");
+
                     if (arguments == "Terminate")
                     {
                         // Exit fulltrust process (UWP is closed or suspended)
