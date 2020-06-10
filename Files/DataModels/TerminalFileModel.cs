@@ -12,27 +12,33 @@ namespace Files.DataModels
         [JsonProperty("version")]
         public int Version { get; set; }
 
-        [JsonProperty("defaultTerminalId")]
-        public int DefaultTerminalId { get; set; }
+        [JsonProperty("defaultTerminalPath")]
+        public string DefaultTerminalPath { get; set; }
 
         [JsonProperty("terminals")]
         public List<TerminalModel> Terminals { get; set; } = new List<TerminalModel>();
 
         public TerminalModel GetDefaultTerminal()
         {
-            if (DefaultTerminalId != 0)
+            TerminalModel terminal = Terminals.FirstOrDefault(x => x.Path.Equals(DefaultTerminalPath, StringComparison.OrdinalIgnoreCase));
+            if (terminal != null)
             {
-                return Terminals.Single(x => x.Id == DefaultTerminalId);
+                return terminal;
             }
+            else
+            {
+                ResetToDefaultTerminal();
+            }
+
             return Terminals.First();
         }
 
         public void ResetToDefaultTerminal()
         {
-            DefaultTerminalId = 1;
+            DefaultTerminalPath = "cmd.exe";
         }
 
-        public async Task<bool> AddTerminal(TerminalModel terminal, string packageName)
+        public async Task<bool> AddOrRemoveTerminal(TerminalModel terminal, string packageName)
         {
             bool isChanged = false;
             bool isInstalled = await PackageHelper.IsAppInstalledAsync(packageName);
@@ -44,8 +50,12 @@ namespace Files.DataModels
             }
             else if (!isInstalled)
             {
+                if (DefaultTerminalPath.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))
+                {
+                    ResetToDefaultTerminal();
+                }
                 Terminals.Remove(Terminals.FirstOrDefault(x => x.Path.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase)));
-                ResetToDefaultTerminal();
+
                 isChanged = true;
             }
             return isChanged;

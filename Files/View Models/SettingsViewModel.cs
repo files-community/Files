@@ -347,24 +347,22 @@ namespace Files.View_Models
 
             var windowsTerminal = new TerminalModel()
             {
-                Id = TerminalsModel.Terminals.Count + 1,
                 Name = "Windows Terminal",
                 Path = "wt.exe",
-                Arguments = "-d {0}",
+                Arguments = "-d \"{0}\"",
                 Icon = ""
             };
 
             var fluentTerminal = new TerminalModel()
             {
-                Id = TerminalsModel.Terminals.Count + 1,
                 Name = "Fluent Terminal",
                 Path = "flute.exe",
                 Arguments = "new \"{0}\"",
                 Icon = ""
             };
 
-            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
+            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddOrRemoveTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddOrRemoveTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
             if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
             {
                 await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
