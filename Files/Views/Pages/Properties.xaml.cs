@@ -112,7 +112,6 @@ namespace Files
                     // Currently a fake timestamp is used
                     ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectory.ItemDateModifiedReal);
                     ItemProperties.ItemSize = parentDirectory.FileSize;
-
                 }
                 else
                 {
