@@ -20,6 +20,7 @@ namespace Files
         private static AppWindowTitleBar _TitleBar;
 
         public AppWindow propWindow;
+
         public ItemPropertiesViewModel ItemProperties { get; } = new ItemPropertiesViewModel();
 
         public Properties()
@@ -38,13 +39,16 @@ namespace Files
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            // Collect AppWindow-specific info
-            propWindow = Interaction.AppWindows[UIContext];
-            // Set properties window titleBar style
-            _TitleBar = propWindow.TitleBar;
-            _TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            App.AppSettings.UpdateThemeElements.Execute(null);
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                // Collect AppWindow-specific info
+                propWindow = Interaction.AppWindows[UIContext];
+                // Set properties window titleBar style
+                _TitleBar = propWindow.TitleBar;
+                _TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                App.AppSettings.UpdateThemeElements.Execute(null);
+            }
 
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
@@ -123,22 +127,25 @@ namespace Files
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
-            switch (ThemeHelper.RootTheme)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                case ElementTheme.Default:
-                    _TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                    _TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                    break;
+                switch (ThemeHelper.RootTheme)
+                {
+                    case ElementTheme.Default:
+                        _TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                        _TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                        break;
 
-                case ElementTheme.Light:
-                    _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                    _TitleBar.ButtonForegroundColor = Colors.Black;
-                    break;
+                    case ElementTheme.Light:
+                        _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                        _TitleBar.ButtonForegroundColor = Colors.Black;
+                        break;
 
-                case ElementTheme.Dark:
-                    _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                    _TitleBar.ButtonForegroundColor = Colors.White;
-                    break;
+                    case ElementTheme.Dark:
+                        _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                        _TitleBar.ButtonForegroundColor = Colors.White;
+                        break;
+                }
             }
         }
 
@@ -148,6 +155,10 @@ namespace Files
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await propWindow.CloseAsync();
+            }
+            else
+            {
+                App.PropertiesDialogDisplay.Hide();
             }
         }
     }
