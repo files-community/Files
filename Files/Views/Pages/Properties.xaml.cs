@@ -3,9 +3,12 @@ using Files.Helpers;
 using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.UI;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
@@ -54,16 +57,23 @@ namespace Files
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    ItemProperties.ItemSize = selectedItem.FileSize;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+                    var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
+                    var fileSizeTasks = (await folders.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
+                    var sizes = await Task.WhenAll(fileSizeTasks);
+                    var folderSize = sizes.Sum(singleSize => (long)singleSize);
+                    ItemProperties.ItemSize = ToBytesCount(folderSize);
+                    selectedStorageItem = storageFolder;
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
                 ItemProperties.ItemType = selectedItem.ItemType;
                 ItemProperties.ItemPath = selectedItem.ItemPath;
-                ItemProperties.ItemSize = selectedItem.FileSize;
+                
                 ItemProperties.LoadFileIcon = selectedItem.LoadFileIcon;
                 ItemProperties.LoadFolderGlyph = selectedItem.LoadFolderGlyph;
                 ItemProperties.LoadUnknownTypeGlyph = selectedItem.LoadUnknownTypeGlyph;
@@ -101,6 +111,8 @@ namespace Files
                     // GetFolderFromPathAsync cannot access recyclebin folder
                     // Currently a fake timestamp is used
                     ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectory.ItemDateModifiedReal);
+                    ItemProperties.ItemSize = parentDirectory.FileSize;
+
                 }
                 else
                 {
@@ -110,7 +122,6 @@ namespace Files
                 ItemProperties.ItemName = parentDirectory.ItemName;
                 ItemProperties.ItemType = parentDirectory.ItemType;
                 ItemProperties.ItemPath = parentDirectory.ItemPath;
-                ItemProperties.ItemSize = parentDirectory.FileSize;
                 ItemProperties.LoadFileIcon = false;
                 ItemProperties.LoadFolderGlyph = true;
                 ItemProperties.LoadUnknownTypeGlyph = false;
@@ -119,7 +130,15 @@ namespace Files
                 ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
             }
         }
-
+        public  string ToBytesCount(long bytes)
+        {
+            int unit = 1024;
+            string unitStr = "b";
+            if (bytes < unit) return string.Format("{0} {1}", bytes, unitStr);
+            else unitStr = unitStr.ToUpper();
+            int exp = (int)(Math.Log(bytes) / Math.Log(unit));
+            return string.Format("{0:##.##} {1}{2}", bytes / Math.Pow(unit, exp), "KMGTPEZY"[exp - 1], unitStr);
+        }
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
