@@ -50,7 +50,11 @@ namespace Files.DataModels
             }
             else if (!isInstalled)
             {
-                if (DefaultTerminalPath.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))
+                if (string.IsNullOrWhiteSpace(DefaultTerminalPath))
+                {
+                    ResetToDefaultTerminal();
+                }
+                else if (DefaultTerminalPath.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))
                 {
                     ResetToDefaultTerminal();
                 }
