@@ -1188,16 +1188,17 @@ namespace Files.Filesystem
 
         public async Task<IReadOnlyList<StorageFile>> GetMatchingFiles(string query)
         {
+
             _rootFolder = await StorageFolder.GetFolderFromPathAsync(WorkingDirectory);
             var queryOptions = new QueryOptions()
             {
-                FolderDepth = FolderDepth.Deep,
+                FolderDepth = string.IsNullOrWhiteSpace(query) ? FolderDepth.Shallow : FolderDepth.Deep,
                 UserSearchFilter = query,
                 IndexerOption = IndexerOption.UseIndexerWhenAvailable
             };
 
-            // Create query and retrieve files
-            var fileQuery = KnownFolders.PicturesLibrary.CreateFileQueryWithOptions(queryOptions);
+            // Create query and retrieve matching files
+            var fileQuery = _rootFolder.CreateFileQueryWithOptions(queryOptions);
             var fileList = await fileQuery.GetFilesAsync();
             return fileList;
         }
