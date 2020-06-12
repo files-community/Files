@@ -794,8 +794,15 @@
           <source>New tab (Ctrl + T)</source>
           <target state="translated">新标签页（Ctrl+T）</target>
         </trans-unit>
+        <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
+          <source>item selected</source>
+          <target state="new">item selected</target>
+        </trans-unit>
+        <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
+          <source>items selected</source>
+          <target state="new">items selected</target>
+        </trans-unit>
       </group>
     </body>
   </file>
-
 </xliff>
