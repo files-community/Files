@@ -55,7 +55,7 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
-        public static SelectedItemPropertiesViewModel SelectedItemPropertiesViewModel { get; set; }
+        public static SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -82,7 +82,7 @@ namespace Files
 
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
-            SelectedItemPropertiesViewModel = new SelectedItemPropertiesViewModel();
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

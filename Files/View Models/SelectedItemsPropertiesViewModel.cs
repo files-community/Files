@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
-    public class SelectedItemPropertiesViewModel : ViewModelBase
+    public class SelectedItemsPropertiesViewModel : ViewModelBase
     {
         public string ItemName
         {
@@ -59,21 +59,25 @@ namespace Files.View_Models
             }
         }
 
-        public string ItemSize
+        private String _ItemsSize;
+        public String ItemsSize
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage == null) return null;
+            get => _ItemsSize;
+            set => Set(ref _ItemsSize, value);
+        }
 
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.FileSize;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+        private String _SelectedItemsCount;
+        public String SelectedItemsCount
+        {
+            get => _SelectedItemsCount;
+            set => Set(ref _SelectedItemsCount, value);
+        }
+        
+        private bool _IsItemSelected;
+        public bool IsItemSelected
+        {
+            get => _IsItemSelected;
+            set => Set(ref _IsItemSelected, value);
         }
 
         public string ItemCreatedTimestamp
