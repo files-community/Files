@@ -42,7 +42,7 @@ namespace Files.Interacts
 {
     public class Interaction
     {
-	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
@@ -463,7 +463,7 @@ namespace Files.Interacts
         public static Dictionary<UIContext, AppWindow> AppWindows { get; set; }
             = new Dictionary<UIContext, AppWindow>();
 
-        private async void ShowProperties(object parameter)
+        private async void ShowProperties()
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -491,19 +491,19 @@ namespace Files.Interacts
             else
             {
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), parameter, new SuppressNavigationTransitionInfo());
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
         public void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowProperties(App.CurrentInstance.ContentPage.SelectedItem);
+            ShowProperties();
         }
 
         public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowProperties(App.CurrentInstance.ViewModel.CurrentFolder);
+            ShowProperties();
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
