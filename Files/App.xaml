@@ -40,6 +40,7 @@
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="CustomLayoutModeIcon">/Assets/Custom Glyphs/layout-mode-custom-icon.ttf#layout-mode-custom-icon</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -136,9 +136,9 @@ namespace Files
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                        async () =>
+                        () =>
                         {
-                            await App.CurrentInstance.ViewModel.RefreshItems();
+                            App.CurrentInstance.ViewModel.RefreshItems();
                         });
                 }
             }

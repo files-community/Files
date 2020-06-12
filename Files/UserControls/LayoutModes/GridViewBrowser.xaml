@@ -402,7 +402,7 @@
                 </Grid>
                 <TextBlock
                     Grid.Row="1"
-                    Margin="0,0,0,10"
+                    Margin="5,0,5,10"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     HorizontalTextAlignment="Center"
@@ -576,8 +576,8 @@
             Canvas.ZIndex="0"
             Text="This folder is empty."
             TextWrapping="Wrap"
-            Visibility="{x:Bind AssociatedViewModel.EmptyTextState.IsVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
+            x:Load="{x:Bind AssociatedViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay}" />
+        
         <muxc:TeachingTip
             x:Name="FileNameTeachingTip"
             x:Uid="FileNameTeachingTip"

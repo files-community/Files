@@ -502,24 +502,24 @@
           <target state="new">This folder is empty.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Back</source>
-          <target state="new">Back</target>
+          <source>Back (Alt + Left Arrow)</source>
+          <target state="new">Back (Alt + Left Arrow)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Forward</source>
-          <target state="new">Forward</target>
+          <source>Forward (Alt + Right Arrow)</source>
+          <target state="new">Forward (Alt + Right Arrow)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Up</source>
-          <target state="new">Up</target>
+          <source>Up (Alt + Up Arrow)</source>
+          <target state="new">Up (Alt + Up Arrow)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Refresh</source>
-          <target state="new">Refresh</target>
+          <source>Refresh (F5)</source>
+          <target state="new">Refresh (F5)</target>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
-          <source>Create a new item</source>
-          <target state="new">Create a new item</target>
+          <source>Create a new item (Ctrl + Shift + N)</source>
+          <target state="new">Create a new item (Ctrl + Shift + N)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -792,6 +792,10 @@
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open Log location</source>
           <target state="new">Open Log location</target>
+        </trans-unit>
+        <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>New tab (Ctrl + T)</source>
+          <target state="new">New tab (Ctrl + T)</target>
         </trans-unit>
       </group>
     </body>

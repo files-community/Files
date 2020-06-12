@@ -382,19 +382,19 @@
     <value>Esta carpeta está vacía.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Atrás</value>
+    <value>Atrás (Alt + Flecha Izquierda)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Adelante</value>
+    <value>Adelante (Alt + Flecha Derecha)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Arriba</value>
+    <value>Arriba (Alt + Flecha Arriba)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Actualizar</value>
+    <value>Actualizar (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Crear un nuevo elemento</value>
+    <value>Crear un nuevo elemento (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Búsqueda</value>
@@ -599,5 +599,8 @@
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Abrir ubicación del archivo de registro (log)</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Nueva pestaña (Ctrl + T)</value>
   </data>
 </root>

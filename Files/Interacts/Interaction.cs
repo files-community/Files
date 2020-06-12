@@ -35,12 +35,15 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
+using NLog;
 using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Interacts
 {
     public class Interaction
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
 
@@ -171,6 +174,31 @@ namespace Files.Interacts
                             var name = fol.DisplayName;
                             var content = name;
                             var icon = "\uE8B7";
+
+                            if (itemPath == App.AppSettings.DesktopPath)
+                            {
+                                icon = "\uE8FC";
+                            }
+                            else if (itemPath == App.AppSettings.DownloadsPath)
+                            {
+                                icon = "\uE896";
+                            }
+                            else if (itemPath == App.AppSettings.DocumentsPath)
+                            {
+                                icon = "\uE8A5";
+                            }
+                            else if (itemPath == App.AppSettings.PicturesPath)
+                            {
+                                icon = "\uEB9F";
+                            }
+                            else if (itemPath == App.AppSettings.MusicPath)
+                            {
+                                icon = "\uEC4F";
+                            }
+                            else if (itemPath == App.AppSettings.VideosPath)
+                            {
+                                icon = "\uE8B2";
+                            }
 
                             bool isDuplicate = false;
                             foreach (INavigationControlItem sbi in App.sideBarItems)
@@ -349,7 +377,7 @@ namespace Files.Interacts
                         CurrentInstance.ViewModel.WorkingDirectory = clickedOnItemPath;
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
-                        CurrentInstance.ContentPage.AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
+                        CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
                         CurrentInstance.ContentFrame.Navigate(sourcePageType, clickedOnItemPath, new SuppressNavigationTransitionInfo());
                     }
                     else
@@ -435,7 +463,7 @@ namespace Files.Interacts
         public static Dictionary<UIContext, AppWindow> AppWindows { get; set; }
             = new Dictionary<UIContext, AppWindow>();
 
-        private async void ShowProperties(object parameter)
+        private async void ShowProperties()
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -463,19 +491,19 @@ namespace Files.Interacts
             else
             {
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), parameter, new SuppressNavigationTransitionInfo());
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
         public void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowProperties(App.CurrentInstance.ContentPage.SelectedItem);
+            ShowProperties();
         }
 
         public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowProperties(App.CurrentInstance.ViewModel.CurrentFolder);
+            ShowProperties();
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -949,8 +977,6 @@ namespace Files.Interacts
                         {
                             StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
                             pastedItems.Add(pastedFolder);
-                            if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                                CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
                         }
                         catch (FileNotFoundException)
                         {
@@ -970,8 +996,6 @@ namespace Files.Interacts
                         StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                         StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
                         pastedItems.Add(pastedFile);
-                        if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                            CurrentInstance.ViewModel.AddFile(pastedFile.Path);
                     }
                     catch (FileNotFoundException)
                     {
@@ -1004,8 +1028,6 @@ namespace Files.Interacts
                         continue;
                     }
                     ListedItem listedItem = CurrentInstance.ViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
-                    if (listedItem != null)
-                        CurrentInstance.ViewModel.RemoveFileOrFolder(listedItem);
                 }
             }
             if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
@@ -1141,6 +1163,7 @@ namespace Files.Interacts
                 {
                     var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
 
+                    Logger.Info("Toggle QuickLook");
                     Debug.WriteLine("Toggle QuickLook");
                     if (App.Connection != null)
                     {
