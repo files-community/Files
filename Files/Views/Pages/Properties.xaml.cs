@@ -62,12 +62,8 @@ namespace Files
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
-                    var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
-                    var fileSizeTasks = (await folders.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
-                    var sizes = await Task.WhenAll(fileSizeTasks);
-                    var folderSize = sizes.Sum(singleSize => (long)singleSize);
-                    ItemProperties.ItemSize = ToBytesCount(folderSize);
                     selectedStorageItem = storageFolder;
+                    GetFolderSize(storageFolder);
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -129,14 +125,13 @@ namespace Files
                 ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
             }
         }
-        public  string ToBytesCount(long bytes)
+        private async void GetFolderSize(StorageFolder storageFolder)
         {
-            int unit = 1024;
-            string unitStr = "b";
-            if (bytes < unit) return string.Format("{0} {1}", bytes, unitStr);
-            else unitStr = unitStr.ToUpper();
-            int exp = (int)(Math.Log(bytes) / Math.Log(unit));
-            return string.Format("{0:##.##} {1}{2}", bytes / Math.Pow(unit, exp), "KMGTPEZY"[exp - 1], unitStr);
+            var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
+            var fileSizeTasks = (await folders.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
+            var sizes = await Task.WhenAll(fileSizeTasks);
+            var folderSize = sizes.Sum(singleSize => (long)singleSize);
+            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
         }
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
