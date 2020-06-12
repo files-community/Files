@@ -85,7 +85,6 @@ namespace Files
                             SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " items selected";
                             SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
                         }
-
                     }
                     NotifyPropertyChanged("SelectedItems");
                     SetDragModeForItems();
