@@ -37,16 +37,17 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using NLog;
 using static Files.Dialogs.ConfirmDeleteDialog;
+using Windows.Storage.AccessCache;
 
 namespace Files.Interacts
 {
     public class Interaction
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly StorageItemMostRecentlyUsedList mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
-
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
@@ -363,7 +364,7 @@ namespace Files.Interacts
                 selectedItemCount = CurrentInstance.ContentPage.SelectedItems.Count;
 
                 // Access MRU List
-                var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
+                var mostRecentlyUsed = StorageApplicationPermissions.MostRecentlyUsedList;
 
                 if (selectedItemCount == 1)
                 {
@@ -382,21 +383,7 @@ namespace Files.Interacts
                     }
                     else
                     {
-                        // Add location to MRU List
-                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
-                        if (displayApplicationPicker)
-                        {
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
-                            var options = new LauncherOptions
-                            {
-                                DisplayApplicationPicker = true
-                            };
-                            await Launcher.LaunchFileAsync(file, options);
-                        }
-                        else
-                        {
-                            await InvokeWin32Component(clickedOnItem.ItemPath);
-                        }
+                        OpenFile(clickedOnItem.ItemPath, displayApplicationPicker);
                     }
                 }
                 else if (selectedItemCount > 1)
@@ -409,21 +396,7 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
-                            if (displayApplicationPicker)
-                            {
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
-                                var options = new LauncherOptions
-                                {
-                                    DisplayApplicationPicker = true
-                                };
-                                await Launcher.LaunchFileAsync(file, options);
-                            }
-                            else
-                            {
-                                await InvokeWin32Component(clickedOnItem.ItemPath);
-                            }
+                            OpenFile(clickedOnItem.ItemPath, displayApplicationPicker);
                         }
                     }
                 }
@@ -432,6 +405,25 @@ namespace Files.Interacts
             {
                 await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
                 NavigationActions.Refresh_Click(null, null);
+            }
+        }
+
+        public static async void OpenFile(string path, bool displayApplicationPicker)
+        {
+            // Add location to MRU List
+            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(path));
+            if (displayApplicationPicker)
+            {
+                StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+                var options = new LauncherOptions
+                {
+                    DisplayApplicationPicker = true
+                };
+                await Launcher.LaunchFileAsync(file, options);
+            }
+            else
+            {
+                await InvokeWin32Component(path);
             }
         }
 

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:filesystem="using:Files.Filesystem"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
@@ -762,9 +763,12 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
+                DisplayMemberPath="DisplayName"
                 PlaceholderText="Search"
                 QueryIcon="Find"
-                TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
+                QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
+                TextChanged="SearchReigon_TextChanged" />
 
             <Button
                 x:Uid="NavMoreButton"

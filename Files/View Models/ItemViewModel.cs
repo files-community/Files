@@ -1186,6 +1186,22 @@ namespace Files.Filesystem
             }
         }
 
+        public async Task<IReadOnlyList<StorageFile>> GetMatchingFiles(string query)
+        {
+            _rootFolder = await StorageFolder.GetFolderFromPathAsync(WorkingDirectory);
+            var queryOptions = new QueryOptions()
+            {
+                FolderDepth = FolderDepth.Deep,
+                UserSearchFilter = query,
+                IndexerOption = IndexerOption.UseIndexerWhenAvailable
+            };
+
+            // Create query and retrieve files
+            var fileQuery = KnownFolders.PicturesLibrary.CreateFileQueryWithOptions(queryOptions);
+            var fileList = await fileQuery.GetFilesAsync();
+            return fileList;
+        }
+
         private async Task AddFile(StorageFile file)
         {
             var basicProperties = await file.GetBasicPropertiesAsync();

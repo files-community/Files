@@ -59,7 +59,7 @@ namespace Files.UserControls
             }
         }
 
-        private bool SearchBoxLoaded { get; set; } = false;
+        private bool SearchBoxLoaded { get; set; } = true;
         private string PathText { get; set; }
 
         bool INavigationToolbar.IsSearchReigonVisible
@@ -306,6 +306,28 @@ namespace Files.UserControls
                 return;
 
             App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+        }
+
+        private void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                SearchReigon.ItemsSource = App.CurrentInstance.ViewModel.GetMatchingFiles(SearchReigon.Text);
+            }
+        }
+
+        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            if (args.ChosenSuggestion != null)
+            {
+                // User selected an item from the suggestion list, take an action on it here.
+                var selectedFile = args.ChosenSuggestion as StorageFile;
+                Interaction.OpenFile(selectedFile.Path, false);
+            }
+            else
+            {
+                // Use args.QueryText to determine what to do.
+            }
         }
     }
 }
