@@ -36,7 +36,9 @@ namespace Files.Filesystem
     {
         private volatile bool IsWatching = false;
         private IntPtr hWatchDir;
+        private ObservableCollection<ListedItem> _searchResults;
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
+        public ReadOnlyObservableCollection<ListedItem> SearchResults { get; }
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         public ObservableCollection<ListedItem> _filesAndFolders;
@@ -272,6 +274,8 @@ namespace Files.Filesystem
         {
             _filesAndFolders = new ObservableCollection<ListedItem>();
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
+            _searchResults = new ObservableCollection<ListedItem>();
+            SearchResults = new ReadOnlyObservableCollection<ListedItem>(_searchResults);
             _addFilesCTS = new CancellationTokenSource();
             _semaphoreCTS = new CancellationTokenSource();
 
@@ -374,6 +378,7 @@ namespace Files.Filesystem
 
             _addFilesCTS.Cancel();
             _filesAndFolders.Clear();
+            _searchResults.Clear();
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
             if (!(WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false))
@@ -872,7 +877,7 @@ namespace Files.Filesystem
 
                 while (hWatchDir.ToInt64() != -1)
                 {
-                    
+
                     unsafe
                     {
                         fixed (byte* pBuff = buff)
@@ -889,7 +894,7 @@ namespace Files.Filesystem
                             {
                                 return;
                             }
-                            
+
                             var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
 
                             const uint FILE_ACTION_ADDED = 0x00000001;
@@ -1166,7 +1171,7 @@ namespace Files.Filesystem
                     IsLoadingItems = false;
                     return;
                 }
-                
+
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     //FolderTooltipText = tooltipString,
@@ -1186,21 +1191,87 @@ namespace Files.Filesystem
             }
         }
 
-        public async Task<IReadOnlyList<StorageFile>> GetMatchingFiles(string query)
+        public async Task GetMatchingFiles(string query)
         {
-
             _rootFolder = await StorageFolder.GetFolderFromPathAsync(WorkingDirectory);
-            var queryOptions = new QueryOptions()
+            IReadOnlyList<StorageFile> fileList = null;
+            await Task.Run(async () =>
             {
-                FolderDepth = string.IsNullOrWhiteSpace(query) ? FolderDepth.Shallow : FolderDepth.Deep,
-                UserSearchFilter = query,
-                IndexerOption = IndexerOption.UseIndexerWhenAvailable
-            };
+                var queryOptions = new QueryOptions()
+                {
+                    FolderDepth = string.IsNullOrWhiteSpace(query) ? FolderDepth.Shallow : FolderDepth.Deep,
+                    UserSearchFilter = query,
+                    IndexerOption = IndexerOption.UseIndexerWhenAvailable
+                };
+                // Create query and retrieve matching files
+                var fileQuery = _rootFolder.CreateFileQueryWithOptions(queryOptions);
+                var fileList = await fileQuery.GetFilesAsync();
+            });
 
-            // Create query and retrieve matching files
-            var fileQuery = _rootFolder.CreateFileQueryWithOptions(queryOptions);
-            var fileList = await fileQuery.GetFilesAsync();
-            return fileList;
+            foreach (var file in fileList)
+            {
+                await AddFileForSearch(file);
+            }
+        }
+
+        private async Task AddFileForSearch(StorageFile file)
+        {
+            var basicProperties = await file.GetBasicPropertiesAsync();
+
+            var itemName = file.DisplayName;
+            var itemDate = basicProperties.DateModified;
+            var itemPath = file.Path;
+            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
+            var itemSizeBytes = basicProperties.Size;
+            var itemType = file.DisplayType;
+            var itemFolderImgVis = false;
+            var itemFileExtension = file.FileType;
+
+            BitmapImage icon = new BitmapImage();
+            bool itemThumbnailImgVis;
+            bool itemEmptyImgVis;
+
+            var itemThumbnailImg = await file.GetThumbnailAsync(ThumbnailMode.ListView, 40, ThumbnailOptions.UseCurrentScale);
+            try
+            {
+                if (itemThumbnailImg != null)
+                {
+                    itemEmptyImgVis = false;
+                    itemThumbnailImgVis = true;
+                    icon.DecodePixelWidth = 40;
+                    icon.DecodePixelHeight = 40;
+                    await icon.SetSourceAsync(itemThumbnailImg);
+                }
+                else
+                {
+                    itemEmptyImgVis = true;
+                    itemThumbnailImgVis = false;
+                }
+            }
+            catch
+            {
+                itemEmptyImgVis = true;
+                itemThumbnailImgVis = false;
+            }
+            if (_addFilesCTS.IsCancellationRequested)
+            {
+                IsLoadingItems = false;
+                return;
+            }
+            _searchResults.Add(new ListedItem(file.FolderRelativeId)
+            {
+                FileExtension = itemFileExtension,
+                LoadUnknownTypeGlyph = itemEmptyImgVis,
+                FileImage = icon,
+                LoadFileIcon = itemThumbnailImgVis,
+                LoadFolderGlyph = itemFolderImgVis,
+                ItemName = itemName,
+                ItemDateModifiedReal = itemDate,
+                ItemType = itemType,
+                ItemPath = itemPath,
+                FileSize = itemSize,
+                FileSizeBytes = itemSizeBytes
+            });
         }
 
         private async Task AddFile(StorageFile file)

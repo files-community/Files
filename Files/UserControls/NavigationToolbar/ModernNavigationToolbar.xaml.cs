@@ -308,11 +308,11 @@ namespace Files.UserControls
             App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
 
-        private void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                SearchReigon.ItemsSource = App.CurrentInstance.ViewModel.GetMatchingFiles(SearchReigon.Text);
+                await App.CurrentInstance.ViewModel.GetMatchingFiles(SearchReigon.Text);
             }
         }
 
