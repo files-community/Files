@@ -603,4 +603,10 @@
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nueva pestaña (Ctrl + T)</value>
   </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>elemento seleccionado</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>elementos seleccionados</value>
+  </data>
 </root>
