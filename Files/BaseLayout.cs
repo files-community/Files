@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -77,12 +78,12 @@ namespace Files
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " item selected";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
                             SelectedItemsPropertiesViewModel.ItemsSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " items selected";
+                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
                             SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
                         }
                     }

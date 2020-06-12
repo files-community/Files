@@ -708,4 +708,10 @@
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
     <value>New tab (Ctrl + T)</value>
   </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>item selected</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>items selected</value>
+  </data>
 </root>
