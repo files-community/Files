@@ -8,7 +8,7 @@ namespace Files.UserControls
     public sealed partial class StatusBarControl : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public SelectedItemPropertiesViewModel SelectedItemPropertiesViewModel => App.SelectedItemPropertiesViewModel;
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
 
         public StatusBarControl()
         {

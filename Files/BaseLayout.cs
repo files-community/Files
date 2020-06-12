@@ -1,5 +1,6 @@
 using Files.Filesystem;
 using Files.Interacts;
+using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -47,6 +49,8 @@ namespace Files
             }
         }
 
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
+
         private List<ListedItem> _SelectedItems = new List<ListedItem>();
 
         public List<ListedItem> SelectedItems
@@ -64,11 +68,24 @@ namespace Files
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
+                        SelectedItemsPropertiesViewModel.IsItemSelected = false;
                     }
                     else
                     {
                         IsItemSelected = true;
                         SelectedItem = _SelectedItems.First();
+                        SelectedItemsPropertiesViewModel.IsItemSelected = true;
+
+                        if (SelectedItems.Count == 1)
+                        {
+                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
+                            SelectedItemsPropertiesViewModel.ItemsSize = SelectedItem.FileSize;
+                        }
+                        else
+                        {
+                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
+                            SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
+                        }
                     }
                     NotifyPropertyChanged("SelectedItems");
                     SetDragModeForItems();
