@@ -849,7 +849,14 @@ namespace Files.Interacts
             }
             dataPackage.SetStorageItems(items);
             Clipboard.SetContent(dataPackage);
-            Clipboard.Flush();
+            try
+            {
+                Clipboard.Flush();
+            }
+            catch
+            {
+                dataPackage = null;
+            }
         }
 
         public string CopySourcePath;
@@ -887,7 +894,13 @@ namespace Files.Interacts
             {
                 dataPackage.SetStorageItems(items);
                 Clipboard.SetContent(dataPackage);
-                Clipboard.Flush();
+                try
+                {
+                    Clipboard.Flush();
+                }
+                catch {
+                    dataPackage = null;
+                }
             }
         }
 
