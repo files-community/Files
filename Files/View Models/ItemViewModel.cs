@@ -666,6 +666,7 @@ namespace Files.Filesystem
 
                 if (aWatcherAction.Status != AsyncStatus.Started)
                 {
+                    aWatcherAction = null;  // Prevent duplicate execution of this block
                     Debug.WriteLine("watcher canceled");
                     CancelIoEx(hWatchDir, IntPtr.Zero);
                     Debug.WriteLine("watcher handle closed");
