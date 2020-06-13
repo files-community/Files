@@ -764,6 +764,7 @@
                 VerticalAlignment="Center"
                 x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
                 DisplayMemberPath="ItemName"
+                IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                 ItemsSource="{x:Bind local1:App.CurrentInstance.ViewModel.SearchResults}"
                 PlaceholderText="Search"
                 QueryIcon="Find"

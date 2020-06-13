@@ -1205,7 +1205,7 @@ namespace Files.Filesystem
                 };
                 // Create query and retrieve matching files
                 var fileQuery = _rootFolder.CreateFileQueryWithOptions(queryOptions);
-                var fileList = await fileQuery.GetFilesAsync();
+               fileList = await fileQuery.GetFilesAsync();
             });
 
             foreach (var file in fileList)
@@ -1255,7 +1255,6 @@ namespace Files.Filesystem
             }
             if (_addFilesCTS.IsCancellationRequested)
             {
-                IsLoadingItems = false;
                 return;
             }
             _searchResults.Add(new ListedItem(file.FolderRelativeId)

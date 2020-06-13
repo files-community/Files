@@ -11,7 +11,7 @@ namespace Files
     {
         public Search()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

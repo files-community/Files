@@ -8,6 +8,7 @@ using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -310,10 +311,11 @@ namespace Files.UserControls
 
         private async void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-            {
-                await App.CurrentInstance.ViewModel.GetMatchingFiles(SearchReigon.Text);
-            }
+                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+                {
+                    await App.CurrentInstance.ViewModel.GetMatchingFiles(SearchReigon.Text);
+                }
+
         }
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
