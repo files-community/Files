@@ -2,7 +2,6 @@ using ByteSizeLib;
 using Files.Common;
 using Files.Enums;
 using Files.Helpers;
-using Files.Interacts;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -20,7 +19,6 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
-using Windows.Storage.Search;
 using Windows.UI.Core;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -367,15 +365,8 @@ namespace Files.Filesystem
 
         public void CancelLoadAndClearFiles()
         {
-            if(aWatcherAction != null)
-            {
-                aWatcherAction?.Cancel();
-
-                if (aWatcherAction.Status != AsyncStatus.Started)
-                {
-                    CloseWatcher();
-                }
-            }
+            Debug.WriteLine("CancelLoadAndClearFiles");
+            CloseWatcher();
 
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             if (IsLoadingItems == false) { return; }
@@ -669,8 +660,18 @@ namespace Files.Filesystem
 
         public void CloseWatcher()
         {
-            CancelIo(hWatchDir);
-            //CloseHandle(hWatchDir);
+            if (aWatcherAction != null)
+            {
+                aWatcherAction?.Cancel();
+
+                if (aWatcherAction.Status != AsyncStatus.Started)
+                {
+                    Debug.WriteLine("watcher canceled");
+                    CancelIoEx(hWatchDir, IntPtr.Zero);
+                    Debug.WriteLine("watcher handle closed");
+                    CloseHandle(hWatchDir);
+                }
+            }
         }
 
         public async Task EnumerateItemsFromSpecialFolder(string path)
@@ -857,7 +858,7 @@ namespace Files.Filesystem
 
         private void WatchForDirectoryChanges(string path)
         {
-
+            Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
             hWatchDir = CreateFileFromApp(path, 1, 1 | 2 | 4,
                 IntPtr.Zero, 3, (uint)File_Attributes.BackupSemantics | (uint)File_Attributes.Overlapped, IntPtr.Zero);
 
@@ -865,7 +866,7 @@ namespace Files.Filesystem
 
             aWatcherAction = Windows.System.Threading.ThreadPool.RunAsync((x) =>
              {
-
+                 var rand = Guid.NewGuid();
                  buff = new byte[4096];
                  int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
 
@@ -880,20 +881,22 @@ namespace Files.Filesystem
                          fixed (byte* pBuff = buff)
                          {
                              ref var notifyInformation = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[0]);
-                            if (x.Status != AsyncStatus.Canceled)
-                            {
-                                NativeDirectoryChangesHelper.ReadDirectoryChangesW(hWatchDir, pBuff,
-                                4096, false,
-                                notifyFilters, null,
-                                ref overlapped, null);
+                             if (x.Status != AsyncStatus.Canceled)
+                             {
+                                 NativeDirectoryChangesHelper.ReadDirectoryChangesW(hWatchDir, pBuff,
+                                 4096, false,
+                                 notifyFilters, null,
+                                 ref overlapped, null);
                              }
                              else
                              {
-                                 return;
+                                 break;
                              }
 
-                             if (x.Status == AsyncStatus.Canceled) { return; }
+                             Debug.WriteLine("waiting: {0}", rand);
+                             if (x.Status == AsyncStatus.Canceled) { break; }
                              var rc = WaitForSingleObjectEx(overlapped.hEvent, INFINITE, true);
+                             Debug.WriteLine("wait done: {0}", rand);
 
                              const uint FILE_ACTION_ADDED = 0x00000001;
                              const uint FILE_ACTION_REMOVED = 0x00000002;
@@ -903,7 +906,7 @@ namespace Files.Filesystem
 
                              uint offset = 0;
                              ref var notifyInfo = ref Unsafe.As<byte, FILE_NOTIFY_INFORMATION>(ref buff[offset]);
-                             if (x.Status == AsyncStatus.Canceled) { return; }
+                             if (x.Status == AsyncStatus.Canceled) { break; }
 
                              do
                              {
@@ -919,6 +922,7 @@ namespace Files.Filesystem
 
                                  uint action = notifyInfo.Action;
 
+                                 Debug.WriteLine("action: {0}", action);
                                  switch (action)
                                  {
                                      case FILE_ACTION_ADDED:
@@ -949,14 +953,16 @@ namespace Files.Filesystem
 
                              } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
 
-                            //ResetEvent(overlapped.hEvent);
-                            Debug.WriteLine("\n\nTask running...\n\n");
+                             //ResetEvent(overlapped.hEvent);
+                             Debug.WriteLine("Task running...");
                          }
                      }
                  }
+                 CloseHandle(overlapped.hEvent);
+                 Debug.WriteLine("aWatcherAction done: {0}", rand);
              });
 
-            Debug.WriteLine("\n\nTask exiting...\n\n");
+            Debug.WriteLine("Task exiting...");
         }
 
         public void AddFileOrFolder(ListedItem item)
@@ -1154,7 +1160,7 @@ namespace Files.Filesystem
                     IsLoadingItems = false;
                     return;
                 }
-                
+
                 _filesAndFolders.Add(new ListedItem(folder.FolderRelativeId)
                 {
                     //FolderTooltipText = tooltipString,
@@ -1278,6 +1284,7 @@ namespace Files.Filesystem
         {
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
+            CloseWatcher();
         }
     }
 }
