@@ -208,7 +208,7 @@
         </trans-unit>
         <trans-unit id="SidebarDownloads" translate="yes" xml:space="preserve">
           <source>Downloads</source>
-          <target state="translated">下载</target>
+          <target state="translated">下載</target>
         </trans-unit>
         <trans-unit id="SidebarHome" translate="yes" xml:space="preserve">
           <source>Home</source>
@@ -232,7 +232,7 @@
         </trans-unit>
         <trans-unit id="ExtractFilesDialog.Title" translate="yes" xml:space="preserve">
           <source>Extract Compressed Archive</source>
-          <target state="translated">解壓所檔案</target>
+          <target state="translated">解壓縮檔案</target>
         </trans-unit>
         <trans-unit id="ExtractFilesDialog.CloseButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -244,7 +244,7 @@
         </trans-unit>
         <trans-unit id="ExtractFilesDialogDescription.Text" translate="yes" xml:space="preserve">
           <source>Pick a location to extract this compressed archive to. You'll need to stay in the current folder until we're done. A new tab will open up with the extracted items.</source>
-          <target state="translated">選擇一个位置以解壓縮此壓縮檔。解壓所完成前請不要離開此頁，完成後將開啟新頁籤顯示解壓縮的檔案。</target>
+          <target state="translated">選擇一个位置以解壓縮此壓縮檔。解壓縮完成前請不要離開此頁，完成後將開啟新頁籤顯示解壓縮的檔案。</target>
         </trans-unit>
         <trans-unit id="ExtractFilesDialogBrowseButton.Content" translate="yes" xml:space="preserve">
           <source>Browse</source>
