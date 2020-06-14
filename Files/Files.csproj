@@ -168,6 +168,7 @@
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ResourceController.cs" />
@@ -218,6 +219,7 @@
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\InteractionViewModel.cs" />
+    <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Views\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>

@@ -302,9 +302,47 @@ namespace FilesFullTrust
                 {
                     try
                     {
-                        Process.Start(executable);
+                        var split = executable.Split(';').Where(x => !string.IsNullOrWhiteSpace(x));
+                        if (split.Count() == 1)
+                        {
+                            Process.Start(executable);
+                        }
+                        else
+                        {
+                            var groups = split.GroupBy(x => new {
+                                Dir = Path.GetDirectoryName(x),
+                                Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x) });
+                            foreach (var group in groups)
+                            {
+                                if (!group.Any()) continue;
+                                var files = group.Select(x => new ShellItem(x));
+                                using var sf = files.First().Parent;
+                                Vanara.PInvoke.Shell32.IContextMenu menu = null;
+                                try
+                                {
+                                    menu = sf.GetChildrenUIObjects<Vanara.PInvoke.Shell32.IContextMenu>(null, files.ToArray());
+                                    menu.QueryContextMenu(Vanara.PInvoke.HMENU.NULL, 0, 0, 0, Vanara.PInvoke.Shell32.CMF.CMF_DEFAULTONLY);
+                                    var pici = new Vanara.PInvoke.Shell32.CMINVOKECOMMANDINFOEX();
+                                    pici.lpVerb = Vanara.PInvoke.Shell32.CMDSTR_OPEN;
+                                    pici.nShow = Vanara.PInvoke.ShowWindowCommand.SW_SHOW;
+                                    pici.cbSize = (uint)Marshal.SizeOf(pici);
+                                    menu.InvokeCommand(pici);
+                                }
+                                finally
+                                {
+                                    foreach (var elem in files)
+                                        elem.Dispose();
+                                    if (menu != null)
+                                        Marshal.ReleaseComObject(menu);
+                                }
+                            }
+                        }
                     }
                     catch (Win32Exception)
+                    {
+                        // Cannot open file (e.g DLL)
+                    }
+                    catch (ArgumentException)
                     {
                         // Cannot open file (e.g DLL)
                     }
