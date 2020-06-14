@@ -67,12 +67,12 @@ namespace Files.View_Models
             set => Set(ref _ItemsSize, value);
         }
 
-        private String _SelectedItemsCount;
+        private String _SelectedItemCount;
 
-        public String SelectedItemsCount
+        public String SelectedItemCount
         {
-            get => _SelectedItemsCount;
-            set => Set(ref _SelectedItemsCount, value);
+            get => _SelectedItemCount;
+            set => Set(ref _SelectedItemCount, value);
         }
 
         private bool _IsItemSelected;

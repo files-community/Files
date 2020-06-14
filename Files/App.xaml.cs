@@ -56,6 +56,7 @@ namespace Files
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; }
+        public static DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -83,6 +84,7 @@ namespace Files
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
+            DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
