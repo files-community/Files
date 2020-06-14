@@ -411,7 +411,9 @@ namespace Files
         private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
         {
             var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
-            if ((!(parentRow.DataContext as ListedItem).ItemPropertiesInitialized) && (args.BringIntoViewDistanceX < sender.ActualHeight))
+            if (parentRow.DataContext is ListedItem item && 
+                !item.ItemPropertiesInitialized && 
+                args.BringIntoViewDistanceX < sender.ActualHeight)
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
