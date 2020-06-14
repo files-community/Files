@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
 using Windows.System;
@@ -40,6 +41,15 @@ namespace Files
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
+
+        public static async Task StartTerminateAsync()
+        {
+            IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
+            IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
+            var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+            await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
+            //Application.Current.Exit();
+        }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
@@ -412,11 +422,7 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
-                    IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
-                    var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;                    
-                    await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
-                    //Application.Current.Exit();
+                    await InstanceTabsView.StartTerminateAsync();
                 }
                 else
                 {
@@ -488,18 +494,14 @@ namespace Files
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
-                IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
-                var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
-                await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
-                //Application.Current.Exit();
+                await InstanceTabsView.StartTerminateAsync();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-        }
+        }        
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
