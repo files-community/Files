@@ -73,7 +73,7 @@
     <value>Dimensione</value>
   </data>
   <data name="NavigationToolbarOpenInTerminal.Text" xml:space="preserve">
-    <value>Apri nel terminal</value>
+    <value>Apri nel terminale</value>
   </data>
   <data name="PropertiesCreated.Text" xml:space="preserve">
     <value>Creato il:</value>
@@ -298,7 +298,7 @@
     <value>Incolla</value>
   </data>
   <data name="BaseLayoutContextFlyoutOpenInTerminal.Text" xml:space="preserve">
-    <value>Apri nel terminal</value>
+    <value>Apri nel terminale</value>
   </data>
   <data name="PropertiesItemMD5Hash.Text" xml:space="preserve">
     <value>Hash MD5:</value>
@@ -522,6 +522,30 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Vuoi eliminare questa cartella?</value>
   </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Modalità layout</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opzioni selezione</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>Il file che stai tentando di eliminare è attualmente utilizzato da un'altra applicazione.</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>File in uso</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Riprova</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Sola lettura</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Nascosto</value>
+  </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
     <value>Svuota cestino</value>
   </data>
@@ -531,7 +555,52 @@
   <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
     <value>Abilita il supporto al Cestino</value>
   </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} giorni fa</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} ore fa</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>{0} giorno fa</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>{0} ora fa</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} minuti fa</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>{0} minuto fa</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>{0} secondi fa</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Nuova scheda</value>
+  </data>
   <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
     <value>L'operazione richiesta non è supportata</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} liberi su {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Apri con</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>Il nome dell'elemento non deve contenere i seguenti caratteri: \ / : * ? "  |</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>Il nome dell'elemento non deve contenere i seguenti caratteri: \ / : * ? "  |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Apri posizione dei log</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Nuova scheda (Ctrl + T)</value>
   </data>
 </root>
