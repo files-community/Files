@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -35,7 +36,6 @@ using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using NLog;
 using static Files.Dialogs.ConfirmDeleteDialog;
 
 namespace Files.Interacts
@@ -401,30 +401,31 @@ namespace Files.Interacts
                 }
                 else if (selectedItemCount > 1)
                 {
-                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems)
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                    }
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                    {
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
+                    }
+                    if (displayApplicationPicker)
+                    {
+                        foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                         {
-                            instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
-                        }
-                        else
-                        {
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
-                            if (displayApplicationPicker)
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
+                            var options = new LauncherOptions
                             {
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
-                                var options = new LauncherOptions
-                                {
-                                    DisplayApplicationPicker = true
-                                };
-                                await Launcher.LaunchFileAsync(file, options);
-                            }
-                            else
-                            {
-                                await InvokeWin32Component(clickedOnItem.ItemPath);
-                            }
+                                DisplayApplicationPicker = true
+                            };
+                            await Launcher.LaunchFileAsync(file, options);
                         }
+                    }
+                    else
+                    {
+                        var applicationPath = string.Join(";", CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
+                        await InvokeWin32Component(applicationPath);
                     }
                 }
             }
@@ -898,7 +899,8 @@ namespace Files.Interacts
                 {
                     Clipboard.Flush();
                 }
-                catch {
+                catch
+                {
                     dataPackage = null;
                 }
             }

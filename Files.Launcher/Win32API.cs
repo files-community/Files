@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using Vanara.Windows.Shell;
@@ -18,6 +19,21 @@ namespace FilesFullTrust
             public uint cbSize;
             public long i64Size;
             public long i64NumItems;
+        }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
+        public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] System.Text.StringBuilder lpResult);
+
+        public static async System.Threading.Tasks.Task<string> GetFileAssociation(string filename)
+        {
+            // Find UWP apps
+            var uwp_apps = await Windows.System.Launcher.FindFileHandlersAsync(System.IO.Path.GetExtension(filename));
+            if (uwp_apps.Any()) return uwp_apps.First().PackageFamilyName;
+            // Find desktop apps
+            var lpResult = new System.Text.StringBuilder();
+            var hResult = FindExecutable(filename, null, lpResult);
+            if (hResult.ToInt64() > 32) return lpResult.ToString();
+            return null;
         }
 
         public enum PropertyReturnType
