@@ -308,9 +308,14 @@ namespace Files
                 case ActivationKind.Protocol:
                     var eventArgs = args as ProtocolActivatedEventArgs;
 
-                    if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
+                    if (eventArgs.Uri.Scheme == "files-uwp")
                     {
-                        rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+	                    var path = Uri.UnescapeDataString(eventArgs.Uri.AbsolutePath);
+	                    var actualPath = path.Replace('/', '\\');
+
+                        Logger.Info($"Activation: Protocol ({path};{actualPath})");
+
+                        rootFrame.Navigate(typeof(InstanceTabsView), actualPath, new SuppressNavigationTransitionInfo());
                     }
                     else
                     {
