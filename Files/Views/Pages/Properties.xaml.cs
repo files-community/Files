@@ -3,11 +3,13 @@ using Files.Helpers;
 using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI;
 using Windows.UI.WindowManagement;
@@ -60,13 +62,16 @@ namespace Files
 
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    var file = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    selectedStorageItem = file;
+                    GetOtherPropeties(file.Properties);
                     ItemProperties.ItemSize = selectedItem.FileSize;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
                     selectedStorageItem = storageFolder;
+                    GetOtherPropeties(storageFolder.Properties);
                     GetFolderSize(storageFolder);
                 }
 
@@ -137,6 +142,17 @@ namespace Files
             var folderSize = sizes.Sum(singleSize => (long)singleSize);
             ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
         }
+        private async void GetOtherPropeties(StorageItemContentProperties properties)
+        {
+            string dateAccessedProperty = "System.DateAccessed";
+            string fileOwnerProperty = "System.FileOwner";
+            List<string> propertiesName = new List<string>();
+            propertiesName.Add(dateAccessedProperty);
+            propertiesName.Add(fileOwnerProperty);
+            IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
+            ItemProperties.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)extraProperties[dateAccessedProperty]);
+            ItemProperties.ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
+        }
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
@@ -187,6 +203,8 @@ namespace Files
         private string _ItemSize;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
+        private string _ItemAccessedTimestamp;
+        private string _ItemFileOwner;
         private ImageSource _FileIconSource;
         private bool _LoadFolderGlyph;
         private bool _LoadUnknownTypeGlyph;
@@ -245,7 +263,16 @@ namespace Files
             get => _ItemModifiedTimestamp;
             set => Set(ref _ItemModifiedTimestamp, value);
         }
-
+        public string ItemAccessedTimestamp
+        {
+            get => _ItemAccessedTimestamp;
+            set => Set(ref _ItemAccessedTimestamp, value);
+        }
+        public string ItemFileOwner
+        {
+            get => _ItemFileOwner;
+            set => Set(ref _ItemFileOwner, value);
+        }
         public ImageSource FileIconSource
         {
             get => _FileIconSource;

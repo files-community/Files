@@ -52,6 +52,8 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid
                     x:Name="Icon"
@@ -202,16 +204,37 @@
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemModifiedTimestamp, Mode=OneWay}" />
-
+                <TextBlock
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    FontWeight="SemiBold"
+                    Text="Accessed:" />
+                <TextBlock
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ItemProperties.ItemAccessedTimestamp, Mode=OneWay}" />
+                <TextBlock
+                    Grid.Row="10"
+                    Grid.Column="0"
+                    FontWeight="SemiBold"
+                    Text="File Owner:" />
+                <TextBlock
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ItemProperties.ItemFileOwner, Mode=OneWay}" />
                 <TextBlock
                     x:Uid="PropertiesAttributes"
-                    Grid.Row="9"
+                    Grid.Row="11"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     FontWeight="SemiBold"
                     Text="Attributes:" />
                 <StackPanel
-                    Grid.Row="9"
+                    Grid.Row="11"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     Orientation="Horizontal"
