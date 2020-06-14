@@ -663,15 +663,11 @@ namespace Files.Filesystem
                 semaphoreSlim.Release();
             }
 
-            if (_filesAndFolders.Count == 0)
-            {
-                App.DirectoryPropertiesViewModel.DirectoryItemCount = "";
-            }
-            else if (_filesAndFolders.Count == 1)
+            if (_filesAndFolders.Count == 1)
             {
                 App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
             }
-            else if (_filesAndFolders.Count > 1)
+            else
             {
                 App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
             }
