@@ -342,6 +342,10 @@ namespace FilesFullTrust
                     {
                         // Cannot open file (e.g DLL)
                     }
+                    catch (ArgumentException)
+                    {
+                        // Cannot open file (e.g DLL)
+                    }
                 }
             }
         }
