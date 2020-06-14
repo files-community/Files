@@ -309,7 +309,9 @@ namespace FilesFullTrust
                         }
                         else
                         {
-                            var groups = split.GroupBy(x => new { Dir = Path.GetDirectoryName(x), Ext = Path.GetExtension(x).ToLowerInvariant() });
+                            var groups = split.GroupBy(x => new {
+                                Dir = Path.GetDirectoryName(x),
+                                Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x) });
                             foreach (var group in groups)
                             {
                                 if (!group.Any()) continue;
@@ -324,7 +326,7 @@ namespace FilesFullTrust
                                     pici.lpVerb = Vanara.PInvoke.Shell32.CMDSTR_OPEN;
                                     pici.nShow = Vanara.PInvoke.ShowWindowCommand.SW_SHOW;
                                     pici.cbSize = (uint)Marshal.SizeOf(pici);
-                                    menu.InvokeCommand(pici);                                    
+                                    menu.InvokeCommand(pici);
                                 }
                                 finally
                                 {
