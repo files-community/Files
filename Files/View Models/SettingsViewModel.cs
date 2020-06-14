@@ -15,7 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel;
 using Windows.Storage;
 
 namespace Files.View_Models
@@ -58,17 +58,8 @@ namespace Files.View_Models
         public async void DetectQuickLook()
         {
             // Detect QuickLook
-            if (App.Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "StartupTasks");
-                await App.Connection.SendMessageAsync(value);
-                App.AppServiceConnected -= DetectQuickLook;
-            }
-            else
-            {
-                App.AppServiceConnected += DetectQuickLook;
-            }
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void PinSidebarLocationItems()

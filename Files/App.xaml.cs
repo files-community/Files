@@ -92,7 +92,6 @@ namespace Files
         }
 
         public static AppServiceConnection Connection;
-        public static Action AppServiceConnected;
 
         private async void InitializeAppServiceConnection()
         {
@@ -112,8 +111,6 @@ namespace Files
 
             // Launch fulltrust process
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
-            AppServiceConnected?.Invoke();
         }
 
         private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
