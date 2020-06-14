@@ -68,23 +68,23 @@ namespace Files
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
-                        SelectedItemsPropertiesViewModel.IsItemSelected = false;
+                        SelectedItemsPropertiesViewModel.Properties.IsItemSelected = false;
                     }
                     else
                     {
                         IsItemSelected = true;
                         SelectedItem = _SelectedItems.First();
-                        SelectedItemsPropertiesViewModel.IsItemSelected = true;
+                        SelectedItemsPropertiesViewModel.Properties.IsItemSelected = true;
 
                         if (SelectedItems.Count == 1)
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
-                            SelectedItemsPropertiesViewModel.ItemsSize = SelectedItem.FileSize;
+                            SelectedItemsPropertiesViewModel.Properties.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
+                            SelectedItemsPropertiesViewModel.Properties.ItemsSize = SelectedItem.FileSize;
                         }
                         else
                         {
-                            SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
-                            SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
+                            SelectedItemsPropertiesViewModel.Properties.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
+                            SelectedItemsPropertiesViewModel.Properties.ItemsSize = ""; // We need to loop through the items to get the size
                         }
                     }
                     NotifyPropertyChanged("SelectedItems");

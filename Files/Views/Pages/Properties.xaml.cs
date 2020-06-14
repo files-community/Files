@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.View_Models;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,7 @@ namespace Files
         private static AppWindowTitleBar _TitleBar;
 
         public AppWindow propWindow;
-
-        public ItemPropertiesViewModel ItemProperties { get; } = new ItemPropertiesViewModel();
+        public SelectedItemsPropertiesViewModel ViewModel { get; } = new SelectedItemsPropertiesViewModel();
 
         public Properties()
         {
@@ -54,105 +54,9 @@ namespace Files
                 _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 App.AppSettings.UpdateThemeElements.Execute(null);
             }
-
-            if (App.CurrentInstance.ContentPage.IsItemSelected)
-            {
-                var selectedItem = App.CurrentInstance.ContentPage.SelectedItem;
-                IStorageItem selectedStorageItem = null;
-
-                if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
-                {
-                    var file = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
-                    selectedStorageItem = file;
-                    GetOtherPropeties(file.Properties);
-                    ItemProperties.ItemSize = selectedItem.FileSize;
-                }
-                else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
-                    selectedStorageItem = storageFolder;
-                    GetOtherPropeties(storageFolder.Properties);
-                    GetFolderSize(storageFolder);
-                }
-
-                ItemProperties.ItemName = selectedItem.ItemName;
-                ItemProperties.ItemType = selectedItem.ItemType;
-                ItemProperties.ItemPath = selectedItem.ItemPath;
-                
-                ItemProperties.LoadFileIcon = selectedItem.LoadFileIcon;
-                ItemProperties.LoadFolderGlyph = selectedItem.LoadFolderGlyph;
-                ItemProperties.LoadUnknownTypeGlyph = selectedItem.LoadUnknownTypeGlyph;
-                ItemProperties.ItemModifiedTimestamp = selectedItem.ItemDateModified;
-                ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(selectedStorageItem.DateCreated);
-
-                if (!App.CurrentInstance.ContentPage.SelectedItem.LoadFolderGlyph)
-                {
-                    var thumbnail = await (await StorageFile.GetFileFromPathAsync(App.CurrentInstance.ContentPage.SelectedItem.ItemPath)).GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 80, Windows.Storage.FileProperties.ThumbnailOptions.ResizeThumbnail);
-                    var bitmap = new BitmapImage();
-                    await bitmap.SetSourceAsync(thumbnail);
-                    ItemProperties.FileIconSource = bitmap;
-                }
-
-                if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
-                {
-                    // Get file MD5 hash
-                    var hashAlgTypeName = HashAlgorithmNames.Md5;
-                    ItemProperties.ItemMD5HashProgressVisibility = Visibility.Visible;
-                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
-                    ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
-                    ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
-                }
-                else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
-                    ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
-                }
-            }
-            else
-            {
-                var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
-                if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
-                {
-                    // GetFolderFromPathAsync cannot access recyclebin folder
-                    // Currently a fake timestamp is used
-                    ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectory.ItemDateModifiedReal);
-                    ItemProperties.ItemSize = parentDirectory.FileSize;
-                }
-                else
-                {
-                    var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                    ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectoryStorageItem.DateCreated);
-                }
-                ItemProperties.ItemName = parentDirectory.ItemName;
-                ItemProperties.ItemType = parentDirectory.ItemType;
-                ItemProperties.ItemPath = parentDirectory.ItemPath;
-                ItemProperties.LoadFileIcon = false;
-                ItemProperties.LoadFolderGlyph = true;
-                ItemProperties.LoadUnknownTypeGlyph = false;
-                ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;
-                ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
-                ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
-            }
+            await ViewModel.GetPropertiesAsync();
         }
-        private async void GetFolderSize(StorageFolder storageFolder)
-        {
-            var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
-            var fileSizeTasks = (await folders.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
-            var sizes = await Task.WhenAll(fileSizeTasks);
-            var folderSize = sizes.Sum(singleSize => (long)singleSize);
-            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
-        }
-        private async void GetOtherPropeties(StorageItemContentProperties properties)
-        {
-            string dateAccessedProperty = "System.DateAccessed";
-            string fileOwnerProperty = "System.FileOwner";
-            List<string> propertiesName = new List<string>();
-            propertiesName.Add(dateAccessedProperty);
-            propertiesName.Add(fileOwnerProperty);
-            IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
-            ItemProperties.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)extraProperties[dateAccessedProperty]);
-            ItemProperties.ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
-        }
+    
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
@@ -189,112 +93,6 @@ namespace Files
             {
                 App.PropertiesDialogDisplay.Hide();
             }
-        }
-    }
-
-    public class ItemPropertiesViewModel : ViewModelBase
-    {
-        private string _ItemName;
-        private string _ItemType;
-        private string _ItemPath;
-        private string _ItemMD5Hash;
-        private Visibility _ItemMD5HashVisibility;
-        private Visibility _ItemMD5HashProgressVisibiity;
-        private string _ItemSize;
-        private string _ItemCreatedTimestamp;
-        private string _ItemModifiedTimestamp;
-        private string _ItemAccessedTimestamp;
-        private string _ItemFileOwner;
-        private ImageSource _FileIconSource;
-        private bool _LoadFolderGlyph;
-        private bool _LoadUnknownTypeGlyph;
-        private bool _LoadFileIcon;
-
-        public string ItemName
-        {
-            get => _ItemName;
-            set => Set(ref _ItemName, value);
-        }
-
-        public string ItemMD5Hash
-        {
-            get => _ItemMD5Hash;
-            set => Set(ref _ItemMD5Hash, value);
-        }
-
-        public Visibility ItemMD5HashVisibility
-        {
-            get => _ItemMD5HashVisibility;
-            set => Set(ref _ItemMD5HashVisibility, value);
-        }
-
-        public Visibility ItemMD5HashProgressVisibility
-        {
-            get => _ItemMD5HashProgressVisibiity;
-            set => Set(ref _ItemMD5HashProgressVisibiity, value);
-        }
-
-        public string ItemType
-        {
-            get => _ItemType;
-            set => Set(ref _ItemType, value);
-        }
-
-        public string ItemPath
-        {
-            get => _ItemPath;
-            set => Set(ref _ItemPath, value);
-        }
-
-        public string ItemSize
-        {
-            get => _ItemSize;
-            set => Set(ref _ItemSize, value);
-        }
-
-        public string ItemCreatedTimestamp
-        {
-            get => _ItemCreatedTimestamp;
-            set => Set(ref _ItemCreatedTimestamp, value);
-        }
-
-        public string ItemModifiedTimestamp
-        {
-            get => _ItemModifiedTimestamp;
-            set => Set(ref _ItemModifiedTimestamp, value);
-        }
-        public string ItemAccessedTimestamp
-        {
-            get => _ItemAccessedTimestamp;
-            set => Set(ref _ItemAccessedTimestamp, value);
-        }
-        public string ItemFileOwner
-        {
-            get => _ItemFileOwner;
-            set => Set(ref _ItemFileOwner, value);
-        }
-        public ImageSource FileIconSource
-        {
-            get => _FileIconSource;
-            set => Set(ref _FileIconSource, value);
-        }
-
-        public bool LoadFolderGlyph
-        {
-            get => _LoadFolderGlyph;
-            set => Set(ref _LoadFolderGlyph, value);
-        }
-
-        public bool LoadUnknownTypeGlyph
-        {
-            get => _LoadUnknownTypeGlyph;
-            set => Set(ref _LoadUnknownTypeGlyph, value);
-        }
-
-        public bool LoadFileIcon
-        {
-            get => _LoadFileIcon;
-            set => Set(ref _LoadFileIcon, value);
         }
     }
 }

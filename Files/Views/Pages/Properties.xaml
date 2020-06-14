@@ -67,7 +67,7 @@
                         x:Name="FolderGlyphIcon"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind ViewModel.Properties.LoadFolderGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Foreground="#ffe793"
@@ -76,7 +76,7 @@
                         x:Name="EmptyImageIcon"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind ViewModel.Properties.LoadUnknownTypeGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Glyph="&#xE7C3;" />
@@ -84,8 +84,8 @@
                         x:Name="itemIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ItemProperties.LoadFileIcon, Mode=OneWay}"
-                        Source="{x:Bind ItemProperties.FileIconSource, Mode=OneWay}" />
+                        x:Load="{x:Bind ViewModel.Properties.LoadFileIcon, Mode=OneWay}"
+                        Source="{x:Bind ViewModel.Properties.FileIconSource, Mode=OneWay}" />
                 </Grid>
                 <TextBox
                     x:Name="itemFileName"
@@ -97,7 +97,7 @@
                     VerticalAlignment="Center"
                     BorderThickness="1"
                     IsReadOnly="True"
-                    Text="{x:Bind ItemProperties.ItemName, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemName, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="1"
                     Grid.Column="0"
@@ -116,7 +116,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemType, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemType, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesItemPath"
@@ -130,7 +130,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemPath, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.Properties.ItemPath, Mode=OneWay}"
                     TextWrapping="Wrap" />
 
                 <TextBlock
@@ -145,7 +145,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemsSize, Mode=OneWay}" />
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
@@ -154,22 +154,22 @@
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Text="MD5Hash:"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.Properties.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemMD5Hash, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.Properties.ItemMD5HashVisibility, Mode=OneWay}" />
                 <ProgressBar
                     x:Name="ItemMD5HashProgress"
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsIndeterminate="True"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.Properties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
                     Grid.Row="6"
@@ -189,7 +189,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemCreatedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemCreatedTimestamp, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesModified"
@@ -203,7 +203,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemModifiedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemModifiedTimestamp, Mode=OneWay}" />
                 <TextBlock
                     Grid.Row="9"
                     Grid.Column="0"
@@ -214,7 +214,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemAccessedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemAccessedTimestamp, Mode=OneWay}" />
                 <TextBlock
                     Grid.Row="10"
                     Grid.Column="0"
@@ -225,7 +225,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemFileOwner, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.Properties.ItemFileOwner, Mode=OneWay}" />
                 <TextBlock
                     x:Uid="PropertiesAttributes"
                     Grid.Row="11"
