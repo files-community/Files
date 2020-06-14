@@ -9,6 +9,7 @@ namespace Files.UserControls
     {
         public SettingsViewModel AppSettings => App.AppSettings;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel => App.DirectoryPropertiesViewModel;
 
         public StatusBarControl()
         {

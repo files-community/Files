@@ -24,7 +24,8 @@
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="8">
-            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCount, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemCount, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemsSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
         </StackPanel>
 
@@ -112,8 +113,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
                             Text="Tiles View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xf100;" 
-                                          FontFamily="{StaticResource CustomLayoutModeIcon}" />
+                                <FontIcon FontFamily="{StaticResource CustomLayoutModeIcon}" Glyph="&#xf100;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -121,8 +121,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
                             Text="List View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xf200;" 
-                                          FontFamily="{StaticResource CustomLayoutModeIcon}" />
+                                <FontIcon FontFamily="{StaticResource CustomLayoutModeIcon}" Glyph="&#xf200;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

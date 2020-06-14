@@ -802,6 +802,14 @@
           <source>items selected</source>
           <target state="translated">elementos seleccionados</target>
         </trans-unit>
+        <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
+          <source>item</source>
+          <target state="new">item</target>
+        </trans-unit>
+        <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
+          <source>items</source>
+          <target state="new">items</target>
+        </trans-unit>
       </group>
     </body>
   </file>
