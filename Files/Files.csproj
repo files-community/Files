@@ -155,6 +155,7 @@
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
+    <Compile Include="DataModels\StorageItemProperties.cs" />
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
