@@ -309,11 +309,11 @@ namespace Files
                     var eventArgs = args as ProtocolActivatedEventArgs;
 
                     if (eventArgs.Uri.Scheme == "files-uwp")
-                    {
-	                    var path = Uri.UnescapeDataString(eventArgs.Uri.AbsolutePath);
+                    { 
+                        var path = Uri.UnescapeDataString(eventArgs.Uri.AbsolutePath);
 
                         // Convert forward slashes to backwards ones, because Windows.Storage-apis only accept backwards ones.
-	                    var actualPath = path.Replace('/', '\\');
+                        var actualPath = path.Replace('/', '\\');
 
                         Logger.Info($"Activation: Protocol ({path};{actualPath})");
 
