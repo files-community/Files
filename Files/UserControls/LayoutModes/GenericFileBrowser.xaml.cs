@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -22,6 +23,7 @@ namespace Files
     {
         private string oldItemName;
         private DataGridColumn _sortedColumn;
+        private static readonly MethodInfo SelectAllMethod = typeof(DataGrid).GetMethod("SelectAll", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Instance);
 
         public DataGridColumn SortedColumn
         {
@@ -105,7 +107,6 @@ namespace Files
         public override void SetSelectedItemsOnUi(List<ListedItem> items)
         {
             ClearSelection();
-
             foreach (ListedItem item in items)
             {
                 AllView.SelectedItems.Add(item);
@@ -114,7 +115,7 @@ namespace Files
 
         public override void SelectAllItems()
         {
-            SetSelectedItemsOnUi(AssociatedViewModel.FilesAndFolders.ToList());
+            SelectAllMethod.Invoke(AllView, null);
         }
 
         public override void InvertSelection()
