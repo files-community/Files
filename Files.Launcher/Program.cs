@@ -98,6 +98,12 @@ namespace FilesFullTrust
 
                     return true;
                 }
+                else if (arguments == "StartupTasks")
+                {
+                    // Check QuickLook Availability
+                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    return true;
+                }
             }
             return false;
         }
@@ -154,7 +160,6 @@ namespace FilesFullTrust
                     // Instead a single instance of the process is running
                     // Requests from UWP app are sent via AppService connection
                     var arguments = (string)args.Request.Message["Arguments"];
-                    var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
 
                     Logger.Info($"Argument: {arguments}");
 
@@ -224,11 +229,6 @@ namespace FilesFullTrust
                             responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
                             await args.Request.SendResponseAsync(responseEnum);
                         }
-                    }
-                    else if (arguments == "StartupTasks")
-                    {
-                        // Check QuickLook Availability
-                        QuickLook.CheckQuickLookAvailability(localSettings);
                     }
                     else if (arguments == "ToggleQuickLook")
                     {
