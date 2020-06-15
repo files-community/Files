@@ -19,11 +19,10 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files
 {
-    public sealed partial class Properties : Page, IDisposable
+    public sealed partial class Properties : Page
     {
         private static AppWindowTitleBar _TitleBar;
-        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
-        private bool _disposed;
+        private CancellationTokenSource _tokenSource;
 
         public AppWindow propWindow;
 
@@ -43,13 +42,10 @@ namespace Files
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
-        ~Properties()
-        {
-            Dispose(false);
-        }
-
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            _tokenSource?.Dispose();
+            _tokenSource = new CancellationTokenSource();
             Unloaded += Properties_Unloaded;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -141,11 +137,11 @@ namespace Files
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
         {
-            if (!_tokenSource.IsCancellationRequested)
+            if (_tokenSource != null && !_tokenSource.IsCancellationRequested)
             {
                 _tokenSource.Cancel();
                 _tokenSource.Dispose();
-                _tokenSource = new CancellationTokenSource();
+                _tokenSource = null;
             }
             Unloaded -= Properties_Unloaded;
         }
@@ -197,22 +193,6 @@ namespace Files
                 _tokenSource.Dispose();
                 _tokenSource = new CancellationTokenSource();
             }
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing)
-            {
-                _tokenSource.Dispose();
-            }
-            _disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 
