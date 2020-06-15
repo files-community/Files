@@ -23,6 +23,7 @@ namespace Files
     {
         private static AppWindowTitleBar _TitleBar;
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
+        private bool _disposed;
 
         public AppWindow propWindow;
 
@@ -40,6 +41,11 @@ namespace Files
                 this.OKButton.Visibility = Visibility.Collapsed;
             }
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+        }
+
+        ~Properties()
+        {
+            Dispose(false);
         }
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
@@ -76,7 +82,7 @@ namespace Files
                 ItemProperties.ItemName = selectedItem.ItemName;
                 ItemProperties.ItemType = selectedItem.ItemType;
                 ItemProperties.ItemPath = selectedItem.ItemPath;
-                
+
                 ItemProperties.LoadFileIcon = selectedItem.LoadFileIcon;
                 ItemProperties.LoadFolderGlyph = selectedItem.LoadFolderGlyph;
                 ItemProperties.LoadUnknownTypeGlyph = selectedItem.LoadUnknownTypeGlyph;
@@ -193,9 +199,20 @@ namespace Files
             }
         }
 
+        private void Dispose(bool disposing)
+        {
+            if (_disposed) return;
+            if (disposing)
+            {
+                _tokenSource.Dispose();
+            }
+            _disposed = true;
+        }
+
         public void Dispose()
         {
-            _tokenSource.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 
