@@ -403,7 +403,7 @@
     <value>Más opciones</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
-    <value>Unidades</value>
+    <value>Dispositivos y unidades</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
@@ -608,5 +608,11 @@
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
     <value>elementos seleccionados</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>elemento</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>elementos</value>
   </data>
 </root>
