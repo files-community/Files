@@ -4,6 +4,7 @@ using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
@@ -21,6 +22,7 @@ namespace Files
     public sealed partial class Properties : Page
     {
         private static AppWindowTitleBar _TitleBar;
+        private CancellationTokenSource _tokenSource;
 
         public AppWindow propWindow;
 
@@ -42,6 +44,9 @@ namespace Files
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            _tokenSource?.Dispose();
+            _tokenSource = new CancellationTokenSource();
+            Unloaded += Properties_Unloaded;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Collect AppWindow-specific info
@@ -73,7 +78,7 @@ namespace Files
                 ItemProperties.ItemName = selectedItem.ItemName;
                 ItemProperties.ItemType = selectedItem.ItemType;
                 ItemProperties.ItemPath = selectedItem.ItemPath;
-                
+
                 ItemProperties.LoadFileIcon = selectedItem.LoadFileIcon;
                 ItemProperties.LoadFolderGlyph = selectedItem.LoadFolderGlyph;
                 ItemProperties.LoadUnknownTypeGlyph = selectedItem.LoadUnknownTypeGlyph;
@@ -93,7 +98,7 @@ namespace Files
                     // Get file MD5 hash
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
                     ItemProperties.ItemMD5HashProgressVisibility = Visibility.Visible;
-                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
+                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token);
                     ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
                     ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
                 }
@@ -129,6 +134,18 @@ namespace Files
                 ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
             }
         }
+
+        private void Properties_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (_tokenSource != null && !_tokenSource.IsCancellationRequested)
+            {
+                _tokenSource.Cancel();
+                _tokenSource.Dispose();
+                _tokenSource = null;
+            }
+            Unloaded -= Properties_Unloaded;
+        }
+
         private async void GetFolderSize(StorageFolder storageFolder)
         {
             var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
@@ -172,6 +189,9 @@ namespace Files
             else
             {
                 App.PropertiesDialogDisplay.Hide();
+                _tokenSource.Cancel();
+                _tokenSource.Dispose();
+                _tokenSource = new CancellationTokenSource();
             }
         }
     }
