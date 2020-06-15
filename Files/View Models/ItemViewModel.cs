@@ -40,7 +40,7 @@ namespace Files.Filesystem
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
-        public ObservableCollection<ListedItem> _filesAndFolders;
+        public BulkObservableCollection<ListedItem> _filesAndFolders;
         private CancellationTokenSource _addFilesCTS, _semaphoreCTS;
         private StorageFolder _rootFolder;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -271,7 +271,7 @@ namespace Files.Filesystem
 
         public ItemViewModel()
         {
-            _filesAndFolders = new ObservableCollection<ListedItem>();
+            _filesAndFolders = new BulkObservableCollection<ListedItem>();
             FilesAndFolders = new ReadOnlyObservableCollection<ListedItem>(_filesAndFolders);
             _addFilesCTS = new CancellationTokenSource();
             _semaphoreCTS = new CancellationTokenSource();
@@ -451,6 +451,8 @@ namespace Files.Filesystem
             orderedList = ordered.ToList();
 
             List<ListedItem> originalList = _filesAndFolders.ToList();
+
+            _filesAndFolders.BeginBulkOperation();
             for (var i = 0; i < originalList.Count; i++)
             {
                 if (originalList[i] != orderedList[i])
@@ -459,6 +461,10 @@ namespace Files.Filesystem
                     _filesAndFolders.Insert(i, orderedList[i]);
                 }
             }
+            _filesAndFolders.EndBulkOperation();
+
+            App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsSelected/Text");
+
         }
 
         private bool _isLoadingItems = false;
@@ -655,6 +661,15 @@ namespace Files.Filesystem
             finally
             {
                 semaphoreSlim.Release();
+            }
+
+            if (_filesAndFolders.Count == 1)
+            {
+                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+            }
+            else
+            {
+                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
             }
         }
 

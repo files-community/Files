@@ -714,4 +714,10 @@
   <data name="ItemsSelected.Text" xml:space="preserve">
     <value>items selected</value>
   </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>item</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>items</value>
+  </data>
 </root>

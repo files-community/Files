@@ -56,6 +56,7 @@ namespace Files
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; }
+        public static DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -83,6 +84,7 @@ namespace Files
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
+            DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -92,7 +94,6 @@ namespace Files
         }
 
         public static AppServiceConnection Connection;
-        public static Action AppServiceConnected;
 
         private async void InitializeAppServiceConnection()
         {
@@ -112,8 +113,6 @@ namespace Files
 
             // Launch fulltrust process
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
-            AppServiceConnected?.Invoke();
         }
 
         private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
