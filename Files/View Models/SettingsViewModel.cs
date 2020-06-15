@@ -77,141 +77,46 @@ namespace Files.View_Models
 
         private async void PopulatePinnedSidebarItems()
         {
-            StorageFile ListFile;
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
 
-            if (SystemInformation.IsFirstRun || SystemInformation.IsAppUpdated)
+            StorageFile pinnedItemsFile;
+            try
             {
-                var ListFile1 = await cacheFolder.GetFileAsync("PinnedItems.txt");
-                List<string> items = new List<string>();
-                items.Add(DesktopPath);
-                items.Add(DownloadsPath);
-                items.Add(DocumentsPath);
-                items.Add(PicturesPath);
-                items.Add(MusicPath);
-                items.Add(VideosPath);
+                pinnedItemsFile = await cacheFolder.GetFileAsync(SidebarPinnedModel.JsonFileName);
+            }
+            catch (FileNotFoundException)
+            {
+                try
+                {
+                    var oldPinnedItemsFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+                    var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
+                    await oldPinnedItemsFile.DeleteAsync();
+                    foreach (var line in oldPinnedItems)
+                    {
+                        App.SidebarPinned.Items.Add(line);
+                    }
+                }
+                catch (FileNotFoundException)
+                {
+                    App.SidebarPinned.AddDefaultItems();
+                }
 
-                await FileIO.AppendLinesAsync(ListFile1, items);
+                pinnedItemsFile = await cacheFolder.CreateFileAsync(SidebarPinnedModel.JsonFileName, CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(pinnedItemsFile, JsonConvert.SerializeObject(App.SidebarPinned, Formatting.Indented));
             }
 
-            if (ListFile != null)
+            try
             {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string locationPath in ListFileLines)
-                {
-                    try
-                    {
-                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
-                        var name = fol.DisplayName;
-                        var content = name;
-                        var icon = "\uE8B7";
-
-                        if (locationPath == DesktopPath)
-                        {
-                            icon = "\uE8FC";
-                        }
-                        else if (locationPath == DownloadsPath)
-                        {
-                            icon = "\uE896";
-                        }
-                        else if (locationPath == DocumentsPath)
-                        {
-                            icon = "\uE8A5";
-                        }
-                        else if (locationPath == PicturesPath)
-                        {
-                            icon = "\uEB9F";
-                        }
-                        else if (locationPath == MusicPath)
-                        {
-                            icon = "\uEC4F";
-                        }
-                        else if (locationPath == VideosPath)
-                        {
-                            icon = "\uE8B2";
-                        }
-
-                        bool isDuplicate = false;
-                        foreach (INavigationControlItem sbi in App.sideBarItems)
-                        {
-                            if (sbi is LocationItem)
-                            {
-                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
-                                {
-                                    if (sbi.Path.ToString() == locationPath)
-                                    {
-                                        isDuplicate = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!isDuplicate)
-                        {
-                            int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
-                            App.sideBarItems.Insert(insertIndex, new LocationItem() { IsDefaultLocation = false, Text = name, Glyph = icon, Path = locationPath });
-                        }
-                    }
-                    catch (UnauthorizedAccessException e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(locationPath);
-                    }
-                    catch (System.Runtime.InteropServices.COMException e)
-                    {
-                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(locationPath);
-                    }
-                }
-
-                RemoveStaleSidebarItems();
+                App.SidebarPinned = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(pinnedItemsFile));
             }
-        }
-
-        public async void RemoveStaleSidebarItems()
-        {
-            StorageFile ListFile;
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
-
-            if (ListFile != null)
+            catch (Exception)
             {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string path in LinesToRemoveFromFile)
-                {
-                    ListFileLines.Remove(path);
-                }
-
-                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
-                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-
-                // Remove unpinned items from sidebar
-                var sideBarItems_Copy = App.sideBarItems.ToList();
-                foreach (INavigationControlItem location in App.sideBarItems)
-                {
-                    if (location is LocationItem)
-                    {
-                        if (!(location as LocationItem).IsDefaultLocation)
-                        {
-                            if (!ListFileLines.Contains(location.Path.ToString()))
-                            {
-                                sideBarItems_Copy.Remove(location);
-                            }
-                        }
-                    }
-                }
-                App.sideBarItems.Clear();
-                foreach (INavigationControlItem correctItem in sideBarItems_Copy)
-                {
-                    App.sideBarItems.Add(correctItem);
-                }
-                LinesToRemoveFromFile.Clear();
+                await pinnedItemsFile.DeleteAsync();
+                App.SidebarPinned.AddDefaultItems();
+                App.SidebarPinned.Save();
             }
+
+            App.SidebarPinned.AddAllItemsToSidebar();
         }
 
         private async void DetectWSLDistros()

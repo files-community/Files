@@ -1,5 +1,6 @@
 using Files.CommandLine;
 using Files.Controls;
+using Files.DataModels;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
@@ -57,6 +58,7 @@ namespace Files
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; }
         public static DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; }
+        public static SidebarPinnedModel SidebarPinned { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -81,6 +83,7 @@ namespace Files
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
+            SidebarPinned = new SidebarPinnedModel();
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
             SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
@@ -169,20 +172,9 @@ namespace Files
 
         public static INavigationControlItem rightClickedItem;
 
-        public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
+        public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-            var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-            foreach (string path in ListFileLines)
-            {
-                if (path == App.rightClickedItem.Path.ToString())
-                {
-                    App.AppSettings.LinesToRemoveFromFile.Add(path);
-                    App.AppSettings.RemoveStaleSidebarItems();
-                    return;
-                }
-            }
+            SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
         }
 
         public static void Clipboard_ContentChanged(object sender, object e)

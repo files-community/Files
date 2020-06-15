@@ -142,103 +142,15 @@ namespace Files.Interacts
             }
         }
 
-        public async void PinItem_Click(object sender, RoutedEventArgs e)
+        public void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (App.CurrentInstance.ContentPage != null)
             {
-                StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-                List<string> items = new List<string>();
-
                 foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                 {
-                    items.Add(listedItem.ItemPath);
-                }
-
-                try
-                {
-                    var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-                    await FileIO.AppendLinesAsync(ListFile, items);
-                }
-                catch (FileNotFoundException)
-                {
-                    var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-                    await FileIO.WriteLinesAsync(createdListFile, items);
-                }
-                finally
-                {
-                    foreach (string itemPath in items)
-                    {
-                        try
-                        {
-                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
-                            var name = fol.DisplayName;
-                            var content = name;
-                            var icon = "\uE8B7";
-
-                            if (itemPath == App.AppSettings.DesktopPath)
-                            {
-                                icon = "\uE8FC";
-                            }
-                            else if (itemPath == App.AppSettings.DownloadsPath)
-                            {
-                                icon = "\uE896";
-                            }
-                            else if (itemPath == App.AppSettings.DocumentsPath)
-                            {
-                                icon = "\uE8A5";
-                            }
-                            else if (itemPath == App.AppSettings.PicturesPath)
-                            {
-                                icon = "\uEB9F";
-                            }
-                            else if (itemPath == App.AppSettings.MusicPath)
-                            {
-                                icon = "\uEC4F";
-                            }
-                            else if (itemPath == App.AppSettings.VideosPath)
-                            {
-                                icon = "\uE8B2";
-                            }
-
-                            bool isDuplicate = false;
-                            foreach (INavigationControlItem sbi in App.sideBarItems)
-                            {
-                                if (sbi is LocationItem)
-                                {
-                                    if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
-                                    {
-                                        if (sbi.Path.ToString() == itemPath)
-                                        {
-                                            isDuplicate = true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (!isDuplicate)
-                            {
-                                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
-                                App.sideBarItems.Insert(insertIndex, new LocationItem { Path = itemPath, Glyph = icon, IsDefaultLocation = false, Text = content });
-                            }
-                        }
-                        catch (UnauthorizedAccessException ex)
-                        {
-                            Debug.WriteLine(ex.Message);
-                        }
-                        catch (FileNotFoundException ex)
-                        {
-                            Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                        catch (System.Runtime.InteropServices.COMException ex)
-                        {
-                            Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                    }
+                    App.SidebarPinned.AddItem(listedItem.ItemPath);
                 }
             }
-            App.AppSettings.RemoveStaleSidebarItems();
         }
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
