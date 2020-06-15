@@ -12,6 +12,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -1201,7 +1202,7 @@ namespace Files.Interacts
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
@@ -1210,7 +1211,7 @@ namespace Files.Interacts
             uint capacity = 100000000;
             Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
             var hash = algorithmProvider.CreateHash();
-            while (true)
+            while (!token.IsCancellationRequested)
             {
                 await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
                 if (buffer.Length > 0)
@@ -1224,6 +1225,10 @@ namespace Files.Interacts
             }
             inputStream.Dispose();
             stream.Dispose();
+            if (token.IsCancellationRequested)
+            {
+                return "";
+            }
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
