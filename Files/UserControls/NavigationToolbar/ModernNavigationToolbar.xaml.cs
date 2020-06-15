@@ -311,11 +311,11 @@ namespace Files.UserControls
 
         private async void SearchReigon_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-                if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-                {
-                    await App.CurrentInstance.ViewModel.GetMatchingFiles(SearchReigon.Text);
-                }
-
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                App.CurrentInstance.ViewModel.SearchQuery = SearchReigon.Text;
+                await App.CurrentInstance.ViewModel.GetMatchingFilesForSearchQuery();
+            }
         }
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -329,7 +329,14 @@ namespace Files.UserControls
             else
             {
                 // Use args.QueryText to determine what to do.
+                Frame rootFrame = Window.Current.Content as Frame;
+                rootFrame.Navigate(typeof(Search));
             }
+        }
+
+        private void SearchReigon_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            
         }
     }
 }

@@ -284,9 +284,9 @@
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\logo.bmp" />
     <Content Include="Assets\Custom Glyphs\layout-mode-custom-icon.ttf" />
-    <None Include="Assets\terminal\terminal.json">
+    <Content Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

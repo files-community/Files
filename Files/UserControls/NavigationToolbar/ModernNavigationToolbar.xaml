@@ -763,12 +763,13 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind SearchBoxLoaded, Mode=OneWay}"
-                DisplayMemberPath="ItemName"
+                DisplayMemberPath="DisplayName"
                 IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                 ItemsSource="{x:Bind local1:App.CurrentInstance.ViewModel.SearchResults}"
                 PlaceholderText="Search"
                 QueryIcon="Find"
                 QuerySubmitted="AutoSuggestBox_QuerySubmitted"
+                SuggestionChosen="SearchReigon_SuggestionChosen"
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}"
                 TextChanged="SearchReigon_TextChanged" />
 
