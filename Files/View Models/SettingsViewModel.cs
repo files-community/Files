@@ -93,7 +93,10 @@ namespace Files.View_Models
                     await oldPinnedItemsFile.DeleteAsync();
                     foreach (var line in oldPinnedItems)
                     {
-                        App.SidebarPinned.Items.Add(line);
+                        if (!App.SidebarPinned.Items.Contains(line))
+                        {
+                            App.SidebarPinned.Items.Add(line);
+                        }
                     }
                 }
                 catch (FileNotFoundException)
