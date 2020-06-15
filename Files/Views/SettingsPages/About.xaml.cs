@@ -1,6 +1,6 @@
-﻿using Files.Interacts;
-using System;
+﻿using System;
 using Windows.ApplicationModel;
+using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -11,19 +11,19 @@ namespace Files.SettingsPages
     {
         public About()
         {
-            this.InitializeComponent();
-
-            VersionNumber.Text = string.Format("Version: {0}.{1}.{2}.{3}", Package.Current.Id.Version.Major, Package.Current.Id.Version.Minor, Package.Current.Id.Version.Build, Package.Current.Id.Version.Revision);
+            InitializeComponent();
+            var version = Package.Current.Id.Version;
+            VersionNumber.Text = string.Format($"Version: {version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
         }
 
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var clicked = e.ClickedItem as ListViewBase;
-            var trulyclicked = Interaction.FindParent<ListViewItem>(e.ClickedItem as DependencyObject);
-            if (trulyclicked.Name == "FeedbackForm")
-            {
-                await Launcher.LaunchUriAsync(new Uri(@"https://github.com/duke7553/files-uwp/issues/new/choose"));
-            }
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/duke7553/files-uwp/issues/new/choose"));
+        }
+
+        private async void OpenLogLocationButton_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
         }
     }
 }

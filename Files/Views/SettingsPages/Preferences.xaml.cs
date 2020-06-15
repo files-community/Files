@@ -1,6 +1,9 @@
 ﻿using Files.DataModels;
+using Files.View_Models;
+using Newtonsoft.Json;
 using System;
-using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Xaml.Controls;
@@ -10,6 +13,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Preferences : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
         private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
@@ -17,25 +21,19 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
 
-            try
-            {
-                StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath);
-            }
-            catch (Exception)
-            {
-                App.AppSettings.PinOneDriveToSideBar = false;
-                OneDrivePin.IsEnabled = false;
-            }
+            StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath).AsTask()
+                    .ContinueWith((t) =>
+                {
+                    App.AppSettings.PinOneDriveToSideBar = false;
+                    OneDrivePin.IsEnabled = false;
+                }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            var terminalId = 1;
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.TerminalsModel.GetDefaultTerminal();
         }
 
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -54,14 +52,15 @@ namespace Files.SettingsPages
 
             var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
 
-            localSettings.Values["terminal_id"] = selectedTerminal.Id;
+            App.AppSettings.TerminalsModel.DefaultTerminalPath = selectedTerminal.Path;
+
+            SaveTerminalSettings();
         }
 
-        private void OneDrivePin_Toggled(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void SaveTerminalSettings()
         {
-            OneDrivePin.IsEnabled = false;
-            App.AppSettings.PinOneDriveToSideBar = OneDrivePin.IsOn;
-            OneDrivePin.IsEnabled = true;
+            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
+                JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
         }
     }
 }

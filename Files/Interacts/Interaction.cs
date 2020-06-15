@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +11,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -40,6 +42,8 @@ namespace Files.Interacts
 {
     public class Interaction
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
 
@@ -127,95 +131,26 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var localSettings = ApplicationData.Current.LocalSettings;
-
-            var terminalId = 1;
-
-            if (localSettings.Values["terminal_id"] != null) terminalId = (int)localSettings.Values["terminal_id"];
-
-            var terminal = App.AppSettings.Terminals.Single(p => p.Id == terminalId);
+            var terminal = App.AppSettings.TerminalsModel.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Application", terminal.Path);
-                value.Add("Arguments", String.Format(terminal.arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                value.Add("Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory));
                 await App.Connection.SendMessageAsync(value);
             }
         }
 
-        public async void PinItem_Click(object sender, RoutedEventArgs e)
+        public void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (App.CurrentInstance.ContentPage != null)
             {
-                StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-                List<string> items = new List<string>();
-
                 foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                 {
-                    items.Add(listedItem.ItemPath);
-                }
-
-                try
-                {
-                    var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-                    await FileIO.AppendLinesAsync(ListFile, items);
-                }
-                catch (FileNotFoundException)
-                {
-                    var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-                    await FileIO.WriteLinesAsync(createdListFile, items);
-                }
-                finally
-                {
-                    foreach (string itemPath in items)
-                    {
-                        try
-                        {
-                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
-                            var name = fol.DisplayName;
-                            var content = name;
-                            var icon = "\uE8B7";
-
-                            bool isDuplicate = false;
-                            foreach (INavigationControlItem sbi in App.sideBarItems)
-                            {
-                                if (sbi is LocationItem)
-                                {
-                                    if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
-                                    {
-                                        if (sbi.Path.ToString() == itemPath)
-                                        {
-                                            isDuplicate = true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (!isDuplicate)
-                            {
-                                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
-                                App.sideBarItems.Insert(insertIndex, new LocationItem { Path = itemPath, Glyph = icon, IsDefaultLocation = false, Text = content });
-                            }
-                        }
-                        catch (UnauthorizedAccessException ex)
-                        {
-                            Debug.WriteLine(ex.Message);
-                        }
-                        catch (FileNotFoundException ex)
-                        {
-                            Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                        catch (System.Runtime.InteropServices.COMException ex)
-                        {
-                            Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                    }
+                    App.SidebarPinned.AddItem(listedItem.ItemPath);
                 }
             }
-            App.AppSettings.RemoveStaleSidebarItems();
         }
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
@@ -320,6 +255,11 @@ namespace Files.Interacts
             OpenSelectedItems(false);
         }
 
+        public void OpenItemWithApplicationPicker_Click(object sender, RoutedEventArgs e)
+        {
+            OpenSelectedItems(true);
+        }
+
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
             if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
@@ -349,7 +289,7 @@ namespace Files.Interacts
                         CurrentInstance.ViewModel.WorkingDirectory = clickedOnItemPath;
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
-                        CurrentInstance.ContentPage.AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
+                        CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
                         CurrentInstance.ContentFrame.Navigate(sourcePageType, clickedOnItemPath, new SuppressNavigationTransitionInfo());
                     }
                     else
@@ -373,30 +313,31 @@ namespace Files.Interacts
                 }
                 else if (selectedItemCount > 1)
                 {
-                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems)
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        if (clickedOnItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                        instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                    }
+                    foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                    {
+                        // Add location to MRU List
+                        mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
+                    }
+                    if (displayApplicationPicker)
+                    {
+                        foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                         {
-                            instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
-                        }
-                        else
-                        {
-                            // Add location to MRU List
-                            mostRecentlyUsed.Add(await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath));
-                            if (displayApplicationPicker)
+                            StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
+                            var options = new LauncherOptions
                             {
-                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
-                                var options = new LauncherOptions
-                                {
-                                    DisplayApplicationPicker = true
-                                };
-                                await Launcher.LaunchFileAsync(file, options);
-                            }
-                            else
-                            {
-                                await InvokeWin32Component(clickedOnItem.ItemPath);
-                            }
+                                DisplayApplicationPicker = true
+                            };
+                            await Launcher.LaunchFileAsync(file, options);
                         }
+                    }
+                    else
+                    {
+                        var applicationPath = string.Join(";", CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Select(x => x.ItemPath));
+                        await InvokeWin32Component(applicationPath);
                     }
                 }
             }
@@ -407,11 +348,11 @@ namespace Files.Interacts
             }
         }
 
-        public void CloseTab()
+        public async void CloseTab()
         {
             if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                await InstanceTabsView.StartTerminateAsync();
             }
             else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
             {
@@ -435,7 +376,7 @@ namespace Files.Interacts
         public static Dictionary<UIContext, AppWindow> AppWindows { get; set; }
             = new Dictionary<UIContext, AppWindow>();
 
-        private async void ShowProperties(object parameter)
+        private async void ShowProperties()
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -463,19 +404,19 @@ namespace Files.Interacts
             else
             {
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), parameter, new SuppressNavigationTransitionInfo());
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
         public void ShowPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowProperties(App.CurrentInstance.ContentPage.SelectedItem);
+            ShowProperties();
         }
 
         public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
-            ShowProperties(App.CurrentInstance.ViewModel.CurrentFolder);
+            ShowProperties();
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -507,8 +448,11 @@ namespace Files.Interacts
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             var deleteFromRecycleBin = CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
-            // Permanently delete if deleting from recycle bin
-            App.InteractionViewModel.PermanentlyDelete = deleteFromRecycleBin ? StorageDeleteOption.PermanentDelete : StorageDeleteOption.Default;
+            if (deleteFromRecycleBin)
+            {
+                // Permanently delete if deleting from recycle bin
+                App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
+            }
 
             if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
@@ -517,6 +461,7 @@ namespace Files.Interacts
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
+                    App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
                     return; //return if the result isn't delete
                 }
             }
@@ -605,12 +550,54 @@ namespace Files.Interacts
             }
         }
 
+        public bool ContainsRestrictedCharacters(string input)
+        {
+            Regex regex = new Regex("\\\\|\\/|\\:|\\*|\\?|\\\"|\\<|\\>|\\|"); //restricted symbols for file names
+            MatchCollection matches = regex.Matches(input);
+            if (matches.Count > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static readonly List<string> RestrictedFileNames = new List<string>()
+        {
+                "CON", "PRN", "AUX",
+                "NUL", "COM1", "COM2",
+                "COM3", "COM4", "COM5",
+                "COM6", "COM7", "COM8",
+                "COM9", "LPT1", "LPT2",
+                "LPT3", "LPT4", "LPT5",
+                "LPT6", "LPT7", "LPT8", "LPT9"
+        };
+
+        public bool ContainsRestrictedFileName(string input)
+        {
+
+            foreach (var name in RestrictedFileNames)
+            {
+                Regex regex = new Regex($"^{name}($|\\.)(.+)?");
+                MatchCollection matches = regex.Matches(input.ToUpper());
+                if (matches.Count > 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public async Task<bool> RenameFileItem(ListedItem item, string oldName, string newName)
         {
             if (oldName == newName)
+            {
                 return true;
+            }
 
-            if (!string.IsNullOrWhiteSpace(newName))
+            if (!string.IsNullOrWhiteSpace(newName)
+                && !ContainsRestrictedCharacters(newName)
+                && !ContainsRestrictedFileName(newName))
             {
                 try
                 {
@@ -626,7 +613,6 @@ namespace Files.Interacts
                     }
                 }
                 catch (Exception)
-
                 {
                     var ItemAlreadyExistsDialog = new ContentDialog()
                     {
@@ -669,6 +655,10 @@ namespace Files.Interacts
                         }
                     }
                 }
+            }
+            else
+            {
+                return false;
             }
 
             CurrentInstance.NavigationToolbar.CanGoForward = false;
@@ -772,7 +762,14 @@ namespace Files.Interacts
             }
             dataPackage.SetStorageItems(items);
             Clipboard.SetContent(dataPackage);
-            Clipboard.Flush();
+            try
+            {
+                Clipboard.Flush();
+            }
+            catch
+            {
+                dataPackage = null;
+            }
         }
 
         public string CopySourcePath;
@@ -810,7 +807,14 @@ namespace Files.Interacts
             {
                 dataPackage.SetStorageItems(items);
                 Clipboard.SetContent(dataPackage);
-                Clipboard.Flush();
+                try
+                {
+                    Clipboard.Flush();
+                }
+                catch
+                {
+                    dataPackage = null;
+                }
             }
         }
 
@@ -842,6 +846,19 @@ namespace Files.Interacts
 
         public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
+            if (!packageView.Contains(StandardDataFormats.StorageItems))
+            {
+                // Happens if you copy some text and then you Ctrl+V in FilesUWP
+                // Should this be done in ModernShellPage?
+                return;
+            }
+            if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            {
+                // Do not paste files and folders inside the recycle bin
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
+                return;
+            }
+
             itemsToPaste = await packageView.GetStorageItemsAsync();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
@@ -887,8 +904,6 @@ namespace Files.Interacts
                         {
                             StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
                             pastedItems.Add(pastedFolder);
-                            if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                                CurrentInstance.ViewModel.AddFolder(pastedFolder.Path);
                         }
                         catch (FileNotFoundException)
                         {
@@ -908,8 +923,6 @@ namespace Files.Interacts
                         StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                         StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
                         pastedItems.Add(pastedFile);
-                        if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
-                            CurrentInstance.ViewModel.AddFile(pastedFile.Path);
                     }
                     catch (FileNotFoundException)
                     {
@@ -942,8 +955,6 @@ namespace Files.Interacts
                         continue;
                     }
                     ListedItem listedItem = CurrentInstance.ViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
-                    if (listedItem != null)
-                        CurrentInstance.ViewModel.RemoveFileOrFolder(listedItem);
                 }
             }
             if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
@@ -1026,7 +1037,7 @@ namespace Files.Interacts
                 int totalCount = zipArchive.Entries.Count;
                 int index = 0;
 
-                (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Visible;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
 
                 foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                 {
@@ -1044,14 +1055,14 @@ namespace Files.Interacts
                     index++;
                     if (index == totalCount)
                     {
-                        (App.CurrentInstance.ContentPage as BaseLayout).AssociatedViewModel.LoadIndicator.IsVisible = Visibility.Collapsed;
+                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                     }
                 }
                 await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
                 {
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         Frame rootFrame = Window.Current.Content as Frame;
                         var instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -1079,6 +1090,7 @@ namespace Files.Interacts
                 {
                     var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
 
+                    Logger.Info("Toggle QuickLook");
                     Debug.WriteLine("Toggle QuickLook");
                     if (App.Connection != null)
                     {

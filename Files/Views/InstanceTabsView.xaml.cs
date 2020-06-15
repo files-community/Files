@@ -3,12 +3,15 @@ using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -39,6 +42,15 @@ namespace Files
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
 
+        public static async Task StartTerminateAsync()
+        {
+            IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
+            IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
+            var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+            await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
+            //Application.Current.Exit();
+        }
+
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             if (Huyn.WindowDisplayInfo.GetForCurrentView().ToString() == "Maximized")
@@ -62,7 +74,18 @@ namespace Files
                 return;
             }
 
-            if (string.IsNullOrEmpty(navArgs))
+            if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
+            {
+                try
+                {
+                    AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                }
+                catch (Exception)
+                {
+                    AddNewTab(typeof(ModernShellPage), "New tab");
+                }
+            }
+            else if (string.IsNullOrEmpty(navArgs))
             {
                 AddNewTab(typeof(ModernShellPage), "New tab");
             }
@@ -390,7 +413,7 @@ namespace Files
             args.Handled = true;
         }
 
-        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private async void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             var InvokedTabView = (args.Element as TabView);
 
@@ -399,7 +422,7 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    Application.Current.Exit();
+                    await InstanceTabsView.StartTerminateAsync();
                 }
                 else
                 {
@@ -462,27 +485,42 @@ namespace Files
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }
 
-        private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
+        private async void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                await InstanceTabsView.StartTerminateAsync();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-        }
+        }        
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
             AddNewTab(typeof(ModernShellPage), "New tab");
+        }
+
+        public static T GetCurrentSelectedTabInstance<T>()
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            var instanceTabsView = rootFrame.Content as InstanceTabsView;
+            var selectedTabContent = ((instanceTabsView.TabStrip.SelectedItem as TabViewItem).Content as Grid);
+            foreach (UIElement uiElement in selectedTabContent.Children)
+            {
+                if (uiElement.GetType() == typeof(Frame))
+                {
+                    return (T)((uiElement as Frame).Content);
+                }
+            }
+            return default;
         }
     }
 

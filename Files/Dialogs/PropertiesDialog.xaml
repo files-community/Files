@@ -6,14 +6,14 @@
     xmlns:local2="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="PropertiesDialogMarkup"
-    Title="Properties"
-    CornerRadius="4"
+    Background="Transparent"
     mc:Ignorable="d"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
+    <ContentDialog.Resources>
+        <Thickness x:Key="ContentDialogPadding">0</Thickness>
+    </ContentDialog.Resources>
 
     <Frame
         x:Name="propertiesFrame"
-        Width="375"
-        Height="425"
         x:FieldModifier="public" />
 </ContentDialog>

@@ -35,11 +35,23 @@
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
-                            <!--  This empty dictionary ensures that the default high contrast resources are used when the user turns on high contrast mode.  -->
+                            <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
+                            <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black" />
+                            <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="TextControlBackground" />
+                            <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="White" />
+                            <SolidColorBrush x:Key="TabViewBackground" Color="Black" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#80191919" />
+                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
+                            <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636" />
+                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313" />
+                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
+                            <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="CustomLayoutModeIcon">/Assets/Custom Glyphs/layout-mode-custom-icon.ttf#layout-mode-custom-icon</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

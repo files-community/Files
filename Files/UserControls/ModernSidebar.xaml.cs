@@ -112,7 +112,7 @@ namespace Files.Controls
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
         }
 
-        private void NavigationViewItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
@@ -127,6 +127,16 @@ namespace Files.Controls
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
             App.rightClickedItem = item;
+        }
+
+        private void NavigationViewDriveItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
+
+            ShowUnpinItem = false;
+            SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
+
+            App.rightClickedItem = sidebarItem.DataContext as DriveItem;
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)

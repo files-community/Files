@@ -3,9 +3,12 @@ using Files.Helpers;
 using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.UI;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
@@ -20,6 +23,7 @@ namespace Files
         private static AppWindowTitleBar _TitleBar;
 
         public AppWindow propWindow;
+
         public ItemPropertiesViewModel ItemProperties { get; } = new ItemPropertiesViewModel();
 
         public Properties()
@@ -38,13 +42,16 @@ namespace Files
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
-            // Collect AppWindow-specific info
-            propWindow = Interaction.AppWindows[UIContext];
-            // Set properties window titleBar style
-            _TitleBar = propWindow.TitleBar;
-            _TitleBar.ButtonBackgroundColor = Colors.Transparent;
-            _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-            App.AppSettings.UpdateThemeElements.Execute(null);
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                // Collect AppWindow-specific info
+                propWindow = Interaction.AppWindows[UIContext];
+                // Set properties window titleBar style
+                _TitleBar = propWindow.TitleBar;
+                _TitleBar.ButtonBackgroundColor = Colors.Transparent;
+                _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
+                App.AppSettings.UpdateThemeElements.Execute(null);
+            }
 
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
@@ -54,16 +61,19 @@ namespace Files
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    ItemProperties.ItemSize = selectedItem.FileSize;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    selectedStorageItem = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+                    selectedStorageItem = storageFolder;
+                    GetFolderSize(storageFolder);
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
                 ItemProperties.ItemType = selectedItem.ItemType;
                 ItemProperties.ItemPath = selectedItem.ItemPath;
-                ItemProperties.ItemSize = selectedItem.FileSize;
+                
                 ItemProperties.LoadFileIcon = selectedItem.LoadFileIcon;
                 ItemProperties.LoadFolderGlyph = selectedItem.LoadFolderGlyph;
                 ItemProperties.LoadUnknownTypeGlyph = selectedItem.LoadUnknownTypeGlyph;
@@ -101,6 +111,7 @@ namespace Files
                     // GetFolderFromPathAsync cannot access recyclebin folder
                     // Currently a fake timestamp is used
                     ItemProperties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectory.ItemDateModifiedReal);
+                    ItemProperties.ItemSize = parentDirectory.FileSize;
                 }
                 else
                 {
@@ -110,33 +121,44 @@ namespace Files
                 ItemProperties.ItemName = parentDirectory.ItemName;
                 ItemProperties.ItemType = parentDirectory.ItemType;
                 ItemProperties.ItemPath = parentDirectory.ItemPath;
-                ItemProperties.ItemSize = parentDirectory.FileSize;
                 ItemProperties.LoadFileIcon = false;
                 ItemProperties.LoadFolderGlyph = true;
                 ItemProperties.LoadUnknownTypeGlyph = false;
                 ItemProperties.ItemModifiedTimestamp = parentDirectory.ItemDateModified;
+                ItemProperties.ItemMD5HashVisibility = Visibility.Collapsed;
+                ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
             }
         }
-
+        private async void GetFolderSize(StorageFolder storageFolder)
+        {
+            var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
+            var fileSizeTasks = (await folders.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
+            var sizes = await Task.WhenAll(fileSizeTasks);
+            var folderSize = sizes.Sum(singleSize => (long)singleSize);
+            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
+        }
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
-            switch (ThemeHelper.RootTheme)
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-                case ElementTheme.Default:
-                    _TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
-                    _TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
-                    break;
+                switch (ThemeHelper.RootTheme)
+                {
+                    case ElementTheme.Default:
+                        _TitleBar.ButtonHoverBackgroundColor = (Color)Application.Current.Resources["SystemBaseLowColor"];
+                        _TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
+                        break;
 
-                case ElementTheme.Light:
-                    _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
-                    _TitleBar.ButtonForegroundColor = Colors.Black;
-                    break;
+                    case ElementTheme.Light:
+                        _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 0, 0, 0);
+                        _TitleBar.ButtonForegroundColor = Colors.Black;
+                        break;
 
-                case ElementTheme.Dark:
-                    _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
-                    _TitleBar.ButtonForegroundColor = Colors.White;
-                    break;
+                    case ElementTheme.Dark:
+                        _TitleBar.ButtonHoverBackgroundColor = Color.FromArgb(51, 255, 255, 255);
+                        _TitleBar.ButtonForegroundColor = Colors.White;
+                        break;
+                }
             }
         }
 
@@ -146,6 +168,10 @@ namespace Files
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await propWindow.CloseAsync();
+            }
+            else
+            {
+                App.PropertiesDialogDisplay.Hide();
             }
         }
     }

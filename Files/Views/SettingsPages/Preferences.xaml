@@ -55,10 +55,9 @@
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="True"
-                        IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         OffContent=""
-                        OnContent=""
-                        Toggled="OneDrivePin_Toggled" />
+                        OnContent="" />
                 </Grid>
 
                 <Grid HorizontalAlignment="Stretch">
@@ -86,7 +85,7 @@
                         Width="40"
                         HorizontalAlignment="Right"
                         IsEnabled="True"
-                        IsOn="{x:Bind local2:App.AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                         OffContent=""
                         OnContent="" />
                 </Grid>
@@ -132,7 +131,7 @@
                             MinWidth="120"
                             MaxWidth="185"
                             HorizontalAlignment="Stretch"
-                            ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
+                            ItemsSource="{x:Bind AppSettings.TerminalsModel.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:TerminalModel">

@@ -1,5 +1,6 @@
 using Files.Filesystem;
 using Files.Interacts;
+using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -47,6 +49,8 @@ namespace Files
             }
         }
 
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
+
         private List<ListedItem> _SelectedItems = new List<ListedItem>();
 
         public List<ListedItem> SelectedItems
@@ -64,11 +68,24 @@ namespace Files
                     {
                         IsItemSelected = false;
                         SelectedItem = null;
+                        SelectedItemsPropertiesViewModel.IsItemSelected = false;
                     }
                     else
                     {
                         IsItemSelected = true;
                         SelectedItem = _SelectedItems.First();
+                        SelectedItemsPropertiesViewModel.IsItemSelected = true;
+
+                        if (SelectedItems.Count == 1)
+                        {
+                            SelectedItemsPropertiesViewModel.SelectedItemCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
+                            SelectedItemsPropertiesViewModel.ItemsSize = SelectedItem.FileSize;
+                        }
+                        else
+                        {
+                            SelectedItemsPropertiesViewModel.SelectedItemCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
+                            SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
+                        }
                     }
                     NotifyPropertyChanged("SelectedItems");
                     SetDragModeForItems();
@@ -138,7 +155,7 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
@@ -153,7 +170,7 @@ namespace Files
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
-            AssociatedViewModel.EmptyTextState.IsVisible = Visibility.Collapsed;
+            AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
             App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
 
             // pathRoot will be empty on recycle bin path
@@ -170,7 +187,7 @@ namespace Files
             App.InteractionViewModel.IsPageTypeNotRecycleBin =
                 !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
-            await App.CurrentInstance.ViewModel.RefreshItems();
+            App.CurrentInstance.ViewModel.RefreshItems();
 
             App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
@@ -181,10 +198,6 @@ namespace Files
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            if (App.CurrentInstance.ViewModel._fileQueryResult != null)
-            {
-                App.CurrentInstance.ViewModel._fileQueryResult.ContentsChanged -= App.CurrentInstance.ViewModel.FileContentsChanged;
-            }
             App.AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
         }
 
@@ -231,6 +244,7 @@ namespace Files
                         if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
+                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("UnzipItem");
                         }
@@ -238,6 +252,8 @@ namespace Files
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("OpenItem");
+
+                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
                     }
@@ -245,12 +261,15 @@ namespace Files
                 else if (selectedFileSystemItems.Count > 1)
                 {
                     UnloadMenuFlyoutItemByName("OpenItem");
+                    UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
             }
             else     // All are Folders
             {
                 UnloadMenuFlyoutItemByName("OpenItem");
+                UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -283,7 +302,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = InstanceTabsView.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

@@ -513,4 +513,82 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Ви видалили цю папку?</value>
   </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Вид піктограм</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Виділення</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>Файл, який ви намагаєтесь видалити, зараз використовується іншою програмою.</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>Файл використовується</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Повторити</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Тільки читання</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Прихований</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Очистити кошик</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Відновити</value>
+  </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>Підтримка Кошика</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} днів тому</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} годин тому</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>{0} день тому</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>{0} годину тому</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} хвилин тому</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>{0} хвилину тому</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>{0} секунд тому</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} вільно з {1}</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Нова вкладка</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>Дана операція не підтримується</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Відкрити за допомогою</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Відкрити розташування Лог файлу</value>
+  </data>
 </root>
