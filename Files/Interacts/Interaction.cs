@@ -1114,7 +1114,7 @@ namespace Files.Interacts
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress)
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, double progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
@@ -1146,7 +1146,7 @@ namespace Files.Interacts
                     break;
                 }
 
-                progress.Value = (double)str.Position / str.Length * 100;
+                progress = (double)str.Position / str.Length * 100;
             }
             inputStream.Dispose();
             stream.Dispose();

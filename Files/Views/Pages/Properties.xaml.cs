@@ -59,9 +59,19 @@ namespace Files
                 _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 App.AppSettings.UpdateThemeElements.Execute(null);
             }
-            await ViewModel.GetPropertiesAsync();
+            await ViewModel.GetPropertiesAsync(_tokenSource);
         }
-    
+        private void Properties_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (_tokenSource != null && !_tokenSource.IsCancellationRequested)
+            {
+                _tokenSource.Cancel();
+                _tokenSource.Dispose();
+                _tokenSource = null;
+            }
+            Unloaded -= Properties_Unloaded;
+        }
+
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;

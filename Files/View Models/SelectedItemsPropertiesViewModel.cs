@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
@@ -25,6 +26,15 @@ namespace Files.View_Models
             get => _properties;
             set => Set(ref _properties, value);
         }
+
+        private double _MD5ProgressValue;
+
+        public double MD5ProgressValue
+        {
+            get => _MD5ProgressValue;
+            set => Set(ref _MD5ProgressValue, value);
+        }
+
         #endregion
         #region Constructors
         public SelectedItemsPropertiesViewModel()
@@ -52,7 +62,7 @@ namespace Files.View_Models
             var folderSize = sizes.Sum(singleSize => (long)singleSize);
             Properties.ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
         }
-        public async Task GetPropertiesAsync()
+        public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
         {
             Properties = new StorageItemProperties();
             if (App.CurrentInstance.ContentPage.IsItemSelected)
@@ -80,7 +90,7 @@ namespace Files.View_Models
                     // Get file MD5 hash
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
                     Properties.ItemMD5HashProgressVisibility = Visibility.Visible;
-                    Properties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName);
+                    Properties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token, MD5ProgressValue);
                     Properties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
                     Properties.ItemMD5HashVisibility = Visibility.Visible;
                 }
