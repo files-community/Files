@@ -497,7 +497,7 @@ namespace Files.Interacts
             ShowProperties();
         }
         
-        public void PinPathToSidebar(object sender, RoutedEventArgs e)
+        public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
             App.SidebarPinned.AddItem(CurrentInstance.ViewModel.WorkingDirectory);
         }

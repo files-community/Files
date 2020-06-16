@@ -145,9 +145,9 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="PinToSidebar"
-                x:Uid="BaseLayoutContextFlyoutPinPathToSidebar"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinPathToSidebar}"
-                Text="Pin path to sidebar">
+                x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinDirectoryToSidebar}"
+                Text="Pin directory to sidebar">
                 <MenuFlyoutItem.Icon>
                     <SymbolIcon Symbol="Pin" />
                 </MenuFlyoutItem.Icon>
