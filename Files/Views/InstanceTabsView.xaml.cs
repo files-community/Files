@@ -3,12 +3,15 @@ using Files.Filesystem;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,6 +41,15 @@ namespace Files
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
+
+        public static async Task StartTerminateAsync()
+        {
+            IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
+            IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
+            var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
+            await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
+            //Application.Current.Exit();
+        }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
@@ -401,7 +413,7 @@ namespace Files
             args.Handled = true;
         }
 
-        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private async void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             var InvokedTabView = (args.Element as TabView);
 
@@ -410,7 +422,7 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    Application.Current.Exit();
+                    await InstanceTabsView.StartTerminateAsync();
                 }
                 else
                 {
@@ -478,18 +490,18 @@ namespace Files
             }
         }
 
-        private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
+        private async void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                await InstanceTabsView.StartTerminateAsync();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-        }
+        }        
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {

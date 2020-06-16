@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
@@ -24,6 +25,7 @@ namespace Files
     public sealed partial class Properties : Page
     {
         private static AppWindowTitleBar _TitleBar;
+        private CancellationTokenSource _tokenSource;
 
         public AppWindow propWindow;
         public SelectedItemsPropertiesViewModel ViewModel { get; } = new SelectedItemsPropertiesViewModel();
@@ -44,6 +46,9 @@ namespace Files
 
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
+            _tokenSource?.Dispose();
+            _tokenSource = new CancellationTokenSource();
+            Unloaded += Properties_Unloaded;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 // Collect AppWindow-specific info
@@ -92,6 +97,9 @@ namespace Files
             else
             {
                 App.PropertiesDialogDisplay.Hide();
+                _tokenSource.Cancel();
+                _tokenSource.Dispose();
+                _tokenSource = new CancellationTokenSource();
             }
         }
     }

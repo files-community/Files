@@ -12,6 +12,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
@@ -142,103 +143,15 @@ namespace Files.Interacts
             }
         }
 
-        public async void PinItem_Click(object sender, RoutedEventArgs e)
+        public void PinItem_Click(object sender, RoutedEventArgs e)
         {
             if (App.CurrentInstance.ContentPage != null)
             {
-                StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-                List<string> items = new List<string>();
-
                 foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                 {
-                    items.Add(listedItem.ItemPath);
-                }
-
-                try
-                {
-                    var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-                    await FileIO.AppendLinesAsync(ListFile, items);
-                }
-                catch (FileNotFoundException)
-                {
-                    var createdListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt");
-                    await FileIO.WriteLinesAsync(createdListFile, items);
-                }
-                finally
-                {
-                    foreach (string itemPath in items)
-                    {
-                        try
-                        {
-                            StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(itemPath);
-                            var name = fol.DisplayName;
-                            var content = name;
-                            var icon = "\uE8B7";
-
-                            if (itemPath == App.AppSettings.DesktopPath)
-                            {
-                                icon = "\uE8FC";
-                            }
-                            else if (itemPath == App.AppSettings.DownloadsPath)
-                            {
-                                icon = "\uE896";
-                            }
-                            else if (itemPath == App.AppSettings.DocumentsPath)
-                            {
-                                icon = "\uE8A5";
-                            }
-                            else if (itemPath == App.AppSettings.PicturesPath)
-                            {
-                                icon = "\uEB9F";
-                            }
-                            else if (itemPath == App.AppSettings.MusicPath)
-                            {
-                                icon = "\uEC4F";
-                            }
-                            else if (itemPath == App.AppSettings.VideosPath)
-                            {
-                                icon = "\uE8B2";
-                            }
-
-                            bool isDuplicate = false;
-                            foreach (INavigationControlItem sbi in App.sideBarItems)
-                            {
-                                if (sbi is LocationItem)
-                                {
-                                    if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
-                                    {
-                                        if (sbi.Path.ToString() == itemPath)
-                                        {
-                                            isDuplicate = true;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (!isDuplicate)
-                            {
-                                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
-                                App.sideBarItems.Insert(insertIndex, new LocationItem { Path = itemPath, Glyph = icon, IsDefaultLocation = false, Text = content });
-                            }
-                        }
-                        catch (UnauthorizedAccessException ex)
-                        {
-                            Debug.WriteLine(ex.Message);
-                        }
-                        catch (FileNotFoundException ex)
-                        {
-                            Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                        catch (System.Runtime.InteropServices.COMException ex)
-                        {
-                            Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                            App.AppSettings.LinesToRemoveFromFile.Add(itemPath);
-                        }
-                    }
+                    App.SidebarPinned.AddItem(listedItem.ItemPath);
                 }
             }
-            App.AppSettings.RemoveStaleSidebarItems();
         }
 
         public void GetPath_Click(object sender, RoutedEventArgs e)
@@ -436,11 +349,11 @@ namespace Files.Interacts
             }
         }
 
-        public void CloseTab()
+        public async void CloseTab()
         {
             if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                await InstanceTabsView.StartTerminateAsync();
             }
             else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
             {
@@ -1201,16 +1114,27 @@ namespace Files.Interacts
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg)
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
             var stream = await itemFromPath.OpenStreamForReadAsync();
             var inputStream = stream.AsInputStream();
-            uint capacity = 100000000;
+            var str = inputStream.AsStreamForRead();
+            var cap = (long)(0.5 * str.Length) / 100;
+            uint capacity;
+            if (cap >= uint.MaxValue)
+            {
+                capacity = uint.MaxValue;
+            }
+            else
+            {
+                capacity = Convert.ToUInt32(cap);
+            }
+
             Windows.Storage.Streams.Buffer buffer = new Windows.Storage.Streams.Buffer(capacity);
             var hash = algorithmProvider.CreateHash();
-            while (true)
+            while (!token.IsCancellationRequested)
             {
                 await inputStream.ReadAsync(buffer, capacity, InputStreamOptions.None);
                 if (buffer.Length > 0)
@@ -1221,9 +1145,15 @@ namespace Files.Interacts
                 {
                     break;
                 }
+
+                progress.Value = (double)str.Position / str.Length * 100;
             }
             inputStream.Dispose();
             stream.Dispose();
+            if (token.IsCancellationRequested)
+            {
+                return "";
+            }
             return CryptographicBuffer.EncodeToHexString(hash.GetValueAndReset()).ToLower();
         }
     }
