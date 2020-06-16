@@ -1,6 +1,7 @@
 ﻿using Files.DataModels;
 using Files.Filesystem;
 using GalaSoft.MvvmLight;
+using Windows.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,12 +28,9 @@ namespace Files.View_Models
             set => Set(ref _properties, value);
         }
 
-        private double _MD5ProgressValue;
-
-        public double MD5ProgressValue
+        public ProgressBar ItemMD5HashProgress
         {
-            get => _MD5ProgressValue;
-            set => Set(ref _MD5ProgressValue, value);
+            get;set;
         }
 
         #endregion
@@ -90,7 +88,7 @@ namespace Files.View_Models
                     // Get file MD5 hash
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
                     Properties.ItemMD5HashProgressVisibility = Visibility.Visible;
-                    Properties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token, MD5ProgressValue);
+                    Properties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
                     Properties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
                     Properties.ItemMD5HashVisibility = Visibility.Visible;
                 }

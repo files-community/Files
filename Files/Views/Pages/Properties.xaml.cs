@@ -41,6 +41,7 @@ namespace Files
             {
                 this.OKButton.Visibility = Visibility.Collapsed;
             }
+            ViewModel.ItemMD5HashProgress = ItemMD5HashProgress;
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
