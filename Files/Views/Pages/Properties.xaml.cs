@@ -98,7 +98,7 @@ namespace Files
                     // Get file MD5 hash
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
                     ItemProperties.ItemMD5HashProgressVisibility = Visibility.Visible;
-                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token);
+                    ItemProperties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
                     ItemProperties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
                     ItemProperties.ItemMD5HashVisibility = Visibility.Visible;
                 }

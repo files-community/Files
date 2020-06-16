@@ -166,7 +166,6 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
-                    IsIndeterminate="True"
                     Visibility="{x:Bind ItemProperties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
