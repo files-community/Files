@@ -22,6 +22,7 @@ using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
+using Windows.Storage.Search;
 using Windows.Storage.Streams;
 using Windows.System;
 using Windows.System.UserProfile;
@@ -308,7 +309,82 @@ namespace Files.Interacts
                         }
                         else
                         {
-                            await InvokeWin32Component(clickedOnItem.ItemPath);
+                            //try using launcher first
+
+
+                            
+
+                            bool launchSuccess = false;
+
+                            try
+                            {
+                                StorageFileQueryResult fileQueryResult = null;
+
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(clickedOnItem.ItemPath);
+
+                                //Get folder to create a file query (to pass to apps like Photos, Movies & TV..., needed to scroll through the folder like what Windows Explorer does)
+                                var currFolder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(clickedOnItem.ItemPath));
+
+                                QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
+
+
+
+                                //We can have many sort entries
+                                SortEntry sortEntry = new SortEntry()
+                                {
+                                    AscendingOrder = CurrentInstance.ViewModel.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
+                                };
+
+                                var sortOption = CurrentInstance.ViewModel.DirectorySortOption;
+
+                                switch (sortOption)
+                                {
+                                    case Enums.SortOption.Name:
+                                        sortEntry.PropertyName = "System.ItemNameDisplay";
+                                        queryOptions.SortOrder.Clear();
+                                        break;
+                                    case Enums.SortOption.DateModified:
+                                        sortEntry.PropertyName = "System.DateModified";
+                                        queryOptions.SortOrder.Clear();
+                                        break;
+                                    case Enums.SortOption.Size:
+                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+
+                                        //sortEntry.PropertyName = "System.TotalFileSize";
+                                        //queryOptions.SortOrder.Clear();
+                                        break;
+                                    case Enums.SortOption.FileType:
+                                        //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
+
+                                        //sortEntry.PropertyName = "System.FileExtension";
+                                        //queryOptions.SortOrder.Clear();
+                                        break;
+                                    default:
+                                        //keep the default one in SortOrder IList
+                                        break;
+                                }
+
+                                //Basically we tell to the launched app to follow how we sorted the files in the directory.
+                                queryOptions.SortOrder.Add(sortEntry);
+
+                                fileQueryResult = currFolder.CreateFileQueryWithOptions(queryOptions);
+
+                                var options = new LauncherOptions
+                                {
+                                    NeighboringFilesQuery = fileQueryResult
+                                };
+
+                                //Now launch file with options.
+                                launchSuccess = await Launcher.LaunchFileAsync(file, options);
+                            }
+                            catch (Exception ex)
+                            {
+                                //well...
+                                Debug.WriteLine("Error in Interaction\\OpenSelectedItems() || " + ex.Message);
+                            }
+
+                            if (!launchSuccess)
+                                await InvokeWin32Component(clickedOnItem.ItemPath);
                         }
                     }
                 }
