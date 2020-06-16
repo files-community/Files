@@ -720,4 +720,7 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>items</value>
   </data>
+  <data name="BaseLayoutContextFlyoutPinPathToSidebar.Text" xml:space="preserve">
+    <value>Pin path to sidebar</value>
+  </data>
 </root>

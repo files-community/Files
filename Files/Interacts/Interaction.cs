@@ -1,3 +1,4 @@
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
@@ -494,6 +495,11 @@ namespace Files.Interacts
         public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowProperties();
+        }
+        
+        public void PinPathToSidebar(object sender, RoutedEventArgs e)
+        {
+            App.SidebarPinned.AddItem(CurrentInstance.ViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
