@@ -169,7 +169,6 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
-                    IsIndeterminate="True"
                     Value="{x:Bind ViewModel.MD5ProgressValue,Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.Properties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
