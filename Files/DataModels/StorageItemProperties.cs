@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Files.Filesystem;
+using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,140 +13,59 @@ namespace Files.DataModels
     public class StorageItemProperties : ObservableObject
     {
         #region readonly properties
+        private string _ItemName;
         public string ItemName
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage == null) return null;
-
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.ItemName;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get => _ItemName;
+            set => Set(ref _ItemName, value);
         }
-
+        private string _ItemType;
         public string ItemType
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage == null) return null;
-
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.ItemType;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get => _ItemType;
+            set => Set(ref _ItemType, value);
         }
-
+        private string _ItemPath;
         public string ItemPath
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage == null) return null;
-
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.ItemPath;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get => _ItemPath;
+            set => Set(ref _ItemPath, value);
         }
-
+        private string _ItemModifiedTimestamp;
         public string ItemModifiedTimestamp
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage == null) return null;
-
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.ItemDateModified;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get => _ItemModifiedTimestamp;
+            set => Set(ref _ItemModifiedTimestamp, value);
         }
-
+        private ImageSource _FileIconSource;
         public ImageSource FileIconSource
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage == null) return null;
-
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.FileImage;
-                }
-                else
-                {
-                    return null;
-                }
-            }
+            get => _FileIconSource;
+            set => Set(ref _FileIconSource, value);
         }
+        private bool _LoadFolderGlyph;
         public bool LoadFolderGlyph
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.LoadFolderGlyph;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+                get => _LoadFolderGlyph;
+                set => Set(ref _LoadFolderGlyph, value);
         }
-
+        private bool _LoadUnknownTypeGlyph;
         public bool LoadUnknownTypeGlyph
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.LoadUnknownTypeGlyph;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            get => _LoadUnknownTypeGlyph;
+            set => Set(ref _LoadUnknownTypeGlyph, value);
         }
-
+        private bool _LoadFileIcon;
         public bool LoadFileIcon
         {
-            get
-            {
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    return App.CurrentInstance.ContentPage.SelectedItem.LoadFileIcon;
-                }
-                else
-                {
-                    return false;
-                }
-            }
+            get => _LoadFileIcon;
+            set => Set(ref _LoadFileIcon, value);
         }
-
         #endregion
         #region Properties
-        private String _ItemsSize;
+        private string _ItemsSize;
 
-        public String ItemsSize
+        public string ItemsSize
         {
             get => _ItemsSize;
             set => Set(ref _ItemsSize, value);

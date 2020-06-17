@@ -32,12 +32,24 @@ namespace Files.View_Models
         {
             get;set;
         }
+        public ListedItem Item { get; }
 
         #endregion
         #region Constructors
-        public SelectedItemsPropertiesViewModel()
+        public SelectedItemsPropertiesViewModel(ListedItem item)
         {
-            Properties = new StorageItemProperties();
+            Item = item;
+            Properties = new StorageItemProperties()
+            {
+                ItemName = Item?.ItemName,
+                ItemType = Item?.ItemType,
+                ItemPath = Item?.ItemPath,
+                ItemModifiedTimestamp = Item?.ItemDateModified,
+                FileIconSource = Item?.FileImage,
+                LoadFolderGlyph = Item!=null? Item.LoadFolderGlyph:false,
+                LoadUnknownTypeGlyph = Item != null ? Item.LoadUnknownTypeGlyph : false,
+                LoadFileIcon = Item != null ? Item.LoadFileIcon : false
+            };
         }
         #endregion
         #region Methods
@@ -62,37 +74,35 @@ namespace Files.View_Models
         }
         public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
         {
-            Properties = new StorageItemProperties();
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                var selectedItem = App.CurrentInstance.ContentPage.SelectedItem;
                 IStorageItem selectedStorageItem = null;
 
-                if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                if (Item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    var file = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
+                    var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
                     selectedStorageItem = file;
                     GetOtherPropeties(file.Properties);
-                    Properties.ItemsSize = selectedItem.FileSize;
+                    Properties.ItemsSize = Item.FileSize;
                 }
-                else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
+                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
                     selectedStorageItem = storageFolder;
                     GetOtherPropeties(storageFolder.Properties);
                     GetFolderSize(storageFolder);
                 }
                 Properties.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(selectedStorageItem.DateCreated);
-                if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
+                if (Item.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     // Get file MD5 hash
                     var hashAlgTypeName = HashAlgorithmNames.Md5;
                     Properties.ItemMD5HashProgressVisibility = Visibility.Visible;
-                    Properties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(selectedItem, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
+                    Properties.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
                     Properties.ItemMD5HashProgressVisibility = Visibility.Collapsed;
                     Properties.ItemMD5HashVisibility = Visibility.Visible;
                 }
-                else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
+                else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     Properties.ItemMD5HashVisibility = Visibility.Collapsed;
                     Properties.ItemMD5HashProgressVisibility = Visibility.Collapsed;

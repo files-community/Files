@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -28,11 +29,15 @@ namespace Files
         private CancellationTokenSource _tokenSource;
 
         public AppWindow propWindow;
-        public SelectedItemsPropertiesViewModel ViewModel { get; } = new SelectedItemsPropertiesViewModel();
+        public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
         public Properties()
         {
-            this.InitializeComponent();
+            this.InitializeComponent();           
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as ListedItem);
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 Loaded += Properties_Loaded;
@@ -43,8 +48,8 @@ namespace Files
             }
             ViewModel.ItemMD5HashProgress = ItemMD5HashProgress;
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            base.OnNavigatedTo(e);
         }
-
         private async void Properties_Loaded(object sender, RoutedEventArgs e)
         {
             _tokenSource?.Dispose();

@@ -86,7 +86,7 @@ namespace Files
             SidebarPinned = new SidebarPinnedModel();
             AppSettings = new SettingsViewModel();
             InteractionViewModel = new InteractionViewModel();
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(null);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
         }
 
