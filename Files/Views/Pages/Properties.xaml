@@ -151,7 +151,6 @@
                     <muxc:ProgressRing
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Margin="0,0,0,0"
                         Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" 
                         HorizontalAlignment="Left" />
                 </Grid>
