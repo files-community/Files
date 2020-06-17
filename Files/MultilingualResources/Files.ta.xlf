@@ -816,6 +816,10 @@
           <source>items</source>
           <target state="new">items</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Pin directory to sidebar</source>
+          <target state="new">Pin directory to sidebar</target>
+        </trans-unit>
       </group>
     </body>
   </file>
