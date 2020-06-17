@@ -49,7 +49,7 @@ namespace Files
             }
         }
 
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.CurrentInstance.StatusBarControl.SelectedItemsPropertiesViewModel;
 
         private List<ListedItem> _SelectedItems = new List<ListedItem>();
 

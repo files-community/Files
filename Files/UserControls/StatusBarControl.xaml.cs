@@ -8,12 +8,16 @@ namespace Files.UserControls
     public sealed partial class StatusBarControl : UserControl
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
-        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel => App.DirectoryPropertiesViewModel;
-
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => selectedViewModel;
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel => directoryViewModel;
+        
+        private SelectedItemsPropertiesViewModel selectedViewModel = null;
+        private DirectoryPropertiesViewModel directoryViewModel = null;
         public StatusBarControl()
         {
             this.InitializeComponent();
+            selectedViewModel = new SelectedItemsPropertiesViewModel();
+            directoryViewModel = new DirectoryPropertiesViewModel();
         }
     }
 }

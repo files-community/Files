@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
+using Files.View_Models;
 using System;
 using System.Linq;
 using Windows.Storage;
@@ -50,6 +51,8 @@ namespace Files.Views.Pages
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
         Control IShellPage.OperationsControl => null;
+
+        StatusBarControl IShellPage.StatusBarControl => StatusBarControl;
 
         private BaseLayout GetContentOrNull()
         {
