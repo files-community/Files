@@ -296,7 +296,8 @@ namespace Files
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
                 tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                fontIconSource.Glyph = "\xE74D";
+                fontIconSource.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Fabric MDL2 Assets");
+                fontIconSource.Glyph = "\xEF87";
             }
             else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.StartsWith(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
             {

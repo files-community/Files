@@ -35,7 +35,7 @@
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="{x:Bind Glyph}" />
+                        <FontIcon Glyph="{x:Bind Glyph}" FontFamily="{x:Bind Font}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>

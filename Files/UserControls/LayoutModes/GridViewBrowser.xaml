@@ -130,7 +130,7 @@
                 IsEnabled="True"
                 Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE74D;" />
+                    <FontIcon FontFamily="Fabric MDL2 Assets" Glyph="&#xEF88;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
