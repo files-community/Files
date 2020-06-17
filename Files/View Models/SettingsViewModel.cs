@@ -300,7 +300,33 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
         }
+        public bool OpenPropertiesInMultipleWindows
+        {
+            get => (bool)GetSettingsValue("OpenPropertiesInMultipleWindows",false);
+            set => localSettings.Values["OpenPropertiesInMultipleWindows"] = (bool)value;
+        }
+        public bool ShowFileOwner
+        {
+            get => (bool)GetSettingsValue("ShowFileOwner", false);
+            set => localSettings.Values["ShowFileOwner"] = (bool)value;
+        }
 
+        protected TResult GetSettingsValue<TResult>(string name, TResult defaultValue)
+        {
+            try
+            {
+                if (!localSettings.Values.ContainsKey(name))
+                {
+                    localSettings.Values[name] = defaultValue;
+                }
+                return (TResult)localSettings.Values[name];
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+                return defaultValue;
+            }
+        }
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar

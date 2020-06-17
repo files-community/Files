@@ -381,38 +381,49 @@ namespace Files.Interacts
         {
             if (App.CurrentInstance?.ContentPage?.SelectedItems?.Count > 0)
             {
-                foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
+                if (App.AppSettings.OpenPropertiesInMultipleWindows)
                 {
-                    if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+                    foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
                     {
-                        AppWindow appWindow = await AppWindow.TryCreateAsync();
-                        Frame frame = new Frame();
-                        appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                        frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
-                        WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
-
-                        appWindow.RequestSize(new Size(400, 475));
-                        appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
-
-                        ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
-                        AppWindows.Add(frame.UIContext, appWindow);
-
-                        appWindow.Closed += delegate
-                        {
-                            AppWindows.Remove(frame.UIContext);
-                            frame.Content = null;
-                            appWindow = null;
-                        };
-
-                        await appWindow.TryShowAsync();
-                    }
-                    else
-                    {
-                        App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                        App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
-                        await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                        await OpenPropertiesWindow(item);
                     }
                 }
+                else
+                {
+                    await OpenPropertiesWindow(CurrentInstance.ContentPage.SelectedItems.First());
+                }
+            }
+        }
+        private async Task OpenPropertiesWindow(ListedItem item)
+        {
+            if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
+            {
+                AppWindow appWindow = await AppWindow.TryCreateAsync();
+                Frame frame = new Frame();
+                appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
+                frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
+
+                appWindow.RequestSize(new Size(400, 475));
+                appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
+
+                ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
+                AppWindows.Add(frame.UIContext, appWindow);
+
+                appWindow.Closed += delegate
+                {
+                    AppWindows.Remove(frame.UIContext);
+                    frame.Content = null;
+                    appWindow = null;
+                };
+
+                await appWindow.TryShowAsync();
+            }
+            else
+            {
+                App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 

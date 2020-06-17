@@ -220,12 +220,14 @@
                     Grid.Row="10"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Visibility="{x:Bind ViewModel.FileOwnerVisibility,Mode=OneWay}"
                     Text="File Owner:" />
                 <TextBlock
                     Grid.Row="10"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
+                    Visibility="{x:Bind ViewModel.FileOwnerVisibility,Mode=OneWay}"
                     Text="{x:Bind ViewModel.Properties.ItemFileOwner, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="11"
