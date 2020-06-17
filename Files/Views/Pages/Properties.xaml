@@ -148,13 +148,12 @@
                         Grid.Column="0"
                         IsTextSelectionEnabled="True"
                         Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
-                    <muxc:ProgressBar
+                    <muxc:ProgressRing
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Margin="20,0,0,0"
-                        IsIndeterminate="True"
-                        ShowError="{x:Bind ItemProperties.SizeCalcError, Mode=OneWay}"
-                        Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" />
+                        Margin="0,0,0,0"
+                        Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" 
+                        HorizontalAlignment="Left" />
                 </Grid>
 
                 <TextBlock

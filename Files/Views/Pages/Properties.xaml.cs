@@ -3,6 +3,7 @@ using Files.Helpers;
 using Files.Interacts;
 using GalaSoft.MvvmLight;
 using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,6 +18,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files
 {
@@ -151,25 +154,14 @@ namespace Files
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
-            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(0).ToString();
-            var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
+
             var fileSizeTask = Task.Run(async () =>
             {
-                var count = 0;
-                long size = 0;
-                uint index = 0;
-                do
+                var size = CalculateFolderSize(storageFolder.Path, token);
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    var files = await folders.GetFilesAsync(index, 16);
-                    count = files.Count;
-                    index += (uint)count;
-                    size += (await Task.WhenAll(files.Select(async file => (await file.GetBasicPropertiesAsync()).Size)))
-                        .Sum(size => (long)size);
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                    {
-                        ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
-                    });
-                } while (count >= 16 && !token.IsCancellationRequested);
+                    ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
+                });
                 return size;
             });
             try
@@ -184,6 +176,80 @@ namespace Files
                 ItemProperties.SizeCalcError = true;
             }
         }
+
+        public long CalculateFolderSize(string path, CancellationToken token)
+        {
+            long size = 0;
+
+            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                  additionalFlags);
+
+            var count = 0;
+            if (hFile.ToInt64() != -1)
+            {
+                do
+                {
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                    {
+                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        {
+                            if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+                            {
+                                long fDataFSize = findData.nFileSizeLow;
+                                long fileSize;
+                                if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
+                                {
+                                    fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
+                                }
+                                else
+                                {
+                                    if (findData.nFileSizeHigh > 0)
+                                    {
+                                        fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
+                                    }
+                                    else if (fDataFSize < 0)
+                                    {
+                                        fileSize = fDataFSize + 4294967296;
+                                    }
+                                    else
+                                    {
+                                        fileSize = fDataFSize;
+                                    }
+                                }
+                                size += fileSize;
+                                ++count;
+                            }
+                        }
+                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                        {
+                            if (findData.cFileName != "." && findData.cFileName != "..")
+                            {
+                                var itemPath = Path.Combine(path, findData.cFileName);
+
+                                size += CalculateFolderSize(itemPath, token);
+                                ++count;
+                            }
+                        }
+                    }
+
+                    if (token.IsCancellationRequested)
+                    {
+                        break;
+                    }
+
+                } while (FindNextFile(hFile, out findData));
+                FindClose(hFile);
+                return size;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;
