@@ -138,6 +138,16 @@
                     <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
                         <MenuFlyout.Items>
                             <MenuFlyoutItem
+                                x:Name="EmptyRecycleBin"
+                                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
+                                x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
+                                Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                                Text="Empty recycle bin">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE74D;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
                                 Click="OpenInNewTab_Click"
