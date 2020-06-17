@@ -63,16 +63,20 @@ namespace Files
                 var selectedItem = App.CurrentInstance.ContentPage.SelectedItem;
                 IStorageItem selectedStorageItem = null;
 
+                ItemProperties.ItemSizeVisibility = Visibility.Collapsed;
+                ItemProperties.ItemSizeProgressVisibility = Visibility.Visible;
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
                     ItemProperties.ItemSize = selectedItem.FileSize;
+                    ItemProperties.ItemSizeVisibility = Visibility.Visible;
+                    ItemProperties.ItemSizeProgressVisibility = Visibility.Collapsed;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
                     var storageFolder = await StorageFolder.GetFolderFromPathAsync(selectedItem.ItemPath);
                     selectedStorageItem = storageFolder;
-                    GetFolderSize(storageFolder);
+                    GetFolderSize(storageFolder, _tokenSource.Token);
                 }
 
                 ItemProperties.ItemName = selectedItem.ItemName;
@@ -146,13 +150,39 @@ namespace Files
             Unloaded -= Properties_Unloaded;
         }
 
-        private async void GetFolderSize(StorageFolder storageFolder)
+        private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
             var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
-            var fileSizeTasks = (await folders.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
-            var sizes = await Task.WhenAll(fileSizeTasks);
-            var folderSize = sizes.Sum(singleSize => (long)singleSize);
+            var fileSizeTask = Task.Run(async () =>
+            {
+                var count = 0;
+                long size = 0;
+                uint index = 0;
+                try
+                {
+                    do
+                    {
+                        var files = await folders.GetFilesAsync(index, 16);
+                        count = files.Count;
+                        index += (uint)count;
+                        size += (await Task.WhenAll(files.Select(async file => (await file.GetBasicPropertiesAsync()).Size)))
+                            .Sum(size => (long)size);
+                    } while (count >= 16 && !token.IsCancellationRequested);
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                }
+                return size;
+            });
+            var folderSize = await fileSizeTask;
+            if (token.IsCancellationRequested)
+            {
+                folderSize = 0;
+            }
             ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
+            ItemProperties.ItemSizeVisibility = Visibility.Visible;
+            ItemProperties.ItemSizeProgressVisibility = Visibility.Collapsed;
         }
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
@@ -203,8 +233,10 @@ namespace Files
         private string _ItemPath;
         private string _ItemMD5Hash;
         private Visibility _ItemMD5HashVisibility;
-        private Visibility _ItemMD5HashProgressVisibiity;
+        private Visibility _ItemMD5HashProgressVisibility;
         private string _ItemSize;
+        private Visibility _ItemSizeVisibility;
+        private Visibility _ItemSizeProgressVisibility;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
         private ImageSource _FileIconSource;
@@ -232,8 +264,8 @@ namespace Files
 
         public Visibility ItemMD5HashProgressVisibility
         {
-            get => _ItemMD5HashProgressVisibiity;
-            set => Set(ref _ItemMD5HashProgressVisibiity, value);
+            get => _ItemMD5HashProgressVisibility;
+            set => Set(ref _ItemMD5HashProgressVisibility, value);
         }
 
         public string ItemType
@@ -252,6 +284,18 @@ namespace Files
         {
             get => _ItemSize;
             set => Set(ref _ItemSize, value);
+        }
+
+        public Visibility ItemSizeVisibility
+        {
+            get => _ItemSizeVisibility;
+            set => Set(ref _ItemSizeVisibility, value);
+        }
+
+        public Visibility ItemSizeProgressVisibility
+        {
+            get => _ItemSizeProgressVisibility;
+            set => Set(ref _ItemSizeProgressVisibility, value);
         }
 
         public string ItemCreatedTimestamp

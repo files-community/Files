@@ -143,7 +143,15 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
+                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}"
+                    Visibility="{x:Bind ItemProperties.ItemSizeVisibility, Mode=OneWay}" />
+                <ProgressBar
+                    x:Name="ItemSizeProgress"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsIndeterminate="True"
+                    Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" />
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
