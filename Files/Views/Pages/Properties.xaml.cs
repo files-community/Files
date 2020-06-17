@@ -11,6 +11,7 @@ using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.Search;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -63,13 +64,11 @@ namespace Files
                 var selectedItem = App.CurrentInstance.ContentPage.SelectedItem;
                 IStorageItem selectedStorageItem = null;
 
-                ItemProperties.ItemSizeVisibility = Visibility.Collapsed;
                 ItemProperties.ItemSizeProgressVisibility = Visibility.Visible;
                 if (selectedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
                     selectedStorageItem = await StorageFile.GetFileFromPathAsync(selectedItem.ItemPath);
                     ItemProperties.ItemSize = selectedItem.FileSize;
-                    ItemProperties.ItemSizeVisibility = Visibility.Visible;
                     ItemProperties.ItemSizeProgressVisibility = Visibility.Collapsed;
                 }
                 else if (selectedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
@@ -152,37 +151,38 @@ namespace Files
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
+            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(0).ToString();
             var folders = storageFolder.CreateFileQuery(CommonFileQuery.OrderByName);
             var fileSizeTask = Task.Run(async () =>
             {
                 var count = 0;
                 long size = 0;
                 uint index = 0;
-                try
+                do
                 {
-                    do
+                    var files = await folders.GetFilesAsync(index, 16);
+                    count = files.Count;
+                    index += (uint)count;
+                    size += (await Task.WhenAll(files.Select(async file => (await file.GetBasicPropertiesAsync()).Size)))
+                        .Sum(size => (long)size);
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                     {
-                        var files = await folders.GetFilesAsync(index, 16);
-                        count = files.Count;
-                        index += (uint)count;
-                        size += (await Task.WhenAll(files.Select(async file => (await file.GetBasicPropertiesAsync()).Size)))
-                            .Sum(size => (long)size);
-                    } while (count >= 16 && !token.IsCancellationRequested);
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                }
+                        ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
+                    });
+                } while (count >= 16 && !token.IsCancellationRequested);
                 return size;
             });
-            var folderSize = await fileSizeTask;
-            if (token.IsCancellationRequested)
+            try
             {
-                folderSize = 0;
+                var folderSize = await fileSizeTask;
+                ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
+                ItemProperties.ItemSizeProgressVisibility = Visibility.Collapsed;
             }
-            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
-            ItemProperties.ItemSizeVisibility = Visibility.Visible;
-            ItemProperties.ItemSizeProgressVisibility = Visibility.Collapsed;
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                ItemProperties.SizeCalcError = true;
+            }
         }
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
@@ -235,7 +235,6 @@ namespace Files
         private Visibility _ItemMD5HashVisibility;
         private Visibility _ItemMD5HashProgressVisibility;
         private string _ItemSize;
-        private Visibility _ItemSizeVisibility;
         private Visibility _ItemSizeProgressVisibility;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -243,6 +242,7 @@ namespace Files
         private bool _LoadFolderGlyph;
         private bool _LoadUnknownTypeGlyph;
         private bool _LoadFileIcon;
+        private bool _SizeCalcError;
 
         public string ItemName
         {
@@ -286,16 +286,16 @@ namespace Files
             set => Set(ref _ItemSize, value);
         }
 
-        public Visibility ItemSizeVisibility
-        {
-            get => _ItemSizeVisibility;
-            set => Set(ref _ItemSizeVisibility, value);
-        }
-
         public Visibility ItemSizeProgressVisibility
         {
             get => _ItemSizeProgressVisibility;
             set => Set(ref _ItemSizeProgressVisibility, value);
+        }
+
+        public bool SizeCalcError
+        {
+            get => _SizeCalcError;
+            set => Set(ref _SizeCalcError, value);
         }
 
         public string ItemCreatedTimestamp

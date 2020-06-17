@@ -1196,7 +1196,7 @@ namespace Files.Interacts
             App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress)
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
