@@ -306,11 +306,12 @@ namespace Files.Filesystem
 
             // If path is found to not be a library
             pathComponents = WorkingDirectory.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+
             int index = 0;
+            string tag = "";
             foreach (string s in pathComponents)
             {
                 string componentLabel = null;
-                string tag = "";
                 if (s.StartsWith(App.AppSettings.RecycleBinPath))
                 {
                     // Handle the recycle bin: use the localized folder name
@@ -343,7 +344,7 @@ namespace Files.Filesystem
                 else
                 {
                     componentLabel = s;
-                    foreach (string part in pathComponents.GetRange(0, index + 1))
+                    foreach (string part in pathComponents.GetRange(index, 1))
                     {
                         tag = tag + part + @"\";
                     }

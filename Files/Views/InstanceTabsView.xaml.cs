@@ -342,6 +342,10 @@ namespace Files
 
         public static string NormalizePath(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return path;
+            }
             if (path.StartsWith("\\\\"))
             {
                 return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
