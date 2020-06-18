@@ -659,14 +659,7 @@ namespace Files.Filesystem
                 semaphoreSlim.Release();
             }
 
-            if (_filesAndFolders.Count == 1)
-            {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
-            }
-            else
-            {
-                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
-            }
+            UpdateDirectoryInfo();
         }
 
         public void CloseWatcher()
@@ -1000,6 +993,18 @@ namespace Files.Filesystem
 
                     UpdateDirectoryInfo();
                 });
+        }
+
+        private void UpdateDirectoryInfo()
+        {
+            if (_filesAndFolders.Count == 1)
+            {
+                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+            }
+            else
+            {
+                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+            }
         }
 
         public async void RemoveFileOrFolder(ListedItem item)

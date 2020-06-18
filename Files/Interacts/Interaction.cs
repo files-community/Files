@@ -499,7 +499,7 @@ namespace Files.Interacts
         
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
-            App.SidebarPinned.AddItem(CurrentInstance.ViewModel.WorkingDirectory);
+            App.SidebarPinned.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
