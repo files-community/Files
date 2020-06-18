@@ -307,8 +307,8 @@ namespace Files.View_Models
         }
         public bool ShowFileOwner
         {
-            get => Get<bool>(false, "ShowFileOwner");
-            set => localSettings.Values["ShowFileOwner"] = (bool)value;
+            get => Get(false);
+            set => Set(value);
         }
         private bool _PinOneDriveToSideBar = true;
 
