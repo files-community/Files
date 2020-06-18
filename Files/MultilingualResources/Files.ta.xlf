@@ -820,6 +820,22 @@
           <source>Pin directory to sidebar</source>
           <target state="new">Pin directory to sidebar</target>
         </trans-unit>
+        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+          <source>Accessed:</source>
+          <target state="new">Accessed:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
+          <source>Owner:</source>
+          <target state="new">Owner:</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
+          <source>Show Owner in properties</source>
+          <target state="new">Show Owner in properties</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalPropertiesMultipleWindows.Text" translate="yes" xml:space="preserve">
+          <source>Open properties in Multiple Windows</source>
+          <target state="new">Open properties in Multiple Windows</target>
+        </trans-unit>
       </group>
     </body>
   </file>
