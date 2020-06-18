@@ -10,14 +10,14 @@ namespace Files.Common
         public string FilePath;
         public DateTime RecycleDate;
         public string FileSize;
-        public long FileSizeBytes;
+        public ulong FileSizeBytes;
         public string FileType;
 
         public ShellFileItem()
         {
         }
 
-        public ShellFileItem(bool isFolder, string recyclePath, string fileName, string filePath, DateTime recycleDate, string fileSize, long fileSizeBytes, string fileType)
+        public ShellFileItem(bool isFolder, string recyclePath, string fileName, string filePath, DateTime recycleDate, string fileSize, ulong fileSizeBytes, string fileType)
         {
             this.IsFolder = isFolder;
             this.RecyclePath = recyclePath;

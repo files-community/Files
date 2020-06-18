@@ -228,7 +228,7 @@ namespace Files.View_Models
 
             ItemName = Item?.ItemName;
             ItemType = Item?.ItemType;
-            ItemPath = Path.GetDirectoryName(Item?.ItemPath);
+            ItemPath = Path.IsPathRooted(Item?.ItemPath) ? Path.GetDirectoryName(Item?.ItemPath) : Item?.ItemPath;
             ItemModifiedTimestamp = Item?.ItemDateModified;
             FileIconSource = Item?.FileImage;
             LoadFolderGlyph = Item != null ? Item.LoadFolderGlyph : false;

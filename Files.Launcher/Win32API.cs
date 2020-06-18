@@ -3,29 +3,37 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Vanara.Windows.Shell;
 
 namespace FilesFullTrust
 {
     internal class Win32API
     {
-        // TODO: remove this when updated library is released
-        [DllImport("shell32.dll")]
-        public static extern Vanara.PInvoke.HRESULT SHQueryRecycleBin(string pszRootPath, ref SHQUERYRBINFO pSHQueryRBInfo);
-
-        // TODO: remove this when updated library is released
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto, Pack = 4)]
-        public struct SHQUERYRBINFO
+        public static Task<T> StartSTATask<T>(Func<T> func)
         {
-            public uint cbSize;
-            public long i64Size;
-            public long i64NumItems;
+            var tcs = new TaskCompletionSource<T>();
+            Thread thread = new Thread(() =>
+            {
+                try
+                {
+                    tcs.SetResult(func());
+                }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
+            });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            return tcs.Task;
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
         public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] System.Text.StringBuilder lpResult);
 
-        public static async System.Threading.Tasks.Task<string> GetFileAssociation(string filename)
+        public static async Task<string> GetFileAssociation(string filename)
         {
             // Find UWP apps
             var uwp_apps = await Windows.System.Launcher.FindFileHandlersAsync(System.IO.Path.GetExtension(filename));

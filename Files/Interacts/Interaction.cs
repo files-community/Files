@@ -656,7 +656,7 @@ namespace Files.Interacts
             }
             catch (IOException)
             {
-                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog.Title"), ResourceController.GetTranslation("FileInUseDeleteDialog.Text"), ResourceController.GetTranslation("FileInUseDeleteDialog.PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog.SecondaryButtonText")))
+                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog/Title"), ResourceController.GetTranslation("FileInUseDeleteDialog/Text"), ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
                     DeleteItem_Click(null, null);
                 }
@@ -948,13 +948,26 @@ namespace Files.Interacts
 
         public async void EmptyRecycleBin_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (App.Connection != null)
+            var ConfirmEmptyBinDialog = new ContentDialog()
             {
-                var value = new ValueSet();
-                value.Add("Arguments", "RecycleBin");
-                value.Add("action", "Empty");
-                // Send request to fulltrust process to empty recyclebin
-                await App.Connection.SendMessageAsync(value);
+                Title = ResourceController.GetTranslation("ConfirmEmptyBinDialogTitle"),
+                Content = ResourceController.GetTranslation("ConfirmEmptyBinDialogContent"),
+                PrimaryButtonText = ResourceController.GetTranslation("ConfirmEmptyBinDialog/PrimaryButtonText"),
+                SecondaryButtonText = ResourceController.GetTranslation("ConfirmEmptyBinDialog/SecondaryButtonText")
+            };
+
+            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                if (App.Connection != null)
+                {
+                    var value = new ValueSet();
+                    value.Add("Arguments", "RecycleBin");
+                    value.Add("action", "Empty");
+                    // Send request to fulltrust process to empty recyclebin
+                    await App.Connection.SendMessageAsync(value);
+                }
             }
         }
 
@@ -982,6 +995,7 @@ namespace Files.Interacts
             }
 
             itemsToPaste = await packageView.GetStorageItemsAsync();
+            HashSet<IStorageItem> pastedSourceItems = new HashSet<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
             if (itemsToPaste.Count > 3)
@@ -1025,6 +1039,7 @@ namespace Files.Interacts
                         try
                         {
                             StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
+                            pastedSourceItems.Add(item);
                             pastedItems.Add(pastedFolder);
                         }
                         catch (FileNotFoundException)
@@ -1044,6 +1059,7 @@ namespace Files.Interacts
                     {
                         StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
                         StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                        pastedSourceItems.Add(item);
                         pastedItems.Add(pastedFile);
                     }
                     catch (FileNotFoundException)
@@ -1056,19 +1072,19 @@ namespace Files.Interacts
 
             if (acceptedOperation == DataPackageOperation.Move)
             {
-                foreach (IStorageItem item in itemsToPaste)
+                foreach (IStorageItem item in pastedSourceItems)
                 {
                     try
                     {
                         if (item.IsOfType(StorageItemTypes.File))
                         {
                             StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
-                            await file.DeleteAsync();
+                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         }
                         else if (item.IsOfType(StorageItemTypes.Folder))
                         {
                             StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                            await folder.DeleteAsync();
+                            await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
                         }
                     }
                     catch (FileNotFoundException)

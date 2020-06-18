@@ -48,11 +48,25 @@ namespace FilesFullTrust
                 recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 Windows.Storage.ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
 
-                // Create shell watcher to monitor recycle bin folder
-                watcher = new ShellItemChangeWatcher(recycler, false);
-                watcher.NotifyFilter = ChangeFilters.AllDiskEvents;
-                watcher.Changed += Watcher_Changed;
-                //watcher.EnableRaisingEvents = true; // TODO: uncomment this when updated library is released
+                // Create filesystem watcher to monitor recycle bin folder(s)
+                // SHChangeNotifyRegister only works if recycle bin is open in explorer :(
+                watchers = new List<FileSystemWatcher>();
+                var sid = System.Security.Principal.WindowsIdentity.GetCurrent().User.ToString();
+                foreach (var drive in DriveInfo.GetDrives())
+                {
+                    var recycle_path = Path.Combine(drive.Name, "$Recycle.Bin", sid);
+                    if (!Directory.Exists(recycle_path)) continue;
+                    var watcher = new FileSystemWatcher();
+                    watcher.Path = recycle_path;
+                    watcher.Filter = "*.*";
+                    watcher.NotifyFilter = NotifyFilters.LastWrite
+                                 | NotifyFilters.FileName
+                                 | NotifyFilters.DirectoryName;
+                    watcher.Created += Watcher_Changed;
+                    watcher.Deleted += Watcher_Changed;
+                    watcher.EnableRaisingEvents = true;
+                    watchers.Add(watcher);
+                }
 
                 // Connect to app service and wait until the connection gets closed
                 appServiceExit = new AutoResetEvent(false);
@@ -62,7 +76,8 @@ namespace FilesFullTrust
             finally
             {
                 connection?.Dispose();
-                watcher?.Dispose();
+                foreach (var watcher in watchers)
+                    watcher.Dispose();
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
@@ -75,57 +90,20 @@ namespace FilesFullTrust
             Logger.Error(exception, exception.Message);
         }
 
-        private static bool HandleCommandLineArgs()
+        private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            var arguments = (string)localSettings.Values["Arguments"];
-            if (!string.IsNullOrWhiteSpace(arguments))
-            {
-                localSettings.Values.Remove("Arguments");
-
-                if (arguments == "ShellCommand")
-                {
-                    // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-                    // In debug mode this kills this process too??
-#else
-                    var pid = (int)localSettings.Values["pid"];
-                    Process.GetProcessById(pid).Kill();
-#endif
-
-                    Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "explorer.exe";
-                    process.StartInfo.CreateNoWindow = false;
-                    process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
-                    process.Start();
-
-                    return true;
-                }
-                else if (arguments == "StartupTasks")
-                {
-                    // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        private static async void Watcher_Changed(object sender, ShellItemChangeWatcher.ShellItemChangeEventArgs e)
-        {
-            Console.WriteLine($"File: {e.ChangedItems.FirstOrDefault()?.FileSystemPath} {e.ChangeType}");
+            Debug.WriteLine("Reycle bin event: {0}, {1}", e.ChangeType, e.FullPath);
             if (connection != null)
             {
                 // Send message to UWP app to refresh items
-                await connection.SendMessageAsync(new ValueSet() { { "FileSystem", @"Shell:RecycleBinFolder" }, { "Path", e.ChangedItems.FirstOrDefault()?.FileSystemPath }, { "Type", e.ChangeType.ToString() } });
+                await connection.SendMessageAsync(new ValueSet() { { "FileSystem", @"Shell:RecycleBinFolder" }, { "Path", e.FullPath }, { "Type", e.ChangeType.ToString() } });
             }
-        }
+        }        
 
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static ShellFolder recycler;
-        private static ShellItemChangeWatcher watcher;
+        private static IList<FileSystemWatcher> watchers;
 
         private static async void InitializeAppServiceConnection()
         {
@@ -268,18 +246,22 @@ namespace FilesFullTrust
 
                 case "Query":
                     var responseQuery = new ValueSet();
-                    Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
-                    queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(Win32API.SHQUERYRBINFO));
-                    var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
-                    // TODO: use this when updated library is released
-                    //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
-                    //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                    Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
+                    queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
+                    var res = Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
                     if (res == Vanara.PInvoke.HRESULT.S_OK)
                     {
                         var numItems = queryBinInfo.i64NumItems;
                         var binSize = queryBinInfo.i64Size;
                         responseQuery.Add("NumItems", numItems);
                         responseQuery.Add("BinSize", binSize);
+                        responseQuery.Add("FileOwner", (string)recycler.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.FileOwner]);
+                        if (watchers.Any())
+                        {
+                            var info = new DirectoryInfo(watchers.First().Path);
+                            responseQuery.Add("DateAccessed", info.LastAccessTime.ToBinary());
+                            responseQuery.Add("DateCreated", info.CreationTime.ToBinary());
+                        }
                         await args.Request.SendResponseAsync(responseQuery);
                     }
                     break;
@@ -292,20 +274,18 @@ namespace FilesFullTrust
                     {
                         try
                         {
-                            folderItem.Properties.ReadOnly = true;
-                            folderItem.Properties.NoInheritedProperties = false;
                             string recyclePath = folderItem.FileSystemPath; // True path on disk
                             string fileName = Path.GetFileName(folderItem.Name); // Original file name
                             string filePath = folderItem.Name; // Original file path + name
                             var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
                             var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
                             string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                            long fileSizeBytes = (long)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
+                            ulong fileSizeBytes = (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
                             string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
                             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
                             folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
                         }
-                        catch (System.IO.FileNotFoundException)
+                        catch (FileNotFoundException)
                         {
                             // Happens if files are being deleted
                         }
@@ -412,6 +392,43 @@ namespace FilesFullTrust
                     }
                 }
             }
+        }
+
+        private static bool HandleCommandLineArgs()
+        {
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var arguments = (string)localSettings.Values["Arguments"];
+            if (!string.IsNullOrWhiteSpace(arguments))
+            {
+                localSettings.Values.Remove("Arguments");
+
+                if (arguments == "ShellCommand")
+                {
+                    // Kill the process. This is a BRUTAL WAY to kill a process.
+#if DEBUG
+                    // In debug mode this kills this process too??
+#else
+                    var pid = (int)localSettings.Values["pid"];
+                    Process.GetProcessById(pid).Kill();
+#endif
+
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.FileName = "explorer.exe";
+                    process.StartInfo.CreateNoWindow = false;
+                    process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
+                    process.Start();
+
+                    return true;
+                }
+                else if (arguments == "StartupTasks")
+                {
+                    // Check QuickLook Availability
+                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)

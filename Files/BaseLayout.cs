@@ -320,22 +320,6 @@ namespace Files
             }
         }
 
-        public void RightClickContextMenu_Opening(object sender, object e)
-        {
-            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
-            {
-                (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
-                UnloadMenuFlyoutItemByName("NewEmptySpace");
-            }
-            else
-            {
-                UnloadMenuFlyoutItemByName("EmptyRecycleBin");
-                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = true;
-                (this.FindName("NewEmptySpace") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-            }
-        }
-
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
 
