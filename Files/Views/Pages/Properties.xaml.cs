@@ -33,7 +33,8 @@ namespace Files
 
         public Properties()
         {
-            this.InitializeComponent();           
+            this.InitializeComponent();         
+            
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

@@ -223,7 +223,7 @@
                     Grid.Row="10"
                     Grid.Column="0"
                     FontWeight="SemiBold"
-                    Visibility="{x:Bind ViewModel.FileOwnerVisibility,Mode=OneWay}"
+                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
                     Text="Owner:" />
                 <TextBlock
                     x:Uid="ItemFileOwnerValue"
@@ -231,7 +231,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Visibility="{x:Bind ViewModel.FileOwnerVisibility,Mode=OneWay}"
+                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
                     Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="11"

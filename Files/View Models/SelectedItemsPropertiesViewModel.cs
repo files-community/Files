@@ -138,7 +138,6 @@ namespace Files.View_Models
             get; set;
         }
         public ListedItem Item { get; }
-        public Visibility FileOwnerVisibility { get => App.AppSettings.ShowFileOwner ? Visibility.Visible : Visibility.Collapsed; }
         #endregion
         #region Constructors
         public SelectedItemsPropertiesViewModel(ListedItem item)
