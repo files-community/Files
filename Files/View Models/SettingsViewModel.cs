@@ -302,8 +302,8 @@ namespace Files.View_Models
         }
         public bool OpenPropertiesInMultipleWindows
         {
-            get => Get<bool>(false,"OpenPropertiesInMultipleWindows");
-            set => localSettings.Values["OpenPropertiesInMultipleWindows"] = (bool)value;
+            get => Get(false);
+            set => Set(value);
         }
         public bool ShowFileOwner
         {
