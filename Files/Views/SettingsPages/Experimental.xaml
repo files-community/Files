@@ -136,7 +136,7 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         FontSize="16"
-                        Text="Show File Owner in properties"
+                        Text="Show Owner in properties"
                         TextWrapping="Wrap" />
 
                     <ToggleSwitch

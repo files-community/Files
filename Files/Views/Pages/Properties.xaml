@@ -206,23 +206,27 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}" />
                 <TextBlock
+                    x:Uid="PropertiesAccessed"
                     Grid.Row="9"
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Text="Accessed:" />
                 <TextBlock
+                    x:Name="itemAccessedTimestampValue"
                     Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}" />
                 <TextBlock
+                    x:Uid="PropertiesOwner"
                     Grid.Row="10"
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Visibility="{x:Bind ViewModel.FileOwnerVisibility,Mode=OneWay}"
-                    Text="File Owner:" />
+                    Text="Owner:" />
                 <TextBlock
+                    x:Uid="ItemFileOwnerValue"
                     Grid.Row="10"
                     Grid.Column="1"
                     Margin="20,0,0,0"
