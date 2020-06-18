@@ -130,13 +130,13 @@ namespace Files
             {
                 var path = (string)args.Request.Message["FileSystem"];
                 Debug.WriteLine("{0}: {1}", path, args.Request.Message["Type"]);
-                if (App.CurrentInstance.ViewModel.CurrentFolder?.ItemPath == path)
+                if (App.CurrentInstance.FilesystemViewModel.CurrentFolder?.ItemPath == path)
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                         () =>
                         {
-                            App.CurrentInstance.ViewModel.RefreshItems();
+                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
                         });
                 }
             }
@@ -182,7 +182,7 @@ namespace Files
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
                     {
                         App.PS.IsEnabled = true;
                     }

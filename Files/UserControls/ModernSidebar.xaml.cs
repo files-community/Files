@@ -106,7 +106,7 @@ namespace Files.Controls
 
             App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
 
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
         }
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)

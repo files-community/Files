@@ -12,7 +12,8 @@ namespace Files
         public StatusBarControl StatusBarControl { get; }
         public Frame ContentFrame { get; }
         public Interaction InteractionOperations { get; }
-        public ItemViewModel ViewModel { get; }
+        public ItemViewModel FilesystemViewModel { get; }
+        public CurrentInstanceViewModel InstanceViewModel { get; }
         public BaseLayout ContentPage { get; }
         public Control OperationsControl { get; }
         public Type CurrentPageType { get; }

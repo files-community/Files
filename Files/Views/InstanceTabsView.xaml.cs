@@ -453,6 +453,14 @@ namespace Files
             }
             else
             {
+
+                Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
+                icon.Glyph = "\xE713";
+                if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
+                {
+                    App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
+                }
+
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
@@ -460,33 +468,29 @@ namespace Files
                 }
                 else
                 {
-                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
+                    if (App.CurrentInstance != null)
                     {
-                        App.InteractionViewModel.IsPageTypeNotHome = false;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPageTypeNotHome = true;
-                    }
-                    if ((tabView.SelectedItem as TabViewItem).Header.ToString() ==
-                        ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"))
-                    {
-                        App.InteractionViewModel.IsPageTypeNotRecycleBin = false;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPageTypeNotRecycleBin = true;
+                        if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
+                        {
+                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
+                        }
+                        else
+                        {
+                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true;
+                        }
+                        if ((tabView.SelectedItem as TabViewItem).Header.ToString() ==
+                            ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"))
+                        {
+                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = false;
+                        }
+                        else
+                        {
+                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = true;
+                        }
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = true;
-                }
-
-                Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
-                icon.Glyph = "\xE713";
-                if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
-                {
-                    App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

@@ -453,13 +453,13 @@
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
             <Interactivity:Interaction.Behaviors>
-                <Core:DataTriggerBehavior Binding="{x:Bind local:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
+                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowRecycleBinContextFlyout}" />
                 </Core:DataTriggerBehavior>
-                <Core:DataTriggerBehavior Binding="{x:Bind local:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
+                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"

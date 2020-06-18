@@ -47,12 +47,14 @@ namespace Files.Views.Pages
 
         Interaction IShellPage.InteractionOperations => interactionOperation;
 
-        ItemViewModel IShellPage.ViewModel => viewModel;
+        ItemViewModel IShellPage.FilesystemViewModel => viewModel;
 
         BaseLayout IShellPage.ContentPage => GetContentOrNull();
         Control IShellPage.OperationsControl => null;
 
         StatusBarControl IShellPage.StatusBarControl => StatusBarControl;
+
+        CurrentInstanceViewModel IShellPage.InstanceViewModel => instanceViewModel;
 
         private BaseLayout GetContentOrNull()
         {
@@ -81,6 +83,7 @@ namespace Files.Views.Pages
 
         private ItemViewModel viewModel = null;
         private Interaction interactionOperation = null;
+        private readonly CurrentInstanceViewModel instanceViewModel = new CurrentInstanceViewModel();
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {

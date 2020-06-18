@@ -41,8 +41,8 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            App.InteractionViewModel.IsPageTypeNotHome = false;
-            App.InteractionViewModel.IsPageTypeNotRecycleBin = true;
+            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
+            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = true;
             var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
@@ -267,7 +267,7 @@ namespace Files
 
             App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath);
 
-            App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }
     }
 

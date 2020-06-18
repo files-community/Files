@@ -462,9 +462,6 @@ namespace Files.Filesystem
                 }
             }
             _filesAndFolders.EndBulkOperation();
-
-            App.CurrentInstance.StatusBarControl.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsSelected/Text");
-
         }
 
         private bool _isLoadingItems = false;
@@ -665,11 +662,11 @@ namespace Files.Filesystem
 
             if (_filesAndFolders.Count == 1)
             {
-                App.CurrentInstance.StatusBarControl.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
             }
             else
             {
-                App.CurrentInstance.StatusBarControl.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
             }
         }
 
