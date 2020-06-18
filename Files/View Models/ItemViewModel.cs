@@ -33,7 +33,6 @@ namespace Files.Filesystem
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
-        private volatile bool MustTryToWatchAgain = false;
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
@@ -462,9 +461,6 @@ namespace Files.Filesystem
                 }
             }
             _filesAndFolders.EndBulkOperation();
-
-            App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsSelected/Text");
-
         }
 
         private bool _isLoadingItems = false;
@@ -663,14 +659,7 @@ namespace Files.Filesystem
                 semaphoreSlim.Release();
             }
 
-            if (_filesAndFolders.Count == 1)
-            {
-                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
-            }
-            else
-            {
-                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
-            }
+            UpdateDirectoryInfo();
         }
 
         public void CloseWatcher()
@@ -1001,6 +990,8 @@ namespace Files.Filesystem
                     {
                         AddFolder(path);
                     }
+
+                    UpdateDirectoryInfo();
                 });
         }
 
@@ -1014,6 +1005,8 @@ namespace Files.Filesystem
                     {
                         IsFolderEmptyTextDisplayed = true;
                     }
+
+                    UpdateDirectoryInfo();
                 });
         }
 
@@ -1301,6 +1294,18 @@ namespace Files.Filesystem
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
             CloseWatcher();
+        }
+
+        public void UpdateDirectoryInfo()
+        {
+            if (_filesAndFolders.Count == 1)
+            {
+                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+            }
+            else
+            {
+                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+            }
         }
     }
 }

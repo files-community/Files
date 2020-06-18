@@ -5,6 +5,7 @@ using Files.View_Models;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,12 +15,16 @@ using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.Storage.Search;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
+
 
 namespace Files
 {
@@ -66,7 +71,9 @@ namespace Files
                 _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 App.AppSettings.UpdateThemeElements.Execute(null);
             }
+
             await ViewModel.GetPropertiesAsync(_tokenSource);
+
         }
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
         {
@@ -78,6 +85,7 @@ namespace Files
             }
             Unloaded -= Properties_Unloaded;
         }
+
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
@@ -119,5 +127,5 @@ namespace Files
                 _tokenSource = new CancellationTokenSource();
             }
         }
-    }
+    }  
 }
