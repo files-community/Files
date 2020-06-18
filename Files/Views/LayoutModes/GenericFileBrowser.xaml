@@ -139,21 +139,21 @@
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
-                x:Name="PropertiesFolder"
-                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
-                Text="Properties">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE946;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
-            <MenuFlyoutItem
                 x:Name="PinToSidebar"
                 x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinDirectoryToSidebar}"
                 Text="Pin directory to sidebar">
                 <MenuFlyoutItem.Icon>
                     <SymbolIcon Symbol="Pin" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="PropertiesFolder"
+                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
+                Text="Properties">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE946;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
