@@ -154,19 +154,15 @@ namespace Files
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
-
             var fileSizeTask = Task.Run(async () =>
             {
-                var size = CalculateFolderSize(storageFolder.Path, token);
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                {
-                    ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
-                });
+                var size = await CalculateFolderSizeAsync(storageFolder.Path, token);
                 return size;
             });
             try
             {
                 var folderSize = await fileSizeTask;
+                ItemProperties.ItemSizeReal = folderSize;
                 ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
                 ItemProperties.ItemSizeProgressVisibility = Visibility.Collapsed;
             }
@@ -177,7 +173,7 @@ namespace Files
             }
         }
 
-        public long CalculateFolderSize(string path, CancellationToken token)
+        public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
         {
             long size = 0;
 
@@ -229,17 +225,25 @@ namespace Files
                             {
                                 var itemPath = Path.Combine(path, findData.cFileName);
 
-                                size += CalculateFolderSize(itemPath, token);
+                                size += await CalculateFolderSizeAsync(itemPath, token);
                                 ++count;
                             }
                         }
+                    }
+
+                    if (size > ItemProperties.ItemSizeReal)
+                    {
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                        {
+                            ItemProperties.ItemSizeReal = size;
+                            ItemProperties.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
+                        });
                     }
 
                     if (token.IsCancellationRequested)
                     {
                         break;
                     }
-
                 } while (FindNextFile(hFile, out findData));
                 FindClose(hFile);
                 return size;
@@ -301,6 +305,7 @@ namespace Files
         private Visibility _ItemMD5HashVisibility;
         private Visibility _ItemMD5HashProgressVisibility;
         private string _ItemSize;
+        private long _ItemSizeReal;
         private Visibility _ItemSizeProgressVisibility;
         private string _ItemCreatedTimestamp;
         private string _ItemModifiedTimestamp;
@@ -350,6 +355,12 @@ namespace Files
         {
             get => _ItemSize;
             set => Set(ref _ItemSize, value);
+        }
+
+        public long ItemSizeReal
+        {
+            get => _ItemSizeReal;
+            set => Set(ref _ItemSizeReal, value);
         }
 
         public Visibility ItemSizeProgressVisibility

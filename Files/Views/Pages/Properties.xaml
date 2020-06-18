@@ -140,7 +140,7 @@
                     Text="Size:" />
                 <Grid Margin="20,0,0,0" Grid.Row="4" Grid.Column="1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" MinWidth="100" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <TextBlock
@@ -151,7 +151,6 @@
                     <muxc:ProgressRing
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Margin="0,0,0,0"
                         Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" 
                         HorizontalAlignment="Left" />
                 </Grid>
