@@ -302,30 +302,13 @@ namespace Files.View_Models
         }
         public bool OpenPropertiesInMultipleWindows
         {
-            get => (bool)GetSettingsValue("OpenPropertiesInMultipleWindows",false);
+            get => Get<bool>(false,"OpenPropertiesInMultipleWindows");
             set => localSettings.Values["OpenPropertiesInMultipleWindows"] = (bool)value;
         }
         public bool ShowFileOwner
         {
-            get => (bool)GetSettingsValue("ShowFileOwner", false);
+            get => Get<bool>(false, "ShowFileOwner");
             set => localSettings.Values["ShowFileOwner"] = (bool)value;
-        }
-
-        protected TResult GetSettingsValue<TResult>(string name, TResult defaultValue)
-        {
-            try
-            {
-                if (!localSettings.Values.ContainsKey(name))
-                {
-                    localSettings.Values[name] = defaultValue;
-                }
-                return (TResult)localSettings.Values[name];
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                return defaultValue;
-            }
         }
         private bool _PinOneDriveToSideBar = true;
 
