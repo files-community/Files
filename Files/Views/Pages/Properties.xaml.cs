@@ -25,7 +25,6 @@ using Windows.UI.Xaml.Navigation;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using FileAttributes = System.IO.FileAttributes;
 
-
 namespace Files
 {
     public sealed partial class Properties : Page
@@ -73,7 +72,6 @@ namespace Files
             }
 
             await ViewModel.GetPropertiesAsync(_tokenSource);
-
         }
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
         {
@@ -85,8 +83,6 @@ namespace Files
             }
             Unloaded -= Properties_Unloaded;
         }
-
-
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
         {
             RequestedTheme = ThemeHelper.RootTheme;

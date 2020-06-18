@@ -14,10 +14,11 @@ using Windows.Storage.Search;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using System.IO;
 using Windows.UI.Core;
 using FileAttributes = System.IO.FileAttributes;
+using static Files.Helpers.NativeFindStorageItemHelper;
+
 
 namespace Files.View_Models
 {
