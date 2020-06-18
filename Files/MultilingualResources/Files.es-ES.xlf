@@ -812,7 +812,23 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
-          <target state="new">Pin directory to sidebar</target>
+          <target state="translated">Anclar directorio a la barra lateral</target>
+        </trans-unit>
+        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+          <source>Accessed:</source>
+          <target state="translated">Accedido:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
+          <source>Owner:</source>
+          <target state="translated">Propietario:</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
+          <source>Show Owner in properties</source>
+          <target state="translated">Mostrar propietario de archivo en propiedades</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalPropertiesMultipleWindows.Text" translate="yes" xml:space="preserve">
+          <source>Open properties in Multiple Windows</source>
+          <target state="translated">Ver propiedades de multiples elementos seleccionados</target>
         </trans-unit>
       </group>
     </body>
