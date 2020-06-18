@@ -8,6 +8,7 @@
     xmlns:local="using:Files"
     xmlns:local1="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="475"
     d:DesignWidth="400"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
@@ -137,13 +138,22 @@
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Text="Size:" />
-                <TextBlock
-                    x:Name="itemSizeValue"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
+                <Grid Margin="20,0,0,0" Grid.Row="4" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        x:Name="itemSizeValue"
+                        Grid.Column="0"
+                        IsTextSelectionEnabled="True"
+                        Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
+                    <muxc:ProgressRing
+                        x:Name="ItemSizeProgress"
+                        Grid.Column="1"
+                        Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" 
+                        HorizontalAlignment="Left" />
+                </Grid>
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
@@ -161,7 +171,7 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
                     Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
-                <ProgressBar
+                <muxc:ProgressBar
                     x:Name="ItemMD5HashProgress"
                     Grid.Row="5"
                     Grid.Column="1"

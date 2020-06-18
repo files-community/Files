@@ -33,7 +33,6 @@ namespace Files.Filesystem
 {
     public class ItemViewModel : INotifyPropertyChanged, IDisposable
     {
-        private volatile bool MustTryToWatchAgain = false;
         private static SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1, 1);
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
