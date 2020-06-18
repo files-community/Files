@@ -133,14 +133,6 @@ namespace Files.View_Models
         }
         #endregion
         #region Properties
-        private StorageItemProperties _properties;
-
-        public StorageItemProperties Properties
-        {
-            get => _properties;
-            set => Set(ref _properties, value);
-        }
-
         public ProgressBar ItemMD5HashProgress
         {
             get; set;
