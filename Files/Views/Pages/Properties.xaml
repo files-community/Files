@@ -151,11 +151,11 @@
                         x:Name="itemSizeValue"
                         Grid.Column="0"
                         IsTextSelectionEnabled="True"
-                        Text="{x:Bind ViewModel.ItemSize, Mode=OneWay}" />
-                    <muxc:ProgressRing
+                        Text="{x:Bind ViewModel.ItemsSize, Mode=OneWay}" />
+                    <muxc:ProgressBar
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" 
+                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" 
                         HorizontalAlignment="Left" />
                 </Grid>
 

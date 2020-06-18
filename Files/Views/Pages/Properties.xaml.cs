@@ -38,8 +38,7 @@ namespace Files
 
         public Properties()
         {
-            this.InitializeComponent();         
-            
+            this.InitializeComponent();    
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -52,7 +51,8 @@ namespace Files
             {
                 this.OKButton.Visibility = Visibility.Collapsed;
             }
-            ViewModel.ItemMD5HashProgress = ItemMD5HashProgress;
+            ViewModel.ItemMD5HashProgress =ItemMD5HashProgress;
+            ViewModel.Dispatcher = Dispatcher;
             App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             base.OnNavigatedTo(e);
         }
