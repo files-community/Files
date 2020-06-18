@@ -52,6 +52,24 @@ namespace Files.Controls
             }
         }
 
+        private bool _ShowEmptyRecycleBin;
+
+        public bool ShowEmptyRecycleBin
+        {
+            get
+            {
+                return _ShowEmptyRecycleBin;
+            }
+            set
+            {
+                if (value != _ShowEmptyRecycleBin)
+                {
+                    _ShowEmptyRecycleBin = value;
+                    NotifyPropertyChanged("ShowEmptyRecycleBin");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -120,6 +138,15 @@ namespace Files.Controls
             else
             {
                 ShowUnpinItem = true;
+            }
+
+            if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                ShowEmptyRecycleBin = true;
+            }
+            else
+            {
+                ShowEmptyRecycleBin = false;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));

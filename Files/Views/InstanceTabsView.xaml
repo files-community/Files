@@ -31,9 +31,10 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="muxc:TabViewItem">
 
-                            <Grid x:Name="LayoutRoot"
-                        Padding="{TemplateBinding Padding}"
-                        Margin="-1,0,0,0">
+                            <Grid
+                                x:Name="LayoutRoot"
+                                Padding="{TemplateBinding Padding}"
+                                Margin="-1,0,0,0">
                                 <!-- This item will cover the separator on its left side. -->
 
                                 <Grid.ColumnDefinitions>
@@ -133,7 +134,8 @@
 
                                         <VisualState x:Name="BottomReorderHint">
                                             <Storyboard>
-                                                <DragOverThemeAnimation Direction="Bottom"
+                                                <DragOverThemeAnimation
+                                                    Direction="Bottom"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                                     TargetName="LayoutRoot" />
                                             </Storyboard>
@@ -141,7 +143,8 @@
 
                                         <VisualState x:Name="TopReorderHint">
                                             <Storyboard>
-                                                <DragOverThemeAnimation Direction="Top"
+                                                <DragOverThemeAnimation
+                                                    Direction="Top"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                                     TargetName="LayoutRoot" />
                                             </Storyboard>
@@ -149,7 +152,8 @@
 
                                         <VisualState x:Name="RightReorderHint">
                                             <Storyboard>
-                                                <DragOverThemeAnimation Direction="Right"
+                                                <DragOverThemeAnimation
+                                                    Direction="Right"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                                     TargetName="LayoutRoot" />
                                             </Storyboard>
@@ -157,15 +161,17 @@
 
                                         <VisualState x:Name="LeftReorderHint">
                                             <Storyboard>
-                                                <DragOverThemeAnimation Direction="Left"
+                                                <DragOverThemeAnimation
+                                                    Direction="Left"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
                                                     TargetName="LayoutRoot" />
                                             </Storyboard>
                                         </VisualState>
 
                                         <VisualStateGroup.Transitions>
-                                            <VisualTransition GeneratedDuration="0:0:0.2"
-                                          To="NoReorderHint" />
+                                            <VisualTransition
+                                                GeneratedDuration="0:0:0.2"
+                                                To="NoReorderHint" />
                                         </VisualStateGroup.Transitions>
                                     </VisualStateGroup>
 
@@ -174,10 +180,11 @@
 
                                         <VisualState x:Name="Dragging">
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                             Storyboard.TargetProperty="Opacity"
-                                             To="{ThemeResource ListViewItemDragThemeOpacity}"
-                                             Duration="0" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="LayoutRoot"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="{ThemeResource ListViewItemDragThemeOpacity}"
+                                                    Duration="0" />
                                                 <DragItemThemeAnimation TargetName="LayoutRoot" />
                                             </Storyboard>
                                         </VisualState>
@@ -192,27 +199,31 @@
 
                                         <VisualState x:Name="Reordering">
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                             Storyboard.TargetProperty="Opacity"
-                                             To="{ThemeResource ListViewItemReorderThemeOpacity}"
-                                             Duration="0:0:0.240" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="LayoutRoot"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="{ThemeResource ListViewItemReorderThemeOpacity}"
+                                                    Duration="0:0:0.240" />
                                             </Storyboard>
                                         </VisualState>
 
                                         <VisualState x:Name="ReorderingTarget">
                                             <Storyboard>
-                                                <DoubleAnimation Storyboard.TargetName="LayoutRoot"
-                                             Storyboard.TargetProperty="Opacity"
-                                             To="{ThemeResource ListViewItemReorderTargetThemeOpacity}"
-                                             Duration="0:0:0.240" />
-                                                <DoubleAnimation Storyboard.TargetName="LayoutRootScale"
-                                             Storyboard.TargetProperty="ScaleX"
-                                             To="{ThemeResource ListViewItemReorderTargetThemeScale}"
-                                             Duration="0:0:0.240" />
-                                                <DoubleAnimation Storyboard.TargetName="LayoutRootScale"
-                                             Storyboard.TargetProperty="ScaleY"
-                                             To="{ThemeResource ListViewItemReorderTargetThemeScale}"
-                                             Duration="0:0:0.240" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="LayoutRoot"
+                                                    Storyboard.TargetProperty="Opacity"
+                                                    To="{ThemeResource ListViewItemReorderTargetThemeOpacity}"
+                                                    Duration="0:0:0.240" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="LayoutRootScale"
+                                                    Storyboard.TargetProperty="ScaleX"
+                                                    To="{ThemeResource ListViewItemReorderTargetThemeScale}"
+                                                    Duration="0:0:0.240" />
+                                                <DoubleAnimation
+                                                    Storyboard.TargetName="LayoutRootScale"
+                                                    Storyboard.TargetProperty="ScaleY"
+                                                    To="{ThemeResource ListViewItemReorderTargetThemeScale}"
+                                                    Duration="0:0:0.240" />
                                             </Storyboard>
                                         </VisualState>
 
@@ -267,45 +278,47 @@
                                 </VisualStateManager.VisualStateGroups>
 
                                 <Path
-                            x:Name="LeftRadiusRender"
-                            x:Load="False"
-                            Grid.Column="0"
-                            Visibility="Collapsed"
-                            VerticalAlignment="Bottom"
-                            Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomLeft}"
-                            Margin="-4,0,0,0"
-                            Stretch="Uniform"
-                            Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                            Data="M4 0 L4 4 L0 4 A4,4 90 0 0 4 0 Z" />
+                                    x:Name="LeftRadiusRender"
+                                    x:Load="False"
+                                    Grid.Column="0"
+                                    Visibility="Collapsed"
+                                    VerticalAlignment="Bottom"
+                                    Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomLeft}"
+                                    Margin="-4,0,0,0"
+                                    Stretch="Uniform"
+                                    Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                    Data="M4 0 L4 4 L0 4 A4,4 90 0 0 4 0 Z" />
                                 <Path
-                            x:Name="RightRadiusRender"
-                            x:Load="False"
-                            Grid.Column="2"
-                            Visibility="Collapsed"
-                            VerticalAlignment="Bottom"
-                            Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomRight}"
-                            Margin="0,0,-4,0"
-                            Stretch="Uniform"
-                            Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                            Data="M0 0 L0 4 L4 4 A4 4 90 0 1 0 0 Z" />
+                                    x:Name="RightRadiusRender"
+                                    x:Load="False"
+                                    Grid.Column="2"
+                                    Visibility="Collapsed"
+                                    VerticalAlignment="Bottom"
+                                    Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomRight}"
+                                    Margin="0,0,-4,0"
+                                    Stretch="Uniform"
+                                    Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                    Data="M0 0 L0 4 L4 4 A4 4 90 0 1 0 0 Z" />
 
-                                <Border x:Name="TabSeparator"
-                            HorizontalAlignment="Right"
-                            Width="1"
-                            Grid.Column="1"
-                            BorderBrush="{ThemeResource TabViewItemSeparator}"
-                            BorderThickness="1"
-                            Margin="0,6,0,6" />
+                                <Border
+                                    x:Name="TabSeparator"
+                                    HorizontalAlignment="Right"
+                                    Width="1"
+                                    Grid.Column="1"
+                                    BorderBrush="{ThemeResource TabViewItemSeparator}"
+                                    BorderThickness="1"
+                                    Margin="0,6,0,6" />
 
-                                <Grid x:Name="TabContainer"
-                            Grid.Column="1"
-                            Background="{ThemeResource TabViewItemHeaderBackground}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Control.IsTemplateFocusTarget="True"
-                            Padding="{ThemeResource TabViewItemHeaderPadding}"
-                            CornerRadius="{Binding Source={ThemeResource OverlayCornerRadius}, Converter={StaticResource TopCornerRadiusFilterConverter}}"
-                            FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
+                                <Grid
+                                    x:Name="TabContainer"
+                                    Grid.Column="1"
+                                    Background="{ThemeResource TabViewItemHeaderBackground}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Control.IsTemplateFocusTarget="True"
+                                    Padding="{ThemeResource TabViewItemHeaderPadding}"
+                                    CornerRadius="{Binding Source={ThemeResource OverlayCornerRadius}, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+                                    FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
 
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition x:Name="IconColumn" Width="Auto" />
@@ -313,42 +326,46 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Viewbox x:Name="IconBox"
-                                MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
-                                MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
-                                Margin="{ThemeResource TabViewItemHeaderIconMargin}">
-                                        <ContentControl x:Name="IconControl"
-                                    Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement}"
-                                    IsTabStop="False"
-                                    Foreground="{ThemeResource TabViewItemIconForeground}"
-                                    HighContrastAdjustment="None" />
+                                    <Viewbox
+                                        x:Name="IconBox"
+                                        MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
+                                        MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
+                                        Margin="{ThemeResource TabViewItemHeaderIconMargin}">
+                                        <ContentControl
+                                            x:Name="IconControl"
+                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement}"
+                                            IsTabStop="False"
+                                            Foreground="{ThemeResource TabViewItemIconForeground}"
+                                            HighContrastAdjustment="None" />
                                     </Viewbox>
 
-                                    <ContentPresenter x:Name="ContentPresenter"
-                                Grid.Column="1"
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Content="{TemplateBinding Header}"
-                                ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                ContentTransitions="{TemplateBinding ContentTransitions}"
-                                FontWeight="{TemplateBinding FontWeight}"
-                                FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-                                OpticalMarginAlignment="TrimSideBearings"
-                                HighContrastAdjustment="None" />
+                                    <ContentPresenter
+                                        x:Name="ContentPresenter"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Header}"
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                                        FontWeight="{TemplateBinding FontWeight}"
+                                        FontSize="{ThemeResource TabViewItemHeaderFontSize}"
+                                        OpticalMarginAlignment="TrimSideBearings"
+                                        HighContrastAdjustment="None" />
 
-                                    <Button x:Name="CloseButton"
-                                Grid.Column="2"
-                                Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
-                                Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
-                                FontSize="{ThemeResource TabViewItemHeaderCloseFontSize}"
-                                Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
-                                Content="&#xE711;"
-                                IsTextScaleFactorEnabled="False"
-                                IsTabStop="False"
-                                Background="{ThemeResource TabViewButtonBackground}"
-                                Foreground="{ThemeResource TabViewButtonForeground}"
-                                Style="{StaticResource TabViewCloseButtonStyle}"
-                                HighContrastAdjustment="None" />
+                                    <Button
+                                        x:Name="CloseButton"
+                                        Grid.Column="2"
+                                        Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
+                                        Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
+                                        FontSize="{ThemeResource TabViewItemHeaderCloseFontSize}"
+                                        Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
+                                        Content="&#xE711;"
+                                        IsTextScaleFactorEnabled="False"
+                                        IsTabStop="False"
+                                        Background="{ThemeResource TabViewButtonBackground}"
+                                        Foreground="{ThemeResource TabViewButtonForeground}"
+                                        Style="{StaticResource TabViewCloseButtonStyle}"
+                                        HighContrastAdjustment="None" />
                                 </Grid>
                             </Grid>
                         </ControlTemplate>
@@ -370,19 +387,20 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="Button">
-                            <ContentPresenter x:Name="ContentPresenter"
-                        AutomationProperties.AccessibilityView="Raw"
-                        BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                        Background="{TemplateBinding Background}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                        Content="{TemplateBinding Content}"
-                        CornerRadius="{TemplateBinding CornerRadius}"
-                        ContentTransitions="{TemplateBinding ContentTransitions}"
-                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                        Padding="{TemplateBinding Padding}"
-                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                AutomationProperties.AccessibilityView="Raw"
+                                BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Content="{TemplateBinding Content}"
+                                CornerRadius="{TemplateBinding CornerRadius}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Padding="{TemplateBinding Padding}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">

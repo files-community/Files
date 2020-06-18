@@ -1,3 +1,4 @@
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
@@ -494,6 +495,11 @@ namespace Files.Interacts
         public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowProperties();
+        }
+        
+        public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
+        {
+            App.SidebarPinned.AddItem(CurrentInstance.ViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -1190,7 +1196,7 @@ namespace Files.Interacts
             App.CurrentInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress)
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);
