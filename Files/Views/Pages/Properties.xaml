@@ -152,7 +152,8 @@
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
                         Visibility="{x:Bind ItemProperties.ItemSizeProgressVisibility, Mode=OneWay}" 
-                        HorizontalAlignment="Left" />
+                        HorizontalAlignment="Left" 
+                        Margin="0,-10" />
                 </Grid>
 
                 <TextBlock
