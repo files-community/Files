@@ -68,7 +68,7 @@
                         x:Name="FolderGlyphIcon"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.Properties.LoadFolderGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind ViewModel.LoadFolderGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Foreground="#ffe793"
@@ -77,7 +77,7 @@
                         x:Name="EmptyImageIcon"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.Properties.LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Glyph="&#xE7C3;" />
@@ -85,8 +85,8 @@
                         x:Name="itemIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.Properties.LoadFileIcon, Mode=OneWay}"
-                        Source="{x:Bind ViewModel.Properties.FileIconSource, Mode=OneWay}" />
+                        x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
+                        Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
                 </Grid>
                 <TextBox
                     x:Name="itemFileName"
@@ -98,7 +98,7 @@
                     VerticalAlignment="Center"
                     BorderThickness="1"
                     IsReadOnly="True"
-                    Text="{x:Bind ViewModel.Properties.ItemName, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemName, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="1"
                     Grid.Column="0"
@@ -117,7 +117,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemType, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesItemPath"
@@ -131,7 +131,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemPath, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
                     TextWrapping="Wrap" />
 
                 <TextBlock
@@ -146,7 +146,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemsSize, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemsSize, Mode=OneWay}" />
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
@@ -155,21 +155,21 @@
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Text="MD5Hash:"
-                    Visibility="{x:Bind ViewModel.Properties.ItemMD5HashVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemMD5Hash, Mode=OneWay}"
-                    Visibility="{x:Bind ViewModel.Properties.ItemMD5HashVisibility, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <ProgressBar
                     x:Name="ItemMD5HashProgress"
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
-                    Visibility="{x:Bind ViewModel.Properties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
 
                 <MenuFlyoutSeparator
@@ -190,7 +190,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemCreatedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesModified"
@@ -204,7 +204,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemModifiedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}" />
                 <TextBlock
                     Grid.Row="9"
                     Grid.Column="0"
@@ -215,7 +215,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.Properties.ItemAccessedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}" />
                 <TextBlock
                     Grid.Row="10"
                     Grid.Column="0"
@@ -228,7 +228,7 @@
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Visibility="{x:Bind ViewModel.FileOwnerVisibility,Mode=OneWay}"
-                    Text="{x:Bind ViewModel.Properties.ItemFileOwner, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="11"
                     Grid.Column="0"
