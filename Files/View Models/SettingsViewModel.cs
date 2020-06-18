@@ -300,7 +300,16 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
         }
-
+        public bool OpenPropertiesInMultipleWindows
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        public bool ShowFileOwner
+        {
+            get => Get(false);
+            set => Set(value);
+        }
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar

@@ -456,13 +456,30 @@ namespace Files.Interacts
 
         private async void ShowProperties()
         {
+            if (App.CurrentInstance?.ContentPage?.SelectedItems?.Count > 0)
+            {
+                if (App.AppSettings.OpenPropertiesInMultipleWindows)
+                {
+                    foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
+                    {
+                        await OpenPropertiesWindow(item);
+                    }
+                }
+                else
+                {
+                    await OpenPropertiesWindow(CurrentInstance.ContentPage.SelectedItems.First());
+                }
+            }
+        }
+        private async Task OpenPropertiesWindow(ListedItem item)
+        {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
-                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
+                frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
 
                 appWindow.RequestSize(new Size(400, 475));
                 appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
@@ -482,7 +499,7 @@ namespace Files.Interacts
             else
             {
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }

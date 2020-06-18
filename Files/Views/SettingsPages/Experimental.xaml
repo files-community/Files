@@ -91,6 +91,62 @@
                         OffContent=""
                         OnContent="" />
                 </Grid>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="270" />
+                        <ColumnDefinition Width="*" MaxWidth="350" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsExperimentalPropertiesMultipleWindows"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Open properties in Multiple Windows"
+                        TextWrapping="Wrap" />
+
+                    <ToggleSwitch
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsOn="{x:Bind AppSettings.OpenPropertiesInMultipleWindows, Mode=TwoWay}"
+                        OffContent=""
+                        OnContent="" />
+                </Grid>
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="270" />
+                        <ColumnDefinition Width="*" MaxWidth="350" />
+                        <ColumnDefinition Width="100" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.ChildrenTransitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                        </TransitionCollection>
+                    </Grid.ChildrenTransitions>
+
+                    <TextBlock
+                        x:Uid="SettingsShowFileOwnerInProperties"
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        Text="Show Owner in properties"
+                        TextWrapping="Wrap" />
+
+                    <ToggleSwitch
+                        Grid.Column="2"
+                        Width="40"
+                        HorizontalAlignment="Right"
+                        IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}"
+                        OffContent=""
+                        OnContent="" />
+                </Grid>
             </StackPanel>
         </ScrollViewer>
     </Grid>
