@@ -248,7 +248,7 @@ namespace Files.View_Models
             {
                 Name = "Windows Terminal",
                 Path = "wt.exe",
-                Arguments = "-d \"{0}\"",
+                Arguments = "-d .",
                 Icon = ""
             };
 
@@ -256,7 +256,7 @@ namespace Files.View_Models
             {
                 Name = "Fluent Terminal",
                 Path = "flute.exe",
-                Arguments = "new \"{0}\"",
+                Arguments = "",
                 Icon = ""
             };
 

@@ -142,7 +142,8 @@ namespace Files.Interacts
                 {
                     { "WorkingDirectory", CurrentInstance.ViewModel.WorkingDirectory },
                     { "Application", terminal.Path },
-                    { "Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory) }
+                    { "Arguments", string.Format(terminal.Arguments,
+                        InstanceTabsView.NormalizePath(CurrentInstance.ViewModel.WorkingDirectory)) }
                 };
                 await App.Connection.SendMessageAsync(value);
             }
