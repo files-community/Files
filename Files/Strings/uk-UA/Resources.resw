@@ -588,4 +588,7 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Відкрити розташування Лог файлу</value>
   </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>байт</value>
+  </data>
 </root>

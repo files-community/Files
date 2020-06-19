@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+using Files.DataModels;
 using Files.Filesystem;
 using GalaSoft.MvvmLight;
 using Windows.UI.Xaml.Controls;
@@ -319,7 +319,7 @@ namespace Files.View_Models
                 ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
                 GetOtherPropeties(file.Properties);
                 ItemsSize = ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString()
-                    + " (" + ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("SizeBytes") + ")";
+                    + " (" + ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
 
                 // Get file MD5 hash
                 var hashAlgTypeName = HashAlgorithmNames.Md5;
