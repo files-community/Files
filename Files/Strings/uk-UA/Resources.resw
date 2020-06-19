@@ -180,9 +180,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>При запуску</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Структура сторінки</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Налаштування</value>
   </data>

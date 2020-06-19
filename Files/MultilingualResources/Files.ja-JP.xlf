@@ -290,10 +290,6 @@
           <source>On Startup</source>
           <target state="translated">起動時</target>
         </trans-unit>
-        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
-          <source>Page Layouts</source>
-          <target state="translated">ページレイアウト</target>
-        </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">個人用設定</target>

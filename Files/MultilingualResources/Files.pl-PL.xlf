@@ -132,10 +132,6 @@
           <source>On Startup</source>
           <target state="translated">Po uruchomienu</target>
         </trans-unit>
-        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
-          <source>Page Layouts</source>
-          <target state="translated">Układ strony</target>
-        </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">Opcje</target>

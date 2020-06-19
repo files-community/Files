@@ -264,9 +264,6 @@
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\StartPageWidgets.xaml.cs">
-      <DependentUpon>StartPageWidgets.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View Models\SettingsViewModel.cs" />
     <Compile Include="Helpers\WindowDisplayInfo.cs" />
     <Compile Include="Helpers\WindowDisplayMode.cs" />
@@ -464,10 +461,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SettingsPages\Preferences.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\SettingsPages\StartPageWidgets.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

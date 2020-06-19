@@ -105,9 +105,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>Beim Start</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Seitenanordnung</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voreinstellungen</value>
   </data>

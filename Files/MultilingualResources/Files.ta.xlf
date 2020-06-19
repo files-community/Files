@@ -290,10 +290,6 @@
           <source>On Startup</source>
           <target state="translated">தொடக்கத்தில்</target>
         </trans-unit>
-        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
-          <source>Page Layouts</source>
-          <target state="translated">பக்கத் தளவமைப்புகள்</target>
-        </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">விருப்பங்கள்</target>
