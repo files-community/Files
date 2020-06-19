@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300"
-    d:DesignWidth="400">
+    d:DesignWidth="300">
     <UserControl.Resources>
         <Style x:Key="ListViewItemStyleFixed" TargetType="ListViewItem">
             <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
@@ -18,8 +18,9 @@
             <Setter Property="TabNavigation" Value="Local"/>
             <Setter Property="IsHoldingEnabled" Value="True"/>
             <Setter Property="Padding" Value="0"/>
-            <Setter Property="MinHeight" Value="75"/>
-            <Setter Property="MaxHeight" Value="90"/>
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="MinHeight" Value="55"/>
+            <Setter Property="MaxHeight" Value="70"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
             <Setter Property="AllowDrop" Value="False"/>
@@ -87,18 +88,36 @@
         </Grid.RowDefinitions>
         
         <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,0,0,0.5">
-            <TextBlock Margin="4" FontWeight="Medium" FontSize="12" Text="Ongoing Tasks"/>
+            <TextBlock Margin="8,4" FontWeight="Bold" FontSize="14" Text="Ongoing Tasks"/>
         </Grid>
 
-        <ListView ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
-            <ListViewItem />
+        <ListView SelectionMode="None" ItemsSource="sl" ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid MinHeight="75" MaxHeight="90" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text=""/>
-                            <muxc:ProgressBar Value="50"/>
-                        </StackPanel>
+                    <Grid BorderBrush="DeepSkyBlue" BorderThickness="4,0,0,0" Padding="8" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        
+                            <Grid ColumnSpacing="8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="30"/>
+                                </Grid.ColumnDefinitions>
+                            <Grid>
+                                <muxc:ProgressRing Width="30" Height="30"/>
+                                <FontIcon FontSize="14" Glyph="&#xE700;"/>
+                            </Grid>
+                                <StackPanel Grid.Column="1" Spacing="4" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
+
+                                    <TextBlock FontSize="12" FontWeight="Medium" Text="Performing Operation (33%)"/>
+                                    <TextBlock FontSize="11" Text="C:\Windows\System32"/>
+                                </StackPanel>
+                                <Button Grid.Column="2" Background="Transparent" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                    <Button.Content>
+                                        <FontIcon FontSize="11" Glyph="&#xE711;" />
+                                    </Button.Content>
+                                </Button>
+                            </Grid>
+                                                  
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

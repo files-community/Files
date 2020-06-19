@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +23,37 @@ namespace Files.UserControls
         public StatusCenter()
         {
             this.InitializeComponent();
+        }
+    }
+
+    public class StatusBanner
+    {
+        public string Title { get; set; }
+        public StatusBannerSeverity Severity { get; set; }
+        public StatusBannerOperation Operation { get; set; }
+        public string Message { get; set; }
+        public uint Progress { get; set; } = 0;
+
+        private Color StrokeColor { get; set; }
+        private IconSource Glyph { get; set; }
+
+        public enum StatusBannerSeverity
+        {
+            Ongoing,
+            Success,
+            Error
+        }
+
+        public enum StatusBannerOperation
+        {
+            Delete,
+            Paste,
+            Extract
+        }
+
+        public StatusBanner()
+        {
+
         }
     }
 }
