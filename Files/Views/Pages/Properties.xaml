@@ -183,6 +183,7 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
 

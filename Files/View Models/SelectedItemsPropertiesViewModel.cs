@@ -150,6 +150,13 @@ namespace Files.View_Models
                 }
             }
         }
+        private bool _ItemMD5HashCalcError;
+        public bool ItemMD5HashCalcError
+        {
+            get => _ItemMD5HashCalcError;
+            set => Set(ref _ItemMD5HashCalcError, value);
+        }
+
         public Visibility _ItemMD5HashVisibility = Visibility.Collapsed;
 
         public Visibility ItemMD5HashVisibility
@@ -316,7 +323,16 @@ namespace Files.View_Models
                 var hashAlgTypeName = HashAlgorithmNames.Md5;
                 ItemMD5HashProgressVisibility = Visibility.Visible;
                 ItemMD5HashVisibility = Visibility.Visible;
-                ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
+                try
+                {
+                    ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                    ItemMD5HashProgress.Value = ItemMD5HashProgress.Maximum;
+                    ItemMD5HashCalcError = true;
+                }
             }
             else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
