@@ -225,9 +225,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>起動時</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>ページレイアウト</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>個人用設定</value>
   </data>

@@ -105,9 +105,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>При запуске</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Структура страницы</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Предпочтения</value>
   </data>

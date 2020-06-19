@@ -222,9 +222,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>தொடக்கத்தில்</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>பக்கத் தளவமைப்புகள்</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>விருப்பங்கள்</value>
   </data>
