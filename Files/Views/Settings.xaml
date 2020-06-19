@@ -13,7 +13,7 @@
         <Grid
             x:Name="DragArea"
             Height="32"
-            Margin="0"
+            Margin="40,0,0,0"
             VerticalAlignment="Top"
             Background="Transparent"
             Canvas.ZIndex="100" />
@@ -26,28 +26,11 @@
             IsPaneOpen="True"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
-            IsTitleBarAutoPaddingEnabled="True"
+            IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="NavigationView_ItemInvoked"
             OpenPaneLength="250"
-            PaneDisplayMode="Top"
+            PaneDisplayMode="LeftCompact"
             SelectionChanged="SettingsPane_SelectionChanged">
-            <muxc:NavigationView.Resources>
-                <ResourceDictionary>
-                    <ResourceDictionary.ThemeDictionaries>
-                        <ResourceDictionary x:Key="Light">
-                            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
-                            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="Dark">
-                            <StaticResource x:Key="NavigationViewDefaultPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
-                            <StaticResource x:Key="NavigationViewExpandedPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="ApplicationPageBackgroundThemeBrush" />
-                        </ResourceDictionary>
-                        <ResourceDictionary x:Key="HighContrast" />
-                    </ResourceDictionary.ThemeDictionaries>
-                </ResourceDictionary>
-            </muxc:NavigationView.Resources>
 
             <muxc:NavigationView.PaneHeader>
                 <TextBlock
@@ -136,7 +119,7 @@
                     Fill="{ThemeResource AppBarItemForegroundThemeBrush}"
                     Opacity=".35"
                     Visibility="Collapsed" />
-                <Frame x:Name="SettingsContentFrame" Padding="14,0,0,0" />
+                <Frame x:Name="SettingsContentFrame" Padding="14,30,0,0" />
             </Grid>
         </muxc:NavigationView>
         <VisualStateManager.VisualStateGroups>
@@ -146,11 +129,7 @@
                         <AdaptiveTrigger MinWindowWidth="{x:Bind SettingsPane.CompactModeThresholdWidth}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="SettingsPane.PaneDisplayMode" Value="Left" />
-                        <Setter Target="SettingsPane.IsTitleBarAutoPaddingEnabled" Value="False" />
-                        <Setter Target="Divider.Visibility" Value="Visible" />
-                        <Setter Target="DragArea.Margin" Value="40,0,0,0" />
-                        <Setter Target="SettingsContentFrame.Margin" Value=".5,36,0,0" />
+                        <Setter Target="SettingsPane.PaneDisplayMode" Value="Left"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
