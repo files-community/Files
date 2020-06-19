@@ -173,10 +173,9 @@ namespace Files.View_Models
         }
         #endregion
         #region Properties
-        public Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress
-        {
-            get; set;
-        }
+
+        public Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress { get; set; }
+
         public ListedItem Item { get; }
 
         public CoreDispatcher Dispatcher { get; set; }
@@ -332,7 +331,6 @@ namespace Files.View_Models
                 catch (Exception ex)
                 {
                     NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                    ItemMD5HashProgress.Value = ItemMD5HashProgress.Maximum;
                     ItemMD5HashCalcError = true;
                 }
             }
