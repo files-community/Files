@@ -138,9 +138,13 @@ namespace Files.Interacts
 
             if (App.Connection != null)
             {
-                var value = new ValueSet();
-                value.Add("Application", terminal.Path);
-                value.Add("Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                var value = new ValueSet
+                {
+                    { "WorkingDirectory", CurrentInstance.ViewModel.WorkingDirectory },
+                    { "Application", terminal.Path },
+                    { "Arguments", string.Format(terminal.Arguments,
+                        InstanceTabsView.NormalizePath(CurrentInstance.ViewModel.WorkingDirectory)) }
+                };
                 await App.Connection.SendMessageAsync(value);
             }
         }
