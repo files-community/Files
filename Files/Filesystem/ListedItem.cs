@@ -90,7 +90,7 @@ namespace Files.Filesystem
         public string FileExtension { get; set; }
         public string ItemPath { get; set; }
         public string FileSize { get; set; }
-        public ulong FileSizeBytes { get; set; }
+        public long FileSizeBytes { get; set; }
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }

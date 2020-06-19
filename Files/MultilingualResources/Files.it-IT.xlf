@@ -837,6 +837,30 @@
           <source>bytes</source>
           <target state="new">bytes</target>
         </trans-unit>
+        <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
+          <source>KB</source>
+          <target state="new">KB</target>
+        </trans-unit>
+        <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
+          <source>MB</source>
+          <target state="new">MB</target>
+        </trans-unit>
+        <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
+          <source>GB</source>
+          <target state="new">GB</target>
+        </trans-unit>
+        <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
+          <source>TB</source>
+          <target state="new">TB</target>
+        </trans-unit>
+        <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
+          <source>PB</source>
+          <target state="new">PB</target>
+        </trans-unit>
+        <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
+          <source>B</source>
+          <target state="new">B</target>
+        </trans-unit>
       </group>
     </body>
   </file>

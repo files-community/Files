@@ -597,4 +597,22 @@
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байт</value>
   </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>КБ</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>МБ</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>ГБ</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>ТБ</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>ПБ</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>Б</value>
+  </data>
 </root>
