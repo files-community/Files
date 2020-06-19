@@ -784,6 +784,7 @@ namespace Files.Filesystem
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
                 CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId)
                 {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
                     ItemName = _rootFolder.Name,
                     ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,
@@ -1122,7 +1123,7 @@ namespace Files.Filesystem
                     fileSize = fDataFSize;
                 }
             }
-            var itemSize = ByteSize.FromBytes(fileSize).ToString();
+            var itemSize = ByteSize.FromBytes(fileSize).ToBinaryString();
             var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)findData.nFileSizeLow;
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
@@ -1208,7 +1209,7 @@ namespace Files.Filesystem
             var itemName = file.DisplayName;
             var itemDate = basicProperties.DateModified;
             var itemPath = file.Path;
-            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
+            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
             var itemFolderImgVis = false;

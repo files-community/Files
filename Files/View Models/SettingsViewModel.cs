@@ -250,7 +250,7 @@ namespace Files.View_Models
             {
                 Name = "Windows Terminal",
                 Path = "wt.exe",
-                Arguments = "-d \"{0}\"",
+                Arguments = "-d .",
                 Icon = ""
             };
 
@@ -258,7 +258,7 @@ namespace Files.View_Models
             {
                 Name = "Fluent Terminal",
                 Path = "flute.exe",
-                Arguments = "new \"{0}\"",
+                Arguments = "",
                 Icon = ""
             };
 
@@ -302,7 +302,16 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
         }
-
+        public bool OpenPropertiesInMultipleWindows
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        public bool ShowFileOwner
+        {
+            get => Get(false);
+            set => Set(value);
+        }
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
