@@ -324,7 +324,6 @@ namespace Files.View_Models
                 if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
                     storageFolder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
-
                 }
                 else
                 {
