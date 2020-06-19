@@ -140,10 +140,10 @@ namespace Files.Interacts
             {
                 var value = new ValueSet
                 {
-                    { "WorkingDirectory", CurrentInstance.ViewModel.WorkingDirectory },
+                    { "WorkingDirectory", CurrentInstance.FilesystemViewModel.WorkingDirectory },
                     { "Application", terminal.Path },
                     { "Arguments", string.Format(terminal.Arguments,
-                        InstanceTabsView.NormalizePath(CurrentInstance.ViewModel.WorkingDirectory)) }
+                        InstanceTabsView.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
                 await App.Connection.SendMessageAsync(value);
             }
@@ -476,10 +476,10 @@ namespace Files.Interacts
             }
             else
             {
-                if (!Path.GetPathRoot(App.CurrentInstance.ViewModel.CurrentFolder.ItemPath)
-                    .Equals(App.CurrentInstance.ViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
+                if (!Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath)
+                    .Equals(App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
                 {
-                    await OpenPropertiesWindow(App.CurrentInstance.ViewModel.CurrentFolder);
+                    await OpenPropertiesWindow(App.CurrentInstance.FilesystemViewModel.CurrentFolder);
                 }
                 else
                 {

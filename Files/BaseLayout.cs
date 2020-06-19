@@ -99,7 +99,7 @@ namespace Files
         {
             this.Loaded += Page_Loaded;
             Page_Loaded(null, null);
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(null);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
             // QuickLook Integration
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
