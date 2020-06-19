@@ -52,6 +52,7 @@
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
             <FontFamily x:Key="CustomLayoutModeIcon">/Assets/Custom Glyphs/layout-mode-custom-icon.ttf#layout-mode-custom-icon</FontFamily>
+            <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

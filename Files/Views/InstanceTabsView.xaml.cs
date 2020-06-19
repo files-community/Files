@@ -16,6 +16,7 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -296,7 +297,7 @@ namespace Files
             {
                 var localSettings = ApplicationData.Current.LocalSettings;
                 tabLocationHeader = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
-                fontIconSource.FontFamily = new Windows.UI.Xaml.Media.FontFamily("Fabric MDL2 Assets");
+                fontIconSource.FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily;
                 fontIconSource.Glyph = "\xEF87";
             }
             else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))

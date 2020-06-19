@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
@@ -374,7 +376,7 @@ namespace Files.View_Models
                             Glyph = "\uEF87",
                             IsDefaultLocation = true,
                             Path = RecycleBinPath,
-                            Font = new Windows.UI.Xaml.Media.FontFamily("Fabric MDL2 Assets")
+                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available
