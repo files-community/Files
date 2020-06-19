@@ -833,6 +833,10 @@
           <source>Open properties in Multiple Windows</source>
           <target state="new">Open properties in Multiple Windows</target>
         </trans-unit>
+        <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
+          <source>bytes</source>
+          <target state="new">bytes</target>
+        </trans-unit>
       </group>
     </body>
   </file>

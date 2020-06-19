@@ -221,7 +221,8 @@ namespace Files.View_Models
             {
                 var folderSize = await fileSizeTask;
                 ItemSizeReal = folderSize;
-                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
+                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToBinaryString()
+                    + " (" + ByteSizeLib.ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
             }
             catch (Exception ex)
             {
@@ -293,7 +294,7 @@ namespace Files.View_Models
                         await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             ItemSizeReal = size;
-                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
+                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString();
                         });
                     }
 
@@ -317,7 +318,8 @@ namespace Files.View_Models
                 var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
                 ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
                 GetOtherPropeties(file.Properties);
-                ItemsSize = Item.FileSize;
+                ItemsSize = ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString()
+                    + " (" + ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("SizeBytes") + ")";
 
                 // Get file MD5 hash
                 var hashAlgTypeName = HashAlgorithmNames.Md5;

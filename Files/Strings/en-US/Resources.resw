@@ -735,4 +735,7 @@
   <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
     <value>Pin directory to sidebar</value>
   </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>bytes</value>
+  </data>
 </root>
