@@ -18,7 +18,7 @@ using System.IO;
 using Windows.UI.Core;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
-
+using Files.Helpers;
 
 namespace Files.View_Models
 {
@@ -220,7 +220,7 @@ namespace Files.View_Models
             {
                 var folderSize = await fileSizeTask;
                 ItemSizeReal = folderSize;
-                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToBinaryString()
+                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSizeLib.ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
             }
             catch (Exception ex)
@@ -293,7 +293,7 @@ namespace Files.View_Models
                         await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             ItemSizeReal = size;
-                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString();
+                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
                         });
                     }
 
@@ -317,7 +317,7 @@ namespace Files.View_Models
                 var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
                 ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
                 GetOtherPropeties(file.Properties);
-                ItemsSize = ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString()
+                ItemsSize = ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
                     + " (" + ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
 
                 // Get file MD5 hash

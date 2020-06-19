@@ -1,4 +1,5 @@
 ﻿using ByteSizeLib;
+using Files.Helpers;
 using System;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -54,8 +55,8 @@ namespace Files.Filesystem
                 SpaceUsed = MaxSpace - FreeSpace;
                 SpaceText = string.Format(
                     ResourceController.GetTranslation("DriveFreeSpaceAndCapacity"),
-                    FreeSpace.ToBinaryString(),
-                    MaxSpace.ToBinaryString());
+                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
             }
             catch (NullReferenceException)
             {
