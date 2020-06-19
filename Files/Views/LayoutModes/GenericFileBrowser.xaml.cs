@@ -34,15 +34,15 @@ namespace Files
             set
             {
                 if (value == nameColumn)
-                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.Name;
+                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.Name;
                 else if (value == dateColumn)
-                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.DateModified;
+                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.DateModified;
                 else if (value == typeColumn)
-                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.FileType;
+                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.FileType;
                 else if (value == sizeColumn)
-                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.Size;
+                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.Size;
                 else
-                    App.CurrentInstance.ViewModel.DirectorySortOption = SortOption.Name;
+                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.Name;
 
                 if (value != _sortedColumn)
                 {
@@ -50,7 +50,7 @@ namespace Files
                     if (_sortedColumn != null)
                         _sortedColumn.SortDirection = null;
                 }
-                value.SortDirection = App.CurrentInstance.ViewModel.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                value.SortDirection = App.CurrentInstance.FilesystemViewModel.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 _sortedColumn = value;
             }
         }
@@ -59,7 +59,7 @@ namespace Files
         {
             InitializeComponent();
 
-            switch (App.CurrentInstance.ViewModel.DirectorySortOption)
+            switch (App.CurrentInstance.FilesystemViewModel.DirectorySortOption)
             {
                 case SortOption.Name:
                     SortedColumn = nameColumn;
@@ -84,13 +84,13 @@ namespace Files
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
-            App.CurrentInstance.ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+            App.CurrentInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
-            App.CurrentInstance.ViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+            App.CurrentInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
@@ -192,7 +192,7 @@ namespace Files
         {
             if (e.PropertyName == "DirectorySortOption")
             {
-                switch (App.CurrentInstance.ViewModel.DirectorySortOption)
+                switch (App.CurrentInstance.FilesystemViewModel.DirectorySortOption)
                 {
                     case SortOption.Name:
                         SortedColumn = nameColumn;
@@ -229,7 +229,7 @@ namespace Files
                         {
                             await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                             {
-                                App.CurrentInstance.ViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
+                                App.CurrentInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
                                 (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
                             });
                         }
@@ -241,7 +241,7 @@ namespace Files
         private TextBox renamingTextBox;
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
-            if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
                 AllView.CancelEdit(); // cancel the edit operation
@@ -327,7 +327,7 @@ namespace Files
         private async void AllView_Sorting(object sender, DataGridColumnEventArgs e)
         {
             if (e.Column == SortedColumn)
-                App.CurrentInstance.ViewModel.IsSortedAscending = !App.CurrentInstance.ViewModel.IsSortedAscending;
+                App.CurrentInstance.FilesystemViewModel.IsSortedAscending = !App.CurrentInstance.FilesystemViewModel.IsSortedAscending;
             else if (e.Column != iconColumn)
                 SortedColumn = e.Column;
 
@@ -342,7 +342,7 @@ namespace Files
                     {
                         await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                         {
-                            App.CurrentInstance.ViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
+                            App.CurrentInstance.FilesystemViewModel.LoadExtendedItemProperties(row.DataContext as ListedItem);
                             (row.DataContext as ListedItem).ItemPropertiesInitialized = true;
                         });
                     }
@@ -418,7 +418,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
+                    App.CurrentInstance.FilesystemViewModel.LoadExtendedItemProperties(parentRow.DataContext as ListedItem);
                     (parentRow.DataContext as ListedItem).ItemPropertiesInitialized = true;
                     //sender.EffectiveViewportChanged -= Icon_EffectiveViewportChanged;
                 });

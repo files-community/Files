@@ -25,6 +25,8 @@ namespace Files
     /// </summary>
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
+        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+        public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public bool IsQuickLookEnabled { get; set; } = false;
 
         public ItemViewModel AssociatedViewModel = null;
@@ -48,8 +50,6 @@ namespace Files
                 }
             }
         }
-
-        public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.SelectedItemsPropertiesViewModel;
 
         private List<ListedItem> _SelectedItems = new List<ListedItem>();
 
@@ -99,7 +99,8 @@ namespace Files
         {
             this.Loaded += Page_Loaded;
             Page_Loaded(null, null);
-
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(null);
+            DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
             // QuickLook Integration
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             var isQuickLookIntegrationEnabled = localSettings.Values["quicklook_enabled"];
@@ -140,11 +141,11 @@ namespace Files
         {
             if (App.CurrentInstance.ContentPage != null)
             {
-                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
-                App.CurrentInstance.ViewModel.IsLoadingItems = true;
-                App.CurrentInstance.ViewModel.IsLoadingItems = false;
+                App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.FilesystemViewModel.IsLoadingItems = true;
+                App.CurrentInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), App.CurrentInstance.ViewModel.WorkingDirectory, null);
+                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), App.CurrentInstance.FilesystemViewModel.WorkingDirectory, null);
             }
         }
 
@@ -171,11 +172,11 @@ namespace Files
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
-            App.CurrentInstance.ViewModel.WorkingDirectory = parameters;
+            App.CurrentInstance.FilesystemViewModel.WorkingDirectory = parameters;
 
             // pathRoot will be empty on recycle bin path
-            string pathRoot = Path.GetPathRoot(App.CurrentInstance.ViewModel.WorkingDirectory);
-            if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.ViewModel.WorkingDirectory == pathRoot)
+            string pathRoot = Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
+            if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.FilesystemViewModel.WorkingDirectory == pathRoot)
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             }
@@ -183,11 +184,11 @@ namespace Files
             {
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
-            App.InteractionViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            App.InteractionViewModel.IsPageTypeNotRecycleBin =
-                !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
+            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin =
+                !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
 
-            App.CurrentInstance.ViewModel.RefreshItems();
+            App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
             App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
@@ -210,7 +211,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            if (App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                 (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
@@ -298,7 +299,7 @@ namespace Files
         {
             if (AssociatedViewModel == null && AssociatedInteractions == null)
             {
-                AssociatedViewModel = App.CurrentInstance.ViewModel;
+                AssociatedViewModel = App.CurrentInstance.FilesystemViewModel;
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
@@ -319,7 +320,7 @@ namespace Files
             {
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
                 // As long as one file doesn't already belong to this folder
-                if (draggedItems.Any(draggedItem => !Directory.GetParent(draggedItem.Path).FullName.Equals(App.CurrentInstance.ViewModel.WorkingDirectory, StringComparison.OrdinalIgnoreCase)))
+                if (draggedItems.Any(draggedItem => !Directory.GetParent(draggedItem.Path).FullName.Equals(App.CurrentInstance.FilesystemViewModel.WorkingDirectory, StringComparison.OrdinalIgnoreCase)))
                 {
                     e.AcceptedOperation = DataPackageOperation.Copy;
                     e.Handled = true;
@@ -335,7 +336,7 @@ namespace Files
         {
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.ViewModel.WorkingDirectory, e.AcceptedOperation);
+                await AssociatedInteractions.PasteItems(e.DataView, App.CurrentInstance.FilesystemViewModel.WorkingDirectory, e.AcceptedOperation);
                 e.Handled = true;
             }
         }

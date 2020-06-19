@@ -343,7 +343,7 @@ namespace Files.View_Models
                 }
                 else
                 {
-                    var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
+                    var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
                     if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
                     {
                         // GetFolderFromPathAsync cannot access recyclebin folder

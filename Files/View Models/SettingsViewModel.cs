@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
@@ -380,7 +382,8 @@ namespace Files.View_Models
                         var recycleBinItem = new LocationItem
                         {
                             Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Glyph = "\uE74D",
+                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                            Glyph = "\uEF87",
                             IsDefaultLocation = true,
                             Path = RecycleBinPath
                         };

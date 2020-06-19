@@ -49,7 +49,6 @@ namespace Files
                 _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 App.AppSettings.UpdateThemeElements.Execute(null);
             }
-
             await ViewModel.GetPropertiesAsync(_tokenSource);
         }
 
