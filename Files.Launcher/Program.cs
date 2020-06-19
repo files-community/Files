@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -272,8 +273,8 @@ namespace FilesFullTrust
 
         private static void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
         {
-            var arguments = args.Request.Message.Get<string, string, object>("Arguments");
-            var workingDirectory = args.Request.Message.Get<string, string, object>("WorkingDirectory");
+            var arguments = args.Request.Message.Get("Arguments", "");
+            var workingDirectory = args.Request.Message.Get("WorkingDirectory", "");
 
             try
             {
@@ -281,8 +282,8 @@ namespace FilesFullTrust
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = executable;
-                // Show window if arguments (opening terminal)
-                process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(arguments);
+                // Show window if workingDirectory (opening terminal)
+                process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
                 process.StartInfo.Arguments = arguments;
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
