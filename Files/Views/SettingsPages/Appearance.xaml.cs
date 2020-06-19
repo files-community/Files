@@ -56,7 +56,7 @@ namespace Files.SettingsPages
             DateFormatChooser.SelectedIndex = (int)Enum.Parse(typeof(TimeStyle), _selectedFormat.ToString());
             DateFormatChooser.Loaded += (s, e) =>
             {
-                DateFormatChooser.SelectionChanged += async (s1, e1) =>
+                DateFormatChooser.SelectionChanged += (s1, e1) =>
                 {
                     var timeStyleComboBox = s1 as ComboBox;
 

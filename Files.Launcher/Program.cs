@@ -273,6 +273,7 @@ namespace FilesFullTrust
         private static void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
         {
             var arguments = args.Request.Message.Get<string, string, object>("Arguments");
+            var workingDirectory = args.Request.Message.Get<string, string, object>("WorkingDirectory");
 
             try
             {
@@ -283,6 +284,7 @@ namespace FilesFullTrust
                 // Show window if arguments (opening terminal)
                 process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(arguments);
                 process.StartInfo.Arguments = arguments;
+                process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
             }
             catch (Win32Exception)
@@ -294,6 +296,7 @@ namespace FilesFullTrust
                 process.StartInfo.FileName = executable;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.Arguments = arguments;
+                process.StartInfo.WorkingDirectory = workingDirectory;
                 try
                 {
                     process.Start();

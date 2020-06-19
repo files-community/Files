@@ -5,7 +5,7 @@
     {
       "name": "CMD",
       "path": "cmd.exe",
-      "arguments": "/k \"cd /d {0} && title Command Prompt\"",
+      "arguments": "",
       "icon": ""
     }
     /*
