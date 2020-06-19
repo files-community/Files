@@ -9,6 +9,8 @@
     xmlns:local1="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Loaded="Properties_Loaded"
+    Unloaded="Properties_Unloaded"
     d:DesignHeight="475"
     d:DesignWidth="400"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
