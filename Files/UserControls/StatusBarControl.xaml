@@ -24,9 +24,9 @@
             VerticalAlignment="Center"
             Orientation="Horizontal"
             Spacing="12">
-            <TextBlock Text="{x:Bind local1:App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind local1:App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.SelectedItemCount, Mode=OneWay}" Visibility="{x:Bind local1:App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind local1:App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.ItemsSize, Mode=OneWay}" Visibility="{x:Bind local1:App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemCount, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemsSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
         </StackPanel>
 
         <StackPanel
