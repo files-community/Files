@@ -50,17 +50,19 @@ namespace Files.DataModels
             }
             else if (!isInstalled)
             {
-                if (string.IsNullOrWhiteSpace(DefaultTerminalPath))
+                if (Terminals.Remove(Terminals.FirstOrDefault(x => x.Path.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))))
                 {
-                    ResetToDefaultTerminal();
-                }
-                else if (DefaultTerminalPath.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))
-                {
-                    ResetToDefaultTerminal();
-                }
-                Terminals.Remove(Terminals.FirstOrDefault(x => x.Path.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase)));
+                    if (string.IsNullOrWhiteSpace(DefaultTerminalPath))
+                    {
+                        ResetToDefaultTerminal();
+                    }
+                    else if (DefaultTerminalPath.Equals(terminal.Path, StringComparison.OrdinalIgnoreCase))
+                    {
+                        ResetToDefaultTerminal();
+                    }
 
-                isChanged = true;
+                    isChanged = true;
+                }
             }
             return isChanged;
         }
