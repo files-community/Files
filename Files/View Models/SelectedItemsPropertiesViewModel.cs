@@ -50,7 +50,7 @@ namespace Files.View_Models
             get => _ItemSizeReal;
             set => Set(ref _ItemSizeReal, value);
         }
-        private Visibility _ItemSizeProgressVisibility;
+        private Visibility _ItemSizeProgressVisibility = Visibility.Collapsed;
 
         public Visibility ItemSizeProgressVisibility
         {
@@ -94,7 +94,7 @@ namespace Files.View_Models
             get => _LoadFileIcon;
             set => Set(ref _LoadFileIcon, value);
         }
-      
+
         private string _ItemsSize;
 
         public string ItemsSize
@@ -141,16 +141,23 @@ namespace Files.View_Models
         public string ItemMD5Hash
         {
             get => _ItemMD5Hash;
-            set => Set(ref _ItemMD5Hash, value);
+            set
+            {
+                if (!string.IsNullOrEmpty(value) && value != _ItemMD5Hash)
+                {
+                    Set(ref _ItemMD5Hash, value);
+                    ItemMD5HashProgressVisibility = Visibility.Collapsed;
+                }
+            }
         }
-        public Visibility _ItemMD5HashVisibility;
+        public Visibility _ItemMD5HashVisibility = Visibility.Collapsed;
 
         public Visibility ItemMD5HashVisibility
         {
             get => _ItemMD5HashVisibility;
             set => Set(ref _ItemMD5HashVisibility, value);
         }
-        public Visibility _ItemMD5HashProgressVisibiity;
+        public Visibility _ItemMD5HashProgressVisibiity = Visibility.Collapsed;
 
         public Visibility ItemMD5HashProgressVisibility
         {
@@ -179,7 +186,7 @@ namespace Files.View_Models
             FileIconSource = Item?.FileImage;
             LoadFolderGlyph = Item != null ? Item.LoadFolderGlyph : false;
             LoadUnknownTypeGlyph = Item != null ? Item.LoadUnknownTypeGlyph : false;
-            LoadFileIcon = Item != null ? Item.LoadFileIcon : false;      
+            LoadFileIcon = Item != null ? Item.LoadFileIcon : false;
         }
         #endregion
         #region Methods
@@ -196,6 +203,8 @@ namespace Files.View_Models
         }
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
+            ItemSizeProgressVisibility = Visibility.Visible;
+
             var fileSizeTask = Task.Run(async () =>
             {
                 var size = await CalculateFolderSizeAsync(storageFolder.Path, token);
@@ -206,13 +215,13 @@ namespace Files.View_Models
                 var folderSize = await fileSizeTask;
                 ItemSizeReal = folderSize;
                 ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
-                ItemSizeProgressVisibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 SizeCalcError = true;
             }
+            ItemSizeProgressVisibility = Visibility.Collapsed;
         }
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
         {
@@ -296,58 +305,44 @@ namespace Files.View_Models
         }
         public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
         {
-            if (App.CurrentInstance.ContentPage.IsItemSelected)
+            if (Item.PrimaryItemAttribute == StorageItemTypes.File)
             {
-                IStorageItem selectedStorageItem = null;
+                var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+                ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
+                GetOtherPropeties(file.Properties);
+                ItemsSize = Item.FileSize;
 
-                if (Item.PrimaryItemAttribute == StorageItemTypes.File)
-                {
-                    var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-                    selectedStorageItem = file;
-                    GetOtherPropeties(file.Properties);
-                    ItemsSize = Item.FileSize;
-                }
-                else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    var storageFolder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
-                    selectedStorageItem = storageFolder;
-                    GetOtherPropeties(storageFolder.Properties);
-                    GetFolderSize(storageFolder, _tokenSource.Token);
-                }
-                ItemCreatedTimestamp = ListedItem.GetFriendlyDate(selectedStorageItem.DateCreated);
-                if (Item.PrimaryItemAttribute == StorageItemTypes.File)
-                {
-                    // Get file MD5 hash
-                    var hashAlgTypeName = HashAlgorithmNames.Md5;
-                    ItemMD5HashProgressVisibility = Visibility.Visible;
-                    ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
-                    ItemMD5HashProgressVisibility = Visibility.Collapsed;
-                    ItemMD5HashVisibility = Visibility.Visible;
-                }
-                else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                {
-                    ItemMD5HashVisibility = Visibility.Collapsed;
-                    ItemMD5HashProgressVisibility = Visibility.Collapsed;
-                }
+                // Get file MD5 hash
+                var hashAlgTypeName = HashAlgorithmNames.Md5;
+                ItemMD5HashProgressVisibility = Visibility.Visible;
+                ItemMD5HashVisibility = Visibility.Visible;
+                ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
             }
-            else
+            else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
-                var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
-                if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                StorageFolder storageFolder = null;
+                if (App.CurrentInstance.ContentPage.IsItemSelected)
                 {
-                    // GetFolderFromPathAsync cannot access recyclebin folder
-                    // Currently a fake timestamp is used                
+                    storageFolder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
                 }
                 else
                 {
-                    var parentDirectoryStorageItem = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                    ItemCreatedTimestamp = ListedItem.GetFriendlyDate(parentDirectoryStorageItem.DateCreated);
+                    var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
+                    if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        // GetFolderFromPathAsync cannot access recyclebin folder
+                        // Currently a fake timestamp is used                
+                    }
+                    else
+                    {
+                        storageFolder = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                    }
                 }
-
-                ItemMD5HashVisibility = Visibility.Collapsed;
-                ItemMD5HashProgressVisibility = Visibility.Collapsed;
+                ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                GetOtherPropeties(storageFolder.Properties);
+                GetFolderSize(storageFolder, _tokenSource.Token);
             }
         }
         #endregion
-    }    
+    }
 }
