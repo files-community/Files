@@ -17,8 +17,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.UI.Core;
 using FileAttributes = System.IO.FileAttributes;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using Files.Helpers;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files.View_Models
 {
