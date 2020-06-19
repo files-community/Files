@@ -784,6 +784,7 @@ namespace Files.Filesystem
                 _rootFolder = await StorageFolder.GetFolderFromPathAsync(path);
                 CurrentFolder = new ListedItem(_rootFolder.FolderRelativeId)
                 {
+                    PrimaryItemAttribute = StorageItemTypes.Folder,
                     ItemPropertiesInitialized = true,
                     ItemName = _rootFolder.Name,
                     ItemDateModifiedReal = (await _rootFolder.GetBasicPropertiesAsync()).DateModified,

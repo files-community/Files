@@ -456,7 +456,7 @@ namespace Files.Interacts
 
         private async void ShowProperties()
         {
-            if (App.CurrentInstance?.ContentPage?.SelectedItems?.Count > 0)
+            if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
                 if (App.AppSettings.OpenPropertiesInMultipleWindows)
                 {
@@ -467,7 +467,19 @@ namespace Files.Interacts
                 }
                 else
                 {
-                    await OpenPropertiesWindow(CurrentInstance.ContentPage.SelectedItems.First());
+                    await OpenPropertiesWindow(CurrentInstance.ContentPage.SelectedItem);
+                }
+            }
+            else
+            {
+                if (!Path.GetPathRoot(App.CurrentInstance.ViewModel.CurrentFolder.ItemPath)
+                    .Equals(App.CurrentInstance.ViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    await OpenPropertiesWindow(App.CurrentInstance.ViewModel.CurrentFolder);
+                }
+                else
+                {
+                    //TODO: Implement drive properties
                 }
             }
         }
