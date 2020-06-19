@@ -382,10 +382,10 @@ namespace Files.View_Models
                         var recycleBinItem = new LocationItem
                         {
                             Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
                             Glyph = "\uEF87",
                             IsDefaultLocation = true,
-                            Path = RecycleBinPath,
-                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily
+                            Path = RecycleBinPath
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available

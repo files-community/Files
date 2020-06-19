@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -79,10 +80,6 @@ namespace Files
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
-
-            SidebarPinned = new SidebarPinnedModel();
-            AppSettings = new SettingsViewModel();
-            InteractionViewModel = new InteractionViewModel();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)

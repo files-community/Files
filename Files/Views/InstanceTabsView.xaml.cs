@@ -1,5 +1,8 @@
 ﻿using Files.Common;
+using Files.Controls;
+using Files.DataModels;
 using Files.Filesystem;
+using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -29,13 +32,18 @@ namespace Files
         public InstanceTabsView()
         {
             this.InitializeComponent();
+            // TODO: Move these ViewModel assignments to a new MainPage
+            App.SidebarPinned = new SidebarPinnedModel();
+            App.AppSettings = new SettingsViewModel();
+            App.InteractionViewModel = new InteractionViewModel();
+
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
 
             // Turn on Navigation Cache
-            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
