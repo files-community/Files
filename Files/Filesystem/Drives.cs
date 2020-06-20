@@ -187,7 +187,19 @@ namespace Files.Filesystem
             var drives = DriveInfo.GetDrives().ToList();
 
             var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-            var supportedDevicesNames = remDevices.Select(x => StorageDevice.FromId(x.Id).Name);
+            List<string> supportedDevicesNames = new List<string>();
+            foreach (var item in remDevices)
+            {
+                try
+                {
+                    supportedDevicesNames.Add(StorageDevice.FromId(item.Id).Name);
+                }
+                catch (Exception e)
+                {
+                    Logger.Warn("Can't get storage device name: " + e.Message + ", skipping...");
+                }
+            }
+
             foreach (DriveInfo driveInfo in drives.ToList())
             {
                 if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
