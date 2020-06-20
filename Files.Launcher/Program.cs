@@ -293,7 +293,7 @@ namespace FilesFullTrust
                             var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
                             var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
                             string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                            ulong fileSizeBytes = (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
+                            long fileSizeBytes = (long)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
                             string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
                             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
                             folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
@@ -304,37 +304,7 @@ namespace FilesFullTrust
                         }
                         finally
                         {
-                            // Enumerate recyclebin contents and send response to UWP
-                            var responseEnum = new ValueSet();
-                            var folderContentsList = new List<ShellFileItem>();
-                            foreach (var folderItem in recycler)
-                            {
-                                try
-                                {
-                                    folderItem.Properties.ReadOnly = true;
-                                    folderItem.Properties.NoInheritedProperties = false;
-                                    string recyclePath = folderItem.FileSystemPath; // True path on disk
-                                    string fileName = Path.GetFileName(folderItem.Name); // Original file name
-                                    string filePath = folderItem.Name; // Original file path + name
-                                    var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
-                                    var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
-                                    string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                                    long fileSizeBytes = (long)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
-                                    string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
-                                    bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
-                                    folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
-                                }
-                                catch (System.IO.FileNotFoundException)
-                                {
-                                    // Happens if files are being deleted
-                                }
-                                finally
-                                {
-                                    folderItem.Dispose();
-                                }
-                            }
-                            responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
-                            await args.Request.SendResponseAsync(responseEnum);
+                            folderItem.Dispose();
                         }
                     }
                     responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
