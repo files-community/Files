@@ -860,6 +860,10 @@
           <source>B</source>
           <target state="new">B</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutItemContextRunAsAdminItem" translate="yes" xml:space="preserve">
+          <source>Run as administrator</source>
+          <target state="new">Run as administrator</target>
+        </trans-unit>
       </group>
     </body>
   </file>

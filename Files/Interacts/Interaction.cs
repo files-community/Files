@@ -172,14 +172,15 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string ApplicationPath)
+        public static async Task InvokeWin32Component(string ApplicationPath, bool asAdmin = false)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Application", ApplicationPath);
-                value.Add("Arguments", null);
+                if (asAdmin) value.Add("Arguments", "runas");
+                else value.Add("Arguments", null);
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -255,6 +256,11 @@ namespace Files.Interacts
                 throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
             }
             return (TEnum)Enum.Parse(typeof(TEnum), text);
+        }
+
+        public async void RunAsAdmin_Click()
+        {
+            await InvokeWin32Component(App.CurrentInstance.ContentPage.SelectedItem.ItemPath, true);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)

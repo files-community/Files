@@ -257,6 +257,12 @@ namespace Files
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("UnzipItem");
                         }
+                        else if (selectedDataItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
+                            || selectedDataItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase)
+                            || selectedDataItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
+                        {
+                            (this.FindName("RunAsAdminItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                        }
                     }
                 }
                 else if (selectedFileSystemItems.Count > 1)

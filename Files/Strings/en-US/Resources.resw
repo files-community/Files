@@ -753,4 +753,7 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
+  <data name="BaseLayoutItemContextRunAsAdminItem" xml:space="preserve">
+    <value>Run as administrator</value>
+  </data>
 </root>
