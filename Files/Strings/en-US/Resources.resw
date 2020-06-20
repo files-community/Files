@@ -763,10 +763,10 @@
     <value>Cancel</value>
   </data>
   <data name="BitlockerDialog.Title" xml:space="preserve">
-    <value>Enter unlock password</value>
+    <value>Enter password to unlock the drive</value>
   </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>Enter drive unlock password</value>
+    <value>Password</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contains:</value>

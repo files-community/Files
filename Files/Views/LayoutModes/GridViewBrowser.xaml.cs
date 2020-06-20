@@ -300,7 +300,7 @@ namespace Files
                 if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox)
+                    if (focusedElement is TextBox || focusedElement is PasswordBox)
                     {
                         return;
                     }

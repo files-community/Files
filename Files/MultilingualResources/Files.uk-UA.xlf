@@ -873,12 +873,12 @@
           <target state="new">Cancel</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
-          <source>Enter unlock password</source>
-          <target state="new">Enter unlock password</target>
+          <source>Enter password to unlock the drive</source>
+          <target state="new">Enter password to unlock the drive</target>
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
-          <source>Enter drive unlock password</source>
-          <target state="new">Enter drive unlock password</target>
+          <source>Password</source>
+          <target state="new">Password</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>

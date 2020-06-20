@@ -7,28 +7,28 @@ namespace Files.Dialogs
 {
     public sealed partial class BitlockerDialog : ContentDialog
     {
-        public TextBox inputBox;
+        public PasswordBox inputBox;
         public string storedPasswordInput;
 
         public BitlockerDialog(string drive)
         {
             this.InitializeComponent();
             inputBox = PasswordInput;
+            IsPrimaryButtonEnabled = false;
         }
 
-        private void NameDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void BitlockerDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            storedPasswordInput = inputBox.Text;
+            storedPasswordInput = inputBox.Password;
         }
 
-        private void BitlockerInput_TextChanged(object sender, TextChangedEventArgs e)
+        private void BitlockerInput_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var textBox = sender as TextBox;
+            var textBox = sender as PasswordBox;
 
-            if (string.IsNullOrEmpty(textBox.Text))
+            if (string.IsNullOrEmpty(textBox.Password))
             {
                 IsPrimaryButtonEnabled = false;
-                return;
             }
             else
             {
@@ -36,7 +36,7 @@ namespace Files.Dialogs
             }
         }
 
-        private void NameDialog_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void BitlockerDialog_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key.Equals(VirtualKey.Escape))
             {

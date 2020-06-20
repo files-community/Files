@@ -8,26 +8,28 @@
     mc:Ignorable="d"
     CornerRadius="4"
     DefaultButton="Primary"
-    Title="Enter unlock password"
+    Title="Enter password to unlock the drive"
     BorderThickness="0"
-    PrimaryButtonClick="NameDialog_PrimaryButtonClick"
-    x:Name="NameDialog"
+    PrimaryButtonClick="BitlockerDialog_PrimaryButtonClick"
+    x:Name="BitlockerDriveDialog"
     PrimaryButtonText="Unlock"
     SecondaryButtonText="Cancel"
     x:Uid="BitlockerDialog"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
-    KeyDown="NameDialog_KeyDown">
+    KeyDown="BitlockerDialog_KeyDown">
 
     <Grid MinWidth="300">
         <StackPanel
             Orientation="Vertical"
             Spacing="4">
-            <TextBox 
+            <PasswordBox 
                 x:Name="PasswordInput"
                 x:Uid="BitlockerDialogInputText"
-                PlaceholderText="Enter drive unlock password"
+                PlaceholderText="Password"
                 Height="35"
-                TextChanged="BitlockerInput_TextChanged" />
+                IsPasswordRevealButtonEnabled="True"
+                PasswordRevealMode="Peek"
+                PasswordChanged="BitlockerInput_TextChanged" />
         </StackPanel>
     </Grid>
 </ContentDialog>
