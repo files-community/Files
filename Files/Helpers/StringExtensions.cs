@@ -73,7 +73,8 @@ namespace Files.Helpers
             { "GiB", ResourceController.GetTranslation("GigaByteSymbol") },
             { "TiB", ResourceController.GetTranslation("TeraByteSymbol") },
             { "PiB", ResourceController.GetTranslation("PetaByteSymbol") },
-            { "B", ResourceController.GetTranslation("ByteSymbol") }
+            { "B", ResourceController.GetTranslation("ByteSymbol") },
+            { "b", ResourceController.GetTranslation("ByteSymbol") }
         };
 
         public static string ConvertSizeAbbreviation(this string value)
