@@ -859,6 +859,14 @@
           <source>B</source>
           <target state="translated">Б</target>
         </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
+          <source>Contains:</source>
+          <target state="translated">Содержит:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCount" translate="yes" xml:space="preserve">
+          <source>{0:#,##0} Files, {1:#,##0} Folders</source>
+          <target state="translated">{0:#,##0} Файлов, {1:#,##0} Папок</target>
+        </trans-unit>
       </group>
     </body>
   </file>

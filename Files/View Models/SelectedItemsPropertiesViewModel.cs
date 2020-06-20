@@ -171,6 +171,39 @@ namespace Files.View_Models
             get => _ItemMD5HashProgressVisibiity;
             set => Set(ref _ItemMD5HashProgressVisibiity, value);
         }
+
+        public int _FoldersCount;
+
+        public int FoldersCount
+        {
+            get => _FoldersCount;
+            set => Set(ref _FoldersCount, value);
+        }
+
+        public int _FilesCount;
+
+        public int FilesCount
+        {
+            get => _FilesCount;
+            set => Set(ref _FilesCount, value);
+        }
+
+        public string _FilesAndFoldersCountString;
+
+        public string FilesAndFoldersCountString
+        {
+            get => _FilesAndFoldersCountString;
+            set => Set(ref _FilesAndFoldersCountString, value);
+        }
+
+        public Visibility _FilesAndFoldersCountVisibility = Visibility.Collapsed;
+
+        public Visibility FilesAndFoldersCountVisibility
+        {
+            get => _FilesAndFoldersCountVisibility;
+            set => Set(ref _FilesAndFoldersCountVisibility, value);
+        }
+
         #endregion
         #region Properties
 
@@ -229,6 +262,7 @@ namespace Files.View_Models
                 SizeCalcError = true;
             }
             ItemSizeProgressVisibility = Visibility.Collapsed;
+            SetItemsCountString();
         }
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
         {
@@ -245,46 +279,42 @@ namespace Files.View_Models
             {
                 do
                 {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Hidden) != FileAttributes.Hidden && ((FileAttributes)findData.dwFileAttributes & FileAttributes.System) != FileAttributes.System)
+                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
                     {
-                        if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
+                        long fDataFSize = findData.nFileSizeLow;
+                        long fileSize;
+                        if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
                         {
-                            if (!findData.cFileName.EndsWith(".lnk") && !findData.cFileName.EndsWith(".url"))
+                            fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
+                        }
+                        else
+                        {
+                            if (findData.nFileSizeHigh > 0)
                             {
-                                long fDataFSize = findData.nFileSizeLow;
-                                long fileSize;
-                                if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
-                                {
-                                    fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
-                                }
-                                else
-                                {
-                                    if (findData.nFileSizeHigh > 0)
-                                    {
-                                        fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
-                                    }
-                                    else if (fDataFSize < 0)
-                                    {
-                                        fileSize = fDataFSize + 4294967296;
-                                    }
-                                    else
-                                    {
-                                        fileSize = fDataFSize;
-                                    }
-                                }
-                                size += fileSize;
-                                ++count;
+                                fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
+                            }
+                            else if (fDataFSize < 0)
+                            {
+                                fileSize = fDataFSize + 4294967296;
+                            }
+                            else
+                            {
+                                fileSize = fDataFSize;
                             }
                         }
-                        else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                        size += fileSize;
+                        ++count;
+                        FilesCount++;
+                    }
+                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
+                    {
+                        if (findData.cFileName != "." && findData.cFileName != "..")
                         {
-                            if (findData.cFileName != "." && findData.cFileName != "..")
-                            {
-                                var itemPath = Path.Combine(path, findData.cFileName);
+                            var itemPath = Path.Combine(path, findData.cFileName);
 
-                                size += await CalculateFolderSizeAsync(itemPath, token);
-                                ++count;
-                            }
+                            size += await CalculateFolderSizeAsync(itemPath, token);
+                            ++count;
+                            FoldersCount++;
                         }
                     }
 
@@ -294,6 +324,7 @@ namespace Files.View_Models
                         {
                             ItemSizeReal = size;
                             ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            SetItemsCountString();
                         });
                     }
 
@@ -358,6 +389,12 @@ namespace Files.View_Models
                 GetOtherPropeties(storageFolder.Properties);
                 GetFolderSize(storageFolder, _tokenSource.Token);
             }
+        }
+
+        private void SetItemsCountString()
+        {
+            FilesAndFoldersCountString = string.Format(ResourceController.GetTranslation("PropertiesFilesAndFoldersCount"), FilesCount, FoldersCount);
+            FilesAndFoldersCountVisibility = Visibility.Visible;
         }
         #endregion
     }

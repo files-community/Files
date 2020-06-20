@@ -857,6 +857,14 @@
           <source>B</source>
           <target state="new">B</target>
         </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
+          <source>Contains:</source>
+          <target state="new">Contains:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCount" translate="yes" xml:space="preserve">
+          <source>{0:#,##0} Files, {1:#,##0} Folders</source>
+          <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
+        </trans-unit>
       </group>
     </body>
   </file>
