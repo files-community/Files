@@ -187,7 +187,7 @@ namespace Files.View_Models
 
             ItemName = Item?.ItemName;
             ItemType = Item?.ItemType;
-            ItemPath = Item?.ItemPath;
+            ItemPath = Path.GetDirectoryName(Item?.ItemPath);
             ItemModifiedTimestamp = Item?.ItemDateModified;
             FileIconSource = Item?.FileImage;
             LoadFolderGlyph = Item != null ? Item.LoadFolderGlyph : false;
