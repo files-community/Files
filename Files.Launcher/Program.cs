@@ -75,43 +75,6 @@ namespace FilesFullTrust
             Logger.Error(exception, exception.Message);
         }
 
-        private static bool HandleCommandLineArgs()
-        {
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
-            var arguments = (string)localSettings.Values["Arguments"];
-            if (!string.IsNullOrWhiteSpace(arguments))
-            {
-                localSettings.Values.Remove("Arguments");
-
-                if (arguments == "ShellCommand")
-                {
-                    // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-                    // In debug mode this kills this process too??
-#else
-                    var pid = (int)localSettings.Values["pid"];
-                    Process.GetProcessById(pid).Kill();
-#endif
-
-                    Process process = new Process();
-                    process.StartInfo.UseShellExecute = true;
-                    process.StartInfo.FileName = "explorer.exe";
-                    process.StartInfo.CreateNoWindow = false;
-                    process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
-                    process.Start();
-
-                    return true;
-                }
-                else if (arguments == "StartupTasks")
-                {
-                    // Check QuickLook Availability
-                    QuickLook.CheckQuickLookAvailability(localSettings);
-                    return true;
-                }
-            }
-            return false;
-        }
-
         private static async void Watcher_Changed(object sender, ShellItemChangeWatcher.ShellItemChangeEventArgs e)
         {
             Console.WriteLine($"File: {e.ChangedItems.FirstOrDefault()?.FileSystemPath} {e.ChangeType}");
@@ -198,8 +161,8 @@ namespace FilesFullTrust
                     break;
 
                 case "RecycleBin":
-                    var action = (string)args.Request.Message["action"];
-                    await parseRecycleBinAction(args, action);
+                    var binAction = (string)args.Request.Message["action"];
+                    await parseRecycleBinAction(args, binAction);
                     break;
 
                 case "StartupTasks":
@@ -242,6 +205,16 @@ namespace FilesFullTrust
                     await args.Request.SendResponseAsync(responseArray);
                     break;
 
+                case "Bitlocker":
+                    var bitlockerAction = (string)args.Request.Message["action"];
+                    if (bitlockerAction == "Unlock")
+                    {
+                        var drive = (string)args.Request.Message["drive"];
+                        var password = (string)args.Request.Message["password"];
+                        Win32API.UnlockBitlockerDrive(drive, password);
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Bitlocker", "Unlock" } });
+                    }
+                    break;
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -412,6 +385,43 @@ namespace FilesFullTrust
                     }
                 }
             }
+        }
+
+        private static bool HandleCommandLineArgs()
+        {
+            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var arguments = (string)localSettings.Values["Arguments"];
+            if (!string.IsNullOrWhiteSpace(arguments))
+            {
+                localSettings.Values.Remove("Arguments");
+
+                if (arguments == "ShellCommand")
+                {
+                    // Kill the process. This is a BRUTAL WAY to kill a process.
+#if DEBUG
+                    // In debug mode this kills this process too??
+#else
+                    var pid = (int)localSettings.Values["pid"];
+                    Process.GetProcessById(pid).Kill();
+#endif
+
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.FileName = "explorer.exe";
+                    process.StartInfo.CreateNoWindow = false;
+                    process.StartInfo.Arguments = (string)localSettings.Values["ShellCommand"];
+                    process.Start();
+
+                    return true;
+                }
+                else if (arguments == "StartupTasks")
+                {
+                    // Check QuickLook Availability
+                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    return true;
+                }
+            }
+            return false;
         }
 
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)

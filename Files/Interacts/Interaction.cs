@@ -656,7 +656,7 @@ namespace Files.Interacts
             }
             catch (IOException)
             {
-                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog.Title"), ResourceController.GetTranslation("FileInUseDeleteDialog.Text"), ResourceController.GetTranslation("FileInUseDeleteDialog.PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog.SecondaryButtonText")))
+                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog/Title"), ResourceController.GetTranslation("FileInUseDeleteDialog/Text"), ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
                     DeleteItem_Click(null, null);
                 }

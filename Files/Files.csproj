@@ -156,6 +156,9 @@
     <Compile Include="CommandLine\ParsedCommandType.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
+    <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
+      <DependentUpon>BitlockerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -379,6 +382,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\BitlockerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
