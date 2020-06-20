@@ -58,7 +58,7 @@ namespace Files
         public GenericFileBrowser()
         {
             InitializeComponent();
-
+            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
             switch (App.CurrentInstance.FilesystemViewModel.DirectorySortOption)
             {
                 case SortOption.Name:
@@ -104,12 +104,12 @@ namespace Files
             AllView.SelectedItems.Add(item);
         }
 
-        public override void SetSelectedItemsOnUi(List<ListedItem> items)
+        public override void SetSelectedItemsOnUi(List<ListedItem> selectedItems)
         {
             ClearSelection();
-            foreach (ListedItem item in items)
+            foreach (ListedItem selectedItem in selectedItems)
             {
-                AllView.SelectedItems.Add(item);
+                AllView.SelectedItem = selectedItem;
             }
         }
 

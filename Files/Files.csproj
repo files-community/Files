@@ -167,10 +167,12 @@
     <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
+    <Compile Include="Helpers\ShellCommandParser.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
     <Compile Include="INavigationToolbar.cs" />
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">

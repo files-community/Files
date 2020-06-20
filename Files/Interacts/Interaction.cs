@@ -5,6 +5,7 @@ using Files.Helpers;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
 using NLog;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -172,14 +173,19 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string ApplicationPath)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
+        {
+            await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
+        }
+
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
-                value.Add("Application", ApplicationPath);
-                value.Add("Arguments", null);
+                value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
+                value.Add("Arguments", arguments);
                 await App.Connection.SendMessageAsync(value);
             }
         }
