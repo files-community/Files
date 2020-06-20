@@ -25,7 +25,7 @@ namespace Files.SettingsPages
             ThemeChooser.SelectedIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
             ThemeChooser.Loaded += (s, e) =>
             {
-                ThemeChooser.SelectionChanged += async (s1, e1) =>
+                ThemeChooser.SelectionChanged += (s1, e1) =>
                 {
                     var themeComboBox = s1 as ComboBox;
 
@@ -56,7 +56,7 @@ namespace Files.SettingsPages
             DateFormatChooser.SelectedIndex = (int)Enum.Parse(typeof(TimeStyle), _selectedFormat.ToString());
             DateFormatChooser.Loaded += (s, e) =>
             {
-                DateFormatChooser.SelectionChanged += async (s1, e1) =>
+                DateFormatChooser.SelectionChanged += (s1, e1) =>
                 {
                     var timeStyleComboBox = s1 as ComboBox;
 

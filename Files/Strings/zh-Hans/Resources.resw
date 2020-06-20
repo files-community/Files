@@ -105,9 +105,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>启动时</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>查看</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>个性化</value>
   </data>

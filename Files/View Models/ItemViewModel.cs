@@ -305,11 +305,12 @@ namespace Files.Filesystem
 
             // If path is found to not be a library
             pathComponents = WorkingDirectory.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+
             int index = 0;
+            string tag = "";
             foreach (string s in pathComponents)
             {
                 string componentLabel = null;
-                string tag = "";
                 if (s.StartsWith(App.AppSettings.RecycleBinPath))
                 {
                     // Handle the recycle bin: use the localized folder name
@@ -342,7 +343,7 @@ namespace Files.Filesystem
                 else
                 {
                     componentLabel = s;
-                    foreach (string part in pathComponents.GetRange(0, index + 1))
+                    foreach (string part in pathComponents.GetRange(index, 1))
                     {
                         tag = tag + part + @"\";
                     }
@@ -765,7 +766,7 @@ namespace Files.Filesystem
                                 ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                                 ItemOriginalPath = item.FilePath,
                                 FileSize = item.FileSize,
-                                FileSizeBytes = (ulong)item.FileSizeBytes
+                                FileSizeBytes = item.FileSizeBytes
                             });
                         }
                         if (count % 64 == 0)
@@ -996,6 +997,18 @@ namespace Files.Filesystem
                 });
         }
 
+        private void UpdateDirectoryInfo()
+        {
+            if (_filesAndFolders.Count == 1)
+            {
+                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
+            }
+            else
+            {
+                App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
+            }
+        }
+
         public async void RemoveFileOrFolder(ListedItem item)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
@@ -1091,28 +1104,27 @@ namespace Files.Filesystem
                 systemTimeOutput.Milliseconds,
                 DateTimeKind.Utc);
             long fDataFSize = findData.nFileSizeLow;
-            long fileSize;
+            long itemSizeBytes;
             if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
             {
-                fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
+                itemSizeBytes = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
             }
             else
             {
                 if (findData.nFileSizeHigh > 0)
                 {
-                    fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
+                    itemSizeBytes = fDataFSize + (findData.nFileSizeHigh * 4294967296);
                 }
                 else if (fDataFSize < 0)
                 {
-                    fileSize = fDataFSize + 4294967296;
+                    itemSizeBytes = fDataFSize + 4294967296;
                 }
                 else
                 {
-                    fileSize = fDataFSize;
+                    itemSizeBytes = fDataFSize;
                 }
             }
-            var itemSize = ByteSize.FromBytes(fileSize).ToString();
-            var itemSizeBytes = (findData.nFileSizeHigh << 32) + (ulong)findData.nFileSizeLow;
+            var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
 
@@ -1197,7 +1209,7 @@ namespace Files.Filesystem
             var itemName = file.DisplayName;
             var itemDate = basicProperties.DateModified;
             var itemPath = file.Path;
-            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToString();
+            var itemSize = ByteSize.FromBytes(basicProperties.Size).ToBinaryString().ConvertSizeAbbreviation();
             var itemSizeBytes = basicProperties.Size;
             var itemType = file.DisplayType;
             var itemFolderImgVis = false;
@@ -1275,7 +1287,7 @@ namespace Files.Filesystem
                 ItemType = itemType,
                 ItemPath = itemPath,
                 FileSize = itemSize,
-                FileSizeBytes = itemSizeBytes
+                FileSizeBytes = (long)itemSizeBytes
             });
 
             IsFolderEmptyTextDisplayed = false;
@@ -1295,18 +1307,6 @@ namespace Files.Filesystem
             _addFilesCTS?.Dispose();
             _semaphoreCTS?.Dispose();
             CloseWatcher();
-        }
-
-        public void UpdateDirectoryInfo()
-        {
-            if (_filesAndFolders.Count == 1)
-            {
-                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemCount/Text");
-            }
-            else
-            {
-                App.DirectoryPropertiesViewModel.DirectoryItemCount = _filesAndFolders.Count + " " + ResourceController.GetTranslation("ItemsCount/Text");
-            }
         }
     }
 }

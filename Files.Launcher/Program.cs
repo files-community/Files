@@ -1,4 +1,5 @@
 ﻿using Files.Common;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -212,7 +213,7 @@ namespace FilesFullTrust
                                     var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
                                     var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
                                     string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                                    ulong fileSizeBytes = (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
+                                    long fileSizeBytes = (long)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
                                     string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
                                     bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
                                     folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
@@ -272,7 +273,8 @@ namespace FilesFullTrust
 
         private static void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
         {
-            var arguments = args.Request.Message.Get<string, string, object>("Arguments");
+            var arguments = args.Request.Message.Get("Arguments", "");
+            var workingDirectory = args.Request.Message.Get("WorkingDirectory", "");
 
             try
             {
@@ -280,9 +282,10 @@ namespace FilesFullTrust
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = executable;
-                // Show window if arguments (opening terminal)
-                process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(arguments);
+                // Show window if workingDirectory (opening terminal)
+                process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
                 process.StartInfo.Arguments = arguments;
+                process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
             }
             catch (Win32Exception)
@@ -294,6 +297,7 @@ namespace FilesFullTrust
                 process.StartInfo.FileName = executable;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.Arguments = arguments;
+                process.StartInfo.WorkingDirectory = workingDirectory;
                 try
                 {
                     process.Start();

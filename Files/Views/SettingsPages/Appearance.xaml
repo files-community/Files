@@ -31,89 +31,29 @@
                     FontWeight="Medium"
                     Text="Appearance" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="*" MaxWidth="360" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsAppearanceTheme"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="App theme"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="App theme" />
+                    <ComboBox x:Name="ThemeChooser" Width="150" />
+                </StackPanel>
 
-                    <ComboBox
-                        x:Name="ThemeChooser"
-                        Grid.Column="3"
-                        Width="150"
-                        HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="*" MaxWidth="360" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsAppearanceDateFormat"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Date format"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Date format" />
+                    <ComboBox x:Name="DateFormatChooser" Width="150" />
+                </StackPanel>
 
-                    <ComboBox
-                        x:Name="DateFormatChooser"
-                        Grid.Column="3"
-                        Width="150"
-                        HorizontalAlignment="Right" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="*" MaxWidth="360" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsAppearanceAcrylicSidebar"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Acrylic sidebar"
-                        TextWrapping="Wrap" />
-
-                    <ToggleSwitch
-                        x:Name="AcrylicSidebarSwitch"
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
+                        FontSize="17"
+                        Text="Acrylic sidebar" />
+                    <ToggleSwitch x:Name="AcrylicSidebarSwitch" IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

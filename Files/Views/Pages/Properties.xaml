@@ -9,6 +9,8 @@
     xmlns:local1="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Loaded="Properties_Loaded"
+    Unloaded="Properties_Unloaded"
     d:DesignHeight="475"
     d:DesignWidth="400"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
@@ -183,6 +185,7 @@
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
 

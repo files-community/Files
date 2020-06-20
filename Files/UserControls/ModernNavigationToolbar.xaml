@@ -692,11 +692,11 @@
                 Height="30"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
-                x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
                 Visibility="Visible">
@@ -793,23 +793,23 @@
                         <MenuFlyoutItem
                             x:Name="CopyPathButton"
                             x:Uid="NavigationToolbarCopyPath"
-                            x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
                             Text="Copy Path" />
-                        <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                        <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                         <MenuFlyoutItem
                             x:Name="PasteButton"
                             x:Uid="NavigationToolbarPaste"
-                            x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                             IsEnabled="{x:Bind local1:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Text="Paste" />
                         <MenuFlyoutItem
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
-                            x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}"
+                            x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                            IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
+                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                             Text="Open in Terminal..." />
                     </MenuFlyout>
                 </Button.Flyout>

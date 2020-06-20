@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Files.View_Models;
+using GalaSoft.MvvmLight;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -45,22 +46,6 @@ namespace Files.Controls
         {
             get => _IsSelectedItemImage;
             set => Set(ref _IsSelectedItemImage, value);
-        }
-
-        private bool _IsPageTypeNotHome = false;
-
-        public bool IsPageTypeNotHome
-        {
-            get => _IsPageTypeNotHome;
-            set => Set(ref _IsPageTypeNotHome, value);
-        }
-
-        private bool _IsPageTypeNotRecycleBin = false;
-
-        public bool IsPageTypeNotRecycleBin
-        {
-            get => _IsPageTypeNotRecycleBin;
-            set => Set(ref _IsPageTypeNotRecycleBin, value);
         }
 
         public void CheckForImage()

@@ -1,4 +1,4 @@
-﻿using Files.DataModels;
+using Files.DataModels;
 using Files.Filesystem;
 using GalaSoft.MvvmLight;
 using Windows.UI.Xaml.Controls;
@@ -17,8 +17,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.IO;
 using Windows.UI.Core;
 using FileAttributes = System.IO.FileAttributes;
+using Files.Helpers;
 using static Files.Helpers.NativeFindStorageItemHelper;
-
 
 namespace Files.View_Models
 {
@@ -150,6 +150,13 @@ namespace Files.View_Models
                 }
             }
         }
+        private bool _ItemMD5HashCalcError;
+        public bool ItemMD5HashCalcError
+        {
+            get => _ItemMD5HashCalcError;
+            set => Set(ref _ItemMD5HashCalcError, value);
+        }
+
         public Visibility _ItemMD5HashVisibility = Visibility.Collapsed;
 
         public Visibility ItemMD5HashVisibility
@@ -166,10 +173,9 @@ namespace Files.View_Models
         }
         #endregion
         #region Properties
-        public Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress
-        {
-            get; set;
-        }
+
+        public Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress { get; set; }
+
         public ListedItem Item { get; }
 
         public CoreDispatcher Dispatcher { get; set; }
@@ -214,7 +220,8 @@ namespace Files.View_Models
             {
                 var folderSize = await fileSizeTask;
                 ItemSizeReal = folderSize;
-                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToString();
+                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSizeLib.ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
             }
             catch (Exception ex)
             {
@@ -286,7 +293,7 @@ namespace Files.View_Models
                         await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
                             ItemSizeReal = size;
-                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToString();
+                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
                         });
                     }
 
@@ -310,13 +317,22 @@ namespace Files.View_Models
                 var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
                 ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
                 GetOtherPropeties(file.Properties);
-                ItemsSize = Item.FileSize;
+                ItemsSize = ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
 
                 // Get file MD5 hash
                 var hashAlgTypeName = HashAlgorithmNames.Md5;
                 ItemMD5HashProgressVisibility = Visibility.Visible;
                 ItemMD5HashVisibility = Visibility.Visible;
-                ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
+                try
+                {
+                    ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
+                }
+                catch (Exception ex)
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                    ItemMD5HashCalcError = true;
+                }
             }
             else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
             {
@@ -327,7 +343,7 @@ namespace Files.View_Models
                 }
                 else
                 {
-                    var parentDirectory = App.CurrentInstance.ViewModel.CurrentFolder;
+                    var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
                     if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
                     {
                         // GetFolderFromPathAsync cannot access recyclebin folder

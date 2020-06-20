@@ -61,7 +61,7 @@
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
                         Grid.Row="2"
-                        x:Load="{x:Bind local1:App.InteractionViewModel.IsPageTypeNotHome, Mode=OneWay}" />
+                        x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
 
