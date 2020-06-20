@@ -250,8 +250,6 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
 
-                ThemeHelper.Initialize();
-
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -299,7 +297,7 @@ namespace Files
                         var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
                         rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
                     }
-                    ThemeHelper.Initialize();
+
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -322,7 +320,6 @@ namespace Files
                             {
                                 case ParsedCommandType.OpenDirectory:
                                     rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
-                                    ThemeHelper.Initialize();
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
@@ -337,7 +334,6 @@ namespace Files
                                         var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
 
                                         rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
-                                        ThemeHelper.Initialize();
 
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
@@ -360,7 +356,6 @@ namespace Files
 
                                 case ParsedCommandType.Unknown:
                                     rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
-                                    ThemeHelper.Initialize();
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -373,7 +368,6 @@ namespace Files
             }
 
             rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
-            ThemeHelper.Initialize();
 
             // Ensure the current window is active.
             Window.Current.Activate();
