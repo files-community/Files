@@ -87,7 +87,20 @@ namespace Files
                         else
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
-                            SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
+
+                            if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                            {
+                                long size = 0;
+                                foreach (var item in SelectedItems)
+                                {
+                                    size += item.FileSizeBytes;
+                                }
+                                SelectedItemsPropertiesViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            }
+                            else
+                            {
+                                SelectedItemsPropertiesViewModel.ItemsSize = string.Empty;
+                            }
                         }
                     }
                     NotifyPropertyChanged("SelectedItems");
