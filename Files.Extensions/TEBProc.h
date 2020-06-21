@@ -29,7 +29,6 @@ Readapted from: https://raw.githubusercontent.com/gus33000/RegistryRT/master/pch
 #include <winrt/base.h>
 #include <algorithm>
 
-
 using namespace winrt;
 
 typedef struct _UNICODE_STRING {

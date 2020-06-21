@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
+using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
@@ -18,6 +19,8 @@ namespace Files.UserControls
 {
     public sealed partial class ModernNavigationToolbar : UserControl, INavigationToolbar, INotifyPropertyChanged
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
@@ -216,19 +219,19 @@ namespace Files.UserControls
                     switch (CurrentInput.ToLower())
                     {
                         case "%temp%":
-                            CurrentInput = App.AppSettings.TempPath;
+                            CurrentInput = AppSettings.TempPath;
                             break;
 
                         case "%appdata":
-                            CurrentInput = App.AppSettings.AppDataPath;
+                            CurrentInput = AppSettings.AppDataPath;
                             break;
 
                         case "%homepath%":
-                            CurrentInput = App.AppSettings.HomePath;
+                            CurrentInput = AppSettings.HomePath;
                             break;
 
                         case "%windir%":
-                            CurrentInput = App.AppSettings.WinDirPath;
+                            CurrentInput = AppSettings.WinDirPath;
                             break;
                     }
 
@@ -236,7 +239,7 @@ namespace Files.UserControls
                     {
                         await StorageFolder.GetFolderFromPathAsync(CurrentInput);
 
-                        App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
+                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
@@ -248,7 +251,7 @@ namespace Files.UserControls
                         catch (Exception ex) // Not a file or not accessible
                         {
                             // Launch terminal application if possible
-                            foreach (var item in App.AppSettings.TerminalsModel.Terminals)
+                            foreach (var item in AppSettings.TerminalsModel.Terminals)
                             {
                                 if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
@@ -305,7 +308,7 @@ namespace Files.UserControls
             if (itemTappedPath == "Home" || itemTappedPath == "New tab")
                 return;
 
-            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
     }
 }

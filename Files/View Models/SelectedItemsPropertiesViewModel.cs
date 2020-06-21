@@ -1,24 +1,26 @@
 using Files.Filesystem;
+using Files.Helpers;
 using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using System.IO;
-using Windows.UI.Core;
-using FileAttributes = System.IO.FileAttributes;
-using Files.Helpers;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.View_Models
 {
     public class SelectedItemsPropertiesViewModel : ViewModelBase
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         private string _ItemName;
 
         public string ItemName
@@ -395,10 +397,10 @@ namespace Files.View_Models
                 else
                 {
                     var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
-                    if (parentDirectory.ItemPath.StartsWith(App.AppSettings.RecycleBinPath))
+                    if (parentDirectory.ItemPath.StartsWith(AppSettings.RecycleBinPath))
                     {
                         // GetFolderFromPathAsync cannot access recyclebin folder
-                        // Currently a fake timestamp is used                
+                        // Currently a fake timestamp is used
                     }
                     else
                     {

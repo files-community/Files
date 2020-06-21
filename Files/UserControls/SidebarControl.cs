@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.View_Models;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,9 +10,10 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.Controls
 {
-    public sealed partial class ModernSidebar : UserControl, INotifyPropertyChanged
+    public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
-        public ModernSidebar()
+        public SettingsViewModel AppSettings => App.AppSettings;
+        public SidebarControl()
         {
             this.InitializeComponent();
         }
