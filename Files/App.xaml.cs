@@ -17,6 +17,7 @@ using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -56,8 +57,6 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
-        public static SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; set; }
-        public static DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; set; }
         public static SidebarPinnedModel SidebarPinned { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
@@ -78,16 +77,9 @@ namespace Files
             LayoutDialogDisplay = new Dialogs.LayoutDialog();
             AddItemDialogDisplay = new Dialogs.AddItemDialog();
             ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
-            // this.UnhandledException += App_UnhandledException;
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
-
-            SidebarPinned = new SidebarPinnedModel();
-            AppSettings = new SettingsViewModel();
-            InteractionViewModel = new InteractionViewModel();
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel();
-            DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -134,13 +126,13 @@ namespace Files
             {
                 var path = (string)args.Request.Message["FileSystem"];
                 Debug.WriteLine("{0}: {1}", path, args.Request.Message["Type"]);
-                if (App.CurrentInstance.ViewModel.CurrentFolder?.ItemPath == path)
+                if (App.CurrentInstance.FilesystemViewModel.CurrentFolder?.ItemPath == path)
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                         () =>
                         {
-                            App.CurrentInstance.ViewModel.RefreshItems();
+                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
                         });
                 }
             }
@@ -186,7 +178,7 @@ namespace Files
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
                     {
                         App.PS.IsEnabled = true;
                     }

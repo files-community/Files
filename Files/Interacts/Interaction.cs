@@ -1,9 +1,11 @@
+using Files.DataModels;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
 using NLog;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -137,9 +139,13 @@ namespace Files.Interacts
 
             if (App.Connection != null)
             {
-                var value = new ValueSet();
-                value.Add("Application", terminal.Path);
-                value.Add("Arguments", string.Format(terminal.Arguments, CurrentInstance.ViewModel.WorkingDirectory));
+                var value = new ValueSet
+                {
+                    { "WorkingDirectory", CurrentInstance.FilesystemViewModel.WorkingDirectory },
+                    { "Application", terminal.Path },
+                    { "Arguments", string.Format(terminal.Arguments,
+                        InstanceTabsView.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                };
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -161,20 +167,25 @@ namespace Files.Interacts
             {
                 Clipboard.Clear();
                 DataPackage data = new DataPackage();
-                data.SetText(CurrentInstance.ViewModel.WorkingDirectory);
+                data.SetText(CurrentInstance.FilesystemViewModel.WorkingDirectory);
                 Clipboard.SetContent(data);
                 Clipboard.Flush();
             }
         }
 
-        public static async Task InvokeWin32Component(string ApplicationPath)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
+        {
+            await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
+        }
+
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
-                value.Add("Application", ApplicationPath);
-                value.Add("Arguments", null);
+                value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
+                value.Add("Arguments", arguments);
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -264,7 +275,7 @@ namespace Files.Interacts
 
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
-            if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
@@ -288,7 +299,7 @@ namespace Files.Interacts
                         // Add location to MRU List
                         mostRecentlyUsed.Add(await StorageFolder.GetFolderFromPathAsync(clickedOnItemPath));
 
-                        CurrentInstance.ViewModel.WorkingDirectory = clickedOnItemPath;
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory = clickedOnItemPath;
                         CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedOnItemPath;
 
                         CurrentInstance.ContentPage.AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
@@ -332,10 +343,10 @@ namespace Files.Interacts
                                 //We can have many sort entries
                                 SortEntry sortEntry = new SortEntry()
                                 {
-                                    AscendingOrder = CurrentInstance.ViewModel.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
+                                    AscendingOrder = CurrentInstance.FilesystemViewModel.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
                                 };
 
-                                var sortOption = CurrentInstance.ViewModel.DirectorySortOption;
+                                var sortOption = CurrentInstance.FilesystemViewModel.DirectorySortOption;
 
                                 switch (sortOption)
                                 {
@@ -455,13 +466,42 @@ namespace Files.Interacts
 
         private async void ShowProperties()
         {
+            if (App.CurrentInstance.ContentPage.IsItemSelected)
+            {
+                if (App.AppSettings.OpenPropertiesInMultipleWindows)
+                {
+                    foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
+                    {
+                        await OpenPropertiesWindow(item);
+                    }
+                }
+                else
+                {
+                    await OpenPropertiesWindow(CurrentInstance.ContentPage.SelectedItem);
+                }
+            }
+            else
+            {
+                if (!Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath)
+                    .Equals(App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    await OpenPropertiesWindow(App.CurrentInstance.FilesystemViewModel.CurrentFolder);
+                }
+                else
+                {
+                    //TODO: Implement drive properties
+                }
+            }
+        }
+        private async Task OpenPropertiesWindow(ListedItem item)
+        {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
-                frame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
-                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 475));
+                frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
 
                 appWindow.RequestSize(new Size(400, 475));
                 appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
@@ -481,7 +521,7 @@ namespace Files.Interacts
             else
             {
                 App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), null, new SuppressNavigationTransitionInfo());
+                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
                 await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
@@ -494,6 +534,11 @@ namespace Files.Interacts
         public void ShowFolderPropertiesButton_Click(object sender, RoutedEventArgs e)
         {
             ShowProperties();
+        }
+        
+        public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
+        {
+            App.SidebarPinned.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -524,7 +569,7 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            var deleteFromRecycleBin = CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
@@ -596,7 +641,7 @@ namespace Files.Interacts
                         await (await StorageFile.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
                     }
 
-                    CurrentInstance.ViewModel.RemoveFileOrFolder(storItem);
+                    CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
                 }
                 App.CurrentInstance.NavigationToolbar.CanGoForward = false;
             }
@@ -861,7 +906,7 @@ namespace Files.Interacts
             };
             List<IStorageItem> items = new List<IStorageItem>();
 
-            CopySourcePath = App.CurrentInstance.ViewModel.WorkingDirectory;
+            CopySourcePath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
 
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
@@ -916,7 +961,7 @@ namespace Files.Interacts
         public async void PasteItem_ClickAsync(object sender, RoutedEventArgs e)
         {
             DataPackageView packageView = Clipboard.GetContent();
-            string destinationPath = CurrentInstance.ViewModel.WorkingDirectory;
+            string destinationPath = CurrentInstance.FilesystemViewModel.WorkingDirectory;
 
             await PasteItems(packageView, destinationPath, packageView.RequestedOperation);
         }
@@ -929,7 +974,7 @@ namespace Files.Interacts
                 // Should this be done in ModernShellPage?
                 return;
             }
-            if (CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
@@ -1031,13 +1076,13 @@ namespace Files.Interacts
                         // File or Folder was moved/deleted in the meantime
                         continue;
                     }
-                    ListedItem listedItem = CurrentInstance.ViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
+                    ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                 }
             }
-            if (destinationPath == CurrentInstance.ViewModel.WorkingDirectory)
+            if (destinationPath == CurrentInstance.FilesystemViewModel.WorkingDirectory)
             {
                 List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
-                List<ListedItem> copiedItems = CurrentInstance.ViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
+                List<ListedItem> copiedItems = CurrentInstance.FilesystemViewModel.FilesAndFolders.Where(listedItem => pastedItemPaths.Contains(listedItem.ItemPath)).ToList();
                 if (copiedItems.Any())
                 {
                     CurrentInstance.ContentPage.SetSelectedItemsOnUi(copiedItems);
@@ -1099,9 +1144,9 @@ namespace Files.Interacts
         public async void ExtractItems_Click(object sender, RoutedEventArgs e)
         {
             var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();
-            StorageFile selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.ViewModel.FilesAndFolders[selectedIndex].ItemPath);
+            StorageFile selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.FilesystemViewModel.FilesAndFolders[selectedIndex].ItemPath);
 
-            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.ViewModel.WorkingDirectory);
+            ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.FilesystemViewModel.WorkingDirectory);
             await extractFilesDialog.ShowAsync();
             if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
             {
@@ -1187,10 +1232,10 @@ namespace Files.Interacts
 
         public void PushJumpChar(char letter)
         {
-            App.CurrentInstance.ViewModel.JumpString += letter.ToString().ToLower();
+            App.CurrentInstance.FilesystemViewModel.JumpString += letter.ToString().ToLower();
         }
 
-        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, ProgressBar progress)
+        public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
             var itemFromPath = await StorageFile.GetFileFromPathAsync(fileItem.ItemPath);

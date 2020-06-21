@@ -19,7 +19,7 @@ namespace Files
         public GridViewBrowser()
         {
             this.InitializeComponent();
-
+            base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
             App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
 
             SetItemTemplate(); // Set ItemTemplate
@@ -317,7 +317,7 @@ namespace Files
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
                 {
-                    App.CurrentInstance.ViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
+                    App.CurrentInstance.FilesystemViewModel.LoadExtendedItemProperties(sender.DataContext as ListedItem, _iconSize);
                     (sender.DataContext as ListedItem).ItemPropertiesInitialized = true;
                 });
 

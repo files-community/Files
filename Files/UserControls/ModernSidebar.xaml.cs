@@ -52,6 +52,24 @@ namespace Files.Controls
             }
         }
 
+        private bool _ShowEmptyRecycleBin;
+
+        public bool ShowEmptyRecycleBin
+        {
+            get
+            {
+                return _ShowEmptyRecycleBin;
+            }
+            set
+            {
+                if (value != _ShowEmptyRecycleBin)
+                {
+                    _ShowEmptyRecycleBin = value;
+                    NotifyPropertyChanged("ShowEmptyRecycleBin");
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
@@ -61,8 +79,6 @@ namespace Files.Controls
 
         private void Sidebar_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
         {
-            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
-            //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
             string NavigationPath; // path to navigate
 
             if (args.InvokedItem == null)
@@ -101,7 +117,6 @@ namespace Files.Controls
                         NavigationPath = clickedItem.Tag.ToString();
 
                         App.CurrentInstance.NavigationToolbar.PathControlDisplayText = clickedItem.Tag.ToString();
-                        //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.LayoutItems.isEnabled = true;
 
                         break;
                     }
@@ -109,7 +124,7 @@ namespace Files.Controls
 
             App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
 
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
         }
 
         private void NavigationViewLocationItem_RightTapped(object sender, RightTappedRoutedEventArgs e)
@@ -123,6 +138,15 @@ namespace Files.Controls
             else
             {
                 ShowUnpinItem = true;
+            }
+
+            if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                ShowEmptyRecycleBin = true;
+            }
+            else
+            {
+                ShowEmptyRecycleBin = false;
             }
 
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));

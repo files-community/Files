@@ -8,6 +8,9 @@
     xmlns:local="using:Files"
     xmlns:local1="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    Loaded="Properties_Loaded"
+    Unloaded="Properties_Unloaded"
     d:DesignHeight="475"
     d:DesignWidth="400"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
@@ -52,6 +55,9 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid
                     x:Name="Icon"
@@ -65,7 +71,7 @@
                         x:Name="FolderGlyphIcon"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ItemProperties.LoadFolderGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind ViewModel.LoadFolderGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Foreground="#ffe793"
@@ -74,7 +80,7 @@
                         x:Name="EmptyImageIcon"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ItemProperties.LoadUnknownTypeGlyph, Mode=OneWay}"
+                        x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Glyph="&#xE7C3;" />
@@ -82,8 +88,8 @@
                         x:Name="itemIcon"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ItemProperties.LoadFileIcon, Mode=OneWay}"
-                        Source="{x:Bind ItemProperties.FileIconSource, Mode=OneWay}" />
+                        x:Load="{x:Bind ViewModel.LoadFileIcon, Mode=OneWay}"
+                        Source="{x:Bind ViewModel.FileIconSource, Mode=OneWay}" />
                 </Grid>
                 <TextBox
                     x:Name="itemFileName"
@@ -95,7 +101,7 @@
                     VerticalAlignment="Center"
                     BorderThickness="1"
                     IsReadOnly="True"
-                    Text="{x:Bind ItemProperties.ItemName, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemName, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="1"
                     Grid.Column="0"
@@ -114,7 +120,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemType, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesItemPath"
@@ -128,7 +134,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemPath, Mode=OneWay}"
+                    Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
                     TextWrapping="Wrap" />
 
                 <TextBlock
@@ -137,13 +143,25 @@
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Text="Size:" />
-                <TextBlock
-                    x:Name="itemSizeValue"
-                    Grid.Row="4"
-                    Grid.Column="1"
-                    Margin="20,0,0,0"
-                    IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemSize, Mode=OneWay}" />
+
+                <Grid Margin="20,0,0,0" Grid.Row="4" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="100" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        x:Name="itemSizeValue"
+                        Grid.Column="0"
+                        IsTextSelectionEnabled="True"
+                        Text="{x:Bind ViewModel.ItemsSize, Mode=OneWay}" />
+                    <muxc:ProgressRing
+                        x:Name="ItemSizeProgress"
+                        Grid.Column="1"
+                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" 
+                        HorizontalAlignment="Left" 
+                        Margin="0,-10" />
+                </Grid>
+
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
@@ -152,21 +170,24 @@
                     Grid.Column="0"
                     FontWeight="SemiBold"
                     Text="MD5Hash:"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
                     x:Name="itemMD5HashValue"
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemMD5Hash, Mode=OneWay}"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashVisibility, Mode=OneWay}" />
-                <ProgressBar
+
+                    Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
+                <muxc:ProgressBar
                     x:Name="ItemMD5HashProgress"
                     Grid.Row="5"
                     Grid.Column="1"
                     Margin="20,0,0,0"
-                    Visibility="{x:Bind ItemProperties.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+                    ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
+                    Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
+
 
                 <MenuFlyoutSeparator
                     Grid.Row="6"
@@ -186,7 +207,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemCreatedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesModified"
@@ -200,17 +221,49 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ItemProperties.ItemModifiedTimestamp, Mode=OneWay}" />
-
+                    Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="PropertiesAccessed"
+                    Grid.Row="9"
+                    Grid.Column="0"
+                    FontWeight="SemiBold"
+                    Text="Accessed:" />
+                <TextBlock
+                    x:Name="itemAccessedTimestampValue"
+                    Grid.Row="9"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}" />
+                <TextBlock
+                    x:Uid="PropertiesOwner"
+                    Grid.Row="10"
+                    Grid.Column="0"
+                    FontWeight="SemiBold"
+                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
+                    Text="Owner:" />
+                <TextBlock
+                    x:Uid="ItemFileOwnerValue"
+                    Grid.Row="10"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsTextSelectionEnabled="True"
+                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
+                    Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}" />
+                <MenuFlyoutSeparator
+                    Grid.Row="11"
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2"
+                    Margin="-12,0" />
                 <TextBlock
                     x:Uid="PropertiesAttributes"
-                    Grid.Row="9"
+                    Grid.Row="12"
                     Grid.Column="0"
                     VerticalAlignment="Center"
                     FontWeight="SemiBold"
                     Text="Attributes:" />
                 <StackPanel
-                    Grid.Row="9"
+                    Grid.Row="12"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     Orientation="Horizontal"

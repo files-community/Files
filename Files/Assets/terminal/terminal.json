@@ -5,20 +5,20 @@
     {
       "name": "CMD",
       "path": "cmd.exe",
-      "arguments": "/k \"cd /d {0} && title Command Prompt\"",
+      "arguments": "",
       "icon": ""
     }
     /*
     {
       "name": "PowerShell Core 6",
       "path": "pwsh.exe",
-      "arguments": "-WorkingDirectory \"{0}\"",
+      "arguments": "",
       "icon": ""
     },
     {
       "name": "Windows Terminal",
       "path": "wt.exe",
-      "arguments": "-d \"{0}\"",
+      "arguments": "-d .",
       "icon": ""
     }
     */

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using Vanara.Windows.Shell;
 
 namespace FilesFullTrust
@@ -83,6 +85,58 @@ namespace FilesFullTrust
             }
 
             return propValueList;
+        }
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int LoadString(IntPtr hInstance, int ID, StringBuilder lpBuffer, int nBufferMax);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool FreeLibrary(IntPtr hModule);
+
+
+        public static string ExtractStringFromDLL(string file, int number)
+        {
+            IntPtr lib = LoadLibrary(file);
+            StringBuilder result = new StringBuilder(2048);
+            LoadString(lib, number, result, result.Capacity);
+            FreeLibrary(lib);
+            return result.ToString();
+        }
+
+
+        [DllImport("shell32.dll", SetLastError = true)]
+        public static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
+        
+        [DllImport("kernel32.dll")]
+        public static extern IntPtr LocalFree(IntPtr hMem);
+
+        public static string[] CommandLineToArgs(string commandLine)
+        {
+            if (String.IsNullOrEmpty(commandLine))
+                return Array.Empty<string>();
+
+            var argv = CommandLineToArgvW(commandLine, out int argc);
+            if (argv == IntPtr.Zero)
+                throw new System.ComponentModel.Win32Exception();
+            try
+            {
+                var args = new string[argc];
+                for (var i = 0; i < args.Length; i++)
+                {
+                    var p = Marshal.ReadIntPtr(argv, i * IntPtr.Size);
+                    args[i] = Marshal.PtrToStringUni(p);
+                }
+
+                return args;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(argv);
+            }
         }
     }
 }

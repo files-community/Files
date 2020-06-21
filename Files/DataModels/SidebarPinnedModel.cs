@@ -145,6 +145,10 @@ namespace Files.DataModels
             {
                 iconCode = "\uE8B2";
             }
+            else if(Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
+            {
+                iconCode = "\uEDA2";
+            }
             else
             {
                 iconCode = "\uE8B7";

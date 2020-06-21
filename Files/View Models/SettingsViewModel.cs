@@ -17,6 +17,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
@@ -248,7 +250,7 @@ namespace Files.View_Models
             {
                 Name = "Windows Terminal",
                 Path = "wt.exe",
-                Arguments = "-d \"{0}\"",
+                Arguments = "-d .",
                 Icon = ""
             };
 
@@ -256,7 +258,7 @@ namespace Files.View_Models
             {
                 Name = "Fluent Terminal",
                 Path = "flute.exe",
-                Arguments = "new \"{0}\"",
+                Arguments = "",
                 Icon = ""
             };
 
@@ -300,7 +302,16 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
         }
-
+        public bool OpenPropertiesInMultipleWindows
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+        public bool ShowFileOwner
+        {
+            get => Get(false);
+            set => Set(value);
+        }
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -371,7 +382,8 @@ namespace Files.View_Models
                         var recycleBinItem = new LocationItem
                         {
                             Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Glyph = "\uE74D",
+                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                            Glyph = "\uEF87",
                             IsDefaultLocation = true,
                             Path = RecycleBinPath
                         };

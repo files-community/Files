@@ -190,7 +190,7 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
-                CheckPathInput(App.CurrentInstance.ViewModel, PathBox.Text);
+                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text);
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else if (e.Key == VirtualKey.Escape)
@@ -208,7 +208,7 @@ namespace Files.UserControls
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.ViewModel.WorkingDirectory = "New tab";
+                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory = "New tab";
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -256,7 +256,7 @@ namespace Files.UserControls
                                     {
                                         var value = new ValueSet();
                                         value.Add("Application", item.Path);
-                                        value.Add("Arguments", String.Format(item.Arguments, App.CurrentInstance.ViewModel.WorkingDirectory));
+                                        value.Add("Arguments", String.Format(item.Arguments, App.CurrentInstance.FilesystemViewModel.WorkingDirectory));
                                         await App.Connection.SendMessageAsync(value);
                                     }
                                     return;
@@ -275,7 +275,7 @@ namespace Files.UserControls
                     }
                 }
 
-                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.ViewModel.WorkingDirectory;
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
         }
 

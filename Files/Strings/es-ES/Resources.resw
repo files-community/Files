@@ -105,9 +105,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>En el inicio</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Diseño de páginas</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferencias</value>
   </data>
@@ -614,5 +611,20 @@
   </data>
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>elementos</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Anclar directorio a la barra lateral</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Accedido:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Propietario:</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Mostrar propietario de archivo en propiedades</value>
+  </data>
+  <data name="SettingsExperimentalPropertiesMultipleWindows.Text" xml:space="preserve">
+    <value>Ver propiedades de multiples elementos seleccionados</value>
   </data>
 </root>

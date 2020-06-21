@@ -30,90 +30,34 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="270" />
-                        <ColumnDefinition Width="*" MaxWidth="460" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesPinOneDrive"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Pin OneDrive to the sidebar"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Pin OneDrive to the sidebar" />
+                    <ToggleSwitch x:Name="OneDrivePin" IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        x:Name="OneDrivePin"
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsEnabled="True"
-                        IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="270" />
-                        <ColumnDefinition Width="*" MaxWidth="460" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Show a confirmation dialog when deleting files or folders"
-                        TextWrapping="WrapWholeWords" />
+                        FontSize="17"
+                        Text="Show a confirmation dialog when deleting files or folders" />
+                    <ToggleSwitch x:Name="ShowConfirmDeleteDialog" IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        x:Name="ShowConfirmDeleteDialog"
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsEnabled="True"
-                        IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="220" />
-                        <ColumnDefinition Width="*" MaxWidth="510" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
+                <StackPanel Spacing="10">
 
                     <TextBlock
                         x:Uid="SettingsPreferencesTerminalApplications"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Terminal Applications"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Terminal Applications" />
 
                     <StackPanel
-                        Grid.Column="2"
-                        HorizontalAlignment="Right"
+                        Width="240"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal"
-                        Spacing="12">
+                        Spacing="14">
                         <HyperlinkButton
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
                             Content="&#xE946;"
@@ -128,9 +72,7 @@
 
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
-                            MinWidth="120"
-                            MaxWidth="185"
-                            HorizontalAlignment="Stretch"
+                            Width="180"
                             ItemsSource="{x:Bind AppSettings.TerminalsModel.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
@@ -142,7 +84,7 @@
                             </ComboBox.ItemTemplate>
                         </ComboBox>
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -238,10 +238,6 @@
           <source>On Startup</source>
           <target state="translated">При запуску</target>
         </trans-unit>
-        <trans-unit id="SettingsNavPageLayouts.Content" translate="yes" xml:space="preserve">
-          <source>Page Layouts</source>
-          <target state="translated">Структура сторінки</target>
-        </trans-unit>
         <trans-unit id="SettingsNavPreferences.Content" translate="yes" xml:space="preserve">
           <source>Preferences</source>
           <target state="translated">Налаштування</target>
@@ -814,6 +810,54 @@
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
           <target state="new">items</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
+          <source>Pin directory to sidebar</source>
+          <target state="new">Pin directory to sidebar</target>
+        </trans-unit>
+        <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
+          <source>Accessed:</source>
+          <target state="new">Accessed:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
+          <source>Owner:</source>
+          <target state="new">Owner:</target>
+        </trans-unit>
+        <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
+          <source>Show Owner in properties</source>
+          <target state="new">Show Owner in properties</target>
+        </trans-unit>
+        <trans-unit id="SettingsExperimentalPropertiesMultipleWindows.Text" translate="yes" xml:space="preserve">
+          <source>Open properties in Multiple Windows</source>
+          <target state="new">Open properties in Multiple Windows</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
+          <source>bytes</source>
+          <target state="translated">байт</target>
+        </trans-unit>
+        <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
+          <source>KB</source>
+          <target state="translated">КБ</target>
+        </trans-unit>
+        <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
+          <source>MB</source>
+          <target state="translated">МБ</target>
+        </trans-unit>
+        <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
+          <source>GB</source>
+          <target state="translated">ГБ</target>
+        </trans-unit>
+        <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
+          <source>TB</source>
+          <target state="translated">ТБ</target>
+        </trans-unit>
+        <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
+          <source>PB</source>
+          <target state="translated">ПБ</target>
+        </trans-unit>
+        <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
+          <source>B</source>
+          <target state="translated">Б</target>
         </trans-unit>
       </group>
     </body>

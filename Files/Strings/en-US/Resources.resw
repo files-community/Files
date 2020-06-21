@@ -237,6 +237,12 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Accessed:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Owner:</value>
+  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
   </data>
@@ -330,9 +336,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>On Startup</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Page Layouts</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferences</value>
   </data>
@@ -359,6 +362,12 @@
   </data>
   <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
     <value>Enable Recycle Bin support</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Show Owner in properties</value>
+  </data>
+  <data name="SettingsExperimentalPropertiesMultipleWindows.Text" xml:space="preserve">
+    <value>Open properties in Multiple Windows</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -731,5 +740,29 @@
   </data>
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Moving files to Recycle Bin</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Pin directory to sidebar</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>bytes</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>PB</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>B</value>
   </data>
 </root>
