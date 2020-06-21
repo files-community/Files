@@ -858,7 +858,7 @@
           <source>Contains:</source>
           <target state="new">Contains:</target>
         </trans-unit>
-        <trans-unit id="PropertiesFilesAndFoldersCount" translate="yes" xml:space="preserve">
+        <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
         </trans-unit>

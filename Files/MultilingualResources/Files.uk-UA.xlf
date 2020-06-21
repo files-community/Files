@@ -863,7 +863,7 @@
           <source>Contains:</source>
           <target state="translated">Містить:</target>
         </trans-unit>
-        <trans-unit id="PropertiesFilesAndFoldersCount" translate="yes" xml:space="preserve">
+        <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="translated">{0:#,##0} Файлів, {1:#,##0} Папок</target>
         </trans-unit>

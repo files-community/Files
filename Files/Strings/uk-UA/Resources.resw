@@ -612,7 +612,7 @@
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Містить:</value>
   </data>
-  <data name="PropertiesFilesAndFoldersCount" xml:space="preserve">
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
   </data>
 </root>

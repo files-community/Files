@@ -393,7 +393,7 @@ namespace Files.View_Models
 
         private void SetItemsCountString()
         {
-            FilesAndFoldersCountString = string.Format(ResourceController.GetTranslation("PropertiesFilesAndFoldersCount"), FilesCount, FoldersCount);
+            FilesAndFoldersCountString = string.Format(ResourceController.GetTranslation("PropertiesFilesAndFoldersCountString"), FilesCount, FoldersCount);
             FilesAndFoldersCountVisibility = Visibility.Visible;
         }
         #endregion

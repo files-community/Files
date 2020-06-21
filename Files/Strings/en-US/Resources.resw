@@ -756,7 +756,7 @@
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contains:</value>
   </data>
-  <data name="PropertiesFilesAndFoldersCount" xml:space="preserve">
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Files, {1:#,##0} Folders</value>
   </data>
 </root>
