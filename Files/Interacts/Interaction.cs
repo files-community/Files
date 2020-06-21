@@ -609,7 +609,7 @@ namespace Files.Interacts
 
                 foreach (ListedItem storItem in selectedItems)
                 {
-                    uint progressValue = (uint)((itemsDeleted / selectedItems.Count) * 100);
+                    uint progressValue = (uint)(itemsDeleted * 100.0 / selectedItems.Count);
                     if (selectedItems.Count > 3) { banner = banner.UpdateProgress(progressValue); }
                     IStorageItem item;
                     try
@@ -1050,7 +1050,7 @@ namespace Files.Interacts
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
-                    uint progressValue = (uint)((itemsPasted / itemsToPaste.Count) * 100);
+                    uint progressValue = (uint)(itemsPasted * 100.0 / itemsToPaste.Count);
                     if (itemsToPaste.Count > 3)
                     {
                         banner = banner.UpdateProgress(progressValue);
@@ -1127,7 +1127,8 @@ namespace Files.Interacts
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        uint progressValue = (uint)((itemsPasted / (itemsToPaste.Count + (await SourceFolder.GetFilesAsync()).Count)) * 100);
+                        uint progressValue = (uint)(itemsPasted * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFilesAsync()).Count));
+
                         if (banner == null)
                         {
                             throw new ArgumentNullException();
@@ -1147,7 +1148,7 @@ namespace Files.Interacts
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        uint progressValue = (uint)((itemsPasted / (itemsToPaste.Count + (await SourceFolder.GetFoldersAsync()).Count)) * 100);
+                        uint progressValue = (uint)(itemsPasted * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFoldersAsync()).Count));
                         if (banner == null)
                         {
                             throw new ArgumentNullException();
@@ -1225,7 +1226,7 @@ namespace Files.Interacts
 
                 foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                 {
-                    uint progressValue = (uint)(index / zipArchive.Entries.Count * 100);
+                    uint progressValue = (uint)(index * 100.0 / zipArchive.Entries.Count);
                     if (banner == null)
                     {
                         throw new ArgumentNullException();

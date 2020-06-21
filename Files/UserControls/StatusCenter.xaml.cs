@@ -22,7 +22,7 @@ namespace Files.UserControls
 {
     public sealed partial class StatusCenter : UserControl
     {
-        public ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
+        public static ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
 
         public StatusCenter()
         {
@@ -36,14 +36,7 @@ namespace Files.UserControls
 
         public StatusBanner PostBanner(string title, string message, uint initialProgress, StatusBanner.StatusBannerSeverity severity, StatusBanner.StatusBannerOperation operation)
         {
-            var item = new StatusBanner()
-            {
-                Message = message,
-                Title = title,
-                Progress = initialProgress,
-                Severity = severity,
-                Operation = operation
-            };
+            var item = new StatusBanner(message, title, initialProgress, severity, operation);
             StatusBannersSource.Add(item);
             return item;
         }
@@ -51,23 +44,17 @@ namespace Files.UserControls
 
     public class StatusBanner : ViewModelBase
     {
-        private uint _Progress = 0;
         private string _FullTitle;
+        private uint Progress { get; set; } = 0;
 
         public bool IsProgressing { get; } = false;
-        public string Title { get; set; }
-        public StatusBannerSeverity Severity { get; set; } = StatusBannerSeverity.Ongoing;
-        public StatusBannerOperation Operation { get; set; }
-        public string Message { get; set; }
+        public string Title { get; }
+        public StatusBannerSeverity Severity { get; } = StatusBannerSeverity.Ongoing;
+        public StatusBannerOperation Operation { get; }
+        public string Message { get; }
         public SolidColorBrush StrokeColor { get; } = new SolidColorBrush(Colors.DeepSkyBlue);
         public IconSource GlyphSource { get; }
 
-        public uint Progress
-        {
-            get => _Progress;
-            set => Set(ref _Progress, value);
-        }
-        
         public string FullTitle
         {
             get => _FullTitle;
@@ -89,8 +76,14 @@ namespace Files.UserControls
             Extract
         }
 
-        public StatusBanner()
+        public StatusBanner(string message, string title, uint progress, StatusBannerSeverity severity, StatusBannerOperation operation )
         {
+            Message = message;
+            Title = title;
+            Progress = progress;
+            Severity = severity;
+            Operation = operation;
+
             switch (Severity)
             {
                 case StatusBannerSeverity.Ongoing:

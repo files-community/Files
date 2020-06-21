@@ -81,17 +81,17 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="-12">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,0,0,0.5">
-            <TextBlock Margin="8,4" FontWeight="Bold" FontSize="14" Text="Ongoing Tasks"/>
+            <TextBlock Margin="10,8" FontWeight="Bold" FontSize="14" Text="Ongoing Tasks"/>
         </Grid>
 
-        <ListView VerticalAlignment="Stretch" x:Name="BannerList" ItemsSource="{x:Bind StatusBannersSource, Mode=OneWay}" SelectionMode="None"  ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
+        <ListView VerticalAlignment="Stretch" x:Name="BannerList" ItemsSource="{x:Bind local:StatusCenter.StatusBannersSource, Mode=OneWay}" SelectionMode="None"  ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:StatusBanner">
                     <Grid BorderBrush="{x:Bind StrokeColor}" BorderThickness="4,0,0,0" Padding="8" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -102,7 +102,7 @@
                                 <ColumnDefinition Width="30"/>
                             </Grid.ColumnDefinitions>
                             <Grid>
-                                <muxc:ProgressRing x:Name="ProgressSpinner" x:Load="{x:Bind IsProgressing, Mode=OneWay}" Width="30" Height="30"/>
+                                <muxc:ProgressRing IsActive="True" x:Name="ProgressSpinner" x:Load="{x:Bind IsProgressing, Mode=OneWay}" Width="30" Height="30"/>
                                 <FontIcon FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}" FontSize="14" Glyph="{x:Bind ((FontIconSource)GlyphSource).Glyph}"/>
                             </Grid>
                             <StackPanel Grid.Column="1" Spacing="4" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
