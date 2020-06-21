@@ -36,7 +36,11 @@
                         x:Uid="SettingsAppearanceTheme"
                         FontSize="17"
                         Text="App theme" />
-                    <ComboBox x:Name="ThemeChooser" Width="150" />
+                    <ComboBox
+                        x:Name="ThemeChooser"
+                        Width="Auto"
+                        MinWidth="200"
+                        MaxWidth="250" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
@@ -44,7 +48,24 @@
                         x:Uid="SettingsAppearanceDateFormat"
                         FontSize="17"
                         Text="Date format" />
-                    <ComboBox x:Name="DateFormatChooser" Width="150" />
+
+                    <StackPanel
+                        Width="Auto"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <ComboBox
+                            x:Name="DateFormatChooser"
+                            Width="Auto"
+                            MinWidth="200"
+                            MaxWidth="250" />
+
+                        <HyperlinkButton
+                            x:Uid="SettingsAppearanceDateFormatsTip"
+                            Content="&#xE946;"
+                            FontFamily="Segoe MDL2 Assets"
+                            NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"
+                            Style="{ThemeResource TextBlockButtonStyle}" />
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Spacing="10">
