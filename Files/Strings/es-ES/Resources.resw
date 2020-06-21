@@ -352,7 +352,7 @@
     <value>Nueva pestaña</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Predeterminado de Windows</value>
+    <value>Predeterminado del sistema</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
