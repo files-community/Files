@@ -21,30 +21,52 @@ namespace Files.UserControls
 {
     public sealed partial class StatusCenter : UserControl
     {
+        public List<StatusBanner> StatusBannersSource = new List<StatusBanner>();
+
         public StatusCenter()
         {
             this.InitializeComponent();
+        }
+
+        public void RemoveBanner(StatusBanner banner)
+        {
+            StatusBannersSource.Remove(banner);
+        }
+
+        public StatusBanner PostBanner(string title, string message, uint initialProgress, StatusBanner.StatusBannerSeverity severity, StatusBanner.StatusBannerOperation operation)
+        {
+            var item = new StatusBanner()
+            {
+                Message = message,
+                Title = title,
+                Progress = initialProgress,
+                Severity = severity,
+                Operation = operation
+            };
+            StatusBannersSource.Add(item);
+            return item;
         }
     }
 
     public class StatusBanner : ViewModelBase
     {
+        private uint _Progress = 0;
+        private string _FullTitle;
+
+        public bool IsProgressing { get; } = false;
         public string Title { get; set; }
         public StatusBannerSeverity Severity { get; set; } = StatusBannerSeverity.Ongoing;
         public StatusBannerOperation Operation { get; set; }
         public string Message { get; set; }
-        private uint _Progress = 0;
+        public SolidColorBrush StrokeColor { get; } = new SolidColorBrush(Colors.DeepSkyBlue);
+        public IconSource GlyphSource { get; }
+
         public uint Progress
         {
             get => _Progress;
             set => Set(ref _Progress, value);
         }
-
-        private Color StrokeColor { get; set; } = Colors.DeepSkyBlue;
-        private IconSource Glyph { get; set; }
-        private bool IsProgressing = false;
-
-        private string _FullTitle;
+        
         public string FullTitle
         {
             get => _FullTitle;
@@ -78,35 +100,36 @@ namespace Files.UserControls
                         {
                             case StatusBannerOperation.Extract:
                                 Title = ResourceController.GetTranslation("ExtractInProgress/Title");
-                                Glyph = new FontIconSource()
+                                GlyphSource = new FontIconSource()
                                 {
-                                    Glyph = "\uED25"    // OpenFolder to substitute for extract glyph
+                                    Glyph = "\xED25"    // OpenFolder to substitute for extract glyph
                                 };
                                 break;
                             case StatusBannerOperation.Paste:
                                 Title = ResourceController.GetTranslation("PasteInProgress/Title");
-                                Glyph = new FontIconSource()
+                                GlyphSource = new FontIconSource()
                                 {
-                                    Glyph = "\uE77F"    // Paste glyph
+                                    Glyph = "\xE77F"    // Paste glyph
                                 };
                                 break;
                             case StatusBannerOperation.Delete:
                                 Title = ResourceController.GetTranslation("DeleteInProgress/Title");
-                                Glyph = new FontIconSource()
+                                GlyphSource = new FontIconSource()
                                 {
-                                    Glyph = "\uE74D"    // Delete glyph
+                                    Glyph = "\xE74D"    // Delete glyph
                                 };
                                 break;
                             case StatusBannerOperation.Recycle:
                                 Title = ResourceController.GetTranslation("RecycleInProgress/Title");
-                                Glyph = new FontIconSource()
+                                GlyphSource = new FontIconSource()
                                 {
-                                    //Glyph = "\uED25"    // OpenFolder to substitute for extract glyph
+                                    FontFamily = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                                    Glyph = "\xEF87"    // RecycleBin Custom Glyph
                                 };
                                 break;
                         }
                     }
-                    
+                    FullTitle = Title + " (" + Progress + "%)";
                     break;
                 case StatusBannerSeverity.Success:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
@@ -116,10 +139,10 @@ namespace Files.UserControls
                     else
                     {
                         FullTitle = Title;
-                        StrokeColor = Colors.Green;
-                        Glyph = new FontIconSource()
+                        StrokeColor = new SolidColorBrush(Colors.Green);
+                        GlyphSource = new FontIconSource()
                         {
-                            Glyph = "\uE73E"    // CheckMark glyph
+                            Glyph = "\xE73E"    // CheckMark glyph
                         };
                     }
                     break;
@@ -131,13 +154,26 @@ namespace Files.UserControls
                     else
                     {
                         FullTitle = Title;
-                        StrokeColor = Colors.Red;
-                        Glyph = new FontIconSource()
+                        StrokeColor = new SolidColorBrush(Colors.Red);
+                        GlyphSource = new FontIconSource()
                         {
-                            Glyph = "\uE783"    // Error glyph
+                            Glyph = "\xE783"    // Error glyph
                         };
                     }
                     break;
+            }
+        }
+
+        public StatusBanner UpdateProgress(uint value)
+        {
+            if (value <= 100)
+            {
+                Progress = value;
+                return this;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException();
             }
         }
     }

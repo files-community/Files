@@ -91,33 +91,30 @@
             <TextBlock Margin="8,4" FontWeight="Bold" FontSize="14" Text="Ongoing Tasks"/>
         </Grid>
 
-        <ListView SelectionMode="None" ItemsSource="sl" ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
+        <ListView x:Name="BannerList" SelectionMode="None" ItemsSource="{x:Bind StatusBannersSource}" ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
             <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid BorderBrush="DeepSkyBlue" BorderThickness="4,0,0,0" Padding="8" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-                        
-                            <Grid ColumnSpacing="8">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="30"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="30"/>
-                                </Grid.ColumnDefinitions>
+                <DataTemplate x:DataType="local:StatusBanner">
+                    <Grid BorderBrush="{x:Bind StrokeColor}" BorderThickness="4,0,0,0" Padding="8" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                        <Grid ColumnSpacing="8">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
                             <Grid>
-                                <muxc:ProgressRing Width="30" Height="30"/>
-                                <FontIcon FontSize="14" Glyph="&#xE700;"/>
+                                <muxc:ProgressRing x:Name="ProgressSpinner" x:Load="{x:Bind IsProgressing, Mode=OneWay}" Width="30" Height="30"/>
+                                <FontIcon FontFamily="{x:Bind ((FontIconSource)GlyphSource).FontFamily}" FontSize="14" Glyph="{x:Bind ((FontIconSource)GlyphSource).Glyph}"/>
                             </Grid>
-                                <StackPanel Grid.Column="1" Spacing="4" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
-
-                                    <TextBlock FontSize="12" FontWeight="Medium" Text="Performing Operation (33%)"/>
-                                    <TextBlock FontSize="11" Text="C:\Windows\System32"/>
-                                </StackPanel>
-                                <Button Grid.Column="2" Background="Transparent" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                    <Button.Content>
-                                        <FontIcon FontSize="11" Glyph="&#xE711;" />
-                                    </Button.Content>
-                                </Button>
-                            </Grid>
-                                                  
+                            <StackPanel Grid.Column="1" Spacing="4" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
+                                <TextBlock FontSize="12" FontWeight="Medium" Text="{x:Bind FullTitle, Mode=OneWay}"/>
+                                <TextBlock FontSize="11" Text="{x:Bind Message}"/>
+                            </StackPanel>
+                            <Button Grid.Column="2" Background="Transparent" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                <Button.Content>
+                                    <FontIcon FontSize="11" Glyph="&#xE711;" />
+                                </Button.Content>
+                            </Button>
+                        </Grid>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
