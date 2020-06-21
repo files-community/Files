@@ -47,6 +47,8 @@ namespace Files
 
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
+
+            Helpers.ThemeHelper.Initialize();
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
