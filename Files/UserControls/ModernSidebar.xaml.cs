@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.View_Models;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -11,6 +12,7 @@ namespace Files.Controls
 {
     public sealed partial class ModernSidebar : UserControl, INotifyPropertyChanged
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
         public ModernSidebar()
         {
             this.InitializeComponent();

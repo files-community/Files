@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 
 namespace Files.Helpers
 {
-    class ShellCommandParser
+    internal class ShellCommandParser
     {
         /*
 
@@ -31,12 +29,13 @@ namespace Files.Helpers
 
         %w – The working directory.
          */
+
         public async Task<(string command, string arguments)> ParseShellCommand(string command, string itemPath)
         {
-            if(string.IsNullOrEmpty(command) || string.IsNullOrEmpty(itemPath))
+            if (string.IsNullOrEmpty(command) || string.IsNullOrEmpty(itemPath))
             {
                 return (null, null);
-            }    
+            }
 
             var value = new ValueSet
                             {
@@ -47,7 +46,6 @@ namespace Files.Helpers
             if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success
                 && response.Message.ContainsKey("ParsedArguments"))
             {
-
                 var commandToExecute = Newtonsoft.Json.JsonConvert.DeserializeObject<string[]>((string)response.Message["ParsedArguments"]);
 
                 var resultCommand = string.Join(" ", commandToExecute.Skip(1));

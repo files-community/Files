@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
@@ -20,6 +21,7 @@ namespace Files
     {
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
         private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
+        public SettingsViewModel AppSettings => App.AppSettings;
 
         public YourHome()
         {
@@ -34,7 +36,7 @@ namespace Files
             {
                 var filePath = clickedOnItem.RecentPath;
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
-                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), folderPath);
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
             }
         }
 
@@ -167,15 +169,15 @@ namespace Files
             {
                 if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), path);
+                    App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), path);
                 }
                 else
                 {
-                    foreach (DriveItem drive in App.AppSettings.DrivesManager.Drives)
+                    foreach (DriveItem drive in AppSettings.DrivesManager.Drives)
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), path);
+                            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), path);
                             return;
                         }
                     }
@@ -241,31 +243,31 @@ namespace Files
             switch (ClickedCard)
             {
                 case "Downloads":
-                    NavigationPath = App.AppSettings.DownloadsPath;
+                    NavigationPath = AppSettings.DownloadsPath;
                     break;
 
                 case "Documents":
-                    NavigationPath = App.AppSettings.DocumentsPath;
+                    NavigationPath = AppSettings.DocumentsPath;
                     break;
 
                 case "Pictures":
-                    NavigationPath = App.AppSettings.PicturesPath;
+                    NavigationPath = AppSettings.PicturesPath;
                     break;
 
                 case "Music":
-                    NavigationPath = App.AppSettings.MusicPath;
+                    NavigationPath = AppSettings.MusicPath;
                     break;
 
                 case "Videos":
-                    NavigationPath = App.AppSettings.VideosPath;
+                    NavigationPath = AppSettings.VideosPath;
                     break;
 
                 case "RecycleBin":
-                    NavigationPath = App.AppSettings.RecycleBinPath;
+                    NavigationPath = AppSettings.RecycleBinPath;
                     break;
             }
 
-            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath);
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), NavigationPath);
 
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }

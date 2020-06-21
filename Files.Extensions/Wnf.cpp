@@ -2,7 +2,6 @@
 #include "Wnf.h"
 #include "TEBProc.h"
 
-
 RtlSubscribeWnfStateChangeNotification pRtlSubscribeWnfStateChangeNotification;
 RtlUnsubscribeWnfStateChangeNotification pRtlUnsubscribeWnfStateChangeNotification;
 NtQueryWnfStateData pNtQueryWnfStateData;

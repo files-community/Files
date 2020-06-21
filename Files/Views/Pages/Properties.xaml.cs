@@ -20,7 +20,7 @@ namespace Files
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
         public AppWindow propWindow;
-
+        public SettingsViewModel AppSettings => App.AppSettings;
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
         public Properties()
@@ -33,7 +33,7 @@ namespace Files
             ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as ListedItem);
             ViewModel.ItemMD5HashProgress = ItemMD5HashProgress;
             ViewModel.Dispatcher = Dispatcher;
-            App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             base.OnNavigatedTo(e);
         }
 
@@ -47,7 +47,7 @@ namespace Files
                 _TitleBar = propWindow.TitleBar;
                 _TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 _TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                App.AppSettings.UpdateThemeElements.Execute(null);
+                AppSettings.UpdateThemeElements.Execute(null);
             }
             await ViewModel.GetPropertiesAsync(_tokenSource);
         }
@@ -89,7 +89,7 @@ namespace Files
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            App.AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await propWindow.CloseAsync();

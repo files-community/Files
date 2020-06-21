@@ -1,8 +1,5 @@
-﻿using Files.Filesystem;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using System;
-using Windows.Storage;
-using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {

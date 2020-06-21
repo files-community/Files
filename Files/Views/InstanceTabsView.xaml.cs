@@ -28,19 +28,19 @@ namespace Files
     {
         public static TabView tabView;
         public string navArgs;
+        public SettingsViewModel AppSettings => App.AppSettings;
 
         public InstanceTabsView()
         {
             this.InitializeComponent();
-            // TODO: Move these ViewModel assignments to a new MainPage
-            App.SidebarPinned = new SidebarPinnedModel();
-            App.AppSettings = new SettingsViewModel();
-            App.InteractionViewModel = new InteractionViewModel();
-
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
+
+            App.SidebarPinned = new SidebarPinnedModel();
+            App.AppSettings = new SettingsViewModel();
+            App.InteractionViewModel = new InteractionViewModel();
 
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;

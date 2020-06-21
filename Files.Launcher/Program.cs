@@ -1,12 +1,10 @@
 using Files.Common;
-using NLog;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -198,18 +196,22 @@ namespace FilesFullTrust
                     appServiceExit.Set();
                     messageDeferral.Complete();
                     break;
+
                 case "RecycleBin":
                     var action = (string)args.Request.Message["action"];
                     await parseRecycleBinAction(args, action);
                     break;
+
                 case "StartupTasks":
                     // Check QuickLook Availability
                     QuickLook.CheckQuickLookAvailability(localSettings);
                     break;
+
                 case "ToggleQuickLook":
                     var path = (string)args.Request.Message["path"];
                     QuickLook.ToggleQuickLook(path);
                     break;
+
                 case "ShellCommand":
                     // Kill the process. This is a BRUTAL WAY to kill a process.
 #if DEBUG
@@ -226,17 +228,20 @@ namespace FilesFullTrust
                     process.StartInfo.Arguments = (string)args.Request.Message["ShellCommand"];
                     process.Start();
                     break;
+
                 case "LoadMUIVerb":
                     var responseSet = new ValueSet();
                     responseSet.Add("MUIVerbString", Win32API.ExtractStringFromDLL((string)args.Request.Message["MUIVerbLocation"], (int)args.Request.Message["MUIVerbLine"]));
                     await args.Request.SendResponseAsync(responseSet);
                     break;
+
                 case "ParseAguments":
                     var responseArray = new ValueSet();
                     var resultArgument = Win32API.CommandLineToArgs((string)args.Request.Message["Command"]);
                     responseArray.Add("ParsedArguments", Newtonsoft.Json.JsonConvert.SerializeObject(resultArgument));
                     await args.Request.SendResponseAsync(responseArray);
                     break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -260,6 +265,7 @@ namespace FilesFullTrust
                     // Shell function to empty recyclebin
                     Vanara.PInvoke.Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Vanara.PInvoke.Shell32.SHERB.SHERB_NOCONFIRMATION | Vanara.PInvoke.Shell32.SHERB.SHERB_NOPROGRESSUI);
                     break;
+
                 case "Query":
                     var responseQuery = new ValueSet();
                     Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
@@ -277,6 +283,7 @@ namespace FilesFullTrust
                         await args.Request.SendResponseAsync(responseQuery);
                     }
                     break;
+
                 case "Enumerate":
                     // Enumerate recyclebin contents and send response to UWP
                     var responseEnum = new ValueSet();
@@ -310,6 +317,7 @@ namespace FilesFullTrust
                     responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
                     await args.Request.SendResponseAsync(responseEnum);
                     break;
+
                 default:
                     break;
             }
@@ -363,9 +371,11 @@ namespace FilesFullTrust
                         }
                         else
                         {
-                            var groups = split.GroupBy(x => new {
+                            var groups = split.GroupBy(x => new
+                            {
                                 Dir = Path.GetDirectoryName(x),
-                                Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x) });
+                                Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x)
+                            });
                             foreach (var group in groups)
                             {
                                 if (!group.Any()) continue;

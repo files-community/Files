@@ -1,11 +1,11 @@
-using Files.DataModels;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
-using NLog;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -50,6 +50,7 @@ namespace Files.Interacts
 
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
+        public SettingsViewModel AppSettings => App.AppSettings;
 
         public Interaction()
         {
@@ -135,7 +136,7 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var terminal = App.AppSettings.TerminalsModel.GetDefaultTerminal();
+            var terminal = AppSettings.TerminalsModel.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
@@ -275,7 +276,7 @@ namespace Files.Interacts
 
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
@@ -322,9 +323,6 @@ namespace Files.Interacts
                         {
                             //try using launcher first
 
-
-                            
-
                             bool launchSuccess = false;
 
                             try
@@ -337,8 +335,6 @@ namespace Files.Interacts
                                 var currFolder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(clickedOnItem.ItemPath));
 
                                 QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
-
-
 
                                 //We can have many sort entries
                                 SortEntry sortEntry = new SortEntry()
@@ -354,22 +350,26 @@ namespace Files.Interacts
                                         sortEntry.PropertyName = "System.ItemNameDisplay";
                                         queryOptions.SortOrder.Clear();
                                         break;
+
                                     case Enums.SortOption.DateModified:
                                         sortEntry.PropertyName = "System.DateModified";
                                         queryOptions.SortOrder.Clear();
                                         break;
+
                                     case Enums.SortOption.Size:
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 
                                         //sortEntry.PropertyName = "System.TotalFileSize";
                                         //queryOptions.SortOrder.Clear();
                                         break;
+
                                     case Enums.SortOption.FileType:
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 
                                         //sortEntry.PropertyName = "System.FileExtension";
                                         //queryOptions.SortOrder.Clear();
                                         break;
+
                                     default:
                                         //keep the default one in SortOrder IList
                                         break;
@@ -468,7 +468,7 @@ namespace Files.Interacts
         {
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                if (App.AppSettings.OpenPropertiesInMultipleWindows)
+                if (AppSettings.OpenPropertiesInMultipleWindows)
                 {
                     foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
                     {
@@ -493,6 +493,7 @@ namespace Files.Interacts
                 }
             }
         }
+
         private async Task OpenPropertiesWindow(ListedItem item)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
@@ -535,7 +536,7 @@ namespace Files.Interacts
         {
             ShowProperties();
         }
-        
+
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
             App.SidebarPinned.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
@@ -569,14 +570,14 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
                 App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
             }
 
-            if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
+            if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
                 var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin);
                 await dialog.ShowAsync();
@@ -696,7 +697,6 @@ namespace Files.Interacts
 
         public bool ContainsRestrictedFileName(string input)
         {
-
             foreach (var name in RestrictedFileNames)
             {
                 Regex regex = new Regex($"^{name}($|\\.)(.+)?");
@@ -974,7 +974,7 @@ namespace Files.Interacts
                 // Should this be done in ModernShellPage?
                 return;
             }
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));

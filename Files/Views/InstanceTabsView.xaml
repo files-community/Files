@@ -13,16 +13,14 @@
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind local:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind local:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
 
-    <Grid
-        x:Name="rootGrid"
-        Background="Transparent">
+    <Grid x:Name="rootGrid" Background="Transparent">
         <Grid.Resources>
             <Style x:Key="TabItemStyle" TargetType="muxc:TabViewItem">
                 <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -33,9 +31,9 @@
 
                             <Grid
                                 x:Name="LayoutRoot"
-                                Padding="{TemplateBinding Padding}"
-                                Margin="-1,0,0,0">
-                                <!-- This item will cover the separator on its left side. -->
+                                Margin="-1,0,0,0"
+                                Padding="{TemplateBinding Padding}">
+                                <!--  This item will cover the separator on its left side.  -->
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition x:Name="LeftColumn" Width="0" />
@@ -46,6 +44,97 @@
                                 <Grid.RenderTransform>
                                     <ScaleTransform x:Name="LayoutRootScale" />
                                 </Grid.RenderTransform>
+
+                                <Path
+                                    x:Name="LeftRadiusRender"
+                                    Grid.Column="0"
+                                    Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomLeft}"
+                                    Margin="-4,0,0,0"
+                                    VerticalAlignment="Bottom"
+                                    x:Load="False"
+                                    Data="M4 0 L4 4 L0 4 A4,4 90 0 0 4 0 Z"
+                                    Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                    Stretch="Uniform"
+                                    Visibility="Collapsed" />
+                                <Path
+                                    x:Name="RightRadiusRender"
+                                    Grid.Column="2"
+                                    Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomRight}"
+                                    Margin="0,0,-4,0"
+                                    VerticalAlignment="Bottom"
+                                    x:Load="False"
+                                    Data="M0 0 L0 4 L4 4 A4 4 90 0 1 0 0 Z"
+                                    Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
+                                    Stretch="Uniform"
+                                    Visibility="Collapsed" />
+
+                                <Border
+                                    x:Name="TabSeparator"
+                                    Grid.Column="1"
+                                    Width="1"
+                                    Margin="0,6,0,6"
+                                    HorizontalAlignment="Right"
+                                    BorderBrush="{ThemeResource TabViewItemSeparator}"
+                                    BorderThickness="1" />
+
+                                <Grid
+                                    x:Name="TabContainer"
+                                    Grid.Column="1"
+                                    Padding="{ThemeResource TabViewItemHeaderPadding}"
+                                    Background="{ThemeResource TabViewItemHeaderBackground}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    Control.IsTemplateFocusTarget="True"
+                                    CornerRadius="{Binding Source={ThemeResource OverlayCornerRadius}, Converter={StaticResource TopCornerRadiusFilterConverter}}"
+                                    FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition x:Name="IconColumn" Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Viewbox
+                                        x:Name="IconBox"
+                                        MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
+                                        MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
+                                        Margin="{ThemeResource TabViewItemHeaderIconMargin}">
+                                        <ContentControl
+                                            x:Name="IconControl"
+                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement}"
+                                            Foreground="{ThemeResource TabViewItemIconForeground}"
+                                            HighContrastAdjustment="None"
+                                            IsTabStop="False" />
+                                    </Viewbox>
+
+                                    <ContentPresenter
+                                        x:Name="ContentPresenter"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        Content="{TemplateBinding Header}"
+                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                        ContentTransitions="{TemplateBinding ContentTransitions}"
+                                        FontSize="{ThemeResource TabViewItemHeaderFontSize}"
+                                        FontWeight="{TemplateBinding FontWeight}"
+                                        HighContrastAdjustment="None"
+                                        OpticalMarginAlignment="TrimSideBearings" />
+
+                                    <Button
+                                        x:Name="CloseButton"
+                                        Grid.Column="2"
+                                        Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
+                                        Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
+                                        Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
+                                        Background="{ThemeResource TabViewButtonBackground}"
+                                        Content="&#xE711;"
+                                        FontSize="{ThemeResource TabViewItemHeaderCloseFontSize}"
+                                        Foreground="{ThemeResource TabViewButtonForeground}"
+                                        HighContrastAdjustment="None"
+                                        IsTabStop="False"
+                                        IsTextScaleFactorEnabled="False"
+                                        Style="{StaticResource TabViewCloseButtonStyle}" />
+                                </Grid>
 
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
@@ -169,9 +258,7 @@
                                         </VisualState>
 
                                         <VisualStateGroup.Transitions>
-                                            <VisualTransition
-                                                GeneratedDuration="0:0:0.2"
-                                                To="NoReorderHint" />
+                                            <VisualTransition GeneratedDuration="0:0:0.2" To="NoReorderHint" />
                                         </VisualStateGroup.Transitions>
                                     </VisualStateGroup>
 
@@ -276,97 +363,6 @@
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
-
-                                <Path
-                                    x:Name="LeftRadiusRender"
-                                    x:Load="False"
-                                    Grid.Column="0"
-                                    Visibility="Collapsed"
-                                    VerticalAlignment="Bottom"
-                                    Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomLeft}"
-                                    Margin="-4,0,0,0"
-                                    Stretch="Uniform"
-                                    Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                                    Data="M4 0 L4 4 L0 4 A4,4 90 0 0 4 0 Z" />
-                                <Path
-                                    x:Name="RightRadiusRender"
-                                    x:Load="False"
-                                    Grid.Column="2"
-                                    Visibility="Collapsed"
-                                    VerticalAlignment="Bottom"
-                                    Height="{Binding Source={ThemeResource OverlayCornerRadius}, Path=BottomRight}"
-                                    Margin="0,0,-4,0"
-                                    Stretch="Uniform"
-                                    Fill="{ThemeResource TabViewItemHeaderBackgroundSelected}"
-                                    Data="M0 0 L0 4 L4 4 A4 4 90 0 1 0 0 Z" />
-
-                                <Border
-                                    x:Name="TabSeparator"
-                                    HorizontalAlignment="Right"
-                                    Width="1"
-                                    Grid.Column="1"
-                                    BorderBrush="{ThemeResource TabViewItemSeparator}"
-                                    BorderThickness="1"
-                                    Margin="0,6,0,6" />
-
-                                <Grid
-                                    x:Name="TabContainer"
-                                    Grid.Column="1"
-                                    Background="{ThemeResource TabViewItemHeaderBackground}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    Control.IsTemplateFocusTarget="True"
-                                    Padding="{ThemeResource TabViewItemHeaderPadding}"
-                                    CornerRadius="{Binding Source={ThemeResource OverlayCornerRadius}, Converter={StaticResource TopCornerRadiusFilterConverter}}"
-                                    FocusVisualMargin="{TemplateBinding FocusVisualMargin}">
-
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition x:Name="IconColumn" Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <Viewbox
-                                        x:Name="IconBox"
-                                        MaxWidth="{ThemeResource TabViewItemHeaderIconSize}"
-                                        MaxHeight="{ThemeResource TabViewItemHeaderIconSize}"
-                                        Margin="{ThemeResource TabViewItemHeaderIconMargin}">
-                                        <ContentControl
-                                            x:Name="IconControl"
-                                            Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TabViewTemplateSettings.IconElement}"
-                                            IsTabStop="False"
-                                            Foreground="{ThemeResource TabViewItemIconForeground}"
-                                            HighContrastAdjustment="None" />
-                                    </Viewbox>
-
-                                    <ContentPresenter
-                                        x:Name="ContentPresenter"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        Content="{TemplateBinding Header}"
-                                        ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                        ContentTransitions="{TemplateBinding ContentTransitions}"
-                                        FontWeight="{TemplateBinding FontWeight}"
-                                        FontSize="{ThemeResource TabViewItemHeaderFontSize}"
-                                        OpticalMarginAlignment="TrimSideBearings"
-                                        HighContrastAdjustment="None" />
-
-                                    <Button
-                                        x:Name="CloseButton"
-                                        Grid.Column="2"
-                                        Width="{ThemeResource TabViewItemHeaderCloseButtonSize}"
-                                        Height="{ThemeResource TabViewItemHeaderCloseButtonSize}"
-                                        FontSize="{ThemeResource TabViewItemHeaderCloseFontSize}"
-                                        Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
-                                        Content="&#xE711;"
-                                        IsTextScaleFactorEnabled="False"
-                                        IsTabStop="False"
-                                        Background="{ThemeResource TabViewButtonBackground}"
-                                        Foreground="{ThemeResource TabViewButtonForeground}"
-                                        Style="{StaticResource TabViewCloseButtonStyle}"
-                                        HighContrastAdjustment="None" />
-                                </Grid>
                             </Grid>
                         </ControlTemplate>
                     </Setter.Value>
@@ -389,19 +385,18 @@
                         <ControlTemplate TargetType="Button">
                             <ContentPresenter
                                 x:Name="ContentPresenter"
-                                AutomationProperties.AccessibilityView="Raw"
-                                BackgroundSizing="{TemplateBinding BackgroundSizing}"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                Content="{TemplateBinding Content}"
-                                CornerRadius="{TemplateBinding CornerRadius}"
-                                ContentTransitions="{TemplateBinding ContentTransitions}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 Padding="{TemplateBinding Padding}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}">
-
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                AutomationProperties.AccessibilityView="Raw"
+                                Background="{TemplateBinding Background}"
+                                BackgroundSizing="{TemplateBinding BackgroundSizing}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                CornerRadius="{TemplateBinding CornerRadius}">
                                 <VisualStateManager.VisualStateGroups>
                                     <VisualStateGroup x:Name="CommonStates">
                                         <VisualState x:Name="Normal">
@@ -571,7 +566,7 @@
                             Margin="2,7,0,0"
                             Background="Transparent"
                             Click="AddTabButton_Click"
-                            ToolTipService.ToolTip="New tab (Ctrl + T)" >
+                            ToolTipService.ToolTip="New tab (Ctrl + T)">
                             <Button.Content>
                                 <FontIcon FontSize="10" Glyph="&#xE710;" />
                             </Button.Content>

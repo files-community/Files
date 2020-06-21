@@ -22,12 +22,14 @@ namespace Files.Views.Pages
     /// </summary>
     public sealed partial class ModernShellPage : Page, IShellPage
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public ModernShellPage()
         {
             this.InitializeComponent();
-            if (App.AppSettings.DrivesManager.ShowUserConsentOnInit)
+            if (AppSettings.DrivesManager.ShowUserConsentOnInit)
             {
-                App.AppSettings.DrivesManager.ShowUserConsentOnInit = false;
+                AppSettings.DrivesManager.ShowUserConsentOnInit = false;
                 DisplayFilesystemConsentDialog();
             }
 
@@ -105,52 +107,52 @@ namespace Files.Views.Pages
                     break;
 
                 case "Desktop":
-                    NavigationPath = App.AppSettings.DesktopPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.DesktopPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Downloads":
-                    NavigationPath = App.AppSettings.DownloadsPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.DownloadsPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Documents":
-                    NavigationPath = App.AppSettings.DocumentsPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.DocumentsPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Pictures":
-                    NavigationPath = App.AppSettings.PicturesPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.PicturesPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Music":
-                    NavigationPath = App.AppSettings.MusicPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.MusicPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "Videos":
-                    NavigationPath = App.AppSettings.VideosPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.VideosPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "RecycleBin":
-                    NavigationPath = App.AppSettings.RecycleBinPath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.RecycleBinPath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 case "OneDrive":
-                    NavigationPath = App.AppSettings.OneDrivePath;
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
+                    NavigationPath = AppSettings.OneDrivePath;
+                    SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase));
                     break;
 
                 default:
                     if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
-                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
+                        SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
-                    else if (NavParams.StartsWith(App.AppSettings.RecycleBinPath))
+                    else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
                     {
                         NavigationPath = NavParams;
                     }
@@ -163,7 +165,7 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;

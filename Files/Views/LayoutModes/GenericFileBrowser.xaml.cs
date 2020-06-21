@@ -78,7 +78,7 @@ namespace Files
                     break;
             }
 
-            App.AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
+            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -239,9 +239,10 @@ namespace Files
         }
 
         private TextBox renamingTextBox;
+
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
-            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
                 AllView.CancelEdit(); // cancel the edit operation
@@ -249,7 +250,7 @@ namespace Files
             }
 
             // Check if the double tap to rename files setting is off
-            if (App.AppSettings.DoubleTapToRenameFiles == false)
+            if (AppSettings.DoubleTapToRenameFiles == false)
             {
                 AllView.CancelEdit(); // cancel the edit operation
                 App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // open the file instead
@@ -263,7 +264,7 @@ namespace Files
             renamingTextBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
 
             int selectedTextLength = SelectedItem.ItemName.Length;
-            if (App.AppSettings.ShowFileExtensions)
+            if (AppSettings.ShowFileExtensions)
             {
                 selectedTextLength -= extensionLength;
             }
@@ -412,8 +413,8 @@ namespace Files
         private async void Icon_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
         {
             var parentRow = Interacts.Interaction.FindParent<DataGridRow>(sender);
-            if (parentRow.DataContext is ListedItem item && 
-                !item.ItemPropertiesInitialized && 
+            if (parentRow.DataContext is ListedItem item &&
+                !item.ItemPropertiesInitialized &&
                 args.BringIntoViewDistanceX < sender.ActualHeight)
             {
                 await Window.Current.CoreWindow.Dispatcher.RunIdleAsync((e) =>
