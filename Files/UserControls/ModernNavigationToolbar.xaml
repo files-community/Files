@@ -785,17 +785,29 @@
                         <MenuFlyoutItem
                             x:Uid="NavigationToolbarNewTab"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
-                            Text="New Tab" />
+                            Text="New Tab">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon FontFamily="{StaticResource CustomNewTabIcon}" Glyph="&#xF400;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="NavigationToolbarNewWindow"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.LaunchNewWindow}"
-                            Text="New Window" />
+                            Text="New Window">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE737;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="CopyPathButton"
                             x:Uid="NavigationToolbarCopyPath"
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
-                            Text="Copy Path" />
+                            Text="Copy Path">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8C8;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                         <MenuFlyoutItem
                             x:Name="PasteButton"
@@ -803,14 +815,22 @@
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
                             IsEnabled="{x:Bind local1:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            Text="Paste" />
+                            Text="Paste">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE77F;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Name="OpenInTerminalButton"
                             x:Uid="NavigationToolbarOpenInTerminal"
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
                             IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
-                            Text="Open in Terminal..." />
+                            Text="Open in Terminal...">
+                            <MenuFlyoutItem.Icon>
+                                 <FontIcon Glyph="&#xE756;" />
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

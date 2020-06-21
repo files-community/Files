@@ -142,23 +142,39 @@
                                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                                 x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
                                 Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                                Text="Empty recycle bin" />
+                                Text="Empty recycle bin">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
                                 Click="OpenInNewTab_Click"
-                                Text="Open in new tab" />
+                                Text="Open in new tab">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomNewTabIcon}" Glyph="&#xF500;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewWindow"
                                 x:Uid="SideBarOpenInNewWindow"
                                 Click="OpenInNewWindow_Click"
-                                Text="Open in new window" />
+                                Text="Open in new window">
+                                <MenuFlyoutItem.Icon>
+                                     <FontIcon Glyph="&#xE8A7;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="UnpinItem"
                                 x:Uid="SideBarUnpinFromSideBar"
                                 x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
                                 Click="{x:Bind local1:App.UnpinItem_Click}"
-                                Text="Unpin from Sidebar" />
+                                Text="Unpin from Sidebar">
+                                <MenuFlyoutItem.Icon>
+                                      <FontIcon Glyph="&#xE77A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ResourceDictionary>
