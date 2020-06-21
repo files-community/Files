@@ -36,7 +36,7 @@
                         x:Uid="SettingsAppearanceTheme"
                         FontSize="17"
                         Text="App theme" />
-                    <ComboBox x:Name="ThemeChooser" Width="150" />
+                    <ComboBox x:Name="ThemeChooser" Width="auto" MinWidth="150" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">
