@@ -179,31 +179,6 @@ namespace Files.Views.Pages
             }
         }
 
-        public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
-        {
-            this.FindName("ProgressFlyout");
-
-            string operationText = null;
-            switch (operationType)
-            {
-                case InteractionOperationType.PasteItems:
-                    operationText = "Completing Paste";
-                    break;
-
-                case InteractionOperationType.DeleteItems:
-                    operationText = "Deleting Items";
-                    break;
-            }
-            ProgressFlyoutTextBlock.Text = operationText + " (" + amountComplete + "/" + amountTotal + ")" + "...";
-            ProgressFlyoutProgressBar.Value = amountComplete;
-            ProgressFlyoutProgressBar.Maximum = amountTotal;
-
-            if (amountComplete == amountTotal)
-            {
-                UnloadObject(ProgressFlyout);
-            }
-        }
-
         private async void ModernShellPage_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);

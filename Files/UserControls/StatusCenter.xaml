@@ -84,14 +84,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         
         <Grid BorderBrush="{ThemeResource AppBarSeparatorForegroundThemeBrush}" BorderThickness="0,0,0,0.5">
             <TextBlock Margin="8,4" FontWeight="Bold" FontSize="14" Text="Ongoing Tasks"/>
         </Grid>
 
-        <ListView x:Name="BannerList" SelectionMode="None" ItemsSource="{x:Bind StatusBannersSource}" ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
+        <ListView VerticalAlignment="Stretch" x:Name="BannerList" ItemsSource="{x:Bind StatusBannersSource, Mode=OneWay}" SelectionMode="None"  ItemContainerStyle="{StaticResource ListViewItemStyleFixed}" Grid.Row="1">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="local:StatusBanner">
                     <Grid BorderBrush="{x:Bind StrokeColor}" BorderThickness="4,0,0,0" Padding="8" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -107,7 +107,7 @@
                             </Grid>
                             <StackPanel Grid.Column="1" Spacing="4" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch" >
                                 <TextBlock FontSize="12" FontWeight="Medium" Text="{x:Bind FullTitle, Mode=OneWay}"/>
-                                <TextBlock FontSize="11" Text="{x:Bind Message}"/>
+                                <TextBlock FontSize="11" TextTrimming="CharacterEllipsis" ToolTipService.ToolTip="{x:Bind Message}" Text="{x:Bind Message}"/>
                             </StackPanel>
                             <Button Grid.Column="2" Background="Transparent" Padding="0" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                                 <Button.Content>

@@ -41,6 +41,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Dialogs.ConfirmDeleteDialog;
+using Files.UserControls;
 
 namespace Files.Interacts
 {
@@ -587,7 +588,7 @@ namespace Files.Interacts
                     return; //return if the result isn't delete
                 }
             }
-
+            StatusBanner banner = null;
             try
             {
                 var CurrentInstance = App.CurrentInstance;
@@ -599,12 +600,17 @@ namespace Files.Interacts
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
-                    (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
+                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null, 
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory, 
+                        0, 
+                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing, 
+                        UserControls.StatusBanner.StatusBannerOperation.Delete);
                 }
 
                 foreach (ListedItem storItem in selectedItems)
                 {
-                    if (selectedItems.Count > 3) { (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
+                    uint progressValue = (uint)((itemsDeleted / selectedItems.Count) * 100);
+                    if (selectedItems.Count > 3) { banner = banner.UpdateProgress(progressValue); }
                     IStorageItem item;
                     try
                     {
@@ -642,7 +648,9 @@ namespace Files.Interacts
                     }
 
                     CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
+                    itemsDeleted++;
                 }
+
                 App.CurrentInstance.NavigationToolbar.CanGoForward = false;
             }
             catch (UnauthorizedAccessException)
@@ -660,7 +668,7 @@ namespace Files.Interacts
                     DeleteItem_Click(null, null);
                 }
             }
-
+            App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
             App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
         }
 
@@ -984,9 +992,14 @@ namespace Files.Interacts
             itemsToPaste = await packageView.GetStorageItemsAsync();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
+            StatusBanner banner = null;
             if (itemsToPaste.Count > 3)
             {
-                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, itemsToPaste.Count);
+                banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                        0,
+                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing,
+                        UserControls.StatusBanner.StatusBannerOperation.Paste);
             }
 
             foreach (IStorageItem item in itemsToPaste)
@@ -1024,8 +1037,9 @@ namespace Files.Interacts
                     {
                         try
                         {
-                            StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
-                            pastedItems.Add(pastedFolder);
+                            ClonedDirectoryOutput pastedOutput = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false, banner);
+                            pastedItems.Add(pastedOutput.folderOutput);
+                            banner = pastedOutput.statusBannerOutput;
                         }
                         catch (FileNotFoundException)
                         {
@@ -1036,9 +1050,10 @@ namespace Files.Interacts
                 }
                 else if (item.IsOfType(StorageItemTypes.File))
                 {
+                    uint progressValue = (uint)((itemsPasted / itemsToPaste.Count) * 100);
                     if (itemsToPaste.Count > 3)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count);
+                        banner = banner.UpdateProgress(progressValue);
                     }
                     try
                     {
@@ -1090,9 +1105,16 @@ namespace Files.Interacts
                 }
             }
             packageView.ReportOperationCompleted(acceptedOperation);
+            App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
         }
 
-        public async Task<StorageFolder> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
+        public class ClonedDirectoryOutput
+        {
+            public StorageFolder folderOutput { get; set; }
+            public StatusBanner statusBannerOutput { get; set; } = null;
+        }
+
+        public async Task<ClonedDirectoryOutput> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout, StatusBanner banner = null)
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
@@ -1105,7 +1127,15 @@ namespace Files.Interacts
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        uint progressValue = (uint)((itemsPasted / (itemsToPaste.Count + (await SourceFolder.GetFilesAsync()).Count)) * 100);
+                        if (banner == null)
+                        {
+                            throw new ArgumentNullException();
+                        }
+                        else
+                        {
+                            banner = banner.UpdateProgress(progressValue);
+                        }
                     }
                 }
 
@@ -1117,13 +1147,38 @@ namespace Files.Interacts
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        uint progressValue = (uint)((itemsPasted / (itemsToPaste.Count + (await SourceFolder.GetFoldersAsync()).Count)) * 100);
+                        if (banner == null)
+                        {
+                            throw new ArgumentNullException();
+                        }
+                        else
+                        {
+                            banner = banner.UpdateProgress(progressValue);
+                        }
                     }
                 }
 
-                await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
+                var output = await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false, banner);
+                banner = output.statusBannerOutput;
             }
-            return createdRoot;
+            if (!suppressProgressFlyout)
+            {
+                return new ClonedDirectoryOutput()
+                {
+                    folderOutput = createdRoot,
+                    statusBannerOutput = banner
+                };
+            }
+            else
+            {
+                return new ClonedDirectoryOutput()
+                {
+                    folderOutput = createdRoot,
+                    statusBannerOutput = null
+                };
+            }
+            
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
@@ -1146,6 +1201,7 @@ namespace Files.Interacts
             var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();
             StorageFile selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.FilesystemViewModel.FilesAndFolders[selectedIndex].ItemPath);
 
+            StatusBanner banner = null;
             ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.FilesystemViewModel.WorkingDirectory);
             await extractFilesDialog.ShowAsync();
             if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
@@ -1159,10 +1215,25 @@ namespace Files.Interacts
                 int totalCount = zipArchive.Entries.Count;
                 int index = 0;
 
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    null, 
+                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory, 
+                    0, 
+                    StatusBanner.StatusBannerSeverity.Ongoing, 
+                    StatusBanner.StatusBannerOperation.Extract);
 
                 foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                 {
+                    uint progressValue = (uint)(index / zipArchive.Entries.Count * 100);
+                    if (banner == null)
+                    {
+                        throw new ArgumentNullException();
+                    }
+                    else
+                    {
+                        banner.UpdateProgress(progressValue);
+                    }
                     if (archiveEntry.FullName.Contains('/'))
                     {
                         var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
@@ -1191,6 +1262,8 @@ namespace Files.Interacts
                         instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
+                banner.UpdateProgress(100);
+                App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
             }
             else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)
             {

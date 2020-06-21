@@ -64,25 +64,6 @@
                         x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>
-
-            <FlyoutPresenter
-                x:Name="ProgressFlyout"
-                Grid.Row="1"
-                Margin="0,4,0,0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                Windows10version1903:IsDefaultShadowEnabled="True"
-                x:Load="False"
-                Background="{ThemeResource UnmodifiedSystemPageColor}"
-                Canvas.ZIndex="4">
-                <StackPanel Orientation="Vertical" Spacing="8">
-                    <TextBlock
-                        x:Name="ProgressFlyoutTextBlock"
-                        Margin="0,0,48,0"
-                        Text="Completing operation (1/1)..." />
-                    <ProgressBar x:Name="ProgressFlyoutProgressBar" VerticalAlignment="Center" />
-                </StackPanel>
-            </FlyoutPresenter>
         </Grid>
     </Grid>
 </Page>

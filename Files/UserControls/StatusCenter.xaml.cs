@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -21,7 +22,7 @@ namespace Files.UserControls
 {
     public sealed partial class StatusCenter : UserControl
     {
-        public List<StatusBanner> StatusBannersSource = new List<StatusBanner>();
+        public ObservableCollection<StatusBanner> StatusBannersSource { get; set; } = new ObservableCollection<StatusBanner>();
 
         public StatusCenter()
         {
@@ -169,6 +170,7 @@ namespace Files.UserControls
             if (value <= 100)
             {
                 Progress = value;
+                FullTitle = Title + " (" + Progress + "%)";
                 return this;
             }
             else
