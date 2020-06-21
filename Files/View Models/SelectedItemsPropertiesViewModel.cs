@@ -1,26 +1,14 @@
 using Files.Filesystem;
-using Files.Helpers;
 using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-using Windows.Security.Cryptography.Core;
-using Windows.Storage;
-using Windows.Storage.FileProperties;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
-using static Files.Helpers.NativeFindStorageItemHelper;
-using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.View_Models
 {
     public class SelectedItemsPropertiesViewModel : ViewModelBase
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
-
         private string _ItemName;
 
         public string ItemName
@@ -246,177 +234,6 @@ namespace Files.View_Models
             LoadFolderGlyph = Item != null ? Item.LoadFolderGlyph : false;
             LoadUnknownTypeGlyph = Item != null ? Item.LoadUnknownTypeGlyph : false;
             LoadFileIcon = Item != null ? Item.LoadFileIcon : false;
-        }
-
-        public async void GetOtherPropeties(StorageItemContentProperties properties)
-        {
-            string dateAccessedProperty = "System.DateAccessed";
-            string fileOwnerProperty = "System.FileOwner";
-            List<string> propertiesName = new List<string>();
-            propertiesName.Add(dateAccessedProperty);
-            propertiesName.Add(fileOwnerProperty);
-            IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
-            ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)extraProperties[dateAccessedProperty]);
-            ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
-        }
-
-        private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
-        {
-            ItemSizeProgressVisibility = Visibility.Visible;
-
-            var fileSizeTask = Task.Run(async () =>
-            {
-                var size = await CalculateFolderSizeAsync(storageFolder.Path, token);
-                return size;
-            });
-            try
-            {
-                var folderSize = await fileSizeTask;
-                ItemSizeReal = folderSize;
-                ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSizeLib.ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
-            }
-            catch (Exception ex)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                SizeCalcError = true;
-            }
-            ItemSizeProgressVisibility = Visibility.Collapsed;
-            SetItemsCountString();
-        }
-
-        public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
-        {
-            long size = 0;
-
-            FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-            int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-            IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                  additionalFlags);
-
-            var count = 0;
-            if (hFile.ToInt64() != -1)
-            {
-                do
-                {
-                    if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) != FileAttributes.Directory)
-                    {
-                        long fDataFSize = findData.nFileSizeLow;
-                        long fileSize;
-                        if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
-                        {
-                            fileSize = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
-                        }
-                        else
-                        {
-                            if (findData.nFileSizeHigh > 0)
-                            {
-                                fileSize = fDataFSize + (findData.nFileSizeHigh * 4294967296);
-                            }
-                            else if (fDataFSize < 0)
-                            {
-                                fileSize = fDataFSize + 4294967296;
-                            }
-                            else
-                            {
-                                fileSize = fDataFSize;
-                            }
-                        }
-                        size += fileSize;
-                        ++count;
-                        FilesCount++;
-                    }
-                    else if (((FileAttributes)findData.dwFileAttributes & FileAttributes.Directory) == FileAttributes.Directory)
-                    {
-                        if (findData.cFileName != "." && findData.cFileName != "..")
-                        {
-                            var itemPath = Path.Combine(path, findData.cFileName);
-
-                            size += await CalculateFolderSizeAsync(itemPath, token);
-                            ++count;
-                            FoldersCount++;
-                        }
-                    }
-
-                    if (size > ItemSizeReal)
-                    {
-                        await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
-                        {
-                            ItemSizeReal = size;
-                            ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
-                            SetItemsCountString();
-                        });
-                    }
-
-                    if (token.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                } while (FindNextFile(hFile, out findData));
-                FindClose(hFile);
-                return size;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
-        {
-            if (Item.PrimaryItemAttribute == StorageItemTypes.File)
-            {
-                var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
-                ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
-                GetOtherPropeties(file.Properties);
-                ItemsSize = ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSizeLib.ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
-
-                // Get file MD5 hash
-                var hashAlgTypeName = HashAlgorithmNames.Md5;
-                ItemMD5HashProgressVisibility = Visibility.Visible;
-                ItemMD5HashVisibility = Visibility.Visible;
-                try
-                {
-                    ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                    ItemMD5HashCalcError = true;
-                }
-            }
-            else if (Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                StorageFolder storageFolder = null;
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    storageFolder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
-                }
-                else
-                {
-                    var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
-                    if (parentDirectory.ItemPath.StartsWith(AppSettings.RecycleBinPath))
-                    {
-                        // GetFolderFromPathAsync cannot access recyclebin folder
-                        // Currently a fake timestamp is used
-                    }
-                    else
-                    {
-                        storageFolder = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                    }
-                }
-                ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
-                GetOtherPropeties(storageFolder.Properties);
-                GetFolderSize(storageFolder, _tokenSource.Token);
-            }
-        }
-
-        private void SetItemsCountString()
-        {
-            FilesAndFoldersCountString = string.Format(ResourceController.GetTranslation("PropertiesFilesAndFoldersCountString"), FilesCount, FoldersCount);
-            FilesAndFoldersCountVisibility = Visibility.Visible;
         }
     }
 }

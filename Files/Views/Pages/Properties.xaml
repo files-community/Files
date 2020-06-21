@@ -124,7 +124,7 @@
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" />
 
                 <TextBlock
                     x:Uid="PropertiesItemPath"
@@ -141,7 +141,7 @@
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
                     TextWrapping="Wrap"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" />
 
                 <TextBlock
                     x:Uid="PropertiesItemSize"
@@ -239,7 +239,7 @@
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
-                    VerticalAlignment="Center"/>
+                    VerticalAlignment="Center" />
 
                 <TextBlock
                     x:Uid="PropertiesModified"
@@ -286,8 +286,8 @@
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Visibility="{x:Bind AppSettings.ShowFileOwner,Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}" />
-                    VerticalAlignment="Center"/>
+                    Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}"
+                    VerticalAlignment="Center" />
                 <MenuFlyoutSeparator
                     Grid.Row="12"
                     Grid.Column="0"

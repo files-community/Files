@@ -1,13 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
-using System;
 
 namespace Files.View_Models
 {
     public class DirectoryPropertiesViewModel : ViewModelBase
     {
-        private String _DirectoryItemCount;
+        private string _DirectoryItemCount;
 
-        public String DirectoryItemCount
+        public string DirectoryItemCount
         {
             get => _DirectoryItemCount;
             set => Set(ref _DirectoryItemCount, value);
