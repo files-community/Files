@@ -1,13 +1,16 @@
-using Files.Filesystem;
+﻿using Files.Filesystem;
+using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources;
 using Windows.Storage;
@@ -15,7 +18,10 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -28,6 +34,7 @@ namespace Files
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public bool IsQuickLookEnabled { get; set; } = false;
+        public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
 
         public ItemViewModel AssociatedViewModel = null;
         public Interaction AssociatedInteractions = null;
@@ -111,10 +118,6 @@ namespace Files
             }
         }
 
-        public abstract void SetSelectedItemOnUi(ListedItem item);
-
-        public abstract void SetSelectedItemsOnUi(List<ListedItem> items);
-
         public abstract void SelectAllItems();
 
         public abstract void InvertSelection();
@@ -126,6 +129,42 @@ namespace Files
         public abstract void ScrollIntoView(ListedItem item);
 
         public abstract int GetSelectedIndex();
+
+        public abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+        public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
+    
+        private void ClearShellContextMenus()
+        {
+            var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).commandKey != null).ToList();
+            for (int i = 0; i < contextMenuItems.Count; i++)
+            {
+                BaseLayoutItemContextFlyout.Items.RemoveAt(BaseLayoutItemContextFlyout.Items.IndexOf(contextMenuItems[i]));
+            }
+            if (BaseLayoutItemContextFlyout.Items[0] is MenuFlyoutSeparator flyoutSeperator)
+            {
+                BaseLayoutItemContextFlyout.Items.RemoveAt(BaseLayoutItemContextFlyout.Items.IndexOf(flyoutSeperator));
+            }
+        }
+
+        public virtual void SetShellContextmenu()
+        {
+            ClearShellContextMenus();
+            if (_SelectedItems != null && _SelectedItems.Count > 0)
+            {
+                var currentBaseLayoutItemCount = BaseLayoutItemContextFlyout.Items.Count;
+                var isDirectory = !_SelectedItems.Any(c=> c.PrimaryItemAttribute == StorageItemTypes.File || c.PrimaryItemAttribute == StorageItemTypes.None);
+                foreach (var selectedItem in _SelectedItems)
+                {  
+                    var menuFlyoutItems = Task.Run(() => new RegistryReader().GetExtensionContextMenuForFiles(isDirectory, selectedItem.FileExtension));
+                    LoadMenuFlyoutItem(menuFlyoutItems.Result);
+                }
+                var totalFlyoutItems = BaseLayoutItemContextFlyout.Items.Count - currentBaseLayoutItemCount;
+                if (totalFlyoutItems > 0 && !(BaseLayoutItemContextFlyout.Items[totalFlyoutItems] is MenuFlyoutSeparator))
+                {
+                    BaseLayoutItemContextFlyout.Items.Insert(totalFlyoutItems, new MenuFlyoutSeparator());
+                }
+            }
+        }
 
         public abstract void FocusSelectedItems();
 
@@ -209,8 +248,71 @@ namespace Files
                 (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
         }
 
+        private void LoadMenuFlyoutItem(IEnumerable<(string commandKey,string commandName, string commandIcon, string command)> menuFlyoutItems)
+        {
+            foreach (var menuFlyoutItem in menuFlyoutItems)
+            {
+                if (BaseLayoutItemContextFlyout.Items.Any(c => ParseContextMenuTag(c.Tag).commandKey == menuFlyoutItem.commandKey))
+                {
+                    continue;
+                }
+            
+                var menuLayoutItem = new MenuFlyoutItem()
+                {
+                    Text = menuFlyoutItem.commandName,
+                    Tag = menuFlyoutItem
+                };
+                menuLayoutItem.Click += MenuLayoutItem_Click;
+               
+                BaseLayoutItemContextFlyout.Items.Insert(0, menuLayoutItem);
+            }
+        }
+
+        private (string commandKey, string commandName, string commandIcon, string command) ParseContextMenuTag(object tag)
+        {
+            if(tag is ValueTuple<string, string, string, string>)
+            {
+                (string commandKey, string commandName, string commandIcon, string command) = (ValueTuple<string, string, string, string>)tag;
+                return (commandKey, commandName, commandIcon, command);
+            }
+
+            return (null, null, null, null);
+        }
+
+        private async void MenuLayoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedFileSystemItems = (App.CurrentInstance.ContentPage as BaseLayout).SelectedItems;
+            var currentMenuLayoutItem = (MenuFlyoutItem)sender;
+            if (currentMenuLayoutItem != null)
+            {
+                var (_, _, _, command) = ParseContextMenuTag(currentMenuLayoutItem.Tag);
+                if (selectedFileSystemItems.Count > 1)
+                {
+                    foreach (var selectedDataItem in selectedFileSystemItems)
+                    {
+                        var commandToExecute = await new ShellCommandParser().ParseShellCommand(command, selectedDataItem.ItemPath);
+                        if (!string.IsNullOrEmpty(commandToExecute.command))
+                        {
+                            await Interaction.InvokeWin32Component(commandToExecute.command, commandToExecute.arguments);
+                        }
+                    }
+                }
+                else if (selectedFileSystemItems.Count == 1)
+                {
+                    var selectedDataItem = selectedFileSystemItems[0] as ListedItem;
+
+                    var commandToExecute = await new ShellCommandParser().ParseShellCommand(command, selectedDataItem.ItemPath);
+                    if (!string.IsNullOrEmpty(commandToExecute.command))
+                    {
+                        await Interaction.InvokeWin32Component(commandToExecute.command, commandToExecute.arguments);
+                    }
+                }
+            }
+        }
+
         public void RightClickContextMenu_Opening(object sender, object e)
         {
+            SetShellContextmenu();
             if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
             {
                 (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;

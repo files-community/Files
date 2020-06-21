@@ -1,17 +1,22 @@
-﻿using Files.Common;
+using Files.Common;
 using NLog;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 namespace FilesFullTrust
 {
@@ -146,7 +151,6 @@ namespace FilesFullTrust
             // Get a deferral because we use an awaitable API below to respond to the message
             // and we don't want this call to get cancelled while we are waiting.
             var messageDeferral = args.GetDeferral();
-
             if (args.Request.Message == null)
             {
                 messageDeferral.Complete();
@@ -161,106 +165,20 @@ namespace FilesFullTrust
                     // Instead a single instance of the process is running
                     // Requests from UWP app are sent via AppService connection
                     var arguments = (string)args.Request.Message["Arguments"];
-
+                    var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
                     Logger.Info($"Argument: {arguments}");
 
-                    if (arguments == "Terminate")
-                    {
-                        // Exit fulltrust process (UWP is closed or suspended)
-                        appServiceExit.Set();
-                        messageDeferral.Complete();
-                    }
-                    else if (arguments == "RecycleBin")
-                    {
-                        var action = (string)args.Request.Message["action"];
-                        if (action == "Empty")
-                        {
-                            // Shell function to empty recyclebin
-                            Vanara.PInvoke.Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Vanara.PInvoke.Shell32.SHERB.SHERB_NOCONFIRMATION | Vanara.PInvoke.Shell32.SHERB.SHERB_NOPROGRESSUI);
-                        }
-                        else if (action == "Query")
-                        {
-                            var responseQuery = new ValueSet();
-                            Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
-                            queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(Win32API.SHQUERYRBINFO));
-                            var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
-                            // TODO: use this when updated library is released
-                            //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
-                            //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
-                            if (res == Vanara.PInvoke.HRESULT.S_OK)
-                            {
-                                var numItems = queryBinInfo.i64NumItems;
-                                var binSize = queryBinInfo.i64Size;
-                                responseQuery.Add("NumItems", numItems);
-                                responseQuery.Add("BinSize", binSize);
-                                await args.Request.SendResponseAsync(responseQuery);
-                            }
-                        }
-                        else if (action == "Enumerate")
-                        {
-                            // Enumerate recyclebin contents and send response to UWP
-                            var responseEnum = new ValueSet();
-                            var folderContentsList = new List<ShellFileItem>();
-                            foreach (var folderItem in recycler)
-                            {
-                                try
-                                {
-                                    folderItem.Properties.ReadOnly = true;
-                                    folderItem.Properties.NoInheritedProperties = false;
-                                    string recyclePath = folderItem.FileSystemPath; // True path on disk
-                                    string fileName = Path.GetFileName(folderItem.Name); // Original file name
-                                    string filePath = folderItem.Name; // Original file path + name
-                                    var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
-                                    var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
-                                    string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                                    long fileSizeBytes = (long)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
-                                    string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
-                                    bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
-                                    folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
-                                }
-                                catch (System.IO.FileNotFoundException)
-                                {
-                                    // Happens if files are being deleted
-                                }
-                                finally
-                                {
-                                    folderItem.Dispose();
-                                }
-                            }
-                            responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
-                            await args.Request.SendResponseAsync(responseEnum);
-                        }
-                    }
-                    else if (arguments == "ToggleQuickLook")
-                    {
-                        var path = (string)args.Request.Message["path"];
-                        QuickLook.ToggleQuickLook(path);
-                    }
-                    else if (arguments == "ShellCommand")
-                    {
-                        // Kill the process. This is a BRUTAL WAY to kill a process.
-#if DEBUG
-                        // In debug mode this kills this process too??
-#else
-                        var pid = (int)args.Request.Message["pid"];
-                        Process.GetProcessById(pid).Kill();
-#endif
-
-                        Process process = new Process();
-                        process.StartInfo.UseShellExecute = true;
-                        process.StartInfo.FileName = "explorer.exe";
-                        process.StartInfo.CreateNoWindow = false;
-                        process.StartInfo.Arguments = (string)args.Request.Message["ShellCommand"];
-                        process.Start();
-                    }
-                    else if (args.Request.Message.ContainsKey("Application"))
-                    {
-                        HandleApplicationLaunch(args);
-                    }
+                    await parseArguments(args, messageDeferral, arguments, localSettings);
                 }
                 else if (args.Request.Message.ContainsKey("Application"))
                 {
-                    HandleApplicationLaunch(args);
+                    var application = (string)args.Request.Message["Application"];
+                    HandleApplicationLaunch(application, args);
+                }
+                else if (args.Request.Message.ContainsKey("ApplicationList"))
+                {
+                    var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)args.Request.Message["ApplicationList"]);
+                    HandleApplicationsLaunch(applicationList, args);
                 }
             }
             finally
@@ -271,17 +189,150 @@ namespace FilesFullTrust
             }
         }
 
-        private static void HandleApplicationLaunch(AppServiceRequestReceivedEventArgs args)
+        private static async Task parseArguments(AppServiceRequestReceivedEventArgs args, AppServiceDeferral messageDeferral, string arguments, ApplicationDataContainer localSettings)
+        {
+            switch (arguments)
+            {
+                case "Terminate":
+                    // Exit fulltrust process (UWP is closed or suspended)
+                    appServiceExit.Set();
+                    messageDeferral.Complete();
+                    break;
+                case "RecycleBin":
+                    var action = (string)args.Request.Message["action"];
+                    await parseRecycleBinAction(args, action);
+                    break;
+                case "StartupTasks":
+                    // Check QuickLook Availability
+                    QuickLook.CheckQuickLookAvailability(localSettings);
+                    break;
+                case "ToggleQuickLook":
+                    var path = (string)args.Request.Message["path"];
+                    QuickLook.ToggleQuickLook(path);
+                    break;
+                case "ShellCommand":
+                    // Kill the process. This is a BRUTAL WAY to kill a process.
+#if DEBUG
+                    // In debug mode this kills this process too??
+#else
+                        var pid = (int)args.Request.Message["pid"];
+                        Process.GetProcessById(pid).Kill();
+#endif
+
+                    Process process = new Process();
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.FileName = "explorer.exe";
+                    process.StartInfo.CreateNoWindow = false;
+                    process.StartInfo.Arguments = (string)args.Request.Message["ShellCommand"];
+                    process.Start();
+                    break;
+                case "LoadMUIVerb":
+                    var responseSet = new ValueSet();
+                    responseSet.Add("MUIVerbString", Win32API.ExtractStringFromDLL((string)args.Request.Message["MUIVerbLocation"], (int)args.Request.Message["MUIVerbLine"]));
+                    await args.Request.SendResponseAsync(responseSet);
+                    break;
+                case "ParseAguments":
+                    var responseArray = new ValueSet();
+                    var resultArgument = Win32API.CommandLineToArgs((string)args.Request.Message["Command"]);
+                    responseArray.Add("ParsedArguments", Newtonsoft.Json.JsonConvert.SerializeObject(resultArgument));
+                    await args.Request.SendResponseAsync(responseArray);
+                    break;
+                default:
+                    if (args.Request.Message.ContainsKey("Application"))
+                    {
+                        var application = (string)args.Request.Message["Application"];
+                        HandleApplicationLaunch(application, args);
+                    }
+                    else if (args.Request.Message.ContainsKey("ApplicationList"))
+                    {
+                        var applicationList = JsonConvert.DeserializeObject<IEnumerable<string>>((string)args.Request.Message["ApplicationList"]);
+                        HandleApplicationsLaunch(applicationList, args);
+                    }
+                    break;
+            }
+        }
+
+        private static async Task parseRecycleBinAction(AppServiceRequestReceivedEventArgs args, string action)
+        {
+            switch (action)
+            {
+                case "Empty":
+                    // Shell function to empty recyclebin
+                    Vanara.PInvoke.Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Vanara.PInvoke.Shell32.SHERB.SHERB_NOCONFIRMATION | Vanara.PInvoke.Shell32.SHERB.SHERB_NOPROGRESSUI);
+                    break;
+                case "Query":
+                    var responseQuery = new ValueSet();
+                    Win32API.SHQUERYRBINFO queryBinInfo = new Win32API.SHQUERYRBINFO();
+                    queryBinInfo.cbSize = (uint)Marshal.SizeOf(typeof(Win32API.SHQUERYRBINFO));
+                    var res = Win32API.SHQueryRecycleBin("", ref queryBinInfo);
+                    // TODO: use this when updated library is released
+                    //Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
+                    //Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                    if (res == Vanara.PInvoke.HRESULT.S_OK)
+                    {
+                        var numItems = queryBinInfo.i64NumItems;
+                        var binSize = queryBinInfo.i64Size;
+                        responseQuery.Add("NumItems", numItems);
+                        responseQuery.Add("BinSize", binSize);
+                        await args.Request.SendResponseAsync(responseQuery);
+                    }
+                    break;
+                case "Enumerate":
+                    // Enumerate recyclebin contents and send response to UWP
+                    var responseEnum = new ValueSet();
+                    var folderContentsList = new List<ShellFileItem>();
+                    foreach (var folderItem in recycler)
+                    {
+                        try
+                        {
+                            folderItem.Properties.ReadOnly = true;
+                            folderItem.Properties.NoInheritedProperties = false;
+                            string recyclePath = folderItem.FileSystemPath; // True path on disk
+                            string fileName = Path.GetFileName(folderItem.Name); // Original file name
+                            string filePath = folderItem.Name; // Original file path + name
+                            var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
+                            var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
+                            string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
+                            long fileSizeBytes = (long)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
+                            string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
+                            bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
+                            folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
+                        }
+                        catch (System.IO.FileNotFoundException)
+                        {
+                            // Happens if files are being deleted
+                        }
+                        finally
+                        {
+                            folderItem.Dispose();
+                        }
+                    }
+                    responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
+                    await args.Request.SendResponseAsync(responseEnum);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private static void HandleApplicationsLaunch(IEnumerable<string> applications, AppServiceRequestReceivedEventArgs args)
+        {
+            foreach (var application in applications)
+            {
+                HandleApplicationLaunch(application, args);
+            }
+        }
+
+        private static void HandleApplicationLaunch(string application, AppServiceRequestReceivedEventArgs args)
         {
             var arguments = args.Request.Message.Get("Arguments", "");
             var workingDirectory = args.Request.Message.Get("WorkingDirectory", "");
 
             try
             {
-                var executable = (string)args.Request.Message["Application"];
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = false;
-                process.StartInfo.FileName = executable;
+                process.StartInfo.FileName = application;
                 // Show window if workingDirectory (opening terminal)
                 process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
                 if (arguments == "runas") process.StartInfo.Verb = "runas";
@@ -291,11 +342,10 @@ namespace FilesFullTrust
             }
             catch (Win32Exception)
             {
-                var executable = (string)args.Request.Message["Application"];
                 Process process = new Process();
                 process.StartInfo.UseShellExecute = true;
                 process.StartInfo.Verb = "runas";
-                process.StartInfo.FileName = executable;
+                process.StartInfo.FileName = application;
                 process.StartInfo.CreateNoWindow = true;
                 process.StartInfo.Arguments = arguments;
                 process.StartInfo.WorkingDirectory = workingDirectory;
@@ -307,10 +357,10 @@ namespace FilesFullTrust
                 {
                     try
                     {
-                        var split = executable.Split(';').Where(x => !string.IsNullOrWhiteSpace(x));
+                        var split = application.Split(';').Where(x => !string.IsNullOrWhiteSpace(x));
                         if (split.Count() == 1)
                         {
-                            Process.Start(executable);
+                            Process.Start(application);
                         }
                         else
                         {
