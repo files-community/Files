@@ -360,6 +360,7 @@ namespace Files.View_Models
                 return 0;
             }
         }
+
         public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
         {
             if (Item.PrimaryItemAttribute == StorageItemTypes.File)
