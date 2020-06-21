@@ -309,7 +309,6 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            SetShellContextmenu();
             if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -326,6 +325,8 @@ namespace Files
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
+
+            SetShellContextmenu();
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
