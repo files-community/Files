@@ -173,19 +173,19 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false)
         {
             await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
         }
 
-        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool asAdmin = false)
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = true)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
                 value.Add("Application", ApplicationPath);
-                if (asAdmin) value.Add("Arguments", "runas");
+                if (runAsAdmin) value.Add("Arguments", "runas");
                 else value.Add("Arguments", arguments);
                 value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
                 await App.Connection.SendMessageAsync(value);
@@ -267,7 +267,7 @@ namespace Files.Interacts
 
         public async void RunAsAdmin_Click()
         {
-            await InvokeWin32Component(App.CurrentInstance.ContentPage.SelectedItem.ItemPath, true);
+            await InvokeWin32Component(App.CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
