@@ -1,5 +1,4 @@
 ﻿using Files.View_Models;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Files.SettingsPages

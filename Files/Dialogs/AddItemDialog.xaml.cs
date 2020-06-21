@@ -1,5 +1,4 @@
-﻿using Files.Filesystem;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;

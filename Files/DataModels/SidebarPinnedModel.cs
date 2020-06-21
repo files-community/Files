@@ -1,16 +1,19 @@
-﻿using System;
+﻿using Files.Filesystem;
+using Files.View_Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Files.Filesystem;
-using Newtonsoft.Json;
 using Windows.Storage;
 
 namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public static readonly string JsonFileName = "PinnedItems.json";
 
         [JsonProperty("items")]
@@ -18,12 +21,12 @@ namespace Files.DataModels
 
         public void AddDefaultItems()
         {
-            Items.Add(App.AppSettings.DesktopPath);
-            Items.Add(App.AppSettings.DownloadsPath);
-            Items.Add(App.AppSettings.DocumentsPath);
-            Items.Add(App.AppSettings.PicturesPath);
-            Items.Add(App.AppSettings.MusicPath);
-            Items.Add(App.AppSettings.VideosPath);
+            Items.Add(AppSettings.DesktopPath);
+            Items.Add(AppSettings.DownloadsPath);
+            Items.Add(AppSettings.DocumentsPath);
+            Items.Add(AppSettings.PicturesPath);
+            Items.Add(AppSettings.MusicPath);
+            Items.Add(AppSettings.VideosPath);
         }
 
         public List<string> GetItems()
@@ -121,31 +124,31 @@ namespace Files.DataModels
         {
             string iconCode;
 
-            if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+            if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uE8FC";
             }
-            else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+            else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uE896";
             }
-            else if (path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+            else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uE8A5";
             }
-            else if (path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+            else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uEB9F";
             }
-            else if (path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+            else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uEC4F";
             }
-            else if (path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+            else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uE8B2";
             }
-            else if(Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
+            else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
             {
                 iconCode = "\uEDA2";
             }

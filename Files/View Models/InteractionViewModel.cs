@@ -1,5 +1,4 @@
-﻿using Files.View_Models;
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml;

@@ -178,8 +178,8 @@
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ModernSidebar.xaml.cs">
-      <DependentUpon>ModernSidebar.xaml</DependentUpon>
+    <Compile Include="UserControls\SidebarControl.cs">
+      <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\TerminalModel.cs" />
@@ -387,7 +387,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ModernSidebar.xaml">
+    <Page Include="UserControls\SidebarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

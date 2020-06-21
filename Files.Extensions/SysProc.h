@@ -12,4 +12,3 @@ public:
 	static int GetSlateState();
 	static int GetTabletPCState();
 };
-
