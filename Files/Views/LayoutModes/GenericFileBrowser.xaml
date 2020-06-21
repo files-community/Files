@@ -235,8 +235,8 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
-                x:Name="RunAsAdminItem"
-                x:Uid="BaseLayoutItemContextRunAsAdminItem"
+                x:Name="RunAsAdmin"
+                x:Uid="BaseLayoutItemContextRunAsAdmin"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAdmin_Click}"
                 Text="Run as administrator"
                 x:Load="False">
