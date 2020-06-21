@@ -1,25 +1,17 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Security.Principal;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Windows.Graphics.Imaging;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Helpers
 {
-    class RegistryReader
+    internal class RegistryReader
     {
-
         private async Task ParseRegistryAndAddToList(List<(string commandKey, string commandName, string commandIcon, string command)> shellList, RegistryKey shellKey)
         {
-            if(shellKey != null)
+            if (shellKey != null)
             {
                 foreach (var keyname in shellKey.GetSubKeyNames())
                 {
@@ -30,7 +22,6 @@ namespace Files.Helpers
                         //@ is a special command under the registry. We need to search for MUIVerb:
                         if (string.IsNullOrEmpty(commandName) || commandName.StartsWith("@"))
                         {
-
                             var muiVerb = commandNameKey.GetValue("MUIVerb")?.ToString() ?? "";
                             if (!string.IsNullOrEmpty(muiVerb) && App.Connection != null)
                             {
@@ -59,32 +50,27 @@ namespace Files.Helpers
                         var commandNameString = commandName.Replace("&", "");
                         var commandIconString = commandNameKey.GetValue("Icon")?.ToString();
 
-
                         var commandNameKeyNames = commandNameKey.GetSubKeyNames();
                         if (commandNameKeyNames.Contains("command") && !shellList.Any(c => c.commandKey == keyname))
                         {
                             var command = commandNameKey.OpenSubKey("command");
                             shellList.Add((commandKey: keyname, commandNameString, commandIconString, command: command.GetValue(string.Empty).ToString()));
-
                         }
                     }
                     catch
                     {
                         continue;
                     }
-                   
                 }
             }
         }
 
         public async Task<IEnumerable<(string commanyKey, string commandName, string commandIcon, string command)>> GetExtensionContextMenuForFiles(bool isDirectory, string fileExtension)
         {
-
             var shellList = new List<(string commandKey, string commandName, string commandIcon, string command)>();
             try
             {
-               
-                if(isDirectory)
+                if (isDirectory)
                 {
                     using RegistryKey classRootDirectoryShellKey = Registry.ClassesRoot.OpenSubKey("Directory\\shell");
                     await ParseRegistryAndAddToList(shellList, classRootDirectoryShellKey);
@@ -102,7 +88,6 @@ namespace Files.Helpers
 
                     using RegistryKey currentUserFileExtensionShellKey = Registry.CurrentUser.OpenSubKey($"Software\\Classes\\{fileExtension}\\shell");
                     await ParseRegistryAndAddToList(shellList, currentUserFileExtensionShellKey);
-
                 }
 
                 return shellList;

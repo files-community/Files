@@ -18,11 +18,11 @@
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind local:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind local:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -157,11 +157,10 @@
                     <muxc:ProgressRing
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" 
-                        HorizontalAlignment="Left" 
+                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}"
+                        HorizontalAlignment="Left"
                         Margin="0,-10" />
                 </Grid>
-
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
@@ -187,7 +186,6 @@
                     Margin="20,0,0,0"
                     ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
-
 
                 <MenuFlyoutSeparator
                     Grid.Row="6"
@@ -240,7 +238,7 @@
                     Grid.Row="10"
                     Grid.Column="0"
                     FontWeight="SemiBold"
-                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
+                    Visibility="{x:Bind AppSettings.ShowFileOwner,Mode=OneWay}"
                     Text="Owner:" />
                 <TextBlock
                     x:Uid="ItemFileOwnerValue"
@@ -248,7 +246,7 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
+                    Visibility="{x:Bind AppSettings.ShowFileOwner,Mode=OneWay}"
                     Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}" />
                 <MenuFlyoutSeparator
                     Grid.Row="11"

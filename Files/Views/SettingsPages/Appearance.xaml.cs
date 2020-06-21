@@ -52,7 +52,7 @@ namespace Files.SettingsPages
             _dateformatval.Add(ResourceController.GetTranslation("SystemTimeStye"));
             DateFormatChooser.ItemsSource = _dateformatval;
 
-            TimeStyle _selectedFormat = App.AppSettings.DisplayedTimeStyle;
+            TimeStyle _selectedFormat = AppSettings.DisplayedTimeStyle;
             DateFormatChooser.SelectedIndex = (int)Enum.Parse(typeof(TimeStyle), _selectedFormat.ToString());
             DateFormatChooser.Loaded += (s, e) =>
             {
@@ -63,11 +63,11 @@ namespace Files.SettingsPages
                     switch (timeStyleComboBox.SelectedIndex)
                     {
                         case 0:
-                            App.AppSettings.DisplayedTimeStyle = TimeStyle.Application;
+                            AppSettings.DisplayedTimeStyle = TimeStyle.Application;
                             break;
 
                         case 1:
-                            App.AppSettings.DisplayedTimeStyle = TimeStyle.System;
+                            AppSettings.DisplayedTimeStyle = TimeStyle.System;
                             break;
                     }
 

@@ -21,10 +21,10 @@ namespace Files.SettingsPages
         {
             this.InitializeComponent();
 
-            StorageFolder.GetFolderFromPathAsync(App.AppSettings.OneDrivePath).AsTask()
+            StorageFolder.GetFolderFromPathAsync(AppSettings.OneDrivePath).AsTask()
                     .ContinueWith((t) =>
                 {
-                    App.AppSettings.PinOneDriveToSideBar = false;
+                    AppSettings.PinOneDriveToSideBar = false;
                     OneDrivePin.IsEnabled = false;
                 }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.FromCurrentSynchronizationContext());
         }
@@ -33,7 +33,7 @@ namespace Files.SettingsPages
         {
             base.OnNavigatedTo(e);
 
-            TerminalApplicationsComboBox.SelectedItem = App.AppSettings.TerminalsModel.GetDefaultTerminal();
+            TerminalApplicationsComboBox.SelectedItem = AppSettings.TerminalsModel.GetDefaultTerminal();
         }
 
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -52,15 +52,15 @@ namespace Files.SettingsPages
 
             var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
 
-            App.AppSettings.TerminalsModel.DefaultTerminalPath = selectedTerminal.Path;
+            AppSettings.TerminalsModel.DefaultTerminalPath = selectedTerminal.Path;
 
             SaveTerminalSettings();
         }
 
         private async void SaveTerminalSettings()
         {
-            await FileIO.WriteTextAsync(App.AppSettings.TerminalsModelFile,
-                JsonConvert.SerializeObject(App.AppSettings.TerminalsModel, Formatting.Indented));
+            await FileIO.WriteTextAsync(AppSettings.TerminalsModelFile,
+                JsonConvert.SerializeObject(AppSettings.TerminalsModel, Formatting.Indented));
         }
     }
 }

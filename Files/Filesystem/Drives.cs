@@ -1,7 +1,7 @@
+using Files.View_Models;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace Files.Filesystem
     public class DrivesManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
+        public SettingsViewModel AppSettings => App.AppSettings;
         public IList<DriveItem> Drives { get; } = new List<DriveItem>();
         public bool ShowUserConsentOnInit { get; set; } = false;
         private DeviceWatcher _deviceWatcher;
@@ -265,7 +265,7 @@ namespace Files.Filesystem
             var oneDriveItem = new DriveItem()
             {
                 Text = "OneDrive",
-                Path = App.AppSettings.OneDrivePath,
+                Path = AppSettings.OneDrivePath,
                 Type = DriveType.VirtualDrive,
             };
 
