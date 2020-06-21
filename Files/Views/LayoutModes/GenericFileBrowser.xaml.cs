@@ -245,15 +245,14 @@ namespace Files
             if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
-                AllView.CancelEdit(); // cancel the edit operation
+                AllView.CancelEdit(); // Cancel the edit operation
                 return;
             }
-
-            // Check if the double tap to rename files setting is off
-            if (AppSettings.DoubleTapToRenameFiles == false)
+                       
+            if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
             {
-                AllView.CancelEdit(); // cancel the edit operation
-                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // open the file instead
+                AllView.CancelEdit(); // Cancel the edit operation
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null); // Open the file instead
                 return;
             }
 
@@ -261,7 +260,7 @@ namespace Files
             oldItemName = SelectedItem.ItemName;
 
             renamingTextBox = e.EditingElement as TextBox;
-            renamingTextBox.Focus(FocusState.Programmatic); // Without this, cannot edit text box when renaming via right-click
+            renamingTextBox.Focus(FocusState.Programmatic); // Without this,the user cannot edit the text box when renaming via right-click
 
             int selectedTextLength = SelectedItem.ItemName.Length;
             if (AppSettings.ShowFileExtensions)

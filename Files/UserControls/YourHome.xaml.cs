@@ -191,21 +191,21 @@ namespace Files
 
         private async void RemoveOneFrequentItem(object sender, RoutedEventArgs e)
         {
-            //Get the sender frameworkelement
+            // Get the sender frameworkelement
 
             if (sender is MenuFlyoutItem fe)
             {
-                //Grab it's datacontext ViewModel and remove it from the list.
+                // Grab it's datacontext ViewModel and remove it from the list.
 
                 if (fe.DataContext is RecentItem vm)
                 {
                     if (await DialogDisplayHelper.ShowDialog("Remove item from Recents List", "Do you wish to remove " + vm.Name + " from the list?", "Yes", "No"))
                     {
-                        //remove it from the visible collection
+                        // remove it from the visible collection
                         recentItemsCollection.Remove(vm);
 
-                        //Now clear it also from the recent list cache permanently.
-                        //No token stored in the viewmodel, so need to find it the old fashioned way.
+                        // Now clear it also from the recent list cache permanently.
+                        // No token stored in the viewmodel, so need to find it the old fashioned way.
                         var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
 
                         foreach (var element in mru.Entries)

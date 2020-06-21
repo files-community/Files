@@ -10,10 +10,10 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.Controls
 {
-    public sealed partial class ModernSidebar : UserControl, INotifyPropertyChanged
+    public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        public ModernSidebar()
+        public SidebarControl()
         {
             this.InitializeComponent();
         }
