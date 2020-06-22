@@ -12,6 +12,7 @@ namespace Files.DataModels
 {
     public class SidebarPinnedModel
     {
+        [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public static readonly string JsonFileName = "PinnedItems.json";
