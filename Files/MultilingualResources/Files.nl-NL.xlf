@@ -786,8 +786,8 @@
           <target state="new">The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open Log location</source>
-          <target state="new">Open Log location</target>
+          <source>Open log location</source>
+          <target state="new">Open log location</target>
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
@@ -856,6 +856,10 @@
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
           <target state="new">B</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about date formats</source>
+          <target state="new">Learn more about date formats</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>

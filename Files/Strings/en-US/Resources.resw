@@ -712,7 +712,7 @@
     <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Open Log location</value>
+    <value>Open log location</value>
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
     <value>New tab (Ctrl + T)</value>
@@ -752,6 +752,9 @@
   </data>
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Learn more about date formats</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contains:</value>

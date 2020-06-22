@@ -788,8 +788,9 @@
           <target state="translated">Ім'я елемента не повинно містити таких знаків: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open Log location</source>
-          <target state="translated">Відкрити розташування Лог файлу</target>
+          <source>Open log location</source>
+          <target state="needs-review-translation">Відкрити розташування Лог файлу</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
@@ -858,6 +859,10 @@
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
           <target state="translated">Б</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about date formats</source>
+          <target state="new">Learn more about date formats</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
