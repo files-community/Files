@@ -79,6 +79,8 @@ namespace Files.View_Models
 
         private async void PopulatePinnedSidebarItems()
         {
+            App.SidebarPinned = new SidebarPinnedModel();
+
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
 
             StorageFile pinnedItemsFile;
