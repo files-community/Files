@@ -858,6 +858,14 @@
           <source>Learn more about date formats</source>
           <target state="translated">Mas información acerca de formatos de fecha</target>
         </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
+          <source>Contains:</source>
+          <target state="new">Contains:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
+          <source>{0:#,##0} Files, {1:#,##0} Folders</source>
+          <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
+        </trans-unit>
       </group>
     </body>
   </file>
