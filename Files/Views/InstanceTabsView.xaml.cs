@@ -38,8 +38,8 @@ namespace Files
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
 
-            App.SidebarPinned = new SidebarPinnedModel();
             App.AppSettings = new SettingsViewModel();
+            App.SidebarPinned = new SidebarPinnedModel();
             App.InteractionViewModel = new InteractionViewModel();
 
             // Turn on Navigation Cache
