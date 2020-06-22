@@ -173,7 +173,7 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
         {
             await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
         }
