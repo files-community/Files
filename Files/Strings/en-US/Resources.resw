@@ -768,6 +768,12 @@
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Could not unlock the drive. Wrong password?</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Bitlocker error</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contains:</value>
   </data>

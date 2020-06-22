@@ -1,4 +1,7 @@
-﻿using Windows.System;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -36,12 +39,40 @@ namespace Files.Dialogs
             }
         }
 
-        private void BitlockerDialog_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        public new IAsyncOperation<ContentDialogResult> ShowAsync()
         {
-            if (e.Key.Equals(VirtualKey.Escape))
+            var tcs = new TaskCompletionSource<ContentDialogResult>();
+
+            this.PreviewKeyDown += (sender, e) =>
             {
-                Hide();
-            }
+                if (e.Key.Equals(VirtualKey.Enter))
+                {
+                    var element = Windows.UI.Xaml.Input.FocusManager.GetFocusedElement(XamlRoot) as Button;
+                    if (element == null || element.Name == "PrimaryButton")
+                    {
+                        if (!IsPrimaryButtonEnabled) return;
+                        BitlockerDialog_PrimaryButtonClick(null, null);
+                        tcs.TrySetResult(ContentDialogResult.Primary);
+                        Hide();
+                        e.Handled = true;
+                    }
+                    else if (element != null && element.Name == "SecondaryButton")
+                    {
+                        tcs.TrySetResult(ContentDialogResult.Secondary);
+                        Hide();
+                        e.Handled = true;
+                    }
+                }
+                else if (e.Key.Equals(VirtualKey.Escape))
+                {
+                    Hide();
+                    e.Handled = true;
+                }
+            };
+
+            var asyncOperation = base.ShowAsync();
+            asyncOperation.AsTask().ContinueWith(task => tcs.TrySetResult(task.Result));
+            return tcs.Task.AsAsyncOperation();
         }
     }
 }

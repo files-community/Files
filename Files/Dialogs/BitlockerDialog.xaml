@@ -7,7 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     CornerRadius="4"
-    DefaultButton="Primary"
+    DefaultButton="None"
     Title="Enter password to unlock the drive"
     BorderThickness="0"
     PrimaryButtonClick="BitlockerDialog_PrimaryButtonClick"
@@ -15,9 +15,23 @@
     PrimaryButtonText="Unlock"
     SecondaryButtonText="Cancel"
     x:Uid="BitlockerDialog"
-    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
-    KeyDown="BitlockerDialog_KeyDown">
+    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
 
+    <ContentDialog.PrimaryButtonStyle>
+        <Style TargetType="Button" BasedOn="{StaticResource AccentButtonStyle}">
+            <Setter Property="ContentTemplate">
+                <Setter.Value>
+                    <DataTemplate x:DataType="Button">
+                        <StackPanel Spacing="5" Orientation="Horizontal">
+                            <FontIcon FontSize="14" Glyph="&#xEA18;" />
+                            <TextBlock Text="{Binding PrimaryButtonText, ElementName=BitlockerDriveDialog}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </ContentDialog.PrimaryButtonStyle>
+    
     <Grid MinWidth="300">
         <StackPanel
             Orientation="Vertical"

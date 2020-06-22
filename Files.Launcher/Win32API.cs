@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -140,15 +141,22 @@ namespace FilesFullTrust
 
         public static void UnlockBitlockerDrive(string drive, string password)
         {
-            Process process = new Process();
-            process.StartInfo.UseShellExecute = true;
-            process.StartInfo.Verb = "runas";
-            process.StartInfo.FileName = "powershell.exe";
-            process.StartInfo.CreateNoWindow = true;
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            process.StartInfo.Arguments = $"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"";
-            process.Start();
-            process.WaitForExit(30 * 1000);
+            try
+            {
+                Process process = new Process();
+                process.StartInfo.UseShellExecute = true;
+                process.StartInfo.Verb = "runas";
+                process.StartInfo.FileName = "powershell.exe";
+                process.StartInfo.CreateNoWindow = true;
+                process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+                process.StartInfo.Arguments = $"-command \"$SecureString = ConvertTo-SecureString '{password}' -AsPlainText -Force; Unlock-BitLocker -MountPoint '{drive}' -Password $SecureString\"";
+                process.Start();
+                process.WaitForExit(30 * 1000);
+            }
+            catch (Win32Exception)
+            {
+                // If user cancels UAC
+            }
         }
     }
 }

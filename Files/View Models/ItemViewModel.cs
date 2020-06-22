@@ -819,8 +819,13 @@ namespace Files.Filesystem
                             value.Add("action", "Unlock");
                             value.Add("drive", Path.GetPathRoot(WorkingDirectory));
                             value.Add("password", userInput);
-                            // Send request to fulltrust process to enumerate recyclebin items
-                            var response = await App.Connection.SendMessageAsync(value);
+                            await App.Connection.SendMessageAsync(value);
+
+                            if (await CheckBitlockerStatus(_rootFolder))
+                            {
+                                // Drive is still locked
+                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("BitlockerInvalidPwDialog/Title"), ResourceController.GetTranslation("BitlockerInvalidPwDialog/Text"));
+                            }
                         }
                     }
                 }
