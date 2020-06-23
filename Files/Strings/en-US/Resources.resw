@@ -366,9 +366,6 @@
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Show Owner in properties</value>
   </data>
-  <data name="SettingsExperimentalPropertiesMultipleWindows.Text" xml:space="preserve">
-    <value>Open properties in Multiple Windows</value>
-  </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
   </data>
@@ -761,5 +758,26 @@
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Files, {1:#,##0} Folders</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>All type of {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Different types</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>All in {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Used space:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Free space:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Capacity:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>File system:</value>
   </data>
 </root>

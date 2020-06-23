@@ -828,10 +828,6 @@
           <source>Show Owner in properties</source>
           <target state="new">Show Owner in properties</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalPropertiesMultipleWindows.Text" translate="yes" xml:space="preserve">
-          <source>Open properties in Multiple Windows</source>
-          <target state="new">Open properties in Multiple Windows</target>
-        </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
           <target state="translated">байт</target>
@@ -871,6 +867,34 @@
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="translated">{0:#,##0} Файлов, {1:#,##0} Папок</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
+          <source>All type of {0}</source>
+          <target state="translated">Все типа {0}</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveItemTypeDifferent" translate="yes" xml:space="preserve">
+          <source>Different types</source>
+          <target state="translated">Разные типы</target>
+        </trans-unit>
+        <trans-unit id="PropertiesCombinedItemPath" translate="yes" xml:space="preserve">
+          <source>All in {0}</source>
+          <target state="translated">Все в папке {0}</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
+          <source>Used space:</source>
+          <target state="translated">Занято:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
+          <source>Free space:</source>
+          <target state="translated">Свободно:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
+          <source>Capacity:</source>
+          <target state="translated">Емкость:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
+          <source>File system:</source>
+          <target state="translated">Файловая система:</target>
         </trans-unit>
       </group>
     </body>

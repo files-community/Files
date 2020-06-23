@@ -621,4 +621,25 @@
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлов, {1:#,##0} Папок</value>
   </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Все типа {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Разные типы</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Все в папке {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Занято:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Свободно:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Емкость:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Файловая система:</value>
+  </data>
 </root>
