@@ -343,8 +343,14 @@ namespace FilesFullTrust
                 process.StartInfo.FileName = application;
                 // Show window if workingDirectory (opening terminal)
                 process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
-                if (arguments == "runas") process.StartInfo.Verb = "runas";
-                else process.StartInfo.Arguments = arguments;
+                if (arguments == "runas") 
+                {
+                    process.StartInfo.Verb = "runas";
+                }
+                else
+                {
+                    process.StartInfo.Arguments = arguments;
+                }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
             }
