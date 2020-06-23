@@ -1,15 +1,15 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
 using Windows.Storage;
-using NLog;
 
 namespace FilesFullTrust
 {
     internal static class QuickLook
     {
-	    private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public static void ToggleQuickLook(string path)
         {

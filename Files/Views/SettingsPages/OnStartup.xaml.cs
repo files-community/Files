@@ -9,6 +9,7 @@ namespace Files.SettingsPages
     public sealed partial class OnStartup : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public OnStartup()
         {
             InitializeComponent();
@@ -24,7 +25,7 @@ namespace Files.SettingsPages
             if (folder != null)
             {
                 // Application now has read/write access to the picked file
-                App.AppSettings.OpenASpecificPageOnStartupPath = folder.Path;
+                AppSettings.OpenASpecificPageOnStartupPath = folder.Path;
             }
         }
     }

@@ -27,7 +27,6 @@
             <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCount, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
             <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemsSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
-
         </StackPanel>
 
         <StackPanel

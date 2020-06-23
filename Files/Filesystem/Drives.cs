@@ -1,7 +1,7 @@
+using Files.View_Models;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace Files.Filesystem
     public class DrivesManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
+        public SettingsViewModel AppSettings => App.AppSettings;
         public IList<DriveItem> Drives { get; } = new List<DriveItem>();
         public bool ShowUserConsentOnInit { get; set; } = false;
         private DeviceWatcher _deviceWatcher;
@@ -187,7 +187,19 @@ namespace Files.Filesystem
             var drives = DriveInfo.GetDrives().ToList();
 
             var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-            var supportedDevicesNames = remDevices.Select(x => StorageDevice.FromId(x.Id).Name);
+            List<string> supportedDevicesNames = new List<string>();
+            foreach (var item in remDevices)
+            {
+                try
+                {
+                    supportedDevicesNames.Add(StorageDevice.FromId(item.Id).Name);
+                }
+                catch (Exception e)
+                {
+                    Logger.Warn("Can't get storage device name: " + e.Message + ", skipping...");
+                }
+            }
+
             foreach (DriveInfo driveInfo in drives.ToList())
             {
                 if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
@@ -265,7 +277,7 @@ namespace Files.Filesystem
             var oneDriveItem = new DriveItem()
             {
                 Text = "OneDrive",
-                Path = App.AppSettings.OneDrivePath,
+                Path = AppSettings.OneDrivePath,
                 Type = DriveType.VirtualDrive,
             };
 

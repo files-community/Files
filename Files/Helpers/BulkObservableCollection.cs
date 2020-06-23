@@ -6,6 +6,7 @@ namespace Files.Helpers
     public class BulkObservableCollection<T> : ObservableCollection<T>
     {
         private bool _isBlukOperationStarted;
+
         public void BeginBulkOperation()
         {
             _isBlukOperationStarted = true;

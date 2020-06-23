@@ -158,7 +158,7 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutItemContextFlyout" Opening="RightClickContextMenu_Opening">
+        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutItemContextFlyout" Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Uid="BaseLayoutItemContextFlyoutExtract"
@@ -200,7 +200,7 @@
                 Tag="OpenTab_FlyoutItem"
                 Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE737;" />
+                    <FontIcon FontFamily="{StaticResource CustomNewTabIcon}" Glyph="&#xF500;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem

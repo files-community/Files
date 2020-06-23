@@ -48,7 +48,7 @@ namespace Files.Filesystem
             }).Result;
 
             try
-            {           
+            {
                 MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
                 FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
 

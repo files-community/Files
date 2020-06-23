@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="Files.Controls.ModernSidebar"
+    x:Class="Files.Controls.SidebarControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
@@ -16,11 +16,11 @@
         <AcrylicBrush
             x:Key="NavigationViewExpandedPaneBackground"
             Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind local1:App.AppSettings.AcrylicEnabled, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind local1:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind local1:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local1:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </UserControl.Resources>
 
     <Grid>
@@ -35,7 +35,7 @@
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon Glyph="{x:Bind Glyph}" FontFamily="{x:Bind Font}" />
+                        <FontIcon FontFamily="{x:Bind Font}" Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -142,23 +142,39 @@
                                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                                 x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
                                 Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                                Text="Empty recycle bin" />
+                                Text="Empty recycle bin">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
                                 Click="OpenInNewTab_Click"
-                                Text="Open in new tab" />
+                                Text="Open in new tab">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomNewTabIcon}" Glyph="&#xF500;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="OpenInNewWindow"
                                 x:Uid="SideBarOpenInNewWindow"
                                 Click="OpenInNewWindow_Click"
-                                Text="Open in new window" />
+                                Text="Open in new window">
+                                <MenuFlyoutItem.Icon>
+                                     <FontIcon Glyph="&#xE8A7;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem
                                 x:Name="UnpinItem"
                                 x:Uid="SideBarUnpinFromSideBar"
                                 x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
                                 Click="{x:Bind local1:App.UnpinItem_Click}"
-                                Text="Unpin from Sidebar" />
+                                Text="Unpin from Sidebar">
+                                <MenuFlyoutItem.Icon>
+                                      <FontIcon Glyph="&#xE77A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                         </MenuFlyout.Items>
                     </MenuFlyout>
                 </ResourceDictionary>

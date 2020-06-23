@@ -18,11 +18,11 @@
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind local:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind local:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
     <Grid>
         <Grid.RowDefinitions>
@@ -39,7 +39,7 @@
             Grid.Row="1"
             Padding="14"
             VerticalAlignment="Top">
-            <Grid RowSpacing="12">
+            <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
@@ -58,11 +58,13 @@
                     <RowDefinition />
                     <RowDefinition />
                     <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
                 <Grid
                     x:Name="Icon"
                     Grid.Row="0"
                     Grid.Column="0"
+                    Margin="0,7"
                     Width="80"
                     Height="80"
                     HorizontalAlignment="Stretch"
@@ -113,6 +115,7 @@
                     Grid.Row="2"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="Item type:" />
                 <TextBlock
                     x:Name="itemTypeValue"
@@ -120,13 +123,15 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemType, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
+                    VerticalAlignment="Center" />
 
                 <TextBlock
                     x:Uid="PropertiesItemPath"
                     Grid.Row="3"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="Path:" />
                 <TextBlock
                     x:Name="itemPathValue"
@@ -135,16 +140,22 @@
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
-                    TextWrapping="Wrap" />
+                    TextWrapping="Wrap"
+                    VerticalAlignment="Center" />
 
                 <TextBlock
                     x:Uid="PropertiesItemSize"
                     Grid.Row="4"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="Size:" />
 
-                <Grid Margin="20,0,0,0" Grid.Row="4" Grid.Column="1">
+                <Grid
+                    Margin="20,0,0,0"
+                    Grid.Row="4"
+                    Grid.Column="1"
+                    VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="100" />
                         <ColumnDefinition Width="*" />
@@ -157,11 +168,10 @@
                     <muxc:ProgressRing
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" 
-                        HorizontalAlignment="Left" 
+                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}"
+                        HorizontalAlignment="Left"
                         Margin="0,-10" />
                 </Grid>
-
 
                 <TextBlock
                     x:Name="PropertiesMD5Hash"
@@ -169,6 +179,7 @@
                     Grid.Row="5"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="MD5Hash:"
                     Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -177,8 +188,8 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-
                     Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
+                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <muxc:ProgressBar
                     x:Name="ItemMD5HashProgress"
@@ -186,88 +197,117 @@
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
+                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
+                <TextBlock
+                    x:Name="PropertiesCount"
+                    x:Uid="PropertiesFilesAndFoldersCount"
+                    Grid.Row="6"
+                    Grid.Column="0"
+                    FontWeight="SemiBold"
+                    Margin="0,7"
+                    Text="Contains:"
+                    Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
+                <TextBlock
+                    x:Name="itemFilesAndFoldersCountValue"
+                    Grid.Row="6"
+                    Grid.Column="1"
+                    Margin="20,0,0,0"
+                    IsTextSelectionEnabled="True"
+                    Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
+                    VerticalAlignment="Center"
+                    Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
-                    Grid.Row="6"
+                    Grid.Row="7"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Margin="-12,0" />
 
                 <TextBlock
                     x:Uid="PropertiesCreated"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="Created:" />
                 <TextBlock
                     x:Name="itemCreatedTimestampValue"
-                    Grid.Row="7"
+                    Grid.Row="8"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
+                    VerticalAlignment="Center" />
 
                 <TextBlock
                     x:Uid="PropertiesModified"
-                    Grid.Row="8"
+                    Grid.Row="9"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="Modified:" />
                 <TextBlock
                     x:Name="itemModifiedTimestampValue"
-                    Grid.Row="8"
+                    Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
+                    VerticalAlignment="Center" />
                 <TextBlock
                     x:Uid="PropertiesAccessed"
-                    Grid.Row="9"
+                    Grid.Row="10"
                     Grid.Column="0"
                     FontWeight="SemiBold"
+                    Margin="0,7"
                     Text="Accessed:" />
                 <TextBlock
                     x:Name="itemAccessedTimestampValue"
-                    Grid.Row="9"
+                    Grid.Row="10"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}" />
+                    Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
+                    VerticalAlignment="Center" />
                 <TextBlock
                     x:Uid="PropertiesOwner"
-                    Grid.Row="10"
+                    Grid.Row="11"
                     Grid.Column="0"
                     FontWeight="SemiBold"
-                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
+                    Margin="0,7"
+                    Visibility="{x:Bind AppSettings.ShowFileOwner,Mode=OneWay}"
                     Text="Owner:" />
                 <TextBlock
                     x:Uid="ItemFileOwnerValue"
-                    Grid.Row="10"
+                    Grid.Row="11"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     IsTextSelectionEnabled="True"
-                    Visibility="{x:Bind local:App.AppSettings.ShowFileOwner,Mode=OneWay}"
-                    Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}" />
+                    Visibility="{x:Bind AppSettings.ShowFileOwner,Mode=OneWay}"
+                    Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}"
+                    VerticalAlignment="Center" />
                 <MenuFlyoutSeparator
-                    Grid.Row="11"
+                    Grid.Row="12"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Margin="-12,0" />
                 <TextBlock
                     x:Uid="PropertiesAttributes"
-                    Grid.Row="12"
+                    Grid.Row="13"
                     Grid.Column="0"
                     VerticalAlignment="Center"
+                    Margin="0,7"
                     FontWeight="SemiBold"
                     Text="Attributes:" />
                 <StackPanel
-                    Grid.Row="12"
+                    Grid.Row="13"
                     Grid.Column="1"
                     Margin="20,0,0,0"
                     Orientation="Horizontal"
-                    Spacing="16">
+                    Spacing="16"
+                    VerticalAlignment="Center">
                     <CheckBox
                         x:Uid="PropertiesDialogReadOnly"
                         Content="Read-only"

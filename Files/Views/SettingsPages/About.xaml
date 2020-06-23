@@ -78,6 +78,12 @@
                     </ListViewItem>
                 </ListView>
 
+                <Button
+                    x:Name="OpenLogLocationButton"
+                    x:Uid="SettingsAboutOpenLogLocationButton"
+                    Click="OpenLogLocationButton_Click"
+                    Content="Open log location" />
+
                 <StackPanel Spacing="4">
                     <TextBlock
                         x:Uid="SettingsAboutSpecialThanks"
@@ -118,11 +124,7 @@
                         <Span xml:space="preserve"><Run x:Uid="SettingsAboutLicense">License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</Hyperlink></Span>
                     </TextBlock>
                 </StackPanel>
-                <Button
-                    x:Name="OpenLogLocationButton"
-                    x:Uid="SettingsAboutOpenLogLocationButton"
-                    Content="Open Log location"
-                    Click="OpenLogLocationButton_Click" />
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

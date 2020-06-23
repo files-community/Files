@@ -5,23 +5,18 @@ using Files.View_Models;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.ApplicationModel.Resources;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -32,6 +27,7 @@ namespace Files
     public abstract class BaseLayout : Page, INotifyPropertyChanged
     {
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
+        public SettingsViewModel AppSettings => App.AppSettings;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public bool IsQuickLookEnabled { get; set; } = false;
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
@@ -91,7 +87,20 @@ namespace Files
                         else
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemsSelected/Text");
-                            SelectedItemsPropertiesViewModel.ItemsSize = ""; // We need to loop through the items to get the size
+
+                            if (SelectedItems.All(x => x.PrimaryItemAttribute == StorageItemTypes.File))
+                            {
+                                long size = 0;
+                                foreach (var item in SelectedItems)
+                                {
+                                    size += item.FileSizeBytes;
+                                }
+                                SelectedItemsPropertiesViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            }
+                            else
+                            {
+                                SelectedItemsPropertiesViewModel.ItemsSize = string.Empty;
+                            }
                         }
                     }
                     NotifyPropertyChanged("SelectedItems");
@@ -131,8 +140,9 @@ namespace Files
         public abstract int GetSelectedIndex();
 
         public abstract void SetSelectedItemOnUi(ListedItem selectedItem);
+
         public abstract void SetSelectedItemsOnUi(List<ListedItem> selectedItems);
-    
+
         private void ClearShellContextMenus()
         {
             var contextMenuItems = BaseLayoutItemContextFlyout.Items.Where(c => c.Tag != null && ParseContextMenuTag(c.Tag).commandKey != null).ToList();
@@ -152,9 +162,9 @@ namespace Files
             if (_SelectedItems != null && _SelectedItems.Count > 0)
             {
                 var currentBaseLayoutItemCount = BaseLayoutItemContextFlyout.Items.Count;
-                var isDirectory = !_SelectedItems.Any(c=> c.PrimaryItemAttribute == StorageItemTypes.File || c.PrimaryItemAttribute == StorageItemTypes.None);
+                var isDirectory = !_SelectedItems.Any(c => c.PrimaryItemAttribute == StorageItemTypes.File || c.PrimaryItemAttribute == StorageItemTypes.None);
                 foreach (var selectedItem in _SelectedItems)
-                {  
+                {
                     var menuFlyoutItems = Task.Run(() => new RegistryReader().GetExtensionContextMenuForFiles(isDirectory, selectedItem.FileExtension));
                     LoadMenuFlyoutItem(menuFlyoutItems.Result);
                 }
@@ -184,7 +194,7 @@ namespace Files
                 App.CurrentInstance.FilesystemViewModel.IsLoadingItems = true;
                 App.CurrentInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), App.CurrentInstance.FilesystemViewModel.WorkingDirectory, null);
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), App.CurrentInstance.FilesystemViewModel.WorkingDirectory, null);
             }
         }
 
@@ -199,10 +209,10 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
-            App.AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
+            AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (string)eventArgs.Parameter;
-            if (App.AppSettings.FormFactor == Enums.FormFactorMode.Regular)
+            if (AppSettings.FormFactor == Enums.FormFactorMode.Regular)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
                 InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
@@ -225,7 +235,7 @@ namespace Files
             }
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin =
-                !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+                !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
 
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
@@ -238,7 +248,7 @@ namespace Files
             base.OnNavigatingFrom(e);
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
-            App.AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
+            AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
         }
 
         private void UnloadMenuFlyoutItemByName(string nameToUnload)
@@ -248,7 +258,7 @@ namespace Files
                 (menuItem as MenuFlyoutItemBase).Visibility = Visibility.Collapsed;
         }
 
-        private void LoadMenuFlyoutItem(IEnumerable<(string commandKey,string commandName, string commandIcon, string command)> menuFlyoutItems)
+        private void LoadMenuFlyoutItem(IEnumerable<(string commandKey, string commandName, string commandIcon, string command)> menuFlyoutItems)
         {
             foreach (var menuFlyoutItem in menuFlyoutItems)
             {
@@ -256,21 +266,21 @@ namespace Files
                 {
                     continue;
                 }
-            
+
                 var menuLayoutItem = new MenuFlyoutItem()
                 {
                     Text = menuFlyoutItem.commandName,
                     Tag = menuFlyoutItem
                 };
                 menuLayoutItem.Click += MenuLayoutItem_Click;
-               
+
                 BaseLayoutItemContextFlyout.Items.Insert(0, menuLayoutItem);
             }
         }
 
         private (string commandKey, string commandName, string commandIcon, string command) ParseContextMenuTag(object tag)
         {
-            if(tag is ValueTuple<string, string, string, string>)
+            if (tag is ValueTuple<string, string, string, string>)
             {
                 (string commandKey, string commandName, string commandIcon, string command) = (ValueTuple<string, string, string, string>)tag;
                 return (commandKey, commandName, commandIcon, command);
@@ -312,8 +322,7 @@ namespace Files
 
         public void RightClickContextMenu_Opening(object sender, object e)
         {
-            SetShellContextmenu();
-            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 (this.FindName("EmptyRecycleBin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                 (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
@@ -329,6 +338,8 @@ namespace Files
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
+
+            SetShellContextmenu();
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
@@ -522,14 +533,14 @@ namespace Files
 
         public void GridViewSizeIncrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            App.AppSettings.GridViewSize = App.AppSettings.GridViewSize + 25; // Make Larger
+            AppSettings.GridViewSize = AppSettings.GridViewSize + 25; // Make Larger
             if (args != null)
                 args.Handled = true;
         }
 
         public void GridViewSizeDecrease(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            App.AppSettings.GridViewSize = App.AppSettings.GridViewSize - 25; // Make Smaller
+            AppSettings.GridViewSize = AppSettings.GridViewSize - 25; // Make Smaller
             if (args != null)
                 args.Handled = true;
         }

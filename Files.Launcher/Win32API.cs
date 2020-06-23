@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -97,7 +96,6 @@ namespace FilesFullTrust
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool FreeLibrary(IntPtr hModule);
 
-
         public static string ExtractStringFromDLL(string file, int number)
         {
             IntPtr lib = LoadLibrary(file);
@@ -107,10 +105,9 @@ namespace FilesFullTrust
             return result.ToString();
         }
 
-
         [DllImport("shell32.dll", SetLastError = true)]
         public static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
-        
+
         [DllImport("kernel32.dll")]
         public static extern IntPtr LocalFree(IntPtr hMem);
 
