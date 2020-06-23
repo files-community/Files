@@ -174,18 +174,18 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false)
         {
-            await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
+            await InvokeWin32Components(new List<string>() { applicationPath }, arguments, runAsAdmin);
         }
 
-        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = true)
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
-                value.Add("Application", ApplicationPath);
+                value.Add("Application", applicationPaths.FirstOrDefault());
                 if (runAsAdmin)
                 {
                     value.Add("Arguments", "runas");
@@ -194,8 +194,6 @@ namespace Files.Interacts
                 {
                     value.Add("Arguments", arguments);
                 }
-                if (runAsAdmin) value.Add("Arguments", "runas");
-                else value.Add("Arguments", arguments);
                 value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
                 await App.Connection.SendMessageAsync(value);
             }
@@ -276,7 +274,7 @@ namespace Files.Interacts
 
         public async void RunAsAdmin_Click()
         {
-            await InvokeWin32Component(App.CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
+            await InvokeWin32Component(CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
