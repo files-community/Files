@@ -406,7 +406,6 @@ namespace Files.View_Models
             set => Set(ref _ItemFileOwnerVisibility, value);
         }
 
-
         private Visibility _LastSeparatorVisibility = Visibility.Visible;
 
         public Visibility LastSeparatorVisibility

@@ -20,8 +20,8 @@ using Windows.UI.Xaml.Navigation;
 using Files.Enums;
 using System.Linq;
 using FileAttributes = System.IO.FileAttributes;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using ByteSizeLib;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files
 {
