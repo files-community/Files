@@ -883,8 +883,8 @@
           <target state="new">Password</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
-          <source>Could not unlock the drive. Wrong password?</source>
-          <target state="new">Could not unlock the drive. Wrong password?</target>
+          <source>Please check the password and try again.</source>
+          <target state="new">Please check the password and try again.</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
           <source>Bitlocker error</source>
