@@ -1,7 +1,6 @@
 using Files.Common;
 using Newtonsoft.Json;
 using NLog;
-using SimpleImpersonation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +10,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
@@ -359,6 +357,11 @@ namespace FilesFullTrust
                 {
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.Verb = "runasuser";
+                    if (Path.GetExtension(application) == ".msi")
+                    {
+                        process.StartInfo.FileName = "msiexec.exe";
+                        process.StartInfo.Arguments = $"/a \"{application}\"";
+                    }
                 }
                 else
                 {
