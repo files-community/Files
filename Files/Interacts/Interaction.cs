@@ -186,6 +186,14 @@ namespace Files.Interacts
             {
                 var value = new ValueSet();
                 value.Add("Application", ApplicationPath);
+                if (runAsAdmin)
+                {
+                    value.Add("Arguments", "runas");
+                }
+                else
+                {
+                    value.Add("Arguments", arguments);
+                }
                 if (runAsAdmin) value.Add("Arguments", "runas");
                 else value.Add("Arguments", arguments);
                 value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
