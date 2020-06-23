@@ -402,7 +402,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlListView.Text" translate="yes" xml:space="preserve">
           <source>List View</source>
-          <target state="translated">Listenansicht</target>
+          <target state="translated">Details</target>
         </trans-unit>
         <trans-unit id="SidebarSettings.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
@@ -635,19 +635,19 @@
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewLarge.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Large)</source>
-          <target state="translated">Rasteransicht (Groß)</target>
+          <target state="translated">Große Symbole</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewMedium.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Medium)</source>
-          <target state="translated">Rasteransicht (Mittel)</target>
+          <target state="translated">Mittelgroße Symbole</target>
         </trans-unit>
         <trans-unit id="StatusBarControlGridViewSmall.Text" translate="yes" xml:space="preserve">
           <source>Grid View (Small)</source>
-          <target state="translated">Rasteransicht (Klein)</target>
+          <target state="translated">Kleine Symbole</target>
         </trans-unit>
         <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
-          <target state="translated">Fließenansicht</target>
+          <target state="translated">Kacheln</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
