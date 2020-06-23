@@ -1,6 +1,7 @@
 using Files.Common;
 using Newtonsoft.Json;
 using NLog;
+using SimpleImpersonation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
@@ -343,9 +345,20 @@ namespace FilesFullTrust
                 process.StartInfo.FileName = application;
                 // Show window if workingDirectory (opening terminal)
                 process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
-                if (arguments == "runas") 
+                if (arguments == "runas")
                 {
+                    process.StartInfo.UseShellExecute = true;
                     process.StartInfo.Verb = "runas";
+                    if (Path.GetExtension(application) == ".msi")
+                    {
+                        process.StartInfo.FileName = "msiexec.exe";
+                        process.StartInfo.Arguments = $"/a \"{application}\"";
+                    }
+                }
+                else if (arguments == "runasuser")
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runasuser";
                 }
                 else
                 {

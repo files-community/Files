@@ -862,10 +862,6 @@
           <source>B</source>
           <target state="new">B</target>
         </trans-unit>
-        <trans-unit id="BaseLayoutItemContextRunAsAdmin.Text" translate="yes" xml:space="preserve">
-          <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
-        <trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
           <target state="new">Learn more about date formats</target>
@@ -877,6 +873,22 @@
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
+          <source>Run as administrator</source>
+          <target state="new">Run as administrator</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
+          <source>Run as another user</source>
+          <target state="new">Run as another user</target>
+        </trans-unit>
+        <trans-unit id="RunAsAnotherUserMessage" translate="yes" xml:space="preserve">
+          <source>Please enter the credentials of the user you want to run this file as</source>
+          <target state="new">Please enter the credentials of the user you want to run this file as</target>
+        </trans-unit>
+        <trans-unit id="RunAsAnotherUserTitle" translate="yes" xml:space="preserve">
+          <source>Run as another user</source>
+          <target state="new">Run as another user</target>
         </trans-unit>
       </group>
     </body>

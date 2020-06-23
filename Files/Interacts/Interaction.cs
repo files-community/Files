@@ -41,6 +41,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Dialogs.ConfirmDeleteDialog;
+using Windows.Security.Credentials.UI;
 
 namespace Files.Interacts
 {
@@ -275,6 +276,18 @@ namespace Files.Interacts
         public async void RunAsAdmin_Click()
         {
             await InvokeWin32Component(CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
+        }
+
+        public async void RunAsAnotherUser_Click()
+        {
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+
+            var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
+            await InvokeWin32Component(clickedOnItem.ItemPath, "runasuser", false);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)
