@@ -814,7 +814,9 @@ namespace Files.Filesystem
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog/Title"), ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
+                await DialogDisplayHelper.ShowDialog(
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Title"), 
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
                 IsLoadingItems = false;
                 return;
             }

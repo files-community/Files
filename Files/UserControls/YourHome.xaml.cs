@@ -185,7 +185,9 @@ namespace Files
             }
             catch (COMException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), ResourceController.GetTranslation("DriveUnpluggedDialog/Text"));
+                await DialogDisplayHelper.ShowDialog(
+                    ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), 
+                    ResourceController.GetTranslation("DriveUnpluggedDialog/Text"));
             }
         }
 
