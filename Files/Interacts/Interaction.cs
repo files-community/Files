@@ -607,17 +607,17 @@ namespace Files.Interacts
                         UserControls.StatusBanner.StatusBannerSeverity.Ongoing, 
                         UserControls.StatusBanner.StatusBannerOperation.Delete);
                 }
-                await Task.Run(async () => 
+                await Task.Run(async () =>
                 {
                     foreach (ListedItem storItem in selectedItems)
                     {
                         uint progressValue = (uint)(itemsDeleted * 100.0 / selectedItems.Count);
                         await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                            new DispatchedHandler(() => 
+                            new DispatchedHandler(() =>
                             {
-                                if (selectedItems.Count > 3) { banner = banner.UpdateProgress(progressValue); }
+                                if (selectedItems.Count > 3) { banner.Report((uint)progressValue); }
                             }));
-                       
+
                         IStorageItem item;
                         try
                         {
@@ -1010,7 +1010,7 @@ namespace Files.Interacts
                         StatusBanner.StatusBannerOperation.Paste);
             }
 
-            await Task.Run(async () => 
+            await Task.Run((Func<Task>)(async () => 
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
@@ -1070,7 +1070,7 @@ namespace Files.Interacts
                             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                                 new DispatchedHandler(() =>
                                 {
-                                    banner = banner.UpdateProgress(progressValue);
+                                    banner.Report((uint)progressValue);
                                 }));
                         }
                         try
@@ -1085,6 +1085,7 @@ namespace Files.Interacts
                             continue;
                         }
                     }
+                    itemsPasted++;
                 }
 
                 if (acceptedOperation == DataPackageOperation.Move)
@@ -1112,7 +1113,7 @@ namespace Files.Interacts
                         ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                     }
                 }
-            });
+            }));
 
             if (destinationPath == CurrentInstance.FilesystemViewModel.WorkingDirectory)
             {
@@ -1157,7 +1158,7 @@ namespace Files.Interacts
                                 }
                                 else
                                 {
-                                    banner = banner.UpdateProgress(progressValue);
+                                    banner.Report(progressValue);
                                 }
                             }));
                     }
@@ -1181,7 +1182,7 @@ namespace Files.Interacts
                                 }
                                 else
                                 {
-                                    banner = banner.UpdateProgress(progressValue);
+                                    banner.Report(progressValue);
                                 }
                             }));
                     }
@@ -1251,7 +1252,7 @@ namespace Files.Interacts
                     StatusBanner.StatusBannerSeverity.Ongoing, 
                     StatusBanner.StatusBannerOperation.Extract);
 
-                await Task.Run(async () => {
+                await Task.Run((Func<Task>)(async () => {
                     foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                     {
                         uint progressValue = (uint)(index * 100.0 / zipArchive.Entries.Count);
@@ -1264,7 +1265,7 @@ namespace Files.Interacts
                                 }
                                 else
                                 {
-                                    banner.UpdateProgress(progressValue);
+                                    banner.Report((uint)progressValue);
                                 }
                             }));
                         if (archiveEntry.FullName.Contains('/'))
@@ -1284,7 +1285,7 @@ namespace Files.Interacts
                             App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                         }
                     }
-                });
+                }));
                 
                 await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
@@ -1297,7 +1298,7 @@ namespace Files.Interacts
                         instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
-                banner.UpdateProgress(100);
+                banner.Report(100);
                 App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
             }
             else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)

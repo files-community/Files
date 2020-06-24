@@ -42,7 +42,7 @@ namespace Files.UserControls
         }
     }
 
-    public class StatusBanner : ViewModelBase
+    public class StatusBanner : ViewModelBase, IProgress<uint>
     {
         private string _FullTitle;
         private uint Progress { get; set; } = 0;
@@ -158,13 +158,12 @@ namespace Files.UserControls
             }
         }
 
-        public StatusBanner UpdateProgress(uint value)
+        public void Report(uint value)
         {
             if (value <= 100)
             {
                 Progress = value;
                 FullTitle = Title + " (" + Progress + "%)";
-                return this;
             }
             else
             {
