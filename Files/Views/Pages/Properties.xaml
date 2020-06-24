@@ -97,7 +97,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ViewModel.LoadCombinedItemsGlyph, Mode=OneWay}"
-                        FontFamily="{StaticResource CustomMultiFilesIcon}"
+                        FontFamily="{StaticResource CustomGlyph}"
                         FontSize="72"
                         Glyph="&#xF600;" />
                     <FontIcon
