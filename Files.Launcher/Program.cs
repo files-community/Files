@@ -1,6 +1,5 @@
 using Files.Common;
 using Newtonsoft.Json;
-using NLog;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,6 +14,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using static Vanara.PInvoke.Shell32;
 
 namespace FilesFullTrust
 {
@@ -25,7 +25,7 @@ namespace FilesFullTrust
         [STAThread]
         private static void Main(string[] args)
         {
-            Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
@@ -45,8 +45,8 @@ namespace FilesFullTrust
             try
             {
                 // Create shell COM object and get recycle bin folder
-                recycler = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
-                Windows.Storage.ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
+                recycler = new ShellFolder(KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
 
                 // Create filesystem watcher to monitor recycle bin folder(s)
                 // SHChangeNotifyRegister only works if recycle bin is open in explorer :(
@@ -55,7 +55,10 @@ namespace FilesFullTrust
                 foreach (var drive in DriveInfo.GetDrives())
                 {
                     var recycle_path = Path.Combine(drive.Name, "$Recycle.Bin", sid);
-                    if (!Directory.Exists(recycle_path)) continue;
+                    if (!Directory.Exists(recycle_path))
+                    {
+                        continue;
+                    }
                     var watcher = new FileSystemWatcher();
                     watcher.Path = recycle_path;
                     watcher.Filter = "*.*";
@@ -77,7 +80,9 @@ namespace FilesFullTrust
             {
                 connection?.Dispose();
                 foreach (var watcher in watchers)
+                {
                     watcher.Dispose();
+                }
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
@@ -96,7 +101,11 @@ namespace FilesFullTrust
             if (connection != null)
             {
                 // Send message to UWP app to refresh items
-                await connection.SendMessageAsync(new ValueSet() { { "FileSystem", @"Shell:RecycleBinFolder" }, { "Path", e.FullPath }, { "Type", e.ChangeType.ToString() } });
+                await connection.SendMessageAsync(new ValueSet() {
+                    { "FileSystem", @"Shell:RecycleBinFolder" },
+                    { "Path", e.FullPath },
+                    { "Type", e.ChangeType.ToString() }
+                });
             }
         }        
 
@@ -141,7 +150,7 @@ namespace FilesFullTrust
                     // Instead a single instance of the process is running
                     // Requests from UWP app are sent via AppService connection
                     var arguments = (string)args.Request.Message["Arguments"];
-                    var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+                    var localSettings = ApplicationData.Current.LocalSettings;
                     Logger.Info($"Argument: {arguments}");
 
                     await parseArguments(args, messageDeferral, arguments, localSettings);
@@ -195,8 +204,8 @@ namespace FilesFullTrust
 #if DEBUG
                     // In debug mode this kills this process too??
 #else
-                        var pid = (int)args.Request.Message["pid"];
-                        Process.GetProcessById(pid).Kill();
+                    var pid = (int)args.Request.Message["pid"];
+                    Process.GetProcessById(pid).Kill();
 #endif
 
                     Process process = new Process();
@@ -216,7 +225,7 @@ namespace FilesFullTrust
                 case "ParseAguments":
                     var responseArray = new ValueSet();
                     var resultArgument = Win32API.CommandLineToArgs((string)args.Request.Message["Command"]);
-                    responseArray.Add("ParsedArguments", Newtonsoft.Json.JsonConvert.SerializeObject(resultArgument));
+                    responseArray.Add("ParsedArguments", JsonConvert.SerializeObject(resultArgument));
                     await args.Request.SendResponseAsync(responseArray);
                     break;
 
@@ -241,14 +250,14 @@ namespace FilesFullTrust
             {
                 case "Empty":
                     // Shell function to empty recyclebin
-                    Vanara.PInvoke.Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Vanara.PInvoke.Shell32.SHERB.SHERB_NOCONFIRMATION | Vanara.PInvoke.Shell32.SHERB.SHERB_NOPROGRESSUI);
+                    SHEmptyRecycleBin(IntPtr.Zero, null, SHERB.SHERB_NOCONFIRMATION | SHERB.SHERB_NOPROGRESSUI);
                     break;
 
                 case "Query":
                     var responseQuery = new ValueSet();
-                    Vanara.PInvoke.Shell32.SHQUERYRBINFO queryBinInfo = new Vanara.PInvoke.Shell32.SHQUERYRBINFO();
+                    SHQUERYRBINFO queryBinInfo = new SHQUERYRBINFO();
                     queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-                    var res = Vanara.PInvoke.Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                    var res = SHQueryRecycleBin(null, ref queryBinInfo);
                     if (res == Vanara.PInvoke.HRESULT.S_OK)
                     {
                         var numItems = queryBinInfo.i64NumItems;
@@ -294,7 +303,7 @@ namespace FilesFullTrust
                             folderItem.Dispose();
                         }
                     }
-                    responseEnum.Add("Enumerate", Newtonsoft.Json.JsonConvert.SerializeObject(folderContentsList));
+                    responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
                     await args.Request.SendResponseAsync(responseEnum);
                     break;
 
@@ -361,13 +370,13 @@ namespace FilesFullTrust
                                 if (!group.Any()) continue;
                                 var files = group.Select(x => new ShellItem(x));
                                 using var sf = files.First().Parent;
-                                Vanara.PInvoke.Shell32.IContextMenu menu = null;
+                                IContextMenu menu = null;
                                 try
                                 {
-                                    menu = sf.GetChildrenUIObjects<Vanara.PInvoke.Shell32.IContextMenu>(null, files.ToArray());
-                                    menu.QueryContextMenu(Vanara.PInvoke.HMENU.NULL, 0, 0, 0, Vanara.PInvoke.Shell32.CMF.CMF_DEFAULTONLY);
-                                    var pici = new Vanara.PInvoke.Shell32.CMINVOKECOMMANDINFOEX();
-                                    pici.lpVerb = Vanara.PInvoke.Shell32.CMDSTR_OPEN;
+                                    menu = sf.GetChildrenUIObjects<IContextMenu>(null, files.ToArray());
+                                    menu.QueryContextMenu(Vanara.PInvoke.HMENU.NULL, 0, 0, 0, CMF.CMF_DEFAULTONLY);
+                                    var pici = new CMINVOKECOMMANDINFOEX();
+                                    pici.lpVerb = CMDSTR_OPEN;
                                     pici.nShow = Vanara.PInvoke.ShowWindowCommand.SW_SHOW;
                                     pici.cbSize = (uint)Marshal.SizeOf(pici);
                                     menu.InvokeCommand(pici);
@@ -396,7 +405,7 @@ namespace FilesFullTrust
 
         private static bool HandleCommandLineArgs()
         {
-            var localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            var localSettings = ApplicationData.Current.LocalSettings;
             var arguments = (string)localSettings.Values["Arguments"];
             if (!string.IsNullOrWhiteSpace(arguments))
             {

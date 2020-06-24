@@ -31,7 +31,7 @@ namespace FilesFullTrust
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
-        public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] System.Text.StringBuilder lpResult);
+        public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] StringBuilder lpResult);
 
         public static async Task<string> GetFileAssociation(string filename)
         {
@@ -39,7 +39,7 @@ namespace FilesFullTrust
             var uwp_apps = await Windows.System.Launcher.FindFileHandlersAsync(System.IO.Path.GetExtension(filename));
             if (uwp_apps.Any()) return uwp_apps.First().PackageFamilyName;
             // Find desktop apps
-            var lpResult = new System.Text.StringBuilder();
+            var lpResult = new StringBuilder();
             var hResult = FindExecutable(filename, null, lpResult);
             if (hResult.ToInt64() > 32) return lpResult.ToString();
             return null;
