@@ -115,6 +115,11 @@ namespace Files.View_Models
             try
             {
                 App.SidebarPinned = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(pinnedItemsFile));
+                if (App.SidebarPinned == null)
+                {
+                    App.SidebarPinned = new SidebarPinnedModel();
+                    throw new Exception(SidebarPinnedModel.JsonFileName + " is empty, regenerating...");
+                }
             }
             catch (Exception)
             {
@@ -237,6 +242,11 @@ namespace Files.View_Models
             try
             {
                 TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+                if (TerminalsModel == null)
+                {
+                    TerminalsModel = new TerminalFileModel();
+                    throw new JsonSerializationException("terminal.json is empty, regenerating...");
+                }
             }
             catch (JsonSerializationException)
             {
