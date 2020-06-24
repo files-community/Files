@@ -214,11 +214,13 @@ namespace Files
                         if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                         {
                             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateCreated"]));
-                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];
-                            ViewModel.FilesCount = (int)response.Message["NumItems"];
+                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];                            
                             ViewModel.ItemSize = ByteSize.FromBytes((long)response.Message["BinSize"]).ToString();
+                            ViewModel.FilesCount = (int)(long)response.Message["NumItems"];
+                            SetItemsCountString();
                             ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateAccessed"]));
-                            ViewModel.ItemFileOwner = (string)response.Message["FileOwner"];
+                            ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
+                            ViewModel.ItemSizeVisibility = Visibility.Visible;
                         }
                     }
                 }
