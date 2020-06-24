@@ -1,4 +1,5 @@
-﻿namespace Files.Filesystem
+﻿#nullable enable
+namespace Files.Filesystem
 {
     public interface INavigationControlItem
     {

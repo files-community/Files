@@ -1,4 +1,5 @@
-﻿using Files.Views.Pages;
+﻿#nullable enable
+using Files.Views.Pages;
 using System.Collections.ObjectModel;
 
 namespace Files.UserControls

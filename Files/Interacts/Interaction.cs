@@ -1,3 +1,4 @@
+#nullable enable
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace MessageRelay
     public sealed class StartupTask : IBackgroundTask
     {
         private Guid _thisConnectionGuid;
-        private BackgroundTaskDeferral _backgroundTaskDeferral;
+        private BackgroundTaskDeferral? _backgroundTaskDeferral;
         private static readonly Dictionary<Guid, AppServiceConnection> Connections;
 
         static StartupTask()
@@ -115,7 +116,7 @@ namespace MessageRelay
             }
         }
 
-        private async Task<AppServiceResponse> SendMessage(KeyValuePair<Guid, AppServiceConnection> connection, ValueSet valueSet)
+        private async Task<AppServiceResponse?> SendMessage(KeyValuePair<Guid, AppServiceConnection> connection, ValueSet valueSet)
         {
             try
             {
@@ -149,7 +150,6 @@ namespace MessageRelay
         {
             var connection = Connections[key];
             connection.Dispose();
-            connection = null;
             Connections.Remove(key);
         }
     }

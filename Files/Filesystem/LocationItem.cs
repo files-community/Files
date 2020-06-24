@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Media;
+﻿#nullable enable
+using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {

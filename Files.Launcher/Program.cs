@@ -1,3 +1,4 @@
+#nullable enable
 using Files.Common;
 using Newtonsoft.Json;
 using System;
@@ -79,9 +80,12 @@ namespace FilesFullTrust
             finally
             {
                 connection?.Dispose();
-                foreach (var watcher in watchers)
+                if (watchers != null)
                 {
-                    watcher.Dispose();
+                    foreach (var watcher in watchers)
+                    {
+                        watcher.Dispose();
+                    }
                 }
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
@@ -91,8 +95,10 @@ namespace FilesFullTrust
 
         private static void UnhandledExceptionTrapper(object sender, UnhandledExceptionEventArgs e)
         {
-            var exception = e.ExceptionObject as Exception;
-            Logger.Error(exception, exception.Message);
+            if (e.ExceptionObject is Exception exception)
+            {
+                Logger.Error(exception, exception.Message);
+            }
         }
 
         private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
@@ -109,10 +115,10 @@ namespace FilesFullTrust
             }
         }
 
-        private static AppServiceConnection connection;
-        private static AutoResetEvent appServiceExit;
-        private static ShellFolder recycler;
-        private static IList<FileSystemWatcher> watchers;
+        private static AppServiceConnection? connection;
+        private static AutoResetEvent? appServiceExit;
+        private static ShellFolder? recycler;
+        private static IList<FileSystemWatcher>? watchers;
 
         private static async void InitializeAppServiceConnection()
         {
@@ -180,7 +186,7 @@ namespace FilesFullTrust
             {
                 case "Terminate":
                     // Exit fulltrust process (UWP is closed or suspended)
-                    appServiceExit.Set();
+                    appServiceExit?.Set();
                     messageDeferral.Complete();
                     break;
 
@@ -274,7 +280,7 @@ namespace FilesFullTrust
                         var binSize = queryBinInfo.i64Size;
                         responseQuery.Add("NumItems", numItems);
                         responseQuery.Add("BinSize", binSize);
-                        responseQuery.Add("FileOwner", (string)recycler.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.FileOwner]);
+                        responseQuery.Add("FileOwner", (string?)recycler?.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.FileOwner]);
                         if (watchers.Any())
                         {
                             var info = new DirectoryInfo(watchers.First().Path);
@@ -289,36 +295,39 @@ namespace FilesFullTrust
                     // Enumerate recyclebin contents and send response to UWP
                     var responseEnum = new ValueSet();
                     var folderContentsList = new List<ShellFileItem>();
-                    foreach (var folderItem in recycler)
+                    if (recycler != null)
                     {
-                        try
+                        foreach (var folderItem in recycler)
                         {
-                            string recyclePath = folderItem.FileSystemPath; // True path on disk
-                            string fileName = Path.GetFileName(folderItem.Name); // Original file name
-                            string filePath = folderItem.Name; // Original file path + name
-                            bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
-                            if (folderItem.Properties == null)
+                            try
                             {
-                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null));
-                                continue;
+                                string recyclePath = folderItem.FileSystemPath; // True path on disk
+                                string fileName = Path.GetFileName(folderItem.Name); // Original file name
+                                string filePath = folderItem.Name; // Original file path + name
+                                bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
+                                if (folderItem.Properties == null)
+                                {
+                                    folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null));
+                                    continue;
+                                }
+                                folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                                    Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+                                var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+                                string? fileSize = folderItem.Properties.TryGetValue<ulong?>(
+                                    Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
+                                    folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size) : null;
+                                folderItem.Properties.TryGetValue<string>(
+                                    Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
+                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType));
                             }
-                            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
-                            var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-                            string fileSize = folderItem.Properties.TryGetValue<ulong?>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
-                                folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size) : null;
-                            folderItem.Properties.TryGetValue<string>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-                            folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType));
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            // Happens if files are being deleted
-                        }
-                        finally
-                        {
-                            folderItem.Dispose();
+                            catch (FileNotFoundException)
+                            {
+                                // Happens if files are being deleted
+                            }
+                            finally
+                            {
+                                folderItem.Dispose();
+                            }
                         }
                     }
                     responseEnum.Add("Enumerate", JsonConvert.SerializeObject(folderContentsList));
@@ -411,7 +420,7 @@ namespace FilesFullTrust
                                 if (!group.Any()) continue;
                                 var files = group.Select(x => new ShellItem(x));
                                 using var sf = files.First().Parent;
-                                IContextMenu menu = null;
+                                IContextMenu? menu = null;
                                 try
                                 {
                                     menu = sf.GetChildrenUIObjects<IContextMenu>(null, files.ToArray());
@@ -484,7 +493,7 @@ namespace FilesFullTrust
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
         {
             // Signal the event so the process can shut down
-            appServiceExit.Set();
+            appServiceExit?.Set();
         }
     }
 }

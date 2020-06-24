@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿#nullable enable
+using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;

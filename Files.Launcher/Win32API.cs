@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,9 +35,9 @@ namespace FilesFullTrust
         }
 
         [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
-        public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] StringBuilder lpResult);
+        public static extern IntPtr FindExecutable(string lpFile, string? lpDirectory, [Out] StringBuilder lpResult);
 
-        public static async Task<string> GetFileAssociation(string filename)
+        public static async Task<string?> GetFileAssociation(string filename)
         {
             // Find UWP apps
             var uwp_apps = await Windows.System.Launcher.FindFileHandlersAsync(System.IO.Path.GetExtension(filename));
@@ -64,12 +65,12 @@ namespace FilesFullTrust
         };
 
         // A faster method of getting file shell properties (currently non used)
-        public static IList<object> GetFileProperties(ShellItem folderItem, List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> properties)
+        public static IList<object?> GetFileProperties(ShellItem folderItem, List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> properties)
         {
-            var propValueList = new List<object>(properties.Count);
+            var propValueList = new List<object?>(properties.Count);
             var flags = Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_DEFAULT | Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_FASTPROPERTIESONLY;
 
-            Vanara.PInvoke.PropSys.IPropertyStore pStore = null;
+            Vanara.PInvoke.PropSys.IPropertyStore? pStore = null;
             try
             {
                 pStore = ((Vanara.PInvoke.Shell32.IShellItem2)folderItem.IShellItem).GetPropertyStoreForKeys(properties.Select(p => p.propertyKey).ToArray(), (uint)properties.Count, flags, typeof(Vanara.PInvoke.PropSys.IPropertyStore).GUID);

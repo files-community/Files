@@ -9,17 +9,13 @@ namespace Files.Common
         public string FileName;
         public string FilePath;
         public DateTime RecycleDate;
-        public string FileSize;
+        public string? FileSize;
         public ulong FileSizeBytes;
-        public string FileType;
-
-        public ShellFileItem()
-        {
-        }
+        public string? FileType;
 
         public ShellFileItem(
             bool isFolder, string recyclePath, string fileName, string filePath, 
-            DateTime recycleDate, string fileSize, ulong fileSizeBytes, string fileType)
+            DateTime recycleDate, string? fileSize, ulong fileSizeBytes, string? fileType)
         {
             this.IsFolder = isFolder;
             this.RecyclePath = recyclePath;

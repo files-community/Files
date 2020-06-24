@@ -1,4 +1,5 @@
-﻿using NLog;
+﻿#nullable enable
+using NLog;
 using System;
 using System.IO;
 using System.IO.Pipes;
@@ -51,7 +52,7 @@ namespace FilesFullTrust
 
                     return serverInstances;
                 }
-                catch (TimeoutException e)
+                catch (TimeoutException)
                 {
                     client.Close();
                     return 0;

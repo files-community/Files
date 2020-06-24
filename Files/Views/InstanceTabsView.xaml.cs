@@ -1,4 +1,5 @@
-﻿using Files.Common;
+﻿#nullable enable
+using Files.Common;
 using Files.Controls;
 using Files.DataModels;
 using Files.Filesystem;

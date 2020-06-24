@@ -1,4 +1,5 @@
-﻿using Files.Enums;
+﻿#nullable enable
+using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
 using System;

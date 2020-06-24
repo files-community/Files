@@ -1,4 +1,5 @@
-﻿using Files.DataModels;
+﻿#nullable enable
+using Files.DataModels;
 using Files.View_Models;
 using Newtonsoft.Json;
 using System;

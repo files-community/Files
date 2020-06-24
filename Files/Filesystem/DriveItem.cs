@@ -1,4 +1,5 @@
-﻿using ByteSizeLib;
+﻿#nullable enable
+using ByteSizeLib;
 using Files.Helpers;
 using System;
 using System.Threading.Tasks;

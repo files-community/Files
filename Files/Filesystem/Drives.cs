@@ -1,3 +1,4 @@
+#nullable enable
 using Files.View_Models;
 using NLog;
 using System;

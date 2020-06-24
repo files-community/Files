@@ -1,3 +1,4 @@
+#nullable enable
 using ByteSizeLib;
 using Files.Common;
 using Files.Enums;

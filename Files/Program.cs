@@ -1,4 +1,5 @@
-﻿using Files.CommandLine;
+﻿#nullable enable
+using Files.CommandLine;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using Windows.Storage;
 using Windows.UI.Xaml.Data;
 

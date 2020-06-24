@@ -1,4 +1,5 @@
-﻿using Files.SettingsPages;
+﻿#nullable enable
+using Files.SettingsPages;
 using Files.View_Models;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;

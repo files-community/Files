@@ -1,4 +1,5 @@
-﻿using Files;
+﻿#nullable enable
+using Files;
 using System.Collections.Generic;
 
 namespace Locations

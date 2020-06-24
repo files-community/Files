@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿#nullable enable
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Files.Interacts

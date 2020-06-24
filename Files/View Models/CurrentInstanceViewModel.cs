@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿#nullable enable
+using GalaSoft.MvvmLight;
 
 namespace Files.View_Models
 {

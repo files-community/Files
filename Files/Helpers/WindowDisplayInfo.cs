@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel.LockScreen;
+﻿#nullable enable
+using Windows.ApplicationModel.LockScreen;
 using Windows.ApplicationModel.Preview.Holographic;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;

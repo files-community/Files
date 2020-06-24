@@ -1,4 +1,5 @@
-﻿using Windows.ApplicationModel.Resources;
+﻿#nullable enable
+using Windows.ApplicationModel.Resources;
 
 namespace Files
 {

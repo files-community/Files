@@ -1,4 +1,5 @@
-﻿using Files.Enums;
+﻿#nullable enable
+using Files.Enums;
 using System;
 using System.ComponentModel;
 using Windows.Storage;

@@ -1,4 +1,5 @@
-﻿using Files.View_Models;
+﻿#nullable enable
+using Files.View_Models;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 

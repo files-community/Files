@@ -1,4 +1,5 @@
-﻿namespace Files
+﻿#nullable enable
+namespace Files
 {
     public static class LocalSettings
     {

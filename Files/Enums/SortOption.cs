@@ -1,4 +1,5 @@
-﻿namespace Files.Enums
+﻿#nullable enable
+namespace Files.Enums
 {
     public enum SortOption
     {

@@ -1,3 +1,4 @@
+#nullable enable
 using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;

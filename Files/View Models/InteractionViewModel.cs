@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿#nullable enable
+using GalaSoft.MvvmLight;
 using System;
 using Windows.Storage;
 using Windows.UI.Xaml;

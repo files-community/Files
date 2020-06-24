@@ -1,3 +1,4 @@
+#nullable enable
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;

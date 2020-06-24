@@ -1,3 +1,4 @@
+#nullable enable
 using Files.CommandLine;
 using Files.Controls;
 using Files.DataModels;

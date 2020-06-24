@@ -1,4 +1,5 @@
-﻿using Files.Helpers;
+﻿#nullable enable
+using Files.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

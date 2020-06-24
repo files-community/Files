@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿#nullable enable
+using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;

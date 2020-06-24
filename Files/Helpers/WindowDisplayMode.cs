@@ -1,4 +1,5 @@
-﻿namespace Huyn
+﻿#nullable enable
+namespace Huyn
 {
     public enum WindowDisplayMode
     {

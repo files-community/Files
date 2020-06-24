@@ -1,4 +1,5 @@
-﻿namespace Files.CommandLine
+﻿#nullable enable
+namespace Files.CommandLine
 {
     internal enum ParsedCommandType
     {
