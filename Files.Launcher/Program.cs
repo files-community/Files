@@ -360,7 +360,7 @@ namespace FilesFullTrust
                     if (Path.GetExtension(application) == ".msi")
                     {
                         process.StartInfo.FileName = "msiexec.exe";
-                        process.StartInfo.Arguments = $"/a \"{application}\"";
+                        process.StartInfo.Arguments = $"/i \"{application}\"";
                     }
                 }
                 else
