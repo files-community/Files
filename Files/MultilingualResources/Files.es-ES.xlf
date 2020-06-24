@@ -879,8 +879,8 @@
           <target state="new">Please check the password and try again.</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
-          <source>Bitlocker error</source>
-          <target state="new">Bitlocker error</target>
+          <source>BitLocker error</source>
+          <target state="new">BitLocker error</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
