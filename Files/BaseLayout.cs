@@ -82,7 +82,7 @@ namespace Files
                         if (SelectedItems.Count == 1)
                         {
                             SelectedItemsPropertiesViewModel.SelectedItemsCount = SelectedItems.Count.ToString() + " " + ResourceController.GetTranslation("ItemSelected/Text");
-                            SelectedItemsPropertiesViewModel.ItemsSize = SelectedItem.FileSize;
+                            SelectedItemsPropertiesViewModel.ItemSize = SelectedItem.FileSize;
                         }
                         else
                         {
@@ -95,11 +95,11 @@ namespace Files
                                 {
                                     size += item.FileSizeBytes;
                                 }
-                                SelectedItemsPropertiesViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                                SelectedItemsPropertiesViewModel.ItemSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
                             }
                             else
                             {
-                                SelectedItemsPropertiesViewModel.ItemsSize = string.Empty;
+                                SelectedItemsPropertiesViewModel.ItemSize = string.Empty;
                             }
                         }
                     }
@@ -115,7 +115,7 @@ namespace Files
         {
             this.Loaded += Page_Loaded;
             Page_Loaded(null, null);
-            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(null);
+            SelectedItemsPropertiesViewModel = new SelectedItemsPropertiesViewModel(null as ListedItem);
             DirectoryPropertiesViewModel = new DirectoryPropertiesViewModel();
             // QuickLook Integration
             ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;

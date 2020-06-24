@@ -52,14 +52,6 @@
 
                 <StackPanel Spacing="10">
                     <TextBlock
-                        x:Uid="SettingsExperimentalPropertiesMultipleWindows"
-                        FontSize="17"
-                        Text="Open properties in Multiple Windows" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.OpenPropertiesInMultipleWindows, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
                         x:Uid="SettingsShowFileOwnerInProperties"
                         FontSize="17"
                         Text="Show Owner in properties" />

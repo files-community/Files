@@ -823,10 +823,6 @@
           <source>Show Owner in properties</source>
           <target state="new">Show Owner in properties</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalPropertiesMultipleWindows.Text" translate="yes" xml:space="preserve">
-          <source>Open properties in Multiple Windows</source>
-          <target state="new">Open properties in Multiple Windows</target>
-        </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
           <target state="new">Cancel</target>
@@ -882,6 +878,34 @@
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
+          <source>All type of {0}</source>
+          <target state="new">All type of {0}</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveItemTypeDifferent" translate="yes" xml:space="preserve">
+          <source>Different types</source>
+          <target state="new">Different types</target>
+        </trans-unit>
+        <trans-unit id="PropertiesCombinedItemPath" translate="yes" xml:space="preserve">
+          <source>All in {0}</source>
+          <target state="new">All in {0}</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
+          <source>Used space:</source>
+          <target state="new">Used space:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
+          <source>Free space:</source>
+          <target state="new">Free space:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
+          <source>Capacity:</source>
+          <target state="new">Capacity:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
+          <source>File system:</source>
+          <target state="new">File system:</target>
         </trans-unit>
       </group>
     </body>

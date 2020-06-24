@@ -1,7 +1,11 @@
+using ByteSizeLib;
 using Files.Filesystem;
+using Files.Helpers;
 using GalaSoft.MvvmLight;
+using System;
+using System.Collections.Generic;
 using System.IO;
-using Windows.UI.Core;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 
@@ -9,70 +13,6 @@ namespace Files.View_Models
 {
     public class SelectedItemsPropertiesViewModel : ViewModelBase
     {
-        private string _ItemName;
-
-        public string ItemName
-        {
-            get => _ItemName;
-            set => Set(ref _ItemName, value);
-        }
-
-        private string _ItemType;
-
-        public string ItemType
-        {
-            get => _ItemType;
-            set => Set(ref _ItemType, value);
-        }
-
-        private string _ItemPath;
-
-        public string ItemPath
-        {
-            get => _ItemPath;
-            set => Set(ref _ItemPath, value);
-        }
-
-        private long _ItemSizeReal;
-
-        public long ItemSizeReal
-        {
-            get => _ItemSizeReal;
-            set => Set(ref _ItemSizeReal, value);
-        }
-
-        private Visibility _ItemSizeProgressVisibility = Visibility.Collapsed;
-
-        public Visibility ItemSizeProgressVisibility
-        {
-            get => _ItemSizeProgressVisibility;
-            set => Set(ref _ItemSizeProgressVisibility, value);
-        }
-
-        private bool _SizeCalcError;
-
-        public bool SizeCalcError
-        {
-            get => _SizeCalcError;
-            set => Set(ref _SizeCalcError, value);
-        }
-
-        private string _ItemModifiedTimestamp;
-
-        public string ItemModifiedTimestamp
-        {
-            get => _ItemModifiedTimestamp;
-            set => Set(ref _ItemModifiedTimestamp, value);
-        }
-
-        private ImageSource _FileIconSource;
-
-        public ImageSource FileIconSource
-        {
-            get => _FileIconSource;
-            set => Set(ref _FileIconSource, value);
-        }
-
         private bool _LoadFolderGlyph;
 
         public bool LoadFolderGlyph
@@ -89,6 +29,30 @@ namespace Files.View_Models
             set => Set(ref _LoadUnknownTypeGlyph, value);
         }
 
+        private bool _LoadCombinedItemsGlyph;
+
+        public bool LoadCombinedItemsGlyph
+        {
+            get => _LoadCombinedItemsGlyph;
+            set => Set(ref _LoadCombinedItemsGlyph, value);
+        }
+
+        private string _DriveItemGlyphSource;
+
+        public string DriveItemGlyphSource
+        {
+            get => _DriveItemGlyphSource;
+            set => Set(ref _DriveItemGlyphSource, value);
+        }
+
+        private bool _LoadDriveItemGlyph;
+
+        public bool LoadDriveItemGlyph
+        {
+            get => _LoadDriveItemGlyph;
+            set => Set(ref _LoadDriveItemGlyph, value);
+        }
+
         private bool _LoadFileIcon;
 
         public bool LoadFileIcon
@@ -97,52 +61,124 @@ namespace Files.View_Models
             set => Set(ref _LoadFileIcon, value);
         }
 
-        private string _ItemsSize;
+        private ImageSource _FileIconSource;
 
-        public string ItemsSize
+        public ImageSource FileIconSource
         {
-            get => _ItemsSize;
-            set => Set(ref _ItemsSize, value);
+            get => _FileIconSource;
+            set => Set(ref _FileIconSource, value);
         }
 
-        private string _SelectedItemsCount;
+        private string _ItemName;
 
-        public string SelectedItemsCount
+        public string ItemName
         {
-            get => _SelectedItemsCount;
-            set => Set(ref _SelectedItemsCount, value);
+            get => _ItemName;
+            set
+            {
+                ItemNameVisibility = Visibility.Visible;
+                Set(ref _ItemName, value);
+            }
         }
 
-        private bool _IsItemSelected;
+        private Visibility _ItemNameVisibility = Visibility.Collapsed;
 
-        public bool IsItemSelected
+        public Visibility ItemNameVisibility
         {
-            get => _IsItemSelected;
-            set => Set(ref _IsItemSelected, value);
+            get => _ItemNameVisibility;
+            set => Set(ref _ItemNameVisibility, value);
         }
 
-        private string _ItemCreatedTimestamp;
+        private string _ItemType;
 
-        public string ItemCreatedTimestamp
+        public string ItemType
         {
-            get => _ItemCreatedTimestamp;
-            set => Set(ref _ItemCreatedTimestamp, value);
+            get => _ItemType;
+            set
+            {
+                ItemTypeVisibility = Visibility.Visible;
+                Set(ref _ItemType, value);
+            }
         }
 
-        public string _ItemAccessedTimestamp;
+        private Visibility _ItemTypeVisibility = Visibility.Collapsed;
 
-        public string ItemAccessedTimestamp
+        public Visibility ItemTypeVisibility
         {
-            get => _ItemAccessedTimestamp;
-            set => Set(ref _ItemAccessedTimestamp, value);
+            get => _ItemTypeVisibility;
+            set => Set(ref _ItemTypeVisibility, value);
         }
 
-        public string _ItemFileOwner;
+        private string _DriveFileSystem;
 
-        public string ItemFileOwner
+        public string DriveFileSystem
         {
-            get => _ItemFileOwner;
-            set => Set(ref _ItemFileOwner, value);
+            get => _DriveFileSystem;
+            set
+            {
+                DriveFileSystemVisibility = Visibility.Visible;
+                Set(ref _DriveFileSystem, value);
+            }
+        }
+
+        private Visibility _DriveFileSystemVisibility = Visibility.Collapsed;
+
+        public Visibility DriveFileSystemVisibility
+        {
+            get => _DriveFileSystemVisibility;
+            set => Set(ref _DriveFileSystemVisibility, value);
+        }
+
+        private string _ItemPath;
+
+        public string ItemPath
+        {
+            get => _ItemPath;
+            set
+            {
+                ItemPathVisibility = Visibility.Visible;
+                Set(ref _ItemPath, value);
+            }
+        }
+
+        private Visibility _ItemPathVisibility = Visibility.Collapsed;
+
+        public Visibility ItemPathVisibility
+        {
+            get => _ItemPathVisibility;
+            set => Set(ref _ItemPathVisibility, value);
+        }
+
+        private string _ItemSize;
+
+        public string ItemSize
+        {
+            get => _ItemSize;
+            set => Set(ref _ItemSize, value);
+        }
+
+        private Visibility _ItemSizeVisibility = Visibility.Collapsed;
+
+        public Visibility ItemSizeVisibility
+        {
+            get => _ItemSizeVisibility;
+            set => Set(ref _ItemSizeVisibility, value);
+        }
+
+        private long _ItemSizeBytes;
+
+        public long ItemSizeBytes
+        {
+            get => _ItemSizeBytes;
+            set => Set(ref _ItemSizeBytes, value);
+        }
+
+        private Visibility _ItemSizeProgressVisibility = Visibility.Collapsed;
+
+        public Visibility ItemSizeProgressVisibility
+        {
+            get => _ItemSizeProgressVisibility;
+            set => Set(ref _ItemSizeProgressVisibility, value);
         }
 
         public string _ItemMD5Hash;
@@ -205,7 +241,14 @@ namespace Files.View_Models
         public string FilesAndFoldersCountString
         {
             get => _FilesAndFoldersCountString;
-            set => Set(ref _FilesAndFoldersCountString, value);
+            set
+            {
+                if (FilesAndFoldersCountVisibility == Visibility.Collapsed)
+                {
+                    FilesAndFoldersCountVisibility = Visibility.Visible;
+                }
+                Set(ref _FilesAndFoldersCountString, value);
+            }
         }
 
         public Visibility _FilesAndFoldersCountVisibility = Visibility.Collapsed;
@@ -216,24 +259,280 @@ namespace Files.View_Models
             set => Set(ref _FilesAndFoldersCountVisibility, value);
         }
 
-        public Microsoft.UI.Xaml.Controls.ProgressBar ItemMD5HashProgress { get; set; }
+        private ulong _DriveUsedSpaceValue;
+
+        public ulong DriveUsedSpaceValue
+        {
+            get => _DriveUsedSpaceValue;
+            set
+            {
+                Set(ref _DriveUsedSpaceValue, value);
+                DriveUsedSpace = ByteSize.FromBytes(DriveUsedSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSize.FromBytes(DriveUsedSpaceValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                DriveUsedSpaceDoubleValue = Convert.ToDouble(DriveUsedSpaceValue);
+            }
+        }
+
+        private string _DriveUsedSpace;
+
+        public string DriveUsedSpace
+        {
+            get => _DriveUsedSpace;
+            set
+            {
+                DriveUsedSpaceVisibiity = Visibility.Visible;
+                Set(ref _DriveUsedSpace, value);
+            }
+        }
+
+        public Visibility _DriveUsedSpaceVisibiity = Visibility.Collapsed;
+
+        public Visibility DriveUsedSpaceVisibiity
+        {
+            get => _DriveUsedSpaceVisibiity;
+            set => Set(ref _DriveUsedSpaceVisibiity, value);
+        }
+
+        private ulong _DriveFreeSpaceValue;
+
+        public ulong DriveFreeSpaceValue
+        {
+            get => _DriveFreeSpaceValue;
+            set
+            {
+                Set(ref _DriveFreeSpaceValue, value);
+                DriveFreeSpace = ByteSize.FromBytes(DriveFreeSpaceValue).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSize.FromBytes(DriveFreeSpaceValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+            }
+        }
+
+        private string _DriveFreeSpace;
+
+        public string DriveFreeSpace
+        {
+            get => _DriveFreeSpace;
+            set
+            {
+                DriveFreeSpaceVisibiity = Visibility.Visible;
+                Set(ref _DriveFreeSpace, value);
+            }
+        }
+
+        public Visibility _DriveFreeSpaceVisibiity = Visibility.Collapsed;
+
+        public Visibility DriveFreeSpaceVisibiity
+        {
+            get => _DriveFreeSpaceVisibiity;
+            set => Set(ref _DriveFreeSpaceVisibiity, value);
+        }
+
+        private string _ItemCreatedTimestamp;
+
+        public string ItemCreatedTimestamp
+        {
+            get => _ItemCreatedTimestamp;
+            set
+            {
+                ItemCreatedTimestampVisibiity = Visibility.Visible;
+                Set(ref _ItemCreatedTimestamp, value);
+            }
+        }
+
+        public Visibility _ItemCreatedTimestampVisibiity = Visibility.Collapsed;
+
+        public Visibility ItemCreatedTimestampVisibiity
+        {
+            get => _ItemCreatedTimestampVisibiity;
+            set => Set(ref _ItemCreatedTimestampVisibiity, value);
+        }
+
+        private string _ItemModifiedTimestamp;
+
+        public string ItemModifiedTimestamp
+        {
+            get => _ItemModifiedTimestamp;
+            set
+            {
+                ItemModifiedTimestampVisibility = Visibility.Visible;
+                Set(ref _ItemModifiedTimestamp, value);
+            }
+        }
+
+        private Visibility _ItemModifiedTimestampVisibility = Visibility.Collapsed;
+
+        public Visibility ItemModifiedTimestampVisibility
+        {
+            get => _ItemModifiedTimestampVisibility;
+            set => Set(ref _ItemModifiedTimestampVisibility, value);
+        }
+
+        public string _ItemAccessedTimestamp;
+
+        public string ItemAccessedTimestamp
+        {
+            get => _ItemAccessedTimestamp;
+            set
+            {
+                ItemAccessedTimestampVisibility = Visibility.Visible;
+                Set(ref _ItemAccessedTimestamp, value);
+            }
+        }
+
+        private Visibility _ItemAccessedTimestampVisibility = Visibility.Collapsed;
+
+        public Visibility ItemAccessedTimestampVisibility
+        {
+            get => _ItemAccessedTimestampVisibility;
+            set => Set(ref _ItemAccessedTimestampVisibility, value);
+        }
+
+        public string _ItemFileOwner;
+
+        public string ItemFileOwner
+        {
+            get => _ItemFileOwner;
+            set
+            {
+                ItemFileOwnerVisibility = Visibility.Visible;
+                Set(ref _ItemFileOwner, value);
+            }
+        }
+
+        private Visibility _ItemFileOwnerVisibility = Visibility.Collapsed;
+
+        public Visibility ItemFileOwnerVisibility
+        {
+            get => _ItemFileOwnerVisibility;
+            set => Set(ref _ItemFileOwnerVisibility, value);
+        }
+
+        private Visibility _LastSeparatorVisibility = Visibility.Visible;
+
+        public Visibility LastSeparatorVisibility
+        {
+            get => _LastSeparatorVisibility;
+            set => Set(ref _LastSeparatorVisibility, value);
+        }
+
+        private ulong _DriveCapacityValue;
+
+        public ulong DriveCapacityValue
+        {
+            get => _DriveCapacityValue;
+            set
+            {
+                Set(ref _DriveCapacityValue, value);
+                DriveCapacity = ByteSize.FromBytes(DriveCapacityValue).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSize.FromBytes(DriveCapacityValue).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                DriveCapacityDoubleValue = Convert.ToDouble(DriveCapacityValue);
+            }
+        }
+
+        private string _DriveCapacity;
+
+        public string DriveCapacity
+        {
+            get => _DriveCapacity;
+            set
+            {
+                DriveCapacityVisibiity = Visibility.Visible;
+                Set(ref _DriveCapacity, value);
+            }
+        }
+
+        public Visibility _DriveCapacityVisibiity = Visibility.Collapsed;
+
+        public Visibility DriveCapacityVisibiity
+        {
+            get => _DriveCapacityVisibiity;
+            set => Set(ref _DriveCapacityVisibiity, value);
+        }
+
+        private double _DriveCapacityDoubleValue;
+
+        public double DriveCapacityDoubleValue
+        {
+            get => _DriveCapacityDoubleValue;
+            set => Set(ref _DriveCapacityDoubleValue, value);
+        }
+
+        private double _DriveUsedSpaceDoubleValue;
+
+        public double DriveUsedSpaceDoubleValue
+        {
+            get => _DriveUsedSpaceDoubleValue;
+            set => Set(ref _DriveUsedSpaceDoubleValue, value);
+        }
+
+        private Visibility _ItemAttributesVisibility = Visibility.Visible;
+
+        public Visibility ItemAttributesVisibility
+        {
+            get => _ItemAttributesVisibility;
+            set => Set(ref _ItemAttributesVisibility, value);
+        }
+
+        private string _SelectedItemsCount;
+
+        public string SelectedItemsCount
+        {
+            get => _SelectedItemsCount;
+            set => Set(ref _SelectedItemsCount, value);
+        }
+
+        private bool _IsItemSelected;
+
+        public bool IsItemSelected
+        {
+            get => _IsItemSelected;
+            set => Set(ref _IsItemSelected, value);
+        }
 
         public ListedItem Item { get; }
 
-        public CoreDispatcher Dispatcher { get; set; }
+        public List<ListedItem> List { get; }
+
+        public DriveItem Drive { get; }
 
         public SelectedItemsPropertiesViewModel(ListedItem item)
         {
             Item = item;
 
-            ItemName = Item?.ItemName;
-            ItemType = Item?.ItemType;
-            ItemPath = Path.IsPathRooted(Item?.ItemPath) ? Path.GetDirectoryName(Item?.ItemPath) : Item?.ItemPath;
-            ItemModifiedTimestamp = Item?.ItemDateModified;
-            FileIconSource = Item?.FileImage;
-            LoadFolderGlyph = Item != null ? Item.LoadFolderGlyph : false;
-            LoadUnknownTypeGlyph = Item != null ? Item.LoadUnknownTypeGlyph : false;
-            LoadFileIcon = Item != null ? Item.LoadFileIcon : false;
+            if (Item != null)
+            {
+                ItemName = Item.ItemName;
+                ItemType = Item.ItemType;
+                ItemPath = Path.IsPathRooted(Item?.ItemPath) ? Path.GetDirectoryName(Item?.ItemPath) : Item?.ItemPath;
+                ItemModifiedTimestamp = Item.ItemDateModified;
+                FileIconSource = Item.FileImage;
+                LoadFolderGlyph = Item.LoadFolderGlyph;
+                LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                LoadFileIcon = Item.LoadFileIcon;
+            }
+        }
+
+        public SelectedItemsPropertiesViewModel(List<ListedItem> list)
+        {
+            List = list;
+            LoadCombinedItemsGlyph = true;
+            if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
+            {
+                ItemType = string.Format(ResourceController.GetTranslation("PropertiesDriveItemTypesEquals"), List.First().ItemType);
+            }
+            else
+            {
+                ItemType = ResourceController.GetTranslation("PropertiesDriveItemTypeDifferent");
+            }
+            ItemPath = string.Format(ResourceController.GetTranslation("PropertiesCombinedItemPath"), Path.GetDirectoryName(List.First().ItemPath));
+        }
+
+        public SelectedItemsPropertiesViewModel(DriveItem drive)
+        {
+            Drive = drive;
+            DriveItemGlyphSource = Drive.Glyph;
+            LoadDriveItemGlyph = true;
+            ItemName = Drive.Text;
+            ItemType = Drive.Type.ToString();
         }
     }
 }

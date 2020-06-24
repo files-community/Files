@@ -39,7 +39,6 @@ namespace Files
             tabView = TabStrip;
 
             App.AppSettings = new SettingsViewModel();
-            App.SidebarPinned = new SidebarPinnedModel();
             App.InteractionViewModel = new InteractionViewModel();
 
             // Turn on Navigation Cache

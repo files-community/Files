@@ -787,7 +787,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomNewTabIcon}" Glyph="&#xF400;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF400;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

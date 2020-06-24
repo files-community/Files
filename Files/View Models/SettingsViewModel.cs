@@ -79,6 +79,8 @@ namespace Files.View_Models
 
         private async void PopulatePinnedSidebarItems()
         {
+            App.SidebarPinned = new SidebarPinnedModel();
+
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
 
             StorageFile pinnedItemsFile;
@@ -301,11 +303,6 @@ namespace Files.View_Models
             {
                 PinOneDriveToSideBar = false;
             }
-        }
-        public bool OpenPropertiesInMultipleWindows
-        {
-            get => Get(false);
-            set => Set(value);
         }
         public bool ShowFileOwner
         {

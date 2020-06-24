@@ -17,7 +17,10 @@ using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Files.Enums;
+using System.Linq;
 using Windows.Foundation.Collections;
+using ByteSizeLib;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
 
@@ -25,6 +28,8 @@ namespace Files
 {
     public sealed partial class Properties : Page
     {
+        private PropertiesType propertiesType;
+
         private static AppWindowTitleBar TitleBar;
 
         private CancellationTokenSource _tokenSource = new CancellationTokenSource();
@@ -42,9 +47,29 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as ListedItem);
-            ViewModel.ItemMD5HashProgress = ItemMD5HashProgress;
-            ViewModel.Dispatcher = Dispatcher;
+            if (e.Parameter is ListedItem)
+            {
+                ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as ListedItem);
+                if (ViewModel.Item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
+                    propertiesType = PropertiesType.File;
+                }
+                else if (ViewModel.Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    propertiesType = PropertiesType.Folder;
+                }
+            }
+            else if (e.Parameter is List<ListedItem>)
+            {
+                ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as List<ListedItem>);
+                propertiesType = PropertiesType.Combined;
+            }
+            else if (e.Parameter is DriveItem)
+            {
+                ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as DriveItem);
+                propertiesType = PropertiesType.Drive;
+            }
+
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             base.OnNavigatedTo(e);
         }
@@ -111,6 +136,167 @@ namespace Files
             }
         }
 
+        private void SetItemsCountString()
+        {
+            ViewModel.FilesAndFoldersCountString = string.Format(
+                ResourceController.GetTranslation("PropertiesFilesAndFoldersCountString"), ViewModel.FilesCount, ViewModel.FoldersCount);
+        }
+
+        public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
+        {
+            if (propertiesType == PropertiesType.File)
+            {
+                GetFileProperties(_tokenSource);
+            }
+            else if (propertiesType == PropertiesType.Folder)
+            {
+                GetFolderProperties(_tokenSource);
+            }
+            else if (propertiesType == PropertiesType.Combined)
+            {
+                await GetCombinedProperties(_tokenSource);
+            }
+            else if (propertiesType == PropertiesType.Drive)
+            {
+                GetDriveProperties();
+            }
+        }
+
+        private async void GetFileProperties(CancellationTokenSource _tokenSource)
+        {
+            var file = await StorageFile.GetFileFromPathAsync(ViewModel.Item.ItemPath);
+            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
+
+            GetOtherPropeties(file.Properties);
+            ViewModel.ItemSizeVisibility = Visibility.Visible;
+            ViewModel.ItemSize = ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
+                + " (" + ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+
+            // Get file MD5 hash
+            var hashAlgTypeName = HashAlgorithmNames.Md5;
+            ViewModel.ItemMD5HashProgressVisibility = Visibility.Visible;
+            ViewModel.ItemMD5HashVisibility = Visibility.Visible;
+            try
+            {
+                ViewModel.ItemMD5Hash = await App.CurrentInstance.InteractionOperations
+                    .GetHashForFile(ViewModel.Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
+            }
+            catch (Exception ex)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                ViewModel.ItemMD5HashCalcError = true;
+            }
+        }
+
+        private async void GetFolderProperties(CancellationTokenSource _tokenSource)
+        {
+            StorageFolder storageFolder = null;
+            if (App.CurrentInstance.ContentPage.IsItemSelected)
+            {
+                storageFolder = await StorageFolder.GetFolderFromPathAsync(ViewModel.Item.ItemPath);
+                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                GetOtherPropeties(storageFolder.Properties);
+                GetFolderSize(storageFolder, _tokenSource.Token);
+            }
+            else
+            {
+                var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
+                if (parentDirectory.ItemPath.StartsWith(AppSettings.RecycleBinPath))
+                {
+                    // GetFolderFromPathAsync cannot access recyclebin folder
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet();
+                        value.Add("Arguments", "RecycleBin");
+                        value.Add("action", "Query");
+                        // Send request to fulltrust process to get recyclebin properties
+                        var response = await App.Connection.SendMessageAsync(value);
+                        if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                        {
+                            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateCreated"]));
+                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];
+                            ViewModel.FilesCount = (int)response.Message["NumItems"];
+                            ViewModel.ItemSize = ByteSize.FromBytes((long)response.Message["BinSize"]).ToString();
+                            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateAccessed"]));
+                            ViewModel.ItemFileOwner = (string)response.Message["FileOwner"];
+                        }
+                    }
+                }
+                else
+                {
+                    storageFolder = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                    ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                    GetOtherPropeties(storageFolder.Properties);
+                    GetFolderSize(storageFolder, _tokenSource.Token);
+                }
+            }
+        }
+
+        private async Task GetCombinedProperties(CancellationTokenSource _tokenSource)
+        {
+            ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
+            ViewModel.ItemSizeVisibility = Visibility.Visible;
+
+            ViewModel.FilesCount += ViewModel.List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).ToList().Count;
+            ViewModel.FoldersCount += ViewModel.List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder).ToList().Count;
+
+            long totalSize = 0;
+            long filesSize = ViewModel.List.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File).Sum(x => x.FileSizeBytes);
+            long foldersSize = 0;
+
+            ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
+            foreach (var item in ViewModel.List)
+            {
+                if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
+                    var fileSizeTask = Task.Run(async () =>
+                    {
+                        var size = await CalculateFolderSizeAsync(item.ItemPath, _tokenSource.Token);
+                        return size;
+                    });
+                    try
+                    {
+                        foldersSize += await fileSizeTask;
+                    }
+                    catch (Exception ex)
+                    {
+                        NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
+                    }
+                }
+            }
+            ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+            totalSize = filesSize + foldersSize;
+            ViewModel.ItemSize = ByteSize.FromBytes(totalSize).ToBinaryString().ConvertSizeAbbreviation()
+                + " (" + ByteSize.FromBytes(totalSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+            SetItemsCountString();
+        }
+
+        private void GetDriveProperties()
+        {
+            ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
+            StorageFolder diskRoot = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(ViewModel.Drive.Path)).Result;
+
+            try
+            {
+                var properties = Task.Run(async () =>
+                {
+                    return await diskRoot.Properties.RetrievePropertiesAsync(new[] {
+                    "System.FreeSpace",
+                    "System.Capacity",
+                    "System.Volume.FileSystem" });
+                }).Result;
+
+                ViewModel.DriveCapacityValue = (ulong)properties["System.Capacity"];
+                ViewModel.DriveFreeSpaceValue = (ulong)properties["System.FreeSpace"];
+                ViewModel.DriveUsedSpaceValue = ViewModel.DriveCapacityValue - ViewModel.DriveFreeSpaceValue;
+                ViewModel.DriveFileSystem = (string)properties["System.Volume.FileSystem"];
+            }
+            catch (Exception e)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(e, e.Message);
+            }
+        }
+
         public async void GetOtherPropeties(StorageItemContentProperties properties)
         {
             string dateAccessedProperty = "System.DateAccessed";
@@ -120,11 +306,16 @@ namespace Files
             propertiesName.Add(fileOwnerProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
             ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)extraProperties[dateAccessedProperty]);
-            ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
+
+            if (AppSettings.ShowFileOwner)
+            {
+                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
+            }
         }
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
+            ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
 
             var fileSizeTask = Task.Run(async () =>
@@ -135,16 +326,16 @@ namespace Files
             try
             {
                 var folderSize = await fileSizeTask;
-                ViewModel.ItemSizeReal = folderSize;
-                ViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSizeLib.ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+                ViewModel.ItemSizeBytes = folderSize;
+                ViewModel.ItemSize = ByteSize.FromBytes(folderSize).ToBinaryString().ConvertSizeAbbreviation()
+                    + " (" + ByteSize.FromBytes(folderSize).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
             }
             catch (Exception ex)
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                ViewModel.SizeCalcError = true;
             }
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
+
             SetItemsCountString();
         }
 
@@ -202,12 +393,12 @@ namespace Files
                         }
                     }
 
-                    if (size > ViewModel.ItemSizeReal)
+                    if (size > ViewModel.ItemSizeBytes)
                     {
                         await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                         {
-                            ViewModel.ItemSizeReal = size;
-                            ViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
+                            ViewModel.ItemSizeBytes = size;
+                            ViewModel.ItemSize = ByteSize.FromBytes(size).ToBinaryString().ConvertSizeAbbreviation();
                             SetItemsCountString();
                         });
                     }
@@ -224,80 +415,6 @@ namespace Files
             {
                 return 0;
             }
-        }
-
-        public async Task GetPropertiesAsync(CancellationTokenSource _tokenSource)
-        {
-            if (ViewModel.Item.PrimaryItemAttribute == StorageItemTypes.File)
-            {
-                var file = await StorageFile.GetFileFromPathAsync(ViewModel.Item.ItemPath);
-                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
-                GetOtherPropeties(file.Properties);
-                ViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                    + " (" + ByteSizeLib.ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
-
-                // Get file MD5 hash
-                var hashAlgTypeName = HashAlgorithmNames.Md5;
-                ViewModel.ItemMD5HashProgressVisibility = Visibility.Visible;
-                ViewModel.ItemMD5HashVisibility = Visibility.Visible;
-                try
-                {
-                    ViewModel.ItemMD5Hash = await App.CurrentInstance.InteractionOperations.GetHashForFile(ViewModel.Item, hashAlgTypeName, _tokenSource.Token, ItemMD5HashProgress);
-                }
-                catch (Exception ex)
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
-                    ViewModel.ItemMD5HashCalcError = true;
-                }
-            }
-            else if (ViewModel.Item.PrimaryItemAttribute == StorageItemTypes.Folder)
-            {
-                StorageFolder storageFolder = null;
-                if (App.CurrentInstance.ContentPage.IsItemSelected)
-                {
-                    storageFolder = await StorageFolder.GetFolderFromPathAsync(ViewModel.Item.ItemPath);
-                    ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
-                    GetOtherPropeties(storageFolder.Properties);
-                    GetFolderSize(storageFolder, _tokenSource.Token);
-                }
-                else
-                {
-                    var parentDirectory = App.CurrentInstance.FilesystemViewModel.CurrentFolder;
-                    if (parentDirectory.ItemPath.StartsWith(AppSettings.RecycleBinPath))
-                    {
-                        // GetFolderFromPathAsync cannot access recyclebin folder
-                        if (App.Connection != null)
-                        {
-                            var value = new ValueSet();
-                            value.Add("Arguments", "RecycleBin");
-                            value.Add("action", "Query");
-                            // Send request to fulltrust process to get recyclebin properties
-                            var response = await App.Connection.SendMessageAsync(value);
-                            if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
-                            {
-                                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateCreated"]));
-                                ViewModel.ItemSizeReal = (long)response.Message["BinSize"];
-                                ViewModel.ItemsSize = ByteSizeLib.ByteSize.FromBytes((long)response.Message["BinSize"]).ToString();
-                                ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateAccessed"]));
-                                ViewModel.ItemFileOwner = (string)response.Message["FileOwner"];
-                            }
-                        }
-                    }
-                    else
-                    {
-                        storageFolder = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
-                        ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
-                        GetOtherPropeties(storageFolder.Properties);
-                        GetFolderSize(storageFolder, _tokenSource.Token);
-                    }
-                }
-            }
-        }
-
-        private void SetItemsCountString()
-        {
-            ViewModel.FilesAndFoldersCountString = string.Format(ResourceController.GetTranslation("PropertiesFilesAndFoldersCountString"), ViewModel.FilesCount, ViewModel.FoldersCount);
-            ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
         }
     }
 }

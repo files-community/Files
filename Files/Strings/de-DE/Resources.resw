@@ -307,7 +307,7 @@
     <value>Textdokument</value>
   </data>
   <data name="StatusBarControlListView.Text" xml:space="preserve">
-    <value>Listenansicht</value>
+    <value>Details</value>
   </data>
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Einstellungen</value>
@@ -478,16 +478,16 @@
     <value>Als Sperrbildschirm festlegen</value>
   </data>
   <data name="StatusBarControlGridViewLarge.Text" xml:space="preserve">
-    <value>Rasteransicht (Groß)</value>
+    <value>Große Symbole</value>
   </data>
   <data name="StatusBarControlGridViewMedium.Text" xml:space="preserve">
-    <value>Rasteransicht (Mittel)</value>
+    <value>Mittelgroße Symbole</value>
   </data>
   <data name="StatusBarControlGridViewSmall.Text" xml:space="preserve">
-    <value>Rasteransicht (Klein)</value>
+    <value>Kleine Symbole</value>
   </data>
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
-    <value>Fließenansicht</value>
+    <value>Kacheln</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>OK</value>
