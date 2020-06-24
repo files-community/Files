@@ -97,9 +97,9 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ViewModel.LoadCombinedItemsGlyph, Mode=OneWay}"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontSize="70"
-                        Glyph="&#xE81E;" />
+                        FontFamily="{StaticResource CustomMultiFilesIcon}"
+                        FontSize="72"
+                        Glyph="&#xF600;" />
                     <FontIcon
                         x:Name="DriveItemIcon"
                         HorizontalAlignment="Center"
