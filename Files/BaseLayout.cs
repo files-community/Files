@@ -375,6 +375,16 @@ namespace Files
                             (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
+                        else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".appxbundle", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
+                        {
+                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
+                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                        }
                         else
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
@@ -385,27 +395,6 @@ namespace Files
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                         }
-
-                        /*switch (SelectedItem.FileExtension.ToUpper())
-                        {
-                            case ".zip":
-                                UnloadMenuFlyoutItemByName("OpenItem");
-                                UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
-                                (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                                //this.FindName("UnzipItem");
-                                break;
-                            case ".exe":
-                                (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                                (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                                goto default;
-                            case ".msi":
-                                goto case ".exe";
-                            case ".bat":
-                                goto case ".exe";
-                            default:
-
-                                break;
-                        }*/
                     }
                 }
                 else if (selectedFileSystemItems.Count > 1)

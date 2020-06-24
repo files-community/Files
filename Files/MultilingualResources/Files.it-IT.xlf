@@ -882,14 +882,6 @@
           <source>Run as another user</source>
           <target state="new">Run as another user</target>
         </trans-unit>
-        <trans-unit id="RunAsAnotherUserMessage" translate="yes" xml:space="preserve">
-          <source>Please enter the credentials of the user you want to run this file as</source>
-          <target state="new">Please enter the credentials of the user you want to run this file as</target>
-        </trans-unit>
-        <trans-unit id="RunAsAnotherUserTitle" translate="yes" xml:space="preserve">
-          <source>Run as another user</source>
-          <target state="new">Run as another user</target>
-        </trans-unit>
       </group>
     </body>
   </file>
