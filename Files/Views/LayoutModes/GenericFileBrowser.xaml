@@ -203,7 +203,7 @@
                 Tag="OpenTab_FlyoutItem"
                 Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomNewTabIcon}" Glyph="&#xF500;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF500;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem

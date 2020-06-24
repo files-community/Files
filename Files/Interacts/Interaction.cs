@@ -494,12 +494,9 @@ namespace Files.Interacts
         {
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                if (AppSettings.OpenPropertiesInMultipleWindows)
+                if (App.CurrentInstance.ContentPage.SelectedItems.Count > 1)
                 {
-                    foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
-                    {
-                        await OpenPropertiesWindow(item);
-                    }
+                    await OpenPropertiesWindow(App.CurrentInstance.ContentPage.SelectedItems);
                 }
                 else
                 {
@@ -515,12 +512,13 @@ namespace Files.Interacts
                 }
                 else
                 {
-                    //TODO: Implement drive properties
+                    await OpenPropertiesWindow(App.AppSettings.DrivesManager.Drives
+                        .Single(x => x.Path.Equals(App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }
 
-        private async Task OpenPropertiesWindow(ListedItem item)
+        private async Task OpenPropertiesWindow(object item)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {

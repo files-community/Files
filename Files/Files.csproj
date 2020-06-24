@@ -205,6 +205,7 @@
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
+    <Compile Include="Enums\PropertiesType.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
@@ -286,13 +287,10 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\logo.bmp" />
-    <Content Include="Assets\Custom Glyphs\layout-mode-custom-icon.ttf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Assets\Custom Glyphs\recyclebin-fabric-glyph.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Custom Glyphs\newtab-icon.ttf">
+    <Content Include="Assets\Custom Glyphs\Custom-Glyphs.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Assets\terminal\terminal.json">
