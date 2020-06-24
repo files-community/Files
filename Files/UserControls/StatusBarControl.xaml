@@ -113,7 +113,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
                             Text="Tiles View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomLayoutModeIcon}" Glyph="&#xf100;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf100;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -121,7 +121,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
                             Text="List View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomLayoutModeIcon}" Glyph="&#xf200;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf200;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
