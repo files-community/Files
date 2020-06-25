@@ -185,8 +185,8 @@ namespace FilesFullTrust
                     break;
 
                 case "RecycleBin":
-                    var action = (string)args.Request.Message["action"];
-                    await parseRecycleBinAction(args, action);
+                    var binAction = (string)args.Request.Message["action"];
+                    await parseRecycleBinAction(args, binAction);
                     break;
 
                 case "StartupTasks":
@@ -229,6 +229,16 @@ namespace FilesFullTrust
                     await args.Request.SendResponseAsync(responseArray);
                     break;
 
+                case "Bitlocker":
+                    var bitlockerAction = (string)args.Request.Message["action"];
+                    if (bitlockerAction == "Unlock")
+                    {
+                        var drive = (string)args.Request.Message["drive"];
+                        var password = (string)args.Request.Message["password"];
+                        Win32API.UnlockBitlockerDrive(drive, password);
+                        await args.Request.SendResponseAsync(new ValueSet() { { "Bitlocker", "Unlock" } });
+                    }
+                    break;
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -286,12 +296,20 @@ namespace FilesFullTrust
                             string recyclePath = folderItem.FileSystemPath; // True path on disk
                             string fileName = Path.GetFileName(folderItem.Name); // Original file name
                             string filePath = folderItem.Name; // Original file path + name
-                            var dt = (System.Runtime.InteropServices.ComTypes.FILETIME)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated];
-                            var recycleDate = dt.ToDateTime().ToLocalTime(); // This is LocalTime
-                            string fileSize = folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size);
-                            ulong fileSizeBytes = (ulong)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size];
-                            string fileType = (string)folderItem.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText];
                             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
+                            if (folderItem.Properties == null)
+                            {
+                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, "0 Kb", 0, ""));
+                                continue;
+                            }
+                            folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
+                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+                            var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
+                            string fileSize = folderItem.Properties.TryGetValue<ulong>(
+                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ? 
+                                folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size) : null;
+                            folderItem.Properties.TryGetValue<string>(
+                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
                             folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
                         }
                         catch (FileNotFoundException)

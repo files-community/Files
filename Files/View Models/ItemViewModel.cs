@@ -806,6 +806,30 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 };
+                if (await CheckBitlockerStatus(_rootFolder))
+                {
+                    var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
+                    var bitlockerResult = await bitlockerDialog.ShowAsync();
+                    if (bitlockerResult == ContentDialogResult.Primary)
+                    {
+                        var userInput = bitlockerDialog.storedPasswordInput;
+                        if (App.Connection != null)
+                        {
+                            var value = new ValueSet();
+                            value.Add("Arguments", "Bitlocker");
+                            value.Add("action", "Unlock");
+                            value.Add("drive", Path.GetPathRoot(WorkingDirectory));
+                            value.Add("password", userInput);
+                            await App.Connection.SendMessageAsync(value);
+
+                            if (await CheckBitlockerStatus(_rootFolder))
+                            {
+                                // Drive is still locked
+                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("BitlockerInvalidPwDialog/Title"), ResourceController.GetTranslation("BitlockerInvalidPwDialog/Text"));
+                            }
+                        }
+                    }
+                }
             }
             catch (UnauthorizedAccessException)
             {
@@ -870,6 +894,16 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
+        }
+
+        private async Task<bool> CheckBitlockerStatus(StorageFolder rootFolder)
+        {
+            if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
+            {
+                IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
+                return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
+            }
+            return false;
         }
 
         private void WatchForDirectoryChanges(string path)
