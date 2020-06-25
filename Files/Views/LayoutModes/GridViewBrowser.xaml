@@ -154,8 +154,11 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutItemContextFlyout" Opening="RightClickItemContextMenu_Opening">
-                <MenuFlyoutItem
+        <MenuFlyout
+            x:Key="BaseLayoutItemContextFlyout"
+            x:Name="BaseLayoutItemContextFlyout"
+            Opening="RightClickItemContextMenu_Opening">
+            <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Uid="BaseLayoutItemContextFlyoutExtract"
                 x:Load="False"
@@ -228,6 +231,26 @@
                 Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xEE3F;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="RunAsAdmin"
+                x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
+                x:Load="False"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAdmin_Click}"
+                Text="Run as administrator">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7EF;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="RunAsAnotherUser"
+                x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
+                x:Load="False"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAnotherUser_Click}"
+                Text="RunAsAnotherUser">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7EE;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
