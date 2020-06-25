@@ -4,11 +4,20 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local2="using:Files.Helpers"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     x:Name="PropertiesDialogMarkup"
-    Background="Transparent"
     mc:Ignorable="d"
     RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
+    <ContentDialog.Background>
+            <AcrylicBrush
+            Windows10version1903:TintLuminosityOpacity="0.9"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+    </ContentDialog.Background>
     <ContentDialog.Resources>
         <Thickness x:Key="ContentDialogPadding">0</Thickness>
     </ContentDialog.Resources>
