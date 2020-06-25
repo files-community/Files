@@ -398,7 +398,7 @@ namespace Files
                 if (App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser))
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox)
+                    if (focusedElement is TextBox || focusedElement is PasswordBox)
                     {
                         return;
                     }
