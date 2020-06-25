@@ -41,6 +41,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Dialogs.ConfirmDeleteDialog;
+using Windows.Security.Credentials.UI;
 
 namespace Files.Interacts
 {
@@ -174,19 +175,27 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false)
         {
-            await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
+            await InvokeWin32Components(new List<string>() { applicationPath }, arguments, runAsAdmin);
         }
 
-        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null)
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
+                value.Add("Application", applicationPaths.FirstOrDefault());
+                if (runAsAdmin)
+                {
+                    value.Add("Arguments", "runas");
+                }
+                else
+                {
+                    value.Add("Arguments", arguments);
+                }
                 value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
-                value.Add("Arguments", arguments);
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -262,6 +271,23 @@ namespace Files.Interacts
                 throw new InvalidOperationException("Generic parameter 'TEnum' must be an enum.");
             }
             return (TEnum)Enum.Parse(typeof(TEnum), text);
+        }
+
+        public async void RunAsAdmin_Click()
+        {
+            await InvokeWin32Component(CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
+        }
+
+        public async void RunAsAnotherUser_Click()
+        {
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+
+            var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
+            await InvokeWin32Component(clickedOnItem.ItemPath, "runasuser", false);
         }
 
         public void OpenItem_Click(object sender, RoutedEventArgs e)

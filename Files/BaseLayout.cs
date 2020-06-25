@@ -336,7 +336,7 @@ namespace Files
             }
         }
 
-        public void RightClickItemContextMenu_Opening(object sender, object e)
+        public async void RightClickItemContextMenu_Opening(object sender, object e)
         {
 
             SetShellContextmenu();
@@ -355,20 +355,45 @@ namespace Files
 
                     if (!string.IsNullOrEmpty(selectedDataItem.FileExtension))
                     {
-                        if (selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
+                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                             (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                            //this.FindName("UnzipItem");
                         }
-                        else if (!selectedDataItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".msi", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".bat", StringComparison.OrdinalIgnoreCase))
+                        {
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            //this.FindName("OpenItem");
+
+                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                            (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                        }
+                        else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".appxbundle", StringComparison.OrdinalIgnoreCase)
+                            || SelectedItem.FileExtension.Equals(".msixbundle", StringComparison.OrdinalIgnoreCase))
+                        {
+                            (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
+                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                        }
+                        else
                         {
                             (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             //this.FindName("OpenItem");
 
                             (this.FindName("OpenItemWithAppPicker") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             UnloadMenuFlyoutItemByName("UnzipItem");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
+                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
                         }
                     }
                 }
