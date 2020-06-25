@@ -78,7 +78,10 @@ namespace Files
 
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
+
+#if RELEASE
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
