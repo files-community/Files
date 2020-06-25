@@ -299,18 +299,18 @@ namespace FilesFullTrust
                             bool isFolder = folderItem.IsFolder && Path.GetExtension(folderItem.Name) != ".zip";
                             if (folderItem.Properties == null)
                             {
-                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, "0 Kb", 0, ""));
+                                folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, DateTime.Now, null, 0, null));
                                 continue;
                             }
                             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
                                 Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
                             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
-                            string fileSize = folderItem.Properties.TryGetValue<ulong>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ? 
+                            string fileSize = folderItem.Properties.TryGetValue<ulong?>(
+                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
                                 folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size) : null;
                             folderItem.Properties.TryGetValue<string>(
                                 Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
-                            folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes, fileType));
+                            folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType));
                         }
                         catch (FileNotFoundException)
                         {
