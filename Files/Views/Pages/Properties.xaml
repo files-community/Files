@@ -75,15 +75,21 @@
                     Height="80"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
-                    <FontIcon
-                        x:Name="FolderGlyphIcon"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Stretch"
-                        x:Load="{x:Bind ViewModel.LoadFolderGlyph, Mode=OneWay}"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontSize="70"
-                        Foreground="#ffe793"
-                        Glyph="&#xE8D5;" />
+                    <Image
+                            x:Name="FolderGlyphIcon"
+                            Width="70"
+                            Height="70"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
+                            Stretch="Uniform">
+                        <Image.Source>
+                            <SvgImageSource
+                                    RasterizePixelHeight="128"
+                                    RasterizePixelWidth="128"
+                                    UriSource="/Assets/FolderIcon.svg" />
+                        </Image.Source>
+                    </Image>
                     <FontIcon
                         x:Name="EmptyImageIcon"
                         HorizontalAlignment="Left"
