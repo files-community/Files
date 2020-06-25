@@ -108,7 +108,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
           <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Mostrar elementos ocultos</target>
+          <target state="translated">Mostrar archivos, carpetas y unidades ocultos</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -888,11 +888,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="translated">Ejecutar como administrador</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="new">Run as another user</target>
+          <target state="translated">Ejecutar como otro usuario</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>

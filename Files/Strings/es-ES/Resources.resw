@@ -88,7 +88,7 @@
     <value>Mostrar extensiones de tipos de archivo conocidos</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Mostrar elementos ocultos</value>
+    <value>Mostrar archivos, carpetas y unidades ocultos</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Carpetas y archivos</value>
@@ -650,6 +650,12 @@
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Archivos, {1:#,##0} Carpetas</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Ejecutar como administrador</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Ejecutar como otro usuario</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Todos del tipo {0}</value>
