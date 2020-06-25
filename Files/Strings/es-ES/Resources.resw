@@ -151,7 +151,7 @@
     <value>Eliminar permanentemente</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Mostrar un diálogo de confirmación al borrar archivos o carpetas</value>
+    <value>Mostrar un diálogo de confirmación al eliminar elementos</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Escritorio</value>
@@ -325,7 +325,7 @@
     <value>Tamaño</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Bienvenido a Archivos UWP</value>
+    <value>Bienvenido a Files UWP</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Conceder Permiso</value>
@@ -626,5 +626,50 @@
   </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mas información acerca de formatos de fecha</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Desbloquear</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Escriba la contraseña para desbloquear esta unidad</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Clave incorrecta, revisa e inténtalo de nuevo.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Error al intentar desbloquear</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Contiene:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} Archivos, {1:#,##0} Carpetas</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Todos del tipo {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Tipos múltiples</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Todos en {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Espacio usado:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Espacio disponible:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Capacidad:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Sistema de archivos:</value>
   </data>
 </root>
