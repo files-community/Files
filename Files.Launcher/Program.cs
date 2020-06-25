@@ -347,7 +347,7 @@ namespace FilesFullTrust
                 {
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.Verb = "runas";
-                    if (Path.GetExtension(application).ToUpper() == ".msi")
+                    if (Path.GetExtension(application).ToLower() == ".msi")
                     {
                         process.StartInfo.FileName = "msiexec.exe";
                         process.StartInfo.Arguments = $"/a \"{application}\"";
@@ -357,7 +357,7 @@ namespace FilesFullTrust
                 {
                     process.StartInfo.UseShellExecute = true;
                     process.StartInfo.Verb = "runasuser";
-                    if (Path.GetExtension(application).ToUpper() == ".msi")
+                    if (Path.GetExtension(application).ToLower() == ".msi")
                     {
                         process.StartInfo.FileName = "msiexec.exe";
                         process.StartInfo.Arguments = $"/i \"{application}\"";
