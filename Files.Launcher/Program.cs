@@ -107,7 +107,7 @@ namespace FilesFullTrust
                     { "Type", e.ChangeType.ToString() }
                 });
             }
-        }        
+        }
 
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
