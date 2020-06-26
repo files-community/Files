@@ -824,21 +824,21 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Cancelar</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
-          <target state="new">Are you sure you want to delete all items?</target>
+          <target state="translated">¿Estás seguro que quieres eliminar todos los elementos?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="translated">Vaciar papelera de reciclaje</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="translated">Aceptar</target>
         </trans-unit>
-        <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
+        <trans-unit id="ItemSizeBytes" translate="no" xml:space="preserve">
           <source>bytes</source>
           <target state="final">bytes</target>
         </trans-unit>

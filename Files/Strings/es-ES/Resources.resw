@@ -624,6 +624,18 @@
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
     <value>Mostrar propietario de archivo en propiedades</value>
   </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>¿Estás seguro que quieres eliminar todos los elementos?</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Vaciar papelera de reciclaje</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Mas información acerca de formatos de fecha</value>
   </data>
