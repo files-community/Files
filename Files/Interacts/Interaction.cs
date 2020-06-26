@@ -99,7 +99,7 @@ namespace Files.Interacts
 
         public void OpenNewTab()
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), "New tab");
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)

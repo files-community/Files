@@ -34,7 +34,7 @@ namespace Files.Views.Pages
             }
 
             App.CurrentInstance = this as IShellPage;
-            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
+            App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             App.CurrentInstance.NavigationToolbar.CanGoBack = false;
             App.CurrentInstance.NavigationToolbar.CanGoForward = false;
         }
@@ -100,12 +100,6 @@ namespace Files.Views.Pages
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
-
-                case "New tab":
-                    ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
-                    SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
-                    break;
-
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
@@ -147,7 +141,12 @@ namespace Files.Views.Pages
                     break;
 
                 default:
-                    if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
+                    if (NavParams == ResourceController.GetTranslation("NewTab"))
+                    {
+                        ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
+                        SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
+                    }
+                    else if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));

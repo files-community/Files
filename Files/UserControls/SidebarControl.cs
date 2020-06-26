@@ -96,7 +96,7 @@ namespace Files.Controls
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
 
                             return; // cancel so it doesn't try to Navigate to a path
                         }
