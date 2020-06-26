@@ -209,10 +209,10 @@ namespace Files.UserControls
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
-                if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals("New tab", StringComparison.OrdinalIgnoreCase))
+                if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory = "New tab";
-                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
+                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory = ResourceController.GetTranslation("NewTab");
+                    App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
                 }
                 else
                 {
@@ -305,7 +305,7 @@ namespace Files.UserControls
         private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
         {
             var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
-            if (itemTappedPath == "Home" || itemTappedPath == "New tab")
+            if (itemTappedPath == "Home" || itemTappedPath == ResourceController.GetTranslation("NewTab"))
                 return;
 
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder

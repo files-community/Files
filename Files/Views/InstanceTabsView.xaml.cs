@@ -92,12 +92,12 @@ namespace Files
                 }
                 catch (Exception)
                 {
-                    AddNewTab(typeof(ModernShellPage), "New tab");
+                    AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                 }
             }
             else if (string.IsNullOrEmpty(navArgs))
             {
-                AddNewTab(typeof(ModernShellPage), "New tab");
+                AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
             }
             else
             {
@@ -168,7 +168,7 @@ namespace Files
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xE753";
                 }
-                else if (path == "New tab")
+                else if (path == ResourceController.GetTranslation("NewTab"))
                 {
                     tabLocationHeader = ResourceController.GetTranslation("NewTab");
                     fontIconSource.Glyph = "\xE737";
@@ -213,7 +213,7 @@ namespace Files
                         // Invalid path, open new tab instead (explorer opens Documents when it fails)
                         Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
 
-                        path = "New tab";
+                        path = ResourceController.GetTranslation("NewTab");
                         tabLocationHeader = ResourceController.GetTranslation("NewTab");
                         fontIconSource.Glyph = "\xE737";
                     }
@@ -259,7 +259,7 @@ namespace Files
                 tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
                 fontIconSource.Glyph = "\xE713";
             }
-            else if (currentPathForTabIcon == null && text == "New tab")
+            else if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("NewTab"))
             {
                 tabLocationHeader = ResourceController.GetTranslation("NewTab");
                 fontIconSource.Glyph = "\xE737";
@@ -516,7 +516,7 @@ namespace Files
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
-            AddNewTab(typeof(ModernShellPage), "New tab");
+            AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public static T GetCurrentSelectedTabInstance<T>()

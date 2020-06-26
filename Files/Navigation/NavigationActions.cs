@@ -76,7 +76,7 @@ namespace Files
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
                 App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.First(x => x.Path.Equals("Home"));
-                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             }
         }
     }
