@@ -20,7 +20,6 @@
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
-                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -103,7 +102,6 @@
                     <TextBlock.Transitions>
                         <TransitionCollection>
                             <RepositionThemeTransition />
-                            <ReorderThemeTransition />
                         </TransitionCollection>
                     </TextBlock.Transitions>
                 </TextBlock>
