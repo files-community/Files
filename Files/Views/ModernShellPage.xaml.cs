@@ -205,15 +205,16 @@ namespace Files.Views.Pages
             }
         }
 
-        private async void ModernShellPage_KeyUp(object sender, KeyRoutedEventArgs e)
+        private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            var alt = Window.Current.CoreWindow.GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down);
-            var shift = Window.Current.CoreWindow.GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+            args.Handled = true;
+            var ctrl = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Control);
+            var alt = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Menu);
+            var shift = args.KeyboardAccelerator.Modifiers.HasFlag(VirtualKeyModifiers.Shift);
             var tabInstance = App.CurrentInstance.CurrentPageType == typeof(GenericFileBrowser)
                 || App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser);
 
-            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: e.Key)
+            switch (c: ctrl, s: shift, a: alt, t: tabInstance, k: args.KeyboardAccelerator.Key)
             {
                 case (true, true, false, true, VirtualKey.N): // ctrl + shift + n, new item
                     await App.AddItemDialogDisplay.ShowAsync();
@@ -257,6 +258,18 @@ namespace Files.Views.Pages
                     App.CurrentInstance.InteractionOperations.CloseTab();
                     break;
 
+                case (true, false, false, true, VirtualKey.N): // ctrl + n, new window from layout mode
+                    App.CurrentInstance.InteractionOperations.LaunchNewWindow();
+                    break;
+
+                case (true, false, false, true, VirtualKey.W): // ctrl + w, close tab from layout mode
+                    App.CurrentInstance.InteractionOperations.CloseTab();
+                    break;
+
+                case (true, false, false, true, VirtualKey.F4): // ctrl + F4, close tab from layout mode
+                    App.CurrentInstance.InteractionOperations.CloseTab();
+                    break;
+
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
                         App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
@@ -287,7 +300,7 @@ namespace Files.Views.Pages
 
             if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
             {
-                switch (e.Key)
+                switch (args.KeyboardAccelerator.Key)
                 {
                     case VirtualKey.F2: //F2, rename
                         if (App.CurrentInstance.ContentPage.IsItemSelected)

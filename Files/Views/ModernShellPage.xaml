@@ -11,10 +11,26 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    KeyUp="ModernShellPage_KeyUp"
     Loaded="Page_Loaded"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control,Shift" Key="N"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Shift" Key="Delete"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="C"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="V"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="X"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="A"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="N"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="W"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="F4"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="None" Key="Delete"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="None" Key="Space"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Menu" Key="Left"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Menu" Key="Right"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="Control" Key="R"/>
+        <KeyboardAccelerator Invoked="KeyboardAccelerator_Invoked" Modifiers="None" Key="F2"/>
+    </Page.KeyboardAccelerators>
 
     <Grid>
         <Grid.ColumnDefinitions>
