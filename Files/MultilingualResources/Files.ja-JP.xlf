@@ -903,6 +903,14 @@
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
           <target state="new">{0:#,##0} Files, {1:#,##0} Folders</target>
         </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
+          <source>Run as administrator</source>
+          <target state="new">Run as administrator</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
+          <source>Run as another user</source>
+          <target state="new">Run as another user</target>
+        </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
           <target state="new">All type of {0}</target>

@@ -350,7 +350,30 @@ namespace FilesFullTrust
                 process.StartInfo.FileName = application;
                 // Show window if workingDirectory (opening terminal)
                 process.StartInfo.CreateNoWindow = string.IsNullOrEmpty(workingDirectory);
-                process.StartInfo.Arguments = arguments;
+                if (arguments == "runas")
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runas";
+                    if (Path.GetExtension(application).ToLower() == ".msi")
+                    {
+                        process.StartInfo.FileName = "msiexec.exe";
+                        process.StartInfo.Arguments = $"/a \"{application}\"";
+                    }
+                }
+                else if (arguments == "runasuser")
+                {
+                    process.StartInfo.UseShellExecute = true;
+                    process.StartInfo.Verb = "runasuser";
+                    if (Path.GetExtension(application).ToLower() == ".msi")
+                    {
+                        process.StartInfo.FileName = "msiexec.exe";
+                        process.StartInfo.Arguments = $"/i \"{application}\"";
+                    }
+                }
+                else
+                {
+                    process.StartInfo.Arguments = arguments;
+                }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
             }

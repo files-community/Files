@@ -762,6 +762,9 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>B</value>
   </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Run as administrator</value>
+  </data>
   <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
     <value>Learn more about date formats</value>
   </data>
@@ -788,6 +791,9 @@
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Files, {1:#,##0} Folders</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Run as another user</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>All type of {0}</value>

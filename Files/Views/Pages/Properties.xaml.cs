@@ -23,6 +23,7 @@ using Windows.Foundation.Collections;
 using ByteSizeLib;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files
 {
@@ -171,6 +172,18 @@ namespace Files
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSize = ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
                 + " (" + ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+
+            using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
+            {
+                BitmapImage icon = new BitmapImage();
+                if (Thumbnail != null)
+                {
+                    ViewModel.FileIconSource = icon;
+                    await icon.SetSourceAsync(Thumbnail);
+                    ViewModel.LoadUnknownTypeGlyph = false;
+                    ViewModel.LoadFileIcon = true;
+                }
+            }
 
             // Get file MD5 hash
             var hashAlgTypeName = HashAlgorithmNames.Md5;
