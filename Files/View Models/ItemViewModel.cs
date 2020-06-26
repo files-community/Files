@@ -691,6 +691,7 @@ namespace Files.Filesystem
         {
             CurrentFolder = new ListedItem(null)
             {
+                PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
                 ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
@@ -773,7 +774,7 @@ namespace Files.Filesystem
                                 ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                                 ItemOriginalPath = item.FilePath,
                                 FileSize = item.FileSize,
-                                FileSizeBytes = item.FileSizeBytes
+                                FileSizeBytes = (long)item.FileSizeBytes
                             });
                         }
                         if (count % 64 == 0)
@@ -837,7 +838,9 @@ namespace Files.Filesystem
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog/Title"), ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
+                await DialogDisplayHelper.ShowDialog(
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Title"), 
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
                 IsLoadingItems = false;
                 return;
             }
