@@ -15,6 +15,12 @@
                 Margin="12,12,8,8"
                 Orientation="Vertical"
                 Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
                 <TextBlock
                     x:Uid="SettingsFilesAndFoldersTitle"

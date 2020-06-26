@@ -17,6 +17,12 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
                 <TextBlock
                     x:Uid="SettingsPreferencesTitle"

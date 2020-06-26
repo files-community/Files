@@ -17,6 +17,12 @@
                 VerticalAlignment="Stretch"
                 Orientation="Vertical"
                 Spacing="14">
+                <StackPanel.ChildrenTransitions>
+                    <TransitionCollection>
+                        <RepositionThemeTransition />
+                        <ReorderThemeTransition />
+                    </TransitionCollection>
+                </StackPanel.ChildrenTransitions>
 
                 <TextBlock
                     x:Uid="SettingsAboutTitle"
@@ -94,6 +100,12 @@
                     Margin="0,16,0,0"
                     FontSize="18"
                     Text="Third Party Licenses">
+                    <TextBlock.Transitions>
+                        <TransitionCollection>
+                            <RepositionThemeTransition />
+                            <ReorderThemeTransition />
+                        </TransitionCollection>
+                    </TextBlock.Transitions>
                 </TextBlock>
 
                 <StackPanel Orientation="Horizontal">
