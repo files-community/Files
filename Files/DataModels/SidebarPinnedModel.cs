@@ -70,7 +70,8 @@ namespace Files.DataModels
             try
             {
                 StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
-                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
+                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location 
+                    && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
                     Path = path,
@@ -83,6 +84,11 @@ namespace Files.DataModels
             catch (UnauthorizedAccessException ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+            catch (ArgumentException ex)
+            {
+                Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);
+                RemoveItem(path);
             }
             catch (FileNotFoundException ex)
             {

@@ -19,8 +19,9 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Files.Enums;
 using System.Linq;
-using FileAttributes = System.IO.FileAttributes;
+using Windows.Foundation.Collections;
 using ByteSizeLib;
+using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -206,6 +207,9 @@ namespace Files
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
                 storageFolder = await StorageFolder.GetFolderFromPathAsync(ViewModel.Item.ItemPath);
+                ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                GetOtherPropeties(storageFolder.Properties);
+                GetFolderSize(storageFolder, _tokenSource.Token);
             }
             else
             {
@@ -213,16 +217,34 @@ namespace Files
                 if (parentDirectory.ItemPath.StartsWith(AppSettings.RecycleBinPath))
                 {
                     // GetFolderFromPathAsync cannot access recyclebin folder
-                    // Currently a fake timestamp is used
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet();
+                        value.Add("Arguments", "RecycleBin");
+                        value.Add("action", "Query");
+                        // Send request to fulltrust process to get recyclebin properties
+                        var response = await App.Connection.SendMessageAsync(value);
+                        if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
+                        {
+                            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateCreated"]));
+                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];                            
+                            ViewModel.ItemSize = ByteSize.FromBytes((long)response.Message["BinSize"]).ToString();
+                            ViewModel.FilesCount = (int)(long)response.Message["NumItems"];
+                            SetItemsCountString();
+                            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateAccessed"]));
+                            ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
+                            ViewModel.ItemSizeVisibility = Visibility.Visible;
+                        }
+                    }
                 }
                 else
                 {
                     storageFolder = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                    ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
+                    GetOtherPropeties(storageFolder.Properties);
+                    GetFolderSize(storageFolder, _tokenSource.Token);
                 }
             }
-            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
-            GetOtherPropeties(storageFolder.Properties);
-            GetFolderSize(storageFolder, _tokenSource.Token);
         }
 
         private async Task GetCombinedProperties(CancellationTokenSource _tokenSource)
