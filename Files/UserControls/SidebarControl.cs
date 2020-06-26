@@ -145,6 +145,7 @@ namespace Files.Controls
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 ShowEmptyRecycleBin = true;
+                ShowUnpinItem = true;
             }
             else
             {

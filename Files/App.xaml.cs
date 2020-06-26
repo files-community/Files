@@ -168,7 +168,14 @@ namespace Files
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
+            if (rightClickedItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                AppSettings.PinRecycleBinToSideBar = false;
+            }
+            else
+            {
+                SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
+            }
         }
 
         public static void Clipboard_ContentChanged(object sender, object e)
