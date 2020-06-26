@@ -6,5 +6,7 @@ To get started, create a fork of the repository on GitHub. You will need to do t
 
 All pull requests should have an equivalent issue that has been approved and placed in the project board. This will help ensure that changes align with our vision of Files UWP as well as avoid duplicate work.
 
+**Please make sure that every .cs file you created has a line `nullable enable` on the top.**
+
 #
 If you have any questions or feedback make sure to open an issue.
