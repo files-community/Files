@@ -696,7 +696,7 @@
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
                 Visibility="Visible">
@@ -825,7 +825,7 @@
                             x:Uid="NavigationToolbarOpenInTerminal"
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
+                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             Text="Open in Terminal...">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE756;" />

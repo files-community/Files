@@ -22,8 +22,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-using static Files.Helpers.NativeFindStorageItemHelper;
+using Files.Enums;
+using System.Linq;
+using Windows.Foundation.Collections;
+using ByteSizeLib;
 using FileAttributes = System.IO.FileAttributes;
+using static Files.Helpers.NativeFindStorageItemHelper;
 
 namespace Files
 {
@@ -165,7 +169,7 @@ namespace Files
 
         private async void GetFileProperties(CancellationTokenSource _tokenSource)
         {
-            var file = await StorageFile.GetFileFromPathAsync(ViewModel.Item.ItemPath);
+            var file = await ItemViewModel.GetFileFromPathAsync(ViewModel.Item.ItemPath);
             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
 
             GetOtherPropeties(file.Properties);
@@ -206,7 +210,7 @@ namespace Files
             StorageFolder storageFolder = null;
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                storageFolder = await StorageFolder.GetFolderFromPathAsync(ViewModel.Item.ItemPath);
+                storageFolder = await ItemViewModel.GetFolderFromPathAsync(ViewModel.Item.ItemPath);
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
                 GetOtherPropeties(storageFolder.Properties);
                 GetFolderSize(storageFolder, _tokenSource.Token);
@@ -239,7 +243,7 @@ namespace Files
                 }
                 else
                 {
-                    storageFolder = await StorageFolder.GetFolderFromPathAsync(parentDirectory.ItemPath);
+                    storageFolder = await ItemViewModel.GetFolderFromPathAsync(parentDirectory.ItemPath);
                     ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
                     GetOtherPropeties(storageFolder.Properties);
                     GetFolderSize(storageFolder, _tokenSource.Token);
@@ -289,7 +293,7 @@ namespace Files
         private void GetDriveProperties()
         {
             ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
-            StorageFolder diskRoot = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(ViewModel.Drive.Path)).Result;
+            StorageFolder diskRoot = Task.Run(async () => await ItemViewModel.GetFolderFromPathAsync(ViewModel.Drive.Path)).Result;
 
             try
             {
@@ -308,6 +312,7 @@ namespace Files
             }
             catch (Exception e)
             {
+                ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                 NLog.LogManager.GetCurrentClassLogger().Error(e, e.Message);
             }
         }
@@ -320,16 +325,25 @@ namespace Files
             propertiesName.Add(dateAccessedProperty);
             propertiesName.Add(fileOwnerProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
-            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)extraProperties[dateAccessedProperty]);
+            // Cannot get date and owner in MTP devices
+            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now));
 
             if (AppSettings.ShowFileOwner)
             {
-                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
+                // Cannot get date and owner in MTP devices
+                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
             }
         }
 
         private async void GetFolderSize(StorageFolder storageFolder, CancellationToken token)
         {
+            if (string.IsNullOrEmpty(storageFolder.Path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return;
+            }
+
             ViewModel.ItemSizeVisibility = Visibility.Visible;
             ViewModel.ItemSizeProgressVisibility = Visibility.Visible;
 
@@ -356,8 +370,14 @@ namespace Files
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
         {
-            long size = 0;
+            if (string.IsNullOrEmpty(path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return 0;
+            }
 
+            long size = 0;
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 

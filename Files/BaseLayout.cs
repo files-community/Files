@@ -205,7 +205,7 @@ namespace Files
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             base.OnNavigatedTo(eventArgs);
             // Add item jumping handler
@@ -221,7 +221,7 @@ namespace Files
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
-            App.CurrentInstance.FilesystemViewModel.WorkingDirectory = parameters;
+            await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(parameters);
 
             // pathRoot will be empty on recycle bin path
             string pathRoot = Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
@@ -234,8 +234,10 @@ namespace Files
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
             }
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
-            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin =
-                !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin =
+                App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
+                App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith("\\\\?\\");
 
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
@@ -317,6 +319,23 @@ namespace Files
                         await Interaction.InvokeWin32Component(commandToExecute.command, commandToExecute.arguments);
                     }
                 }
+            }
+        }
+
+        public void RightClickContextMenu_Opening(object sender, object e)
+        {
+            if (App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice)
+            {
+                // MTP device
+                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
+                UnloadMenuFlyoutItemByName("NewEmptySpace");
+                UnloadMenuFlyoutItemByName("NewEmptySpaceSeparator");
+            }
+            else
+            {
+                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = true;
+                (this.FindName("NewEmptySpace") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                (this.FindName("NewEmptySpaceSeparator") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
             }
         }
 
@@ -468,9 +487,9 @@ namespace Files
             foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
             {
                 if (item.PrimaryItemAttribute == StorageItemTypes.File)
-                    selectedStorageItems.Add(await StorageFile.GetFileFromPathAsync(item.ItemPath));
+                    selectedStorageItems.Add(await ItemViewModel.GetFileFromPathAsync(item.ItemPath));
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
-                    selectedStorageItems.Add(await StorageFolder.GetFolderFromPathAsync(item.ItemPath));
+                    selectedStorageItems.Add(await ItemViewModel.GetFolderFromPathAsync(item.ItemPath));
             }
 
             if (selectedStorageItems.Count == 0)

@@ -12,6 +12,7 @@ namespace Files.Filesystem
         public string Glyph { get; set; }
         public string Text { get; set; }
         public string Path { get; set; }
+        public StorageFolder Root { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
         public ByteSize MaxSpace { get; set; }
         public ByteSize FreeSpace { get; set; }
@@ -40,7 +41,8 @@ namespace Files.Filesystem
         {
             Text = root.DisplayName;
             Type = type;
-            Path = root.Path;
+            Path = string.IsNullOrEmpty(root.Path) ? $"\\\\?\\{root.Name}\\" : root.Path;
+            Root = root;
 
             var properties = Task.Run(async () =>
             {

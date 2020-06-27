@@ -121,7 +121,7 @@ namespace Files.Filesystem
             }
 
             // If drive already in list, skip.
-            if (Drives.Any(x => x.Path == root.Name))
+            if (Drives.Any(x => string.IsNullOrEmpty(root.Path) ? x.Path.Contains(root.Name) : x.Path == root.Path))
             {
                 return;
             }
@@ -286,6 +286,51 @@ namespace Files.Filesystem
             {
                 list.Add(oneDriveItem);
             }
+        }
+
+        public static async Task<StorageFolderWithPath> GetRootFromPath(string devicePath)
+        {
+            if (!Path.IsPathRooted(devicePath))
+            {
+                return null;
+            }
+            var rootPath = Path.GetPathRoot(devicePath);
+            if (devicePath.StartsWith("\\\\?\\"))
+            {
+                // Check among already discovered drives
+                StorageFolder matchingDrive = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x =>
+                    InstanceTabsView.NormalizePath(x.Path) == InstanceTabsView.NormalizePath(rootPath))?.Root;
+                if (matchingDrive == null)
+                {
+                    // Check on all removable drives
+                    var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
+                    foreach (var item in remDevices)
+                    {
+                        try
+                        {
+                            var root = StorageDevice.FromId(item.Id);
+                            if (InstanceTabsView.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
+                            {
+                                matchingDrive = root;
+                                break;
+                            }
+                        }
+                        catch (Exception)
+                        {
+                            // Ignore this..
+                        }
+                    }
+                }
+                if (matchingDrive != null)
+                {
+                    return new StorageFolderWithPath(matchingDrive, rootPath);
+                }
+            }
+            else
+            {
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
+            }
+            return null;
         }
 
         public void Dispose()
