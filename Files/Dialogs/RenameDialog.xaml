@@ -22,7 +22,7 @@
         <StackPanel
             Orientation="Vertical"
             Spacing="4">
-            <TextBox 
+            <TextBox
                 x:Name="RenameInput"
                 x:Uid="RenameDialogInputText"
                 PlaceholderText="Enter an item name without an extension"
@@ -33,7 +33,7 @@
                 x:Uid="RenameDialogSymbolsTip"
                 Margin="0,0,4,0"
                 TextWrapping="Wrap"
-                Opacity="0"/>
+                Opacity="0" />
         </StackPanel>
     </Grid>
 </ContentDialog>

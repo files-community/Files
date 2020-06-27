@@ -1,16 +1,12 @@
-﻿using Files.Filesystem;
-using GalaSoft.MvvmLight;
-using System;
-using Windows.Storage;
-using Windows.UI.Xaml.Media;
+﻿using GalaSoft.MvvmLight;
 
 namespace Files.View_Models
 {
     public class DirectoryPropertiesViewModel : ViewModelBase
     {
-        private String _DirectoryItemCount;
+        private string _DirectoryItemCount;
 
-        public String DirectoryItemCount
+        public string DirectoryItemCount
         {
             get => _DirectoryItemCount;
             set => Set(ref _DirectoryItemCount, value);

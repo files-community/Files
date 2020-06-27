@@ -10,6 +10,7 @@ namespace Files.UserControls
         public SettingsViewModel AppSettings => App.AppSettings;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel => App.CurrentInstance.ContentPage.DirectoryPropertiesViewModel;
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel => App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel;
+
         public StatusBarControl()
         {
             this.InitializeComponent();

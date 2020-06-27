@@ -28,25 +28,26 @@ namespace Files
     {
         public static TabView tabView;
         public string navArgs;
+        public SettingsViewModel AppSettings => App.AppSettings;
 
         public InstanceTabsView()
         {
             this.InitializeComponent();
-            // TODO: Move these ViewModel assignments to a new MainPage
-            App.SidebarPinned = new SidebarPinnedModel();
-            App.AppSettings = new SettingsViewModel();
-            App.InteractionViewModel = new InteractionViewModel();
-
             ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
+
+            App.AppSettings = new SettingsViewModel();
+            App.InteractionViewModel = new InteractionViewModel();
 
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
+
+            Helpers.ThemeHelper.Initialize();
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
@@ -91,30 +92,22 @@ namespace Files
                 }
                 catch (Exception)
                 {
-                    AddNewTab(typeof(ModernShellPage), "New tab");
+                    AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                 }
             }
             else if (string.IsNullOrEmpty(navArgs))
             {
-                AddNewTab(typeof(ModernShellPage), "New tab");
+                AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
             }
             else
             {
                 AddNewTab(typeof(ModernShellPage), navArgs);
             }
-
-            //Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            //icon.Glyph = "\xE713";
-            //if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
-            //{
-            //    App.CurrentInstance = ItemViewModel.GetCurrentSelectedTabInstance<ModernShellPage>();
-            //}
         }
 
         public async void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
-            //frame.Navigate(t, path);
             string tabLocationHeader = null;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
@@ -175,7 +168,7 @@ namespace Files
                     tabLocationHeader = "OneDrive";
                     fontIconSource.Glyph = "\xE753";
                 }
-                else if (path == "New tab")
+                else if (path == ResourceController.GetTranslation("NewTab"))
                 {
                     tabLocationHeader = ResourceController.GetTranslation("NewTab");
                     fontIconSource.Glyph = "\xE737";
@@ -184,7 +177,7 @@ namespace Files
                 {
                     var isRoot = Path.GetPathRoot(path) == path;
 
-                    if (Path.IsPathRooted(path) || isRoot) //Or is a directory or a root (drive)
+                    if (Path.IsPathRooted(path) || isRoot) // Or is a directory or a root (drive)
                     {
                         var normalizedPath = NormalizePath(path);
 
@@ -196,15 +189,15 @@ namespace Files
                         }
                         else
                         {
-                            //Pick the best icon for this tab
+                            // Pick the best icon for this tab
                             var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
 
                             if (!remDriveNames.Contains(normalizedPath))
                             {
-                                if (path != "A:" && path != "B:") //Check if it's using (generally) floppy-reserved letters.
-                                    fontIconSource.Glyph = "\xE74E"; //Floppy Disk icon
+                                if (path != "A:" && path != "B:") // Check if it's using (generally) floppy-reserved letters.
+                                    fontIconSource.Glyph = "\xE74E"; // Floppy Disk icon
                                 else
-                                    fontIconSource.Glyph = "\xEDA2"; //Hard Disk icon
+                                    fontIconSource.Glyph = "\xEDA2"; // Hard Disk icon
 
                                 tabLocationHeader = normalizedPath;
                             }
@@ -217,10 +210,10 @@ namespace Files
                     }
                     else
                     {
-                        //Invalid path, open new tab instead (explorer opens Documents when it fails)
+                        // Invalid path, open new tab instead (explorer opens Documents when it fails)
                         Debug.WriteLine($"Invalid path \"{path}\" in InstanceTabsView.xaml.cs\\AddNewTab");
 
-                        path = "New tab";
+                        path = ResourceController.GetTranslation("NewTab");
                         tabLocationHeader = ResourceController.GetTranslation("NewTab");
                         fontIconSource.Glyph = "\xE737";
                     }
@@ -266,7 +259,7 @@ namespace Files
                 tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
                 fontIconSource.Glyph = "\xE713";
             }
-            else if (currentPathForTabIcon == null && text == "New tab")
+            else if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("NewTab"))
             {
                 tabLocationHeader = ResourceController.GetTranslation("NewTab");
                 fontIconSource.Glyph = "\xE737";
@@ -381,39 +374,39 @@ namespace Files
 
             switch (sender.Key)
             {
-                case Windows.System.VirtualKey.Number1:
+                case VirtualKey.Number1:
                     tabToSelect = 0;
                     break;
 
-                case Windows.System.VirtualKey.Number2:
+                case VirtualKey.Number2:
                     tabToSelect = 1;
                     break;
 
-                case Windows.System.VirtualKey.Number3:
+                case VirtualKey.Number3:
                     tabToSelect = 2;
                     break;
 
-                case Windows.System.VirtualKey.Number4:
+                case VirtualKey.Number4:
                     tabToSelect = 3;
                     break;
 
-                case Windows.System.VirtualKey.Number5:
+                case VirtualKey.Number5:
                     tabToSelect = 4;
                     break;
 
-                case Windows.System.VirtualKey.Number6:
+                case VirtualKey.Number6:
                     tabToSelect = 5;
                     break;
 
-                case Windows.System.VirtualKey.Number7:
+                case VirtualKey.Number7:
                     tabToSelect = 6;
                     break;
 
-                case Windows.System.VirtualKey.Number8:
+                case VirtualKey.Number8:
                     tabToSelect = 7;
                     break;
 
-                case Windows.System.VirtualKey.Number9:
+                case VirtualKey.Number9:
                     // Select the last tab
                     tabToSelect = InvokedTabView.TabItems.Count - 1;
                     break;
@@ -523,7 +516,7 @@ namespace Files
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {
-            AddNewTab(typeof(ModernShellPage), "New tab");
+            AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public static T GetCurrentSelectedTabInstance<T>()

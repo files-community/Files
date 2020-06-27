@@ -9,6 +9,7 @@ namespace Files
     public sealed partial class Settings : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public Settings()
         {
             this.InitializeComponent();

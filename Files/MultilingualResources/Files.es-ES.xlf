@@ -100,7 +100,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowDriveLetters.Text" translate="yes" xml:space="preserve">
           <source>Show drive letters</source>
-          <target state="translated">Mostrar letras de discos duros</target>
+          <target state="translated">Mostrar letras de unidad</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowFileExtensions.Text" translate="yes" xml:space="preserve">
           <source>Show extensions for known file types</source>
@@ -108,7 +108,7 @@
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersShowHiddenFiles.Text" translate="yes" xml:space="preserve">
           <source>Show hidden files, folders, and drives</source>
-          <target state="translated">Mostrar archivos, carpetas y discos duros ocultos</target>
+          <target state="translated">Mostrar archivos, carpetas y unidades ocultos</target>
         </trans-unit>
         <trans-unit id="SettingsFilesAndFoldersTitle.Text" translate="yes" xml:space="preserve">
           <source>Files and Folders</source>
@@ -192,7 +192,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Mostrar un diálogo de confirmación al borrar archivos o carpetas</target>
+          <target state="translated">Mostrar un diálogo de confirmación al eliminar elementos</target>
         </trans-unit>
         <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
@@ -424,7 +424,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files</source>
-          <target state="translated">Bienvenido a Archivos UWP</target>
+          <target state="translated">Bienvenido a Files UWP</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
@@ -460,7 +460,7 @@
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated">Predeterminado de Windows</target>
+          <target state="translated">Predeterminado del sistema</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
@@ -768,7 +768,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
-          <target state="translated">Abrir con</target>
+          <target state="translated">Abrir con...</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
@@ -783,7 +783,7 @@
           <target state="translated">El nombre de archivo no puede contener ninguno de los siguientes caracteres: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</target>
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
-          <source>Open Log location</source>
+          <source>Open log location</source>
           <target state="translated">Abrir ubicación del archivo de registro (log)</target>
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
@@ -822,37 +822,121 @@
           <source>Show Owner in properties</source>
           <target state="translated">Mostrar propietario de archivo en propiedades</target>
         </trans-unit>
-        <trans-unit id="SettingsExperimentalPropertiesMultipleWindows.Text" translate="yes" xml:space="preserve">
-          <source>Open properties in Multiple Windows</source>
-          <target state="translated">Ver propiedades de multiples elementos seleccionados</target>
+        <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Cancelar</target>
         </trans-unit>
-        <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
+        <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
+          <source>Are you sure you want to delete all items?</source>
+          <target state="translated">¿Estás seguro que quieres eliminar todos los elementos?</target>
+        </trans-unit>
+        <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
+          <source>Empty recycle bin</source>
+          <target state="translated">Vaciar papelera de reciclaje</target>
+        </trans-unit>
+        <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>OK</source>
+          <target state="translated">Aceptar</target>
+        </trans-unit>
+        <trans-unit id="ItemSizeBytes" translate="no" xml:space="preserve">
           <source>bytes</source>
-          <target state="new">bytes</target>
+          <target state="final">bytes</target>
         </trans-unit>
-        <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
+        <trans-unit id="KiloByteSymbol" translate="no" xml:space="preserve">
           <source>KB</source>
-          <target state="new">KB</target>
+          <target state="final">KB</target>
         </trans-unit>
-        <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
+        <trans-unit id="MegaByteSymbol" translate="no" xml:space="preserve">
           <source>MB</source>
-          <target state="new">MB</target>
+          <target state="final">MB</target>
         </trans-unit>
-        <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
+        <trans-unit id="GigaByteSymbol" translate="no" xml:space="preserve">
           <source>GB</source>
-          <target state="new">GB</target>
+          <target state="final">GB</target>
         </trans-unit>
-        <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
+        <trans-unit id="TeraByteSymbol" translate="no" xml:space="preserve">
           <source>TB</source>
-          <target state="new">TB</target>
+          <target state="final">TB</target>
         </trans-unit>
-        <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
+        <trans-unit id="PetaByteSymbol" translate="no" xml:space="preserve">
           <source>PB</source>
-          <target state="new">PB</target>
+          <target state="final">PB</target>
         </trans-unit>
-        <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
+        <trans-unit id="ByteSymbol" translate="no" xml:space="preserve">
           <source>B</source>
-          <target state="new">B</target>
+          <target state="final">B</target>
+        </trans-unit>
+        <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
+          <source>Learn more about date formats</source>
+          <target state="translated">Mas información acerca de formatos de fecha</target>
+        </trans-unit>
+        <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
+          <source>Unlock</source>
+          <target state="translated">Desbloquear</target>
+        </trans-unit>
+        <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
+          <source>Cancel</source>
+          <target state="translated">Cancelar</target>
+        </trans-unit>
+        <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
+          <source>Enter password to unlock the drive</source>
+          <target state="translated">Escriba la contraseña para desbloquear esta unidad</target>
+        </trans-unit>
+        <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
+          <source>Password</source>
+          <target state="translated">Contraseña</target>
+        </trans-unit>
+        <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
+          <source>Please check the password and try again.</source>
+          <target state="translated">Clave incorrecta, revisa e inténtalo de nuevo.</target>
+        </trans-unit>
+        <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
+          <source>BitLocker error</source>
+          <target state="translated">Error al intentar desbloquear</target>
+        </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
+          <source>Contains:</source>
+          <target state="translated">Contiene:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
+          <source>{0:#,##0} Files, {1:#,##0} Folders</source>
+          <target state="translated">{0:#,##0} Archivos, {1:#,##0} Carpetas</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
+          <source>Run as administrator</source>
+          <target state="translated">Ejecutar como administrador</target>
+        </trans-unit>
+        <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
+          <source>Run as another user</source>
+          <target state="translated">Ejecutar como otro usuario</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
+          <source>All type of {0}</source>
+          <target state="translated">Todos del tipo {0}</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveItemTypeDifferent" translate="yes" xml:space="preserve">
+          <source>Different types</source>
+          <target state="translated">Tipos múltiples</target>
+        </trans-unit>
+        <trans-unit id="PropertiesCombinedItemPath" translate="yes" xml:space="preserve">
+          <source>All in {0}</source>
+          <target state="translated">Todos en {0}</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
+          <source>Used space:</source>
+          <target state="translated">Espacio usado:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
+          <source>Free space:</source>
+          <target state="translated">Espacio disponible:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
+          <source>Capacity:</source>
+          <target state="translated">Capacidad:</target>
+        </trans-unit>
+        <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
+          <source>File system:</source>
+          <target state="translated">Sistema de archivos:</target>
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>

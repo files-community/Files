@@ -19,7 +19,7 @@
     mc:Ignorable="d">
 
     <local:BaseLayout.Resources>
-        <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="RightClickContextMenu_Opening">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -127,16 +127,6 @@
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
-            <MenuFlyoutItem
-                x:Name="EmptyRecycleBin"
-                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                IsEnabled="True"
-                Text="Empty recycle bin">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
             <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PinToSidebar"
@@ -149,6 +139,78 @@
             </MenuFlyoutItem>
             <MenuFlyoutItem
                 x:Name="PropertiesFolder"
+                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
+                Text="Properties">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE946;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+
+        <MenuFlyout x:Key="BaseLayoutRecycleBinContextFlyout">
+            <MenuFlyoutSubItem
+                x:Name="RecycleBinSortByEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutSortBy"
+                Text="Sort by">
+                <MenuFlyoutSubItem.Icon>
+                    <FontIcon Glyph="&#xE8CB;" />
+                </MenuFlyoutSubItem.Icon>
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByName"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
+                    Text="Name" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDate"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByDate, Mode=TwoWay}"
+                    Text="Date modified" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByType"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByType, Mode=TwoWay}"
+                    Text="Type" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortBySize"
+                    GroupName="SortGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedBySize, Mode=TwoWay}"
+                    Text="Size" />
+                <MenuFlyoutSeparator />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByAscending"
+                    GroupName="SortOrderGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedAscending, Mode=TwoWay}"
+                    Text="Ascending" />
+                <muxc:RadioMenuFlyoutItem
+                    x:Uid="BaseLayoutContextFlyoutSortByDescending"
+                    GroupName="SortOrderGroup"
+                    IsChecked="{x:Bind AssociatedViewModel.IsSortedDescending, Mode=TwoWay}"
+                    Text="Descending" />
+            </MenuFlyoutSubItem>
+            <MenuFlyoutItem
+                x:Name="RecycleBinRefreshEmptySpace"
+                x:Uid="BaseLayoutContextFlyoutRefresh"
+                Click="{x:Bind local:NavigationActions.Refresh_Click}"
+                Text="Refresh">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72C;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="EmptyRecycleBin"
+                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                IsEnabled="True"
+                Text="Empty recycle bin">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem
+                x:Name="RecycleBinPropertiesFolder"
                 x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                 Text="Properties">
@@ -200,7 +262,7 @@
                 Tag="OpenTab_FlyoutItem"
                 Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE737;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF500;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -232,6 +294,26 @@
                 Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xEE3F;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="RunAsAdmin"
+                x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
+                x:Load="False"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAdmin_Click}"
+                Text="Run as another user">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7EF;" />
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem
+                x:Name="RunAsAnotherUser"
+                x:Uid="BaseLayoutContextFlyoutRunAsAnotherUser"
+                x:Load="False"
+                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAnotherUser_Click}"
+                Text="RunAsAnotherUser">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7EE;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -365,8 +447,7 @@
 
     <Grid
         x:Name="RootGrid"
-        Background="Transparent"
-        ContextFlyout="{StaticResource BaseLayoutContextFlyout}">
+        Background="Transparent">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind plusKey}"
@@ -377,6 +458,20 @@
                 Invoked="{x:Bind local:App.CurrentInstance.ContentPage.GridViewSizeIncrease}"
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
+        <Interactivity:Interaction.Behaviors>
+            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
+                <Core:ChangePropertyAction
+                        PropertyName="ContextFlyout"
+                        TargetObject="{Binding ElementName=RootGrid}"
+                        Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
+            </Core:DataTriggerBehavior>
+            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
+                <Core:ChangePropertyAction
+                        PropertyName="ContextFlyout"
+                        TargetObject="{Binding ElementName=RootGrid}"
+                        Value="{StaticResource BaseLayoutContextFlyout}" />
+            </Core:DataTriggerBehavior>
+        </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar
             x:Name="progBar"
             VerticalAlignment="Top"

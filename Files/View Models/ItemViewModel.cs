@@ -2,6 +2,7 @@ using ByteSizeLib;
 using Files.Common;
 using Files.Enums;
 using Files.Helpers;
+using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
@@ -37,17 +38,22 @@ namespace Files.Filesystem
         private IntPtr hWatchDir;
         private IAsyncAction aWatcherAction;
         public ReadOnlyObservableCollection<ListedItem> FilesAndFolders { get; }
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public ListedItem CurrentFolder { get; private set; }
         public CollectionViewSource viewSource;
         public BulkObservableCollection<ListedItem> _filesAndFolders;
         private CancellationTokenSource _addFilesCTS, _semaphoreCTS;
         private StorageFolder _rootFolder;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
         private string _jumpString = "";
         private readonly DispatcherTimer jumpTimer = new DispatcherTimer();
         private SortOption _directorySortOption = SortOption.Name;
         private SortDirection _directorySortDirection = SortDirection.Ascending;
         private string _WorkingDirectory;
+
         public string WorkingDirectory
         {
             get
@@ -87,7 +93,9 @@ namespace Files.Filesystem
                 }
             }
         }
+
         private bool _IsFolderEmptyTextDisplayed;
+
         public bool IsFolderEmptyTextDisplayed
         {
             get => _IsFolderEmptyTextDisplayed;
@@ -311,7 +319,7 @@ namespace Files.Filesystem
             foreach (string s in pathComponents)
             {
                 string componentLabel = null;
-                if (s.StartsWith(App.AppSettings.RecycleBinPath))
+                if (s.StartsWith(AppSettings.RecycleBinPath))
                 {
                     // Handle the recycle bin: use the localized folder name
                     PathBoxItem item = new PathBoxItem()
@@ -375,7 +383,7 @@ namespace Files.Filesystem
             _filesAndFolders.Clear();
             App.CurrentInstance.NavigationToolbar.CanGoBack = true;
             App.CurrentInstance.NavigationToolbar.CanGoForward = true;
-            if (!(WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false))
+            if (!(WorkingDirectory?.StartsWith(AppSettings.RecycleBinPath) ?? false))
             {
                 // Can't go up from recycle bin
                 App.CurrentInstance.NavigationToolbar.CanNavigateToParent = true;
@@ -465,6 +473,7 @@ namespace Files.Filesystem
         }
 
         private bool _isLoadingItems = false;
+
         public bool IsLoadingItems
         {
             get
@@ -584,52 +593,50 @@ namespace Files.Filesystem
                 switch (WorkingDirectory)
                 {
                     case "Desktop":
-                        WorkingDirectory = App.AppSettings.DesktopPath;
+                        WorkingDirectory = AppSettings.DesktopPath;
                         break;
 
                     case "Downloads":
-                        WorkingDirectory = App.AppSettings.DownloadsPath;
+                        WorkingDirectory = AppSettings.DownloadsPath;
                         break;
 
                     case "Documents":
-                        WorkingDirectory = App.AppSettings.DocumentsPath;
+                        WorkingDirectory = AppSettings.DocumentsPath;
                         break;
 
                     case "Pictures":
-                        WorkingDirectory = App.AppSettings.PicturesPath;
+                        WorkingDirectory = AppSettings.PicturesPath;
                         break;
 
                     case "Music":
-                        WorkingDirectory = App.AppSettings.MusicPath;
+                        WorkingDirectory = AppSettings.MusicPath;
                         break;
 
                     case "Videos":
-                        WorkingDirectory = App.AppSettings.VideosPath;
+                        WorkingDirectory = AppSettings.VideosPath;
                         break;
 
                     case "RecycleBin":
-                        WorkingDirectory = App.AppSettings.RecycleBinPath;
+                        WorkingDirectory = AppSettings.RecycleBinPath;
                         break;
 
                     case "OneDrive":
-                        WorkingDirectory = App.AppSettings.OneDrivePath;
+                        WorkingDirectory = AppSettings.OneDrivePath;
                         break;
                 }
 
                 App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
                 App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
 
-                if (path.StartsWith(App.AppSettings.RecycleBinPath))
+                if (path.StartsWith(AppSettings.RecycleBinPath))
                 {
                     // Recycle bin is special as files are enumerated by the fulltrust process
                     await EnumerateItemsFromSpecialFolder(path);
                 }
                 else
                 {
-
                     await EnumerateItemsFromStandardFolder(path);
                     WatchForDirectoryChanges(path);
-
                 }
 
                 if (FilesAndFolders.Count == 0)
@@ -684,6 +691,7 @@ namespace Files.Filesystem
         {
             CurrentFolder = new ListedItem(null)
             {
+                PrimaryItemAttribute = StorageItemTypes.Folder,
                 ItemPropertiesInitialized = true,
                 ItemName = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
                 ItemDateModifiedReal = DateTimeOffset.Now, // Fake for now
@@ -691,7 +699,7 @@ namespace Files.Filesystem
                 LoadFolderGlyph = true,
                 FileImage = null,
                 LoadFileIcon = false,
-                ItemPath = App.AppSettings.RecycleBinPath,
+                ItemPath = AppSettings.RecycleBinPath,
                 LoadUnknownTypeGlyph = false,
                 FileSize = null,
                 FileSizeBytes = 0
@@ -741,7 +749,7 @@ namespace Files.Filesystem
                         {
                             // File
                             string itemName;
-                            if (App.AppSettings.ShowFileExtensions)
+                            if (AppSettings.ShowFileExtensions)
                                 itemName = item.FileName;
                             else
                                 itemName = Path.GetFileNameWithoutExtension(item.FileName);
@@ -766,7 +774,7 @@ namespace Files.Filesystem
                                 ItemPath = item.RecyclePath, // this is the true path on disk so other stuff can work as is
                                 ItemOriginalPath = item.FilePath,
                                 FileSize = item.FileSize,
-                                FileSizeBytes = item.FileSizeBytes
+                                FileSizeBytes = (long)item.FileSizeBytes
                             });
                         }
                         if (count % 64 == 0)
@@ -798,6 +806,30 @@ namespace Files.Filesystem
                     FileSize = null,
                     FileSizeBytes = 0
                 };
+                if (await CheckBitlockerStatus(_rootFolder))
+                {
+                    var bitlockerDialog = new Dialogs.BitlockerDialog(Path.GetPathRoot(WorkingDirectory));
+                    var bitlockerResult = await bitlockerDialog.ShowAsync();
+                    if (bitlockerResult == ContentDialogResult.Primary)
+                    {
+                        var userInput = bitlockerDialog.storedPasswordInput;
+                        if (App.Connection != null)
+                        {
+                            var value = new ValueSet();
+                            value.Add("Arguments", "Bitlocker");
+                            value.Add("action", "Unlock");
+                            value.Add("drive", Path.GetPathRoot(WorkingDirectory));
+                            value.Add("password", userInput);
+                            await App.Connection.SendMessageAsync(value);
+
+                            if (await CheckBitlockerStatus(_rootFolder))
+                            {
+                                // Drive is still locked
+                                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("BitlockerInvalidPwDialog/Title"), ResourceController.GetTranslation("BitlockerInvalidPwDialog/Text"));
+                            }
+                        }
+                    }
+                }
             }
             catch (UnauthorizedAccessException)
             {
@@ -806,13 +838,15 @@ namespace Files.Filesystem
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FolderNotFoundDialog.Title"), ResourceController.GetTranslation("FolderNotFoundDialog.Text"));
+                await DialogDisplayHelper.ShowDialog(
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Title"), 
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
                 IsLoadingItems = false;
                 return;
             }
             catch (Exception e)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog.Title"), e.Message);
+                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), e.Message);
                 IsLoadingItems = false;
                 return;
             }
@@ -860,7 +894,16 @@ namespace Files.Filesystem
 
                 FindClose(hFile);
             }
+        }
 
+        private async Task<bool> CheckBitlockerStatus(StorageFolder rootFolder)
+        {
+            if (Path.IsPathRooted(WorkingDirectory) && Path.GetPathRoot(WorkingDirectory) == WorkingDirectory)
+            {
+                IDictionary<string, object> extraProperties = await rootFolder.Properties.RetrievePropertiesAsync(new string[] { "System.Volume.BitLockerProtection" });
+                return (int?)extraProperties["System.Volume.BitLockerProtection"] == 6; // Drive is bitlocker protected and locked
+            }
+            return false;
         }
 
         private void WatchForDirectoryChanges(string path)
@@ -964,7 +1007,6 @@ namespace Files.Filesystem
                                  }
 
                                  offset += notifyInfo.NextEntryOffset;
-
                              } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
 
                              //ResetEvent(overlapped.hEvent);
@@ -1095,7 +1137,7 @@ namespace Files.Filesystem
             var itemPath = Path.Combine(pathRoot, findData.cFileName);
 
             string itemName;
-            if (App.AppSettings.ShowFileExtensions)
+            if (AppSettings.ShowFileExtensions)
                 itemName = findData.cFileName;
             else
                 itemName = Path.GetFileNameWithoutExtension(itemPath);

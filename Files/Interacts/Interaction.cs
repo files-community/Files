@@ -1,11 +1,11 @@
-using Files.DataModels;
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
-using NLog;
 using Newtonsoft.Json;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,6 +43,7 @@ using Windows.UI.Xaml.Media.Animation;
 using static Files.Dialogs.ConfirmDeleteDialog;
 using Files.UserControls;
 using Windows.UI.ViewManagement;
+using Windows.Security.Credentials.UI;
 
 namespace Files.Interacts
 {
@@ -52,6 +53,7 @@ namespace Files.Interacts
 
         private readonly IShellPage CurrentInstance;
         private readonly InstanceTabsView instanceTabsView;
+        public SettingsViewModel AppSettings => App.AppSettings;
 
         public Interaction()
         {
@@ -99,7 +101,7 @@ namespace Files.Interacts
 
         public void OpenNewTab()
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), "New tab");
+            instanceTabsView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -137,7 +139,7 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var terminal = App.AppSettings.TerminalsModel.GetDefaultTerminal();
+            var terminal = AppSettings.TerminalsModel.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
@@ -175,19 +177,27 @@ namespace Files.Interacts
             }
         }
 
-        public static async Task InvokeWin32Component(string applicationPath, string arguments = null)
+        public static async Task InvokeWin32Component(string applicationPath, string arguments = null, bool runAsAdmin = false)
         {
-            await InvokeWin32Components(new List<string>() { applicationPath }, arguments);
+            await InvokeWin32Components(new List<string>() { applicationPath }, arguments, runAsAdmin);
         }
 
-        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null)
+        public static async Task InvokeWin32Components(List<string> applicationPaths, string arguments = null, bool runAsAdmin = false)
         {
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
                 var value = new ValueSet();
+                value.Add("Application", applicationPaths.FirstOrDefault());
+                if (runAsAdmin)
+                {
+                    value.Add("Arguments", "runas");
+                }
+                else
+                {
+                    value.Add("Arguments", arguments);
+                }
                 value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
-                value.Add("Arguments", arguments);
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -265,6 +275,23 @@ namespace Files.Interacts
             return (TEnum)Enum.Parse(typeof(TEnum), text);
         }
 
+        public async void RunAsAdmin_Click()
+        {
+            await InvokeWin32Component(CurrentInstance.ContentPage.SelectedItem.ItemPath, null, true);
+        }
+
+        public async void RunAsAnotherUser_Click()
+        {
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+            {
+                // Do not open files and folders inside the recycle bin
+                return;
+            }
+
+            var clickedOnItem = CurrentInstance.ContentPage.SelectedItem;
+            await InvokeWin32Component(clickedOnItem.ItemPath, "runasuser", false);
+        }
+
         public void OpenItem_Click(object sender, RoutedEventArgs e)
         {
             OpenSelectedItems(false);
@@ -277,7 +304,7 @@ namespace Files.Interacts
 
         private async void OpenSelectedItems(bool displayApplicationPicker)
         {
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not open files and folders inside the recycle bin
                 return;
@@ -324,9 +351,6 @@ namespace Files.Interacts
                         {
                             //try using launcher first
 
-
-                            
-
                             bool launchSuccess = false;
 
                             try
@@ -339,8 +363,6 @@ namespace Files.Interacts
                                 var currFolder = await StorageFolder.GetFolderFromPathAsync(Path.GetDirectoryName(clickedOnItem.ItemPath));
 
                                 QueryOptions queryOptions = new QueryOptions(CommonFileQuery.DefaultQuery, null);
-
-
 
                                 //We can have many sort entries
                                 SortEntry sortEntry = new SortEntry()
@@ -356,22 +378,26 @@ namespace Files.Interacts
                                         sortEntry.PropertyName = "System.ItemNameDisplay";
                                         queryOptions.SortOrder.Clear();
                                         break;
+
                                     case Enums.SortOption.DateModified:
                                         sortEntry.PropertyName = "System.DateModified";
                                         queryOptions.SortOrder.Clear();
                                         break;
+
                                     case Enums.SortOption.Size:
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 
                                         //sortEntry.PropertyName = "System.TotalFileSize";
                                         //queryOptions.SortOrder.Clear();
                                         break;
+
                                     case Enums.SortOption.FileType:
                                         //Unfortunately this is unsupported | Remarks: https://docs.microsoft.com/en-us/uwp/api/windows.storage.search.queryoptions.sortorder?view=winrt-19041
 
                                         //sortEntry.PropertyName = "System.FileExtension";
                                         //queryOptions.SortOrder.Clear();
                                         break;
+
                                     default:
                                         //keep the default one in SortOrder IList
                                         break;
@@ -470,12 +496,9 @@ namespace Files.Interacts
         {
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                if (App.AppSettings.OpenPropertiesInMultipleWindows)
+                if (App.CurrentInstance.ContentPage.SelectedItems.Count > 1)
                 {
-                    foreach (var item in App.CurrentInstance.ContentPage.SelectedItems)
-                    {
-                        await OpenPropertiesWindow(item);
-                    }
+                    await OpenPropertiesWindow(App.CurrentInstance.ContentPage.SelectedItems);
                 }
                 else
                 {
@@ -491,11 +514,13 @@ namespace Files.Interacts
                 }
                 else
                 {
-                    //TODO: Implement drive properties
+                    await OpenPropertiesWindow(App.AppSettings.DrivesManager.Drives
+                        .Single(x => x.Path.Equals(App.CurrentInstance.FilesystemViewModel.CurrentFolder.ItemPath)));
                 }
             }
         }
-        private async Task OpenPropertiesWindow(ListedItem item)
+
+        private async Task OpenPropertiesWindow(object item)
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
@@ -537,7 +562,7 @@ namespace Files.Interacts
         {
             ShowProperties();
         }
-        
+
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
             App.SidebarPinned.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
@@ -571,14 +596,14 @@ namespace Files.Interacts
 
         public async void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
-            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
+            var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
                 App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
             }
 
-            if (App.AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
+            if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
                 var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin);
                 await dialog.ShowAsync();
@@ -671,7 +696,11 @@ namespace Files.Interacts
             }
             catch (IOException)
             {
-                if (await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileInUseDeleteDialog.Title"), ResourceController.GetTranslation("FileInUseDeleteDialog.Text"), ResourceController.GetTranslation("FileInUseDeleteDialog.PrimaryButtonText"), ResourceController.GetTranslation("FileInUseDeleteDialog.SecondaryButtonText")))
+                if (await DialogDisplayHelper.ShowDialog(
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/Title"), 
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/Text"), 
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"), 
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
                     DeleteItem_Click(null, null);
                 }
@@ -712,7 +741,6 @@ namespace Files.Interacts
 
         public bool ContainsRestrictedFileName(string input)
         {
-
             foreach (var name in RestrictedFileNames)
             {
                 Regex regex = new Regex($"^{name}($|\\.)(.+)?");
@@ -964,13 +992,26 @@ namespace Files.Interacts
 
         public async void EmptyRecycleBin_ClickAsync(object sender, RoutedEventArgs e)
         {
-            if (App.Connection != null)
+            var ConfirmEmptyBinDialog = new ContentDialog()
             {
-                var value = new ValueSet();
-                value.Add("Arguments", "RecycleBin");
-                value.Add("action", "Empty");
-                // Send request to fulltrust process to empty recyclebin
-                await App.Connection.SendMessageAsync(value);
+                Title = ResourceController.GetTranslation("ConfirmEmptyBinDialogTitle"),
+                Content = ResourceController.GetTranslation("ConfirmEmptyBinDialogContent"),
+                PrimaryButtonText = ResourceController.GetTranslation("ConfirmEmptyBinDialog/PrimaryButtonText"),
+                SecondaryButtonText = ResourceController.GetTranslation("ConfirmEmptyBinDialog/SecondaryButtonText")
+            };
+
+            ContentDialogResult result = await ConfirmEmptyBinDialog.ShowAsync();
+
+            if (result == ContentDialogResult.Primary)
+            {
+                if (App.Connection != null)
+                {
+                    var value = new ValueSet();
+                    value.Add("Arguments", "RecycleBin");
+                    value.Add("action", "Empty");
+                    // Send request to fulltrust process to empty recyclebin
+                    await App.Connection.SendMessageAsync(value);
+                }
             }
         }
 
@@ -990,7 +1031,7 @@ namespace Files.Interacts
                 // Should this be done in ModernShellPage?
                 return;
             }
-            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+            if (CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not paste files and folders inside the recycle bin
                 await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"), ResourceController.GetTranslation("ErrorDialogUnsupportedOperation"));
@@ -998,6 +1039,7 @@ namespace Files.Interacts
             }
 
             itemsToPaste = await packageView.GetStorageItemsAsync();
+            HashSet<IStorageItem> pastedSourceItems = new HashSet<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
             StatusBanner banner = null;

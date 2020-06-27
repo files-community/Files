@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.View_Models;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -9,9 +10,10 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.Controls
 {
-    public sealed partial class ModernSidebar : UserControl, INotifyPropertyChanged
+    public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
-        public ModernSidebar()
+        public SettingsViewModel AppSettings => App.AppSettings;
+        public SidebarControl()
         {
             this.InitializeComponent();
         }
@@ -94,7 +96,7 @@ namespace Files.Controls
 
                         if (ItemPath.Equals("Home", StringComparison.OrdinalIgnoreCase)) // Home item
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), "New tab", new SuppressNavigationTransitionInfo());
+                            App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
 
                             return; // cancel so it doesn't try to Navigate to a path
                         }
@@ -143,6 +145,7 @@ namespace Files.Controls
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 ShowEmptyRecycleBin = true;
+                ShowUnpinItem = true;
             }
             else
             {

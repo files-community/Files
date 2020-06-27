@@ -19,7 +19,6 @@
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
-                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -48,14 +47,6 @@
                         FontSize="17"
                         Text="Enable Recycle Bin support" />
                     <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
-                </StackPanel>
-
-                <StackPanel Spacing="10">
-                    <TextBlock
-                        x:Uid="SettingsExperimentalPropertiesMultipleWindows"
-                        FontSize="17"
-                        Text="Open properties in Multiple Windows" />
-                    <ToggleSwitch IsOn="{x:Bind AppSettings.OpenPropertiesInMultipleWindows, Mode=TwoWay}" />
                 </StackPanel>
 
                 <StackPanel Spacing="10">

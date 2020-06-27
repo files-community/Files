@@ -4,7 +4,7 @@ about: Report a major problem that prevents the app from working at all that req
   an immediate response from the developer. Upon evaluation, this may be promoted/demoted.
 title: ''
 labels: high-priority
-assignees: duke7553
+assignees: ''
 
 ---
 
@@ -26,7 +26,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
  - OS: [e.g. Windows 10 1903 18362.175]
- - App version: [v0.5.0]
+ - App version: [v0.11.0]
 
 **Additional context**
 Add any other context about the problem here. For instance, are you building from source or using a precompiled build/snapshot?

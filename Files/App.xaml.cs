@@ -2,7 +2,6 @@ using Files.CommandLine;
 using Files.Controls;
 using Files.DataModels;
 using Files.Filesystem;
-using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Microsoft.AppCenter;
@@ -17,7 +16,6 @@ using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
-using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
@@ -77,9 +75,13 @@ namespace Files
             LayoutDialogDisplay = new Dialogs.LayoutDialog();
             AddItemDialogDisplay = new Dialogs.AddItemDialog();
             ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
+
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
+
+#if !DEBUG
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -166,7 +168,14 @@ namespace Files
 
         public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
+            if (rightClickedItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+            {
+                AppSettings.PinRecycleBinToSideBar = false;
+            }
+            else
+            {
+                SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
+            }
         }
 
         public static void Clipboard_ContentChanged(object sender, object e)
@@ -178,7 +187,7 @@ namespace Files
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
                     {
                         App.PS.IsEnabled = true;
                     }
@@ -250,8 +259,6 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
 
-                ThemeHelper.Initialize();
-
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -284,7 +291,6 @@ namespace Files
                 Window.Current.Content = rootFrame;
             }
 
-            ThemeHelper.Initialize();
             var currentView = SystemNavigationManager.GetForCurrentView();
             switch (args.Kind)
             {
@@ -300,6 +306,7 @@ namespace Files
                         var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
                         rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
                     }
+
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
