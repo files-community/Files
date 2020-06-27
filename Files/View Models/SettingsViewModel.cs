@@ -6,6 +6,7 @@ using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -14,8 +15,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using Windows.Foundation.Collections;
+using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
 
 namespace Files.View_Models
 {
@@ -57,17 +60,8 @@ namespace Files.View_Models
         public async void DetectQuickLook()
         {
             // Detect QuickLook
-            if (App.Connection != null)
-            {
-                var value = new ValueSet();
-                value.Add("Arguments", "StartupTasks");
-                await App.Connection.SendMessageAsync(value);
-                App.AppServiceConnected -= DetectQuickLook;
-            }
-            else
-            {
-                App.AppServiceConnected += DetectQuickLook;
-            }
+            ApplicationData.Current.LocalSettings.Values["Arguments"] = "StartupTasks";
+            await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
         }
 
         private void PinSidebarLocationItems()
@@ -79,114 +73,62 @@ namespace Files.View_Models
         private void AddDefaultLocations()
         {
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDesktop"), Glyph = "\uE8FC", IsDefaultLocation = true, Path = DesktopPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDownloads"), Glyph = "\uE896", IsDefaultLocation = true, Path = DownloadsPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarDocuments"), Glyph = "\uE8A5", IsDefaultLocation = true, Path = DocumentsPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarPictures"), Glyph = "\uEB9F", IsDefaultLocation = true, Path = PicturesPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarMusic"), Glyph = "\uEC4F", IsDefaultLocation = true, Path = MusicPath });
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarVideos"), Glyph = "\uE8B2", IsDefaultLocation = true, Path = VideosPath });
         }
 
         public List<string> LinesToRemoveFromFile = new List<string>();
 
         private async void PopulatePinnedSidebarItems()
         {
-            StorageFile ListFile;
+            App.SidebarPinned = new SidebarPinnedModel();
+
             StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
 
-            if (ListFile != null)
+            StorageFile pinnedItemsFile;
+            try
             {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string locationPath in ListFileLines)
-                {
-                    try
-                    {
-                        StorageFolder fol = await StorageFolder.GetFolderFromPathAsync(locationPath);
-                        var name = fol.DisplayName;
-                        var content = name;
-                        var icon = "\uE8B7";
-
-                        bool isDuplicate = false;
-                        foreach (INavigationControlItem sbi in App.sideBarItems)
-                        {
-                            if (sbi is LocationItem)
-                            {
-                                if (!string.IsNullOrWhiteSpace(sbi.Path) && !(sbi as LocationItem).IsDefaultLocation)
-                                {
-                                    if (sbi.Path.ToString() == locationPath)
-                                    {
-                                        isDuplicate = true;
-                                    }
-                                }
-                            }
-                        }
-
-                        if (!isDuplicate)
-                        {
-                            int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location)) + 1;
-                            App.sideBarItems.Insert(insertIndex, new LocationItem() { IsDefaultLocation = false, Text = name, Glyph = icon, Path = locationPath });
-                        }
-                    }
-                    catch (UnauthorizedAccessException e)
-                    {
-                        Debug.WriteLine(e.Message);
-                    }
-                    catch (FileNotFoundException e)
-                    {
-                        Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(locationPath);
-                    }
-                    catch (System.Runtime.InteropServices.COMException e)
-                    {
-                        Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + e.Message);
-                        LinesToRemoveFromFile.Add(locationPath);
-                    }
-                }
-
-                RemoveStaleSidebarItems();
+                pinnedItemsFile = await cacheFolder.GetFileAsync(SidebarPinnedModel.JsonFileName);
             }
-        }
-
-        public async void RemoveStaleSidebarItems()
-        {
-            StorageFile ListFile;
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            ListFile = await cacheFolder.CreateFileAsync("PinnedItems.txt", CreationCollisionOption.OpenIfExists);
-
-            if (ListFile != null)
+            catch (FileNotFoundException)
             {
-                var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-                foreach (string path in LinesToRemoveFromFile)
+                try
                 {
-                    ListFileLines.Remove(path);
-                }
-
-                await FileIO.WriteLinesAsync(ListFile, ListFileLines);
-                ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-
-                // Remove unpinned items from sidebar
-                var sideBarItems_Copy = App.sideBarItems.ToList();
-                foreach (INavigationControlItem location in App.sideBarItems)
-                {
-                    if (location is LocationItem)
+                    var oldPinnedItemsFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
+                    var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
+                    await oldPinnedItemsFile.DeleteAsync();
+                    foreach (var line in oldPinnedItems)
                     {
-                        if (!(location as LocationItem).IsDefaultLocation)
+                        if (!App.SidebarPinned.Items.Contains(line))
                         {
-                            if (!ListFileLines.Contains(location.Path.ToString()))
-                            {
-                                sideBarItems_Copy.Remove(location);
-                            }
+                            App.SidebarPinned.Items.Add(line);
                         }
                     }
                 }
-                App.sideBarItems.Clear();
-                foreach (INavigationControlItem correctItem in sideBarItems_Copy)
+                catch (FileNotFoundException)
                 {
-                    App.sideBarItems.Add(correctItem);
+                    App.SidebarPinned.AddDefaultItems();
                 }
-                LinesToRemoveFromFile.Clear();
+
+                pinnedItemsFile = await cacheFolder.CreateFileAsync(SidebarPinnedModel.JsonFileName, CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteTextAsync(pinnedItemsFile, JsonConvert.SerializeObject(App.SidebarPinned, Formatting.Indented));
             }
+
+            try
+            {
+                App.SidebarPinned = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(pinnedItemsFile));
+                if (App.SidebarPinned == null)
+                {
+                    App.SidebarPinned = new SidebarPinnedModel();
+                    throw new Exception(SidebarPinnedModel.JsonFileName + " is empty, regenerating...");
+                }
+            }
+            catch (Exception)
+            {
+                await pinnedItemsFile.DeleteAsync();
+                App.SidebarPinned.AddDefaultItems();
+                App.SidebarPinned.Save();
+            }
+
+            App.SidebarPinned.AddAllItemsToSidebar();
         }
 
         private async void DetectWSLDistros()
@@ -275,66 +217,69 @@ namespace Files.View_Models
             }
         }
 
+        public TerminalFileModel TerminalsModel { get; set; }
+
+        public StorageFile TerminalsModelFile;
+
         private async void LoadTerminalApps()
         {
             var localFolder = ApplicationData.Current.LocalFolder;
             var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            StorageFile file;
             try
             {
-                file = await localSettingsFolder.GetFileAsync("terminal.json");
+                TerminalsModelFile = await localSettingsFolder.GetFileAsync("terminal.json");
             }
             catch (FileNotFoundException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
-                file = await localSettingsFolder.CreateFileAsync("terminal.json");
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
+                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json");
+                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
             }
 
-            var content = await FileIO.ReadTextAsync(file);
-            TerminalFileModel terminalsFileModel = null;
+            var content = await FileIO.ReadTextAsync(TerminalsModelFile);
+
             try
             {
-                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
+                if (TerminalsModel == null)
+                {
+                    TerminalsModel = new TerminalFileModel();
+                    throw new JsonSerializationException("terminal.json is empty, regenerating...");
+                }
             }
             catch (JsonSerializationException)
             {
                 var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
 
-                file = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteBufferAsync(file, await FileIO.ReadBufferAsync(await defaultFile));
-                var defaultContent = await FileIO.ReadTextAsync(file);
-                terminalsFileModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
+                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
+                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
+                var defaultContent = await FileIO.ReadTextAsync(TerminalsModelFile);
+                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
             }
 
-            // Ensure Windows Terminal is not already in List
-            //if (terminalsFileModel.Terminals.FirstOrDefault(x => x.Path.Equals("wt.exe", StringComparison.OrdinalIgnoreCase)) == null)
-            //{
-            //    PackageManager packageManager = new PackageManager();
-            //    var terminalPackage = packageManager.FindPackagesForUser(string.Empty, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            //    if (terminalPackage != null)
-            //    {
-            //        terminalsFileModel.Terminals.Add(new TerminalModel()
-            //        {
-            //            Id = terminalsFileModel.Terminals.Count + 1,
-            //            Name = "Windows Terminal",
-            //            Path = "wt.exe",
-            //            arguments = "-d {0}",
-            //            icon = ""
-            //        });
-            //        await FileIO.WriteTextAsync(file, JsonConvert.SerializeObject(terminalsFileModel, Formatting.Indented));
-            //    }
-            //}
-            Terminals = terminalsFileModel?.Terminals ?? new List<TerminalModel>();
-        }
+            var windowsTerminal = new TerminalModel()
+            {
+                Name = "Windows Terminal",
+                Path = "wt.exe",
+                Arguments = "-d .",
+                Icon = ""
+            };
 
-        private IList<TerminalModel> _Terminals = null;
+            var fluentTerminal = new TerminalModel()
+            {
+                Name = "Fluent Terminal",
+                Path = "flute.exe",
+                Arguments = "",
+                Icon = ""
+            };
 
-        public IList<TerminalModel> Terminals
-        {
-            get => _Terminals;
-            set => Set(ref _Terminals, value);
+            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddOrRemoveTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
+            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddOrRemoveTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
+            if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
+            {
+                await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
+            }
         }
 
         private FormFactorMode _FormFactor = FormFactorMode.Regular;
@@ -347,7 +292,7 @@ namespace Files.View_Models
 
         public string OneDrivePath = Environment.GetEnvironmentVariable("OneDrive");
 
-        private void DetectOneDrivePreference()
+        private async void DetectOneDrivePreference()
         {
             if (localSettings.Values["PinOneDrive"] == null) { localSettings.Values["PinOneDrive"] = true; }
 
@@ -362,14 +307,18 @@ namespace Files.View_Models
 
             try
             {
-                StorageFolder.GetFolderFromPathAsync(OneDrivePath);
+                await StorageFolder.GetFolderFromPathAsync(OneDrivePath);
             }
             catch (Exception)
             {
                 PinOneDriveToSideBar = false;
             }
         }
-
+        public bool ShowFileOwner
+        {
+            get => Get(false);
+            set => Set(value);
+        }
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar
@@ -440,7 +389,8 @@ namespace Files.View_Models
                         var recycleBinItem = new LocationItem
                         {
                             Text = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                            Glyph = "\uE74D",
+                            Font = Application.Current.Resources["RecycleBinIcons"] as FontFamily,
+                            Glyph = "\uEF87",
                             IsDefaultLocation = true,
                             Path = RecycleBinPath
                         };
@@ -528,6 +478,24 @@ namespace Files.View_Models
         public bool AreLinuxFilesSupported
         {
             get => Get(false);
+            set => Set(value);
+        }
+
+        public bool OpenNewTabPageOnStartup
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
+        public bool OpenASpecificPageOnStartup
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
+        public string OpenASpecificPageOnStartupPath
+        {
+            get => Get("");
             set => Set(value);
         }
 
@@ -721,10 +689,13 @@ namespace Files.View_Models
             {
                 originalValue = Get(originalValue, propertyName);
 
+                _roamingSettings.Values[propertyName] = value;
                 if (!base.Set(ref originalValue, value, propertyName)) return false;
             }
-
-            _roamingSettings.Values[propertyName] = value;
+            else
+            {
+                _roamingSettings.Values[propertyName] = value;
+            }
 
             return true;
         }

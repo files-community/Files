@@ -11,10 +11,11 @@ namespace Files
     {
         public async static void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            App.CurrentInstance.NavigationToolbar.CanRefresh = false;
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                var ContentOwnedViewModelInstance = App.CurrentInstance.ViewModel;
-                await ContentOwnedViewModelInstance.RefreshItems();
+                var ContentOwnedViewModelInstance = App.CurrentInstance.FilesystemViewModel;
+                ContentOwnedViewModelInstance.RefreshItems();
             });
         }
 
@@ -24,7 +25,7 @@ namespace Files
             Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
             if (instanceContentFrame.CanGoBack)
             {
-                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
                 var previousSourcePageType = instanceContentFrame.BackStack[instanceContentFrame.BackStack.Count - 1].SourcePageType;
 
                 SelectSidebarItemFromPath(previousSourcePageType);
@@ -39,11 +40,11 @@ namespace Files
 
             if (instanceContentFrame.CanGoForward)
             {
-                App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
+                App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(incomingSourcePageType);
-                App.CurrentInstance.ViewModel.WorkingDirectory = Parameter.ToString();
+                App.CurrentInstance.FilesystemViewModel.WorkingDirectory = Parameter.ToString();
                 instanceContentFrame.GoForward();
             }
         }
@@ -52,8 +53,8 @@ namespace Files
         {
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
             Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
-            App.CurrentInstance.ViewModel.CancelLoadAndClearFiles();
-            var instance = App.CurrentInstance.ViewModel;
+            App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
+            var instance = App.CurrentInstance.FilesystemViewModel;
             string parentDirectoryOfPath;
             // Check that there isn't a slash at the end
             if ((instance.WorkingDirectory.Count() - 1) - instance.WorkingDirectory.LastIndexOf("\\") > 0)
@@ -75,7 +76,7 @@ namespace Files
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
                 App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.First(x => x.Path.Equals("Home"));
-                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = "New tab";
+                App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             }
         }
     }

@@ -1,26 +1,24 @@
 ﻿{
   "version": 1,
+  "defaultTerminalPath": "cmd.exe",
   "terminals": [
     {
-      "id": 1,
       "name": "CMD",
       "path": "cmd.exe",
-      "arguments": "/k \"cd /d {0} && title Command Prompt\"",
+      "arguments": "",
       "icon": ""
     }
     /*
     {
-      "id": 2,
       "name": "PowerShell Core 6",
       "path": "pwsh.exe",
-      "arguments": "-WorkingDirectory \"{0}\"",
+      "arguments": "",
       "icon": ""
     },
     {
-      "id": 3,
       "name": "Windows Terminal",
       "path": "wt.exe",
-      "arguments": "-d \"{0}\"",
+      "arguments": "-d .",
       "icon": ""
     }
     */

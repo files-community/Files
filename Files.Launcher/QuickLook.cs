@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NLog;
+using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Principal;
@@ -8,8 +9,12 @@ namespace FilesFullTrust
 {
     internal static class QuickLook
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public static void ToggleQuickLook(string path)
         {
+            Logger.Info("Toggle QuickLook");
+
             string PipeName = "QuickLook.App.Pipe." + WindowsIdentity.GetCurrent().User?.Value;
             string Toggle = "QuickLook.App.PipeMessages.Toggle";
 
@@ -53,7 +58,10 @@ namespace FilesFullTrust
                 }
             }
 
-            localSettings.Values["quicklook_enabled"] = QuickLookServerAvailable() != 0;
+            var result = QuickLookServerAvailable();
+
+            Logger.Info($"QuickLook detected: {result != 0}");
+            localSettings.Values["quicklook_enabled"] = result != 0;
         }
     }
 }

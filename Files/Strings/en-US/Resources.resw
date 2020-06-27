@@ -237,6 +237,12 @@
   <data name="PropertiesModified.Text" xml:space="preserve">
     <value>Modified:</value>
   </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Accessed:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Owner:</value>
+  </data>
   <data name="RecentItemClearAll.Text" xml:space="preserve">
     <value>Clear all items</value>
   </data>
@@ -330,9 +336,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>On Startup</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Page Layouts</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferences</value>
   </data>
@@ -349,7 +352,7 @@
     <value>Open a new tab</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page or pages</value>
+    <value>Open a specific page</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
@@ -359,6 +362,9 @@
   </data>
   <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
     <value>Enable Recycle Bin support</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Show Owner in properties</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
     <value>Show a confirmation dialog when deleting files or folders</value>
@@ -541,19 +547,19 @@
     <value>This folder is empty.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Back</value>
+    <value>Back (Alt + Left Arrow)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Forward</value>
+    <value>Forward (Alt + Right Arrow)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Up</value>
+    <value>Up (Alt + Up Arrow)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Refresh (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Create a new item</value>
+    <value>Create a new item (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Search</value>
@@ -680,5 +686,146 @@
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} seconds ago</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>The requested operation is not supported</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} free of {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Open With</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>The item name must not contain the following characters: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>New tab (Ctrl + T)</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>item selected</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>items selected</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>item</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>items</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Deleting files</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Extracting files</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Pasting files</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Moving files to Recycle Bin</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Pin directory to sidebar</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Are you sure you want to delete all items?</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Empty recycle bin</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>bytes</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>KB</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>GB</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>TB</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>PB</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>B</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Run as administrator</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Learn more about date formats</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Unlock</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Enter password to unlock the drive</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Please check the password and try again.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>BitLocker error</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Contains:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} Files, {1:#,##0} Folders</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Run as another user</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>All type of {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Different types</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>All in {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Used space:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Free space:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Capacity:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>File system:</value>
   </data>
 </root>

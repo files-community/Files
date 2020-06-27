@@ -11,7 +11,7 @@
     <AssemblyName>Files</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.19041.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
@@ -38,6 +38,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>bin\x86\Release\</OutputPath>
@@ -51,6 +52,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <DebugSymbols>true</DebugSymbols>
@@ -63,6 +65,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <OutputPath>bin\ARM\Release\</OutputPath>
@@ -76,6 +79,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
     <DebugSymbols>true</DebugSymbols>
@@ -89,6 +93,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <OutputPath>bin\ARM64\Release\</OutputPath>
@@ -102,6 +107,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +120,7 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <OutputPath>bin\x64\Release\</OutputPath>
@@ -127,6 +134,7 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
     <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -147,6 +155,10 @@
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
+    <Compile Include="DataModels\SidebarPinnedModel.cs" />
+    <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
+      <DependentUpon>BitlockerDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
@@ -154,17 +166,23 @@
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
     <Compile Include="Helpers\ItemsDataTemplateSelector.cs" />
+    <Compile Include="Helpers\NativeDirectoryChangesHelper.cs" />
+    <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
+    <Compile Include="Helpers\PackageHelper.cs" />
+    <Compile Include="Helpers\ShellCommandParser.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
+    <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
-    <Compile Include="UserControls\NavigationToolbar\INavigationToolbar.cs" />
-    <Compile Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml.cs">
+    <Compile Include="INavigationToolbar.cs" />
+    <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\ModernSidebar.xaml.cs">
-      <DependentUpon>ModernSidebar.xaml</DependentUpon>
+    <Compile Include="UserControls\SidebarControl.cs">
+      <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\TerminalModel.cs" />
@@ -190,6 +208,7 @@
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
+    <Compile Include="Enums\PropertiesType.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
@@ -198,29 +217,32 @@
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
       <DependentUpon>StatusBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\StatusCenter.xaml.cs">
+      <DependentUpon>StatusCenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View Models\CurrentInstanceViewModel.cs" />
     <Compile Include="View Models\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
-    <Compile Include="UserControls\LayoutModes\GenericFileBrowser.xaml.cs">
+    <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
     <Compile Include="View Models\InteractionViewModel.cs" />
-    <Compile Include="View Models\SelectedItemPropertiesViewModel.cs" />
+    <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
+    <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Views\InstanceTabsView.xaml.cs">
       <DependentUpon>InstanceTabsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interacts\EmptyFolderTextState.cs" />
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="Interacts\ItemInteractions.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
-    <Compile Include="UserControls\LayoutModes\GridViewBrowser.xaml.cs">
+    <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Interacts\LoadingIndicator.cs" />
-    <Compile Include="Views\Pages\ModernShellPage.xaml.cs">
+    <Compile Include="Views\ModernShellPage.xaml.cs">
       <DependentUpon>ModernShellPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\Properties.xaml.cs">
@@ -231,7 +253,7 @@
       <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
     <Compile Include="Settings.cs" />
-    <Compile Include="Views\Pages\Settings.xaml.cs">
+    <Compile Include="Views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsPages\About.xaml.cs">
@@ -252,9 +274,6 @@
     <Compile Include="Views\SettingsPages\Preferences.xaml.cs">
       <DependentUpon>Preferences.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPages\StartPageWidgets.xaml.cs">
-      <DependentUpon>StartPageWidgets.xaml</DependentUpon>
-    </Compile>
     <Compile Include="View Models\SettingsViewModel.cs" />
     <Compile Include="Helpers\WindowDisplayInfo.cs" />
     <Compile Include="Helpers\WindowDisplayMode.cs" />
@@ -274,6 +293,12 @@
     <Content Include="Assets\LargeTile.scale-200.png" />
     <Content Include="Assets\LargeTile.scale-400.png" />
     <Content Include="Assets\logo.bmp" />
+    <Content Include="Assets\Custom Glyphs\recyclebin-fabric-glyph.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Custom Glyphs\Custom-Glyphs.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -339,6 +364,7 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\ja-JP\Resources.resw" />
     <PRIResource Include="Strings\ta\Resources.resw" />
     <PRIResource Include="Strings\it-IT\Resources.resw" />
     <PRIResource Include="Strings\uk-UA\Resources.resw" />
@@ -357,15 +383,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\BitlockerDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Dialogs\ConfirmDeleteDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="UserControls\NavigationToolbar\ModernNavigationToolbar.xaml">
+    <Page Include="UserControls\ModernNavigationToolbar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\ModernSidebar.xaml">
+    <Page Include="UserControls\SidebarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -397,7 +427,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\LayoutModes\GenericFileBrowser.xaml">
+    <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -405,15 +435,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\StatusCenter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\InstanceTabsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\LayoutModes\GridViewBrowser.xaml">
+    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\ModernShellPage.xaml">
+    <Page Include="Views\ModernShellPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -425,7 +459,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\Settings.xaml">
+    <Page Include="Views\Settings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -453,10 +487,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPages\StartPageWidgets.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="ResourceDictionaries\ToolbarButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -474,39 +504,34 @@
       <Version>2020.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>3.1.0</Version>
+      <Version>3.2.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>3.1.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Net.Compilers">
-      <Version>3.3.1</Version>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
+      <Version>3.2.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.DeveloperTools">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>6.0.0</Version>
+      <Version>6.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.4.0</Version>
+      <Version>2.4.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry">
       <Version>5.0.0-preview.1.20120.5</Version>
@@ -518,10 +543,10 @@
       <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.7.0</Version>
+      <Version>4.7.2</Version>
     </PackageReference>
     <PackageReference Include="NLog.Schema">
-      <Version>4.7.0</Version>
+      <Version>4.7.2</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -534,6 +559,7 @@
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
+    <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
@@ -541,21 +567,29 @@
     <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />
     <XliffResource Include="MultilingualResources\Files.uk-UA.xlf" />
     <XliffResource Include="MultilingualResources\Files.zh-Hans.xlf" />
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="WindowsDesktop, Version=10.0.18362.0">
-      <Name>Windows Desktop Extensions for the UWP</Name>
-    </SDKReference>
+    <XliffResource Include="MultilingualResources\Files.zh-Hant.xlf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{0533133f-2559-4b53-a0fd-0970bc0e312e}</Project>
       <Name>Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Files.Extensions\Files.Extensions.vcxproj">
+      <Project>{d4e6a3ab-df72-44a4-9acb-c8a222656a20}</Project>
+      <Name>Files.Extensions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MessageRelay\Files.MessageRelay.csproj">
       <Project>{7684e128-d854-4c00-b086-0dd7d52f6e54}</Project>
       <Name>Files.MessageRelay</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Commands\" />
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsDesktop, Version=10.0.19041.0">
+      <Name>Windows Desktop Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

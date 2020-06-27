@@ -14,12 +14,23 @@
         Height="40"
         HorizontalAlignment="Stretch"
         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock
-            Padding="8"
-            HorizontalAlignment="Left"
-            Text="{x:Bind SelectedItemPropertiesViewModel.ItemSize, Mode=OneWay}" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
         <StackPanel
-            Grid.Row="1"
+            Margin="8,0"
+            VerticalAlignment="Center"
+            Orientation="Horizontal"
+            Spacing="12">
+            <TextBlock Text="{x:Bind DirectoryPropertiesViewModel.DirectoryItemCount, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.SelectedItemsCount, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind SelectedItemsPropertiesViewModel.ItemSize, Mode=OneWay}" Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsItemSelected, Mode=OneWay}" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Column="1"
             Padding="2"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
@@ -102,7 +113,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
                             Text="Tiles View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xF168;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf100;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -110,10 +121,30 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
                             Text="List View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE14C;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf200;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+
+            <Button
+                x:Uid="StatusCenter"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                Background="Transparent"
+                Content="&#xF16A;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Visibility="Collapsed"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Ongoing tasks">
+                <Button.Flyout>
+                    <Flyout>
+                        <local:StatusCenter x:Name="OngoingTasksControl" x:FieldModifier="public" Width="300" MinHeight="300" MaxHeight="400"/>
+                    </Flyout>
                 </Button.Flyout>
             </Button>
         </StackPanel>

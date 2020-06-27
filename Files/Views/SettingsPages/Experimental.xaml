@@ -15,11 +15,10 @@
             <StackPanel
                 Margin="12,12,8,8"
                 Orientation="Vertical"
-                Spacing="14">
+                Spacing="16">
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
-                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -34,63 +33,29 @@
                     FontStyle="Italic"
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="270" />
-                        <ColumnDefinition Width="*" MaxWidth="350" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Double tap to rename files"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Double tap to rename files" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsOn="{x:Bind local2:App.AppSettings.DoubleTapToRenameFiles, Mode=TwoWay}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="270" />
-                        <ColumnDefinition Width="*" MaxWidth="350" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsExperimentalRecycleBin"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Enable Recycle Bin support"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Enable Recycle Bin support" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsOn="{x:Bind local2:App.AppSettings.PinRecycleBinToSideBar, Mode=TwoWay}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsShowFileOwnerInProperties"
+                        FontSize="17"
+                        Text="Show Owner in properties" />
+                    <ToggleSwitch IsOn="{x:Bind AppSettings.ShowFileOwner, Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

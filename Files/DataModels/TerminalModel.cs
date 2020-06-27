@@ -1,15 +1,19 @@
-﻿namespace Files.DataModels
+﻿using Newtonsoft.Json;
+
+namespace Files.DataModels
 {
     public class TerminalModel
     {
-        public int Id { get; set; }
-
+        [JsonProperty("name")]
         public string Name { get; set; }
 
+        [JsonProperty("path")]
         public string Path { get; set; }
 
-        public string icon { get; set; }
+        [JsonProperty("arguments")]
+        public string Arguments { get; set; }
 
-        public string arguments { get; set; }
+        [JsonProperty("icon")]
+        public string Icon { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ByteSizeLib;
+using Files.Helpers;
+using System;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -11,8 +13,9 @@ namespace Files.Filesystem
         public string Text { get; set; }
         public string Path { get; set; }
         public NavigationControlItemType ItemType { get; set; } = NavigationControlItemType.Drive;
-        public ulong MaxSpace { get; set; } = 0;
-        public ulong SpaceUsed { get; set; } = 0;
+        public ByteSize MaxSpace { get; set; }
+        public ByteSize FreeSpace { get; set; }
+        public ByteSize SpaceUsed { get; set; }
         public string SpaceText { get; set; }
         public Visibility ItemVisibility { get; set; } = Visibility.Visible;
 
@@ -46,12 +49,14 @@ namespace Files.Filesystem
 
             try
             {
-                SpaceUsed = MaxSpace -
-                            Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).GigaBytes);
-                MaxSpace = Convert.ToUInt64(ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).GigaBytes);
-                SpaceText = String.Format("{0} of {1}",
-                    ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.FreeSpace"]).ToString(),
-                    ByteSizeLib.ByteSize.FromBytes((ulong)properties["System.Capacity"]).ToString());
+                MaxSpace = ByteSize.FromBytes((ulong)properties["System.Capacity"]);
+                FreeSpace = ByteSize.FromBytes((ulong)properties["System.FreeSpace"]);
+
+                SpaceUsed = MaxSpace - FreeSpace;
+                SpaceText = string.Format(
+                    ResourceController.GetTranslation("DriveFreeSpaceAndCapacity"),
+                    FreeSpace.ToBinaryString().ConvertSizeAbbreviation(),
+                    MaxSpace.ToBinaryString().ConvertSizeAbbreviation());
             }
             catch (NullReferenceException)
             {

@@ -46,7 +46,7 @@
     <value>Recientes</value>
   </data>
   <data name="SettingsAboutAppName.Text" xml:space="preserve">
-    <value>Archivos UWP</value>
+    <value>Files UWP</value>
   </data>
   <data name="SettingsAboutLicense.Text" xml:space="preserve">
     <value>Licencia: </value>
@@ -64,7 +64,7 @@
     <value>Licencias de terceros</value>
   </data>
   <data name="SettingsAboutTitle.Text" xml:space="preserve">
-    <value>Sobre nosotros</value>
+    <value>Acerca de Files UWP</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
     <value>Sitio web: </value>
@@ -82,19 +82,19 @@
     <value>Apariencia</value>
   </data>
   <data name="SettingsFilesAndFoldersShowDriveLetters.Text" xml:space="preserve">
-    <value>Mostrar letras de discos duros</value>
+    <value>Mostrar letras de unidad</value>
   </data>
   <data name="SettingsFilesAndFoldersShowFileExtensions.Text" xml:space="preserve">
     <value>Mostrar extensiones de tipos de archivo conocidos</value>
   </data>
   <data name="SettingsFilesAndFoldersShowHiddenFiles.Text" xml:space="preserve">
-    <value>Mostrar archivos, carpetas y discos duros ocultos</value>
+    <value>Mostrar archivos, carpetas y unidades ocultos</value>
   </data>
   <data name="SettingsFilesAndFoldersTitle.Text" xml:space="preserve">
     <value>Carpetas y archivos</value>
   </data>
   <data name="SettingsNavAbout.Content" xml:space="preserve">
-    <value>Sobre nosotros</value>
+    <value>Acerca de Files UWP</value>
   </data>
   <data name="SettingsNavAppearance.Content" xml:space="preserve">
     <value>Apariencia</value>
@@ -104,9 +104,6 @@
   </data>
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>En el inicio</value>
-  </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Diseño de páginas</value>
   </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Preferencias</value>
@@ -121,7 +118,7 @@
     <value>Abrir una nueva ventana</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abrir en una página específica o páginas</value>
+    <value>Abrir en una página específica</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>En el inicio</value>
@@ -154,7 +151,7 @@
     <value>Eliminar permanentemente</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Mostrar un diálogo de confirmación al borrar archivos o carpetas</value>
+    <value>Mostrar un diálogo de confirmación al eliminar elementos</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Escritorio</value>
@@ -328,7 +325,7 @@
     <value>Tamaño</value>
   </data>
   <data name="WelcomeDialog.Title" xml:space="preserve">
-    <value>Bienvenido a Archivos UWP</value>
+    <value>Bienvenido a Files UWP</value>
   </data>
   <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
     <value>Conceder Permiso</value>
@@ -355,7 +352,7 @@
     <value>Nueva pestaña</value>
   </data>
   <data name="SystemTheme" xml:space="preserve">
-    <value>Predeterminado de Windows</value>
+    <value>Predeterminado del sistema</value>
   </data>
   <data name="LightTheme" xml:space="preserve">
     <value>Claro</value>
@@ -382,19 +379,19 @@
     <value>Esta carpeta está vacía.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Atrás</value>
+    <value>Atrás (Alt + Flecha Izquierda)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Adelante</value>
+    <value>Adelante (Alt + Flecha Derecha)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Arriba</value>
+    <value>Arriba (Alt + Flecha Arriba)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Actualizar</value>
+    <value>Actualizar (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Crear un nuevo elemento</value>
+    <value>Crear un nuevo elemento (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Búsqueda</value>
@@ -403,7 +400,7 @@
     <value>Más opciones</value>
   </data>
   <data name="SidebarDrives" xml:space="preserve">
-    <value>Unidades</value>
+    <value>Dispositivos y unidades</value>
   </data>
   <data name="ItemTypeFile" xml:space="preserve">
     <value>Archivo</value>
@@ -529,7 +526,7 @@
     <value>Opciones de selección</value>
   </data>
   <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
-    <value>El archivo no se puede eliminar porque otra aplicación tiene abierto el archivo.</value>
+    <value>La acción no se puede completar porque otro programa tiene abierto el archivo.</value>
   </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
     <value>Archivo en uso</value>
@@ -575,5 +572,122 @@
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>Hace {0} segundos</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Nueva pestaña</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>La operación solicitada no es soportada en esta ubicación</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} disponibles de {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Abrir con...</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>El nombre de archivo no puede contener ninguno de los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>El nombre de archivo no puede contener ninguno de los siguientes caracteres: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Abrir ubicación del archivo de registro (log)</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Nueva pestaña (Ctrl + T)</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>elemento seleccionado</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>elementos seleccionados</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>elemento</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>elementos</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Anclar directorio a la barra lateral</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Accedido:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Propietario:</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Mostrar propietario de archivo en propiedades</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>¿Estás seguro que quieres eliminar todos los elementos?</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Vaciar papelera de reciclaje</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Mas información acerca de formatos de fecha</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Desbloquear</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Escriba la contraseña para desbloquear esta unidad</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Clave incorrecta, revisa e inténtalo de nuevo.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Error al intentar desbloquear</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Contiene:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} Archivos, {1:#,##0} Carpetas</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Ejecutar como administrador</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Ejecutar como otro usuario</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Todos del tipo {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Tipos múltiples</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Todos en {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Espacio usado:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Espacio disponible:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Capacidad:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Sistema de archivos:</value>
   </data>
 </root>

@@ -99,9 +99,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>Bij Het Opstarten</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Pagina lay-outs</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Voorkeuren</value>
   </data>

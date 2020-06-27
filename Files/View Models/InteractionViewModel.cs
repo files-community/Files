@@ -7,6 +7,14 @@ namespace Files.Controls
 {
     public class InteractionViewModel : ViewModelBase
     {
+        private bool _IsContentLoadingIndicatorVisible = false;
+
+        public bool IsContentLoadingIndicatorVisible
+        {
+            get => _IsContentLoadingIndicatorVisible;
+            set => Set(ref _IsContentLoadingIndicatorVisible, value);
+        }
+
         private int _TabStripSelectedIndex = 0;
 
         public int TabStripSelectedIndex
@@ -45,22 +53,6 @@ namespace Files.Controls
         {
             get => _IsSelectedItemImage;
             set => Set(ref _IsSelectedItemImage, value);
-        }
-
-        private bool _IsPageTypeNotHome = false;
-
-        public bool IsPageTypeNotHome
-        {
-            get => _IsPageTypeNotHome;
-            set => Set(ref _IsPageTypeNotHome, value);
-        }
-
-        private bool _IsPageTypeNotRecycleBin = false;
-
-        public bool IsPageTypeNotRecycleBin
-        {
-            get => _IsPageTypeNotRecycleBin;
-            set => Set(ref _IsPageTypeNotRecycleBin, value);
         }
 
         public void CheckForImage()

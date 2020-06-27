@@ -180,9 +180,6 @@
   <data name="SettingsNavOnStartup.Content" xml:space="preserve">
     <value>При запуску</value>
   </data>
-  <data name="SettingsNavPageLayouts.Content" xml:space="preserve">
-    <value>Структура сторінки</value>
-  </data>
   <data name="SettingsNavPreferences.Content" xml:space="preserve">
     <value>Налаштування</value>
   </data>
@@ -512,5 +509,131 @@
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Ви видалили цю папку?</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Вид піктограм</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Виділення</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>Файл, який ви намагаєтесь видалити, зараз використовується іншою програмою.</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>Файл використовується</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Повторити</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Тільки читання</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Прихований</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Очистити кошик</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Відновити</value>
+  </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>Підтримка Кошика</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} днів тому</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} годин тому</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>{0} день тому</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>{0} годину тому</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} хвилин тому</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>{0} хвилину тому</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>{0} секунд тому</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} вільно з {1}</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Нова вкладка</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>Дана операція не підтримується</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Відкрити за допомогою</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Відкрити розташування Лог файлу</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>байт</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>КБ</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>МБ</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>ГБ</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>ТБ</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>ПБ</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>Б</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Містить:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Всі типу {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Різні типи</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Всі в папці {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Зайнято:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Доступно:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Ємність:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Файлова система:</value>
   </data>
 </root>

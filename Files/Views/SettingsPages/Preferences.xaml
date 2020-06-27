@@ -20,7 +20,6 @@
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
-                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -30,109 +29,41 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="270" />
-                        <ColumnDefinition Width="*" MaxWidth="460" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesPinOneDrive"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Pin OneDrive to the sidebar"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Pin OneDrive to the sidebar" />
+                    <ToggleSwitch x:Name="OneDrivePin" IsOn="{x:Bind AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        x:Name="OneDrivePin"
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsEnabled="True"
-                        IsOn="{x:Bind local2:App.AppSettings.PinOneDriveToSideBar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent=""
-                        OnContent=""
-                        Toggled="OneDrivePin_Toggled" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="270" />
-                        <ColumnDefinition Width="*" MaxWidth="460" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesShowConfirmDeleteDialog"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
+                        FontSize="17"
                         Text="Show a confirmation dialog when deleting files or folders"
                         TextWrapping="WrapWholeWords" />
+                    <ToggleSwitch x:Name="ShowConfirmDeleteDialog" IsOn="{x:Bind AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        x:Name="ShowConfirmDeleteDialog"
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsEnabled="True"
-                        IsOn="{x:Bind local2:App.AppSettings.ShowConfirmDeleteDialog, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="220" />
-                        <ColumnDefinition Width="*" MaxWidth="510" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
+                <StackPanel Spacing="10">
 
                     <TextBlock
                         x:Uid="SettingsPreferencesTerminalApplications"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Terminal Applications"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Terminal Applications" />
 
                     <StackPanel
-                        Grid.Column="2"
-                        HorizontalAlignment="Right"
+                        Width="Auto"
+                        HorizontalAlignment="Left"
                         Orientation="Horizontal"
-                        Spacing="12">
-                        <HyperlinkButton
-                            x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
-                            Content="&#xE946;"
-                            FontFamily="Segoe MDL2 Assets"
-                            NavigateUri="https://github.com/duke7553/files-uwp/wiki/Sample-terminal-profiles"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
-                        <HyperlinkButton
-                            Click="EditTerminalApplications_Click"
-                            Content=""
-                            FontFamily="Segoe MDL2 Assets"
-                            Style="{ThemeResource TextBlockButtonStyle}" />
-
+                        Spacing="14">
                         <ComboBox
                             x:Name="TerminalApplicationsComboBox"
-                            MinWidth="120"
-                            MaxWidth="185"
-                            HorizontalAlignment="Stretch"
-                            ItemsSource="{x:Bind local2:App.AppSettings.Terminals}"
+                            Width="Auto"
+                            MinWidth="200"
+                            MaxWidth="250"
+                            ItemsSource="{x:Bind AppSettings.TerminalsModel.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate x:DataType="datamodels:TerminalModel">
@@ -142,8 +73,21 @@
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
+
+                        <HyperlinkButton
+                            Click="EditTerminalApplications_Click"
+                            Content=""
+                            FontFamily="Segoe MDL2 Assets"
+                            Style="{ThemeResource TextBlockButtonStyle}" />
+
+                        <HyperlinkButton
+                            x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
+                            Content="&#xE946;"
+                            FontFamily="Segoe MDL2 Assets"
+                            NavigateUri="https://github.com/duke7553/files-uwp/wiki/Sample-terminal-profiles"
+                            Style="{ThemeResource TextBlockButtonStyle}" />
                     </StackPanel>
-                </Grid>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

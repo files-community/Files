@@ -1,7 +1,7 @@
+using Files.View_Models;
 using NLog;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -17,8 +17,8 @@ namespace Files.Filesystem
     public class DrivesManager
     {
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-
-        public ObservableCollection<DriveItem> Drives { get; } = new ObservableCollection<DriveItem>();
+        public SettingsViewModel AppSettings => App.AppSettings;
+        public IList<DriveItem> Drives { get; } = new List<DriveItem>();
         public bool ShowUserConsentOnInit { get; set; } = false;
         private DeviceWatcher _deviceWatcher;
 
@@ -51,7 +51,7 @@ namespace Files.Filesystem
         {
             try
             {
-                await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                     {
@@ -82,7 +82,7 @@ namespace Files.Filesystem
 
         private async void MainView_Activated(CoreApplicationView sender, Windows.ApplicationModel.Activation.IActivatedEventArgs args)
         {
-            await CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
                 if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                 {
@@ -133,7 +133,7 @@ namespace Files.Filesystem
             // Update the collection on the ui-thread.
             try
             {
-                CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     Drives.Add(driveItem);
                     DeviceWatcher_EnumerationCompleted(null, null);
@@ -162,7 +162,7 @@ namespace Files.Filesystem
                 // Update the collection on the ui-thread.
                 try
                 {
-                    CoreApplication.MainView.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                     {
                         Drives.Remove(drive);
                         DeviceWatcher_EnumerationCompleted(null, null);
@@ -187,7 +187,19 @@ namespace Files.Filesystem
             var drives = DriveInfo.GetDrives().ToList();
 
             var remDevices = await DeviceInformation.FindAllAsync(StorageDevice.GetDeviceSelector());
-            var supportedDevicesNames = remDevices.Select(x => StorageDevice.FromId(x.Id).Name);
+            List<string> supportedDevicesNames = new List<string>();
+            foreach (var item in remDevices)
+            {
+                try
+                {
+                    supportedDevicesNames.Add(StorageDevice.FromId(item.Id).Name);
+                }
+                catch (Exception e)
+                {
+                    Logger.Warn("Can't get storage device name: " + e.Message + ", skipping...");
+                }
+            }
+
             foreach (DriveInfo driveInfo in drives.ToList())
             {
                 if (!supportedDevicesNames.Contains(driveInfo.Name) && driveInfo.DriveType == System.IO.DriveType.Removable)
@@ -265,7 +277,7 @@ namespace Files.Filesystem
             var oneDriveItem = new DriveItem()
             {
                 Text = "OneDrive",
-                Path = App.AppSettings.OneDrivePath,
+                Path = AppSettings.OneDrivePath,
                 Type = DriveType.VirtualDrive,
             };
 

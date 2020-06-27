@@ -1,5 +1,6 @@
 ﻿using Files.Enums;
 using Files.Helpers;
+using Files.View_Models;
 using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
@@ -9,6 +10,8 @@ namespace Files.SettingsPages
 {
     public sealed partial class Appearance : Page
     {
+        public SettingsViewModel AppSettings => App.AppSettings;
+
         public Appearance()
         {
             InitializeComponent();
@@ -22,7 +25,7 @@ namespace Files.SettingsPages
             ThemeChooser.SelectedIndex = (int)Enum.Parse(typeof(ElementTheme), ThemeHelper.RootTheme.ToString());
             ThemeChooser.Loaded += (s, e) =>
             {
-                ThemeChooser.SelectionChanged += async (s1, e1) =>
+                ThemeChooser.SelectionChanged += (s1, e1) =>
                 {
                     var themeComboBox = s1 as ComboBox;
 
@@ -49,22 +52,22 @@ namespace Files.SettingsPages
             _dateformatval.Add(ResourceController.GetTranslation("SystemTimeStye"));
             DateFormatChooser.ItemsSource = _dateformatval;
 
-            TimeStyle _selectedFormat = App.AppSettings.DisplayedTimeStyle;
+            TimeStyle _selectedFormat = AppSettings.DisplayedTimeStyle;
             DateFormatChooser.SelectedIndex = (int)Enum.Parse(typeof(TimeStyle), _selectedFormat.ToString());
             DateFormatChooser.Loaded += (s, e) =>
             {
-                DateFormatChooser.SelectionChanged += async (s1, e1) =>
+                DateFormatChooser.SelectionChanged += (s1, e1) =>
                 {
                     var timeStyleComboBox = s1 as ComboBox;
 
                     switch (timeStyleComboBox.SelectedIndex)
                     {
                         case 0:
-                            App.AppSettings.DisplayedTimeStyle = TimeStyle.Application;
+                            AppSettings.DisplayedTimeStyle = TimeStyle.Application;
                             break;
 
                         case 1:
-                            App.AppSettings.DisplayedTimeStyle = TimeStyle.System;
+                            AppSettings.DisplayedTimeStyle = TimeStyle.System;
                             break;
                     }
 

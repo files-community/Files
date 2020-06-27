@@ -1,7 +1,6 @@
 ﻿using Files.Enums;
 using System;
 using System.ComponentModel;
-using System.IO;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -91,7 +90,7 @@ namespace Files.Filesystem
         public string FileExtension { get; set; }
         public string ItemPath { get; set; }
         public string FileSize { get; set; }
-        public ulong FileSizeBytes { get; set; }
+        public long FileSizeBytes { get; set; }
 
         // For recycle bin elements (path + name)
         public string ItemOriginalPath { get; set; }
@@ -158,7 +157,7 @@ namespace Files.Filesystem
             else
             {
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
-            }            
+            }
         }
     }
 }

@@ -1,0 +1,184 @@
+﻿<UserControl
+    x:Class="Files.Controls.SidebarControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Files.Controls"
+    xmlns:local1="using:Files"
+    xmlns:local2="using:Files.Filesystem"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    d:DesignHeight="768"
+    d:DesignWidth="200"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <AcrylicBrush
+            x:Key="NavigationViewExpandedPaneBackground"
+            Windows10version1903:TintLuminosityOpacity="0.9"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
+            BackgroundSource="HostBackdrop"
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="LocationNavItem" x:DataType="local2:LocationItem">
+                <muxc:NavigationViewItem
+                    BorderThickness="0.8"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    IsRightTapEnabled="True"
+                    IsTabStop="False"
+                    RightTapped="NavigationViewLocationItem_RightTapped"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{x:Bind Font}" Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DriveNavItem" x:DataType="local2:DriveItem">
+                <muxc:NavigationViewItem
+                    Padding="0"
+                    BorderThickness="0.8"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    IsRightTapEnabled="True"
+                    RightTapped="NavigationViewDriveItem_RightTapped"
+                    Tag="{x:Bind Path}"
+                    ToolTipService.ToolTip="{x:Bind SpaceText}"
+                    Visibility="{x:Bind ItemVisibility}">
+                    <muxc:NavigationViewItem.Icon>
+                        <FontIcon Glyph="{x:Bind Glyph}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LinuxNavItem" x:DataType="local1:WSLDistroItem">
+                <muxc:NavigationViewItem
+                    Padding="0"
+                    BorderThickness="0.8"
+                    Content="{x:Bind Text}"
+                    DataContext="{x:Bind}"
+                    IsTabStop="False"
+                    Tag="{x:Bind Path}">
+                    <muxc:NavigationViewItem.Icon>
+                        <BitmapIcon
+                            Width="30"
+                            Height="30"
+                            ShowAsMonochrome="False"
+                            UriSource="{x:Bind Logo}" />
+                    </muxc:NavigationViewItem.Icon>
+                </muxc:NavigationViewItem>
+            </DataTemplate>
+
+            <DataTemplate x:Key="HeaderItem" x:DataType="local2:INavigationControlItem">
+                <muxc:NavigationViewItemHeader Content="{x:Bind Text}" />
+            </DataTemplate>
+
+            <local:NavItemDataTemplateSelector
+                x:Key="NavItemSelector"
+                DriveNavItemTemplate="{StaticResource DriveNavItem}"
+                HeaderNavItemTemplate="{StaticResource HeaderItem}"
+                LinuxNavItemTemplate="{StaticResource LinuxNavItem}"
+                LocationNavItemTemplate="{StaticResource LocationNavItem}" />
+        </Grid.Resources>
+        <muxc:NavigationView
+            x:Name="SidebarNavView"
+            Width="200"
+            HorizontalAlignment="Stretch"
+            IsBackButtonVisible="Collapsed"
+            IsPaneOpen="True"
+            IsPaneToggleButtonVisible="False"
+            IsSettingsVisible="False"
+            IsTitleBarAutoPaddingEnabled="False"
+            ItemInvoked="Sidebar_ItemInvoked"
+            MenuItemTemplateSelector="{StaticResource NavItemSelector}"
+            MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
+            OpenPaneLength="200"
+            PaneDisplayMode="Left"
+            SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <muxc:NavigationView.PaneFooter>
+                <Grid Width="200">
+                    <Button
+                        x:Name="SettingsButton"
+                        Width="200"
+                        Height="40"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        BorderBrush="{StaticResource ButtonRevealBorderBrush}"
+                        Click="SettingsButton_Click"
+                        CornerRadius="0">
+                        <Button.Content>
+                            <Grid Width="200">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="34" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <FontIcon
+                                    VerticalAlignment="Center"
+                                    FontSize="18"
+                                    Glyph="&#xE713;" />
+                                <TextBlock
+                                    x:Uid="SidebarSettings"
+                                    Grid.Column="1"
+                                    Padding="2,0,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Settings" />
+                            </Grid>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+            </muxc:NavigationView.PaneFooter>
+            <muxc:NavigationView.Resources>
+                <ResourceDictionary>
+                    <MenuFlyout x:Name="SideBarItemContextFlyout" x:FieldModifier="public">
+                        <MenuFlyout.Items>
+                            <MenuFlyoutItem
+                                x:Name="EmptyRecycleBin"
+                                x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
+                                x:Load="{x:Bind ShowEmptyRecycleBin, Mode=OneWay}"
+                                Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
+                                Text="Empty recycle bin">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="OpenInNewTab"
+                                x:Uid="SideBarOpenInNewTab"
+                                Click="OpenInNewTab_Click"
+                                Text="Open in new tab">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF500;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="OpenInNewWindow"
+                                x:Uid="SideBarOpenInNewWindow"
+                                Click="OpenInNewWindow_Click"
+                                Text="Open in new window">
+                                <MenuFlyoutItem.Icon>
+                                     <FontIcon Glyph="&#xE8A7;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem
+                                x:Name="UnpinItem"
+                                x:Uid="SideBarUnpinFromSideBar"
+                                x:Load="{x:Bind ShowUnpinItem, Mode=OneWay}"
+                                Click="{x:Bind local1:App.UnpinItem_Click}"
+                                Text="Unpin from Sidebar">
+                                <MenuFlyoutItem.Icon>
+                                      <FontIcon Glyph="&#xE77A;" />
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                        </MenuFlyout.Items>
+                    </MenuFlyout>
+                </ResourceDictionary>
+            </muxc:NavigationView.Resources>
+        </muxc:NavigationView>
+    </Grid>
+</UserControl>

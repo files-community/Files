@@ -21,7 +21,6 @@
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
-                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -31,89 +30,50 @@
                     FontWeight="Medium"
                     Text="Appearance" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="*" MaxWidth="360" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsAppearanceTheme"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="App theme"
-                        TextWrapping="Wrap" />
-
+                        FontSize="17"
+                        Text="App theme" />
                     <ComboBox
                         x:Name="ThemeChooser"
-                        Grid.Column="3"
-                        Width="150"
-                        HorizontalAlignment="Right" />
-                </Grid>
+                        Width="Auto"
+                        MinWidth="200"
+                        MaxWidth="250" />
+                </StackPanel>
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="*" MaxWidth="360" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsAppearanceDateFormat"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Date format"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Date format" />
 
-                    <ComboBox
-                        x:Name="DateFormatChooser"
-                        Grid.Column="3"
-                        Width="150"
-                        HorizontalAlignment="Right" />
-                </Grid>
+                    <StackPanel
+                        Width="Auto"
+                        Orientation="Horizontal"
+                        Spacing="8">
+                        <ComboBox
+                            x:Name="DateFormatChooser"
+                            Width="Auto"
+                            MinWidth="200"
+                            MaxWidth="250" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="160" />
-                        <ColumnDefinition Width="*" MaxWidth="360" />
-                        <ColumnDefinition Width="200" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
+                        <HyperlinkButton
+                            x:Uid="SettingsAppearanceDateFormatsTip"
+                            Content="&#xE946;"
+                            FontFamily="Segoe MDL2 Assets"
+                            NavigateUri="https://github.com/files-community/files-uwp/wiki/Date-formats"
+                            Style="{ThemeResource TextBlockButtonStyle}" />
+                    </StackPanel>
+                </StackPanel>
 
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsAppearanceAcrylicSidebar"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Acrylic sidebar"
-                        TextWrapping="Wrap" />
-
-                    <ToggleSwitch
-                        x:Name="AcrylicSidebarSwitch"
-                        Grid.Column="2"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
+                        FontSize="17"
+                        Text="Acrylic sidebar" />
+                    <ToggleSwitch x:Name="AcrylicSidebarSwitch" IsOn="{x:Bind AppSettings.AcrylicEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

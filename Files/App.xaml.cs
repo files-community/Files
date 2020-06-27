@@ -1,7 +1,7 @@
 using Files.CommandLine;
 using Files.Controls;
+using Files.DataModels;
 using Files.Filesystem;
-using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using Microsoft.AppCenter;
@@ -55,7 +55,7 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
-        public static SelectedItemPropertiesViewModel SelectedItemPropertiesViewModel { get; set; }
+        public static SidebarPinnedModel SidebarPinned { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -75,14 +75,13 @@ namespace Files
             LayoutDialogDisplay = new Dialogs.LayoutDialog();
             AddItemDialogDisplay = new Dialogs.AddItemDialog();
             ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
-            // this.UnhandledException += App_UnhandledException;
+
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
-            AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 
-            AppSettings = new SettingsViewModel();
-            InteractionViewModel = new InteractionViewModel();
-            SelectedItemPropertiesViewModel = new SelectedItemPropertiesViewModel();
+#if !DEBUG
+            AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
+#endif
         }
 
         private void OnLeavingBackground(object sender, LeavingBackgroundEventArgs e)
@@ -92,7 +91,6 @@ namespace Files
         }
 
         public static AppServiceConnection Connection;
-        public static Action AppServiceConnected;
 
         private async void InitializeAppServiceConnection()
         {
@@ -112,8 +110,6 @@ namespace Files
 
             // Launch fulltrust process
             await FullTrustProcessLauncher.LaunchFullTrustProcessForCurrentAppAsync();
-
-            AppServiceConnected?.Invoke();
         }
 
         private void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)
@@ -132,13 +128,13 @@ namespace Files
             {
                 var path = (string)args.Request.Message["FileSystem"];
                 Debug.WriteLine("{0}: {1}", path, args.Request.Message["Type"]);
-                if (App.CurrentInstance.ViewModel.CurrentFolder?.ItemPath == path)
+                if (App.CurrentInstance.FilesystemViewModel.CurrentFolder?.ItemPath == path)
                 {
                     // If we are currently displaying the reycle bin lets refresh the items
                     await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
-                        async () =>
+                        () =>
                         {
-                            await App.CurrentInstance.ViewModel.RefreshItems();
+                            App.CurrentInstance.FilesystemViewModel.RefreshItems();
                         });
                 }
             }
@@ -170,19 +166,15 @@ namespace Files
 
         public static INavigationControlItem rightClickedItem;
 
-        public static async void FlyoutItem_Click(object sender, RoutedEventArgs e)
+        public static void UnpinItem_Click(object sender, RoutedEventArgs e)
         {
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-            var ListFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-            var ListFileLines = await FileIO.ReadLinesAsync(ListFile);
-            foreach (string path in ListFileLines)
+            if (rightClickedItem.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
-                if (path == App.rightClickedItem.Path.ToString())
-                {
-                    App.AppSettings.LinesToRemoveFromFile.Add(path);
-                    App.AppSettings.RemoveStaleSidebarItems();
-                    return;
-                }
+                AppSettings.PinRecycleBinToSideBar = false;
+            }
+            else
+            {
+                SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
             }
         }
 
@@ -195,7 +187,7 @@ namespace Files
                     DataPackageView packageView = Clipboard.GetContent();
                     if (packageView.Contains(StandardDataFormats.StorageItems)
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.ViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
                     {
                         App.PS.IsEnabled = true;
                     }
@@ -267,8 +259,6 @@ namespace Files
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
 
-                ThemeHelper.Initialize();
-
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -301,7 +291,6 @@ namespace Files
                 Window.Current.Content = rootFrame;
             }
 
-            ThemeHelper.Initialize();
             var currentView = SystemNavigationManager.GetForCurrentView();
             switch (args.Kind)
             {
@@ -317,6 +306,7 @@ namespace Files
                         var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
                         rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
                     }
+
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;

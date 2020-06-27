@@ -18,7 +18,6 @@
                 <StackPanel.ChildrenTransitions>
                     <TransitionCollection>
                         <RepositionThemeTransition />
-                        <ReorderThemeTransition />
                     </TransitionCollection>
                 </StackPanel.ChildrenTransitions>
 
@@ -28,90 +27,32 @@
                     FontWeight="Medium"
                     Text="Files and Folders" />
 
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MaxWidth="620" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsFilesAndFoldersShowHiddenFiles"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Show hidden files, folders, and drives"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Show hidden files, folders, and drives" />
+                    <ToggleSwitch IsEnabled="False" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        Grid.Column="1"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsEnabled="False"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MaxWidth="620" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsFilesAndFoldersShowFileExtensions"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Show extensions for known file types"
-                        TextWrapping="Wrap" />
+                        FontSize="17"
+                        Text="Show extensions for known file types" />
+                    <ToggleSwitch x:Name="FileExtensionsToggle" IsOn="{x:Bind AppSettings.ShowFileExtensions, Mode=TwoWay}" />
+                </StackPanel>
 
-                    <ToggleSwitch
-                        x:Name="FileExtensionsToggle"
-                        Grid.Column="1"
-                        Width="40"
-                        HorizontalAlignment="Right"
-                        IsOn="{x:Bind local:App.AppSettings.ShowFileExtensions, Mode=TwoWay}"
-                        OffContent=""
-                        OnContent="" />
-                </Grid>
-
-                <Grid HorizontalAlignment="Stretch">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MaxWidth="620" />
-                        <ColumnDefinition Width="100" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.ChildrenTransitions>
-                        <TransitionCollection>
-                            <RepositionThemeTransition />
-                        </TransitionCollection>
-                    </Grid.ChildrenTransitions>
-
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsFilesAndFoldersShowDriveLetters"
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        FontSize="16"
-                        Text="Show drive letters"
-                        TextWrapping="Wrap" />
-
+                        FontSize="17"
+                        Text="Show drive letters" />
                     <ToggleSwitch
-                        Grid.Column="1"
-                        Width="40"
-                        HorizontalAlignment="Right"
                         IsEnabled="False"
                         OffContent=""
                         OnContent="" />
-                </Grid>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

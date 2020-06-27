@@ -13,11 +13,11 @@
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
-            AlwaysUseFallback="{x:Bind local:App.AppSettings.AcrylicEnabled, Mode=OneWay}"
+            AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
-            FallbackColor="{x:Bind local:App.AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
-            TintColor="{x:Bind local:App.AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
-            TintOpacity="{x:Bind local:App.AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
+            FallbackColor="{x:Bind AppSettings.AcrylicTheme.FallbackColor, Mode=OneWay}"
+            TintColor="{x:Bind AppSettings.AcrylicTheme.TintColor, Mode=OneWay}"
+            TintOpacity="{x:Bind AppSettings.AcrylicTheme.TintOpacity, Mode=OneWay}" />
     </Page.Background>
 
     <Grid
@@ -586,39 +586,39 @@
                     Key="Number1"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number2"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number3"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number4"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number5"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number6"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number7"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number8"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="Number9"
                     Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />
-                                    <KeyboardAccelerator
+                <KeyboardAccelerator
                     Key="W"
                     Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
                     Modifiers="Control" />

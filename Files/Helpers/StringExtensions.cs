@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Files.Helpers
@@ -63,6 +64,26 @@ namespace Files.Helpers
             }
 
             return (length < value.Length) ? value.Substring(value.Length - length) : value;
+        }
+
+        private static readonly Dictionary<string, string> abbreviations = new Dictionary<string, string>()
+        {
+            { "KiB", ResourceController.GetTranslation("KiloByteSymbol") },
+            { "MiB", ResourceController.GetTranslation("MegaByteSymbol") },
+            { "GiB", ResourceController.GetTranslation("GigaByteSymbol") },
+            { "TiB", ResourceController.GetTranslation("TeraByteSymbol") },
+            { "PiB", ResourceController.GetTranslation("PetaByteSymbol") },
+            { "B", ResourceController.GetTranslation("ByteSymbol") },
+            { "b", ResourceController.GetTranslation("ByteSymbol") }
+        };
+
+        public static string ConvertSizeAbbreviation(this string value)
+        {
+            foreach (var item in abbreviations)
+            {
+                value = value.Replace(item.Key, item.Value);
+            }
+            return value;
         }
     }
 }
