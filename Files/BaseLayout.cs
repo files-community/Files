@@ -327,7 +327,7 @@ namespace Files
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 
             // Find selected items that are not folders
-            if (selectedFileSystemItems.Cast<ListedItem>().Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
+            if (selectedFileSystemItems.Any(x => x.PrimaryItemAttribute != StorageItemTypes.Folder))
             {
                 UnloadMenuFlyoutItemByName("SidebarPinItem");
                 UnloadMenuFlyoutItemByName("OpenInNewTab");

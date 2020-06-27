@@ -41,6 +41,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Dialogs.ConfirmDeleteDialog;
+using Files.UserControls;
+using Windows.UI.ViewManagement;
 using Windows.Security.Credentials.UI;
 
 namespace Files.Interacts
@@ -612,7 +614,7 @@ namespace Files.Interacts
                     return; //return if the result isn't delete
                 }
             }
-
+            StatusBanner banner = null;
             try
             {
                 var CurrentInstance = App.CurrentInstance;
@@ -624,50 +626,64 @@ namespace Files.Interacts
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
-                    (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, itemsDeleted, selectedItems.Count);
+                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null, 
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory, 
+                        0, 
+                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing, 
+                        UserControls.StatusBanner.StatusBannerOperation.Delete);
                 }
-
-                foreach (ListedItem storItem in selectedItems)
+                await Task.Run(async () =>
                 {
-                    if (selectedItems.Count > 3) { (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.DeleteItems, ++itemsDeleted, selectedItems.Count); }
-                    IStorageItem item;
-                    try
+                    foreach (ListedItem storItem in selectedItems)
                     {
-                        if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
+                        uint progressValue = (uint)(itemsDeleted * 100.0 / selectedItems.Count);
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                            new DispatchedHandler(() =>
+                            {
+                                if (selectedItems.Count > 3) { banner.Report((uint)progressValue); }
+                            }));
+
+                        IStorageItem item;
+                        try
                         {
-                            item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
+                            if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            {
+                                item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
+                            }
+                            else
+                            {
+                                item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
+                            }
+
+                            await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
                         }
-                        else
+                        catch (FileLoadException)
                         {
-                            item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
+                            // try again
+                            if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
+                            {
+                                item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
+                            }
+                            else
+                            {
+                                item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
+                            }
+
+                            await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
                         }
 
-                        await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
+                        if (deleteFromRecycleBin)
+                        {
+                            // Recycle bin also stores a file starting with $I for each item
+                            var iFilePath = Path.Combine(Path.GetDirectoryName(storItem.ItemPath), Path.GetFileName(storItem.ItemPath).Replace("$R", "$I"));
+                            await (await StorageFile.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
+                        }
+
+                        CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
+                        itemsDeleted++;
                     }
-                    catch (FileLoadException)
-                    {
-                        // try again
-                        if (storItem.PrimaryItemAttribute == StorageItemTypes.File)
-                        {
-                            item = await StorageFile.GetFileFromPathAsync(storItem.ItemPath);
-                        }
-                        else
-                        {
-                            item = await StorageFolder.GetFolderFromPathAsync(storItem.ItemPath);
-                        }
+                });
 
-                        await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
-                    }
-
-                    if (deleteFromRecycleBin)
-                    {
-                        // Recycle bin also stores a file starting with $I for each item
-                        var iFilePath = Path.Combine(Path.GetDirectoryName(storItem.ItemPath), Path.GetFileName(storItem.ItemPath).Replace("$R", "$I"));
-                        await (await StorageFile.GetFileFromPathAsync(iFilePath)).DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    }
-
-                    CurrentInstance.FilesystemViewModel.RemoveFileOrFolder(storItem);
-                }
                 App.CurrentInstance.NavigationToolbar.CanGoForward = false;
             }
             catch (UnauthorizedAccessException)
@@ -689,7 +705,7 @@ namespace Files.Interacts
                     DeleteItem_Click(null, null);
                 }
             }
-
+            App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
             App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
         }
 
@@ -1026,103 +1042,121 @@ namespace Files.Interacts
             HashSet<IStorageItem> pastedSourceItems = new HashSet<IStorageItem>();
             HashSet<IStorageItem> pastedItems = new HashSet<IStorageItem>();
             itemsPasted = 0;
+            StatusBanner banner = null;
             if (itemsToPaste.Count > 3)
             {
-                (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, itemsPasted, itemsToPaste.Count);
+                banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                        0,
+                        StatusBanner.StatusBannerSeverity.Ongoing,
+                        StatusBanner.StatusBannerOperation.Paste);
             }
 
-            foreach (IStorageItem item in itemsToPaste)
+            await Task.Run((Func<Task>)(async () => 
             {
-                if (item.IsOfType(StorageItemTypes.Folder))
+                foreach (IStorageItem item in itemsToPaste)
                 {
-                    if (destinationPath.IsSubPathOf(item.Path))
+                    if (item.IsOfType(StorageItemTypes.Folder))
                     {
-                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-                        Binding themeBind = new Binding();
-                        themeBind.Source = ThemeHelper.RootTheme;
-
-                        ContentDialog dialog = new ContentDialog()
+                        if (destinationPath.IsSubPathOf(item.Path))
                         {
-                            Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
-                            Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
-                            PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
-                            CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
-                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
-                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
-                        };
-                        BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
+                            ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
+                            Binding themeBind = new Binding();
+                            themeBind.Source = ThemeHelper.RootTheme;
 
-                        await dialog.ShowAsync();
-                        if (responseType == ImpossibleActionResponseTypes.Skip)
-                        {
-                            continue;
+                            ContentDialog dialog = new ContentDialog()
+                            {
+                                Title = ResourceController.GetTranslation("ErrorDialogThisActionCannotBeDone"),
+                                Content = ResourceController.GetTranslation("ErrorDialogTheDestinationFolder") + " (" + destinationPath.Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries).Last() + ") " + ResourceController.GetTranslation("ErrorDialogIsASubfolder") + " (" + item.Name + ")",
+                                PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
+                                CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
+                                PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
+                                CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                            };
+                            BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
+
+                            await dialog.ShowAsync();
+                            if (responseType == ImpossibleActionResponseTypes.Skip)
+                            {
+                                continue;
+                            }
+                            else if (responseType == ImpossibleActionResponseTypes.Abort)
+                            {
+                                return;
+                            }
                         }
-                        else if (responseType == ImpossibleActionResponseTypes.Abort)
+                        else
                         {
-                            return;
+                            try
+                            {
+                                ClonedDirectoryOutput pastedOutput = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false, banner);
+                                pastedItems.Add(pastedOutput.FolderOutput);
+                                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                                    new DispatchedHandler(() =>
+                                    {
+                                        banner = pastedOutput.StatusBannerOutput;
+                                    }));
+                            }
+                            catch (FileNotFoundException)
+                            {
+                                // Folder was moved/deleted in the meantime
+                                continue;
+                            }
                         }
                     }
-                    else
+                    else if (item.IsOfType(StorageItemTypes.File))
                     {
+                        uint progressValue = (uint)(itemsPasted * 100.0 / itemsToPaste.Count);
+                        if (itemsToPaste.Count > 3)
+                        {
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                                new DispatchedHandler(() =>
+                                {
+                                    banner.Report((uint)progressValue);
+                                }));
+                        }
                         try
                         {
-                            StorageFolder pastedFolder = await CloneDirectoryAsync(item.Path, destinationPath, item.Name, false);
-                            pastedSourceItems.Add(item);
-                            pastedItems.Add(pastedFolder);
+                            StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
+                            StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
+                            pastedItems.Add(pastedFile);
                         }
                         catch (FileNotFoundException)
                         {
-                            // Folder was moved/deleted in the meantime
+                            // File was moved/deleted in the meantime
                             continue;
                         }
                     }
+                    itemsPasted++;
                 }
-                else if (item.IsOfType(StorageItemTypes.File))
-                {
-                    if (itemsToPaste.Count > 3)
-                    {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count);
-                    }
-                    try
-                    {
-                        StorageFile clipboardFile = await StorageFile.GetFileFromPathAsync(item.Path);
-                        StorageFile pastedFile = await clipboardFile.CopyAsync(await StorageFolder.GetFolderFromPathAsync(destinationPath), item.Name, NameCollisionOption.GenerateUniqueName);
-                        pastedSourceItems.Add(item);
-                        pastedItems.Add(pastedFile);
-                    }
-                    catch (FileNotFoundException)
-                    {
-                        // File was moved/deleted in the meantime
-                        continue;
-                    }
-                }
-            }
 
-            if (acceptedOperation == DataPackageOperation.Move)
-            {
-                foreach (IStorageItem item in pastedSourceItems)
+                if (acceptedOperation == DataPackageOperation.Move)
                 {
-                    try
+                    foreach (IStorageItem item in itemsToPaste)
                     {
-                        if (item.IsOfType(StorageItemTypes.File))
+                        try
                         {
-                            StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
-                            await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            if (item.IsOfType(StorageItemTypes.File))
+                            {
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
+                                await file.DeleteAsync();
+                            }
+                            else if (item.IsOfType(StorageItemTypes.Folder))
+                            {
+                                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                                await folder.DeleteAsync();
+                            }
                         }
-                        else if (item.IsOfType(StorageItemTypes.Folder))
+                        catch (FileNotFoundException)
                         {
-                            StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
-                            await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                            // File or Folder was moved/deleted in the meantime
+                            continue;
                         }
+                        ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                     }
-                    catch (FileNotFoundException)
-                    {
-                        // File or Folder was moved/deleted in the meantime
-                        continue;
-                    }
-                    ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                 }
-            }
+            }));
+
             if (destinationPath == CurrentInstance.FilesystemViewModel.WorkingDirectory)
             {
                 List<string> pastedItemPaths = pastedItems.Select(item => item.Path).ToList();
@@ -1134,9 +1168,16 @@ namespace Files.Interacts
                 }
             }
             packageView.ReportOperationCompleted(acceptedOperation);
+            App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
         }
 
-        public async Task<StorageFolder> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout)
+        public class ClonedDirectoryOutput
+        {
+            public StorageFolder FolderOutput { get; set; }
+            public StatusBanner StatusBannerOutput { get; set; } = null;
+        }
+
+        public async Task<ClonedDirectoryOutput> CloneDirectoryAsync(string SourcePath, string DestinationPath, string sourceRootName, bool suppressProgressFlyout, StatusBanner banner = null)
         {
             StorageFolder SourceFolder = await StorageFolder.GetFolderFromPathAsync(SourcePath);
             StorageFolder DestinationFolder = await StorageFolder.GetFolderFromPathAsync(DestinationPath);
@@ -1149,7 +1190,19 @@ namespace Files.Interacts
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        uint progressValue = (uint)(itemsPasted * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFilesAsync()).Count));
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                            new DispatchedHandler(() =>
+                            {
+                                if (banner == null)
+                                {
+                                    throw new ArgumentNullException();
+                                }
+                                else
+                                {
+                                    banner.Report(progressValue);
+                                }
+                            }));
                     }
                 }
 
@@ -1161,13 +1214,42 @@ namespace Files.Interacts
                 {
                     if (itemsToPaste.Count > 3 && !suppressProgressFlyout)
                     {
-                        (App.CurrentInstance as ModernShellPage).UpdateProgressFlyout(InteractionOperationType.PasteItems, ++itemsPasted, itemsToPaste.Count + (await SourceFolder.GetItemsAsync()).Count);
+                        uint progressValue = (uint)(itemsPasted * 100.0 / (itemsToPaste.Count + (await SourceFolder.GetFoldersAsync()).Count));
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                            new DispatchedHandler(() =>
+                            {
+                                if (banner == null)
+                                {
+                                    throw new ArgumentNullException();
+                                }
+                                else
+                                {
+                                    banner.Report(progressValue);
+                                }
+                            }));
                     }
                 }
 
-                await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false);
+                var output = await CloneDirectoryAsync(folderinSourceDir.Path, DestinationFolder.Path, folderinSourceDir.Name, false, banner);
+                banner = output.StatusBannerOutput;
             }
-            return createdRoot;
+            if (!suppressProgressFlyout)
+            {
+                return new ClonedDirectoryOutput()
+                {
+                    FolderOutput = createdRoot,
+                    StatusBannerOutput = banner
+                };
+            }
+            else
+            {
+                return new ClonedDirectoryOutput()
+                {
+                    FolderOutput = createdRoot,
+                    StatusBannerOutput = null
+                };
+            }
+            
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
@@ -1190,6 +1272,7 @@ namespace Files.Interacts
             var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();
             StorageFile selectedItem = await StorageFile.GetFileFromPathAsync(CurrentInstance.FilesystemViewModel.FilesAndFolders[selectedIndex].ItemPath);
 
+            StatusBanner banner = null;
             ExtractFilesDialog extractFilesDialog = new ExtractFilesDialog(CurrentInstance.FilesystemViewModel.WorkingDirectory);
             await extractFilesDialog.ShowAsync();
             if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == false)
@@ -1203,27 +1286,49 @@ namespace Files.Interacts
                 int totalCount = zipArchive.Entries.Count;
                 int index = 0;
 
-                App.InteractionViewModel.IsContentLoadingIndicatorVisible = true;
+                App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    null, 
+                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory, 
+                    0, 
+                    StatusBanner.StatusBannerSeverity.Ongoing, 
+                    StatusBanner.StatusBannerOperation.Extract);
 
-                foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
-                {
-                    if (archiveEntry.FullName.Contains('/'))
+                await Task.Run((Func<Task>)(async () => {
+                    foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                     {
-                        var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
-                        nestedDirectories.Remove(nestedDirectories.Last());
-                        var relativeOutputPathToEntry = Path.Combine(nestedDirectories.ToArray());
-                        System.IO.Directory.CreateDirectory(Path.Combine(destFolder_InBuffer.Path, relativeOutputPathToEntry));
-                    }
+                        uint progressValue = (uint)(index * 100.0 / zipArchive.Entries.Count);
+                        await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                            new DispatchedHandler(() =>
+                            {
+                                if (banner == null)
+                                {
+                                    throw new ArgumentNullException();
+                                }
+                                else
+                                {
+                                    banner.Report((uint)progressValue);
+                                }
+                            }));
+                        if (archiveEntry.FullName.Contains('/'))
+                        {
+                            var nestedDirectories = archiveEntry.FullName.Split('/').ToList();
+                            nestedDirectories.Remove(nestedDirectories.Last());
+                            var relativeOutputPathToEntry = Path.Combine(nestedDirectories.ToArray());
+                            System.IO.Directory.CreateDirectory(Path.Combine(destFolder_InBuffer.Path, relativeOutputPathToEntry));
+                        }
 
-                    if (!string.IsNullOrWhiteSpace(archiveEntry.Name))
-                        archiveEntry.ExtractToFile(Path.Combine(destFolder_InBuffer.Path, archiveEntry.FullName));
+                        if (!string.IsNullOrWhiteSpace(archiveEntry.Name))
+                            archiveEntry.ExtractToFile(Path.Combine(destFolder_InBuffer.Path, archiveEntry.FullName));
 
-                    index++;
-                    if (index == totalCount)
-                    {
-                        App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                        index++;
+                        if (index == totalCount)
+                        {
+                            App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
+                        }
                     }
-                }
+                }));
+                
                 await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
                 {
@@ -1235,6 +1340,8 @@ namespace Files.Interacts
                         instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
+                banner.Report(100);
+                App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
             }
             else if (((bool)ApplicationData.Current.LocalSettings.Values["Extract_Destination_Cancelled"]) == true)
             {

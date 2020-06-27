@@ -217,6 +217,9 @@
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
       <DependentUpon>StatusBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\StatusCenter.xaml.cs">
+      <DependentUpon>StatusCenter.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View Models\CurrentInstanceViewModel.cs" />
     <Compile Include="View Models\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
@@ -429,6 +432,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UserControls\StatusBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\StatusCenter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

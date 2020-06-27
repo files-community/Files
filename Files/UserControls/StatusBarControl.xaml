@@ -127,6 +127,26 @@
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>
+
+            <Button
+                x:Uid="StatusCenter"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                Background="Transparent"
+                Content="&#xF16A;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Visibility="Collapsed"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Ongoing tasks">
+                <Button.Flyout>
+                    <Flyout>
+                        <local:StatusCenter x:Name="OngoingTasksControl" x:FieldModifier="public" Width="300" MinHeight="300" MaxHeight="400"/>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>

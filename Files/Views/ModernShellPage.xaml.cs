@@ -179,32 +179,6 @@ namespace Files.Views.Pages
                 App.CurrentInstance.ContentPage.ResetItemOpacity();
             }
         }
-
-        public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
-        {
-            this.FindName("ProgressFlyout");
-
-            string operationText = null;
-            switch (operationType)
-            {
-                case InteractionOperationType.PasteItems:
-                    operationText = "Completing Paste";
-                    break;
-
-                case InteractionOperationType.DeleteItems:
-                    operationText = "Deleting Items";
-                    break;
-            }
-            ProgressFlyoutTextBlock.Text = operationText + " (" + amountComplete + "/" + amountTotal + ")" + "...";
-            ProgressFlyoutProgressBar.Value = amountComplete;
-            ProgressFlyoutProgressBar.Maximum = amountTotal;
-
-            if (amountComplete == amountTotal)
-            {
-                UnloadObject(ProgressFlyout);
-            }
-        }
-
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             args.Handled = true;
