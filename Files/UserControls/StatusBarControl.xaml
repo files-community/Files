@@ -139,6 +139,7 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
+                Visibility="Collapsed"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Ongoing tasks">
                 <Button.Flyout>
