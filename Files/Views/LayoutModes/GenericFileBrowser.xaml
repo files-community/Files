@@ -553,6 +553,11 @@
                             </MenuFlyout>
                         </Setter.Value>
                     </Setter>
+                    <Setter Property="SeparatorBrush" Value="Transparent"/>
+                    <Setter Property="Height" Value="38"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="{StaticResource ApplicationForegroundThemeBrush}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
                     <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
@@ -572,18 +577,17 @@
             </Interactivity:Interaction.Behaviors>
             <controls:DataGrid.CellStyle>
                 <Style TargetType="controls:DataGridCell">
-                    <Setter Property="FontSize" Value="14"/>
                     <Setter Property="BorderThickness" Value="0" />
                     <Setter Property="AllowFocusOnInteraction" Value="False" />
                     <Setter Property="FocusVisualPrimaryThickness" Value="0" />
                     <Setter Property="FocusVisualSecondaryThickness" Value="0" />
                 </Style>
             </controls:DataGrid.CellStyle>
-
             <controls:DataGrid.Columns>
                 <controls:DataGridTemplateColumn
                     x:Name="iconColumn"
                     DisplayIndex="0"
+                    CanUserResize="False"
                     IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
@@ -628,6 +632,7 @@
                     x:Name="nameColumn"
                     x:Uid="nameColumn"
                     Width="275"
+                    FontSize="14"
                     Binding="{Binding ItemName}"
                     DisplayIndex="1"
                     Header="Name"
@@ -640,6 +645,7 @@
                     x:Name="dateColumn"
                     x:Uid="dateColumn"
                     Width="Auto"
+                    FontSize="12"
                     Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
                     Header="Date modified"
@@ -653,6 +659,7 @@
                     x:Name="typeColumn"
                     x:Uid="typeColumn"
                     Width="150"
+                    FontSize="12"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
                     Header="Type"
@@ -667,6 +674,7 @@
                     x:Uid="sizeColumn"
                     Width="Auto"
                     MinWidth="100"
+                    FontSize="12"
                     Binding="{Binding FileSize}"
                     DisplayIndex="4"
                     Header="Size"
