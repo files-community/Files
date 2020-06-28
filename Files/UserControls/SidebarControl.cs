@@ -134,11 +134,19 @@ namespace Files.Controls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
 
-            ShowUnpinItem = true;
+            if (item.IsDefaultLocation)
+            {
+                ShowUnpinItem = false;
+            }
+            else
+            {
+                ShowUnpinItem = true;
+            }
 
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 ShowEmptyRecycleBin = true;
+                ShowUnpinItem = true;
             }
             else
             {
