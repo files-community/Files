@@ -564,4 +564,94 @@
   <data name="SecondsAgo" xml:space="preserve">
     <value>{0} நொடிகள் முன்பு</value>
   </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>புதிய தாவல்</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>இதன்மூலம் திற</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>சரி</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>புதிய தாவல் 	Ctrl+T</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>%@ உருப்படிகள் தேர்ந்தெடுக்கப்பட்டன</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>உருப்படி</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>உருப்படிகள்</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>அணுகியது:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>உரிமையாளர்</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>மறுசுழற்சிக் கூடையைக் காலியாக்கு</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>சரி</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>பைட்கள்</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>கி.பை</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>மெ.பை</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>ஜி.பை</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>டெ.பை</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>பெ.பை</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>ம</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>கோப்புகளை நீக்குகிறது...</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>பூட்டுநீக்கு</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>ரத்து</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>கடவுச்சொல்</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>கொண்டிருப்பது:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>நிர்வாகியாக இயக்கு</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>மற்றொரு பயனராக இயக்கு</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>பயன்படுத்திய இடம்:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>காலி இடம்:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>கொள்ளளவு:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>கோப்பு முறைமை:</value>
+  </data>
 </root>

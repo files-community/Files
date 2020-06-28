@@ -940,11 +940,11 @@
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
-          <target state="new">Deleting files</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Eliminando archivos</target>
         </trans-unit>
         <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
           <source>Extracting files</source>
-          <target state="new">Extracting files</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Extrayendo archivos...</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>

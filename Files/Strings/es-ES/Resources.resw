@@ -690,4 +690,10 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Sistema de archivos:</value>
   </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Eliminando archivos</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Extrayendo archivos...</value>
+  </data>
 </root>
