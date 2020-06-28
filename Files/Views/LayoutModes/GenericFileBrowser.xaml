@@ -517,7 +517,7 @@
             <controls:DataGrid.Resources>
                 <SolidColorBrush x:Key="DataGridCellFocusVisualPrimaryBrush" Color="Transparent" />
                 <SolidColorBrush x:Key="DataGridCellFocusVisualSecondaryBrush" Color="Transparent" />
-                <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="ApplicationPageBackgroundThemeBrush" />
+                <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemControlTransparentBrush" />
             </controls:DataGrid.Resources>
             <controls:DataGrid.ColumnHeaderStyle>
                 <Style TargetType="controlsprimitives:DataGridColumnHeader">
@@ -543,7 +543,12 @@
                             </MenuFlyout>
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
+                    <Setter Property="SeparatorBrush" Value="Transparent"/>
+                    <Setter Property="Height" Value="38"/>
+                    <Setter Property="FontSize" Value="14"/>
+                    <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Background" Value="Transparent" />
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
             <Interactivity:Interaction.Behaviors>
@@ -568,11 +573,11 @@
                     <Setter Property="FocusVisualSecondaryThickness" Value="0" />
                 </Style>
             </controls:DataGrid.CellStyle>
-
             <controls:DataGrid.Columns>
                 <controls:DataGridTemplateColumn
                     x:Name="iconColumn"
                     DisplayIndex="0"
+                    CanUserResize="False"
                     IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
@@ -617,6 +622,7 @@
                     x:Name="nameColumn"
                     x:Uid="nameColumn"
                     Width="275"
+                    FontSize="14"
                     Binding="{Binding ItemName}"
                     DisplayIndex="1"
                     Header="Name"
@@ -629,6 +635,7 @@
                     x:Name="dateColumn"
                     x:Uid="dateColumn"
                     Width="Auto"
+                    FontSize="12"
                     Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
                     Header="Date modified"
@@ -642,6 +649,7 @@
                     x:Name="typeColumn"
                     x:Uid="typeColumn"
                     Width="150"
+                    FontSize="12"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
                     Header="Type"
@@ -656,6 +664,7 @@
                     x:Uid="sizeColumn"
                     Width="Auto"
                     MinWidth="100"
+                    FontSize="12"
                     Binding="{Binding FileSize}"
                     DisplayIndex="4"
                     Header="Size"
