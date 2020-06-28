@@ -204,16 +204,6 @@
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutSeparator />
-            <MenuFlyoutItem
-                x:Name="RecycleBinPropertiesFolder"
-                x:Uid="BaseLayoutContextFlyoutPropertiesFolder"
-                Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
-                Text="Properties">
-                <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE946;" />
-                </MenuFlyoutItem.Icon>
-            </MenuFlyoutItem>
         </MenuFlyout>
 
         <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutItemContextFlyout" Opening="RightClickItemContextMenu_Opening">
