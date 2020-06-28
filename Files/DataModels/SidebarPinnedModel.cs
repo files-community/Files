@@ -87,32 +87,14 @@ namespace Files.DataModels
             {
                 Debug.WriteLine(ex.Message);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (
+                ex is ArgumentException // Pinned item was invalid
+                || ex is FileNotFoundException // Pinned item was deleted
+                || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
+                || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
                 Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);
                 RemoveItem(path);
-            }
-            catch (FileNotFoundException ex)
-            {
-                Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                RemoveItem(path);
-            }
-            catch (System.Runtime.InteropServices.COMException ex)
-            {
-                Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                RemoveItem(path);
-            }
-            catch (Exception ex)
-            {
-                if ((uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
-                {
-                    Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);
-                    RemoveItem(path);
-                }
-                else
-                {
-                    throw ex;
-                }
             }
         }
 

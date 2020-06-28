@@ -67,9 +67,13 @@ namespace Files.Filesystem
         public async Task SetWorkingDirectory(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
+            {
                 return;
+            }
             if (WorkingDirectory == value)
+            {
                 return;
+            }
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
