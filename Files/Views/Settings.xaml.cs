@@ -1,6 +1,7 @@
 ﻿using Files.SettingsPages;
 using Files.View_Models;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -17,6 +18,14 @@ namespace Files
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DragArea);
+
+
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
+            }
 
             SettingsPane.SelectedItem = SettingsPane.MenuItems[0];
         }
