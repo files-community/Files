@@ -505,6 +505,7 @@
             IsDoubleTapEnabled="True"
             IsRightTapEnabled="True"
             ItemsSource="{x:Bind AssociatedViewModel.FilesAndFolders, Mode=OneWay}"
+            Loaded="AllView_Loaded"
             LoadingRow="AllView_LoadingRow"
             PreparingCellForEdit="AllView_PreparingCellForEdit"
             PreviewKeyDown="AllView_PreviewKeyDown"

@@ -10,6 +10,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -239,16 +240,19 @@ namespace Files
         }
 
         private TextBox renamingTextBox;
+        private DateTime prepareCellForEditEntryTime;
 
         private void AllView_PreparingCellForEdit(object sender, DataGridPreparingCellForEditEventArgs e)
         {
+            prepareCellForEditEntryTime = DateTime.Now;
+
             if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
             {
                 // Do not rename files and folders inside the recycle bin
                 AllView.CancelEdit(); // Cancel the edit operation
                 return;
             }
-                       
+
             if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
             {
                 AllView.CancelEdit(); // Cancel the edit operation
@@ -436,9 +440,26 @@ namespace Files
             return row.DataContext as ListedItem;
         }
 
-        private void RightClickContextMenu_Opening(object sender, object e)
-        {
+        [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
+        public static extern int GetDoubleClickTime();
 
+        private void AllView_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            TimeSpan timeElapsed = DateTime.Now - prepareCellForEditEntryTime;
+
+            if (timeElapsed.TotalMilliseconds <= GetDoubleClickTime()) // We should respect the user's global double click speed setting.
+            {
+                App.CurrentInstance.InteractionOperations.OpenItem_Click(null, null);
+            }
+        }
+
+        private void AllView_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Create a TappedEventHandler which fires even when this event has already been handled higher up the chain.
+            // See https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/events-and-routed-events-overview#registering-handlers-for-already-handled-routed-events
+            // for more details.
+            // Unfortunately using the DoubleTappedEventHandler isn't an option here as unfortunately entering the cell editing mode seems to break this.
+            this.AddHandler(UIElement.TappedEvent, new TappedEventHandler(AllView_Tapped), true);
         }
     }
 }
