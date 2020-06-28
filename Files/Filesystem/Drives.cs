@@ -326,10 +326,11 @@ namespace Files.Filesystem
                     return new StorageFolderWithPath(matchingDrive, rootPath);
                 }
             }
-            else
-            {
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
-            }
+            // It's ok to return null here, on normal drives StorageFolder.GetFolderFromPathAsync works
+            //else
+            //{
+            //    return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(rootPath), rootPath);
+            //}
             return null;
         }
 
