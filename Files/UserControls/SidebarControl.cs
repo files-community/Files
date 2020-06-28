@@ -133,19 +133,12 @@ namespace Files.Controls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
-            if (item.IsDefaultLocation)
-            {
-                ShowUnpinItem = false;
-            }
-            else
-            {
-                ShowUnpinItem = true;
-            }
+
+            ShowUnpinItem = true;
 
             if (item.Path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
                 ShowEmptyRecycleBin = true;
-                ShowUnpinItem = true;
             }
             else
             {
@@ -161,6 +154,8 @@ namespace Files.Controls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
 
             ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             App.rightClickedItem = sidebarItem.DataContext as DriveItem;
