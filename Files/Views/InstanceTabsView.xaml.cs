@@ -37,6 +37,13 @@ namespace Files
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
+            
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
+            }
 
             App.AppSettings = new SettingsViewModel();
             App.InteractionViewModel = new InteractionViewModel();
