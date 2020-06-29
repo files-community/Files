@@ -162,7 +162,7 @@
                                 Click="OpenInNewWindow_Click"
                                 Text="Open in new window">
                                 <MenuFlyoutItem.Icon>
-                                     <FontIcon Glyph="&#xE8A7;" />
+                                    <FontIcon Glyph="&#xE8A7;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -172,7 +172,7 @@
                                 Click="{x:Bind local1:App.UnpinItem_Click}"
                                 Text="Unpin from Sidebar">
                                 <MenuFlyoutItem.Icon>
-                                      <FontIcon Glyph="&#xE77A;" />
+                                    <FontIcon Glyph="&#xE77A;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout.Items>

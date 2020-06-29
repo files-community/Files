@@ -6,11 +6,9 @@ using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -314,11 +312,13 @@ namespace Files.View_Models
                 PinOneDriveToSideBar = false;
             }
         }
+
         public bool ShowFileOwner
         {
             get => Get(false);
             set => Set(value);
         }
+
         private bool _PinOneDriveToSideBar = true;
 
         public bool PinOneDriveToSideBar

@@ -828,7 +828,7 @@
                             IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}"
                             Text="Open in Terminal...">
                             <MenuFlyoutItem.Icon>
-                                 <FontIcon Glyph="&#xE756;" />
+                                <FontIcon Glyph="&#xE756;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

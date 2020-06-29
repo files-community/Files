@@ -839,7 +839,7 @@ namespace Files.Filesystem
             catch (FileNotFoundException)
             {
                 await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("FolderNotFoundDialog/Title"), 
+                    ResourceController.GetTranslation("FolderNotFoundDialog/Title"),
                     ResourceController.GetTranslation("FolderNotFoundDialog/Text"));
                 IsLoadingItems = false;
                 return;
@@ -981,21 +981,26 @@ namespace Files.Filesystem
                                              AddFileOrFolder(FileName);
                                              Debug.WriteLine("File " + FileName + " added to working directory.");
                                              break;
+
                                          case FILE_ACTION_REMOVED:
                                              RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                              Debug.WriteLine("File " + FileName + " removed from working directory.");
                                              break;
+
                                          case FILE_ACTION_MODIFIED:
                                              Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
                                              break;
+
                                          case FILE_ACTION_RENAMED_OLD_NAME:
                                              RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                              Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
                                              break;
+
                                          case FILE_ACTION_RENAMED_NEW_NAME:
                                              AddFileOrFolder(FileName);
                                              Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
                                              break;
+
                                          default:
                                              Debug.WriteLine("File " + FileName + " performed an action in the working directory.");
                                              break;

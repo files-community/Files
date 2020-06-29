@@ -239,6 +239,7 @@ namespace FilesFullTrust
                         await args.Request.SendResponseAsync(new ValueSet() { { "Bitlocker", "Unlock" } });
                     }
                     break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {

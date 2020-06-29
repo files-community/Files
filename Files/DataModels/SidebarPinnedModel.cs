@@ -70,7 +70,7 @@ namespace Files.DataModels
             try
             {
                 StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
-                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location 
+                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                     && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {

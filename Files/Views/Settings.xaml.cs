@@ -19,7 +19,6 @@ namespace Files
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(DragArea);
 
-
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")

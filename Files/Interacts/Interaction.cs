@@ -1,6 +1,7 @@
 using Files.Dialogs;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.UserControls;
 using Files.View_Models;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
@@ -31,6 +32,7 @@ using Windows.System.UserProfile;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.WindowManagement;
 using Windows.UI.WindowManagement.Preview;
 using Windows.UI.Xaml;
@@ -41,9 +43,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using static Files.Dialogs.ConfirmDeleteDialog;
-using Files.UserControls;
-using Windows.UI.ViewManagement;
-using Windows.Security.Credentials.UI;
 
 namespace Files.Interacts
 {
@@ -468,7 +467,7 @@ namespace Files.Interacts
         {
             if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
             {
-                await InstanceTabsView.StartTerminateAsync();
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
             {
@@ -626,10 +625,10 @@ namespace Files.Interacts
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
-                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null, 
-                        CurrentInstance.FilesystemViewModel.WorkingDirectory, 
-                        0, 
-                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing, 
+                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                        0,
+                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing,
                         UserControls.StatusBanner.StatusBannerOperation.Delete);
                 }
                 await Task.Run(async () =>
@@ -697,9 +696,9 @@ namespace Files.Interacts
             catch (IOException)
             {
                 if (await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/Title"), 
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/Text"), 
-                    ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"), 
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/Title"),
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/Text"),
+                    ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"),
                     ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
                     DeleteItem_Click(null, null);
@@ -1052,7 +1051,7 @@ namespace Files.Interacts
                         StatusBanner.StatusBannerOperation.Paste);
             }
 
-            await Task.Run((Func<Task>)(async () => 
+            await Task.Run((Func<Task>)(async () =>
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
@@ -1249,7 +1248,6 @@ namespace Files.Interacts
                     StatusBannerOutput = null
                 };
             }
-            
         }
 
         public void NewFolder_Click(object sender, RoutedEventArgs e)
@@ -1288,13 +1286,14 @@ namespace Files.Interacts
 
                 App.InteractionViewModel.IsContentLoadingIndicatorVisible = false;
                 banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
-                    null, 
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory, 
-                    0, 
-                    StatusBanner.StatusBannerSeverity.Ongoing, 
+                    null,
+                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                    0,
+                    StatusBanner.StatusBannerSeverity.Ongoing,
                     StatusBanner.StatusBannerOperation.Extract);
 
-                await Task.Run((Func<Task>)(async () => {
+                await Task.Run((Func<Task>)(async () =>
+                {
                     foreach (ZipArchiveEntry archiveEntry in zipArchive.Entries)
                     {
                         uint progressValue = (uint)(index * 100.0 / zipArchive.Entries.Count);
@@ -1328,7 +1327,7 @@ namespace Files.Interacts
                         }
                     }
                 }));
-                
+
                 await CloneDirectoryAsync(destFolder_InBuffer.Path, destinationPath, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
                 {
