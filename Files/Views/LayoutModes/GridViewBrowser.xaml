@@ -15,7 +15,7 @@
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
-        <MenuFlyout x:Key="BaseLayoutContextFlyout" Opening="RightClickContextMenu_Opening">
+        <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutSortBy"
@@ -80,7 +80,7 @@
                 x:Name="OpenTerminal"
                 x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                IsEnabled="True"
+                IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                 Text="Open in Terminal...">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE756;" />
@@ -108,6 +108,7 @@
                     x:Name="NewBitmapImage"
                     x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
+                    IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xEB9F;" />
@@ -117,14 +118,14 @@
                     x:Name="NewTextDocument"
                     x:Uid="BaseLayoutContextFlyoutNewTextDocument"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
+                    IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8A5;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
-            <MenuFlyoutSeparator
-                x:Name="NewEmptySpaceSeparator"/>
+            <MenuFlyoutSeparator />
             <MenuFlyoutItem
                 x:Name="PinToSidebar"
                 x:Uid="BaseLayoutContextFlyoutPinDirectoryToSidebar"

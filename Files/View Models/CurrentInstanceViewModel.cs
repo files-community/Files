@@ -12,7 +12,9 @@ namespace Files.View_Models
             set
             {
                 Set(ref _IsPageTypeNotHome, value);
+                RaisePropertyChanged("IsCreateButtonEnabledInPage");
                 RaisePropertyChanged("CanCreateFileInPage");
+                RaisePropertyChanged("CanOpenTerminalInPage");
             }
         }
 
@@ -24,7 +26,9 @@ namespace Files.View_Models
             set
             {
                 Set(ref _IsPageTypeMtpDevice, value);
+                RaisePropertyChanged("IsCreateButtonEnabledInPage");
                 RaisePropertyChanged("CanCreateFileInPage");
+                RaisePropertyChanged("CanOpenTerminalInPage");
             }
         }
 
@@ -36,11 +40,23 @@ namespace Files.View_Models
             set
             {
                 Set(ref _IsPageTypeRecycleBin, value);
+                RaisePropertyChanged("IsCreateButtonEnabledInPage");
                 RaisePropertyChanged("CanCreateFileInPage");
+                RaisePropertyChanged("CanOpenTerminalInPage");
             }
         }
 
+        public bool IsCreateButtonEnabledInPage
+        {
+            get => !_IsPageTypeRecycleBin && IsPageTypeNotHome;
+        }
+
         public bool CanCreateFileInPage
+        {
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome;
+        }
+
+        public bool CanOpenTerminalInPage
         {
             get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome;
         }

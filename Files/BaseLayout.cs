@@ -322,23 +322,6 @@ namespace Files
             }
         }
 
-        public void RightClickContextMenu_Opening(object sender, object e)
-        {
-            if (App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice)
-            {
-                // MTP device
-                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = false;
-                UnloadMenuFlyoutItemByName("NewEmptySpace");
-                UnloadMenuFlyoutItemByName("NewEmptySpaceSeparator");
-            }
-            else
-            {
-                (this.FindName("OpenTerminal") as MenuFlyoutItemBase).IsEnabled = true;
-                (this.FindName("NewEmptySpace") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                (this.FindName("NewEmptySpaceSeparator") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-            }
-        }
-
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
             SetShellContextmenu();

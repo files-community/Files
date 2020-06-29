@@ -696,7 +696,7 @@
                 Background="Transparent"
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
-                IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsCreateButtonEnabledInPage, Mode=OneWay}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
                 Visibility="Visible">
@@ -717,6 +717,7 @@
                         <MenuFlyoutItem
                             x:Uid="ModernNavigationToolbaNewBitmapImage"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
+                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             Text="Bitmap Image">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xEB9F;" />
@@ -725,6 +726,7 @@
                         <MenuFlyoutItem
                             x:Uid="ModernNavigationToolbaNewTextDocument"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
+                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             Text="Text Document">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE8A5;" />
@@ -825,7 +827,7 @@
                             x:Uid="NavigationToolbarOpenInTerminal"
                             x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                            IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                             Text="Open in Terminal...">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Glyph="&#xE756;" />
