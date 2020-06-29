@@ -38,7 +38,7 @@ namespace Files
             var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
-            
+
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
             if (flowDirectionSetting == "RTL")
@@ -59,15 +59,6 @@ namespace Files
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
-
-        public static async Task StartTerminateAsync()
-        {
-            IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
-            IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
-            var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
-            await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
-            //Application.Current.Exit();
-        }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
@@ -437,7 +428,7 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    await InstanceTabsView.StartTerminateAsync();
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
                 else
                 {
@@ -467,7 +458,6 @@ namespace Files
             }
             else
             {
-
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
@@ -513,14 +503,14 @@ namespace Files
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                await InstanceTabsView.StartTerminateAsync();
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-        }        
+        }
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {

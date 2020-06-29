@@ -206,8 +206,11 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutItemContextFlyout" Opening="RightClickItemContextMenu_Opening">
-                <MenuFlyoutItem
+        <MenuFlyout
+            x:Key="BaseLayoutItemContextFlyout"
+            x:Name="BaseLayoutItemContextFlyout"
+            Opening="RightClickItemContextMenu_Opening">
+            <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Uid="BaseLayoutItemContextFlyoutExtract"
                 x:Load="False"
@@ -644,15 +647,15 @@
         <Interactivity:Interaction.Behaviors>
             <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
                 <Core:ChangePropertyAction
-                        PropertyName="ContextFlyout"
-                        TargetObject="{Binding ElementName=RootGrid}"
-                        Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
             </Core:DataTriggerBehavior>
             <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
                 <Core:ChangePropertyAction
-                        PropertyName="ContextFlyout"
-                        TargetObject="{Binding ElementName=RootGrid}"
-                        Value="{StaticResource BaseLayoutContextFlyout}" />
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{StaticResource BaseLayoutContextFlyout}" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar

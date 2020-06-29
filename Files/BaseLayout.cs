@@ -322,7 +322,6 @@ namespace Files
 
         public void RightClickItemContextMenu_Opening(object sender, object e)
         {
-
             SetShellContextmenu();
             var selectedFileSystemItems = App.CurrentInstance.ContentPage.SelectedItems;
 

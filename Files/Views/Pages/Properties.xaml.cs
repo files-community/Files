@@ -1,12 +1,16 @@
-﻿using Files.Filesystem;
+﻿using ByteSizeLib;
+using Files.Enums;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.Foundation.Metadata;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
@@ -16,14 +20,10 @@ using Windows.UI.Core;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
-using Files.Enums;
-using System.Linq;
-using Windows.Foundation.Collections;
-using ByteSizeLib;
-using FileAttributes = System.IO.FileAttributes;
-using static Files.Helpers.NativeFindStorageItemHelper;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Navigation;
+using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files
 {
@@ -227,7 +227,7 @@ namespace Files
                         if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                         {
                             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateCreated"]));
-                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];                            
+                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];
                             ViewModel.ItemSize = ByteSize.FromBytes((long)response.Message["BinSize"]).ToString();
                             ViewModel.FilesCount = (int)(long)response.Message["NumItems"];
                             SetItemsCountString();
