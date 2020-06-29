@@ -694,6 +694,12 @@
     <value>Eliminando archivos</value>
   </data>
   <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Extrayendo archivos...</value>
+    <value>Extrayendo archivos</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Pegando archivos</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Moviendo archivos a la papelera de reciclaje</value>
   </data>
 </root>
