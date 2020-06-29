@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
