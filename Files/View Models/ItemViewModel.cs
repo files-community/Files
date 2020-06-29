@@ -857,6 +857,23 @@ namespace Files.Filesystem
                 }
             }
 
+            if (!enumFromStorageFolder)
+            {
+                FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
+                int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
+
+                IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
+                                                      additionalFlags);
+                if (hFile.ToInt64() == -1)
+                {
+                    enumFromStorageFolder = true;
+                }
+                else
+                {
+                    FindClose(hFile);
+                }
+            }
+
             if (enumFromStorageFolder)
             {
                 Stopwatch stopwatch = new Stopwatch();
