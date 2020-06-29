@@ -488,10 +488,11 @@
         <controls:DataGrid
             x:Name="AllView"
             Grid.Row="3"
-            Margin="12,12,12,0"
-            HorizontalAlignment="Stretch"
+            Margin="12,12,0,0"
+            HorizontalAlignment="Left"
             x:FieldModifier="public"
             AllowDrop="True"
+            Width="Auto"
             AutoGenerateColumns="False"
             CanUserReorderColumns="False"
             CanUserSortColumns="True"
