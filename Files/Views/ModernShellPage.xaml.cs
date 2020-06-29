@@ -4,6 +4,7 @@ using Files.UserControls;
 using Files.View_Models;
 using System;
 using System.Linq;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.Core;
@@ -31,6 +32,14 @@ namespace Files.Views.Pages
             {
                 AppSettings.DrivesManager.ShowUserConsentOnInit = false;
                 DisplayFilesystemConsentDialog();
+            }
+
+
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
             }
 
             App.CurrentInstance = this as IShellPage;

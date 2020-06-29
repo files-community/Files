@@ -594,6 +594,36 @@
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
     <value>Открыть расположение Лог файла</value>
   </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Создать вкладку	CTRL+T</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>элемент выбран</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>выбранные элементы</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>элемент</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>элементы</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Открыт:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Владелец:</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Очистка корзины</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ОК</value>
+  </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байт</value>
   </data>
@@ -615,11 +645,26 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Разблокировать</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Содержит:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлов, {1:#,##0} Папок</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Запуск от имени администратора</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Выполнить как другой пользователь</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Все типа {0}</value>
@@ -641,5 +686,11 @@
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Файловая система:</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Удаление файлов...</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Извлечение файлов...</value>
   </data>
 </root>
