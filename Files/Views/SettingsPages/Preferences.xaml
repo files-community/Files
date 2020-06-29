@@ -84,7 +84,7 @@
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
                             Content="&#xE946;"
                             FontFamily="Segoe MDL2 Assets"
-                            NavigateUri="https://github.com/duke7553/files-uwp/wiki/Sample-terminal-profiles"
+                            NavigateUri="https://github.com/files-community/files-uwp/wiki/Sample-terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}" />
                     </StackPanel>
                 </StackPanel>
