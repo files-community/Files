@@ -33,18 +33,26 @@ namespace Files.View_Models.Properties
             propertiesName.Add(dateAccessedProperty);
             propertiesName.Add(fileOwnerProperty);
             IDictionary<string, object> extraProperties = await properties.RetrievePropertiesAsync(propertiesName);
-            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)extraProperties[dateAccessedProperty]);
+            // Cannot get date and owner in MTP devices
+            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate((DateTimeOffset)(extraProperties[dateAccessedProperty] ?? DateTimeOffset.Now));
 
             if (App.AppSettings.ShowFileOwner)
             {
-                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty].ToString();
+                // Cannot get date and owner in MTP devices
+                ViewModel.ItemFileOwner = extraProperties[fileOwnerProperty]?.ToString();
             }
         }
 
         public async Task<long> CalculateFolderSizeAsync(string path, CancellationToken token)
         {
-            long size = 0;
+            if (string.IsNullOrEmpty(path))
+            {
+                // In MTP devices calculating folder size would be too slow
+                // Also should use StorageFolder methods instead of FindFirstFileExFromApp
+                return 0;
+            }
 
+            long size = 0;
             FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
             int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
 

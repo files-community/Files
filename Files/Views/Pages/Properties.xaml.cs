@@ -1,5 +1,4 @@
-﻿using Files.Enums;
-using Files.Filesystem;
+﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;

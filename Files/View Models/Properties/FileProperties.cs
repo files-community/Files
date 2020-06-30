@@ -6,7 +6,6 @@ using System;
 using System.IO;
 using System.Threading;
 using Windows.Security.Cryptography.Core;
-using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
@@ -46,7 +45,7 @@ namespace Files.View_Models.Properties
 
         public override async void GetSpecialProperties()
         {
-            var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
+            var file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
 
             GetOtherProperties(file.Properties);

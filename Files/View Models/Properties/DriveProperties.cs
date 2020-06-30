@@ -32,7 +32,7 @@ namespace Files.View_Models.Properties
         public override void GetSpecialProperties()
         {
             ViewModel.ItemAttributesVisibility = Visibility.Collapsed;
-            StorageFolder diskRoot = Task.Run(async () => await StorageFolder.GetFolderFromPathAsync(Drive.Path)).Result;
+            StorageFolder diskRoot = Task.Run(async () => await ItemViewModel.GetFolderFromPathAsync(Drive.Path)).Result;
 
             string freeSpace = "System.FreeSpace";
             string capacity = "System.Capacity";
@@ -55,6 +55,7 @@ namespace Files.View_Models.Properties
             }
             catch (Exception e)
             {
+                ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                 NLog.LogManager.GetCurrentClassLogger().Error(e, e.Message);
             }
         }
