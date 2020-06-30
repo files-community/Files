@@ -19,8 +19,6 @@ namespace Files
 {
     public sealed partial class Properties : Page
     {
-        private PropertiesType propertiesType;
-
         private static AppWindowTitleBar TitleBar;
 
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
@@ -31,6 +29,8 @@ namespace Files
 
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
+        public BaseProperties BaseProperties { get; set; }
+
         public Properties()
         {
             InitializeComponent();
@@ -38,27 +38,27 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            ViewModel = new SelectedItemsPropertiesViewModel();
+
             if (e.Parameter is ListedItem)
             {
-                ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as ListedItem);
-                if (ViewModel.Item.PrimaryItemAttribute == StorageItemTypes.File)
+                var listedItem = e.Parameter as ListedItem;
+                if (listedItem.PrimaryItemAttribute == StorageItemTypes.File)
                 {
-                    propertiesType = PropertiesType.File;
+                    BaseProperties = new FileProperties(ViewModel, tokenSource, ItemMD5HashProgress, listedItem);
                 }
-                else if (ViewModel.Item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                else if (listedItem.PrimaryItemAttribute == StorageItemTypes.Folder)
                 {
-                    propertiesType = PropertiesType.Folder;
+                    BaseProperties = new FolderProperties(ViewModel, tokenSource, Dispatcher, listedItem);
                 }
             }
             else if (e.Parameter is List<ListedItem>)
             {
-                ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as List<ListedItem>);
-                propertiesType = PropertiesType.Combined;
+                BaseProperties = new CombinedProperties(ViewModel, tokenSource, Dispatcher, e.Parameter as List<ListedItem>);
             }
             else if (e.Parameter is DriveItem)
             {
-                ViewModel = new SelectedItemsPropertiesViewModel(e.Parameter as DriveItem);
-                propertiesType = PropertiesType.Drive;
+                BaseProperties = new DriveProperties(ViewModel, e.Parameter as DriveItem);
             }
 
             AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
@@ -77,7 +77,10 @@ namespace Files
                 AppSettings.UpdateThemeElements.Execute(null);
             }
 
-            GetProperties();
+            if (BaseProperties != null)
+            {
+                BaseProperties.GetSpecialProperties();
+            }
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -125,32 +128,6 @@ namespace Files
             else
             {
                 App.PropertiesDialogDisplay.Hide();
-            }
-        }
-
-        public void GetProperties()
-        {
-            BaseProperties properties = null;
-            if (propertiesType == PropertiesType.File)
-            {
-                properties = new FileProperties(ViewModel, tokenSource, ItemMD5HashProgress);
-            }
-            else if (propertiesType == PropertiesType.Folder)
-            {
-                properties = new FolderProperties(ViewModel, tokenSource, Dispatcher);
-            }
-            else if (propertiesType == PropertiesType.Combined)
-            {
-                properties = new CombinedProperties(ViewModel, tokenSource, Dispatcher);
-            }
-            else if (propertiesType == PropertiesType.Drive)
-            {
-                properties = new DriveProperties(ViewModel);
-            }
-
-            if (properties != null)
-            {
-                properties.GetProperties();
             }
         }
     }

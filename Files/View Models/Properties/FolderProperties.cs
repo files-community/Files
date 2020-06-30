@@ -2,6 +2,7 @@
 using Files.Filesystem;
 using Files.Helpers;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -13,19 +14,39 @@ namespace Files.View_Models.Properties
 {
     class FolderProperties : BaseProperties
     {
-        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher)
+        public ListedItem Item { get; }
+
+        public FolderProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, CoreDispatcher coreDispatcher, ListedItem item)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             Dispatcher = coreDispatcher;
+            Item = item;
+
+            GetBaseProperties();
         }
 
-        public async override void GetProperties()
+        public override void GetBaseProperties()
+        {
+            if (Item != null)
+            {
+                ViewModel.ItemName = Item.ItemName;
+                ViewModel.ItemType = Item.ItemType;
+                ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
+                ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
+                ViewModel.FileIconSource = Item.FileImage;
+                ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                ViewModel.LoadFileIcon = Item.LoadFileIcon;
+            }
+        }
+
+        public async override void GetSpecialProperties()
         {
             StorageFolder storageFolder;
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                storageFolder = await StorageFolder.GetFolderFromPathAsync(ViewModel.Item.ItemPath);
+                storageFolder = await StorageFolder.GetFolderFromPathAsync(Item.ItemPath);
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);

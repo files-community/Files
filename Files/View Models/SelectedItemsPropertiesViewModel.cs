@@ -488,51 +488,8 @@ namespace Files.View_Models
             set => Set(ref _IsItemSelected, value);
         }
 
-        public ListedItem Item { get; }
-
-        public List<ListedItem> List { get; }
-
-        public DriveItem Drive { get; }
-
-        public SelectedItemsPropertiesViewModel(ListedItem item)
+        public SelectedItemsPropertiesViewModel()
         {
-            Item = item;
-
-            if (Item != null)
-            {
-                ItemName = Item.ItemName;
-                ItemType = Item.ItemType;
-                ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
-                ItemModifiedTimestamp = Item.ItemDateModified;
-                FileIconSource = Item.FileImage;
-                LoadFolderGlyph = Item.LoadFolderGlyph;
-                LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
-                LoadFileIcon = Item.LoadFileIcon;
-            }
-        }
-
-        public SelectedItemsPropertiesViewModel(List<ListedItem> list)
-        {
-            List = list;
-            LoadCombinedItemsGlyph = true;
-            if (List.All(x => x.ItemType.Equals(List.First().ItemType)))
-            {
-                ItemType = string.Format(ResourceController.GetTranslation("PropertiesDriveItemTypesEquals"), List.First().ItemType);
-            }
-            else
-            {
-                ItemType = ResourceController.GetTranslation("PropertiesDriveItemTypeDifferent");
-            }
-            ItemPath = string.Format(ResourceController.GetTranslation("PropertiesCombinedItemPath"), Path.GetDirectoryName(List.First().ItemPath));
-        }
-
-        public SelectedItemsPropertiesViewModel(DriveItem drive)
-        {
-            Drive = drive;
-            DriveItemGlyphSource = Drive.Glyph;
-            LoadDriveItemGlyph = true;
-            ItemName = Drive.Text;
-            ItemType = Drive.Type.ToString();
         }
     }
 }

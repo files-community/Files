@@ -13,7 +13,7 @@ using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.View_Models.Properties
 {
-    abstract class BaseProperties
+    public abstract class BaseProperties
     {
         public SelectedItemsPropertiesViewModel ViewModel { get; set; }
 
@@ -21,7 +21,9 @@ namespace Files.View_Models.Properties
 
         public CoreDispatcher Dispatcher { get; set; }
 
-        public abstract void GetProperties();
+        public abstract void GetBaseProperties();
+
+        public abstract void GetSpecialProperties();
 
         public async void GetOtherProperties(StorageItemContentProperties properties)
         {

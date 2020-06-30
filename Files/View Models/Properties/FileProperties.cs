@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using System.IO;
 using System.Threading;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
@@ -18,35 +19,41 @@ namespace Files.View_Models.Properties
 
         public ListedItem Item { get; }
 
-        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, ProgressBar progressBar/*, ListedItem item*/)
+        public FileProperties(SelectedItemsPropertiesViewModel viewModel, CancellationTokenSource tokenSource, ProgressBar progressBar, ListedItem item)
         {
             ViewModel = viewModel;
             TokenSource = tokenSource;
             ProgressBar = progressBar;
-            /*Item = item;
+            Item = item;
 
-            if (Item != null)
-            {
-                ItemName = Item.ItemName;
-                ItemType = Item.ItemType;
-                ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
-                ItemModifiedTimestamp = Item.ItemDateModified;
-                FileIconSource = Item.FileImage;
-                LoadFolderGlyph = Item.LoadFolderGlyph;
-                LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
-                LoadFileIcon = Item.LoadFileIcon;
-            }*/
+            GetBaseProperties();
         }
 
-        public override async void GetProperties()
+        public override void GetBaseProperties()
         {
-            var file = await StorageFile.GetFileFromPathAsync(ViewModel.Item.ItemPath);
+            if (Item != null)
+            {
+                ViewModel.ItemName = Item.ItemName;
+                ViewModel.ItemType = Item.ItemType;
+                ViewModel.ItemPath = Path.IsPathRooted(Item.ItemPath) ? Path.GetDirectoryName(Item.ItemPath) : Item.ItemPath;
+                ViewModel.ItemModifiedTimestamp = Item.ItemDateModified;
+                ViewModel.FileIconSource = Item.FileImage;
+                ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
+                ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
+                ViewModel.LoadFileIcon = Item.LoadFileIcon;
+            }
+        }
+
+        public override async void GetSpecialProperties()
+        {
+            var file = await StorageFile.GetFileFromPathAsync(Item.ItemPath);
             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
 
             GetOtherProperties(file.Properties);
+
             ViewModel.ItemSizeVisibility = Visibility.Visible;
-            ViewModel.ItemSize = ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
-                + " (" + ByteSize.FromBytes(ViewModel.Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
+            ViewModel.ItemSize = ByteSize.FromBytes(Item.FileSizeBytes).ToBinaryString().ConvertSizeAbbreviation()
+                + " (" + ByteSize.FromBytes(Item.FileSizeBytes).Bytes.ToString("#,##0") + " " + ResourceController.GetTranslation("ItemSizeBytes") + ")";
 
             using (var Thumbnail = await file.GetThumbnailAsync(ThumbnailMode.SingleItem, 80, ThumbnailOptions.UseCurrentScale))
             {
@@ -67,7 +74,7 @@ namespace Files.View_Models.Properties
             try
             {
                 ViewModel.ItemMD5Hash = await App.CurrentInstance.InteractionOperations
-                    .GetHashForFile(ViewModel.Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
+                    .GetHashForFile(Item, hashAlgTypeName, TokenSource.Token, ProgressBar);
             }
             catch (Exception ex)
             {
