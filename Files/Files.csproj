@@ -225,6 +225,11 @@
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
+    <Compile Include="View Models\Properties\BaseProperties.cs" />
+    <Compile Include="View Models\Properties\CombinedProperties.cs" />
+    <Compile Include="View Models\Properties\DriveProperties.cs" />
+    <Compile Include="View Models\Properties\FileProperties.cs" />
+    <Compile Include="View Models\Properties\FolderProperties.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
