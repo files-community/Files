@@ -162,6 +162,10 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFolderWithPath.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />

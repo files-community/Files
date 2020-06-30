@@ -9,15 +9,56 @@ namespace Files.View_Models
         public bool IsPageTypeNotHome
         {
             get => _IsPageTypeNotHome;
-            set => Set(ref _IsPageTypeNotHome, value);
+            set
+            {
+                Set(ref _IsPageTypeNotHome, value);
+                RaisePropertyChanged("IsCreateButtonEnabledInPage");
+                RaisePropertyChanged("CanCreateFileInPage");
+                RaisePropertyChanged("CanOpenTerminalInPage");
+            }
         }
 
-        private bool _IsPageTypeNotRecycleBin = false;
+        private bool _IsPageTypeMtpDevice = false;
 
-        public bool IsPageTypeNotRecycleBin
+        public bool IsPageTypeMtpDevice
         {
-            get => _IsPageTypeNotRecycleBin;
-            set => Set(ref _IsPageTypeNotRecycleBin, value);
+            get => _IsPageTypeMtpDevice;
+            set
+            {
+                Set(ref _IsPageTypeMtpDevice, value);
+                RaisePropertyChanged("IsCreateButtonEnabledInPage");
+                RaisePropertyChanged("CanCreateFileInPage");
+                RaisePropertyChanged("CanOpenTerminalInPage");
+            }
+        }
+
+        private bool _IsPageTypeRecycleBin = false;
+
+        public bool IsPageTypeRecycleBin
+        {
+            get => _IsPageTypeRecycleBin;
+            set
+            {
+                Set(ref _IsPageTypeRecycleBin, value);
+                RaisePropertyChanged("IsCreateButtonEnabledInPage");
+                RaisePropertyChanged("CanCreateFileInPage");
+                RaisePropertyChanged("CanOpenTerminalInPage");
+            }
+        }
+
+        public bool IsCreateButtonEnabledInPage
+        {
+            get => !_IsPageTypeRecycleBin && IsPageTypeNotHome;
+        }
+
+        public bool CanCreateFileInPage
+        {
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome;
+        }
+
+        public bool CanOpenTerminalInPage
+        {
+            get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome;
         }
     }
 }

@@ -435,9 +435,5 @@ namespace Files
             DataGridRow row = element as DataGridRow;
             return row.DataContext as ListedItem;
         }
-
-        private void RightClickContextMenu_Opening(object sender, object e)
-        {
-        }
     }
 }
