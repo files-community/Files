@@ -857,67 +857,9 @@ namespace Files.Filesystem
                 }
             }
 
-            if (!enumFromStorageFolder)
-            {
-                FINDEX_INFO_LEVELS findInfoLevel = FINDEX_INFO_LEVELS.FindExInfoBasic;
-                int additionalFlags = FIND_FIRST_EX_LARGE_FETCH;
-
-                IntPtr hFile = FindFirstFileExFromApp(path + "\\*.*", findInfoLevel, out WIN32_FIND_DATA findData, FINDEX_SEARCH_OPS.FindExSearchNameMatch, IntPtr.Zero,
-                                                      additionalFlags);
-                if (hFile.ToInt64() == -1)
-                {
-                    enumFromStorageFolder = true;
-                }
-                else
-                {
-                    FindClose(hFile);
-                }
-            }
-
             if (enumFromStorageFolder)
             {
-                Stopwatch stopwatch = new Stopwatch();
-                stopwatch.Start();
-                uint count = 0;
-                while (true)
-                {
-                    IStorageItem item = null;
-                    try
-                    {
-                        var results = await _rootFolder.GetItemsAsync(count, 1);
-                        item = results?.FirstOrDefault();
-                        if (item == null) break;
-                    }
-                    catch (UnauthorizedAccessException)
-                    {
-                        ++count;
-                        continue;
-                    }
-                    if (item.IsOfType(StorageItemTypes.Folder))
-                    {
-                        await AddFolder(item as StorageFolder);
-                        ++count;
-                    }
-                    else
-                    {
-                        var file = item as StorageFile;
-                        if (!file.Name.EndsWith(".lnk") && !file.Name.EndsWith(".url"))
-                        {
-                            await AddFile(file, true);
-                        }
-                        ++count;
-                    }
-                    if (_addFilesCTS.IsCancellationRequested)
-                    {
-                        break;
-                    }
-                    if (count % 64 == 0)
-                    {
-                        await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
-                    }
-                }
-                stopwatch.Stop();
-                Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
+                await EnumFromStorageFolder();
             }
             else
             {
@@ -928,7 +870,11 @@ namespace Files.Filesystem
                                                       additionalFlags);
 
                 var count = 0;
-                if (hFile.ToInt64() != -1)
+                if (hFile.ToInt64() == -1)
+                {
+                    await EnumFromStorageFolder();
+                }
+                else
                 {
                     do
                     {
@@ -965,6 +911,52 @@ namespace Files.Filesystem
                     FindClose(hFile);
                 }
             }
+        }
+
+        private async Task EnumFromStorageFolder()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            uint count = 0;
+            while (true)
+            {
+                IStorageItem item = null;
+                try
+                {
+                    var results = await _rootFolder.GetItemsAsync(count, 1);
+                    item = results?.FirstOrDefault();
+                    if (item == null) break;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    ++count;
+                    continue;
+                }
+                if (item.IsOfType(StorageItemTypes.Folder))
+                {
+                    await AddFolder(item as StorageFolder);
+                    ++count;
+                }
+                else
+                {
+                    var file = item as StorageFile;
+                    if (!file.Name.EndsWith(".lnk") && !file.Name.EndsWith(".url"))
+                    {
+                        await AddFile(file, true);
+                    }
+                    ++count;
+                }
+                if (_addFilesCTS.IsCancellationRequested)
+                {
+                    break;
+                }
+                if (count % 64 == 0)
+                {
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.YieldAsync();
+                }
+            }
+            stopwatch.Stop();
+            Debug.WriteLine($"Enumerating items in {WorkingDirectory} (device) completed in {stopwatch.ElapsedMilliseconds} milliseconds.\n");
         }
 
         private async Task<bool> CheckBitlockerStatus(StorageFolder rootFolder)
