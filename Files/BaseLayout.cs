@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.View_Models;
 using Files.Views.Pages;
 using System;
@@ -214,9 +215,8 @@ namespace Files
             var parameters = (string)eventArgs.Parameter;
             if (AppSettings.FormFactor == Enums.FormFactorMode.Regular)
             {
-                Frame rootFrame = Window.Current.Content as Frame;
-                InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
-                instanceTabsView.TabStrip_SelectionChanged(null, null);
+                (App.CurrentInstance.NavigationToolbar.MultiTaskingControl as VerticalTabView).TabStrip_SelectionChanged(null, null);
+
             }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
@@ -426,7 +426,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = InstanceTabsView.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = VerticalTabView.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

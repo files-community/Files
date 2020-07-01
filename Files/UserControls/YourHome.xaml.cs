@@ -1,7 +1,9 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
@@ -52,10 +54,10 @@ namespace Files
             Locations.ItemLoader.DisplayItems();
             recentItemsCollection.Clear();
             PopulateRecentsList();
-            Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabInfo(parameters, null);
-            instanceTabsView.TabStrip_SelectionChanged(null, null);
+            var rootFrame = Window.Current.Content as MainPage;
+            VerticalTabView.SetSelectedTabInfo(parameters, null);
+            // TODO: Add logic to differentiate between other multitasking controls
+            (App.CurrentInstance.NavigationToolbar.MultiTaskingControl as VerticalTabView).TabStrip_SelectionChanged(null, null);
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
             App.PS.IsEnabled = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;

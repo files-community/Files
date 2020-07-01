@@ -181,6 +181,8 @@ namespace Files.UserControls
 
         ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
 
+        public UserControl MultiTaskingControl => verticalTabs;
+
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;

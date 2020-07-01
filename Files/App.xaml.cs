@@ -4,6 +4,7 @@ using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -256,7 +257,7 @@ namespace Files
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
 
                 // Ensure the current window is active
@@ -299,12 +300,12 @@ namespace Files
 
                     if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
                     {
-                        rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                     }
                     else
                     {
                         var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                        rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), @trimmedPath, new SuppressNavigationTransitionInfo());
                     }
 
                     // Ensure the current window is active.
@@ -328,7 +329,7 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+                                    rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
@@ -342,7 +343,7 @@ namespace Files
                                     {
                                         var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
 
-                                        rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+                                        rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
 
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
@@ -364,7 +365,7 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.Unknown:
-                                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
@@ -376,7 +377,7 @@ namespace Files
                     break;
             }
 
-            rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.
             Window.Current.Activate();

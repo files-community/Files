@@ -29,6 +29,8 @@ using Windows.UI.Xaml.Media.Imaging;
 using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using Files.Views;
+using Files.UserControls;
 
 namespace Files.Filesystem
 {
@@ -547,9 +549,7 @@ namespace Files.Filesystem
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
-            Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
+            VerticalTabView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
 
             try

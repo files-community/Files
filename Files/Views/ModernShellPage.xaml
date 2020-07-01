@@ -12,6 +12,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
+    KeyboardAcceleratorPlacementMode="Hidden"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.KeyboardAccelerators>
@@ -84,7 +85,7 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:ModernSidebar x:Name="SidebarControl" />
+            <controls:SidebarControl x:Name="SidebarControl" />
         </Grid>
 
         <Grid Grid.Column="1">

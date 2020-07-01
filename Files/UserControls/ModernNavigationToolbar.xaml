@@ -767,7 +767,31 @@
                 PlaceholderText="Search"
                 QueryIcon="Find"
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
-
+            <Button
+                x:Uid="VerticalTabStrip"
+                Width="34"
+                Height="30"
+                Margin="2,0,2,0"
+                Background="Transparent"
+                Content="&#xF5ED;"
+                CornerRadius="2"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="16"
+                Style="{StaticResource ToolBarButtonStyle}"
+                ToolTipService.ToolTip="Open tabs"
+                Visibility="Visible">
+                <Button.Flyout>
+                    <Flyout>
+                        <local:VerticalTabView
+                            x:Name="verticalTabs"
+                            Width="300"
+                            MinHeight="300"
+                            MaxHeight="400"
+                            x:FieldModifier="public" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>    
+            
             <Button
                 x:Uid="NavMoreButton"
                 Grid.Row="3"

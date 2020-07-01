@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Files.UserControls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 // The Content Dialog item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
@@ -18,13 +19,13 @@ namespace Files.Dialogs
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if (InstanceTabsView.tabView.TabItems.Count == 1)
+            if (VerticalTabView.Items.Count == 1)
             {
                 Application.Current.Exit();
             }
-            else if (InstanceTabsView.tabView.TabItems.Count > 1)
+            else if (VerticalTabView.Items.Count > 1)
             {
-                InstanceTabsView.tabView.TabItems.RemoveAt(InstanceTabsView.tabView.SelectedIndex);
+                VerticalTabView.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 

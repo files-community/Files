@@ -1,10 +1,12 @@
 ﻿using Files.Views.Pages;
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {
     public interface INavigationToolbar
     {
+        public UserControl MultiTaskingControl { get; }
         public bool IsSearchReigonVisible { get; set; }
         public bool IsEditModeEnabled { get; set; }
         public bool CanRefresh { get; set; }

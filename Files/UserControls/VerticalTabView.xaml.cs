@@ -1,110 +1,36 @@
-﻿using Files.Common;
-using Files.Controls;
-using Files.DataModels;
-using Files.Filesystem;
-using Files.View_Models;
-using Files.Views.Pages;
+﻿using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
-using Windows.System;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using Files.Common;
+using Windows.System;
+using Windows.UI.ViewManagement;
+using System.Collections.ObjectModel;
 
-namespace Files
+using static Files.Helpers.PathNormalization;
+
+
+// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+
+namespace Files.UserControls
 {
-    public sealed partial class InstanceTabsView : Page
+    public sealed partial class VerticalTabView : UserControl
     {
-        public static TabView tabView;
-        public string navArgs;
-        public SettingsViewModel AppSettings => App.AppSettings;
+        public static ObservableCollection<TabItem> Items = new ObservableCollection<TabItem>(); 
 
-        public InstanceTabsView()
+        public VerticalTabView()
         {
             this.InitializeComponent();
-            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.Auto;
-            var CoreTitleBar = CoreApplication.GetCurrentView().TitleBar;
-            CoreTitleBar.ExtendViewIntoTitleBar = true;
-            tabView = TabStrip;
-
-            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
-
-            if (flowDirectionSetting == "RTL")
-            {
-                FlowDirection = FlowDirection.RightToLeft;
-            }
-
-            App.AppSettings = new SettingsViewModel();
-            App.InteractionViewModel = new InteractionViewModel();
-
-            // Turn on Navigation Cache
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
-
-            Window.Current.SizeChanged += Current_SizeChanged;
-            Current_SizeChanged(null, null);
-
-            Helpers.ThemeHelper.Initialize();
         }
 
-        public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
-
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            if (Huyn.WindowDisplayInfo.GetForCurrentView().ToString() == "Maximized")
-            {
-                WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
-                WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-            }
-            else
-            {
-                WindowProperties.TabListPadding = new Thickness(0, 0, 0, 0);
-                WindowProperties.TabAddButtonMargin = new Thickness(0, 0, 0, 0);
-            }
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
-        {
-            navArgs = eventArgs.Parameter?.ToString();
-
-            if (TabStrip.TabItems.Count >= 1)
-            {
-                return;
-            }
-
-            if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
-            {
-                try
-                {
-                    AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
-                }
-                catch (Exception)
-                {
-                    AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
-                }
-            }
-            else if (string.IsNullOrEmpty(navArgs))
-            {
-                AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
-            }
-            else
-            {
-                AddNewTab(typeof(ModernShellPage), navArgs);
-            }
-        }
-
-        public async void AddNewTab(Type t, string path)
+        public static async void AddNewTab(Type t, string path)
         {
             Frame frame = new Frame();
             string tabLocationHeader = null;
@@ -117,11 +43,11 @@ namespace Files
                 {
                     tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
                     fontIconSource.Glyph = "\xE713";
-                    foreach (TabViewItem item in tabView.TabItems)
+                    foreach (TabItem item in Items)
                     {
                         if (item.Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                         {
-                            tabView.SelectedItem = item;
+                            App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(item);
                             return;
                         }
                     }
@@ -224,18 +150,15 @@ namespace Files
             gr.Children.Add(frame);
             gr.HorizontalAlignment = HorizontalAlignment.Stretch;
             gr.VerticalAlignment = VerticalAlignment.Stretch;
-            TabViewItem tvi = new TabViewItem()
+            TabItem tvi = new TabItem()
             {
                 Header = tabLocationHeader,
                 Content = gr,
-                Width = 200,
                 IconSource = tabIcon,
-                Transitions = null,
-                Style = rootGrid.Resources["TabItemStyle"] as Style,
-                ContentTransitions = null
+                Description = null
             };
-            tabView.TabItems.Add(tvi);
-            TabStrip.SelectedIndex = TabStrip.TabItems.Count - 1;
+            Items.Add(tvi);
+            App.InteractionViewModel.TabStripSelectedIndex = Items.Count - 1;
 
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
             tabViewItemFrame.Loaded += delegate
@@ -247,7 +170,7 @@ namespace Files
             };
         }
 
-        public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
+        public static async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -308,7 +231,7 @@ namespace Files
             else
             {
                 // If path is a drive's root
-                if (NormalizePath(Path.GetPathRoot(currentPathForTabIcon)) == NormalizePath(currentPathForTabIcon))
+                if (Helpers.PathNormalization.NormalizePath(Path.GetPathRoot(currentPathForTabIcon)) == NormalizePath(currentPathForTabIcon))
                 {
                     if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
                     {
@@ -339,31 +262,8 @@ namespace Files
                 }
             }
             tabIcon = fontIconSource;
-            (tabView.SelectedItem as TabViewItem).Header = tabLocationHeader;
-            (tabView.SelectedItem as TabViewItem).IconSource = tabIcon;
-        }
-
-        public static string NormalizePath(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return path;
-            }
-            if (path.StartsWith("\\\\"))
-            {
-                return path.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).ToUpperInvariant();
-            }
-            else
-            {
-                if (!path.EndsWith(Path.DirectorySeparatorChar))
-                {
-                    path += Path.DirectorySeparatorChar;
-                }
-
-                return Path.GetFullPath(new Uri(path).LocalPath)
-                .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)
-                .ToUpperInvariant();
-            }
+            (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header = tabLocationHeader;
+            (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource = tabIcon;
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -424,36 +324,27 @@ namespace Files
         {
             var InvokedTabView = (args.Element as TabView);
 
-            // Only close the selected tab if it is closeable
-            if (((TabViewItem)InvokedTabView.SelectedItem).IsClosable)
+            if (Items.Count == 1)
             {
-                if (TabStrip.TabItems.Count == 1)
-                {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-                }
-                else
-                {
-                    InvokedTabView.TabItems.Remove(InvokedTabView.SelectedItem);
-                }
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                Items.Remove(InvokedTabView.SelectedItem as TabItem);
             }
             args.Handled = true;
         }
 
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
-        }
-
         public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TabStrip.SelectedItem == null)
+            if (App.InteractionViewModel.TabStripSelectedIndex < 0)
             {
                 if (e.RemovedItems.Count > 0 && e.AddedItems.Count == 0)
                 {
-                    var itemToReselect = e.RemovedItems[0];
-                    if (TabStrip.TabItems.Contains(itemToReselect))
+                    var itemToReselect = e.RemovedItems[0] as TabItem;
+                    if (Items.Contains(itemToReselect))
                     {
-                        TabStrip.SelectedItem = itemToReselect;
+                        App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(itemToReselect);
                     }
                 }
             }
@@ -461,13 +352,13 @@ namespace Files
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
-                if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
+                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource != icon)
                 {
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
 
                 //App.InteractionViewModel.TabStripSelectedIndex = TabStrip.SelectedIndex;
-                if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
+                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
                     App.InteractionViewModel.LeftMarginLoaded = false;
@@ -476,7 +367,7 @@ namespace Files
                 {
                     if (App.CurrentInstance != null)
                     {
-                        if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
+                        if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("NewTab"))
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
                         }
@@ -484,6 +375,7 @@ namespace Files
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true;
                         }
+
                         App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin =
                             App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
                         App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
@@ -498,14 +390,15 @@ namespace Files
 
         private async void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
-            if (TabStrip.TabItems.Count == 1)
+            if (Items.Count == 1)
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
-            else if (TabStrip.TabItems.Count > 1)
+            else if (Items.Count > 1)
             {
-                int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
-                TabStrip.TabItems.RemoveAt(tabIndexToClose);
+                int tabIndexToClose = Items.IndexOf(args.Item as TabItem);
+                Items.RemoveAt(tabIndexToClose);
+                App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
             }
         }
 
@@ -516,9 +409,7 @@ namespace Files
 
         public static T GetCurrentSelectedTabInstance<T>()
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            var selectedTabContent = ((instanceTabsView.TabStrip.SelectedItem as TabViewItem).Content as Grid);
+            var selectedTabContent = (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Content as Grid;
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
@@ -527,64 +418,6 @@ namespace Files
                 }
             }
             return default;
-        }
-
-        private void TabStrip_Loaded(object sender, RoutedEventArgs e)
-        {
-            TabStrip.SelectedIndex = App.InteractionViewModel.TabStripSelectedIndex;
-        }
-
-        private void TabStrip_Unloaded(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("TEST UNLOADED");
-        }
-    }
-
-    public class TabWindowProperties : INotifyPropertyChanged
-    {
-        private Thickness tabListPadding = new Thickness(8, 8, 0, 0);
-        private Thickness tabAddButtonMargin = new Thickness(0, 8, 0, 0);
-
-        public Thickness TabListPadding
-        {
-            get
-            {
-                return tabListPadding;
-            }
-            set
-            {
-                if (tabListPadding != value)
-                {
-                    tabListPadding = value;
-                    RaiseChangeNotification("TabListPadding");
-                }
-            }
-        }
-
-        public Thickness TabAddButtonMargin
-        {
-            get
-            {
-                return tabAddButtonMargin;
-            }
-            set
-            {
-                if (tabAddButtonMargin != value)
-                {
-                    tabAddButtonMargin = value;
-                    RaiseChangeNotification("TabAddButtonMargin");
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaiseChangeNotification(string v)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged.Invoke(this, new PropertyChangedEventArgs(v));
-            }
         }
     }
 }

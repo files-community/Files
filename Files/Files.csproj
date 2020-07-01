@@ -174,6 +174,7 @@
     <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
+    <Compile Include="Helpers\PathNormalization.cs" />
     <Compile Include="Helpers\ShellCommandParser.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
@@ -224,6 +225,10 @@
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TabItem.cs" />
+    <Compile Include="UserControls\VerticalTabView.xaml.cs">
+      <DependentUpon>VerticalTabView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View Models\CurrentInstanceViewModel.cs" />
     <Compile Include="View Models\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
@@ -240,9 +245,6 @@
     <Compile Include="View Models\InteractionViewModel.cs" />
     <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
-    <Compile Include="Views\InstanceTabsView.xaml.cs">
-      <DependentUpon>InstanceTabsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="Interacts\ItemInteractions.cs" />
     <Compile Include="IShellPage.cs" />
@@ -250,6 +252,9 @@
     <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModernShellPage.xaml.cs">
       <DependentUpon>ModernShellPage.xaml</DependentUpon>
@@ -438,6 +443,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\VerticalTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -450,11 +459,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\InstanceTabsView.xaml">
+    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
+    <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

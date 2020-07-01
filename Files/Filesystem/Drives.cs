@@ -227,9 +227,9 @@ namespace Files.Filesystem
                         break;
 
                     case System.IO.DriveType.Fixed:
-                        if (InstanceTabsView.NormalizePath(drive.Name) != InstanceTabsView.NormalizePath("A:")
-                            && InstanceTabsView.NormalizePath(drive.Name) !=
-                            InstanceTabsView.NormalizePath("B:"))
+                        if (Helpers.PathNormalization.NormalizePath(drive.Name) != Helpers.PathNormalization.NormalizePath("A:")
+                            && Helpers.PathNormalization.NormalizePath(drive.Name) !=
+                            Helpers.PathNormalization.NormalizePath("B:"))
                         {
                             type = DriveType.Fixed;
                         }
@@ -299,7 +299,7 @@ namespace Files.Filesystem
             {
                 // Check among already discovered drives
                 StorageFolder matchingDrive = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x =>
-                    InstanceTabsView.NormalizePath(x.Path) == InstanceTabsView.NormalizePath(rootPath))?.Root;
+                    Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
                 if (matchingDrive == null)
                 {
                     // Check on all removable drives
@@ -309,7 +309,7 @@ namespace Files.Filesystem
                         try
                         {
                             var root = StorageDevice.FromId(item.Id);
-                            if (InstanceTabsView.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
+                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
                             {
                                 matchingDrive = root;
                                 break;

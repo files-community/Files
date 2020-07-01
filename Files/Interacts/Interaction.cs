@@ -3,6 +3,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
@@ -51,13 +52,11 @@ namespace Files.Interacts
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IShellPage CurrentInstance;
-        private readonly InstanceTabsView instanceTabsView;
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
-            instanceTabsView = (Window.Current.Content as Frame).Content as InstanceTabsView;
         }
 
         public void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -100,7 +99,7 @@ namespace Files.Interacts
 
         public void OpenNewTab()
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            VerticalTabView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -120,14 +119,14 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    VerticalTabView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
         }
 
         public void OpenPathInNewTab(string path)
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
+            VerticalTabView.AddNewTab(typeof(ModernShellPage), path);
         }
 
         public async void OpenPathInNewWindow(string path)
@@ -147,7 +146,7 @@ namespace Files.Interacts
                     { "WorkingDirectory", CurrentInstance.FilesystemViewModel.WorkingDirectory },
                     { "Application", terminal.Path },
                     { "Arguments", string.Format(terminal.Arguments,
-                        InstanceTabsView.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                       Helpers.PathNormalization.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
                 await App.Connection.SendMessageAsync(value);
             }
@@ -432,7 +431,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        VerticalTabView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
                     }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                     {
@@ -465,13 +464,13 @@ namespace Files.Interacts
 
         public async void CloseTab()
         {
-            if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
+            if (VerticalTabView.Items.Count == 1)
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
-            else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
+            else if (VerticalTabView.Items.Count > 1)
             {
-                ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
+                VerticalTabView.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 
@@ -1341,9 +1340,7 @@ namespace Files.Interacts
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        Frame rootFrame = Window.Current.Content as Frame;
-                        var instanceTabsView = rootFrame.Content as InstanceTabsView;
-                        instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                        VerticalTabView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
                 banner.Report(100);
