@@ -1222,27 +1222,7 @@ namespace Files.Filesystem
                 systemTimeOutput.Second,
                 systemTimeOutput.Milliseconds,
                 DateTimeKind.Utc);
-            long fDataFSize = findData.nFileSizeLow;
-            long itemSizeBytes;
-            if (fDataFSize < 0 && findData.nFileSizeHigh > 0)
-            {
-                itemSizeBytes = fDataFSize + 4294967296 + (findData.nFileSizeHigh * 4294967296);
-            }
-            else
-            {
-                if (findData.nFileSizeHigh > 0)
-                {
-                    itemSizeBytes = fDataFSize + (findData.nFileSizeHigh * 4294967296);
-                }
-                else if (fDataFSize < 0)
-                {
-                    itemSizeBytes = fDataFSize + 4294967296;
-                }
-                else
-                {
-                    itemSizeBytes = fDataFSize;
-                }
-            }
+            long itemSizeBytes = findData.GetSize();
             var itemSize = ByteSize.FromBytes(itemSizeBytes).ToBinaryString().ConvertSizeAbbreviation();
             string itemType = ResourceController.GetTranslation("ItemTypeFile");
             string itemFileExtension = null;
