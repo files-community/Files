@@ -7,7 +7,6 @@ using System.Linq;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -33,7 +32,6 @@ namespace Files.Views.Pages
                 AppSettings.DrivesManager.ShowUserConsentOnInit = false;
                 DisplayFilesystemConsentDialog();
             }
-
 
             var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
 
@@ -109,6 +107,7 @@ namespace Files.Views.Pages
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
+
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
@@ -160,6 +159,11 @@ namespace Files.Views.Pages
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
+                    else if(NavParams.StartsWith("\\\\?\\"))
+                    {
+                        NavigationPath = NavParams;
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
+                    }
                     else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
                     {
                         NavigationPath = NavParams;
@@ -188,6 +192,7 @@ namespace Files.Views.Pages
                 App.CurrentInstance.ContentPage.ResetItemOpacity();
             }
         }
+
         private async void KeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             args.Handled = true;

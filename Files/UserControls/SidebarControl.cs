@@ -13,6 +13,7 @@ namespace Files.Controls
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public SidebarControl()
         {
             this.InitializeComponent();

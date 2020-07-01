@@ -33,7 +33,7 @@ namespace Files
             }
         }
 
-        public static void Forward_Click(object sender, RoutedEventArgs e)
+        public static async void Forward_Click(object sender, RoutedEventArgs e)
         {
             App.CurrentInstance.NavigationToolbar.CanGoForward = false;
             Frame instanceContentFrame = App.CurrentInstance.ContentFrame;
@@ -44,7 +44,7 @@ namespace Files
                 var incomingSourcePageType = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].SourcePageType;
                 var Parameter = instanceContentFrame.ForwardStack[instanceContentFrame.ForwardStack.Count - 1].Parameter;
                 SelectSidebarItemFromPath(incomingSourcePageType);
-                App.CurrentInstance.FilesystemViewModel.WorkingDirectory = Parameter.ToString();
+                await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(Parameter.ToString());
                 instanceContentFrame.GoForward();
             }
         }

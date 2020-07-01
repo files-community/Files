@@ -84,7 +84,7 @@
                 x:Name="OpenTerminal"
                 x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                IsEnabled="True"
+                IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                 Text="Open in Terminal...">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE756;" />
@@ -112,6 +112,7 @@
                     x:Name="NewBitmapImage"
                     x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
+                    IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xEB9F;" />
@@ -121,6 +122,7 @@
                     x:Name="NewTextDocument"
                     x:Uid="BaseLayoutContextFlyoutNewTextDocument"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
+                    IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8A5;" />
@@ -210,7 +212,10 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <MenuFlyout x:Key="BaseLayoutItemContextFlyout" x:Name="BaseLayoutItemContextFlyout" Opening="RightClickItemContextMenu_Opening">
+        <MenuFlyout
+            x:Key="BaseLayoutItemContextFlyout"
+            x:Name="BaseLayoutItemContextFlyout"
+            Opening="RightClickItemContextMenu_Opening">
             <MenuFlyoutItem
                 x:Name="UnzipItem"
                 x:Uid="BaseLayoutItemContextFlyoutExtract"
@@ -435,9 +440,7 @@
         </Style>
     </local:BaseLayout.Resources>
 
-    <Grid
-        x:Name="RootGrid"
-        Background="Transparent">
+    <Grid x:Name="RootGrid" Background="Transparent">
         <Grid.KeyboardAccelerators>
             <KeyboardAccelerator
                 Key="{x:Bind plusKey}"
@@ -449,17 +452,17 @@
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
+            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                 <Core:ChangePropertyAction
-                        PropertyName="ContextFlyout"
-                        TargetObject="{Binding ElementName=RootGrid}"
-                        Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
             </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
+            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                 <Core:ChangePropertyAction
-                        PropertyName="ContextFlyout"
-                        TargetObject="{Binding ElementName=RootGrid}"
-                        Value="{StaticResource BaseLayoutContextFlyout}" />
+                    PropertyName="ContextFlyout"
+                    TargetObject="{Binding ElementName=RootGrid}"
+                    Value="{StaticResource BaseLayoutContextFlyout}" />
             </Core:DataTriggerBehavior>
         </Interactivity:Interaction.Behaviors>
         <muxc:ProgressBar
@@ -543,22 +546,22 @@
                             </MenuFlyout>
                         </Setter.Value>
                     </Setter>
-                    <Setter Property="SeparatorBrush" Value="Transparent"/>
-                    <Setter Property="Height" Value="38"/>
-                    <Setter Property="FontSize" Value="14"/>
-                    <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}"/>
-                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="SeparatorBrush" Value="Transparent" />
+                    <Setter Property="Height" Value="38" />
+                    <Setter Property="FontSize" Value="14" />
+                    <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+                    <Setter Property="FontWeight" Value="SemiBold" />
                     <Setter Property="Background" Value="Transparent" />
                 </Style>
             </controls:DataGrid.ColumnHeaderStyle>
             <Interactivity:Interaction.Behaviors>
-                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="False">
+                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
                         Value="{StaticResource DataGridRowRecycleBinContextFlyout}" />
                 </Core:DataTriggerBehavior>
-                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin, Mode=OneWay}" Value="True">
+                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="RowStyle"
                         TargetObject="{Binding ElementName=AllView}"
@@ -576,8 +579,8 @@
             <controls:DataGrid.Columns>
                 <controls:DataGridTemplateColumn
                     x:Name="iconColumn"
-                    DisplayIndex="0"
                     CanUserResize="False"
+                    DisplayIndex="0"
                     IsReadOnly="True">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
@@ -622,9 +625,9 @@
                     x:Name="nameColumn"
                     x:Uid="nameColumn"
                     Width="275"
-                    FontSize="14"
                     Binding="{Binding ItemName}"
                     DisplayIndex="1"
+                    FontSize="14"
                     Header="Name"
                     Tag="Name">
                     <ToolTipService.ToolTip>
@@ -635,9 +638,9 @@
                     x:Name="dateColumn"
                     x:Uid="dateColumn"
                     Width="Auto"
-                    FontSize="12"
                     Binding="{Binding ItemDateModified}"
                     DisplayIndex="2"
+                    FontSize="12"
                     Header="Date modified"
                     IsReadOnly="True"
                     Tag="Date">
@@ -649,9 +652,9 @@
                     x:Name="typeColumn"
                     x:Uid="typeColumn"
                     Width="150"
-                    FontSize="12"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     DisplayIndex="3"
+                    FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
                     Tag="Type">
@@ -664,9 +667,9 @@
                     x:Uid="sizeColumn"
                     Width="Auto"
                     MinWidth="100"
-                    FontSize="12"
                     Binding="{Binding FileSize}"
                     DisplayIndex="4"
+                    FontSize="12"
                     Header="Size"
                     IsReadOnly="True"
                     Tag="Size">

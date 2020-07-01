@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.Windows.Shell;
@@ -239,6 +240,7 @@ namespace FilesFullTrust
                         await args.Request.SendResponseAsync(new ValueSet() { { "Bitlocker", "Unlock" } });
                     }
                     break;
+
                 default:
                     if (args.Request.Message.ContainsKey("Application"))
                     {
@@ -338,7 +340,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static void HandleApplicationLaunch(string application, AppServiceRequestReceivedEventArgs args)
+        private static async void HandleApplicationLaunch(string application, AppServiceRequestReceivedEventArgs args)
         {
             var arguments = args.Request.Message.Get("Arguments", "");
             var workingDirectory = args.Request.Message.Get("WorkingDirectory", "");
@@ -394,43 +396,46 @@ namespace FilesFullTrust
                 {
                     try
                     {
-                        var split = application.Split(';').Where(x => !string.IsNullOrWhiteSpace(x));
-                        if (split.Count() == 1)
+                        await Win32API.StartSTATask(() =>
                         {
-                            Process.Start(application);
-                        }
-                        else
-                        {
-                            var groups = split.GroupBy(x => new
+                            var split = application.Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
+                            if (split.Count() == 1)
                             {
-                                Dir = Path.GetDirectoryName(x),
-                                Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x)
-                            });
-                            foreach (var group in groups)
+                                Process.Start(split.First());
+                            }
+                            else
                             {
-                                if (!group.Any()) continue;
-                                var files = group.Select(x => new ShellItem(x));
-                                using var sf = files.First().Parent;
-                                IContextMenu menu = null;
-                                try
+                                var groups = split.GroupBy(x => new {
+                                    Dir = Path.GetDirectoryName(x),
+                                    Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x)
+                                });
+                                foreach (var group in groups)
                                 {
-                                    menu = sf.GetChildrenUIObjects<IContextMenu>(null, files.ToArray());
-                                    menu.QueryContextMenu(Vanara.PInvoke.HMENU.NULL, 0, 0, 0, CMF.CMF_DEFAULTONLY);
-                                    var pici = new CMINVOKECOMMANDINFOEX();
-                                    pici.lpVerb = CMDSTR_OPEN;
-                                    pici.nShow = Vanara.PInvoke.ShowWindowCommand.SW_SHOW;
-                                    pici.cbSize = (uint)Marshal.SizeOf(pici);
-                                    menu.InvokeCommand(pici);
-                                }
-                                finally
-                                {
-                                    foreach (var elem in files)
-                                        elem.Dispose();
-                                    if (menu != null)
-                                        Marshal.ReleaseComObject(menu);
+                                    if (!group.Any()) continue;
+                                    var files = group.Select(x => new ShellItem(x));
+                                    using var sf = files.First().Parent;
+                                    Vanara.PInvoke.Shell32.IContextMenu menu = null;
+                                    try
+                                    {
+                                        menu = sf.GetChildrenUIObjects<Vanara.PInvoke.Shell32.IContextMenu>(null, files.ToArray());
+                                        menu.QueryContextMenu(Vanara.PInvoke.HMENU.NULL, 0, 0, 0, Vanara.PInvoke.Shell32.CMF.CMF_DEFAULTONLY);
+                                        var pici = new Vanara.PInvoke.Shell32.CMINVOKECOMMANDINFOEX();
+                                        pici.lpVerb = Vanara.PInvoke.Shell32.CMDSTR_OPEN;
+                                        pici.nShow = Vanara.PInvoke.ShowWindowCommand.SW_SHOW;
+                                        pici.cbSize = (uint)Marshal.SizeOf(pici);
+                                        menu.InvokeCommand(pici);
+                                    }
+                                    finally
+                                    {
+                                        foreach (var elem in files)
+                                            elem.Dispose();
+                                        if (menu != null)
+                                            Marshal.ReleaseComObject(menu);
+                                    }
                                 }
                             }
-                        }
+                            return true;
+                        });
                     }
                     catch (Win32Exception)
                     {
@@ -479,6 +484,19 @@ namespace FilesFullTrust
                 }
             }
             return false;
+        }
+
+        private static string GetMtpPath(string executable)
+        {
+            if (executable.StartsWith("\\\\?\\"))
+            {
+                using var computer = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
+                using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "").StartsWith(i.Name));
+                var deviceId = device?.ParsingName;
+                var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");
+                return deviceId != null ? Path.Combine(deviceId, itemPath) : executable;
+            }
+            return executable;
         }
 
         private static void Connection_ServiceClosed(AppServiceConnection sender, AppServiceClosedEventArgs args)

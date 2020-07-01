@@ -13,8 +13,8 @@
     DefaultButton="Primary"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     PrimaryButtonText="Extract"
-    mc:Ignorable="d"
-    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
+    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    mc:Ignorable="d">
 
     <Grid MinWidth="375">
         <StackPanel Orientation="Vertical">

@@ -138,12 +138,17 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
-                Visibility="Collapsed"
                 Style="{StaticResource ToolBarButtonStyle}"
-                ToolTipService.ToolTip="Ongoing tasks">
+                ToolTipService.ToolTip="Ongoing tasks"
+                Visibility="Collapsed">
                 <Button.Flyout>
                     <Flyout>
-                        <local:StatusCenter x:Name="OngoingTasksControl" x:FieldModifier="public" Width="300" MinHeight="300" MaxHeight="400"/>
+                        <local:StatusCenter
+                            x:Name="OngoingTasksControl"
+                            Width="300"
+                            MinHeight="300"
+                            MaxHeight="400"
+                            x:FieldModifier="public" />
                     </Flyout>
                 </Button.Flyout>
             </Button>

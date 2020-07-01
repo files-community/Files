@@ -2,15 +2,15 @@
     x:Class="Files.Dialogs.PropertiesDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local2="using:Files.Helpers"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="PropertiesDialogMarkup"
-    mc:Ignorable="d"
-    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}">
+    RequestedTheme="{x:Bind local2:ThemeHelper.RootTheme}"
+    mc:Ignorable="d">
     <ContentDialog.Background>
-            <AcrylicBrush
+        <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
             AlwaysUseFallback="{x:Bind AppSettings.AcrylicEnabled, Mode=OneWay}"
             BackgroundSource="HostBackdrop"
@@ -22,7 +22,5 @@
         <Thickness x:Key="ContentDialogPadding">0</Thickness>
     </ContentDialog.Resources>
 
-    <Frame
-        x:Name="propertiesFrame"
-        x:FieldModifier="public" />
+    <Frame x:Name="propertiesFrame" x:FieldModifier="public" />
 </ContentDialog>

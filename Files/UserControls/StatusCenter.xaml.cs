@@ -1,20 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -76,7 +66,7 @@ namespace Files.UserControls
             Extract
         }
 
-        public StatusBanner(string message, string title, uint progress, StatusBannerSeverity severity, StatusBannerOperation operation )
+        public StatusBanner(string message, string title, uint progress, StatusBannerSeverity severity, StatusBannerOperation operation)
         {
             Message = message;
             Title = title;
@@ -99,6 +89,7 @@ namespace Files.UserControls
                                     Glyph = "\xED25"    // OpenFolder to substitute for extract glyph
                                 };
                                 break;
+
                             case StatusBannerOperation.Paste:
                                 Title = ResourceController.GetTranslation("PasteInProgress/Title");
                                 GlyphSource = new FontIconSource()
@@ -106,6 +97,7 @@ namespace Files.UserControls
                                     Glyph = "\xE77F"    // Paste glyph
                                 };
                                 break;
+
                             case StatusBannerOperation.Delete:
                                 Title = ResourceController.GetTranslation("DeleteInProgress/Title");
                                 GlyphSource = new FontIconSource()
@@ -113,6 +105,7 @@ namespace Files.UserControls
                                     Glyph = "\xE74D"    // Delete glyph
                                 };
                                 break;
+
                             case StatusBannerOperation.Recycle:
                                 Title = ResourceController.GetTranslation("RecycleInProgress/Title");
                                 GlyphSource = new FontIconSource()
@@ -125,6 +118,7 @@ namespace Files.UserControls
                     }
                     FullTitle = Title + " (" + Progress + "%)";
                     break;
+
                 case StatusBannerSeverity.Success:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
@@ -140,6 +134,7 @@ namespace Files.UserControls
                         };
                     }
                     break;
+
                 case StatusBannerSeverity.Error:
                     if (string.IsNullOrWhiteSpace(Title) || string.IsNullOrWhiteSpace(Message))
                     {
