@@ -122,7 +122,6 @@
                         <Span xml:space="preserve"><Run x:Uid="SettingsAboutLicense">License: </Run><Hyperlink NavigateUri="https://github.com/QL-Win/QuickLook/blob/master/LICENSE-GPL.txt">GPL</Hyperlink></Span>
                     </TextBlock>
                 </StackPanel>
-
             </StackPanel>
         </ScrollViewer>
     </Grid>

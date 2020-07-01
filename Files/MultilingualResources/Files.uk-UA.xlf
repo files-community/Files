@@ -496,28 +496,23 @@
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt + Left Arrow)</source>
-          <target state="needs-review-translation">Назад</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Назад (Alt + Стрілка вліво)</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt + Right Arrow)</source>
-          <target state="needs-review-translation">Вперед</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Вперед (Alt + Стрілка вправо)</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
-          <target state="needs-review-translation">Вгору</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Вгору (Alt + Стрілка вгору)</target>
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
-          <target state="needs-review-translation">Оновити</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Оновити (F5)</target>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Create a new item (Ctrl + Shift + N)</source>
-          <target state="needs-review-translation">Створити</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Створити (Ctrl + Shift + N)</target>
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
@@ -789,60 +784,59 @@
         </trans-unit>
         <trans-unit id="SettingsAboutOpenLogLocationButton.Content" translate="yes" xml:space="preserve">
           <source>Open log location</source>
-          <target state="needs-review-translation">Відкрити розташування Лог файлу</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Відкрити розташування лог файлу</target>
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
-          <target state="new">New tab (Ctrl + T)</target>
+          <target state="translated">Створити вкладку (Ctrl + T)</target>
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="new">item selected</target>
+          <target state="translated">елемент вибрано</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="new">items selected</target>
+          <target state="translated">елементів вибрано</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
-          <target state="new">item</target>
+          <target state="translated">елемент</target>
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="new">items</target>
+          <target state="translated">елементів</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
-          <target state="new">Pin directory to sidebar</target>
+          <target state="translated">Закріпити в бічній панелі</target>
         </trans-unit>
         <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
-          <target state="new">Accessed:</target>
+          <target state="translated">Відкрито:</target>
         </trans-unit>
         <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
           <source>Owner:</source>
-          <target state="new">Owner:</target>
+          <target state="translated">Власник:</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
-          <target state="new">Show Owner in properties</target>
+          <target state="translated">Показати Власника у властивостях</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
-          <target state="new">Are you sure you want to delete all items?</target>
+          <target state="translated">Ви впевнені, що хочете видалити всі елементи?</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="translated">Очистити кошик</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="translated">ОК</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
@@ -874,47 +868,47 @@
         </trans-unit>
         <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Deleting files</source>
-          <target state="new">Deleting files</target>
+          <target state="translated">Видалення файлів</target>
         </trans-unit>
         <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
           <source>Extracting files</source>
-          <target state="new">Extracting files</target>
+          <target state="translated">Видобування файлів</target>
         </trans-unit>
         <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
           <source>Pasting files</source>
-          <target state="new">Pasting files</target>
+          <target state="translated">Вставка файлів</target>
         </trans-unit>
         <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
           <source>Moving files to Recycle Bin</source>
-          <target state="new">Moving files to Recycle Bin</target>
+          <target state="translated">Переміщення файлів до Кошика</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
-          <target state="new">Learn more about date formats</target>
+          <target state="translated">Докладніше про формати дати</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
-          <target state="new">Unlock</target>
+          <target state="translated">Розблокувати</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="translated">Скасувати</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
-          <target state="new">Enter password to unlock the drive</target>
+          <target state="translated">Введіть пароль для розблокування накопичувача</target>
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
-          <target state="new">Password</target>
+          <target state="translated">Пароль</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
           <source>Please check the password and try again.</source>
-          <target state="new">Please check the password and try again.</target>
+          <target state="translated">Перевірте пароль і повторіть спробу.</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Title" translate="yes" xml:space="preserve">
           <source>BitLocker error</source>
-          <target state="new">BitLocker error</target>
+          <target state="translated">Помилка BitLocker</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
@@ -926,11 +920,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="translated">Запуск від імені адміністратора</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="new">Run as another user</target>
+          <target state="translated">Запуск від імені іншого користувача</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>

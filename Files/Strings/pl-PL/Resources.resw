@@ -309,4 +309,277 @@
   <data name="StatusBarControlListView.Text" xml:space="preserve">
     <value>Widok listy</value>
   </data>
+  <data name="SidebarSettings.Text" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="nameColumn.Header" xml:space="preserve">
+    <value>Imię i nazwisko</value>
+  </data>
+  <data name="dateColumn.Header" xml:space="preserve">
+    <value>Data modyfikacji:</value>
+  </data>
+  <data name="typeColumn.Header" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="sizeColumn.Header" xml:space="preserve">
+    <value>Rozmiar</value>
+  </data>
+  <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Udziel uprawnienia</value>
+  </data>
+  <data name="FileFolderListItem" xml:space="preserve">
+    <value>Folder plików</value>
+  </data>
+  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Ustaw nazwę</value>
+  </data>
+  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>Nowa karta</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>Domyślne dla systemu Windows</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Jasny</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Ciemny</value>
+  </data>
+  <data name="ApplicationTimeStye" xml:space="preserve">
+    <value>Aplikacja</value>
+  </data>
+  <data name="SystemTimeStye" xml:space="preserve">
+    <value>Systemowy</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>Nowy folder</value>
+  </data>
+  <data name="NewTextDocument" xml:space="preserve">
+    <value>Nowy dokument tekstowy</value>
+  </data>
+  <data name="NewBitmapImage" xml:space="preserve">
+    <value>Nowy obraz mapy bitowej</value>
+  </data>
+  <data name="EmptyFolder.Text" xml:space="preserve">
+    <value>Ten folder jest pusty.</value>
+  </data>
+  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Wstecz	Alt+Strzałka w lewo</value>
+  </data>
+  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Dalej	Alt+Strzałka w prawo</value>
+  </data>
+  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Odśwież (F5)</value>
+  </data>
+  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Wyszukaj</value>
+  </data>
+  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Więcej opcji</value>
+  </data>
+  <data name="SidebarDrives" xml:space="preserve">
+    <value>Dyski</value>
+  </data>
+  <data name="ItemTypeFile" xml:space="preserve">
+    <value>Plik</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Pomiń</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Ustawienia</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Odwróć zaznaczenie</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Otwórz</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Właściwości</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Atrybuty</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Właściwości</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Otwórz na nowej karcie</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Otwórz w nowym oknie</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Eksperymentalna</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Eksperymentalna</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Element już istnieje.</value>
+  </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>Zadowalający</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
+    <value>Odmowa dostępu</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>Nie można odnaleźć pliku</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Tryb układu</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Opcje zaznaczeń</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Spróbuj ponownie</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Zadowalający</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>&amp;Tylko do odczytu</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Ukryte</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Opróżnij kosz</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Przywróć</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} dni temu</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} godz. temu</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>{0} dzień temu</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>{0} godzinę temu</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} min temu</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>{0} min temu</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>{0} s temu</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Nowa karta</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>Żądana operacja nie jest obsługiwana.</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>Wolnych: {0} z {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Otwórz za pomocą</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>Zadowalający</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Nowa karta	Ctrl+T</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>zaznaczono element</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>wybrane elementy</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>element</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>Elementy</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Ostatnio używany</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Właściciel</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Opróżnij kosz</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Zadowalający</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>bajty</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>Kanban</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>mbar</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>PL</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>ZDW</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>PB</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Usuwanie plików</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Wyodrębnianie plików</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Odblokuj</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Anuluj</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Hasło</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Zawartość:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Uruchom jako administrator</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Uruchom jako inny użytkownik</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Zajęte miejsce:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Wolne miejsce:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Pojemność</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>System plików</value>
+  </data>
 </root>

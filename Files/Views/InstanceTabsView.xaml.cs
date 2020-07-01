@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -38,6 +39,13 @@ namespace Files
             CoreTitleBar.ExtendViewIntoTitleBar = true;
             tabView = TabStrip;
 
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
+            }
+
             App.AppSettings = new SettingsViewModel();
             App.InteractionViewModel = new InteractionViewModel();
 
@@ -51,15 +59,6 @@ namespace Files
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
-
-        public static async Task StartTerminateAsync()
-        {
-            IList<AppDiagnosticInfo> infos = await AppDiagnosticInfo.RequestInfoForAppAsync();
-            IList<AppResourceGroupInfo> resourceInfos = infos[0].GetResourceGroups();
-            var pid = Windows.System.Diagnostics.ProcessDiagnosticInfo.GetForCurrentProcess().ProcessId;
-            await resourceInfos.Single(r => r.GetProcessDiagnosticInfos()[0].ProcessId == pid).StartTerminateAsync();
-            //Application.Current.Exit();
-        }
 
         private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
@@ -314,8 +313,9 @@ namespace Files
                     if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
                     {
                         var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPathForTabIcon).Contains(x.ToUpperInvariant()));
 
-                        if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
+                        if (matchingDriveName == null)
                         {
                             fontIconSource.Glyph = "\xEDA2";
                             tabLocationHeader = NormalizePath(currentPathForTabIcon);
@@ -323,7 +323,7 @@ namespace Files
                         else
                         {
                             fontIconSource.Glyph = "\xE88E";
-                            tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(currentPathForTabIcon)).DisplayName;
+                            tabLocationHeader = matchingDriveName;
                         }
                     }
                     else
@@ -429,7 +429,7 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    await InstanceTabsView.StartTerminateAsync();
+                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
                 }
                 else
                 {
@@ -459,6 +459,13 @@ namespace Files
             }
             else
             {
+                Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
+                icon.Glyph = "\xE713";
+                if ((tabView.SelectedItem as TabViewItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (tabView.SelectedItem as TabViewItem).IconSource != icon)
+                {
+                    App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
+                }
+
                 //App.InteractionViewModel.TabStripSelectedIndex = TabStrip.SelectedIndex;
                 if ((tabView.SelectedItem as TabViewItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
@@ -477,15 +484,10 @@ namespace Files
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true;
                         }
-                        if ((tabView.SelectedItem as TabViewItem).Header.ToString() ==
-                            ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"))
-                        {
-                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = false;
-                        }
-                        else
-                        {
-                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = true;
-                        }
+                        App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin =
+                            App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
+                        App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
+                            App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
@@ -498,14 +500,14 @@ namespace Files
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                await InstanceTabsView.StartTerminateAsync();
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
                 int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
                 TabStrip.TabItems.RemoveAt(tabIndexToClose);
             }
-        }        
+        }
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
         {

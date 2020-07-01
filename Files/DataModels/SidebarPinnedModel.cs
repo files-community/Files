@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Files.DataModels
@@ -35,12 +36,12 @@ namespace Files.DataModels
             return Items;
         }
 
-        public void AddItem(string item)
+        public async void AddItem(string item)
         {
             if (!Items.Contains(item))
             {
                 Items.Add(item);
-                AddItemToSidebar(item);
+                await AddItemToSidebar(item);
                 Save();
             }
         }
@@ -65,11 +66,12 @@ namespace Files.DataModels
             }
         }
 
-        public async void AddItemToSidebar(string path)
+        public async Task AddItemToSidebar(string path)
         {
             try
             {
-                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
+                var item = await DrivesManager.GetRootFromPath(path);
+                StorageFolder folder = await StorageFileExtensions.GetFolderFromPathAsync(path, item);
                 int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location 
                     && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
@@ -85,29 +87,23 @@ namespace Files.DataModels
             {
                 Debug.WriteLine(ex.Message);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex) when (
+                ex is ArgumentException // Pinned item was invalid
+                || ex is FileNotFoundException // Pinned item was deleted
+                || ex is System.Runtime.InteropServices.COMException // Pinned item's drive was ejected
+                || (uint)ex.HResult == 0x800700A1) // The specified path is invalid (usually an mtp device was disconnected)
             {
                 Debug.WriteLine("Pinned item was invalid and will be removed from the file lines list soon: " + ex.Message);
                 RemoveItem(path);
             }
-            catch (FileNotFoundException ex)
-            {
-                Debug.WriteLine("Pinned item was deleted and will be removed from the file lines list soon: " + ex.Message);
-                RemoveItem(path);
-            }
-            catch (System.Runtime.InteropServices.COMException ex)
-            {
-                Debug.WriteLine("Pinned item's drive was ejected and will be removed from the file lines list soon: " + ex.Message);
-                RemoveItem(path);
-            }
         }
 
-        public void AddAllItemsToSidebar()
+        public async void AddAllItemsToSidebar()
         {
             for (int i = 0; i < Items.Count(); i++)
             {
                 string path = Items[i];
-                AddItemToSidebar(path);
+                await AddItemToSidebar(path);
             }
         }
 

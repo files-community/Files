@@ -18,7 +18,7 @@ namespace Files.SettingsPages
 
         private async void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/duke7553/files-uwp/issues/new/choose"));
+            await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
         }
 
         private async void OpenLogLocationButton_Click(object sender, RoutedEventArgs e)

@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -44,7 +45,8 @@ namespace Files
         {
             base.OnNavigatedTo(eventArgs);
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
-            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = true;
+            App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
+            App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();
@@ -74,14 +76,7 @@ namespace Files
 
         public async void PopulateRecentsList()
         {
-            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
-            BitmapImage ItemImage;
-            string ItemPath;
-            string ItemName;
-            StorageItemTypes ItemType;
-            Visibility ItemFolderImgVis;
-            Visibility ItemEmptyImgVis;
-            Visibility ItemFileIconVis;
+            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;            
             bool IsRecentsListEmpty = true;
             foreach (var entry in mostRecentlyUsed.Entries)
             {
@@ -111,29 +106,13 @@ namespace Files
                 try
                 {
                     IStorageItem item = await mostRecentlyUsed.GetItemAsync(mruToken);
-                    if (item.IsOfType(StorageItemTypes.File))
-                    {
-                        ItemName = item.Name;
-                        ItemPath = item.Path;
-                        ItemType = StorageItemTypes.File;
-                        ItemImage = new BitmapImage();
-                        StorageFile file = await StorageFile.GetFileFromPathAsync(ItemPath);
-                        var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 30, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
-                        if (thumbnail == null)
-                        {
-                            ItemEmptyImgVis = Visibility.Visible;
-                        }
-                        else
-                        {
-                            await ItemImage.SetSourceAsync(thumbnail.CloneStream());
-                            ItemEmptyImgVis = Visibility.Collapsed;
-                        }
-                        ItemFolderImgVis = Visibility.Collapsed;
-                        ItemFileIconVis = Visibility.Visible;
-                        recentItemsCollection.Add(new RecentItem() { RecentPath = ItemPath, Name = ItemName, Type = ItemType, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
-                    }
+                    await AddItemToRecentList(item, entry);
                 }
                 catch (FileNotFoundException)
+                {
+                    mostRecentlyUsed.Remove(mruToken);
+                }
+                catch (ArgumentException)
                 {
                     mostRecentlyUsed.Remove(mruToken);
                 }
@@ -151,6 +130,46 @@ namespace Files
             if (recentItemsCollection.Count == 0)
             {
                 Empty.Visibility = Visibility.Visible;
+            }
+        }
+
+        private async Task AddItemToRecentList(IStorageItem item, Windows.Storage.AccessCache.AccessListEntry entry)
+        {
+            BitmapImage ItemImage;
+            string ItemPath;
+            string ItemName;
+            StorageItemTypes ItemType;
+            Visibility ItemFolderImgVis;
+            Visibility ItemEmptyImgVis;
+            Visibility ItemFileIconVis;            
+            if (item.IsOfType(StorageItemTypes.File))
+            {
+                using (var inputStream = await((StorageFile)item).OpenReadAsync())
+                using (var classicStream = inputStream.AsStreamForRead())
+                using (var streamReader = new StreamReader(classicStream))
+                {
+                    // Try to read the file to check if still exists
+                    streamReader.Peek();
+                }
+
+                ItemName = item.Name;
+                ItemPath = string.IsNullOrEmpty(item.Path) ? entry.Metadata : item.Path;
+                ItemType = StorageItemTypes.File;
+                ItemImage = new BitmapImage();
+                StorageFile file = (StorageFile)item;
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.SingleItem, 30, Windows.Storage.FileProperties.ThumbnailOptions.UseCurrentScale);
+                if (thumbnail == null)
+                {
+                    ItemEmptyImgVis = Visibility.Visible;
+                }
+                else
+                {
+                    await ItemImage.SetSourceAsync(thumbnail.CloneStream());
+                    ItemEmptyImgVis = Visibility.Collapsed;
+                }
+                ItemFolderImgVis = Visibility.Collapsed;
+                ItemFileIconVis = Visibility.Visible;
+                recentItemsCollection.Add(new RecentItem() { RecentPath = ItemPath, Name = ItemName, Type = ItemType, FolderImg = ItemFolderImgVis, EmptyImgVis = ItemEmptyImgVis, FileImg = ItemImage, FileIconVis = ItemFileIconVis });
             }
         }
 
@@ -186,7 +205,7 @@ namespace Files
             catch (COMException)
             {
                 await DialogDisplayHelper.ShowDialog(
-                    ResourceController.GetTranslation("DriveUnpluggedDialog/Title"), 
+                    ResourceController.GetTranslation("DriveUnpluggedDialog/Title"),
                     ResourceController.GetTranslation("DriveUnpluggedDialog/Text"));
             }
         }
@@ -213,7 +232,7 @@ namespace Files
                         foreach (var element in mru.Entries)
                         {
                             var f = await mru.GetItemAsync(element.Token);
-                            if (f.Path.Equals(vm.RecentPath))
+                            if (f.Path == vm.RecentPath || element.Metadata == vm.RecentPath)
                             {
                                 mru.Remove(element.Token);
                                 if (recentItemsCollection.Count == 0)

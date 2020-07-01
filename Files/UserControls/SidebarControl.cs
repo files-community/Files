@@ -13,6 +13,7 @@ namespace Files.Controls
     public sealed partial class SidebarControl : UserControl, INotifyPropertyChanged
     {
         public SettingsViewModel AppSettings => App.AppSettings;
+
         public SidebarControl()
         {
             this.InitializeComponent();
@@ -133,6 +134,7 @@ namespace Files.Controls
         {
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
             var item = sidebarItem.DataContext as LocationItem;
+
             if (item.IsDefaultLocation)
             {
                 ShowUnpinItem = false;
@@ -161,6 +163,8 @@ namespace Files.Controls
             Microsoft.UI.Xaml.Controls.NavigationViewItem sidebarItem = (Microsoft.UI.Xaml.Controls.NavigationViewItem)sender;
 
             ShowUnpinItem = false;
+            ShowEmptyRecycleBin = false;
+
             SideBarItemContextFlyout.ShowAt(sidebarItem, e.GetPosition(sidebarItem));
 
             App.rightClickedItem = sidebarItem.DataContext as DriveItem;

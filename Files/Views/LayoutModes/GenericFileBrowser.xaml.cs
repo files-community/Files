@@ -248,7 +248,7 @@ namespace Files
                 AllView.CancelEdit(); // Cancel the edit operation
                 return;
             }
-                       
+
             if (AppSettings.DoubleTapToRenameFiles == false) // Check if the double tap to rename files setting is off
             {
                 AllView.CancelEdit(); // Cancel the edit operation
@@ -434,11 +434,6 @@ namespace Files
         {
             DataGridRow row = element as DataGridRow;
             return row.DataContext as ListedItem;
-        }
-
-        private void RightClickContextMenu_Opening(object sender, object e)
-        {
-
         }
     }
 }

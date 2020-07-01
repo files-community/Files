@@ -519,4 +519,151 @@
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Haben Sie diesen Ordner gelöscht?</value>
   </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Layoutmodus</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Auswahloptionen</value>
+  </data>
+  <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
+    <value>Datei wird bereits verwendet.</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Wiederholen</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Schreibgeschützt</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Ausgeblendet</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Papierkorb leeren</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>Vor {0} Tagen</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>Vor {0} Stunden</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>Vor {0} Tag</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>vor {0} Stunde</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>Vor {0} Minuten</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>vor {0} Minute</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>vor {0} Sekunden</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Neue Registerkarte</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>Der angeforderte Vorgang wird nicht unterstützt.</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} frei von {1}</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Öffnen _mit</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Neue Registerkarte	Strg+T</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>Element ausgewählt</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>ausgewählte Elemente</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>Element</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>Elemente</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Letzter Zugriff:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Besitzer:</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Papierkorb leeren</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Okay</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>Bytes</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>KB zurücksetzen</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>DE</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>PB</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>F</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Dateien werden gelöscht</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Dateien werden extrahiert...</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Entsperren</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>password</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Inhalt:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Als Administrator ausführen</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Als anderer Benutzer ausführen</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Belegter Speicherplatz:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Freier Speicherplatz:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Speicherkapazität:</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Dateisystem:</value>
+  </data>
 </root>

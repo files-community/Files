@@ -162,6 +162,10 @@
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFolderWithPath.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
@@ -174,6 +178,7 @@
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
+    <Compile Include="Helpers\Win32FindDataExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
@@ -208,7 +213,6 @@
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
-    <Compile Include="Enums\PropertiesType.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
@@ -225,6 +229,11 @@
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
+    <Compile Include="View Models\Properties\BaseProperties.cs" />
+    <Compile Include="View Models\Properties\CombinedProperties.cs" />
+    <Compile Include="View Models\Properties\DriveProperties.cs" />
+    <Compile Include="View Models\Properties\FileProperties.cs" />
+    <Compile Include="View Models\Properties\FolderProperties.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>
@@ -364,6 +373,8 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\pt-BR\Resources.resw" />
+    <PRIResource Include="Strings\he-IL\Resources.resw" />
     <PRIResource Include="Strings\ja-JP\Resources.resw" />
     <PRIResource Include="Strings\ta\Resources.resw" />
     <PRIResource Include="Strings\it-IT\Resources.resw" />
@@ -558,10 +569,12 @@
     <XliffResource Include="MultilingualResources\Files.de-DE.xlf" />
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
+    <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
+    <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />
     <XliffResource Include="MultilingualResources\Files.ta.xlf" />
     <XliffResource Include="MultilingualResources\Files.tr-TR.xlf" />

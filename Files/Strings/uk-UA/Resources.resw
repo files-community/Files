@@ -370,19 +370,19 @@
     <value>Ця папка порожня.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Назад</value>
+    <value>Назад (Alt + Стрілка вліво)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вперед</value>
+    <value>Вперед (Alt + Стрілка вправо)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вгору</value>
+    <value>Вгору (Alt + Стрілка вгору)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Оновити</value>
+    <value>Оновити (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Створити</value>
+    <value>Створити (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Пошук</value>
@@ -586,7 +586,46 @@
     <value>Ім'я елемента не повинно містити таких знаків: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Відкрити розташування Лог файлу</value>
+    <value>Відкрити розташування лог файлу</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Створити вкладку (Ctrl + T)</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>елемент вибрано</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>елементів вибрано</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>елемент</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>елементів</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Закріпити в бічній панелі</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Відкрито:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Власник:</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Показати Власника у властивостях</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити всі елементи?</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Очистити кошик</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ОК</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байт</value>
@@ -609,11 +648,50 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Видалення файлів</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Видобування файлів</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Вставка файлів</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Переміщення файлів до Кошика</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Докладніше про формати дати</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Розблокувати</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Скасувати</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Введіть пароль для розблокування накопичувача</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Перевірте пароль і повторіть спробу.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Помилка BitLocker</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Містить:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлів, {1:#,##0} Папок</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Запуск від імені адміністратора</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Запуск від імені іншого користувача</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Всі типу {0}</value>

@@ -18,7 +18,7 @@ namespace Files.Common
         }
 
         public ShellFileItem(
-            bool isFolder, string recyclePath, string fileName, string filePath, 
+            bool isFolder, string recyclePath, string fileName, string filePath,
             DateTime recycleDate, string fileSize, ulong fileSizeBytes, string fileType)
         {
             this.IsFolder = isFolder;
