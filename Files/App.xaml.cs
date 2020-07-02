@@ -212,6 +212,8 @@ namespace Files
         public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
+        public static EmptyRecycleBinState ERBS { get; set; } = new EmptyRecycleBinState();
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used such as when the application is launched to open a specific file.

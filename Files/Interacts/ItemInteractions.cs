@@ -59,4 +59,33 @@ namespace Files.Interacts
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
+    public class EmptyRecycleBinState : INotifyPropertyChanged
+    {
+        private bool recycleBinHasFiles = true;
+
+        public bool RecycleBinHasFiles
+        {
+            get
+            {
+                return recycleBinHasFiles;
+            }
+
+            set
+            {
+                if (value != recycleBinHasFiles)
+                {
+                    recycleBinHasFiles = value;
+                    NotifyPropertyChanged("RecycleBinHasFiles");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
 }

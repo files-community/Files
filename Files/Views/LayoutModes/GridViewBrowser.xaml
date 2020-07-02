@@ -200,7 +200,7 @@
                 x:Name="EmptyRecycleBin"
                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                IsEnabled="True"
+                IsEnabled="{x:Bind local:App.ERBS.RecycleBinHasFiles, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
