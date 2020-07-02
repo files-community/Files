@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.StartScreen;
+using Windows.Storage;
+using Files.Common;
 
 namespace Files.Helpers
 {
@@ -38,7 +40,42 @@ namespace Files.Helpers
         {
             if (!JumpListItemPaths.Contains(path) && _instance != null)
             {
-                var jumplistItem = JumpListItem.CreateWithArguments(path, Path.GetFileName(path));
+                string displayName;
+                if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    displayName = "ms-resource:///Resources/SidebarDesktop";
+                }
+                else if (path.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    displayName = "ms-resource:///Resources/SidebarDownloads";
+                }
+                else if (path.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    displayName = "ms-resource:///Resources/SidebarDocuments";
+                }
+                else if (path.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    displayName = "ms-resource:///Resources/SidebarPictures";
+                }
+                else if (path.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    displayName = "ms-resource:///Resources/SidebarMusic";
+                }
+                else if (path.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    displayName = "ms-resource:///Resources/SidebarVideos";
+                }
+                else if (path.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                {
+                    var localSettings = ApplicationData.Current.LocalSettings;
+                    displayName = localSettings.Values.Get("RecycleBin_Title", "Recycle Bin");
+                }
+                else
+                {
+                    displayName = Path.GetFileName(path);
+                }
+
+                var jumplistItem = JumpListItem.CreateWithArguments(path, displayName);
                 jumplistItem.Description = jumplistItem.Arguments;
                 jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
                 jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
