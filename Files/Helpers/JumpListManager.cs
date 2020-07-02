@@ -21,6 +21,8 @@ namespace Files.Helpers
             if (JumpList.IsSupported())
             {
                 _instance = await JumpList.LoadCurrentAsync();
+
+                // Disable automatic jumplist. It doesn't work with Files UWP.
                 _instance.SystemGroupKind = JumpListSystemGroupKind.None;
                 JumpListItemPaths = _instance.Items.Select(item => item.Arguments).ToList();
             }
@@ -39,6 +41,7 @@ namespace Files.Helpers
                 var jumplistItem = JumpListItem.CreateWithArguments(path, Path.GetFileName(path));
                 jumplistItem.Description = jumplistItem.Arguments;
                 jumplistItem.GroupName = "ms-resource:///Resources/JumpListRecentGroupHeader";
+                jumplistItem.Logo = new Uri("ms-appx:///Assets/FolderIcon.png");
                 _instance.Items.Add(jumplistItem);
                 JumpListItemPaths.Add(path);
             }
