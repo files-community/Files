@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace Files.Helpers
             }
         }
 
-        public async void AddFolderToList(string path)
+        public async void AddFolderToJumpList(string path)
         {
             await AddFolder(path);
             await _instance?.SaveAsync();
