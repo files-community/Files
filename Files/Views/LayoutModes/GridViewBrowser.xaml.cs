@@ -291,6 +291,17 @@ namespace Files
             {
                 AssociatedInteractions.ShowPropertiesButton_Click(null, null);
             }
+            else if (e.Key == VirtualKey.Space)
+            {
+                if (!isRenamingItem && !App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    {
+                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                    }
+                    e.Handled = true;
+                }
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
