@@ -138,7 +138,7 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var terminal = AppSettings.TerminalsModel.GetDefaultTerminal();
+            var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
@@ -159,7 +159,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinned.AddItem(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
                 }
             }
         }
@@ -564,7 +564,7 @@ namespace Files.Interacts
 
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
-            App.SidebarPinned.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
+            App.SidebarPinnedController.Model.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
