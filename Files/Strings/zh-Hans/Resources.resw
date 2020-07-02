@@ -544,7 +544,7 @@
     <value>隐藏</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>空回收站</value>
+    <value>清空回收站</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>撤销</value>
