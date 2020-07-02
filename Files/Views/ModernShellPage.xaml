@@ -90,13 +90,12 @@
 
         <Grid Grid.Column="1">
             <Custom:DropShadowPanel
-                Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 BlurRadius="4"
                 Canvas.ZIndex="100"
                 OffsetX="-2"
-                OffsetY="10"
+                OffsetY="0"
                 ShadowOpacity=".04">
                 <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0,32,0,0">
                     <Grid.RowDefinitions>
@@ -109,7 +108,7 @@
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
-                            Margin="10,4"
+                            Margin="10,0"
                             x:FieldModifier="public" />
                     </Grid>
 

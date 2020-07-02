@@ -418,5 +418,18 @@ namespace Files.UserControls
         {
             AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
+
+        private void verticalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
+        {
+            switch (args.CollectionChange)
+            {
+                case Windows.Foundation.Collections.CollectionChange.ItemRemoved:
+                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
+                    break;
+                case Windows.Foundation.Collections.CollectionChange.ItemInserted:
+                    App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
+                    break;
+            }
+        }
     }
 }

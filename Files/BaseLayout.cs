@@ -213,16 +213,11 @@ namespace Files
             AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (string)eventArgs.Parameter;
-            if (AppSettings.FormFactor == Enums.FormFactorMode.Regular)
-            {
-                (App.CurrentInstance.NavigationToolbar.MultiTaskingControl as VerticalTabView).TabStrip_SelectionChanged(null, null);
-
-            }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
             await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(parameters);
-
+            
             // pathRoot will be empty on recycle bin path
             string pathRoot = Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
             if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.FilesystemViewModel.WorkingDirectory == pathRoot)
@@ -241,6 +236,10 @@ namespace Files
 
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
+            if (AppSettings.FormFactor == Enums.FormFactorMode.Regular)
+            {
+                (App.CurrentInstance.NavigationToolbar.MultiTaskingControl as VerticalTabView).TabStrip_SelectionChanged(null, null);
+            }
             App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }

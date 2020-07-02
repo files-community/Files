@@ -532,6 +532,7 @@
             SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
+            TabItemsChanged="verticalTabView_TabItemsChanged"
             Background="Transparent"
             IsAddTabButtonVisible="True"
             Style="{StaticResource DefaultTabViewStyle}"
