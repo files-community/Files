@@ -9,10 +9,12 @@ using System.Runtime.CompilerServices;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls
@@ -313,6 +315,32 @@ namespace Files.UserControls
                 return;
 
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+        }
+
+        private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if(e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                (sender as Button).Flyout.ShowAt(sender as Button);
+            }
+        }
+
+        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void Flyout_Opened(object sender, object e)
+        {
+            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+
         }
     }
 }

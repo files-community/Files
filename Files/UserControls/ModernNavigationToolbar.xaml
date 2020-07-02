@@ -768,6 +768,7 @@
                 QueryIcon="Find"
                 TextBoxStyle="{StaticResource AutoSuggestBoxTextBoxStyleFixed}" />
             <Button
+                x:Name="VerticalTabStripInvokeButton"
                 x:Uid="VerticalTabStrip"
                 Width="34"
                 Height="30"
@@ -777,11 +778,14 @@
                 CornerRadius="2"
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
+                Tapped="Button_Tapped"
+                IsTapEnabled="True"
+                PointerEntered="Button_PointerEntered"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Open tabs"
                 Visibility="Visible">
                 <Button.Flyout>
-                    <Flyout>
+                    <Flyout Opened="Flyout_Opened" Closed="Flyout_Closed">
                         <local:VerticalTabView
                             Margin="-6"
                             x:Name="verticalTabs"
