@@ -5,6 +5,7 @@
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:fluent="using:Fluent.Icons"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,12 +22,13 @@
                 x:Uid="BaseLayoutContextFlyoutSortBy"
                 Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon Glyph="&#xE8CB;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="ArrowSort" />
+                    </IconSourceElement>
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByName"
                     GroupName="SortGroup"
-                    IsChecked="{x:Bind AssociatedViewModel.IsSortedByName, Mode=TwoWay}"
                     Text="Name" />
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByDate"
@@ -61,7 +63,9 @@
                 Click="{x:Bind local:NavigationActions.Refresh_Click}"
                 Text="Refresh">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE72C;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="ArrowClockwise" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -72,7 +76,9 @@
                 IsEnabled="{x:Bind local:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE77F;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="ClipboardPaste" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -92,7 +98,9 @@
                 x:Uid="BaseLayoutContextFlyoutNew"
                 Text="New">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon Glyph="&#xE710;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Add" />
+                    </IconSourceElement>
                 </MenuFlyoutSubItem.Icon>
                 <MenuFlyoutItem
                     x:Name="NewFolder"
@@ -100,7 +108,9 @@
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
                     Text="Folder">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8B7;" />
+                        <IconSourceElement>
+                            <fluent:FluentIconSource Symbol="Folder" />
+                        </IconSourceElement>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutSeparator />
@@ -110,7 +120,9 @@
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xEB9F;" />
+                        <IconSourceElement>
+                            <fluent:FluentIconSource Symbol="Image" />
+                        </IconSourceElement>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
                 <MenuFlyoutItem
@@ -119,7 +131,9 @@
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8A5;" />
+                        <IconSourceElement>
+                            <fluent:FluentIconSource Symbol="Notepad" />
+                        </IconSourceElement>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyoutSubItem>
@@ -130,7 +144,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PinDirectoryToSidebar}"
                 Text="Pin directory to sidebar">
                 <MenuFlyoutItem.Icon>
-                    <SymbolIcon Symbol="Pin" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Pin" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -139,7 +155,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowFolderPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE946;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Info" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
@@ -150,7 +168,9 @@
                 x:Uid="BaseLayoutContextFlyoutSortBy"
                 Text="Sort by">
                 <MenuFlyoutSubItem.Icon>
-                    <FontIcon Glyph="&#xE8CB;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="ArrowSort" />
+                    </IconSourceElement>
                 </MenuFlyoutSubItem.Icon>
                 <muxc:RadioMenuFlyoutItem
                     x:Uid="BaseLayoutContextFlyoutSortByName"
@@ -190,7 +210,9 @@
                 Click="{x:Bind local:NavigationActions.Refresh_Click}"
                 Text="Refresh">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE72C;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="ArrowClockwise" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -218,7 +240,9 @@
                 Tag="Extract_FlyoutItem"
                 Text="Extract">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xED25;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="FolderOpen" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -229,7 +253,9 @@
                 Tag="Open_FlyoutItem"
                 Text="Open">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE1A5;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Open" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -272,7 +298,9 @@
                 Text="Set as desktop background"
                 Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE7F4;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Wallpaper" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -290,7 +318,7 @@
                 x:Uid="BaseLayoutContextFlyoutRunAsAdmin"
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RunAsAdmin_Click}"
-                Text="Run as administrator">
+                Text="Run as another user">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7EF;" />
                 </MenuFlyoutItem.Icon>
@@ -311,7 +339,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShareItem_Click}"
                 Text="Share">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE72D;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Share" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -330,7 +360,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CopyItem_ClickAsync}"
                 Text="Copy">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE8C8;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Copy" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -340,7 +372,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.DeleteItem_Click}"
                 Text="Delete">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE74D;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Delete" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -349,7 +383,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.RenameItem_Click}"
                 Text="Rename">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE8AC;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Rename" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator />
@@ -361,7 +397,9 @@
                 Tag="PinItem_FlyoutItem"
                 Text="Pin to sidebar">
                 <MenuFlyoutItem.Icon>
-                    <SymbolIcon Symbol="Pin" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Pin" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -370,7 +408,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE946;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Info" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -421,7 +461,9 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.ShowPropertiesButton_Click}"
                 Text="Properties">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE946;" />
+                    <IconSourceElement>
+                        <fluent:FluentIconSource Symbol="Info" />
+                    </IconSourceElement>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
         </MenuFlyout>
