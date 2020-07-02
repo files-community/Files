@@ -955,6 +955,10 @@
           <source>File system:</source>
           <target state="new">File system:</target>
         </trans-unit>
+        <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
+          <source>Recent</source>
+          <target state="new">Recent</target>
+        </trans-unit>
       </group>
     </body>
   </file>
