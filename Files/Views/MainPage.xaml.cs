@@ -82,6 +82,11 @@ namespace Files.Views
             {
                 VerticalTabView.AddNewTab(typeof(ModernShellPage), navArgs);
             }
+
+            // Initial setting of SelectedTabItem
+            Frame rootFrame = Window.Current.Content as Frame;
+            var mainView = rootFrame.Content as MainPage;
+            mainView.SelectedTabItem = VerticalTabView.Items[App.InteractionViewModel.TabStripSelectedIndex];
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)

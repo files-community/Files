@@ -7,7 +7,7 @@
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     d:DesignHeight="80"
     d:DesignWidth="800"
     mc:Ignorable="d">
@@ -783,10 +783,10 @@
                 <Button.Flyout>
                     <Flyout>
                         <local:VerticalTabView
+                            Margin="-6"
                             x:Name="verticalTabs"
                             Width="300"
-                            MinHeight="300"
-                            MaxHeight="400"
+                            MaxHeight="300"
                             x:FieldModifier="public" />
                     </Flyout>
                 </Button.Flyout>

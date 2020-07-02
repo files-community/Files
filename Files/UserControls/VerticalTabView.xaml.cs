@@ -43,14 +43,14 @@ namespace Files.UserControls
                 {
                     tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
                     fontIconSource.Glyph = "\xE713";
-                    foreach (TabItem item in Items)
-                    {
-                        if (item.Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
-                        {
-                            App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(item);
-                            return;
-                        }
-                    }
+                    //foreach (TabItem item in Items)
+                    //{
+                    //    if (item.Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
+                    //    {
+                    //        App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(item);
+                    //        return;
+                    //    }
+                    //}
                 }
                 else if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
@@ -158,7 +158,7 @@ namespace Files.UserControls
                 Description = null
             };
             Items.Add(tvi);
-            App.InteractionViewModel.TabStripSelectedIndex = Items.Count - 1;
+            //App.InteractionViewModel.TabStripSelectedIndex = Items.Count - 1;
 
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
             tabViewItemFrame.Loaded += delegate
@@ -337,18 +337,18 @@ namespace Files.UserControls
 
         public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (App.InteractionViewModel.TabStripSelectedIndex < 0)
-            {
-                if (e.RemovedItems.Count > 0 && e.AddedItems.Count == 0)
-                {
-                    var itemToReselect = e.RemovedItems[0] as TabItem;
-                    if (Items.Contains(itemToReselect))
-                    {
-                        App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(itemToReselect);
-                    }
-                }
-            }
-            else
+            if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
+            //{
+            //    if (e.RemovedItems.Count > 0 && e.AddedItems.Count == 0)
+            //    {
+            //        var itemToReselect = e.RemovedItems[0] as TabItem;
+            //        if (Items.Contains(itemToReselect))
+            //        {
+            //            App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(itemToReselect);
+            //        }
+            //    }
+            //}
+            //else
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
@@ -357,7 +357,6 @@ namespace Files.UserControls
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
 
-                //App.InteractionViewModel.TabStripSelectedIndex = TabStrip.SelectedIndex;
                 if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
                 {
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(0, 0, 0, 0);
@@ -398,13 +397,8 @@ namespace Files.UserControls
             {
                 int tabIndexToClose = Items.IndexOf(args.Item as TabItem);
                 Items.RemoveAt(tabIndexToClose);
-                App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
+                //App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
             }
-        }
-
-        private void AddTabButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public static T GetCurrentSelectedTabInstance<T>()
@@ -418,6 +412,11 @@ namespace Files.UserControls
                 }
             }
             return default;
+        }
+
+        private void verticalTabView_AddTabButtonClick(TabView sender, object args)
+        {
+            AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
     }
 }
