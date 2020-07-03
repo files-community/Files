@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
@@ -287,6 +286,26 @@ namespace FilesFullTrust
             public int cbSize;
             public long i64Size;
             public long i64NumItems;
+        }
+
+        public static void Foreground(this Process process)
+        {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(2 * 1000);
+
+            Task.Run(async () =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    process.Refresh();
+                    if (process.MainWindowHandle != IntPtr.Zero)
+                    {
+                        User32.SetForegroundWindow(process.MainWindowHandle);
+                        break;
+                    }
+                    await Task.Delay(100);
+                }
+            });
         }
 
         // Get information from recycle bin.

@@ -1138,6 +1138,7 @@ namespace FilesFullTrust
                 }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
+                process.Foreground();
             }
             catch (Win32Exception)
             {
@@ -1150,6 +1151,7 @@ namespace FilesFullTrust
                 try
                 {
                     process.Start();
+                    process.Foreground();
                 }
                 catch (Win32Exception)
                 {
@@ -1160,7 +1162,8 @@ namespace FilesFullTrust
                             var split = application.Split('|').Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => GetMtpPath(x));
                             if (split.Count() == 1)
                             {
-                                Process.Start(split.First());
+                                using Process process = Process.Start(split.First());
+                                process?.Foreground();
                             }
                             else
                             {
