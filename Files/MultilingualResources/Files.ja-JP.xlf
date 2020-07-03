@@ -793,19 +793,19 @@
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="new">item selected</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">アイテムを選択</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="new">items selected</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">選択された項目</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
-          <target state="new">item</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">品目</target>
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="new">items</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">項目</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
@@ -813,11 +813,11 @@
         </trans-unit>
         <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
-          <target state="new">Accessed:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">アクセス日時:</target>
         </trans-unit>
         <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
           <source>Owner:</source>
-          <target state="new">Owner:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">所有者</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
@@ -825,7 +825,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">キャンセル</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
@@ -833,39 +833,55 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ごみ箱を空にする</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">実行</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="new">bytes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">バイト</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="new">KB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">KB 以下の場合のみ</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="new">MB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">!XyLnb!ゼMB ず!</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="new">GB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">!aQ0Iq!晙GB ず!</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
-          <target state="new">TB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">!MZ7sf!ｱTB ず!</target>
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="new">PB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="new">B</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">青</target>
+        </trans-unit>
+        <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Deleting files</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ファイルを削除しています</target>
+        </trans-unit>
+        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Extracting files</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ファイルを展開しています...</target>
+        </trans-unit>
+        <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Pasting files</source>
+          <target state="new">Pasting files</target>
+        </trans-unit>
+        <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Moving files to Recycle Bin</source>
+          <target state="new">Moving files to Recycle Bin</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
@@ -873,11 +889,11 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
-          <target state="new">Unlock</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ロック解除</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">キャンセル</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -885,7 +901,7 @@
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
-          <target state="new">Password</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">パスワード(P)</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
           <source>Please check the password and try again.</source>
@@ -897,7 +913,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
-          <target state="new">Contains:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">内容:</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
@@ -905,11 +921,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">管理者として実行</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="new">Run as another user</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">別のユーザーとして実行</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
@@ -925,19 +941,19 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
           <source>Used space:</source>
-          <target state="new">Used space:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">使用領域:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
           <source>Free space:</source>
-          <target state="new">Free space:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">空き領域:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
           <source>Capacity:</source>
-          <target state="new">Capacity:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">容量 :</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
-          <target state="new">File system:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ファイル システム</target>
         </trans-unit>
       </group>
     </body>

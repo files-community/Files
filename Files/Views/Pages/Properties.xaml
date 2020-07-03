@@ -4,17 +4,17 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:controls="using:Windows.UI.Xaml.Controls"
-    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local1="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
-    Loaded="Properties_Loaded"
-    Unloaded="Properties_Unloaded"
+    xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
+    Loaded="Properties_Loaded"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
+    Unloaded="Properties_Unloaded"
     mc:Ignorable="d">
     <Page.Background>
         <AcrylicBrush
@@ -70,24 +70,24 @@
                     x:Name="Icon"
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="0,7"
                     Width="80"
                     Height="80"
+                    Margin="0,7"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch">
                     <Image
-                            x:Name="FolderGlyphIcon"
-                            Width="70"
-                            Height="70"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
-                            Stretch="Uniform">
+                        x:Name="FolderGlyphIcon"
+                        Width="70"
+                        Height="70"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind ViewModel.LoadFolderGlyph}"
+                        Stretch="Uniform">
                         <Image.Source>
                             <SvgImageSource
-                                    RasterizePixelHeight="128"
-                                    RasterizePixelWidth="128"
-                                    UriSource="/Assets/FolderIcon.svg" />
+                                RasterizePixelHeight="128"
+                                RasterizePixelWidth="128"
+                                UriSource="/Assets/FolderIcon.svg" />
                         </Image.Source>
                     </Image>
                     <FontIcon
@@ -133,20 +133,20 @@
                     IsReadOnly="True"
                     Text="{x:Bind ViewModel.ItemName, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.ItemNameVisibility, Mode=OneWay}" />
-                
+
                 <MenuFlyoutSeparator
                     Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Margin="-12,0"
                     HorizontalAlignment="Stretch" />
-                
+
                 <TextBlock
                     x:Uid="PropertiesItemType"
                     Grid.Row="2"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Item type:"
                     Visibility="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -154,17 +154,17 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemType, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemTypeVisibility, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesDriveFileSystem"
                     Grid.Row="3"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="File system:"
                     Visibility="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -172,17 +172,17 @@
                     Grid.Row="3"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.DriveFileSystem, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.DriveFileSystemVisibility, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesItemPath"
                     Grid.Row="4"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Path:"
                     Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -190,26 +190,26 @@
                     Grid.Row="4"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemPath, Mode=OneWay}"
                     TextWrapping="Wrap"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemPathVisibility, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesItemSize"
                     Grid.Row="5"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Size:"
                     Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" />
                 <Grid
-                    Margin="20,0,0,0"
                     Grid.Row="5"
                     Grid.Column="1"
+                    Margin="20,0,0,0"
                     VerticalAlignment="Center"
-                    Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}" >
+                    Visibility="{x:Bind ViewModel.ItemSizeVisibility, Mode=OneWay}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" MinWidth="100" />
                         <ColumnDefinition Width="*" />
@@ -222,9 +222,9 @@
                     <muxc:ProgressRing
                         x:Name="ItemSizeProgress"
                         Grid.Column="1"
-                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}"
+                        Margin="0,-10"
                         HorizontalAlignment="Left"
-                        Margin="0,-10" />
+                        Visibility="{x:Bind ViewModel.ItemSizeProgressVisibility, Mode=OneWay}" />
                 </Grid>
 
                 <TextBlock
@@ -232,8 +232,8 @@
                     x:Uid="PropertiesItemMD5Hash"
                     Grid.Row="6"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="MD5Hash:"
                     Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -241,17 +241,17 @@
                     Grid.Row="6"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemMD5Hash, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemMD5HashVisibility, Mode=OneWay}" />
                 <muxc:ProgressBar
                     x:Name="ItemMD5HashProgress"
                     Grid.Row="6"
                     Grid.Column="1"
                     Margin="20,0,0,0"
-                    ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                     VerticalAlignment="Center"
+                    ShowError="{x:Bind ViewModel.ItemMD5HashCalcError, Mode=OneWay}"
                     Visibility="{x:Bind ViewModel.ItemMD5HashProgressVisibility, Mode=OneWay}" />
 
                 <TextBlock
@@ -259,8 +259,8 @@
                     x:Uid="PropertiesFilesAndFoldersCount"
                     Grid.Row="7"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Contains:"
                     Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -268,9 +268,9 @@
                     Grid.Row="7"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.FilesAndFoldersCountString, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.FilesAndFoldersCountVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
@@ -282,64 +282,64 @@
                 <StackPanel
                     Grid.Row="9"
                     Grid.Column="0"
-                    Orientation="Horizontal"
                     Margin="0,7"
+                    Orientation="Horizontal"
                     Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}">
                     <Rectangle
                         Width="15"
                         Height="15"
                         Margin="5,0"
-                        Fill="DodgerBlue"/>
+                        Fill="DodgerBlue" />
                     <TextBlock
                         x:Uid="PropertiesDriveUsedSpace"
+                        VerticalAlignment="Center"
                         FontWeight="SemiBold"
-                        Text="Used space:"
-                        VerticalAlignment="Center"/>
+                        Text="Used space:" />
                 </StackPanel>
-                
+
                 <TextBlock
                     x:Name="driveUsedSpaceValue"
                     Grid.Row="9"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.DriveUsedSpace, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.DriveUsedSpaceVisibiity, Mode=OneWay}" />
 
                 <StackPanel
                     Grid.Row="10"
                     Grid.Column="0"
-                    Orientation="Horizontal"
                     Margin="0,7"
+                    Orientation="Horizontal"
                     Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}">
                     <Rectangle
                         Width="15"
                         Height="15"
                         Margin="5,0"
-                        Fill="Gray"/>
+                        Fill="Gray" />
                     <TextBlock
                         x:Uid="PropertiesDriveFreeSpace"
+                        VerticalAlignment="Center"
                         FontWeight="SemiBold"
-                        Text="Free space:"
-                        VerticalAlignment="Center"/>
+                        Text="Free space:" />
                 </StackPanel>
                 <TextBlock
                     x:Name="driveFreeSpaceValue"
                     Grid.Row="10"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.DriveFreeSpace, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.DriveFreeSpaceVisibiity, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesCreated"
                     Grid.Row="11"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Created:"
                     Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
                 <TextBlock
@@ -347,17 +347,17 @@
                     Grid.Row="11"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemCreatedTimestamp, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemCreatedTimestampVisibiity, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesModified"
                     Grid.Row="12"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Modified:"
                     Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -365,17 +365,17 @@
                     Grid.Row="12"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemModifiedTimestamp, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemModifiedTimestampVisibility, Mode=OneWay}" />
-                
+
                 <TextBlock
                     x:Uid="PropertiesAccessed"
                     Grid.Row="13"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Accessed:"
                     Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
                 <TextBlock
@@ -383,86 +383,86 @@
                     Grid.Row="13"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemAccessedTimestamp, Mode=OneWay}"
-                    VerticalAlignment="Center"
                     Visibility="{x:Bind ViewModel.ItemAccessedTimestampVisibility, Mode=OneWay}" />
-                
+
                 <TextBlock
                     x:Uid="PropertiesOwner"
                     Grid.Row="14"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Owner:"
-                    Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility,Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
                 <TextBlock
                     x:Uid="ItemFileOwnerValue"
                     Grid.Row="14"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.ItemFileOwner, Mode=OneWay}"
-                    VerticalAlignment="Center"
-                    Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility,Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.ItemFileOwnerVisibility, Mode=OneWay}" />
 
                 <MenuFlyoutSeparator
                     Grid.Row="15"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     Margin="-12,0"
-                    Visibility="{x:Bind ViewModel.LastSeparatorVisibility,Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.LastSeparatorVisibility, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesDriveCapacity"
                     Grid.Row="16"
                     Grid.Column="0"
-                    FontWeight="SemiBold"
                     Margin="0,7"
+                    FontWeight="SemiBold"
                     Text="Capacity:"
-                    Visibility="{x:Bind ViewModel.DriveCapacityVisibiity,Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
                 <TextBlock
                     x:Uid="driveCapacityValue"
                     Grid.Row="16"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     IsTextSelectionEnabled="True"
                     Text="{x:Bind ViewModel.DriveCapacity, Mode=OneWay}"
-                    VerticalAlignment="Center"
-                    Visibility="{x:Bind ViewModel.DriveCapacityVisibiity,Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}" />
 
                 <toolkit:RadialProgressBar
                     Grid.Row="17"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
-                    Margin="10"
                     Width="70"
                     Height="70"
-                    Minimum="0"
-                    Maximum="{x:Bind ViewModel.DriveCapacityDoubleValue,Mode=OneWay}"
-                    Thickness="10"
-                    Value="{x:Bind ViewModel.DriveUsedSpaceDoubleValue,Mode=OneWay}"
+                    Margin="10"
                     Foreground="DodgerBlue"
+                    Maximum="{x:Bind ViewModel.DriveCapacityDoubleValue, Mode=OneWay}"
+                    Minimum="0"
                     Outline="Gray"
-                    Visibility="{x:Bind ViewModel.DriveCapacityVisibiity,Mode=OneWay}" />
+                    Thickness="10"
+                    Visibility="{x:Bind ViewModel.DriveCapacityVisibiity, Mode=OneWay}"
+                    Value="{x:Bind ViewModel.DriveUsedSpaceDoubleValue, Mode=OneWay}" />
 
                 <TextBlock
                     x:Uid="PropertiesAttributes"
                     Grid.Row="18"
                     Grid.Column="0"
-                    VerticalAlignment="Center"
                     Margin="0,7"
+                    VerticalAlignment="Center"
                     FontWeight="SemiBold"
                     Text="Attributes:"
-                    Visibility="{x:Bind ViewModel.ItemAttributesVisibility,Mode=OneWay}" />
+                    Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}" />
                 <StackPanel
                     Grid.Row="18"
                     Grid.Column="1"
                     Margin="20,0,0,0"
+                    VerticalAlignment="Center"
                     Orientation="Horizontal"
                     Spacing="16"
-                    VerticalAlignment="Center"
-                    Visibility="{x:Bind ViewModel.ItemAttributesVisibility,Mode=OneWay}" >
+                    Visibility="{x:Bind ViewModel.ItemAttributesVisibility, Mode=OneWay}">
                     <CheckBox
                         x:Uid="PropertiesDialogReadOnly"
                         Content="Read-only"

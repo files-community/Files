@@ -411,19 +411,19 @@
         </trans-unit>
         <trans-unit id="nameColumn.Header" translate="yes" xml:space="preserve">
           <source>Name</source>
-          <target state="new">Name</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Adı</target>
         </trans-unit>
         <trans-unit id="dateColumn.Header" translate="yes" xml:space="preserve">
           <source>Date modified</source>
-          <target state="new">Date modified</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Değiştirme tarihi</target>
         </trans-unit>
         <trans-unit id="typeColumn.Header" translate="yes" xml:space="preserve">
           <source>Type</source>
-          <target state="new">Type</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tür</target>
         </trans-unit>
         <trans-unit id="sizeColumn.Header" translate="yes" xml:space="preserve">
           <source>Size</source>
-          <target state="new">Size</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Boyut</target>
         </trans-unit>
         <trans-unit id="WelcomeDialog.Title" translate="yes" xml:space="preserve">
           <source>Welcome to Files</source>
@@ -431,7 +431,7 @@
         </trans-unit>
         <trans-unit id="WelcomeDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Grant Permission</source>
-          <target state="new">Grant Permission</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İzin Ver</target>
         </trans-unit>
         <trans-unit id="WelcomeDialogTextBlock.Text" translate="yes" xml:space="preserve">
           <source>To get started, you'll need to grant us permission to display your files. This will open a Settings page where you can grant us this permission. You'll need to reopen the app once completed. </source>
@@ -439,7 +439,7 @@
         </trans-unit>
         <trans-unit id="FileFolderListItem" translate="yes" xml:space="preserve">
           <source>File folder</source>
-          <target state="new">File folder</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya klasörü</target>
         </trans-unit>
         <trans-unit id="RenameDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter an item name</source>
@@ -451,59 +451,59 @@
         </trans-unit>
         <trans-unit id="RenameDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Set Name</source>
-          <target state="new">Set Name</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Adı Ayarla</target>
         </trans-unit>
         <trans-unit id="RenameDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İptal</target>
         </trans-unit>
         <trans-unit id="NewTab" translate="yes" xml:space="preserve">
           <source>New tab</source>
-          <target state="new">New tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni sekme</target>
         </trans-unit>
         <trans-unit id="SystemTheme" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="new">Windows default</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Windows varsayılan</target>
         </trans-unit>
         <trans-unit id="LightTheme" translate="yes" xml:space="preserve">
           <source>Light</source>
-          <target state="new">Light</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Açık</target>
         </trans-unit>
         <trans-unit id="DarkTheme" translate="yes" xml:space="preserve">
           <source>Dark</source>
-          <target state="new">Dark</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Koyu</target>
         </trans-unit>
         <trans-unit id="ApplicationTimeStye" translate="yes" xml:space="preserve">
           <source>Application</source>
-          <target state="new">Application</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Uygulama</target>
         </trans-unit>
         <trans-unit id="SystemTimeStye" translate="yes" xml:space="preserve">
           <source>System</source>
-          <target state="new">System</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sistem</target>
         </trans-unit>
         <trans-unit id="NewFolder" translate="yes" xml:space="preserve">
           <source>New Folder</source>
-          <target state="new">New Folder</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Klasör</target>
         </trans-unit>
         <trans-unit id="NewTextDocument" translate="yes" xml:space="preserve">
           <source>New Text Document</source>
-          <target state="new">New Text Document</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Metin Belgesi</target>
         </trans-unit>
         <trans-unit id="NewBitmapImage" translate="yes" xml:space="preserve">
           <source>New Bitmap Image</source>
-          <target state="new">New Bitmap Image</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Bit Eşlem Resmi</target>
         </trans-unit>
         <trans-unit id="EmptyFolder.Text" translate="yes" xml:space="preserve">
           <source>This folder is empty.</source>
-          <target state="new">This folder is empty.</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bu klasör boş.</target>
         </trans-unit>
         <trans-unit id="NavBackButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Back (Alt + Left Arrow)</source>
-          <target state="new">Back (Alt + Left Arrow)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Geri	Alt+Sol Ok</target>
         </trans-unit>
         <trans-unit id="NavForwardButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Forward (Alt + Right Arrow)</source>
-          <target state="new">Forward (Alt + Right Arrow)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İleri	Alt+Sağ Ok</target>
         </trans-unit>
         <trans-unit id="NavUpButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Up (Alt + Up Arrow)</source>
@@ -511,7 +511,7 @@
         </trans-unit>
         <trans-unit id="NavRefreshButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Refresh (F5)</source>
-          <target state="new">Refresh (F5)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yenile (F5)</target>
         </trans-unit>
         <trans-unit id="NavNewItemButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Create a new item (Ctrl + Shift + N)</source>
@@ -519,19 +519,19 @@
         </trans-unit>
         <trans-unit id="NavSearchButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Search</source>
-          <target state="new">Search</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ara</target>
         </trans-unit>
         <trans-unit id="NavMoreButton.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>More options</source>
-          <target state="new">More options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Diğer seçenekler</target>
         </trans-unit>
         <trans-unit id="SidebarDrives" translate="yes" xml:space="preserve">
           <source>Drives</source>
-          <target state="new">Drives</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sürüşler</target>
         </trans-unit>
         <trans-unit id="ItemTypeFile" translate="yes" xml:space="preserve">
           <source>File</source>
-          <target state="new">File</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya</target>
         </trans-unit>
         <trans-unit id="ErrorDialogThisActionCannotBeDone" translate="yes" xml:space="preserve">
           <source>This action cannot be done</source>
@@ -547,11 +547,11 @@
         </trans-unit>
         <trans-unit id="ErrorDialogSkip" translate="yes" xml:space="preserve">
           <source>Skip</source>
-          <target state="new">Skip</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Atla</target>
         </trans-unit>
         <trans-unit id="ErrorDialogCancel" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İptal</target>
         </trans-unit>
         <trans-unit id="PropertiesItemMD5Hash.Text" translate="yes" xml:space="preserve">
           <source>MD5Hash:</source>
@@ -559,39 +559,39 @@
         </trans-unit>
         <trans-unit id="SettingsPageHeader.Text" translate="yes" xml:space="preserve">
           <source>Settings</source>
-          <target state="new">Settings</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ayarlar</target>
         </trans-unit>
         <trans-unit id="StatusBarControlInvertSelection.Text" translate="yes" xml:space="preserve">
           <source>Invert Selection</source>
-          <target state="new">Invert Selection</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Diğerlerini Seç</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItem.Text" translate="yes" xml:space="preserve">
           <source>Open</source>
-          <target state="new">Open</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Aç</target>
         </trans-unit>
         <trans-unit id="PropertiesTitle" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Properties</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Özellikler</target>
         </trans-unit>
         <trans-unit id="PropertiesAttributes.Text" translate="yes" xml:space="preserve">
           <source>Attributes:</source>
-          <target state="new">Attributes:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Öznitelikler:</target>
         </trans-unit>
         <trans-unit id="PropertiesTitleSecondary.Text" translate="yes" xml:space="preserve">
           <source>Properties</source>
-          <target state="new">Properties</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Özellikler</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewTab.Text" translate="yes" xml:space="preserve">
           <source>Open in new tab</source>
-          <target state="new">Open in new tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni sekmede aç</target>
         </trans-unit>
         <trans-unit id="SideBarOpenInNewWindow.Text" translate="yes" xml:space="preserve">
           <source>Open in new window</source>
-          <target state="new">Open in new window</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Pencerede Aç</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalTitle.Text" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Experimental</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Deneysel</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDescription.Text" translate="yes" xml:space="preserve">
           <source>WARNING: EXPERIMENTAL FEATURES AHEAD!</source>
@@ -599,7 +599,7 @@
         </trans-unit>
         <trans-unit id="SettingsNavExperimental.Content" translate="yes" xml:space="preserve">
           <source>Experimental</source>
-          <target state="new">Experimental</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Deneysel</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalDoubleTapToRenameFiles.Text" translate="yes" xml:space="preserve">
           <source>Double tap to rename files</source>
@@ -619,7 +619,7 @@
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogTitle" translate="yes" xml:space="preserve">
           <source>Item already exists</source>
-          <target state="new">Item already exists</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Öğe zaten mevcut</target>
         </trans-unit>
         <trans-unit id="ItemAlreadyExistsDialogSecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Replace existing item</source>
@@ -647,7 +647,7 @@
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tamam</target>
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>We weren't able to delete this item</source>
@@ -655,7 +655,7 @@
         </trans-unit>
         <trans-unit id="AccessDeniedDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>Access Denied</source>
-          <target state="new">Access Denied</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Erişim engellendi</target>
         </trans-unit>
         <trans-unit id="DriveUnpluggedDialog.Text" translate="yes" xml:space="preserve">
           <source>Please insert the necessary drive to access this item.</source>
@@ -671,7 +671,7 @@
         </trans-unit>
         <trans-unit id="FileNotFoundDialog.Title" translate="yes" xml:space="preserve">
           <source>File Not Found</source>
-          <target state="new">File Not Found</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya Bulunamadı</target>
         </trans-unit>
         <trans-unit id="FileNotFoundPreviewDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you are attempting to preview may have been moved or deleted.</source>
@@ -687,11 +687,11 @@
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Düzen modu</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Seçim seçenekleri</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
@@ -703,27 +703,27 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
-          <target state="new">Try again</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeniden dene</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tamam</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
           <source>Read-only</source>
-          <target state="new">Read-only</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Salt okunur</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Gizli</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Geri dönüşüm kutusunu boşalt</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
-          <target state="new">Restore</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Geri Yükle</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
@@ -731,47 +731,47 @@
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
-          <target state="new">{0} days ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} gün önce</target>
         </trans-unit>
         <trans-unit id="HoursAgo" translate="yes" xml:space="preserve">
           <source>{0} hours ago</source>
-          <target state="new">{0} hours ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} saat önce</target>
         </trans-unit>
         <trans-unit id="DayAgo" translate="yes" xml:space="preserve">
           <source>{0} day ago</source>
-          <target state="new">{0} day ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} gün önce</target>
         </trans-unit>
         <trans-unit id="HourAgo" translate="yes" xml:space="preserve">
           <source>{0} hour ago</source>
-          <target state="new">{0} hour ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} saat önce</target>
         </trans-unit>
         <trans-unit id="MinutesAgo" translate="yes" xml:space="preserve">
           <source>{0} minutes ago</source>
-          <target state="new">{0} minutes ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} dakika önce</target>
         </trans-unit>
         <trans-unit id="MinuteAgo" translate="yes" xml:space="preserve">
           <source>{0} minute ago</source>
-          <target state="new">{0} minute ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} dakika önce</target>
         </trans-unit>
         <trans-unit id="SecondsAgo" translate="yes" xml:space="preserve">
           <source>{0} seconds ago</source>
-          <target state="new">{0} seconds ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} saniye önce</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>New Tab</source>
-          <target state="new">New Tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni sekme</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
-          <target state="new">The requested operation is not supported</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İstenen işlem desteklenmiyor.</target>
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
-          <target state="new">{0} free of {1}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} boş, {1} toplam</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
-          <target state="new">Open With</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Birlikte _Aç</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
@@ -779,7 +779,7 @@
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tamam</target>
         </trans-unit>
         <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
@@ -791,23 +791,23 @@
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
-          <target state="new">New tab (Ctrl + T)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yeni Sekme	Ctrl+T</target>
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="new">item selected</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">öğe seçildi</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="new">items selected</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">seçilen öğeler</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
-          <target state="new">item</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">öğe</target>
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="new">items</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">öğeler</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
@@ -815,11 +815,11 @@
         </trans-unit>
         <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
-          <target state="new">Accessed:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Erişim:</target>
         </trans-unit>
         <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
           <source>Owner:</source>
-          <target state="new">Owner:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Sahibi:</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
@@ -827,7 +827,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İptal</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
@@ -835,27 +835,27 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Geri dönüşüm kutusunu boşalt</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Tamam</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="new">bytes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">bayt</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="new">KB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">KB'den büyük olan postaları göster</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="new">MB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">MB'a ulaştığında</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="new">GB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">G</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
@@ -863,11 +863,11 @@
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="new">PB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="new">B</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">K</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
@@ -875,11 +875,11 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
-          <target state="new">Unlock</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kilidi aç</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İptal</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -887,7 +887,7 @@
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
-          <target state="new">Password</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Şifre</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
           <source>Please check the password and try again.</source>
@@ -899,7 +899,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
-          <target state="new">Contains:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">İçeriği:</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
@@ -907,11 +907,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Yönetici olarak çalıştır</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="new">Run as another user</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Farklı kullanıcı olarak çalıştır</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
@@ -927,19 +927,35 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
           <source>Used space:</source>
-          <target state="new">Used space:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kullanılan alan:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
           <source>Free space:</source>
-          <target state="new">Free space:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Boş alan:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
           <source>Capacity:</source>
-          <target state="new">Capacity:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Kapasite</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
-          <target state="new">File system:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosya sistemi</target>
+        </trans-unit>
+        <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Deleting files</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosyalar siliniyor</target>
+        </trans-unit>
+        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Extracting files</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dosyalar ayıklanıyor ...</target>
+        </trans-unit>
+        <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Pasting files</source>
+          <target state="new">Pasting files</target>
+        </trans-unit>
+        <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Moving files to Recycle Bin</source>
+          <target state="new">Moving files to Recycle Bin</target>
         </trans-unit>
       </group>
     </body>

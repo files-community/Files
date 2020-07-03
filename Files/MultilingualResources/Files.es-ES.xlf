@@ -938,6 +938,22 @@
           <source>File system:</source>
           <target state="translated">Sistema de archivos:</target>
         </trans-unit>
+        <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Deleting files</source>
+          <target state="translated">Eliminando archivos</target>
+        </trans-unit>
+        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Extracting files</source>
+          <target state="translated">Extrayendo archivos</target>
+        </trans-unit>
+        <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Pasting files</source>
+          <target state="translated">Pegando archivos</target>
+        </trans-unit>
+        <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Moving files to Recycle Bin</source>
+          <target state="translated">Moviendo archivos a la papelera de reciclaje</target>
+        </trans-unit>
       </group>
     </body>
   </file>

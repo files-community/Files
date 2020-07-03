@@ -312,4 +312,271 @@
   <data name="SidebarSettings.Text" xml:space="preserve">
     <value>Özellikler</value>
   </data>
+  <data name="nameColumn.Header" xml:space="preserve">
+    <value>Adı</value>
+  </data>
+  <data name="dateColumn.Header" xml:space="preserve">
+    <value>Değiştirme tarihi</value>
+  </data>
+  <data name="typeColumn.Header" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="sizeColumn.Header" xml:space="preserve">
+    <value>Boyut</value>
+  </data>
+  <data name="WelcomeDialog.PrimaryButtonText" xml:space="preserve">
+    <value>İzin Ver</value>
+  </data>
+  <data name="FileFolderListItem" xml:space="preserve">
+    <value>Dosya klasörü</value>
+  </data>
+  <data name="RenameDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Adı Ayarla</value>
+  </data>
+  <data name="RenameDialog.SecondaryButtonText" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="NewTab" xml:space="preserve">
+    <value>Yeni sekme</value>
+  </data>
+  <data name="SystemTheme" xml:space="preserve">
+    <value>Windows varsayılan</value>
+  </data>
+  <data name="LightTheme" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="DarkTheme" xml:space="preserve">
+    <value>Koyu</value>
+  </data>
+  <data name="ApplicationTimeStye" xml:space="preserve">
+    <value>Uygulama</value>
+  </data>
+  <data name="SystemTimeStye" xml:space="preserve">
+    <value>Sistem</value>
+  </data>
+  <data name="NewFolder" xml:space="preserve">
+    <value>Yeni Klasör</value>
+  </data>
+  <data name="NewTextDocument" xml:space="preserve">
+    <value>Yeni Metin Belgesi</value>
+  </data>
+  <data name="NewBitmapImage" xml:space="preserve">
+    <value>Yeni Bit Eşlem Resmi</value>
+  </data>
+  <data name="EmptyFolder.Text" xml:space="preserve">
+    <value>Bu klasör boş.</value>
+  </data>
+  <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Geri	Alt+Sol Ok</value>
+  </data>
+  <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>İleri	Alt+Sağ Ok</value>
+  </data>
+  <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Yenile (F5)</value>
+  </data>
+  <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="NavMoreButton.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Diğer seçenekler</value>
+  </data>
+  <data name="SidebarDrives" xml:space="preserve">
+    <value>Sürüşler</value>
+  </data>
+  <data name="ItemTypeFile" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="ErrorDialogSkip" xml:space="preserve">
+    <value>Atla</value>
+  </data>
+  <data name="ErrorDialogCancel" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="SettingsPageHeader.Text" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="StatusBarControlInvertSelection.Text" xml:space="preserve">
+    <value>Diğerlerini Seç</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItem.Text" xml:space="preserve">
+    <value>Aç</value>
+  </data>
+  <data name="PropertiesTitle" xml:space="preserve">
+    <value>Özellikler</value>
+  </data>
+  <data name="PropertiesAttributes.Text" xml:space="preserve">
+    <value>Öznitelikler:</value>
+  </data>
+  <data name="PropertiesTitleSecondary.Text" xml:space="preserve">
+    <value>Özellikler</value>
+  </data>
+  <data name="SideBarOpenInNewTab.Text" xml:space="preserve">
+    <value>Yeni sekmede aç</value>
+  </data>
+  <data name="SideBarOpenInNewWindow.Text" xml:space="preserve">
+    <value>Yeni Pencerede Aç</value>
+  </data>
+  <data name="SettingsExperimentalTitle.Text" xml:space="preserve">
+    <value>Deneysel</value>
+  </data>
+  <data name="SettingsNavExperimental.Content" xml:space="preserve">
+    <value>Deneysel</value>
+  </data>
+  <data name="ItemAlreadyExistsDialogTitle" xml:space="preserve">
+    <value>Öğe zaten mevcut</value>
+  </data>
+  <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="AccessDeniedDeleteDialog.Title" xml:space="preserve">
+    <value>Erişim engellendi</value>
+  </data>
+  <data name="FileNotFoundDialog.Title" xml:space="preserve">
+    <value>Dosya Bulunamadı</value>
+  </data>
+  <data name="StatusBarControlLayoutMode.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Düzen modu</value>
+  </data>
+  <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Seçim seçenekleri</value>
+  </data>
+  <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Yeniden dene</value>
+  </data>
+  <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
+    <value>Salt okunur</value>
+  </data>
+  <data name="PropertiesDialogHidden.Content" xml:space="preserve">
+    <value>Gizli</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
+    <value>Geri dönüşüm kutusunu boşalt</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
+    <value>Geri Yükle</value>
+  </data>
+  <data name="DaysAgo" xml:space="preserve">
+    <value>{0} gün önce</value>
+  </data>
+  <data name="HoursAgo" xml:space="preserve">
+    <value>{0} saat önce</value>
+  </data>
+  <data name="DayAgo" xml:space="preserve">
+    <value>{0} gün önce</value>
+  </data>
+  <data name="HourAgo" xml:space="preserve">
+    <value>{0} saat önce</value>
+  </data>
+  <data name="MinutesAgo" xml:space="preserve">
+    <value>{0} dakika önce</value>
+  </data>
+  <data name="MinuteAgo" xml:space="preserve">
+    <value>{0} dakika önce</value>
+  </data>
+  <data name="SecondsAgo" xml:space="preserve">
+    <value>{0} saniye önce</value>
+  </data>
+  <data name="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" xml:space="preserve">
+    <value>Yeni sekme</value>
+  </data>
+  <data name="ErrorDialogUnsupportedOperation" xml:space="preserve">
+    <value>İstenen işlem desteklenmiyor.</value>
+  </data>
+  <data name="DriveFreeSpaceAndCapacity" xml:space="preserve">
+    <value>{0} boş, {1} toplam</value>
+  </data>
+  <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
+    <value>Birlikte _Aç</value>
+  </data>
+  <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Yeni Sekme	Ctrl+T</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>öğe seçildi</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>seçilen öğeler</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>öğe</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>öğeler</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Erişim:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Sahibi:</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Geri dönüşüm kutusunu boşalt</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Tamam</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>bayt</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>KB'den büyük olan postaları göster</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>MB'a ulaştığında</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>G</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>PB</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>K</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Kilidi aç</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>İptal</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Şifre</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>İçeriği:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Yönetici olarak çalıştır</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Farklı kullanıcı olarak çalıştır</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Kullanılan alan:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Boş alan:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Kapasite</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>Dosya sistemi</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Dosyalar siliniyor</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Dosyalar ayıklanıyor ...</value>
+  </data>
 </root>

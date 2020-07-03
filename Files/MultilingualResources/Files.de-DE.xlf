@@ -691,11 +691,11 @@
         </trans-unit>
         <trans-unit id="StatusBarControlLayoutMode.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Layout mode</source>
-          <target state="new">Layout mode</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Layoutmodus</target>
         </trans-unit>
         <trans-unit id="StatusBarControlSelectionOptions.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Selection options</source>
-          <target state="new">Selection options</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Auswahloptionen</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>The file you're trying to delete is currently being used by an another application.</source>
@@ -703,31 +703,31 @@
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.Title" translate="yes" xml:space="preserve">
           <source>File is in use</source>
-          <target state="new">File is in use</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Datei wird bereits verwendet.</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Try again</source>
-          <target state="new">Try again</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Wiederholen</target>
         </trans-unit>
         <trans-unit id="FileInUseDeleteDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Okay</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogReadOnly.Content" translate="yes" xml:space="preserve">
           <source>Read-only</source>
-          <target state="new">Read-only</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Schreibgeschützt</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogHidden.Content" translate="yes" xml:space="preserve">
           <source>Hidden</source>
-          <target state="new">Hidden</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Ausgeblendet</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Papierkorb leeren</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
-          <target state="new">Restore</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Wiederherstellen</target>
         </trans-unit>
         <trans-unit id="SettingsExperimentalRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Enable Recycle Bin support</source>
@@ -735,47 +735,47 @@
         </trans-unit>
         <trans-unit id="DaysAgo" translate="yes" xml:space="preserve">
           <source>{0} days ago</source>
-          <target state="new">{0} days ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vor {0} Tagen</target>
         </trans-unit>
         <trans-unit id="HoursAgo" translate="yes" xml:space="preserve">
           <source>{0} hours ago</source>
-          <target state="new">{0} hours ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vor {0} Stunden</target>
         </trans-unit>
         <trans-unit id="DayAgo" translate="yes" xml:space="preserve">
           <source>{0} day ago</source>
-          <target state="new">{0} day ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vor {0} Tag</target>
         </trans-unit>
         <trans-unit id="HourAgo" translate="yes" xml:space="preserve">
           <source>{0} hour ago</source>
-          <target state="new">{0} hour ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">vor {0} Stunde</target>
         </trans-unit>
         <trans-unit id="MinutesAgo" translate="yes" xml:space="preserve">
           <source>{0} minutes ago</source>
-          <target state="new">{0} minutes ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Vor {0} Minuten</target>
         </trans-unit>
         <trans-unit id="MinuteAgo" translate="yes" xml:space="preserve">
           <source>{0} minute ago</source>
-          <target state="new">{0} minute ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">vor {0} Minute</target>
         </trans-unit>
         <trans-unit id="SecondsAgo" translate="yes" xml:space="preserve">
           <source>{0} seconds ago</source>
-          <target state="new">{0} seconds ago</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">vor {0} Sekunden</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPagePath.PlaceholderText" translate="yes" xml:space="preserve">
           <source>New Tab</source>
-          <target state="new">New Tab</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Neue Registerkarte</target>
         </trans-unit>
         <trans-unit id="ErrorDialogUnsupportedOperation" translate="yes" xml:space="preserve">
           <source>The requested operation is not supported</source>
-          <target state="new">The requested operation is not supported</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Der angeforderte Vorgang wird nicht unterstützt.</target>
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
-          <target state="new">{0} free of {1}</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">{0} frei von {1}</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
-          <target state="new">Open With</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Öffnen _mit</target>
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.Subtitle" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
@@ -783,7 +783,7 @@
         </trans-unit>
         <trans-unit id="FileNameTeachingTip.CloseButtonContent" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Okay</target>
         </trans-unit>
         <trans-unit id="RenameDialogSymbolsTip.Text" translate="yes" xml:space="preserve">
           <source>The item name must not contain the following characters: \ / : * ? " <it id="1" pos="open">&lt; &gt;</it> |</source>
@@ -795,23 +795,23 @@
         </trans-unit>
         <trans-unit id="TabStripAddNewTab.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>New tab (Ctrl + T)</source>
-          <target state="new">New tab (Ctrl + T)</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Neue Registerkarte	Strg+T</target>
         </trans-unit>
         <trans-unit id="ItemSelected.Text" translate="yes" xml:space="preserve">
           <source>item selected</source>
-          <target state="new">item selected</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Element ausgewählt</target>
         </trans-unit>
         <trans-unit id="ItemsSelected.Text" translate="yes" xml:space="preserve">
           <source>items selected</source>
-          <target state="new">items selected</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">ausgewählte Elemente</target>
         </trans-unit>
         <trans-unit id="ItemCount.Text" translate="yes" xml:space="preserve">
           <source>item</source>
-          <target state="new">item</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Element</target>
         </trans-unit>
         <trans-unit id="ItemsCount.Text" translate="yes" xml:space="preserve">
           <source>items</source>
-          <target state="new">items</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Elemente</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" translate="yes" xml:space="preserve">
           <source>Pin directory to sidebar</source>
@@ -819,11 +819,11 @@
         </trans-unit>
         <trans-unit id="PropertiesAccessed.Text" translate="yes" xml:space="preserve">
           <source>Accessed:</source>
-          <target state="new">Accessed:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Letzter Zugriff:</target>
         </trans-unit>
         <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
           <source>Owner:</source>
-          <target state="new">Owner:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Besitzer:</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
@@ -831,7 +831,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Abbrechen</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogContent" translate="yes" xml:space="preserve">
           <source>Are you sure you want to delete all items?</source>
@@ -839,27 +839,27 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="new">Empty recycle bin</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Papierkorb leeren</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
-          <target state="new">OK</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Okay</target>
         </trans-unit>
         <trans-unit id="ItemSizeBytes" translate="yes" xml:space="preserve">
           <source>bytes</source>
-          <target state="new">bytes</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>KB</source>
-          <target state="new">KB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">KB zurücksetzen</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
-          <target state="new">MB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">MB</target>
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="new">GB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">DE</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
@@ -867,11 +867,27 @@
         </trans-unit>
         <trans-unit id="PetaByteSymbol" translate="yes" xml:space="preserve">
           <source>PB</source>
-          <target state="new">PB</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">PB</target>
         </trans-unit>
         <trans-unit id="ByteSymbol" translate="yes" xml:space="preserve">
           <source>B</source>
-          <target state="new">B</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">F</target>
+        </trans-unit>
+        <trans-unit id="DeleteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Deleting files</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dateien werden gelöscht</target>
+        </trans-unit>
+        <trans-unit id="ExtractInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Extracting files</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dateien werden extrahiert...</target>
+        </trans-unit>
+        <trans-unit id="PasteInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Pasting files</source>
+          <target state="new">Pasting files</target>
+        </trans-unit>
+        <trans-unit id="RecycleInProgress.Title" translate="yes" xml:space="preserve">
+          <source>Moving files to Recycle Bin</source>
+          <target state="new">Moving files to Recycle Bin</target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" translate="yes" xml:space="preserve">
           <source>Learn more about date formats</source>
@@ -879,11 +895,11 @@
         </trans-unit>
         <trans-unit id="BitlockerDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>Unlock</source>
-          <target state="new">Unlock</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Entsperren</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
-          <target state="new">Cancel</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Abbrechen</target>
         </trans-unit>
         <trans-unit id="BitlockerDialog.Title" translate="yes" xml:space="preserve">
           <source>Enter password to unlock the drive</source>
@@ -891,7 +907,7 @@
         </trans-unit>
         <trans-unit id="BitlockerDialogInputText.PlaceholderText" translate="yes" xml:space="preserve">
           <source>Password</source>
-          <target state="new">Password</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">password</target>
         </trans-unit>
         <trans-unit id="BitlockerInvalidPwDialog.Text" translate="yes" xml:space="preserve">
           <source>Please check the password and try again.</source>
@@ -903,7 +919,7 @@
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCount.Text" translate="yes" xml:space="preserve">
           <source>Contains:</source>
-          <target state="new">Contains:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Inhalt:</target>
         </trans-unit>
         <trans-unit id="PropertiesFilesAndFoldersCountString" translate="yes" xml:space="preserve">
           <source>{0:#,##0} Files, {1:#,##0} Folders</source>
@@ -911,11 +927,11 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAdmin.Text" translate="yes" xml:space="preserve">
           <source>Run as administrator</source>
-          <target state="new">Run as administrator</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Als Administrator ausführen</target>
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutRunAsAnotherUser.Text" translate="yes" xml:space="preserve">
           <source>Run as another user</source>
-          <target state="new">Run as another user</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Als anderer Benutzer ausführen</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveItemTypesEquals" translate="yes" xml:space="preserve">
           <source>All type of {0}</source>
@@ -931,19 +947,19 @@
         </trans-unit>
         <trans-unit id="PropertiesDriveUsedSpace.Text" translate="yes" xml:space="preserve">
           <source>Used space:</source>
-          <target state="new">Used space:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Belegter Speicherplatz:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFreeSpace.Text" translate="yes" xml:space="preserve">
           <source>Free space:</source>
-          <target state="new">Free space:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Freier Speicherplatz:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveCapacity.Text" translate="yes" xml:space="preserve">
           <source>Capacity:</source>
-          <target state="new">Capacity:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Speicherkapazität:</target>
         </trans-unit>
         <trans-unit id="PropertiesDriveFileSystem.Text" translate="yes" xml:space="preserve">
           <source>File system:</source>
-          <target state="new">File system:</target>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">Dateisystem:</target>
         </trans-unit>
       </group>
     </body>

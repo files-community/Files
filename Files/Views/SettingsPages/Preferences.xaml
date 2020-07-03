@@ -63,10 +63,10 @@
                             Width="Auto"
                             MinWidth="200"
                             MaxWidth="250"
-                            ItemsSource="{x:Bind AppSettings.TerminalsModel.Terminals}"
+                            ItemsSource="{x:Bind AppSettings.TerminalController.Model.Terminals}"
                             SelectionChanged="TerminalApp_SelectionChanged">
                             <ComboBox.ItemTemplate>
-                                <DataTemplate x:DataType="datamodels:TerminalModel">
+                                <DataTemplate x:DataType="datamodels:Terminal">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="{x:Bind Name}" />
                                     </StackPanel>
@@ -84,7 +84,7 @@
                             x:Uid="SettingsPreferencesTerminalApplicationsSampleProfiles"
                             Content="&#xE946;"
                             FontFamily="Segoe MDL2 Assets"
-                            NavigateUri="https://github.com/duke7553/files-uwp/wiki/Sample-terminal-profiles"
+                            NavigateUri="https://github.com/files-community/files-uwp/wiki/Sample-terminal-profiles"
                             Style="{ThemeResource TextBlockButtonStyle}" />
                     </StackPanel>
                 </StackPanel>

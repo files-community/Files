@@ -600,4 +600,85 @@
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
     <value>Nuova scheda (Ctrl + T)</value>
   </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>elemento selezionato</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>%@ elementi selezionati</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>elemento</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>elementi</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Ultimo accesso:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Proprietario</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Svuota Cestino</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Sufficiente</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>byte</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>knowledge base</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>MB</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>IT</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>BI</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>G</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Sblocca</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Annulla</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>Contenuto:</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Esegui come amministratore</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Esegui come altro utente</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>Spazio utilizzato:</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>Spazio disponibile:</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>Capacità</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>File system</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Eliminazione file in corso</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Estrazione file in corso...</value>
+  </data>
 </root>

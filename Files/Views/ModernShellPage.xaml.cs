@@ -4,9 +4,9 @@ using Files.UserControls;
 using Files.View_Models;
 using System;
 using System.Linq;
+using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -31,6 +31,13 @@ namespace Files.Views.Pages
             {
                 AppSettings.DrivesManager.ShowUserConsentOnInit = false;
                 DisplayFilesystemConsentDialog();
+            }
+
+            var flowDirectionSetting = ResourceContext.GetForCurrentView().QualifierValues["LayoutDirection"];
+
+            if (flowDirectionSetting == "RTL")
+            {
+                FlowDirection = FlowDirection.RightToLeft;
             }
 
             App.CurrentInstance = this as IShellPage;
@@ -100,6 +107,7 @@ namespace Files.Views.Pages
                     ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                     SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     break;
+
                 case "Desktop":
                     NavigationPath = AppSettings.DesktopPath;
                     SidebarControl.SelectedSidebarItem = App.sideBarItems.First(x => x.Path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase));
@@ -151,6 +159,11 @@ namespace Files.Views.Pages
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
+                    else if(NavParams.StartsWith("\\\\?\\"))
+                    {
+                        NavigationPath = NavParams;
+                        SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));
+                    }
                     else if (NavParams.StartsWith(AppSettings.RecycleBinPath))
                     {
                         NavigationPath = NavParams;
@@ -177,31 +190,6 @@ namespace Files.Views.Pages
             {
                 // Reset DataGrid Rows that may be in "cut" command mode
                 App.CurrentInstance.ContentPage.ResetItemOpacity();
-            }
-        }
-
-        public void UpdateProgressFlyout(InteractionOperationType operationType, int amountComplete, int amountTotal)
-        {
-            this.FindName("ProgressFlyout");
-
-            string operationText = null;
-            switch (operationType)
-            {
-                case InteractionOperationType.PasteItems:
-                    operationText = "Completing Paste";
-                    break;
-
-                case InteractionOperationType.DeleteItems:
-                    operationText = "Deleting Items";
-                    break;
-            }
-            ProgressFlyoutTextBlock.Text = operationText + " (" + amountComplete + "/" + amountTotal + ")" + "...";
-            ProgressFlyoutProgressBar.Value = amountComplete;
-            ProgressFlyoutProgressBar.Maximum = amountTotal;
-
-            if (amountComplete == amountTotal)
-            {
-                UnloadObject(ProgressFlyout);
             }
         }
 

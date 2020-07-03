@@ -376,19 +376,19 @@
     <value>Эта папка пуста.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Назад</value>
+    <value>Назад (Alt + Стрелка влево)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вперед</value>
+    <value>Вперед (Alt + Стрелка вперед)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Вверх</value>
+    <value>Вверх (Alt + Стрелка вверх)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Обновить</value>
+    <value>Обновить (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Создать</value>
+    <value>Создать (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Поиск</value>
@@ -592,7 +592,46 @@
     <value>Имя элемента не должно содержать следующих знаков: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
-    <value>Открыть расположение Лог файла</value>
+    <value>Открыть расположение лог файла</value>
+  </data>
+  <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Создать вкладку (Ctrl + T)</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>элемент выбран</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>выбранных элементов</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>элемент</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>элементов</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Закрепить в боковой панели</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>Открыт:</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>Владелец:</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Показать Владельца в свойствах</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить все элементы?</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>Очистить корзину</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>ОК</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>байт</value>
@@ -615,11 +654,38 @@
   <data name="ByteSymbol" xml:space="preserve">
     <value>Б</value>
   </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Узнайте больше о форматах даты</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>Разблокировать</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Введите пароль, чтобы разблокировать диск</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>Введите пароль</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Пожалуйста, проверьте пароль и попробуйте снова.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Ошибка BitLocker</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Содержит:</value>
   </data>
   <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
     <value>{0:#,##0} Файлов, {1:#,##0} Папок</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>Запуск от имени администратора</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>Запуск от имени другого пользователя</value>
   </data>
   <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
     <value>Все типа {0}</value>
@@ -641,5 +707,17 @@
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Файловая система:</value>
+  </data>
+  <data name="DeleteInProgress.Title" xml:space="preserve">
+    <value>Удаление файлов</value>
+  </data>
+  <data name="ExtractInProgress.Title" xml:space="preserve">
+    <value>Извлечение файлов</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Вставка файлов</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Перемещение файлов в Корзину</value>
   </data>
 </root>
