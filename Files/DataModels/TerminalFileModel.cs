@@ -16,11 +16,11 @@ namespace Files.DataModels
         public string DefaultTerminalPath { get; set; }
 
         [JsonProperty("terminals")]
-        public List<TerminalModel> Terminals { get; set; } = new List<TerminalModel>();
+        public List<Terminal> Terminals { get; set; } = new List<Terminal>();
 
-        public TerminalModel GetDefaultTerminal()
+        public Terminal GetDefaultTerminal()
         {
-            TerminalModel terminal = Terminals.FirstOrDefault(x => x.Path.Equals(DefaultTerminalPath, StringComparison.OrdinalIgnoreCase));
+            Terminal terminal = Terminals.FirstOrDefault(x => x.Path.Equals(DefaultTerminalPath, StringComparison.OrdinalIgnoreCase));
             if (terminal != null)
             {
                 return terminal;
@@ -38,7 +38,7 @@ namespace Files.DataModels
             DefaultTerminalPath = "cmd.exe";
         }
 
-        public async Task<bool> AddOrRemoveTerminal(TerminalModel terminal, string packageName)
+        public async Task<bool> AddOrRemoveTerminal(Terminal terminal, string packageName)
         {
             bool isChanged = false;
             bool isInstalled = await PackageHelper.IsAppInstalledAsync(packageName);

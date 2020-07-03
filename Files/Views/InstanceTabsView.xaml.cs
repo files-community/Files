@@ -1,17 +1,14 @@
 ﻿using Files.Common;
+using Files.Controllers;
 using Files.Controls;
-using Files.DataModels;
-using Files.Filesystem;
 using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
@@ -48,6 +45,7 @@ namespace Files
 
             App.AppSettings = new SettingsViewModel();
             App.InteractionViewModel = new InteractionViewModel();
+            App.SidebarPinnedController = new SidebarPinnedController();
 
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
