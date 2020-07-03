@@ -789,7 +789,7 @@
                         <local:VerticalTabView
                             Margin="-6"
                             x:Name="verticalTabs"
-                            Width="300"
+                            Width="275"
                             MaxHeight="300"
                             x:FieldModifier="public" />
                     </Flyout>
