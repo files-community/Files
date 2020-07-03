@@ -154,14 +154,21 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Controllers\IJson.cs" />
+    <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
+    <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ConfirmDeleteDialog.xaml.cs">
       <DependentUpon>ConfirmDeleteDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFileExtensions.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\IStorageItemWithPath.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFileWithPath.cs" />
+    <Compile Include="Filesystem\StorageFileHelpers\StorageFolderWithPath.cs" />
     <Compile Include="Helpers\AcrylicTheme.cs" />
     <Compile Include="Helpers\DialogDisplayHelper.cs" />
     <Compile Include="Helpers\DispatcherHelper.cs" />
@@ -174,6 +181,7 @@
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
     <Compile Include="Helpers\ThemeHelper.cs" />
+    <Compile Include="Helpers\Win32FindDataExtensions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Helpers\RegistryReader.cs" />
     <Compile Include="ResourceController.cs" />
@@ -185,7 +193,7 @@
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
-    <Compile Include="DataModels\TerminalModel.cs" />
+    <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
@@ -208,7 +216,6 @@
       <DependentUpon>RenameDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enums\FormFactorMode.cs" />
-    <Compile Include="Enums\PropertiesType.cs" />
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
@@ -225,6 +232,11 @@
     <Compile Include="Filesystem\ListedItem.cs" />
     <Compile Include="Filesystem\INavigationControlItem.cs" />
     <Compile Include="Filesystem\LocationItem.cs" />
+    <Compile Include="View Models\Properties\BaseProperties.cs" />
+    <Compile Include="View Models\Properties\CombinedProperties.cs" />
+    <Compile Include="View Models\Properties\DriveProperties.cs" />
+    <Compile Include="View Models\Properties\FileProperties.cs" />
+    <Compile Include="View Models\Properties\FolderProperties.cs" />
     <Compile Include="Views\LayoutModes\GenericFileBrowser.xaml.cs">
       <DependentUpon>GenericFileBrowser.xaml</DependentUpon>
     </Compile>

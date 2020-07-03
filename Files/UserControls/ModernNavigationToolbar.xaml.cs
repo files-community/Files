@@ -211,7 +211,7 @@ namespace Files.UserControls
 
                 if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
                 {
-                    App.CurrentInstance.FilesystemViewModel.WorkingDirectory = ResourceController.GetTranslation("NewTab");
+                    await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(ResourceController.GetTranslation("NewTab"));
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
                 }
                 else
@@ -237,7 +237,8 @@ namespace Files.UserControls
 
                     try
                     {
-                        await StorageFolder.GetFolderFromPathAsync(CurrentInput);
+                        var item = await DrivesManager.GetRootFromPath(CurrentInput);
+                        await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item);
 
                         App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
                     }
@@ -245,13 +246,14 @@ namespace Files.UserControls
                     {
                         try
                         {
-                            await StorageFile.GetFileFromPathAsync(CurrentInput);
+                            var item = await DrivesManager.GetRootFromPath(CurrentInput);
+                            await StorageFileExtensions.GetFileFromPathAsync(CurrentInput, item);
                             await Interaction.InvokeWin32Component(CurrentInput);
                         }
                         catch (Exception ex) // Not a file or not accessible
                         {
                             // Launch terminal application if possible
-                            foreach (var item in AppSettings.TerminalsModel.Terminals)
+                            foreach (var item in AppSettings.TerminalController.Model.Terminals)
                             {
                                 if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {

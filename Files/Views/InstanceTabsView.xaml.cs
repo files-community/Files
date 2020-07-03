@@ -1,17 +1,14 @@
 ﻿using Files.Common;
+using Files.Controllers;
 using Files.Controls;
-using Files.DataModels;
-using Files.Filesystem;
 using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
@@ -48,6 +45,7 @@ namespace Files
 
             App.AppSettings = new SettingsViewModel();
             App.InteractionViewModel = new InteractionViewModel();
+            App.SidebarPinnedController = new SidebarPinnedController();
 
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
@@ -313,8 +311,9 @@ namespace Files
                     if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
                     {
                         var remDriveNames = (await KnownFolders.RemovableDevices.GetFoldersAsync()).Select(x => x.DisplayName);
+                        var matchingDriveName = remDriveNames.FirstOrDefault(x => NormalizePath(currentPathForTabIcon).Contains(x.ToUpperInvariant()));
 
-                        if (!remDriveNames.Contains(NormalizePath(currentPathForTabIcon)))
+                        if (matchingDriveName == null)
                         {
                             fontIconSource.Glyph = "\xEDA2";
                             tabLocationHeader = NormalizePath(currentPathForTabIcon);
@@ -322,7 +321,7 @@ namespace Files
                         else
                         {
                             fontIconSource.Glyph = "\xE88E";
-                            tabLocationHeader = (await KnownFolders.RemovableDevices.GetFolderAsync(currentPathForTabIcon)).DisplayName;
+                            tabLocationHeader = matchingDriveName;
                         }
                     }
                     else
@@ -482,15 +481,10 @@ namespace Files
                         {
                             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true;
                         }
-                        if ((tabView.SelectedItem as TabViewItem).Header.ToString() ==
-                            ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"))
-                        {
-                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = false;
-                        }
-                        else
-                        {
-                            App.CurrentInstance.InstanceViewModel.IsPageTypeNotRecycleBin = true;
-                        }
+                        App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin =
+                            App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
+                        App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
+                            App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);
