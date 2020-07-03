@@ -218,12 +218,11 @@ namespace Files
             }
             else if (e.PropertyName == "IsLoadingItems")
             {
-                bool inRecycleBin = App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
+                if (App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
+                    base.Update_EmptyRecycleBin_State();
+
                 if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count > 0)
                 {
-                    if (inRecycleBin)
-                        App.ERBS.RecycleBinHasFiles = true;
-
                     var allRows = new List<DataGridRow>();
 
                     Interacts.Interaction.FindChildren<DataGridRow>(allRows, AllView);
@@ -238,10 +237,6 @@ namespace Files
                             });
                         }
                     }
-                }
-                else if (!AssociatedViewModel.IsLoadingItems && inRecycleBin)
-                {
-                    App.ERBS.RecycleBinHasFiles = false;
                 }
             }
         }

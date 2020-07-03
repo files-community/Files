@@ -565,5 +565,16 @@ namespace Files
                 e.Handled = true;
             }
         }
+        protected void Update_EmptyRecycleBin_State()
+        {
+            if (!AssociatedViewModel.IsLoadingItems && AssociatedViewModel.FilesAndFolders.Count <= 0)
+            {
+                App.ERBS.RecycleBinHasFiles = false;
+            }
+            else if (!AssociatedViewModel.IsLoadingItems)
+            {
+                App.ERBS.RecycleBinHasFiles = true;
+            }
+        }
     }
 }
