@@ -276,13 +276,6 @@ namespace FilesFullTrust
                         var binSize = queryBinInfo.i64Size;
                         responseQuery.Add("NumItems", numItems);
                         responseQuery.Add("BinSize", binSize);
-                        responseQuery.Add("FileOwner", (string)recycler.Properties[Vanara.PInvoke.Ole32.PROPERTYKEY.System.FileOwner]);
-                        if (watchers.Any())
-                        {
-                            var info = new DirectoryInfo(watchers.First().Path);
-                            responseQuery.Add("DateAccessed", info.LastAccessTime.ToBinary());
-                            responseQuery.Add("DateCreated", info.CreationTime.ToBinary());
-                        }
                         await args.Request.SendResponseAsync(responseQuery);
                     }
                     break;
