@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -7,11 +6,11 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Vanara.Windows.Shell;
+using Vanara.PInvoke;
 
 namespace FilesFullTrust
 {
-    internal class Win32API
+    internal static class Win32API
     {
         public static Task<T> StartSTATask<T>(Func<T> func)
         {
@@ -45,55 +44,6 @@ namespace FilesFullTrust
             var hResult = FindExecutable(filename, null, lpResult);
             if (hResult.ToInt64() > 32) return lpResult.ToString();
             return null;
-        }
-
-        public enum PropertyReturnType
-        {
-            RAWVALUE,
-            DISPLAYVALUE
-        }
-
-        public static List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> RecyledFileProperties =
-            new List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)>
-        {
-            (Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, PropertyReturnType.RAWVALUE),
-            (Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, PropertyReturnType.DISPLAYVALUE),
-            (Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, PropertyReturnType.RAWVALUE),
-            (PropertyStore.GetPropertyKeyFromName("System.Recycle.DateDeleted"), PropertyReturnType.RAWVALUE)
-        };
-
-        // A faster method of getting file shell properties (currently non used)
-        public static IList<object> GetFileProperties(ShellItem folderItem, List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> properties)
-        {
-            var propValueList = new List<object>(properties.Count);
-            var flags = Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_DEFAULT | Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_FASTPROPERTIESONLY;
-
-            Vanara.PInvoke.PropSys.IPropertyStore pStore = null;
-            try
-            {
-                pStore = ((Vanara.PInvoke.Shell32.IShellItem2)folderItem.IShellItem).GetPropertyStoreForKeys(properties.Select(p => p.propertyKey).ToArray(), (uint)properties.Count, flags, typeof(Vanara.PInvoke.PropSys.IPropertyStore).GUID);
-                foreach (var prop in properties)
-                {
-                    using var propVariant = new Vanara.PInvoke.Ole32.PROPVARIANT();
-                    pStore.GetValue(prop.propertyKey, propVariant);
-                    if (prop.returnType == PropertyReturnType.RAWVALUE)
-                    {
-                        propValueList.Add(propVariant.Value);
-                    }
-                    else if (prop.returnType == PropertyReturnType.DISPLAYVALUE)
-                    {
-                        using var pDesc = PropertyDescription.Create(prop.propertyKey);
-                        var pValue = pDesc?.FormatForDisplay(propVariant, Vanara.PInvoke.PropSys.PROPDESC_FORMAT_FLAGS.PDFF_DEFAULT);
-                        propValueList.Add(pValue);
-                    }
-                }
-            }
-            finally
-            {
-                Marshal.ReleaseComObject(pStore);
-            }
-
-            return propValueList;
         }
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
@@ -164,6 +114,26 @@ namespace FilesFullTrust
             {
                 // If user cancels UAC
             }
+        }
+
+        public static void Foreground(this Process process)
+        {
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(2 * 1000);
+
+            Task.Run(async () =>
+            {
+                while (!cts.IsCancellationRequested)
+                {
+                    process.Refresh();
+                    if (process.MainWindowHandle != IntPtr.Zero)
+                    {
+                        User32.SetForegroundWindow(process.MainWindowHandle);
+                        break;
+                    }
+                    await Task.Delay(100);
+                }
+            });
         }
     }
 }

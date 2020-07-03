@@ -378,6 +378,7 @@ namespace FilesFullTrust
                 }
                 process.StartInfo.WorkingDirectory = workingDirectory;
                 process.Start();
+                process.Foreground();
             }
             catch (Win32Exception)
             {
