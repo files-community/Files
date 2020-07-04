@@ -210,8 +210,7 @@ namespace Files.Views.Pages
 
                 case (false, true, false, true, VirtualKey.Delete): // shift + delete, PermanentDelete
                     if (!App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
-                        App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
-                    App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.PermanentDelete);
                     break;
 
                 case (true, false, false, true, VirtualKey.C): // ctrl + c, copy
@@ -260,7 +259,7 @@ namespace Files.Views.Pages
 
                 case (false, false, false, true, VirtualKey.Delete): // delete, delete item
                     if (App.CurrentInstance.ContentPage.IsItemSelected && !App.CurrentInstance.ContentPage.isRenamingItem)
-                        App.CurrentInstance.InteractionOperations.DeleteItem_Click(null, null);
+                        App.CurrentInstance.InteractionOperations.DeleteItem(StorageDeleteOption.Default);
                     break;
 
                 case (false, false, false, true, VirtualKey.Space): // space, quick look

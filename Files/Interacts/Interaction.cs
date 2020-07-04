@@ -593,25 +593,30 @@ namespace Files.Interacts
             dataRequestDeferral.Complete();
         }
 
-        public async void DeleteItem_Click(object sender, RoutedEventArgs e)
+        public void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteItem(StorageDeleteOption.Default);
+        }
+
+        public async void DeleteItem(StorageDeleteOption deleteOption)
         {
             var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
-                App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
+                deleteOption = StorageDeleteOption.PermanentDelete;
             }
 
             if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
-                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin);
+                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption);
                 await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
-                    App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
                     return; //return if the result isn't delete
                 }
+                deleteOption = dialog.PermanentlyDelete;
             }
             StatusBanner banner = null;
             try
@@ -654,7 +659,7 @@ namespace Files.Interacts
                                 item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
                             }
 
-                            await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
+                            await item.DeleteAsync(deleteOption);
                         }
                         catch (FileLoadException)
                         {
@@ -668,7 +673,7 @@ namespace Files.Interacts
                                 item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
                             }
 
-                            await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
+                            await item.DeleteAsync(deleteOption);
                         }
 
                         if (deleteFromRecycleBin)
@@ -701,11 +706,10 @@ namespace Files.Interacts
                     ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"),
                     ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
-                    DeleteItem_Click(null, null);
+                    DeleteItem(deleteOption);
                 }
             }
             App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
-            App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)

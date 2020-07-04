@@ -31,14 +31,6 @@ namespace Files.Controls
             set => Set(ref _LeftMarginLoaded, value);
         }
 
-        private StorageDeleteOption _PermanentlyDelete = StorageDeleteOption.Default;
-
-        public StorageDeleteOption PermanentlyDelete
-        {
-            get => _PermanentlyDelete;
-            set => Set(ref _PermanentlyDelete, value);
-        }
-
         private bool _IsSelectedItemImage = false;
 
         public bool IsSelectedItemImage
