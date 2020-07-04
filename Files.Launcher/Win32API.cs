@@ -40,26 +40,6 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        public static Task StartSTATask(Action func)
-        {
-            var tcs = new TaskCompletionSource<object>();
-            var thread = new Thread(() =>
-            {
-                try
-                {
-                    func();
-                    tcs.SetResult(null);
-                }
-                catch (Exception e)
-                {
-                    tcs.SetException(e);
-                }
-            });
-            thread.SetApartmentState(ApartmentState.STA);
-            thread.Start();
-            return tcs.Task;
-        }
-
         [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
         public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] StringBuilder lpResult);
 
@@ -311,24 +291,13 @@ namespace FilesFullTrust
             public long i64NumItems;
         }
 
-        private class ThreadWithMessageQueue : System.Windows.Forms.Form
+        public static void Foreground(this Process process)
         {
-            private Process process;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            cts.CancelAfter(2 * 1000);
 
-            public ThreadWithMessageQueue(Process process)
+            Task.Run(async () =>
             {
-                this.process = process;
-                this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-                this.ShowInTaskbar = false;
-                this.Load += OnLoadEvent;
-            }
-
-            public async void OnLoadEvent(object sender, EventArgs args)
-            {
-                this.Size = new System.Drawing.Size(0, 0);
-                CancellationTokenSource cts = new CancellationTokenSource();
-                cts.CancelAfter(2 * 1000);
-
                 while (!cts.IsCancellationRequested)
                 {
                     try
@@ -336,26 +305,10 @@ namespace FilesFullTrust
                         process.Refresh();
                         if (process.MainWindowHandle != IntPtr.Zero)
                         {
-                            uint winId = Vanara.PInvoke.User32.GetWindowThreadProcessId(process.MainWindowHandle, out var _);
-                            uint myId = Vanara.PInvoke.User32.GetWindowThreadProcessId(Handle, out var _);
-                            uint foreId = Vanara.PInvoke.User32.GetWindowThreadProcessId(Vanara.PInvoke.User32.GetForegroundWindow(), out var _);
-                            if (winId != myId)
-                                Debug.WriteLine("Attached my->target: {0}", Vanara.PInvoke.User32.AttachThreadInput(myId, winId, true));
-                            if (foreId != myId)
-                                Debug.WriteLine("Attached my->fore: {0}", Vanara.PInvoke.User32.AttachThreadInput(myId, foreId, true));
-                            if (winId != foreId)
-                                Debug.WriteLine("Attached fore->target: {0}", Vanara.PInvoke.User32.AttachThreadInput(foreId, winId, true));
-                            Vanara.PInvoke.User32.SetForegroundWindow(process.MainWindowHandle);
-                            Vanara.PInvoke.User32.SetWindowPos(process.MainWindowHandle, Vanara.PInvoke.User32.SpecialWindowHandles.HWND_TOPMOST,
-                                0, 0, 0, 0, Vanara.PInvoke.User32.SetWindowPosFlags.SWP_NOSIZE | Vanara.PInvoke.User32.SetWindowPosFlags.SWP_NOMOVE);
-                            Vanara.PInvoke.User32.SetWindowPos(process.MainWindowHandle, Vanara.PInvoke.User32.SpecialWindowHandles.HWND_NOTOPMOST,
-                                0, 0, 0, 0, Vanara.PInvoke.User32.SetWindowPosFlags.SWP_SHOWWINDOW | Vanara.PInvoke.User32.SetWindowPosFlags.SWP_NOSIZE | Vanara.PInvoke.User32.SetWindowPosFlags.SWP_NOMOVE);
-                            if (winId != myId)
-                                Vanara.PInvoke.User32.AttachThreadInput(myId, winId, false);
-                            if (foreId != myId)
-                                Vanara.PInvoke.User32.AttachThreadInput(myId, foreId, false);
-                            if (winId != foreId)
-                                Vanara.PInvoke.User32.AttachThreadInput(foreId, winId, false);
+                            User32.SetWindowPos(process.MainWindowHandle, User32.SpecialWindowHandles.HWND_TOPMOST,
+                                0, 0, 0, 0, User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
+                            User32.SetWindowPos(process.MainWindowHandle, User32.SpecialWindowHandles.HWND_NOTOPMOST,
+                                0, 0, 0, 0, User32.SetWindowPosFlags.SWP_SHOWWINDOW | User32.SetWindowPosFlags.SWP_NOSIZE | User32.SetWindowPosFlags.SWP_NOMOVE);
                             break;
                         }
                         await Task.Delay(100);
@@ -365,14 +318,7 @@ namespace FilesFullTrust
                         break;
                     }
                 }
-
-                this.Close();
-            }
-        }
-
-        public static void Foreground(this Process process)
-        {
-            StartSTATask(() => System.Windows.Forms.Application.Run(new ThreadWithMessageQueue(process)));
+            });
         }
 
         // Get information from recycle bin.
