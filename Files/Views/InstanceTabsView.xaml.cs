@@ -47,6 +47,11 @@ namespace Files
             App.InteractionViewModel = new InteractionViewModel();
             App.SidebarPinnedController = new SidebarPinnedController();
 
+            App.ConsentDialogDisplay = new Dialogs.ConsentDialog();
+            App.PropertiesDialogDisplay = new Dialogs.PropertiesDialog();
+            App.LayoutDialogDisplay = new Dialogs.LayoutDialog();
+            App.AddItemDialogDisplay = new Dialogs.AddItemDialog();
+            App.ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
 

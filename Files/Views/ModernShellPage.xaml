@@ -95,7 +95,7 @@
                 BlurRadius="4"
                 Canvas.ZIndex="100"
                 OffsetX="-2"
-                OffsetY="10"
+                OffsetY="0"
                 ShadowOpacity=".04">
                 <Grid>
                     <Grid.RowDefinitions>
