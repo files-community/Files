@@ -16,12 +16,13 @@
         <Style x:Key="TabItemStyle" TargetType="muxc:TabViewItem">
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+            <Setter Property="Width" Value="270"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="muxc:TabViewItem">
                         <Grid x:Name="LayoutRoot"
                             Padding="{TemplateBinding Padding}"
-                            Margin="0,-1,0,0">
+                            Margin="0,0,0,4">
                              <!--This item will cover the separator on its top side.--> 
 
                             <Grid.ColumnDefinitions>
@@ -275,7 +276,7 @@
                             HorizontalAlignment="Stretch"
                             Grid.Column="1"
                             BorderBrush="{ThemeResource TabViewItemSeparator}"
-                            BorderThickness="0,0,0,0.5"
+                            BorderThickness="0,0,0,0"
                             Margin="16,0"/>
 
                             <Grid x:Name="TabContainer"
@@ -469,7 +470,12 @@
                                     </primitives:TabViewListView>
                                 </ScrollViewer>
 
-
+                                <Border x:Name="AddTabSeparator"
+                            HorizontalAlignment="Stretch"
+                            Grid.Row="2"
+                            BorderBrush="{ThemeResource TabViewItemSeparator}"
+                            BorderThickness="0,1,0,0"
+                            Margin="6,0"/>
                                 <Button
                                     x:Name="AddButton"
                                     Grid.Row="2"
