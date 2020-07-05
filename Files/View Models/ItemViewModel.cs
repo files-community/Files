@@ -150,28 +150,8 @@ namespace Files.Filesystem
             {
                 if (value != _IsFolderEmptyTextDisplayed)
                 {
-                    if (WorkingDirectory.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
-                    {
-                        IsRecycleBinEmpty = _IsFolderEmptyTextDisplayed;
-                    }
-
                     _IsFolderEmptyTextDisplayed = value;
                     NotifyPropertyChanged("IsFolderEmptyTextDisplayed");
-                }
-            }
-        }
-
-        private bool _IsRecycleBinEmpty;
-
-        public bool IsRecycleBinEmpty
-        {
-            get => _IsRecycleBinEmpty;
-            set
-            {
-                if (value != _IsRecycleBinEmpty)
-                {
-                    _IsRecycleBinEmpty = value;
-                    NotifyPropertyChanged("IsRecycleBinEmpty");
                 }
             }
         }
