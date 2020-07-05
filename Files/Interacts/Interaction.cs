@@ -1055,7 +1055,7 @@ namespace Files.Interacts
                         StatusBanner.StatusBannerOperation.Paste);
             }
 
-            await Task.Run((Func<Task>)(async () =>
+            await Task.Run(async () =>
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
@@ -1147,15 +1147,24 @@ namespace Files.Interacts
                     {
                         try
                         {
+                            if (string.IsNullOrEmpty(item.Path))
+                            {
+                                // Can't move (only copy) files from MTP devices because:
+                                // StorageItems returned in DataPackageView are read-only
+                                // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
+                                continue;
+                            }
                             if (item.IsOfType(StorageItemTypes.File))
                             {
-                                StorageFile file = (StorageFile)item;
-                                await file.DeleteAsync();
+                                // If we reached this we are not in an MTP device, using StorageFile.* is ok here
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
+                                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
                             else if (item.IsOfType(StorageItemTypes.Folder))
                             {
-                                StorageFolder folder = (StorageFolder)item;
-                                await folder.DeleteAsync();
+                                // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
+                                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                                await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
                         }
                         catch (FileNotFoundException)
@@ -1166,7 +1175,7 @@ namespace Files.Interacts
                         ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                     }
                 }
-            }));
+            });
 
             if (destinationPath == CurrentInstance.FilesystemViewModel.WorkingDirectory)
             {
