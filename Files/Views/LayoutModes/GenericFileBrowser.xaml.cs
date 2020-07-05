@@ -14,6 +14,7 @@ using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
@@ -83,6 +84,7 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
+            App.CurrentInstance.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
             base.OnNavigatedTo(eventArgs);
             App.CurrentInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
@@ -90,7 +92,20 @@ namespace Files
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            App.CurrentInstance.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
             App.CurrentInstance.FilesystemViewModel.PropertyChanged -= ViewModel_PropertyChanged;
+        }
+
+        private void InstanceViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsPageTypeRecycleBin")
+            {
+                if (!IsLoaded) return;
+                RootGrid.ContextFlyout = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                    (FlyoutBase)Resources["BaseLayoutRecycleBinContextFlyout"] : (FlyoutBase)Resources["BaseLayoutContextFlyout"];
+                AllView.RowStyle = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                    (Style)Resources["DataGridRowRecycleBinContextFlyout"] : (Style)Resources["DataGridRowStandardContextFlyout"];
+            }
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)

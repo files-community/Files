@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Windows.System;
 using Windows.UI.Core;
@@ -8,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 using Interaction = Files.Interacts.Interaction;
 
 namespace Files
@@ -43,6 +45,30 @@ namespace Files
             {
                 _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
                 App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        {
+            App.CurrentInstance.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
+            base.OnNavigatedTo(eventArgs);
+        }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            App.CurrentInstance.InstanceViewModel.PropertyChanged -= InstanceViewModel_PropertyChanged;
+        }
+
+        private void InstanceViewModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsPageTypeRecycleBin")
+            {
+                if (!IsLoaded) return;
+                RootGrid.ContextFlyout = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                    (FlyoutBase)Resources["BaseLayoutRecycleBinContextFlyout"] : (FlyoutBase)Resources["BaseLayoutContextFlyout"];
+                FileList.ItemContainerStyle = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                    (Style)Resources["GridViewItemRecycleBinContextFlyout"] : (Style)Resources["GridViewItemStandardContextFlyout"];
             }
         }
 
