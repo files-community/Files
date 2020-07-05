@@ -958,8 +958,8 @@
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Bestandssysteem</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
-          <source>Sync</source>
-          <target state="new">Sync</target>
+          <source>Status</source>
+          <target state="new">Status</target>
         </trans-unit>
       </group>
     </body>

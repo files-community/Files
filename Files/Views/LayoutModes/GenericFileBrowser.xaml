@@ -650,8 +650,8 @@
                     FontSize="14"
                     FontFamily="Segoe MDL2 Assets"
                     IsReadOnly="True"
-                    Header="Sync"
-                    Tag="Sync">
+                    Header="Status"
+                    Tag="Status">
                     <ToolTipService.ToolTip>
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>

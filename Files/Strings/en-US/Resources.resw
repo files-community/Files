@@ -829,6 +829,6 @@
     <value>File system:</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
-    <value>Sync</value>
+    <value>Status</value>
   </data>
 </root>
