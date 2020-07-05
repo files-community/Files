@@ -238,6 +238,8 @@ namespace Files
                 App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath);
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
                 App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith("\\\\?\\");
+            App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive =
+                App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.OneDrivePath);
 
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 

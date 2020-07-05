@@ -954,6 +954,10 @@
           <source>File system:</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Sistema de arquivos</target>
         </trans-unit>
+        <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
+          <source>Sync</source>
+          <target state="new">Sync</target>
+        </trans-unit>
       </group>
     </body>
   </file>

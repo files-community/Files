@@ -954,6 +954,10 @@
           <source>Moving files to Recycle Bin</source>
           <target state="translated">Moviendo archivos a la papelera de reciclaje</target>
         </trans-unit>
+        <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
+          <source>Sync</source>
+          <target state="new">Sync</target>
+        </trans-unit>
       </group>
     </body>
   </file>

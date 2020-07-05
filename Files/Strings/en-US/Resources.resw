@@ -828,4 +828,7 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>File system:</value>
   </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Sync</value>
+  </data>
 </root>

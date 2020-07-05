@@ -962,6 +962,10 @@
           <source>Moving files to Recycle Bin</source>
           <target state="new">Moving files to Recycle Bin</target>
         </trans-unit>
+        <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
+          <source>Sync</source>
+          <target state="new">Sync</target>
+        </trans-unit>
       </group>
     </body>
   </file>

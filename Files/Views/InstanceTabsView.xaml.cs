@@ -490,6 +490,8 @@ namespace Files
                             App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith(App.AppSettings.RecycleBinPath) ?? false;
                         App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice =
                             App.CurrentInstance?.FilesystemViewModel?.WorkingDirectory?.StartsWith("\\\\?\\") ?? false;
+                        App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive =
+                            App.CurrentInstance?.FilesystemViewModel.WorkingDirectory?.StartsWith(AppSettings.OneDrivePath) ?? false;
                     }
 
                     App.InteractionViewModel.TabsLeftMargin = new Thickness(200, 0, 0, 0);

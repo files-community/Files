@@ -7,6 +7,7 @@
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
@@ -438,6 +439,10 @@
         <Style x:Key="DataGridRowRecycleBinContextFlyout" TargetType="controls:DataGridRow">
             <Setter Property="ContextFlyout" Value="{StaticResource BaseLayoutRecycleBinItemContextFlyout}" />
         </Style>
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"
+                                              TrueValue="Visible" 
+                                              FalseValue="Collapsed"/>
     </local:BaseLayout.Resources>
 
     <Grid x:Name="RootGrid" Background="Transparent">
@@ -617,11 +622,6 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
-                                <FontIcon
-                                    x:Name="OnedriveSyncStatusGlyph"
-                                    x:Load="{x:Bind LoadSyncStatusGlyph, Mode=OneWay}"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="{x:Bind SyncStatusGlyph, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
@@ -640,11 +640,27 @@
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
                 <controls:DataGridTextColumn
+                    x:Name="syncStatusColumn"
+                    x:Uid="syncStatusColumn"
+                    CanUserResize="False"
+                    Visibility="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
+                    Binding="{Binding SyncStatusGlyph}"
+                    DisplayIndex="2"
+                    FontSize="14"
+                    FontFamily="Segoe MDL2 Assets"
+                    IsReadOnly="True"
+                    Header="Sync"
+                    Tag="Sync">
+                    <ToolTipService.ToolTip>
+                        <ToolTip Content="{Binding FolderTooltipText}" />
+                    </ToolTipService.ToolTip>
+                </controls:DataGridTextColumn>
+                <controls:DataGridTextColumn
                     x:Name="dateColumn"
                     x:Uid="dateColumn"
                     Width="Auto"
                     Binding="{Binding ItemDateModified}"
-                    DisplayIndex="2"
+                    DisplayIndex="3"
                     FontSize="12"
                     Header="Date modified"
                     IsReadOnly="True"
@@ -658,7 +674,7 @@
                     x:Uid="typeColumn"
                     Width="150"
                     Binding="{Binding ItemType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                    DisplayIndex="3"
+                    DisplayIndex="4"
                     FontSize="12"
                     Header="Type"
                     IsReadOnly="True"
@@ -673,7 +689,7 @@
                     Width="Auto"
                     MinWidth="100"
                     Binding="{Binding FileSize}"
-                    DisplayIndex="4"
+                    DisplayIndex="5"
                     FontSize="12"
                     Header="Size"
                     IsReadOnly="True"
