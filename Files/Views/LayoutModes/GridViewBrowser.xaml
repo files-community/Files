@@ -485,6 +485,20 @@
                             <SymbolIcon Symbol="Page2" />
                         </Viewbox>
                     </Grid>
+                    <Grid
+                        x:Name="OnedriveSyncStatusGlyph"
+                        Width="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                        Height="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                        Padding="12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadSyncStatusGlyph, Mode=OneWay}">
+                        <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                Glyph="{x:Bind SyncStatusGlyph, Mode=OneWay}" />
+                        </Viewbox>
+                    </Grid>
                 </Grid>
                 <TextBlock
                     Grid.Row="1"
@@ -571,6 +585,19 @@
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="74"
                                     Glyph="&#xE7C3;" />
+                            </Grid>
+                        </Grid>
+                        <Grid
+                            x:Name="OnedriveSyncStatusGlyph"
+                            Width="74"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            x:Load="{x:Bind LoadSyncStatusGlyph, Mode=OneWay}">
+                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <FontIcon
+                                    FontFamily="Segoe MDL2 Assets"
+                                    FontSize="74"
+                                    Glyph="{x:Bind SyncStatusGlyph, Mode=OneWay}" />
                             </Grid>
                         </Grid>
                     </Grid>

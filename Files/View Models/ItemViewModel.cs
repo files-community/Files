@@ -3,7 +3,6 @@ using Files.Common;
 using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -26,9 +25,9 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -507,6 +506,29 @@ namespace Files.Filesystem
                                     matchingItem.LoadFileIcon = true;
                                 }
                             }
+                            var syncStatus = await CheckOnedriveSyncStatus(matchingStorageItem);
+                            switch (syncStatus)
+                            {
+                                case OnedriveSyncStatus.File_Online:
+                                    matchingItem.LoadSyncStatusGlyph = true;
+                                    matchingItem.SyncStatusGlyph = "\uE753";
+                                    break;
+                                case OnedriveSyncStatus.File_Offline:
+                                case OnedriveSyncStatus.File_Offline_Pinned:
+                                    matchingItem.LoadSyncStatusGlyph = true;
+                                    matchingItem.SyncStatusGlyph = "\uE73E";
+                                    break;
+                                case OnedriveSyncStatus.File_Sync_Download:
+                                case OnedriveSyncStatus.File_Sync_Upload:
+                                    matchingItem.LoadSyncStatusGlyph = true;
+                                    matchingItem.SyncStatusGlyph = "\uE895";
+                                    break;
+                                case OnedriveSyncStatus.NotOneDrive:
+                                case OnedriveSyncStatus.Unknown:
+                                default:
+                                    matchingItem.LoadSyncStatusGlyph = false;
+                                    break;
+                            }
                         }
                     }
                     catch (Exception)
@@ -525,6 +547,30 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
+                            var syncStatus = await CheckOnedriveSyncStatus(matchingStorageItem);
+                            switch (syncStatus)
+                            {
+                                case OnedriveSyncStatus.Folder_Online:
+                                case OnedriveSyncStatus.Folder_Offline_Partial:
+                                    matchingItem.LoadSyncStatusGlyph = true;
+                                    matchingItem.SyncStatusGlyph = "\uE753";
+                                    break;
+                                case OnedriveSyncStatus.Folder_Offline_Full:
+                                case OnedriveSyncStatus.Folder_Offline_Pinned:
+                                case OnedriveSyncStatus.Folder_Empty:
+                                    matchingItem.LoadSyncStatusGlyph = true;
+                                    matchingItem.SyncStatusGlyph = "\uE73E";
+                                    break;
+                                case OnedriveSyncStatus.Folder_Excluded:
+                                    matchingItem.LoadSyncStatusGlyph = true;
+                                    matchingItem.SyncStatusGlyph = "\uE711";
+                                    break;
+                                case OnedriveSyncStatus.NotOneDrive:
+                                case OnedriveSyncStatus.Unknown:
+                                default:
+                                    matchingItem.LoadSyncStatusGlyph = false;
+                                    break;
+                            }
                         }
                     }
                     catch (Exception)
@@ -969,6 +1015,30 @@ namespace Files.Filesystem
             return false;
         }
 
+        private async Task<OnedriveSyncStatus> CheckOnedriveSyncStatus(IStorageItem item)
+        {
+            int? syncStatus = null;
+            if (!WorkingDirectory.StartsWith(App.AppSettings.OneDrivePath))
+            {
+                return OnedriveSyncStatus.NotOneDrive;
+            }
+            if (item is StorageFile)
+            {
+                IDictionary<string, object> extraProperties = await ((StorageFile)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" });
+                syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+            }
+            else if (item is StorageFolder)
+            {
+                IDictionary<string, object> extraProperties = await ((StorageFolder)item).Properties.RetrievePropertiesAsync(new string[] { "System.FileOfflineAvailabilityStatus" });
+                syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
+            }
+            if (syncStatus == null || !Enum.IsDefined(typeof(OnedriveSyncStatus), syncStatus))
+            {
+                return OnedriveSyncStatus.Unknown;
+            }
+            return (OnedriveSyncStatus)syncStatus;
+        }
+
         private void WatchForDirectoryChanges(string path)
         {
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
@@ -1036,51 +1106,51 @@ namespace Files.Filesystem
 
                                 uint action = notifyInfo.Action;
 
-                                 Debug.WriteLine("action: {0}", action);
-                                 try
-                                 {
-                                     switch (action)
-                                     {
-                                         case FILE_ACTION_ADDED:
-                                             AddFileOrFolder(FileName);
-                                             Debug.WriteLine("File " + FileName + " added to working directory.");
-                                             break;
+                                Debug.WriteLine("action: {0}", action);
+                                try
+                                {
+                                    switch (action)
+                                    {
+                                        case FILE_ACTION_ADDED:
+                                            AddFileOrFolder(FileName);
+                                            Debug.WriteLine("File " + FileName + " added to working directory.");
+                                            break;
 
-                                         case FILE_ACTION_REMOVED:
-                                             RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
-                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
-                                             break;
+                                        case FILE_ACTION_REMOVED:
+                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            Debug.WriteLine("File " + FileName + " removed from working directory.");
+                                            break;
 
-                                         case FILE_ACTION_MODIFIED:
-                                             Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
-                                             break;
+                                        case FILE_ACTION_MODIFIED:
+                                            Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
+                                            break;
 
-                                         case FILE_ACTION_RENAMED_OLD_NAME:
-                                             RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
-                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
-                                             break;
+                                        case FILE_ACTION_RENAMED_OLD_NAME:
+                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
+                                            Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
+                                            break;
 
-                                         case FILE_ACTION_RENAMED_NEW_NAME:
-                                             AddFileOrFolder(FileName);
-                                             Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
-                                             break;
+                                        case FILE_ACTION_RENAMED_NEW_NAME:
+                                            AddFileOrFolder(FileName);
+                                            Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
+                                            break;
 
-                                         default:
-                                             Debug.WriteLine("File " + FileName + " performed an action in the working directory.");
-                                             break;
-                                     }
-                                 }
-                                 catch (Exception)
-                                 {
-                                     // Prevent invalid operations
-                                 }
+                                        default:
+                                            Debug.WriteLine("File " + FileName + " performed an action in the working directory.");
+                                            break;
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                // Prevent invalid operations
+                            }
 
                                 offset += notifyInfo.NextEntryOffset;
 
                             } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
 
-                            //ResetEvent(overlapped.hEvent);
-                            Debug.WriteLine("Task running...");
+                        //ResetEvent(overlapped.hEvent);
+                        Debug.WriteLine("Task running...");
                         }
                     }
                 }

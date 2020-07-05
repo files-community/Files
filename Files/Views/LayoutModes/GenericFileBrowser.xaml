@@ -617,6 +617,11 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <FontIcon
+                                    x:Name="OnedriveSyncStatusGlyph"
+                                    x:Load="{x:Bind LoadSyncStatusGlyph, Mode=OneWay}"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Glyph="{x:Bind SyncStatusGlyph, Mode=OneWay}" />
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>

@@ -29,6 +29,22 @@ namespace Files.Filesystem
             set => Set(ref _LoadUnknownTypeGlyph, value);
         }
 
+        private bool _LoadSyncStatusGlyph;
+
+        public bool LoadSyncStatusGlyph
+        {
+            get => _LoadSyncStatusGlyph;
+            set => Set(ref _LoadSyncStatusGlyph, value);
+        }
+
+        private string _SyncStatusGlyph;
+
+        public string SyncStatusGlyph
+        {
+            get => _SyncStatusGlyph;
+            set => Set(ref _SyncStatusGlyph, value);
+        }
+
         private BitmapImage _FileImage;
 
         public BitmapImage FileImage
