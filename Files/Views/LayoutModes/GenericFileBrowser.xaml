@@ -643,6 +643,7 @@
                     x:Name="syncStatusColumn"
                     x:Uid="syncStatusColumn"
                     CanUserResize="False"
+                    CanUserSort="False"
                     Visibility="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
                     Binding="{Binding SyncStatusGlyph}"
                     DisplayIndex="2"
