@@ -9,6 +9,9 @@
     d:DesignHeight="40"
     d:DesignWidth="400"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
+    </UserControl.Resources>
 
     <Grid
         Height="40"

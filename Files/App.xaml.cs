@@ -70,12 +70,6 @@ namespace Files
 
             RegisterUncaughtExceptionLogger();
 
-            ConsentDialogDisplay = new Dialogs.ConsentDialog();
-            PropertiesDialogDisplay = new Dialogs.PropertiesDialog();
-            LayoutDialogDisplay = new Dialogs.LayoutDialog();
-            AddItemDialogDisplay = new Dialogs.AddItemDialog();
-            ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
-
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
 
@@ -414,7 +408,7 @@ namespace Files
                 Connection.Dispose();
                 Connection = null;
             }
-            AppSettings.Dispose();
+            AppSettings?.Dispose();
             deferral.Complete();
         }
     }
