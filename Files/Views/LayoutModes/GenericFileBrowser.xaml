@@ -6,6 +6,7 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
@@ -19,6 +20,8 @@
     mc:Ignorable="d">
 
     <local:BaseLayout.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+        
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
@@ -204,7 +207,7 @@
                 x:Name="EmptyRecycleBin"
                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                IsEnabled="True"
+                IsEnabled="{x:Bind AssociatedViewModel.IsRecycleBinEmpty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
                 Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
