@@ -528,7 +528,7 @@
         <muxc:TabView
             HorizontalAlignment="Stretch"
             x:Name="verticalTabView"
-            TabItemsSource="{x:Bind local:VerticalTabView.Items, Mode=OneWay}"
+            TabItemsSource="{x:Bind Items, Mode=OneWay}"
             SelectedIndex="{x:Bind local1:App.InteractionViewModel.TabStripSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             VerticalAlignment="Stretch"
             x:FieldModifier="public"

@@ -55,9 +55,8 @@ namespace Files
             recentItemsCollection.Clear();
             PopulateRecentsList();
             var rootFrame = Window.Current.Content as MainPage;
-            VerticalTabView.SetSelectedTabInfo(parameters, null);
-            // TODO: Add logic to differentiate between other multitasking controls
-            (App.CurrentInstance.NavigationToolbar.MultiTaskingControl as VerticalTabView).TabStrip_SelectionChanged(null, null);
+            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
+            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
             App.PS.IsEnabled = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;

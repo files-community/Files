@@ -3,6 +3,7 @@ using Files.UserControls;
 using Files.View_Models;
 using Files.Views.Pages;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
@@ -35,6 +36,7 @@ namespace Files.Views
         }
 
         public SettingsViewModel AppSettings => App.AppSettings;
+        public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
 
         public MainPage()
         {
@@ -86,7 +88,7 @@ namespace Files.Views
             // Initial setting of SelectedTabItem
             Frame rootFrame = Window.Current.Content as Frame;
             var mainView = rootFrame.Content as MainPage;
-            mainView.SelectedTabItem = VerticalTabView.Items[App.InteractionViewModel.TabStripSelectedIndex];
+            mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)

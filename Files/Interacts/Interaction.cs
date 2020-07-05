@@ -464,13 +464,13 @@ namespace Files.Interacts
 
         public async void CloseTab()
         {
-            if (VerticalTabView.Items.Count == 1)
+            if (App.CurrentInstance.MultitaskingControl.Items.Count == 1)
             {
                 await ApplicationView.GetForCurrentView().TryConsolidateAsync();
             }
-            else if (VerticalTabView.Items.Count > 1)
+            else if (App.CurrentInstance.MultitaskingControl.Items.Count > 1)
             {
-                VerticalTabView.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
+                App.CurrentInstance.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 

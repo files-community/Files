@@ -236,10 +236,7 @@ namespace Files
 
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
-            if (AppSettings.FormFactor == Enums.FormFactorMode.Regular)
-            {
-                (App.CurrentInstance.NavigationToolbar.MultiTaskingControl as VerticalTabView).TabStrip_SelectionChanged(null, null);
-            }
+            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
             App.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }

@@ -30,7 +30,7 @@ namespace Files.Controls
                     Set(ref _TabStripSelectedIndex, value);
                     Frame rootFrame = Window.Current.Content as Frame;
                     var mainView = rootFrame.Content as MainPage;
-                    mainView.SelectedTabItem = VerticalTabView.Items[value];
+                    mainView.SelectedTabItem = App.CurrentInstance.MultitaskingControl.Items[value];
                 }
             }
         }

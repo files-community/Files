@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.UserControls;
+using Files.UserControls.MultiTaskingControl;
 using Files.View_Models;
 using System;
 using System.Linq;
@@ -64,6 +65,8 @@ namespace Files.Views.Pages
         StatusBarControl IShellPage.StatusBarControl => StatusBarControl;
 
         CurrentInstanceViewModel IShellPage.InstanceViewModel => instanceViewModel;
+
+        IMultitaskingControl IShellPage.MultitaskingControl => NavToolbar.verticalTabs;
 
         private BaseLayout GetContentOrNull()
         {

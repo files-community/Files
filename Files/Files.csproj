@@ -187,6 +187,7 @@
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MultitaskingControl\IMultitaskingControl.cs" />
     <Compile Include="UserControls\SidebarControl.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>

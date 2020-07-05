@@ -15,15 +15,15 @@ using Windows.UI.ViewManagement;
 using System.Collections.ObjectModel;
 
 using static Files.Helpers.PathNormalization;
-
-
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
+using Files.UserControls.MultiTaskingControl;
+using Files.Views;
 
 namespace Files.UserControls
 {
-    public sealed partial class VerticalTabView : UserControl
+    public sealed partial class VerticalTabView : UserControl, IMultitaskingControl
     {
-        public static ObservableCollection<TabItem> Items = new ObservableCollection<TabItem>(); 
+        public ObservableCollection<TabItem> Items => MainPage.AppInstances;
+        public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public VerticalTabView()
         {
@@ -43,14 +43,6 @@ namespace Files.UserControls
                 {
                     tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
                     fontIconSource.Glyph = "\xE713";
-                    //foreach (TabItem item in Items)
-                    //{
-                    //    if (item.Header.ToString() == ResourceController.GetTranslation("SidebarSettings/Text"))
-                    //    {
-                    //        App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(item);
-                    //        return;
-                    //    }
-                    //}
                 }
                 else if (path.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
                 {
@@ -157,7 +149,7 @@ namespace Files.UserControls
                 IconSource = tabIcon,
                 Description = null
             };
-            Items.Add(tvi);
+            MainPage.AppInstances.Add(tvi);
             //App.InteractionViewModel.TabStripSelectedIndex = Items.Count - 1;
 
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
@@ -170,7 +162,7 @@ namespace Files.UserControls
             };
         }
 
-        public static async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
+        public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
         {
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -262,8 +254,8 @@ namespace Files.UserControls
                 }
             }
             tabIcon = fontIconSource;
-            (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header = tabLocationHeader;
-            (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource = tabIcon;
+            (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header = tabLocationHeader;
+            (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource = tabIcon;
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -338,21 +330,11 @@ namespace Files.UserControls
         public void TabStrip_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (App.InteractionViewModel.TabStripSelectedIndex >= 0 && App.InteractionViewModel.TabStripSelectedIndex < Items.Count)
-            //{
-            //    if (e.RemovedItems.Count > 0 && e.AddedItems.Count == 0)
-            //    {
-            //        var itemToReselect = e.RemovedItems[0] as TabItem;
-            //        if (Items.Contains(itemToReselect))
-            //        {
-            //            App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(itemToReselect);
-            //        }
-            //    }
-            //}
-            //else
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
-                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") && (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource != icon)
+                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") 
+                    && (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource != icon)
                 {
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
@@ -403,7 +385,7 @@ namespace Files.UserControls
 
         public static T GetCurrentSelectedTabInstance<T>()
         {
-            var selectedTabContent = (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Content as Grid;
+            var selectedTabContent = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Content as Grid;
             foreach (UIElement uiElement in selectedTabContent.Children)
             {
                 if (uiElement.GetType() == typeof(Frame))
