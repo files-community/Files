@@ -50,8 +50,9 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            App.CurrentInstance.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
             base.OnNavigatedTo(eventArgs);
+            SetContextMenuAndStyle();
+            App.CurrentInstance.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -64,12 +65,16 @@ namespace Files
         {
             if (e.PropertyName == "IsPageTypeRecycleBin")
             {
-                if (!IsLoaded) return;
-                RootGrid.ContextFlyout = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
-                    (FlyoutBase)Resources["BaseLayoutRecycleBinContextFlyout"] : (FlyoutBase)Resources["BaseLayoutContextFlyout"];
-                FileList.ItemContainerStyle = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
-                    (Style)Resources["GridViewItemRecycleBinContextFlyout"] : (Style)Resources["GridViewItemStandardContextFlyout"];
+                SetContextMenuAndStyle();
             }
+        }
+
+        private void SetContextMenuAndStyle()
+        {
+            RootGrid.ContextFlyout = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                (FlyoutBase)Resources["BaseLayoutRecycleBinContextFlyout"] : (FlyoutBase)Resources["BaseLayoutContextFlyout"];
+            FileList.ItemContainerStyle = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                (Style)Resources["GridViewItemRecycleBinContextFlyout"] : (Style)Resources["GridViewItemStandardContextFlyout"];
         }
 
         public override void SetSelectedItemOnUi(ListedItem item)

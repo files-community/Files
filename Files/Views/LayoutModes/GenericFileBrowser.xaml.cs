@@ -84,8 +84,9 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
-            App.CurrentInstance.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
             base.OnNavigatedTo(eventArgs);
+            SetContextMenuAndStyle();
+            App.CurrentInstance.InstanceViewModel.PropertyChanged += InstanceViewModel_PropertyChanged;
             App.CurrentInstance.FilesystemViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
@@ -100,12 +101,16 @@ namespace Files
         {
             if (e.PropertyName == "IsPageTypeRecycleBin")
             {
-                if (!IsLoaded) return;
-                RootGrid.ContextFlyout = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
-                    (FlyoutBase)Resources["BaseLayoutRecycleBinContextFlyout"] : (FlyoutBase)Resources["BaseLayoutContextFlyout"];
-                AllView.RowStyle = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
-                    (Style)Resources["DataGridRowRecycleBinContextFlyout"] : (Style)Resources["DataGridRowStandardContextFlyout"];
+                SetContextMenuAndStyle();
             }
+        }
+
+        private void SetContextMenuAndStyle()
+        {
+            RootGrid.ContextFlyout = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                (FlyoutBase)Resources["BaseLayoutRecycleBinContextFlyout"] : (FlyoutBase)Resources["BaseLayoutContextFlyout"];
+            AllView.RowStyle = App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin ?
+                (Style)Resources["DataGridRowRecycleBinContextFlyout"] : (Style)Resources["DataGridRowStandardContextFlyout"];
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
