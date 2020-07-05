@@ -150,7 +150,10 @@ namespace Files.Filesystem
             {
                 if (value != _IsFolderEmptyTextDisplayed)
                 {
-                    IsRecycleBinEmpty = WorkingDirectory.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase) || _IsFolderEmptyTextDisplayed;
+                    if (WorkingDirectory.Equals(AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
+                    {
+                        IsRecycleBinEmpty = _IsFolderEmptyTextDisplayed;
+                    }
 
                     _IsFolderEmptyTextDisplayed = value;
                     NotifyPropertyChanged("IsFolderEmptyTextDisplayed");

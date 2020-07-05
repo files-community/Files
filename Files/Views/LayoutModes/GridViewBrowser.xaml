@@ -203,7 +203,7 @@
                 x:Name="EmptyRecycleBin"
                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                IsEnabled="{x:Bind AssociatedViewModel.IsRecycleBinEmpty, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolNegationConverter}}"
+                IsEnabled="{x:Bind AssociatedViewModel.IsRecycleBinEmpty, Mode=OneWay}"
                 Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
