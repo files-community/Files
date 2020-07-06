@@ -15,20 +15,21 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.AppService;
 using Windows.Foundation.Collections;
 using Windows.Storage;
-using static Vanara.PInvoke.Shell32;
+using Vanara.PInvoke;
+using NLog;
 
 namespace FilesFullTrust
 {
     internal class Program
     {
-        private static readonly NLog.Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         [STAThread]
         private static void Main(string[] args)
         {
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
-            NLog.LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
-            NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
+            LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
+            LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionTrapper;
 
@@ -41,12 +42,15 @@ namespace FilesFullTrust
             // Only one instance of the fulltrust process allowed
             // This happens if multiple instances of the UWP app are launched
             using var mutex = new Mutex(true, "FilesUwpFullTrust", out bool isNew);
-            if (!isNew) return;
+            if (!isNew)
+            {
+                return;
+            }
 
             try
             {
                 // Create shell COM object and get recycle bin folder
-                recycler = new ShellFolder(KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
+                recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
 
                 // Create filesystem watcher to monitor recycle bin folder(s)
@@ -98,7 +102,7 @@ namespace FilesFullTrust
 
         private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Debug.WriteLine("Reycle bin event: {0}, {1}", e.ChangeType, e.FullPath);
+            Debug.WriteLine($"Reycle bin event: {e.ChangeType}, {e.FullPath}");
             if (connection != null)
             {
                 // Send message to UWP app to refresh items
@@ -262,15 +266,15 @@ namespace FilesFullTrust
             {
                 case "Empty":
                     // Shell function to empty recyclebin
-                    SHEmptyRecycleBin(IntPtr.Zero, null, SHERB.SHERB_NOCONFIRMATION | SHERB.SHERB_NOPROGRESSUI);
+                    Shell32.SHEmptyRecycleBin(IntPtr.Zero, null, Shell32.SHERB.SHERB_NOCONFIRMATION | Shell32.SHERB.SHERB_NOPROGRESSUI);
                     break;
 
                 case "Query":
                     var responseQuery = new ValueSet();
-                    SHQUERYRBINFO queryBinInfo = new SHQUERYRBINFO();
+                    Shell32.SHQUERYRBINFO queryBinInfo = new Shell32.SHQUERYRBINFO();
                     queryBinInfo.cbSize = (uint)Marshal.SizeOf(queryBinInfo);
-                    var res = SHQueryRecycleBin(null, ref queryBinInfo);
-                    if (res == Vanara.PInvoke.HRESULT.S_OK)
+                    var res = Shell32.SHQueryRecycleBin(null, ref queryBinInfo);
+                    if (res == HRESULT.S_OK)
                     {
                         var numItems = queryBinInfo.i64NumItems;
                         var binSize = queryBinInfo.i64Size;
@@ -298,13 +302,13 @@ namespace FilesFullTrust
                                 continue;
                             }
                             folderItem.Properties.TryGetValue<System.Runtime.InteropServices.ComTypes.FILETIME?>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
+                                Ole32.PROPERTYKEY.System.DateCreated, out var fileTime);
                             var recycleDate = fileTime?.ToDateTime().ToLocalTime() ?? DateTime.Now; // This is LocalTime
                             string fileSize = folderItem.Properties.TryGetValue<ulong?>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
-                                folderItem.Properties.GetPropertyString(Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size) : null;
+                                Ole32.PROPERTYKEY.System.Size, out var fileSizeBytes) ?
+                                folderItem.Properties.GetPropertyString(Ole32.PROPERTYKEY.System.Size) : null;
                             folderItem.Properties.TryGetValue<string>(
-                                Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
+                                Ole32.PROPERTYKEY.System.ItemTypeText, out var fileType);
                             folderContentsList.Add(new ShellFileItem(isFolder, recyclePath, fileName, filePath, recycleDate, fileSize, fileSizeBytes ?? 0, fileType));
                         }
                         catch (FileNotFoundException)
@@ -398,32 +402,42 @@ namespace FilesFullTrust
                             }
                             else
                             {
-                                var groups = split.GroupBy(x => new {
+                                var groups = split.GroupBy(x => new
+                                {
                                     Dir = Path.GetDirectoryName(x),
                                     Prog = Win32API.GetFileAssociation(x).Result ?? Path.GetExtension(x)
                                 });
                                 foreach (var group in groups)
                                 {
-                                    if (!group.Any()) continue;
+                                    if (!group.Any())
+                                    {
+                                        continue;
+                                    }
+
                                     var files = group.Select(x => new ShellItem(x));
                                     using var sf = files.First().Parent;
-                                    Vanara.PInvoke.Shell32.IContextMenu menu = null;
+                                    Shell32.IContextMenu menu = null;
                                     try
                                     {
-                                        menu = sf.GetChildrenUIObjects<Vanara.PInvoke.Shell32.IContextMenu>(null, files.ToArray());
-                                        menu.QueryContextMenu(Vanara.PInvoke.HMENU.NULL, 0, 0, 0, Vanara.PInvoke.Shell32.CMF.CMF_DEFAULTONLY);
-                                        var pici = new Vanara.PInvoke.Shell32.CMINVOKECOMMANDINFOEX();
-                                        pici.lpVerb = Vanara.PInvoke.Shell32.CMDSTR_OPEN;
-                                        pici.nShow = Vanara.PInvoke.ShowWindowCommand.SW_SHOW;
+                                        menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, files.ToArray());
+                                        menu.QueryContextMenu(HMENU.NULL, 0, 0, 0, Shell32.CMF.CMF_DEFAULTONLY);
+                                        var pici = new Shell32.CMINVOKECOMMANDINFOEX();
+                                        pici.lpVerb = Shell32.CMDSTR_OPEN;
+                                        pici.nShow = ShowWindowCommand.SW_SHOW;
                                         pici.cbSize = (uint)Marshal.SizeOf(pici);
                                         menu.InvokeCommand(pici);
                                     }
                                     finally
                                     {
                                         foreach (var elem in files)
+                                        {
                                             elem.Dispose();
+                                        }
+
                                         if (menu != null)
+                                        {
                                             Marshal.ReleaseComObject(menu);
+                                        }
                                     }
                                 }
                             }
@@ -483,7 +497,7 @@ namespace FilesFullTrust
         {
             if (executable.StartsWith("\\\\?\\"))
             {
-                using var computer = new ShellFolder(Vanara.PInvoke.Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
+                using var computer = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_ComputerFolder);
                 using var device = computer.FirstOrDefault(i => executable.Replace("\\\\?\\", "").StartsWith(i.Name));
                 var deviceId = device?.ParsingName;
                 var itemPath = Regex.Replace(executable, @"^\\\\\?\\[^\\]*\\?", "");

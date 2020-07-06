@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Vanara.Windows.Shell;
+using Vanara.PInvoke;
+using Windows.System;
+using System.IO;
 
 namespace FilesFullTrust
 {
@@ -32,18 +35,23 @@ namespace FilesFullTrust
             return tcs.Task;
         }
 
-        [DllImport("shell32.dll", CharSet = CharSet.Ansi)]
-        public static extern IntPtr FindExecutable(string lpFile, string lpDirectory, [Out] StringBuilder lpResult);
-
         public static async Task<string> GetFileAssociation(string filename)
         {
             // Find UWP apps
-            var uwp_apps = await Windows.System.Launcher.FindFileHandlersAsync(System.IO.Path.GetExtension(filename));
-            if (uwp_apps.Any()) return uwp_apps.First().PackageFamilyName;
+            var uwp_apps = await Launcher.FindFileHandlersAsync(Path.GetExtension(filename));
+            if (uwp_apps.Any())
+            {
+                return uwp_apps.First().PackageFamilyName;
+            }
+
             // Find desktop apps
             var lpResult = new StringBuilder();
-            var hResult = FindExecutable(filename, null, lpResult);
-            if (hResult.ToInt64() > 32) return lpResult.ToString();
+            var hResult = Shell32.FindExecutable(filename, null, lpResult);
+            if (hResult.ToInt64() > 32)
+            {
+                return lpResult.ToString();
+            }
+
             return null;
         }
 
@@ -53,28 +61,28 @@ namespace FilesFullTrust
             DISPLAYVALUE
         }
 
-        public static List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> RecyledFileProperties =
-            new List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)>
+        public static List<(Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> RecyledFileProperties =
+            new List<(Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)>
         {
-            (Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, PropertyReturnType.RAWVALUE),
-            (Vanara.PInvoke.Ole32.PROPERTYKEY.System.Size, PropertyReturnType.DISPLAYVALUE),
-            (Vanara.PInvoke.Ole32.PROPERTYKEY.System.ItemTypeText, PropertyReturnType.RAWVALUE),
+            (Ole32.PROPERTYKEY.System.Size, PropertyReturnType.RAWVALUE),
+            (Ole32.PROPERTYKEY.System.Size, PropertyReturnType.DISPLAYVALUE),
+            (Ole32.PROPERTYKEY.System.ItemTypeText, PropertyReturnType.RAWVALUE),
             (PropertyStore.GetPropertyKeyFromName("System.Recycle.DateDeleted"), PropertyReturnType.RAWVALUE)
         };
 
         // A faster method of getting file shell properties (currently non used)
-        public static IList<object> GetFileProperties(ShellItem folderItem, List<(Vanara.PInvoke.Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> properties)
+        public static IList<object> GetFileProperties(ShellItem folderItem, List<(Ole32.PROPERTYKEY propertyKey, PropertyReturnType returnType)> properties)
         {
             var propValueList = new List<object>(properties.Count);
-            var flags = Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_DEFAULT | Vanara.PInvoke.PropSys.GETPROPERTYSTOREFLAGS.GPS_FASTPROPERTIESONLY;
+            var flags = PropSys.GETPROPERTYSTOREFLAGS.GPS_DEFAULT | PropSys.GETPROPERTYSTOREFLAGS.GPS_FASTPROPERTIESONLY;
 
-            Vanara.PInvoke.PropSys.IPropertyStore pStore = null;
+            PropSys.IPropertyStore pStore = null;
             try
             {
-                pStore = ((Vanara.PInvoke.Shell32.IShellItem2)folderItem.IShellItem).GetPropertyStoreForKeys(properties.Select(p => p.propertyKey).ToArray(), (uint)properties.Count, flags, typeof(Vanara.PInvoke.PropSys.IPropertyStore).GUID);
+                pStore = ((Shell32.IShellItem2)folderItem.IShellItem).GetPropertyStoreForKeys(properties.Select(p => p.propertyKey).ToArray(), (uint)properties.Count, flags, typeof(PropSys.IPropertyStore).GUID);
                 foreach (var prop in properties)
                 {
-                    using var propVariant = new Vanara.PInvoke.Ole32.PROPVARIANT();
+                    using var propVariant = new Ole32.PROPVARIANT();
                     pStore.GetValue(prop.propertyKey, propVariant);
                     if (prop.returnType == PropertyReturnType.RAWVALUE)
                     {
@@ -83,7 +91,7 @@ namespace FilesFullTrust
                     else if (prop.returnType == PropertyReturnType.DISPLAYVALUE)
                     {
                         using var pDesc = PropertyDescription.Create(prop.propertyKey);
-                        var pValue = pDesc?.FormatForDisplay(propVariant, Vanara.PInvoke.PropSys.PROPDESC_FORMAT_FLAGS.PDFF_DEFAULT);
+                        var pValue = pDesc?.FormatForDisplay(propVariant, PropSys.PROPDESC_FORMAT_FLAGS.PDFF_DEFAULT);
                         propValueList.Add(pValue);
                     }
                 }
@@ -96,39 +104,28 @@ namespace FilesFullTrust
             return propValueList;
         }
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
-        private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
-        private static extern int LoadString(IntPtr hInstance, int ID, StringBuilder lpBuffer, int nBufferMax);
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool FreeLibrary(IntPtr hModule);
-
         public static string ExtractStringFromDLL(string file, int number)
         {
-            IntPtr lib = LoadLibrary(file);
+            var lib = Kernel32.LoadLibrary(file);
             StringBuilder result = new StringBuilder(2048);
-            LoadString(lib, number, result, result.Capacity);
-            FreeLibrary(lib);
+            User32.LoadString(lib, number, result, result.Capacity);
+            Kernel32.FreeLibrary(lib);
             return result.ToString();
         }
 
-        [DllImport("shell32.dll", SetLastError = true)]
-        public static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string lpCmdLine, out int pNumArgs);
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr LocalFree(IntPtr hMem);
-
         public static string[] CommandLineToArgs(string commandLine)
         {
-            if (String.IsNullOrEmpty(commandLine))
+            if (string.IsNullOrEmpty(commandLine))
+            {
                 return Array.Empty<string>();
+            }
 
-            var argv = CommandLineToArgvW(commandLine, out int argc);
+            var argv = Shell32.CommandLineToArgvW(commandLine, out int argc);
             if (argv == IntPtr.Zero)
-                throw new System.ComponentModel.Win32Exception();
+            {
+                throw new Win32Exception();
+            }
+
             try
             {
                 var args = new string[argc];
