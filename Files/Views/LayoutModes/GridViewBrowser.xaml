@@ -489,18 +489,18 @@
                         </Viewbox>
                     </Grid>
                     <Grid
-                        x:Name="OnedriveSyncStatusGlyph"
+                        x:Name="CloudDriveSyncStatusGlyph"
                         Width="28"
                         Height="28"
                         Margin="12"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        x:Load="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}">
+                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}">
                         <Viewbox MaxWidth="28" MaxHeight="28">
                             <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
-                                    Glyph="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                    Foreground="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                                    Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                    Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
                         </Viewbox>
                     </Grid>
                 </Grid>
@@ -592,18 +592,18 @@
                             </Grid>
                         </Grid>
                         <Grid
-                            x:Name="OnedriveSyncStatusGlyph"
+                            x:Name="CloudDriveSyncStatusGlyph"
                             Width="28"
                             Height="28"
                             Margin="12"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
-                            x:Load="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}">
+                            x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}">
                             <Viewbox MaxWidth="28" MaxHeight="28">
                                 <FontIcon
                                     FontFamily="Segoe MDL2 Assets"
-                                    Glyph="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                    Foreground="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                                    Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                    Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
                             </Viewbox>
                         </Grid>
                     </Grid>

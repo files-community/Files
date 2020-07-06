@@ -506,8 +506,8 @@ namespace Files.Filesystem
                                     matchingItem.LoadFileIcon = true;
                                 }
                             }
-                            var syncStatus = await CheckOnedriveSyncStatus(matchingStorageItem);
-                            matchingItem.SyncStatusUI = OnedriveSyncStatusUI.FromOnedriveSyncStatus(syncStatus);
+                            var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                            matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                         }
                     }
                     catch (Exception)
@@ -526,8 +526,8 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
-                            var syncStatus = await CheckOnedriveSyncStatus(matchingStorageItem);
-                            matchingItem.SyncStatusUI = OnedriveSyncStatusUI.FromOnedriveSyncStatus(syncStatus);
+                            var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                            matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                         }
                     }
                     catch (Exception)
@@ -861,9 +861,9 @@ namespace Files.Filesystem
             }
 
             // Is folder synced to cloud storage?
-            var syncStatus = await CheckOnedriveSyncStatus(_rootFolder);
-            App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive = 
-                syncStatus != OnedriveSyncStatus.NotSynced && syncStatus != OnedriveSyncStatus.Unknown;
+            var syncStatus = await CheckCloudDriveSyncStatus(_rootFolder);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = 
+                syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
             if (enumFromStorageFolder)
             {
@@ -977,7 +977,7 @@ namespace Files.Filesystem
             return false;
         }
 
-        private async Task<OnedriveSyncStatus> CheckOnedriveSyncStatus(IStorageItem item)
+        private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatus(IStorageItem item)
         {
             int? syncStatus = null;
             if (item is StorageFile)
@@ -992,11 +992,11 @@ namespace Files.Filesystem
                 // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
                 syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
             }
-            if (syncStatus == null || !Enum.IsDefined(typeof(OnedriveSyncStatus), syncStatus))
+            if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
             {
-                return OnedriveSyncStatus.Unknown;
+                return CloudDriveSyncStatus.Unknown;
             }
-            return (OnedriveSyncStatus)syncStatus;
+            return (CloudDriveSyncStatus)syncStatus;
         }
 
         private void WatchForDirectoryChanges(string path)

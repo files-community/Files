@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Media;
 
 namespace Files.Filesystem
 {
-    public enum OnedriveSyncStatus
+    public enum CloudDriveSyncStatus
     {
         Unknown = -1,
         Folder_Online = 0,
@@ -19,7 +19,7 @@ namespace Files.Filesystem
         File_Offline_Pinned = 15,
     }
 
-    public class OnedriveSyncStatusUI : ObservableObject
+    public class CloudDriveSyncStatusUI : ObservableObject
     {
         private bool _LoadSyncStatus;
         public bool LoadSyncStatus { get => _LoadSyncStatus; set => Set(ref _LoadSyncStatus, value); }
@@ -28,53 +28,53 @@ namespace Files.Filesystem
         private SolidColorBrush _Foreground;
         public SolidColorBrush Foreground { get => _Foreground; set => Set(ref _Foreground, value); }
 
-        public static OnedriveSyncStatusUI FromOnedriveSyncStatus(OnedriveSyncStatus syncStatus)
+        public static CloudDriveSyncStatusUI FromCloudDriveSyncStatus(CloudDriveSyncStatus syncStatus)
         {
-            var statusUI = new OnedriveSyncStatusUI();
+            var statusUI = new CloudDriveSyncStatusUI();
 
             switch (syncStatus)
             {
                 // File
-                case OnedriveSyncStatus.File_Online:
+                case CloudDriveSyncStatus.File_Online:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE753";
-                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOnlineColor"];
+                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
                     break;
-                case OnedriveSyncStatus.File_Offline:
-                case OnedriveSyncStatus.File_Offline_Pinned:
+                case CloudDriveSyncStatus.File_Offline:
+                case CloudDriveSyncStatus.File_Offline_Pinned:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
-                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOfflineColor"];
+                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
                     break;
-                case OnedriveSyncStatus.File_Sync:
+                case CloudDriveSyncStatus.File_Sync:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE895";
-                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOnlineColor"];
+                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
                     break;
 
                 // Folder
-                case OnedriveSyncStatus.Folder_Online:
-                case OnedriveSyncStatus.Folder_Offline_Partial:
+                case CloudDriveSyncStatus.Folder_Online:
+                case CloudDriveSyncStatus.Folder_Offline_Partial:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE753";
-                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOnlineColor"];
+                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
                     break;
-                case OnedriveSyncStatus.Folder_Offline_Full:
-                case OnedriveSyncStatus.Folder_Offline_Pinned:
-                case OnedriveSyncStatus.Folder_Empty:
+                case CloudDriveSyncStatus.Folder_Offline_Full:
+                case CloudDriveSyncStatus.Folder_Offline_Pinned:
+                case CloudDriveSyncStatus.Folder_Empty:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
-                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOfflineColor"];
+                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
                     break;
-                case OnedriveSyncStatus.Folder_Excluded:
+                case CloudDriveSyncStatus.Folder_Excluded:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE711";
-                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusExcludedColor"];
+                    statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusExcludedColor"];
                     break;
 
                 // Unknown
-                case OnedriveSyncStatus.NotSynced:
-                case OnedriveSyncStatus.Unknown:
+                case CloudDriveSyncStatus.NotSynced:
+                case CloudDriveSyncStatus.Unknown:
                 default:
                     statusUI.LoadSyncStatus = false;
                     break;

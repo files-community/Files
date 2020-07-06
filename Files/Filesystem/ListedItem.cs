@@ -29,9 +29,9 @@ namespace Files.Filesystem
             set => Set(ref _LoadUnknownTypeGlyph, value);
         }
 
-        private OnedriveSyncStatusUI _SyncStatusUI;
+        private CloudDriveSyncStatusUI _SyncStatusUI;
 
-        public OnedriveSyncStatusUI SyncStatusUI
+        public CloudDriveSyncStatusUI SyncStatusUI
         {
             get => _SyncStatusUI;
             set => Set(ref _SyncStatusUI, value);

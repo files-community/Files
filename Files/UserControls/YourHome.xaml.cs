@@ -47,7 +47,7 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
-            App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive = false;
+            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             var parameters = eventArgs.Parameter.ToString();
             Locations.ItemLoader.itemsAdded.Clear();
             Locations.ItemLoader.DisplayItems();

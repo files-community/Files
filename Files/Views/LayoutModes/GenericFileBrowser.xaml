@@ -650,15 +650,15 @@
                     IsReadOnly="True"
                     Header="Status"
                     Tag="Status"
-                    Visibility="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    Visibility="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <FontIcon
                                 HorizontalAlignment="Left"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="14"
-                                Glyph="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                Foreground="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                                Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>
                 </controls:DataGridTemplateColumn>

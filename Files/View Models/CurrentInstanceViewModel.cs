@@ -61,12 +61,12 @@ namespace Files.View_Models
             get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome;
         }
 
-        private bool _IsPageTypeOnedrive = false;
+        private bool _IsPageTypeCloudDrive = false;
 
-        public bool IsPageTypeOnedrive
+        public bool IsPageTypeCloudDrive
         {
-            get => _IsPageTypeOnedrive;
-            set => Set(ref _IsPageTypeOnedrive, value);
+            get => _IsPageTypeCloudDrive;
+            set => Set(ref _IsPageTypeCloudDrive, value);
         }
     }
 }

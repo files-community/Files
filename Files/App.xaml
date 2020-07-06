@@ -9,22 +9,22 @@
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="OnedriveSyncStatusOnlineColor" Color="#0078D7" />
-                            <SolidColorBrush x:Key="OnedriveSyncStatusOfflineColor" Color="#30BB03" />
-                            <SolidColorBrush x:Key="OnedriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
-                            <SolidColorBrush x:Key="OnedriveSyncStatusOnlineColor" Color="#0078D7" />
-                            <SolidColorBrush x:Key="OnedriveSyncStatusOfflineColor" Color="#30BB03" />
-                            <SolidColorBrush x:Key="OnedriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
-                            <SolidColorBrush x:Key="OnedriveSyncStatusOnlineColor" Color="#0078D7" />
-                            <SolidColorBrush x:Key="OnedriveSyncStatusOfflineColor" Color="#30BB03" />
-                            <SolidColorBrush x:Key="OnedriveSyncStatusExcludedColor" Color="#AAAAAA" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOnlineColor" Color="#0078D7" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusOfflineColor" Color="#30BB03" />
+                            <SolidColorBrush x:Key="CloudDriveSyncStatusExcludedColor" Color="#AAAAAA" />
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
