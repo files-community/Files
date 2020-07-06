@@ -1,6 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
-using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace Files.Controls
@@ -37,6 +36,14 @@ namespace Files.Controls
         {
             get => _IsSelectedItemImage;
             set => Set(ref _IsSelectedItemImage, value);
+        }
+
+        private bool _isPasteEnabled = false;
+
+        public bool IsPasteEnabled
+        {
+            get => _isPasteEnabled;
+            set => Set(ref _isPasteEnabled, value);
         }
 
         public void CheckForImage()
