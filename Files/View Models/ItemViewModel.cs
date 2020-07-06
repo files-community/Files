@@ -507,28 +507,7 @@ namespace Files.Filesystem
                                 }
                             }
                             var syncStatus = await CheckOnedriveSyncStatus(matchingStorageItem);
-                            switch (syncStatus)
-                            {
-                                case OnedriveSyncStatus.File_Online:
-                                    matchingItem.LoadSyncStatusGlyph = true;
-                                    matchingItem.SyncStatusGlyph = "\uE753";
-                                    break;
-                                case OnedriveSyncStatus.File_Offline:
-                                case OnedriveSyncStatus.File_Offline_Pinned:
-                                    matchingItem.LoadSyncStatusGlyph = true;
-                                    matchingItem.SyncStatusGlyph = "\uE73E";
-                                    break;
-                                case OnedriveSyncStatus.File_Sync_Download:
-                                case OnedriveSyncStatus.File_Sync_Upload:
-                                    matchingItem.LoadSyncStatusGlyph = true;
-                                    matchingItem.SyncStatusGlyph = "\uE895";
-                                    break;
-                                case OnedriveSyncStatus.NotOneDrive:
-                                case OnedriveSyncStatus.Unknown:
-                                default:
-                                    matchingItem.LoadSyncStatusGlyph = false;
-                                    break;
-                            }
+                            matchingItem.SyncStatusUI = OnedriveSyncStatusUI.FromOnedriveSyncStatus(syncStatus);
                         }
                     }
                     catch (Exception)
@@ -548,29 +527,7 @@ namespace Files.Filesystem
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
                             var syncStatus = await CheckOnedriveSyncStatus(matchingStorageItem);
-                            switch (syncStatus)
-                            {
-                                case OnedriveSyncStatus.Folder_Online:
-                                case OnedriveSyncStatus.Folder_Offline_Partial:
-                                    matchingItem.LoadSyncStatusGlyph = true;
-                                    matchingItem.SyncStatusGlyph = "\uE753";
-                                    break;
-                                case OnedriveSyncStatus.Folder_Offline_Full:
-                                case OnedriveSyncStatus.Folder_Offline_Pinned:
-                                case OnedriveSyncStatus.Folder_Empty:
-                                    matchingItem.LoadSyncStatusGlyph = true;
-                                    matchingItem.SyncStatusGlyph = "\uE73E";
-                                    break;
-                                case OnedriveSyncStatus.Folder_Excluded:
-                                    matchingItem.LoadSyncStatusGlyph = true;
-                                    matchingItem.SyncStatusGlyph = "\uE711";
-                                    break;
-                                case OnedriveSyncStatus.NotOneDrive:
-                                case OnedriveSyncStatus.Unknown:
-                                default:
-                                    matchingItem.LoadSyncStatusGlyph = false;
-                                    break;
-                            }
+                            matchingItem.SyncStatusUI = OnedriveSyncStatusUI.FromOnedriveSyncStatus(syncStatus);
                         }
                     }
                     catch (Exception)

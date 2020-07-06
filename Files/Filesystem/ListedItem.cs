@@ -29,20 +29,12 @@ namespace Files.Filesystem
             set => Set(ref _LoadUnknownTypeGlyph, value);
         }
 
-        private bool _LoadSyncStatusGlyph;
+        private OnedriveSyncStatusUI _SyncStatusUI;
 
-        public bool LoadSyncStatusGlyph
+        public OnedriveSyncStatusUI SyncStatusUI
         {
-            get => _LoadSyncStatusGlyph;
-            set => Set(ref _LoadSyncStatusGlyph, value);
-        }
-
-        private string _SyncStatusGlyph;
-
-        public string SyncStatusGlyph
-        {
-            get => _SyncStatusGlyph;
-            set => Set(ref _SyncStatusGlyph, value);
+            get => _SyncStatusUI;
+            set => Set(ref _SyncStatusUI, value);
         }
 
         private BitmapImage _FileImage;

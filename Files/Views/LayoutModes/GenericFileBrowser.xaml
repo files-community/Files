@@ -11,6 +11,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
+    xmlns:helpers="using:Files.Helpers"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -639,23 +640,27 @@
                         <ToolTip Content="{Binding FolderTooltipText}" />
                     </ToolTipService.ToolTip>
                 </controls:DataGridTextColumn>
-                <controls:DataGridTextColumn
+                <controls:DataGridTemplateColumn
                     x:Name="syncStatusColumn"
                     x:Uid="syncStatusColumn"
                     CanUserResize="False"
                     CanUserSort="False"
-                    Visibility="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}"
-                    Binding="{Binding SyncStatusGlyph}"
                     DisplayIndex="2"
-                    FontSize="14"
-                    FontFamily="Segoe MDL2 Assets"
                     IsReadOnly="True"
                     Header="Status"
-                    Tag="Status">
-                    <ToolTipService.ToolTip>
-                        <ToolTip Content="{Binding FolderTooltipText}" />
-                    </ToolTipService.ToolTip>
-                </controls:DataGridTextColumn>
+                    Tag="Status"
+                    Visibility="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <controls:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="local2:ListedItem">
+                            <FontIcon
+                                HorizontalAlignment="Left"
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="14"
+                                Glyph="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                                Foreground="{x:Bind ((local2:OnedriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                        </DataTemplate>
+                    </controls:DataGridTemplateColumn.CellTemplate>
+                </controls:DataGridTemplateColumn>
                 <controls:DataGridTextColumn
                     x:Name="dateColumn"
                     x:Uid="dateColumn"
