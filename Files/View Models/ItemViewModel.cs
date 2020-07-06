@@ -860,6 +860,11 @@ namespace Files.Filesystem
                 }
             }
 
+            // Is folder synced to cloud storage?
+            var syncStatus = await CheckOnedriveSyncStatus(_rootFolder);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeOnedrive = 
+                syncStatus != OnedriveSyncStatus.NotSynced && syncStatus != OnedriveSyncStatus.Unknown;
+
             if (enumFromStorageFolder)
             {
                 await EnumFromStorageFolder();
@@ -975,10 +980,6 @@ namespace Files.Filesystem
         private async Task<OnedriveSyncStatus> CheckOnedriveSyncStatus(IStorageItem item)
         {
             int? syncStatus = null;
-            if (!WorkingDirectory.StartsWith(App.AppSettings.OneDrivePath))
-            {
-                return OnedriveSyncStatus.NotOneDrive;
-            }
             if (item is StorageFile)
             {
                 IDictionary<string, object> extraProperties = await ((StorageFile)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" });
@@ -986,8 +987,10 @@ namespace Files.Filesystem
             }
             else if (item is StorageFolder)
             {
-                IDictionary<string, object> extraProperties = await ((StorageFolder)item).Properties.RetrievePropertiesAsync(new string[] { "System.FileOfflineAvailabilityStatus" });
+                IDictionary<string, object> extraProperties = await ((StorageFolder)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
                 syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
+                // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
+                syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
             }
             if (syncStatus == null || !Enum.IsDefined(typeof(OnedriveSyncStatus), syncStatus))
             {

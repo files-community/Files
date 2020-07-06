@@ -5,7 +5,6 @@ namespace Files.Filesystem
 {
     public enum OnedriveSyncStatus
     {
-        NotOneDrive = -2,
         Unknown = -1,
         Folder_Online = 0,
         Folder_Offline_Partial = 1,
@@ -13,9 +12,9 @@ namespace Files.Filesystem
         Folder_Offline_Pinned = 3,
         Folder_Excluded = 4,
         Folder_Empty = 5,
-        File_Sync_Upload = 6,
+        NotSynced = 6,
         File_Online = 8,
-        File_Sync_Download = 9,
+        File_Sync = 9,
         File_Offline = 14,
         File_Offline_Pinned = 15,
     }
@@ -47,8 +46,7 @@ namespace Files.Filesystem
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOfflineColor"];
                     break;
-                case OnedriveSyncStatus.File_Sync_Download:
-                case OnedriveSyncStatus.File_Sync_Upload:
+                case OnedriveSyncStatus.File_Sync:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE895";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["OnedriveSyncStatusOnlineColor"];
@@ -75,7 +73,7 @@ namespace Files.Filesystem
                     break;
 
                 // Unknown
-                case OnedriveSyncStatus.NotOneDrive:
+                case OnedriveSyncStatus.NotSynced:
                 case OnedriveSyncStatus.Unknown:
                 default:
                     statusUI.LoadSyncStatus = false;
