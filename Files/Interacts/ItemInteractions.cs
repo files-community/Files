@@ -3,7 +3,16 @@ using System.Runtime.CompilerServices;
 
 namespace Files.Interacts
 {
-    public class PasteState : INotifyPropertyChanged
+    public class State : INotifyPropertyChanged
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+    public class PasteState : State
     {
         private bool _isEnabled;
 
@@ -23,16 +32,9 @@ namespace Files.Interacts
                 }
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
 
-    public class AlwaysPresentCommandsState : INotifyPropertyChanged
+    public class AlwaysPresentCommandsState : State
     {
         private bool isCopyPathCommandEnabled;
 
@@ -50,13 +52,6 @@ namespace Files.Interacts
                     NotifyPropertyChanged("IsCopyPathCommandEnabled");
                 }
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
