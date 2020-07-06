@@ -654,6 +654,7 @@
                     <controls:DataGridTemplateColumn.CellTemplate>
                         <DataTemplate x:DataType="local2:ListedItem">
                             <FontIcon
+                                Margin="12,0,0,0"
                                 HorizontalAlignment="Left"
                                 FontFamily="Segoe MDL2 Assets"
                                 FontSize="14"

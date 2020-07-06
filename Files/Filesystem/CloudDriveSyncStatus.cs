@@ -68,7 +68,7 @@ namespace Files.Filesystem
                     break;
                 case CloudDriveSyncStatus.Folder_Excluded:
                     statusUI.LoadSyncStatus = true;
-                    statusUI.Glyph = "\uE711";
+                    statusUI.Glyph = "\uF140";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusExcludedColor"];
                     break;
 
