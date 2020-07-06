@@ -291,6 +291,17 @@ namespace Files
             {
                 AssociatedInteractions.ShowPropertiesButton_Click(null, null);
             }
+            else if (e.Key == VirtualKey.Space)
+            {
+                if (!isRenamingItem && !App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    {
+                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                    }
+                    e.Handled = true;
+                }
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
@@ -300,7 +311,8 @@ namespace Files
                 if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox)
+                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                        Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }

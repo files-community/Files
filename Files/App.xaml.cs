@@ -1,6 +1,6 @@
 using Files.CommandLine;
+using Files.Controllers;
 using Files.Controls;
-using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
@@ -56,9 +56,8 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
-        public static SidebarPinnedModel SidebarPinned { get; set; }
         public static JumpListManager JumpList { get; } = new JumpListManager();
-
+        public static SidebarPinnedController SidebarPinnedController { get; set; }
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public App()
@@ -71,12 +70,6 @@ namespace Files
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             RegisterUncaughtExceptionLogger();
-
-            ConsentDialogDisplay = new Dialogs.ConsentDialog();
-            PropertiesDialogDisplay = new Dialogs.PropertiesDialog();
-            LayoutDialogDisplay = new Dialogs.LayoutDialog();
-            AddItemDialogDisplay = new Dialogs.AddItemDialog();
-            ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
 
             Clipboard.ContentChanged += Clipboard_ContentChanged;
             Clipboard_ContentChanged(null, null);
@@ -176,7 +169,7 @@ namespace Files
             }
             else
             {
-                SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
+                SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path.ToString());
             }
         }
 
@@ -416,7 +409,7 @@ namespace Files
                 Connection.Dispose();
                 Connection = null;
             }
-            AppSettings.Dispose();
+            AppSettings?.Dispose();
             deferral.Complete();
         }
     }

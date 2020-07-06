@@ -544,7 +544,7 @@
     <value>隐藏</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>空回收站</value>
+    <value>清空回收站</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>撤销</value>
@@ -599,5 +599,116 @@
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
     <value>新标签页（Ctrl+T）</value>
+  </data>
+  <data name="ItemSelected.Text" xml:space="preserve">
+    <value>已选</value>
+  </data>
+  <data name="ItemsSelected.Text" xml:space="preserve">
+    <value>已选</value>
+  </data>
+  <data name="ItemCount.Text" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="ItemsCount.Text" xml:space="preserve">
+    <value>项目</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>固定到侧边栏</value>
+  </data>
+  <data name="PropertiesAccessed.Text" xml:space="preserve">
+    <value>访问：</value>
+  </data>
+  <data name="PropertiesOwner.Text" xml:space="preserve">
+    <value>所有者：</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>在属性中显示所有者</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>是否确实要删除所有项目？</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
+    <value>空回收站</value>
+  </data>
+  <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="ItemSizeBytes" xml:space="preserve">
+    <value>字节</value>
+  </data>
+  <data name="KiloByteSymbol" xml:space="preserve">
+    <value>千字节（KB）</value>
+  </data>
+  <data name="MegaByteSymbol" xml:space="preserve">
+    <value>兆字节（MB）</value>
+  </data>
+  <data name="GigaByteSymbol" xml:space="preserve">
+    <value>吉字节（GB）</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>太字节（TB）</value>
+  </data>
+  <data name="PetaByteSymbol" xml:space="preserve">
+    <value>派字节（PB）</value>
+  </data>
+  <data name="ByteSymbol" xml:space="preserve">
+    <value>字节（B）</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>了解日期格式相关信息</value>
+  </data>
+  <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
+    <value>解锁</value>
+  </data>
+  <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>输入密码解锁驱动器</value>
+  </data>
+  <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>请检查密码，然后重试。</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>BitLocker 错误</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
+    <value>包含：</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} 个文件, {1:#,##0} 个文件夹</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
+    <value>以管理员身份运行</value>
+  </data>
+  <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
+    <value>以其他身份运行</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>所有类型中 {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>不同类型</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>全部中 {0}</value>
+  </data>
+  <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
+    <value>已用空间：</value>
+  </data>
+  <data name="PropertiesDriveFreeSpace.Text" xml:space="preserve">
+    <value>可用空间：</value>
+  </data>
+  <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
+    <value>权限：</value>
+  </data>
+  <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
+    <value>文件系统：</value>
   </data>
 </root>

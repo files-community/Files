@@ -2,7 +2,7 @@
 
 namespace Files.DataModels
 {
-    public class TerminalModel
+    public class Terminal
     {
         [JsonProperty("name")]
         public string Name { get; set; }
