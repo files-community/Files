@@ -8,7 +8,6 @@
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.Resources>
         <Style

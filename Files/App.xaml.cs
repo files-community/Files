@@ -233,7 +233,7 @@ namespace Files
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
+                rootFrame.CacheSize = 1;
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -289,6 +289,7 @@ namespace Files
             if (!(Window.Current.Content is Frame rootFrame))
             {
                 rootFrame = new Frame();
+                rootFrame.CacheSize = 1;
                 Window.Current.Content = rootFrame;
             }
 

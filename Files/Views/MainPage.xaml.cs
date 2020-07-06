@@ -51,44 +51,42 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-
-            App.AppSettings = new SettingsViewModel();
-            App.InteractionViewModel = new InteractionViewModel();
-
-            // Turn on Navigation Cache
-            this.NavigationCacheMode = NavigationCacheMode.Enabled;
-
-            Helpers.ThemeHelper.Initialize();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             var navArgs = eventArgs.Parameter?.ToString();
-
-            if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
+            if (eventArgs.NavigationMode != NavigationMode.Back)
             {
-                try
+                App.AppSettings = new SettingsViewModel();
+                App.InteractionViewModel = new InteractionViewModel();
+                Helpers.ThemeHelper.Initialize();
+
+                if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
                 {
-                    VerticalTabView.AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                    try
+                    {
+                        VerticalTabView.AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                    }
+                    catch (Exception)
+                    {
+                        VerticalTabView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                    }
                 }
-                catch (Exception)
+                else if (string.IsNullOrEmpty(navArgs))
                 {
                     VerticalTabView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                 }
-            }
-            else if (string.IsNullOrEmpty(navArgs))
-            {
-                VerticalTabView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
-            }
-            else
-            {
-                VerticalTabView.AddNewTab(typeof(ModernShellPage), navArgs);
-            }
+                else
+                {
+                    VerticalTabView.AddNewTab(typeof(ModernShellPage), navArgs);
+                }
 
-            // Initial setting of SelectedTabItem
-            Frame rootFrame = Window.Current.Content as Frame;
-            var mainView = rootFrame.Content as MainPage;
-            mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+                // Initial setting of SelectedTabItem
+                Frame rootFrame = Window.Current.Content as Frame;
+                var mainView = rootFrame.Content as MainPage;
+                mainView.SelectedTabItem = AppInstances[App.InteractionViewModel.TabStripSelectedIndex];
+            }
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)

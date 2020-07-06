@@ -54,7 +54,6 @@ namespace Files
             Locations.ItemLoader.DisplayItems();
             recentItemsCollection.Clear();
             PopulateRecentsList();
-            var rootFrame = Window.Current.Content as MainPage;
             App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
             App.CurrentInstance.MultitaskingControl?.SelectionChanged();
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;

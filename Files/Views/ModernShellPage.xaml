@@ -13,7 +13,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     Loaded="Page_Loaded"
     KeyboardAcceleratorPlacementMode="Hidden"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
@@ -115,6 +114,7 @@
                     <Frame
                         x:Name="ItemDisplayFrame"
                         Grid.Row="1"
+                        CacheSize="2"
                         x:FieldModifier="public"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         Navigated="ItemDisplayFrame_Navigated" />
