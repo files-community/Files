@@ -8,7 +8,6 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
