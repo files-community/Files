@@ -1,5 +1,6 @@
 using Files.Common;
 using Files.Controllers;
+using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
@@ -7,10 +8,12 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -52,6 +55,34 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
+            Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+
+            // Load the supported languages
+            var supportedLang = ApplicationLanguages.ManifestLanguages;
+            DefaultLanguages = new ObservableCollection<DefaultLanguageModel>();
+            foreach (var lang in supportedLang) DefaultLanguages.Add(new DefaultLanguageModel(lang));
+
+            // Set the app language
+            ApplicationLanguages.PrimaryLanguageOverride = DefaultLanguage?.ID ?? "en-us";
+        }
+
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
+
+        public DefaultLanguageModel DefaultLanguage
+        {
+            get
+            {
+                var language = Get((string)null);
+                if (language != null)
+                    return DefaultLanguages.FirstOrDefault(dl => dl.ID == language) ??
+                           DefaultLanguages.FirstOrDefault();
+
+                return DefaultLanguages.FirstOrDefault();
+            }
+            set
+            {
+                if (Set(value.ID)) ApplicationLanguages.PrimaryLanguageOverride = value.ID;
+            }
         }
 
         public async void DetectQuickLook()
