@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Files
 {
@@ -54,7 +55,8 @@ namespace Files
             App.ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
-
+            Clipboard.ContentChanged += App.Clipboard_ContentChanged;
+            App.Clipboard_ContentChanged(null, null);
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
 

@@ -70,9 +70,6 @@ namespace Files
 
             RegisterUncaughtExceptionLogger();
 
-            Clipboard.ContentChanged += Clipboard_ContentChanged;
-            Clipboard_ContentChanged(null, null);
-
 #if !DEBUG
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
 #endif
@@ -183,27 +180,26 @@ namespace Files
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
                         && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
                     {
-                        App.PS.IsEnabled = true;
+                        App.InteractionViewModel.IsPasteEnabled = true;
                     }
                     else
                     {
-                        App.PS.IsEnabled = false;
+                        App.InteractionViewModel.IsPasteEnabled = false;
                     }
                 }
                 else
                 {
-                    App.PS.IsEnabled = false;
+                    App.InteractionViewModel.IsPasteEnabled = false;
                 }
             }
             catch (Exception)
             {
-                App.PS.IsEnabled = false;
+                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
-        public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
         /// <summary>
