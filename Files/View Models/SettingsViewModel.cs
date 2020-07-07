@@ -60,7 +60,10 @@ namespace Files.View_Models
             // Load the supported languages
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel>();
-            foreach (var lang in supportedLang) DefaultLanguages.Add(new DefaultLanguageModel(lang));
+            foreach (var lang in supportedLang)
+            {
+                DefaultLanguages.Add(new DefaultLanguageModel(lang));
+            }
 
             // Set the app language
             ApplicationLanguages.PrimaryLanguageOverride = DefaultLanguage?.ID ?? "en-us";
@@ -74,14 +77,19 @@ namespace Files.View_Models
             {
                 var language = Get((string)null);
                 if (language != null)
+                {
                     return DefaultLanguages.FirstOrDefault(dl => dl.ID == language) ??
                            DefaultLanguages.FirstOrDefault();
+                }
 
                 return DefaultLanguages.FirstOrDefault();
             }
             set
             {
-                if (Set(value.ID)) ApplicationLanguages.PrimaryLanguageOverride = value.ID;
+                if (Set(value.ID))
+                {
+                    ApplicationLanguages.PrimaryLanguageOverride = value.ID;
+                }
             }
         }
 

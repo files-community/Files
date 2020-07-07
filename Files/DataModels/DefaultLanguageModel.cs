@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Globalization;
 
 namespace Files.DataModels
 {
@@ -11,12 +6,6 @@ namespace Files.DataModels
     {
         public string ID;
         public string Name;
-
-        public DefaultLanguageModel()
-        {
-            Name = "";
-            ID = "";
-        }
 
         public DefaultLanguageModel(string id)
         {
