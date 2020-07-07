@@ -960,6 +960,14 @@
           <source>File system:</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">கோப்பு முறைமை:</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
+          <source>App Language</source>
+          <target state="new">App Language</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
+          <source>Restart required</source>
+          <target state="new">Restart required</target>
+        </trans-unit>
       </group>
     </body>
   </file>
