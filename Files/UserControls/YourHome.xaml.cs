@@ -57,7 +57,6 @@ namespace Files
             instanceTabsView.SetSelectedTabInfo(parameters, null);
             instanceTabsView.TabStrip_SelectionChanged(null, null);
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
-            App.PS.IsEnabled = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
             App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;
             App.CurrentInstance.NavigationToolbar.CanNavigateToParent = false;
