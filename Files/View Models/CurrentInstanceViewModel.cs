@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Files.Views;
+using GalaSoft.MvvmLight;
 
 namespace Files.View_Models
 {

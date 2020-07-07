@@ -342,5 +342,11 @@ namespace Files.UserControls
             VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
 
         }
+
+        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
     }
 }

@@ -779,6 +779,8 @@
                 FontFamily="Segoe MDL2 Assets"
                 FontSize="16"
                 Tapped="Button_Tapped"
+                AllowDrop="True"
+                DragEnter="VerticalTabStripInvokeButton_DragEnter"
                 IsTapEnabled="True"
                 PointerEntered="Button_PointerEntered"
                 Style="{StaticResource ToolBarButtonStyle}"

@@ -14,6 +14,7 @@
     d:DesignWidth="300">
     <UserControl.Resources>
         <Style x:Key="TabItemStyle" TargetType="muxc:TabViewItem">
+            <Setter Property="AllowDrop" Value="{x:Bind ((local:TabItem)DataContext).AllowStorageItemDrop, Mode=OneWay}"/>
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
             <Setter Property="Width" Value="270"/>
@@ -553,6 +554,9 @@
             <muxc:TabView.TabItemTemplate>
                 <DataTemplate x:DataType="local:TabItem">
                     <muxc:TabViewItem
+                        Drop="TabViewItem_Drop"
+                        DragOver="TabViewItem_DragOver"
+                        AllowDrop="True"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource TabItemStyle}"

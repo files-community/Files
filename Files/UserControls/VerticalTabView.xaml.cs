@@ -17,6 +17,7 @@ using System.Collections.ObjectModel;
 using static Files.Helpers.PathNormalization;
 using Files.UserControls.MultiTaskingControl;
 using Files.Views;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.UserControls
 {
@@ -164,6 +165,9 @@ namespace Files.UserControls
 
         public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
         {
+            var selectedTabItem = (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem);
+            selectedTabItem.AllowStorageItemDrop = App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome;
+
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
@@ -254,8 +258,8 @@ namespace Files.UserControls
                 }
             }
             tabIcon = fontIconSource;
-            (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header = tabLocationHeader;
-            (MainPage.AppInstances[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource = tabIcon;
+            selectedTabItem.Header = tabLocationHeader;
+            selectedTabItem.IconSource = tabIcon;
         }
 
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
@@ -412,6 +416,45 @@ namespace Files.UserControls
                     App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
                     break;
             }
+        }
+
+        private async void TabViewItem_Drop(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+            {
+                // TODO: Add Simpler way to find TabItem working directory
+                string tabViewItemWorkingDir = ((((
+                    (sender as TabViewItem)
+                    .DataContext as TabItem)
+                    .Content as Grid).Children[0] as Frame)
+                    .Content as IShellPage)
+                    .FilesystemViewModel
+                    .WorkingDirectory;
+
+                foreach (IStorageItem item in await e.DataView.GetStorageItemsAsync())
+                {
+                    if (item.IsOfType(StorageItemTypes.Folder))
+                    {
+                        await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync(((StorageFolder)item), await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, true);
+                    }
+                    else
+                    {
+                        await ((StorageFile)item).CopyAsync(await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, NameCollisionOption.GenerateUniqueName);
+                    }
+                }
+            }
+            else
+            {
+                e.AcceptedOperation = DataPackageOperation.None;
+            }
+        }
+
+        private void TabViewItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
+                e.AcceptedOperation = DataPackageOperation.Copy;
+            else
+                e.AcceptedOperation = DataPackageOperation.None;
         }
     }
 }

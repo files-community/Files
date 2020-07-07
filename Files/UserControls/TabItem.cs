@@ -16,5 +16,8 @@ namespace Files.UserControls
 
         public object Content { get; set; }
 
+        private bool _AllowStorageItemDrop = false;
+        public bool AllowStorageItemDrop { get => _AllowStorageItemDrop; set => Set(ref _AllowStorageItemDrop, value); }
+
     }
 }
