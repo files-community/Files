@@ -1012,7 +1012,11 @@ namespace Files.Filesystem
             {
                 var rand = Guid.NewGuid();
                 buff = new byte[4096];
-                int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_ATTRIBUTES;
+                int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+                if (App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive)
+                {
+                    notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+                }
 
                 OVERLAPPED overlapped = new OVERLAPPED();
                 overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
