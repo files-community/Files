@@ -16,8 +16,6 @@ namespace Files.DataModels
         [JsonIgnore]
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public static readonly string JsonFileName = "PinnedItems.json";
-
         [JsonProperty("items")]
         public List<string> Items { get; set; } = new List<string>();
 
@@ -56,15 +54,7 @@ namespace Files.DataModels
             }
         }
 
-        public void Save()
-        {
-            using (var file = File.CreateText(ApplicationData.Current.LocalCacheFolder.Path + Path.DirectorySeparatorChar + JsonFileName))
-            {
-                JsonSerializer serializer = new JsonSerializer();
-                serializer.Formatting = Formatting.Indented;
-                serializer.Serialize(file, this);
-            }
-        }
+        public void Save() => App.SidebarPinnedController.SaveModel();
 
         public async Task AddItemToSidebar(string path)
         {
@@ -72,7 +62,7 @@ namespace Files.DataModels
             {
                 var item = await DrivesManager.GetRootFromPath(path);
                 StorageFolder folder = await StorageFileExtensions.GetFolderFromPathAsync(path, item);
-                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location 
+                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                     && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {

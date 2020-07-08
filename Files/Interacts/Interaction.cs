@@ -137,7 +137,7 @@ namespace Files.Interacts
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
         {
-            var terminal = AppSettings.TerminalsModel.GetDefaultTerminal();
+            var terminal = AppSettings.TerminalController.Model.GetDefaultTerminal();
 
             if (App.Connection != null)
             {
@@ -158,7 +158,7 @@ namespace Files.Interacts
             {
                 foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
                 {
-                    App.SidebarPinned.AddItem(listedItem.ItemPath);
+                    App.SidebarPinnedController.Model.AddItem(listedItem.ItemPath);
                 }
             }
         }
@@ -563,7 +563,7 @@ namespace Files.Interacts
 
         public void PinDirectoryToSidebar(object sender, RoutedEventArgs e)
         {
-            App.SidebarPinned.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
+            App.SidebarPinnedController.Model.AddItem(CurrentInstance.FilesystemViewModel.WorkingDirectory);
         }
 
         private async void Manager_DataRequested(DataTransferManager sender, DataRequestedEventArgs args)
@@ -592,25 +592,30 @@ namespace Files.Interacts
             dataRequestDeferral.Complete();
         }
 
-        public async void DeleteItem_Click(object sender, RoutedEventArgs e)
+        public void DeleteItem_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteItem(StorageDeleteOption.Default);
+        }
+
+        public async void DeleteItem(StorageDeleteOption deleteOption)
         {
             var deleteFromRecycleBin = CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath);
             if (deleteFromRecycleBin)
             {
                 // Permanently delete if deleting from recycle bin
-                App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.PermanentDelete;
+                deleteOption = StorageDeleteOption.PermanentDelete;
             }
 
             if (AppSettings.ShowConfirmDeleteDialog == true) //check if the setting to show a confirmation dialog is on
             {
-                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin);
+                var dialog = new ConfirmDeleteDialog(deleteFromRecycleBin, deleteOption);
                 await dialog.ShowAsync();
 
                 if (dialog.Result != MyResult.Delete) //delete selected  item(s) if the result is yes
                 {
-                    App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
                     return; //return if the result isn't delete
                 }
+                deleteOption = dialog.PermanentlyDelete;
             }
             StatusBanner banner = null;
             try
@@ -653,7 +658,7 @@ namespace Files.Interacts
                                 item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
                             }
 
-                            await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
+                            await item.DeleteAsync(deleteOption);
                         }
                         catch (FileLoadException)
                         {
@@ -667,7 +672,7 @@ namespace Files.Interacts
                                 item = await ItemViewModel.GetFolderFromPathAsync(storItem.ItemPath);
                             }
 
-                            await item.DeleteAsync(App.InteractionViewModel.PermanentlyDelete);
+                            await item.DeleteAsync(deleteOption);
                         }
 
                         if (deleteFromRecycleBin)
@@ -700,11 +705,10 @@ namespace Files.Interacts
                     ResourceController.GetTranslation("FileInUseDeleteDialog/PrimaryButtonText"),
                     ResourceController.GetTranslation("FileInUseDeleteDialog/SecondaryButtonText")))
                 {
-                    DeleteItem_Click(null, null);
+                    DeleteItem(deleteOption);
                 }
             }
             App.CurrentInstance.StatusBarControl.OngoingTasksControl.RemoveBanner(banner);
-            App.InteractionViewModel.PermanentlyDelete = StorageDeleteOption.Default; //reset PermanentlyDelete flag
         }
 
         public void RenameItem_Click(object sender, RoutedEventArgs e)
@@ -1050,7 +1054,7 @@ namespace Files.Interacts
                         StatusBanner.StatusBannerOperation.Paste);
             }
 
-            await Task.Run((Func<Task>)(async () =>
+            await Task.Run(async () =>
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
@@ -1142,15 +1146,24 @@ namespace Files.Interacts
                     {
                         try
                         {
+                            if (string.IsNullOrEmpty(item.Path))
+                            {
+                                // Can't move (only copy) files from MTP devices because:
+                                // StorageItems returned in DataPackageView are read-only
+                                // The item.Path property will be empty and there's no way of retrieving a new StorageItem with R/W access
+                                continue;
+                            }
                             if (item.IsOfType(StorageItemTypes.File))
                             {
-                                StorageFile file = (StorageFile)item;
-                                await file.DeleteAsync();
+                                // If we reached this we are not in an MTP device, using StorageFile.* is ok here
+                                StorageFile file = await StorageFile.GetFileFromPathAsync(item.Path);
+                                await file.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
                             else if (item.IsOfType(StorageItemTypes.Folder))
                             {
-                                StorageFolder folder = (StorageFolder)item;
-                                await folder.DeleteAsync();
+                                // If we reached this we are not in an MTP device, using StorageFolder.* is ok here
+                                StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(item.Path);
+                                await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
                             }
                         }
                         catch (FileNotFoundException)
@@ -1161,7 +1174,7 @@ namespace Files.Interacts
                         ListedItem listedItem = CurrentInstance.FilesystemViewModel.FilesAndFolders.FirstOrDefault(listedItem => listedItem.ItemPath.Equals(item.Path, StringComparison.OrdinalIgnoreCase));
                     }
                 }
-            }));
+            });
 
             if (destinationPath == CurrentInstance.FilesystemViewModel.WorkingDirectory)
             {

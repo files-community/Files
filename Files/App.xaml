@@ -4,54 +4,26 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <ResourceDictionary>
-            <FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
-            <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
-                <ResourceDictionary Source="/ResourceDictionaries/ToolbarButtonStyle.xaml" />
                 <ResourceDictionary>
                     <ResourceDictionary.ThemeDictionaries>
                         <ResourceDictionary x:Key="Light">
-                            <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="White" />
-                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                            <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="#f3f1ef" />
-                            <SolidColorBrush x:Key="TabViewBackground" Color="White" />
-                            <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="DarkGray" />
-                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="White" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="Dark">
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
-                            <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black" />
-                            <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="TextControlBackground" />
-                            <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="White" />
-                            <SolidColorBrush x:Key="TabViewBackground" Color="Black" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#80191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
-                            <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636" />
-                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                         <ResourceDictionary x:Key="HighContrast">
                             <SolidColorBrush x:Key="ApplicationPageBackgroundThemeBrush" Color="#191919" />
-                            <SolidColorBrush x:Key="UnmodifiedSystemPageColor" Color="Black" />
-                            <StaticResource x:Key="YourHomeCardBackgroundColor" ResourceKey="TextControlBackground" />
-                            <SolidColorBrush x:Key="YourHomeCardBorderColor" Color="White" />
-                            <SolidColorBrush x:Key="TabViewBackground" Color="Black" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#80191919" />
-                            <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
-                            <SolidColorBrush x:Key="CustomInputFieldBorderBrush" Color="#FF363636" />
-                            <SolidColorBrush x:Key="RibbonBackgroundColor" Color="#131313" />
-                            <StaticResource x:Key="NavigationViewTopPaneBackground" ResourceKey="RibbonBackgroundColor" />
                             <SolidColorBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush" Color="#99000000" />
                         </ResourceDictionary>
                     </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
+            <FontFamily x:Key="CustomGlyph">/Assets/Custom Glyphs/Custom-Glyphs.ttf#Custom-Glyphs</FontFamily>
+            <FontFamily x:Key="RecycleBinIcons">/Assets/Custom Glyphs/recyclebin-fabric-glyph.ttf#Fabric MDL2 Assets</FontFamily>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

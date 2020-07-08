@@ -33,7 +33,7 @@ namespace Files.SettingsPages
         {
             base.OnNavigatedTo(e);
 
-            TerminalApplicationsComboBox.SelectedItem = AppSettings.TerminalsModel.GetDefaultTerminal();
+            TerminalApplicationsComboBox.SelectedItem = AppSettings.TerminalController.Model.GetDefaultTerminal();
         }
 
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -50,17 +50,16 @@ namespace Files.SettingsPages
         {
             var comboBox = (ComboBox)sender;
 
-            var selectedTerminal = (TerminalModel)comboBox.SelectedItem;
+            var selectedTerminal = (Terminal)comboBox.SelectedItem;
 
-            AppSettings.TerminalsModel.DefaultTerminalPath = selectedTerminal.Path;
+            AppSettings.TerminalController.Model.DefaultTerminalPath = selectedTerminal.Path;
 
             SaveTerminalSettings();
         }
 
-        private async void SaveTerminalSettings()
+        private void SaveTerminalSettings()
         {
-            await FileIO.WriteTextAsync(AppSettings.TerminalsModelFile,
-                JsonConvert.SerializeObject(AppSettings.TerminalsModel, Formatting.Indented));
+            App.AppSettings.TerminalController.SaveModel();
         }
     }
 }

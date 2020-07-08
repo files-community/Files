@@ -1,4 +1,5 @@
-﻿using Files.Common;
+using Files.Common;
+using Files.Controllers;
 using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
@@ -6,14 +7,13 @@ using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.IO;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel;
+using Windows.Globalization;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -26,6 +26,8 @@ namespace Files.View_Models
         private readonly ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
         public DrivesManager DrivesManager { get; }
+
+        public TerminalController TerminalController { get; set; }
 
         public SettingsViewModel()
         {
@@ -42,7 +44,7 @@ namespace Files.View_Models
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
-            LoadTerminalApps();
+            TerminalController = new TerminalController();
 
             // Send analytics
             Analytics.TrackEvent("DisplayedTimeStyle " + DisplayedTimeStyle.ToString());
@@ -53,6 +55,42 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowFileExtensions " + ShowFileExtensions.ToString());
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
+            Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
+
+            // Load the supported languages
+            var supportedLang = ApplicationLanguages.ManifestLanguages;
+            DefaultLanguages = new ObservableCollection<DefaultLanguageModel>();
+            foreach (var lang in supportedLang)
+            {
+                DefaultLanguages.Add(new DefaultLanguageModel(lang));
+            }
+
+            // Set the app language
+            ApplicationLanguages.PrimaryLanguageOverride = DefaultLanguage?.ID ?? "en-us";
+        }
+
+        public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
+
+        public DefaultLanguageModel DefaultLanguage
+        {
+            get
+            {
+                var language = Get((string)null);
+                if (language != null)
+                {
+                    return DefaultLanguages.FirstOrDefault(dl => dl.ID == language) ??
+                           DefaultLanguages.FirstOrDefault();
+                }
+
+                return DefaultLanguages.FirstOrDefault();
+            }
+            set
+            {
+                if (Set(value.ID))
+                {
+                    ApplicationLanguages.PrimaryLanguageOverride = value.ID;
+                }
+            }
         }
 
         public async void DetectQuickLook()
@@ -65,68 +103,11 @@ namespace Files.View_Models
         private void PinSidebarLocationItems()
         {
             AddDefaultLocations();
-            PopulatePinnedSidebarItems();
         }
 
         private void AddDefaultLocations()
         {
             App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
-        }
-
-        public List<string> LinesToRemoveFromFile = new List<string>();
-
-        private async void PopulatePinnedSidebarItems()
-        {
-            App.SidebarPinned = new SidebarPinnedModel();
-
-            StorageFolder cacheFolder = ApplicationData.Current.LocalCacheFolder;
-
-            StorageFile pinnedItemsFile;
-            try
-            {
-                pinnedItemsFile = await cacheFolder.GetFileAsync(SidebarPinnedModel.JsonFileName);
-            }
-            catch (FileNotFoundException)
-            {
-                try
-                {
-                    var oldPinnedItemsFile = await cacheFolder.GetFileAsync("PinnedItems.txt");
-                    var oldPinnedItems = await FileIO.ReadLinesAsync(oldPinnedItemsFile);
-                    await oldPinnedItemsFile.DeleteAsync();
-                    foreach (var line in oldPinnedItems)
-                    {
-                        if (!App.SidebarPinned.Items.Contains(line))
-                        {
-                            App.SidebarPinned.Items.Add(line);
-                        }
-                    }
-                }
-                catch (FileNotFoundException)
-                {
-                    App.SidebarPinned.AddDefaultItems();
-                }
-
-                pinnedItemsFile = await cacheFolder.CreateFileAsync(SidebarPinnedModel.JsonFileName, CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteTextAsync(pinnedItemsFile, JsonConvert.SerializeObject(App.SidebarPinned, Formatting.Indented));
-            }
-
-            try
-            {
-                App.SidebarPinned = JsonConvert.DeserializeObject<SidebarPinnedModel>(await FileIO.ReadTextAsync(pinnedItemsFile));
-                if (App.SidebarPinned == null)
-                {
-                    App.SidebarPinned = new SidebarPinnedModel();
-                    throw new Exception(SidebarPinnedModel.JsonFileName + " is empty, regenerating...");
-                }
-            }
-            catch (Exception)
-            {
-                await pinnedItemsFile.DeleteAsync();
-                App.SidebarPinned.AddDefaultItems();
-                App.SidebarPinned.Save();
-            }
-
-            App.SidebarPinned.AddAllItemsToSidebar();
         }
 
         private async void DetectWSLDistros()
@@ -212,71 +193,6 @@ namespace Files.View_Models
                 {
                     localSettings.Values[LocalSettings.DateTimeFormat] = "System";
                 }
-            }
-        }
-
-        public TerminalFileModel TerminalsModel { get; set; }
-
-        public StorageFile TerminalsModelFile;
-
-        private async void LoadTerminalApps()
-        {
-            var localFolder = ApplicationData.Current.LocalFolder;
-            var localSettingsFolder = await localFolder.CreateFolderAsync("settings", CreationCollisionOption.OpenIfExists);
-            try
-            {
-                TerminalsModelFile = await localSettingsFolder.GetFileAsync("terminal.json");
-            }
-            catch (FileNotFoundException)
-            {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
-
-                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json");
-                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
-            }
-
-            var content = await FileIO.ReadTextAsync(TerminalsModelFile);
-
-            try
-            {
-                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(content);
-                if (TerminalsModel == null)
-                {
-                    TerminalsModel = new TerminalFileModel();
-                    throw new JsonSerializationException("terminal.json is empty, regenerating...");
-                }
-            }
-            catch (JsonSerializationException)
-            {
-                var defaultFile = StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/terminal/terminal.json"));
-
-                TerminalsModelFile = await localSettingsFolder.CreateFileAsync("terminal.json", CreationCollisionOption.ReplaceExisting);
-                await FileIO.WriteBufferAsync(TerminalsModelFile, await FileIO.ReadBufferAsync(await defaultFile));
-                var defaultContent = await FileIO.ReadTextAsync(TerminalsModelFile);
-                TerminalsModel = JsonConvert.DeserializeObject<TerminalFileModel>(defaultContent);
-            }
-
-            var windowsTerminal = new TerminalModel()
-            {
-                Name = "Windows Terminal",
-                Path = "wt.exe",
-                Arguments = "-d .",
-                Icon = ""
-            };
-
-            var fluentTerminal = new TerminalModel()
-            {
-                Name = "Fluent Terminal",
-                Path = "flute.exe",
-                Arguments = "",
-                Icon = ""
-            };
-
-            bool isWindowsTerminalAddedOrRemoved = await TerminalsModel.AddOrRemoveTerminal(windowsTerminal, "Microsoft.WindowsTerminal_8wekyb3d8bbwe");
-            bool isFluentTerminalAddedOrRemoved = await TerminalsModel.AddOrRemoveTerminal(fluentTerminal, "53621FSApps.FluentTerminal_87x1pks76srcp");
-            if (isWindowsTerminalAddedOrRemoved || isFluentTerminalAddedOrRemoved)
-            {
-                await FileIO.WriteTextAsync(TerminalsModelFile, JsonConvert.SerializeObject(TerminalsModel, Formatting.Indented));
             }
         }
 

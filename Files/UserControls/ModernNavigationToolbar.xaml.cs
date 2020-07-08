@@ -257,7 +257,7 @@ namespace Files.UserControls
                         catch (Exception ex) // Not a file or not accessible
                         {
                             // Launch terminal application if possible
-                            foreach (var item in AppSettings.TerminalsModel.Terminals)
+                            foreach (var item in AppSettings.TerminalController.Model.Terminals)
                             {
                                 if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {

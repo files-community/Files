@@ -66,14 +66,31 @@ namespace Files.View_Models.Properties
                         var response = await App.Connection.SendMessageAsync(value);
                         if (response.Status == Windows.ApplicationModel.AppService.AppServiceResponseStatus.Success)
                         {
-                            ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateCreated"]));
-                            ViewModel.ItemSizeBytes = (long)response.Message["BinSize"];
-                            ViewModel.ItemSize = ByteSize.FromBytes((long)response.Message["BinSize"]).ToString();
-                            ViewModel.FilesCount = (int)(long)response.Message["NumItems"];
-                            SetItemsCountString();
-                            ViewModel.ItemAccessedTimestamp = ListedItem.GetFriendlyDate(DateTime.FromBinary((long)response.Message["DateAccessed"]));
+                            if (response.Message.TryGetValue("BinSize", out var binSize))
+                            {
+                                ViewModel.ItemSizeBytes = (long)binSize;
+                                ViewModel.ItemSize = ByteSize.FromBytes((long)binSize).ToString();
+                                ViewModel.ItemSizeVisibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                ViewModel.ItemSizeVisibility = Visibility.Collapsed;
+                            }
+                            if (response.Message.TryGetValue("NumItems", out var numItems))
+                            {
+                                ViewModel.FilesCount = (int)(long)numItems;
+                                SetItemsCountString();
+                                ViewModel.FilesAndFoldersCountVisibility = Visibility.Visible;
+                            }
+                            else
+                            {
+                                ViewModel.FilesAndFoldersCountVisibility = Visibility.Collapsed;
+                            }
+                            ViewModel.ItemCreatedTimestampVisibiity = Visibility.Collapsed;
+                            ViewModel.ItemAccessedTimestampVisibility = Visibility.Collapsed;
+                            ViewModel.ItemModifiedTimestampVisibility = Visibility.Collapsed;
                             ViewModel.ItemFileOwnerVisibility = Visibility.Collapsed;
-                            ViewModel.ItemSizeVisibility = Visibility.Visible;
+                            ViewModel.LastSeparatorVisibility = Visibility.Collapsed;
                         }
                     }
                 }

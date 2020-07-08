@@ -1,6 +1,6 @@
 using Files.CommandLine;
+using Files.Controllers;
 using Files.Controls;
-using Files.DataModels;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
@@ -56,7 +56,7 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
-        public static SidebarPinnedModel SidebarPinned { get; set; }
+        public static SidebarPinnedController SidebarPinnedController { get; set; }
 
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
@@ -70,15 +70,6 @@ namespace Files
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
 
             RegisterUncaughtExceptionLogger();
-
-            ConsentDialogDisplay = new Dialogs.ConsentDialog();
-            PropertiesDialogDisplay = new Dialogs.PropertiesDialog();
-            LayoutDialogDisplay = new Dialogs.LayoutDialog();
-            AddItemDialogDisplay = new Dialogs.AddItemDialog();
-            ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
-
-            Clipboard.ContentChanged += Clipboard_ContentChanged;
-            Clipboard_ContentChanged(null, null);
 
 #if !DEBUG
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
@@ -175,7 +166,7 @@ namespace Files
             }
             else
             {
-                SidebarPinned.RemoveItem(rightClickedItem.Path.ToString());
+                SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path.ToString());
             }
         }
 
@@ -190,27 +181,26 @@ namespace Files
                         && App.CurrentInstance.CurrentPageType != typeof(YourHome)
                         && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
                     {
-                        App.PS.IsEnabled = true;
+                        App.InteractionViewModel.IsPasteEnabled = true;
                     }
                     else
                     {
-                        App.PS.IsEnabled = false;
+                        App.InteractionViewModel.IsPasteEnabled = false;
                     }
                 }
                 else
                 {
-                    App.PS.IsEnabled = false;
+                    App.InteractionViewModel.IsPasteEnabled = false;
                 }
             }
             catch (Exception)
             {
-                App.PS.IsEnabled = false;
+                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
-        public static PasteState PS { get; set; } = new PasteState();
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
 
         /// <summary>
@@ -416,7 +406,7 @@ namespace Files
                 Connection.Dispose();
                 Connection = null;
             }
-            AppSettings.Dispose();
+            AppSettings?.Dispose();
             deferral.Complete();
         }
     }

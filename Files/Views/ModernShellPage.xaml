@@ -94,7 +94,6 @@
                 BlurRadius="4"
                 Canvas.ZIndex="100"
                 OffsetX="-2"
-                OffsetY="0"
                 ShadowOpacity=".04">
                 <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0,32,0,0">
                     <Grid.RowDefinitions>

@@ -154,8 +154,12 @@
     <Compile Include="CommandLine\ParsedCommand.cs" />
     <Compile Include="CommandLine\ParsedCommands.cs" />
     <Compile Include="CommandLine\ParsedCommandType.cs" />
+    <Compile Include="Controllers\IJson.cs" />
+    <Compile Include="Controllers\SidebarPinnedController.cs" />
     <Compile Include="Converters\StorageDeleteOptionToBooleanConverter.cs" />
+    <Compile Include="DataModels\DefaultLanguageModel.cs" />
     <Compile Include="DataModels\SidebarPinnedModel.cs" />
+    <Compile Include="Controllers\TerminalController.cs" />
     <Compile Include="Dialogs\BitlockerDialog.xaml.cs">
       <DependentUpon>BitlockerDialog.xaml</DependentUpon>
     </Compile>
@@ -192,7 +196,7 @@
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModels\TerminalFileModel.cs" />
-    <Compile Include="DataModels\TerminalModel.cs" />
+    <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
       <DependentUpon>AddItemDialog.xaml</DependentUpon>
     </Compile>
@@ -247,7 +251,6 @@
     <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
     <Compile Include="Interacts\Interaction.cs" />
-    <Compile Include="Interacts\ItemInteractions.cs" />
     <Compile Include="IShellPage.cs" />
     <Compile Include="LocationsList.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
@@ -525,10 +528,10 @@
       <Version>2020.1.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>3.2.2</Version>
+      <Version>3.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>3.2.2</Version>
+      <Version>3.3.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
