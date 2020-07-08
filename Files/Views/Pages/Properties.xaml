@@ -95,9 +95,9 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ViewModel.LoadUnknownTypeGlyph, Mode=OneWay}"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
                         FontSize="70"
-                        Glyph="&#xE7C3;" />
+                        Glyph="&#xea00;" />
                     <FontIcon
                         x:Name="CombinedItemsIcon"
                         HorizontalAlignment="Left"
@@ -111,7 +111,6 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ViewModel.LoadDriveItemGlyph, Mode=OneWay}"
-                        FontFamily="Segoe MDL2 Assets"
                         FontSize="70"
                         Glyph="{x:Bind ViewModel.DriveItemGlyphSource, Mode=OneWay}" />
                     <Image

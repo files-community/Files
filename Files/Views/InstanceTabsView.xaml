@@ -563,12 +563,13 @@
                             x:Uid="TabStripAddNewTab"
                             Width="28"
                             Height="28"
+                            Padding="0"
                             Margin="2,7,0,0"
                             Background="Transparent"
                             Click="AddTabButton_Click"
                             ToolTipService.ToolTip="New tab (Ctrl + T)">
                             <Button.Content>
-                                <FontIcon FontSize="10" Glyph="&#xE710;" />
+                                <FontIcon FontSize="16" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe903;" />
                             </Button.Content>
                             <Button.KeyboardAccelerators>
                                 <KeyboardAccelerator Key="T" Modifiers="Control" />

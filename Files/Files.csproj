@@ -311,6 +311,7 @@
     <Content Include="Assets\Custom Glyphs\Custom-Glyphs.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Custom Glyphs\fluentui.ttf" />
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -593,10 +594,6 @@
     <ProjectReference Include="..\Files.Extensions\Files.Extensions.vcxproj">
       <Project>{d4e6a3ab-df72-44a4-9acb-c8a222656a20}</Project>
       <Name>Files.Extensions</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fluent.Icons\Fluent.Icons.csproj">
-      <Project>{d7c72ccd-6071-4712-82ff-06abfe87f239}</Project>
-      <Name>Fluent.Icons</Name>
     </ProjectReference>
     <ProjectReference Include="..\MessageRelay\Files.MessageRelay.csproj">
       <Project>{7684e128-d854-4c00-b086-0dd7d52f6e54}</Project>

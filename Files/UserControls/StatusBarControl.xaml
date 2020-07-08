@@ -51,8 +51,11 @@
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlSelectAll"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
-                            Icon="SelectAll"
-                            Text="Select All" />
+                            Text="Select All" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEB54;" FontFamily="{StaticResource FluentUIGlyphs}"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlInvertSelection"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.InvertAllItems}"
@@ -64,8 +67,11 @@
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlClearSelection"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
-                            Icon="ClearSelection"
-                            Text="Clear Selection" />
+                            Text="Clear Selection" >
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEB55;" FontFamily="{StaticResource FluentUIGlyphs}"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout>
                 </Button.Flyout>
             </Button>

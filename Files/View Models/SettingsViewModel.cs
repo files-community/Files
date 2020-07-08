@@ -68,7 +68,7 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
         }
 
         private async void DetectWSLDistros()

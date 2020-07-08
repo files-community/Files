@@ -71,15 +71,15 @@ namespace Files.Filesystem
             switch (type)
             {
                 case DriveType.Fixed:
-                    Glyph = "\uEDA2";
+                    Glyph = "\ueb8b";
                     break;
 
                 case DriveType.Removable:
-                    Glyph = "\uE88E";
+                    Glyph = "\uec0a";
                     break;
 
                 case DriveType.Network:
-                    Glyph = "\uE8CE";
+                    Glyph = "\ueac2";
                     break;
 
                 case DriveType.Ram:
@@ -96,11 +96,11 @@ namespace Files.Filesystem
                     break;
 
                 case DriveType.VirtualDrive:
-                    Glyph = "\uE753";
+                    Glyph = "\ue9b7";
                     break;
 
                 case DriveType.FloppyDisk:
-                    Glyph = "\uEDA2";
+                    Glyph = "\ueb4a";
                     break;
 
                 default:
