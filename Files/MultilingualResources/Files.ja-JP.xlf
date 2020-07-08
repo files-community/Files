@@ -955,6 +955,14 @@
           <source>File system:</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">ファイル システム</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
+          <source>App Language</source>
+          <target state="new">App Language</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
+          <source>Restart required</source>
+          <target state="new">Restart required</target>
+        </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
           <target state="new">Status</target>

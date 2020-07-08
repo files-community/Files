@@ -28,15 +28,7 @@ namespace Files.Controls
         {
             get => _LeftMarginLoaded;
             set => Set(ref _LeftMarginLoaded, value);
-        }
-
-        private bool _IsSelectedItemImage = false;
-
-        public bool IsSelectedItemImage
-        {
-            get => _IsSelectedItemImage;
-            set => Set(ref _IsSelectedItemImage, value);
-        }
+        }      
 
         private bool _isPasteEnabled = false;
 
@@ -44,28 +36,6 @@ namespace Files.Controls
         {
             get => _isPasteEnabled;
             set => Set(ref _isPasteEnabled, value);
-        }
-
-        public void CheckForImage()
-        {
-            //check if the selected item is an image file
-            string ItemExtension = App.CurrentInstance.ContentPage.SelectedItem.FileExtension;
-
-            if (!string.IsNullOrEmpty(ItemExtension))
-            {
-                if (ItemExtension.Equals(".png", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".jpg", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".bmp", StringComparison.OrdinalIgnoreCase)
-                || ItemExtension.Equals(".jpeg", StringComparison.OrdinalIgnoreCase))
-                {
-                    // Since item is an image, set the IsSelectedItemImage property to true
-                    App.InteractionViewModel.IsSelectedItemImage = true;
-                    return;
-                }
-            }
-
-            // Since item is not an image, folder or file without extension, set the IsSelectedItemImage property to false
-            App.InteractionViewModel.IsSelectedItemImage = false;
-        }
+        }      
     }
 }

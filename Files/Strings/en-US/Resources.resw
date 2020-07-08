@@ -828,6 +828,12 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>File system:</value>
   </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>App Language</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>Restart required</value>
+  </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>

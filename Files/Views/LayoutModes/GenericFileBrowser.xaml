@@ -6,8 +6,8 @@
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:controlsprimitives="using:Microsoft.Toolkit.Uwp.UI.Controls.Primitives"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
@@ -21,7 +21,7 @@
 
     <local:BaseLayout.Resources>
         <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
-        
+
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
@@ -279,7 +279,7 @@
                 x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                 Text="Set as desktop background"
-                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE7F4;" />
                 </MenuFlyoutItem.Icon>
@@ -289,7 +289,7 @@
                 x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
                 Text="Set as lockscreen background"
-                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xEE3F;" />
                 </MenuFlyoutItem.Icon>
