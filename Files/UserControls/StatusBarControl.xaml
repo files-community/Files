@@ -40,9 +40,9 @@
                 Height="30"
                 Margin="2,0,2,0"
                 Background="Transparent"
-                Content="&#xE762;"
+                Content="&#xEAD3;"
                 CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="{StaticResource FluentUIGlyphs}"
                 FontSize="16"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Selection options">
@@ -51,9 +51,9 @@
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlSelectAll"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.SelectAllItems}"
-                            Text="Select All" >
+                            Text="Select All">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEB54;" FontFamily="{StaticResource FluentUIGlyphs}"/>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB54;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -67,9 +67,9 @@
                         <MenuFlyoutItem
                             x:Uid="StatusBarControlClearSelection"
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.ClearAllItems}"
-                            Text="Clear Selection" >
+                            Text="Clear Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEB55;" FontFamily="{StaticResource FluentUIGlyphs}"/>
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB55;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>

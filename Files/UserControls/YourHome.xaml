@@ -79,8 +79,8 @@
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
-                                        FontSize="28"
                                         FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontSize="28"
                                         Glyph="{x:Bind Icon}" />
                                     <TextBlock
                                         x:Name="ItemLocationName"
@@ -147,13 +147,19 @@
                                             x:Name="mfi_RemoveOneItem"
                                             x:Uid="RecentItemRemove"
                                             Click="RemoveOneFrequentItem"
-                                            Icon="Remove"
-                                            Text="Remove this item" />
+                                            Text="Remove this item">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemClearAll"
                                             Click="MenuFlyoutItem_Click"
-                                            Icon="Delete"
-                                            Text="Clear all items" />
+                                            Text="Clear all items">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemOpenFileLocation"
                                             Click="OpenFileLocation_Click"
