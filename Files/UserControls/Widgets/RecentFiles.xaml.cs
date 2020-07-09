@@ -2,7 +2,6 @@
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
-using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -14,7 +13,6 @@ using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace Files
 {
@@ -46,7 +44,7 @@ namespace Files
 
         public async void PopulateRecentsList()
         {
-            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;            
+            var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
             bool IsRecentsListEmpty = true;
             foreach (var entry in mostRecentlyUsed.Entries)
             {
@@ -111,10 +109,10 @@ namespace Files
             StorageItemTypes ItemType;
             Visibility ItemFolderImgVis;
             Visibility ItemEmptyImgVis;
-            Visibility ItemFileIconVis;            
+            Visibility ItemFileIconVis;
             if (item.IsOfType(StorageItemTypes.File))
             {
-                using (var inputStream = await((StorageFile)item).OpenReadAsync())
+                using (var inputStream = await ((StorageFile)item).OpenReadAsync())
                 using (var classicStream = inputStream.AsStreamForRead())
                 using (var streamReader = new StreamReader(classicStream))
                 {

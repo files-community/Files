@@ -10,103 +10,15 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
     mc:Ignorable="d">
-    <Page.Resources>
-        <Style
-            x:Key="AdaptiveGridViewItemContainerStyle2"
-            BasedOn="{StaticResource GridViewItemExpanded}"
-            TargetType="GridViewItem">
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="VerticalContentAlignment" Value="Stretch" />
-            <Setter Property="Margin" Value="0,0,8,0" />
-        </Style>
-    </Page.Resources>
 
     <Grid Margin="14,14,14,0" RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:AdaptiveGridView
-            x:Name="CardsList"
-            Grid.Row="0"
-            HorizontalAlignment="Stretch"
-            DesiredWidth="100"
-            IsItemClickEnabled="True"
-            ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}"
-            ItemHeight="90"
-            ItemsSource="{x:Bind list:ItemLoader.itemsAdded}"
-            OneRowModeEnabled="True"
-            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-            SelectionMode="None"
-            StretchContentForSingleRow="True">
-            <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="list:FavoriteLocationItem">
-                    <Grid>
-                        <Grid>
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <ResourceDictionary.ThemeDictionaries>
-                                        <ResourceDictionary x:Name="Light">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                        </ResourceDictionary>
-                                        <ResourceDictionary x:Name="Dark">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
-                                        </ResourceDictionary>
-                                        <ResourceDictionary x:Name="HighContrast">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
-                                        </ResourceDictionary>
-                                    </ResourceDictionary.ThemeDictionaries>
-                                </ResourceDictionary>
-                            </Grid.Resources>
-                            <Button
-                                Padding="0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
-                                Background="{ThemeResource YourHomeCardBackgroundColor}"
-                                BorderThickness="1"
-                                Click="Button_Click"
-                                CornerRadius="4"
-                                Style="{StaticResource ButtonRevealStyle}"
-                                Tag="{x:Bind Tag}">
 
-                                <Grid
-                                    Margin="8,14"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch"
-                                    RowSpacing="2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <FontIcon
-                                        Grid.Row="0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        FontSize="28"
-                                        Glyph="{x:Bind Icon}" />
-                                    <TextBlock
-                                        x:Name="ItemLocationName"
-                                        Grid.Row="1"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
-                                        FontSize="14"
-                                        FontWeight="Medium"
-                                        HorizontalTextAlignment="Center"
-                                        Text="{x:Bind Text}"
-                                        TextWrapping="WrapWholeWords" />
-                                </Grid>
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </DataTemplate>
-            </controls:AdaptiveGridView.ItemTemplate>
-        </controls:AdaptiveGridView>
+        <local:LibraryCards />
 
-        <local:RecentFiles Grid.Row="1"/>
+        <local:RecentFiles Grid.Row="1" />
     </Grid>
 </Page>
