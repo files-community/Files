@@ -228,6 +228,12 @@
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
+      <DependentUpon>LibraryCards.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Widgets\RecentFiles.xaml.cs">
+      <DependentUpon>RecentFiles.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View Models\CurrentInstanceViewModel.cs" />
     <Compile Include="View Models\ItemViewModel.cs" />
     <Compile Include="Filesystem\ListedItem.cs" />
@@ -440,6 +446,14 @@
     <Page Include="Dialogs\RenameDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\Widgets\LibraryCards.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserControls\Widgets\RecentFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LayoutModes\GenericFileBrowser.xaml">
       <SubType>Designer</SubType>
