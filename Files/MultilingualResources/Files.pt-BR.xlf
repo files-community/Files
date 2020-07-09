@@ -956,11 +956,11 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="new">Idioma</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
           <source>Restart required</source>
-          <target state="new">Restart required</target>
+          <target state="new">Necessário reiniciar o Aplicativo</target>
         </trans-unit>
       </group>
     </body>
