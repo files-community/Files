@@ -552,32 +552,8 @@ namespace FilesFullTrust
                                     {
                                         continue;
                                     }
-
-                                    var files = group.Select(x => new ShellItem(x));
-                                    using var sf = files.First().Parent;
-                                    Shell32.IContextMenu menu = null;
-                                    try
-                                    {
-                                        menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, files.ToArray());
-                                        menu.QueryContextMenu(HMENU.NULL, 0, 0, 0, Shell32.CMF.CMF_DEFAULTONLY);
-                                        var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                                        pici.lpVerb = new SafeResourceId(Shell32.CMDSTR_OPEN, CharSet.Ansi);
-                                        pici.nShow = ShowWindowCommand.SW_SHOW;
-                                        pici.cbSize = (uint)Marshal.SizeOf(pici);
-                                        menu.InvokeCommand(pici);
-                                    }
-                                    finally
-                                    {
-                                        foreach (var elem in files)
-                                        {
-                                            elem.Dispose();
-                                        }
-
-                                        if (menu != null)
-                                        {
-                                            Marshal.ReleaseComObject(menu);
-                                        }
-                                    }
+                                    using var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(group.ToArray(), Shell32.CMF.CMF_DEFAULTONLY);
+                                    cMenu.InvokeVerb(Shell32.CMDSTR_OPEN);
                                 }
                             }
                             return true;

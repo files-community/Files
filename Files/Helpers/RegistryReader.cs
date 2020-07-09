@@ -88,6 +88,12 @@ namespace Files.Helpers
 
                     using RegistryKey currentUserFileExtensionShellKey = Registry.CurrentUser.OpenSubKey($"Software\\Classes\\{fileExtension}\\shell");
                     await ParseRegistryAndAddToList(shellList, currentUserFileExtensionShellKey);
+
+                    using RegistryKey classRootAllSyncRootShellKey = Registry.ClassesRoot.OpenSubKey($"AllSyncRootObjects\\shell");
+                    await ParseRegistryAndAddToList(shellList, classRootAllSyncRootShellKey);
+
+                    using RegistryKey currentUserAllSyncRootShellKey = Registry.CurrentUser.OpenSubKey("Software\\Classes\\AllSyncRootObjects\\shell");
+                    await ParseRegistryAndAddToList(shellList, currentUserAllSyncRootShellKey);
                 }
 
                 return shellList;

@@ -109,6 +109,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QuickLook.cs" />
     <Compile Include="Win32API.cs" />
+    <Compile Include="Win32API_ContextMenu.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
