@@ -29,6 +29,32 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
+
+                <StackPanel Spacing="10">
+                    <TextBlock
+                        x:Uid="SettingsPreferencesAppLanguage"
+                        FontSize="17"
+                        Text="App Language" />
+                    <TextBlock
+                        x:Uid="SettingsPreferencesAppLanguageRestartRequired"
+                        FontSize="14"
+                        FontStyle="Italic"
+                        Text="Restart required" />
+                    <ComboBox
+                        x:Name="ComboAppLanguage"
+                        Width="200"
+                        HorizontalAlignment="Left"
+                        ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
+                        PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
+                        SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
+                                <TextBlock Text="{x:Bind Name}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </StackPanel>
+
                 <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesPinOneDrive"

@@ -415,7 +415,7 @@ namespace Files
             }
 
             //check if the selected file is an image
-            App.InteractionViewModel.CheckForImage();
+            App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckForImage();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -439,6 +439,7 @@ namespace Files
 
         protected async void List_DragOver(object sender, DragEventArgs e)
         {
+            ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
@@ -488,6 +489,8 @@ namespace Files
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
             ListedItem item = GetItemFromElement(sender);
+            SetSelectedItemOnUi(item);
+
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;

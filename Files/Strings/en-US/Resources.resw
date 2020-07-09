@@ -831,4 +831,10 @@
   <data name="JumpListRecentGroupHeader" xml:space="preserve">
     <value>Recent</value>
   </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>App Language</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>Restart required</value>
+  </data>
 </root>
