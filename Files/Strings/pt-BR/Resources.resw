@@ -181,7 +181,7 @@
     <value>Sobre</value>
   </data>
   <data name="SettingsAboutWebsite.Text" xml:space="preserve">
-    <value>Site da web:</value>
+    <value>Site da web: </value>
   </data>
   <data name="SettingsAppearanceAcrylicSidebar.Text" xml:space="preserve">
     <value>Barra lateral em acrílico</value>
@@ -499,7 +499,7 @@
     <value>ícones pequenos</value>
   </data>
   <data name="StatusBarControlTilesView.Text" xml:space="preserve">
-    <value>Lista</value>
+    <value>Blocos</value>
   </data>
   <data name="PropertiesDialogOKButton.Content" xml:space="preserve">
     <value>Ok</value>
