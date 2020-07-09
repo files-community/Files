@@ -415,7 +415,7 @@ namespace Files
             }
 
             //check if the selected file is an image
-            App.InteractionViewModel.CheckForImage();
+            App.CurrentInstance.ContentPage.SelectedItemsPropertiesViewModel.CheckForImage();
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
