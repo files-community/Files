@@ -488,31 +488,34 @@
                             <SymbolIcon Symbol="Page2" />
                         </Viewbox>
                     </Grid>
-                    <Grid
-                        x:Name="CloudDriveSyncStatusGlyph"
-                        Width="28"
-                        Height="28"
-                        Margin="12"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Bottom"
-                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}">
-                        <Viewbox MaxWidth="28" MaxHeight="28">
-                            <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                    Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
-                        </Viewbox>
-                    </Grid>
                 </Grid>
-                <TextBlock
-                    Grid.Row="1"
-                    Margin="5,0,5,10"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalTextAlignment="Center"
-                    Text="{x:Bind ItemName}"
-                    TextTrimming="CharacterEllipsis"
-                    TextWrapping="NoWrap" />
+                <Grid MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                      HorizontalAlignment="Center"
+                      Grid.Row="1"
+                      Margin="5,0,5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
+                        x:Name="CloudDriveSyncStatusGlyph"
+                        Grid.Column="0"
+                        VerticalAlignment="Stretch"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="18"
+                        Margin="0,0,5,0"
+                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                        Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                        Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        x:Name="ItemName"
+                        Text="{x:Bind ItemName}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                </Grid>
                 <Popup
                     x:Name="EditPopup"
                     Grid.Row="1"
@@ -549,6 +552,14 @@
                 Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
                 <StackPanel Orientation="Horizontal">
+                    <FontIcon
+                        x:Name="CloudDriveSyncStatusGlyph"
+                        FontFamily="Segoe MDL2 Assets"
+                        HorizontalAlignment="Left"
+                        Margin="10,0,0,0"
+                        Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                        Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
                     <Grid
                         Width="100"
                         Height="Auto"
@@ -591,25 +602,11 @@
                                     Glyph="&#xE7C3;" />
                             </Grid>
                         </Grid>
-                        <Grid
-                            x:Name="CloudDriveSyncStatusGlyph"
-                            Width="28"
-                            Height="28"
-                            Margin="12"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}">
-                            <Viewbox MaxWidth="28" MaxHeight="28">
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                                    Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
-                            </Viewbox>
-                        </Grid>
                     </Grid>
                     <Grid Width="150" Height="100">
                         <StackPanel Height="Auto" VerticalAlignment="Center">
                             <TextBlock
+                                x:Name="ItemName"
                                 Width="140"
                                 Height="Auto"
                                 MaxHeight="50"
@@ -621,6 +618,7 @@
                                 TextTrimming="CharacterEllipsis"
                                 TextWrapping="Wrap" />
                             <TextBox
+                                x:Name="TileViewTextBoxItemName"
                                 Width="140"
                                 Height="Auto"
                                 MaxHeight="50"
