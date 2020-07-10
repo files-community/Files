@@ -324,8 +324,6 @@ namespace Files.View_Models
                                 App.sideBarItems.Remove(item);
                             }
                         }
-
-                        App.JumpList.RemoveFolder(RecycleBinPath);
                     }
                 }
             }
