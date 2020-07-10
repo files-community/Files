@@ -4,7 +4,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:list="using:Locations"
     xmlns:local="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -44,31 +43,30 @@
             IsItemClickEnabled="True"
             ItemContainerStyle="{StaticResource AdaptiveGridViewItemContainerStyle2}"
             ItemHeight="90"
-            ItemsSource="{x:Bind list:ItemLoader.itemsAdded}"
+            ItemsSource="{x:Bind itemsAdded, Mode=OneWay}"
             OneRowModeEnabled="True"
             ScrollViewer.HorizontalScrollBarVisibility="Hidden"
             SelectionMode="None"
             StretchContentForSingleRow="True">
             <controls:AdaptiveGridView.ItemTemplate>
-                <DataTemplate x:DataType="list:FavoriteLocationItem">
+                <DataTemplate x:DataType="local:FavoriteLocationItem">
                     <Grid>
-                        <Grid>
-                            <Grid.Resources>
-                                <ResourceDictionary>
-                                    <ResourceDictionary.ThemeDictionaries>
-                                        <ResourceDictionary x:Name="Light">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
-                                        </ResourceDictionary>
-                                        <ResourceDictionary x:Name="Dark">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
-                                        </ResourceDictionary>
-                                        <ResourceDictionary x:Name="HighContrast">
-                                            <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
-                                        </ResourceDictionary>
-                                    </ResourceDictionary.ThemeDictionaries>
-                                </ResourceDictionary>
-                            </Grid.Resources>
-                            <Button
+                        <Grid.Resources>
+                            <ResourceDictionary>
+                                <ResourceDictionary.ThemeDictionaries>
+                                    <ResourceDictionary x:Name="Light">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="#f3f1ef" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="Dark">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
+                                    </ResourceDictionary>
+                                    <ResourceDictionary x:Name="HighContrast">
+                                        <SolidColorBrush x:Key="YourHomeCardBackgroundColor" Color="Black" />
+                                    </ResourceDictionary>
+                                </ResourceDictionary.ThemeDictionaries>
+                            </ResourceDictionary>
+                        </Grid.Resources>
+                        <Button
                                 Padding="0"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
@@ -81,22 +79,22 @@
                                 Style="{StaticResource ButtonRevealStyle}"
                                 Tag="{x:Bind Tag}">
 
-                                <Grid
+                            <Grid
                                     Margin="8,14"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     RowSpacing="2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <FontIcon
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <FontIcon
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
                                         FontSize="28"
                                         Glyph="{x:Bind Icon}" />
-                                    <TextBlock
+                                <TextBlock
                                         x:Name="ItemLocationName"
                                         Grid.Row="1"
                                         HorizontalAlignment="Stretch"
@@ -106,9 +104,8 @@
                                         HorizontalTextAlignment="Center"
                                         Text="{x:Bind Text}"
                                         TextWrapping="WrapWholeWords" />
-                                </Grid>
-                            </Button>
-                        </Grid>
+                            </Grid>
+                        </Button>
                     </Grid>
                 </DataTemplate>
             </controls:AdaptiveGridView.ItemTemplate>
@@ -135,7 +132,7 @@
                     Text="Files you've accessed before will show up here"
                     TextAlignment="Center"
                     TextWrapping="WrapWholeWords"
-                    Visibility="{x:Bind Empty.Visibility, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    Visibility="{x:Bind Empty.IsVisible, Mode=OneWay}" />
                 <ListView
                     x:Name="RecentsView"
                     HorizontalAlignment="Stretch"

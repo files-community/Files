@@ -453,7 +453,8 @@
 
                                 <ScrollViewer
                                     MaxHeight="200"
-                                    Grid.Row="1">
+                                    Grid.Row="1"
+                                    VerticalScrollBarVisibility="Auto">
                                     <primitives:TabViewListView
                                     x:Name="TabListView"
                                     AllowDrop="{TemplateBinding AllowDropTabs}"
@@ -480,8 +481,9 @@
                                 <Button
                                     x:Name="AddButton"
                                     Grid.Row="2"
+                                    Margin="0,4,0,0"
+                                    ToolTipService.ToolTip="{x:Null}"
                                     Background="Transparent"
-                                    Style="{StaticResource ButtonRevealStyle}"
                                     HorizontalAlignment="Stretch"
                                     VerticalAlignment="Stretch"
                                     Command="{TemplateBinding AddTabButtonCommand}"
@@ -560,9 +562,7 @@
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
                         Style="{StaticResource TabItemStyle}"
-                        >
-
-                    </muxc:TabViewItem>
+                        ToolTipService.ToolTip="{x:Null}"/>
                 </DataTemplate>
             </muxc:TabView.TabItemTemplate>
             <muxc:TabView.TabStripHeader>

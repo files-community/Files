@@ -545,9 +545,10 @@ namespace Files.Interacts
             }
             else
             {
-                App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
-                await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                var propertiesDialog = new PropertiesDialog();
+                propertiesDialog.propertiesFrame.Tag = propertiesDialog;
+                propertiesDialog.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 

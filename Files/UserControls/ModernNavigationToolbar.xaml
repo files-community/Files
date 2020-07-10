@@ -793,6 +793,7 @@
                 DragEnter="VerticalTabStripInvokeButton_DragEnter"
                 IsTapEnabled="True"
                 PointerEntered="Button_PointerEntered"
+                PointerExited="VerticalTabStripInvokeButton_PointerExited"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Open tabs"
                 Visibility="Visible">

@@ -1,4 +1,6 @@
-﻿using Files.Controls;
+﻿using Files.Controllers;
+using Files.Controls;
+using Files.Filesystem;
 using Files.UserControls;
 using Files.View_Models;
 using Files.Views.Pages;
@@ -7,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -37,6 +40,7 @@ namespace Files.Views
 
         public SettingsViewModel AppSettings => App.AppSettings;
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
+        public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
         public MainPage()
         {
@@ -60,7 +64,11 @@ namespace Files.Views
             {
                 App.AppSettings = new SettingsViewModel();
                 App.InteractionViewModel = new InteractionViewModel();
+                App.SidebarPinnedController = new SidebarPinnedController();
+
                 Helpers.ThemeHelper.Initialize();
+                Clipboard.ContentChanged += Clipboard_ContentChanged;
+                Clipboard_ContentChanged(null, null);
 
                 if (string.IsNullOrEmpty(navArgs) && App.AppSettings.OpenASpecificPageOnStartup)
                 {
@@ -98,6 +106,35 @@ namespace Files.Views
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static void Clipboard_ContentChanged(object sender, object e)
+        {
+            try
+            {
+                if (App.CurrentInstance != null)
+                {
+                    DataPackageView packageView = Clipboard.GetContent();
+                    if (packageView.Contains(StandardDataFormats.StorageItems)
+                        && App.CurrentInstance.CurrentPageType != typeof(YourHome)
+                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(App.AppSettings.RecycleBinPath))
+                    {
+                        App.InteractionViewModel.IsPasteEnabled = true;
+                    }
+                    else
+                    {
+                        App.InteractionViewModel.IsPasteEnabled = false;
+                    }
+                }
+                else
+                {
+                    App.InteractionViewModel.IsPasteEnabled = false;
+                }
+            }
+            catch (Exception)
+            {
+                App.InteractionViewModel.IsPasteEnabled = false;
+            }
         }
     }
 }

@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
@@ -317,12 +318,34 @@ namespace Files.UserControls
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
 
-        private void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
+        private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if(e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 e.Handled = true;
-                (sender as Button).Flyout.ShowAt(sender as Button);
+                cancelFlyoutOpen = false;
+                await Task.Delay(1250);
+                if (!cancelFlyoutOpen)
+                {
+                    (sender as Button).Flyout.ShowAt(sender as Button);
+                    cancelFlyoutOpen = false;
+                }
+                else
+                {
+                    cancelFlyoutOpen = false;
+                }
+            }
+        }
+        bool cancelFlyoutOpen = false;
+        private void VerticalTabStripInvokeButton_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                if (!(sender as Button).Flyout.IsOpen)
+                {
+                    cancelFlyoutOpen = true;
+                }
             }
         }
 

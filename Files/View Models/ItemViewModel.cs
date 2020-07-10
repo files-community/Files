@@ -31,6 +31,7 @@ using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using Files.Views;
 using Files.UserControls;
+using Files.Dialogs;
 
 namespace Files.Filesystem
 {
@@ -74,7 +75,7 @@ namespace Files.Filesystem
             }
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+            List<INavigationControlItem> sidebarItems = MainPage.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
 
             item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (item == null)
@@ -786,7 +787,8 @@ namespace Files.Filesystem
             }
             catch (UnauthorizedAccessException)
             {
-                await App.ConsentDialogDisplay.ShowAsync();
+                var consentDialogDisplay = new ConsentDialog();
+                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
                 return;
             }
             catch (FileNotFoundException)

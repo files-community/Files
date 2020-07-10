@@ -1,4 +1,5 @@
 using Files.View_Models;
+using Files.Views;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -53,22 +54,22 @@ namespace Files.Filesystem
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                    if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                     {
-                        App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                        MainPage.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
                     }
                     foreach (DriveItem drive in Drives)
                     {
-                        if (!App.sideBarItems.Contains(drive))
+                        if (!MainPage.sideBarItems.Contains(drive))
                         {
-                            App.sideBarItems.Add(drive);
+                            MainPage.sideBarItems.Add(drive);
                         }
                     }
-                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                    foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                     {
                         if (item is DriveItem && !Drives.Contains(item))
                         {
-                            App.sideBarItems.Remove(item);
+                            MainPage.sideBarItems.Remove(item);
                         }
                     }
                 });
@@ -84,22 +85,22 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                 {
-                    App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                    MainPage.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
                 }
                 foreach (DriveItem drive in Drives)
                 {
-                    if (!App.sideBarItems.Contains(drive))
+                    if (!MainPage.sideBarItems.Contains(drive))
                     {
-                        App.sideBarItems.Add(drive);
+                        MainPage.sideBarItems.Add(drive);
                     }
                 }
-                foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                 {
                     if (item is DriveItem && !Drives.Contains(item))
                     {
-                        App.sideBarItems.Remove(item);
+                        MainPage.sideBarItems.Remove(item);
                     }
                 }
             });

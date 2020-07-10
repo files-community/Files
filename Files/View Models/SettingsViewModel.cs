@@ -4,6 +4,7 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
@@ -107,7 +108,7 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
+            MainPage.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Glyph = "\uE737", IsDefaultLocation = true, Path = "Home" });
         }
 
         private async void DetectWSLDistros()
@@ -148,7 +149,7 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    App.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                    MainPage.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
                 }
             }
             catch (Exception)
@@ -254,16 +255,16 @@ namespace Files.View_Models
                             Path = OneDrivePath,
                             Type = Filesystem.DriveType.VirtualDrive,
                         };
-                        App.sideBarItems.Add(oneDriveItem);
+                        MainPage.sideBarItems.Add(oneDriveItem);
                     }
                     else
                     {
                         localSettings.Values["PinOneDrive"] = false;
-                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                         {
                             if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
                             {
-                                App.sideBarItems.Remove(item);
+                                MainPage.sideBarItems.Remove(item);
                             }
                         }
                     }
@@ -312,16 +313,16 @@ namespace Files.View_Models
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available
-                        App.sideBarItems.Insert(App.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                        MainPage.sideBarItems.Insert(MainPage.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
                     }
                     else
                     {
                         localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                         {
                             if (item is LocationItem && item.Path == RecycleBinPath)
                             {
-                                App.sideBarItems.Remove(item);
+                                MainPage.sideBarItems.Remove(item);
                             }
                         }
                     }

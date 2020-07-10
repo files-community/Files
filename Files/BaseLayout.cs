@@ -3,6 +3,7 @@ using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -237,7 +238,7 @@ namespace Files
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
             App.CurrentInstance.MultitaskingControl?.SelectionChanged();
-            App.Clipboard_ContentChanged(null, null);
+            MainPage.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
 

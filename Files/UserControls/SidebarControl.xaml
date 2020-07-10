@@ -8,7 +8,7 @@
     xmlns:local1="using:Files"
     xmlns:local2="using:Files.Filesystem"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:local3="using:Files.Views"
     d:DesignHeight="768"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -97,7 +97,7 @@
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
-            MenuItemsSource="{x:Bind local1:App.sideBarItems, Mode=OneWay}"
+            MenuItemsSource="{x:Bind local3:MainPage.sideBarItems, Mode=OneWay}"
             OpenPaneLength="200"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">

@@ -46,14 +46,6 @@ namespace Files
             }
         }
 
-        public static Dialogs.ExceptionDialog ExceptionDialogDisplay { get; set; }
-        public static Dialogs.ConsentDialog ConsentDialogDisplay { get; set; }
-        public static Dialogs.PropertiesDialog PropertiesDialogDisplay { get; set; }
-        public static Dialogs.LayoutDialog LayoutDialogDisplay { get; set; }
-        public static Dialogs.AddItemDialog AddItemDialogDisplay { get; set; }
-        public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
-        public static ObservableCollection<LocationItem> locationItems = new ObservableCollection<LocationItem>();
-        public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
         public static SidebarPinnedController SidebarPinnedController { get; set; }
@@ -167,35 +159,6 @@ namespace Files
             else
             {
                 SidebarPinnedController.Model.RemoveItem(rightClickedItem.Path.ToString());
-            }
-        }
-
-        public static void Clipboard_ContentChanged(object sender, object e)
-        {
-            try
-            {
-                if (App.CurrentInstance != null)
-                {
-                    DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems)
-                        && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = true;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = false;
-                    }
-                }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch (Exception)
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
 

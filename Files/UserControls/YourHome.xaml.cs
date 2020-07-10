@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Dialogs;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.UserControls;
@@ -6,6 +7,7 @@ using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -22,13 +24,21 @@ namespace Files
 {
     public sealed partial class YourHome : Page
     {
+        public ObservableCollection<FavoriteLocationItem> itemsAdded;
         private ObservableCollection<RecentItem> recentItemsCollection = new ObservableCollection<RecentItem>();
-        private EmptyRecentsText Empty { get; set; } = new EmptyRecentsText();
+        private EmptyRecentsText Empty { get; } = new EmptyRecentsText();
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public YourHome()
         {
             InitializeComponent();
+            itemsAdded = new ObservableCollection<FavoriteLocationItem>();
+            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xE896", Text = ResourceController.GetTranslation("SidebarDownloads"), Tag = "Downloads" });
+            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xE8A5", Text = ResourceController.GetTranslation("SidebarDocuments"), Tag = "Documents" });
+            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xEB9F", Text = ResourceController.GetTranslation("SidebarPictures"), Tag = "Pictures" });
+            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xEC4F", Text = ResourceController.GetTranslation("SidebarMusic"), Tag = "Music" });
+            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xE8B2", Text = ResourceController.GetTranslation("SidebarVideos"), Tag = "Videos" });
+
         }
 
         private void OpenFileLocation_Click(object sender, RoutedEventArgs e)
@@ -50,9 +60,6 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeMtpDevice = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             var parameters = eventArgs.Parameter.ToString();
-            Locations.ItemLoader.itemsAdded.Clear();
-            Locations.ItemLoader.DisplayItems();
-            recentItemsCollection.Clear();
             PopulateRecentsList();
             App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
             App.CurrentInstance.MultitaskingControl?.SelectionChanged();
@@ -75,6 +82,7 @@ namespace Files
 
         public async void PopulateRecentsList()
         {
+            recentItemsCollection.Clear();
             var mostRecentlyUsed = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;            
             bool IsRecentsListEmpty = true;
             foreach (var entry in mostRecentlyUsed.Entries)
@@ -92,11 +100,11 @@ namespace Files
 
             if (IsRecentsListEmpty)
             {
-                Empty.Visibility = Visibility.Visible;
+                Empty.IsVisible = true;
             }
             else
             {
-                Empty.Visibility = Visibility.Collapsed;
+                Empty.IsVisible = false;
             }
 
             foreach (Windows.Storage.AccessCache.AccessListEntry entry in mostRecentlyUsed.Entries)
@@ -128,7 +136,7 @@ namespace Files
 
             if (recentItemsCollection.Count == 0)
             {
-                Empty.Visibility = Visibility.Visible;
+                Empty.IsVisible = true;
             }
         }
 
@@ -181,7 +189,8 @@ namespace Files
             }
             catch (UnauthorizedAccessException)
             {
-                await App.ConsentDialogDisplay.ShowAsync();
+                var consentDialogDisplay = new ConsentDialog();
+                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
             }
             catch (ArgumentException)
             {
@@ -236,7 +245,7 @@ namespace Files
                                 mru.Remove(element.Token);
                                 if (recentItemsCollection.Count == 0)
                                 {
-                                    Empty.Visibility = Visibility.Visible;
+                                    Empty.IsVisible = true;
                                 }
                                 break;
                             }
@@ -252,7 +261,7 @@ namespace Files
             RecentsView.ItemsSource = null;
             var mru = Windows.Storage.AccessCache.StorageApplicationPermissions.MostRecentlyUsedList;
             mru.Clear();
-            Empty.Visibility = Visibility.Visible;
+            Empty.IsVisible = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -305,22 +314,30 @@ namespace Files
         public Visibility FileIconVis { get; set; }
     }
 
+    public class FavoriteLocationItem
+    {
+        public string ImageSource { get; set; }
+        public string Icon { get; set; }
+        public string Text { get; set; }
+        public string Tag { get; set; }
+    }
+
     public class EmptyRecentsText : INotifyPropertyChanged
     {
-        private Visibility visibility;
+        private bool isVisible;
 
-        public Visibility Visibility
+        public bool IsVisible
         {
             get
             {
-                return visibility;
+                return isVisible;
             }
             set
             {
-                if (value != visibility)
+                if (value != isVisible)
                 {
-                    visibility = value;
-                    NotifyPropertyChanged("Visibility");
+                    isVisible = value;
+                    NotifyPropertyChanged("IsVisible");
                 }
             }
         }

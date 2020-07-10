@@ -1,16 +1,10 @@
 ﻿using Files.Common;
-using Files.Controllers;
-using Files.Controls;
-using Files.View_Models;
 using Files.Views.Pages;
 using Microsoft.UI.Xaml.Controls;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Windows.ApplicationModel.Core;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.Storage;
 using Windows.System;
 using Windows.UI.ViewManagement;
@@ -18,17 +12,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-using Files.Common;
-using Windows.System;
-using Windows.UI.ViewManagement;
 using System.Collections.ObjectModel;
-using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
 
 using static Files.Helpers.PathNormalization;
 using Files.UserControls.MultiTaskingControl;
 using Files.Views;
-using Windows.ApplicationModel.DataTransfer;
 
 namespace Files.UserControls
 {
