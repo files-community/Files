@@ -34,6 +34,15 @@
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
                 <StackPanel Spacing="10">
+                    <Image Height="200" Source="/Assets/SettingsAssets/VerticalTabsFlyout.png" HorizontalAlignment="Left" />
+                    <TextBlock
+                        x:Uid="SettingsPreferencesShowMultitaskingControl"
+                        FontSize="17"
+                        Text="Show multitasking flyout in the navigation toolbar" />
+                    <ToggleSwitch x:Name="ShowMultitaskingControl" IsOn="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+
+                <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsExperimentalDoubleTapToRenameFiles"
                         FontSize="17"

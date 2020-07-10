@@ -151,6 +151,7 @@
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
                                 Click="OpenInNewTab_Click"
+                                x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                                 Text="Open in new tab">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF500;" />

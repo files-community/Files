@@ -99,7 +99,7 @@ namespace Files.Interacts
 
         public void OpenNewTab()
         {
-            VerticalTabView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -119,14 +119,14 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    VerticalTabView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
         }
 
         public void OpenPathInNewTab(string path)
         {
-            VerticalTabView.AddNewTab(typeof(ModernShellPage), path);
+            MainPage.AddNewTab(typeof(ModernShellPage), path);
         }
 
         public async void OpenPathInNewWindow(string path)
@@ -431,7 +431,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        VerticalTabView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
                     }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                     {
@@ -1354,7 +1354,7 @@ namespace Files.Interacts
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
                     await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        VerticalTabView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                        MainPage.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
                 banner.Report(100);

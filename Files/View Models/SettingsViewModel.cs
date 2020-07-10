@@ -34,6 +34,7 @@ namespace Files.View_Models
         {
             _roamingSettings = ApplicationData.Current.RoamingSettings;
 
+            DetectMultitaskingControlVisibility();
             DetectOneDrivePreference();
             DetectAcrylicPreference();
             DetectDateTimeFormat();
@@ -583,6 +584,25 @@ namespace Files.View_Models
                         if (value < 375) // Don't request a grid resize if it is already at the max size (375)
                             GridViewSizeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
+                }
+            }
+        }
+
+        private void DetectMultitaskingControlVisibility()
+        {
+            isMultitaskingControlVisible = Get(true, "IsMultitaskingControlVisible");
+        }
+
+        private bool isMultitaskingControlVisible = true;
+        public bool IsMultitaskingControlVisible
+        {
+            get => isMultitaskingControlVisible;
+            set
+            {
+                if (value != isMultitaskingControlVisible)
+                {
+                    isMultitaskingControlVisible = value;
+                    Set(value, "IsMultitaskingControlVisible");
                 }
             }
         }

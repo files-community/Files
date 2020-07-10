@@ -54,7 +54,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
-
+                
                 <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesPinOneDrive"
