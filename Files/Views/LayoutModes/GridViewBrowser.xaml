@@ -536,7 +536,7 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="250"
+                Width="260"
                 Height="100"
                 Margin="0,0,0,0"
                 Padding="0"
@@ -551,99 +551,102 @@
                 RightTapped="StackPanel_RightTapped"
                 Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
-                <StackPanel Orientation="Horizontal">
-                    <FontIcon
-                        x:Name="CloudDriveSyncStatusGlyph"
-                        FontFamily="Segoe MDL2 Assets"
-                        HorizontalAlignment="Left"
-                        Margin="10,0,0,0"
-                        Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
-                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
-                        Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <FontIcon
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    x:Name="CloudDriveSyncStatusGlyph"
+                    FontFamily="Segoe MDL2 Assets"
+                    Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                    x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                    Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                <Grid
+                    Grid.Column="1"
+                    Height="Auto"
+                    MinHeight="100"
+                    Tag="ItemImage">
                     <Grid
-                        Width="100"
-                        Height="Auto"
-                        MinHeight="100"
-                        Tag="ItemImage">
-                        <Grid
-                            x:Name="Picture"
-                            Width="74"
-                            Padding="0,12,0,12"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
-                            <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
-                        </Grid>
-                        <Image
-                            x:Name="FolderGlyph"
-                            Width="74"
-                            Height="74"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadFolderGlyph}"
-                            Stretch="Uniform">
-                            <Image.Source>
-                                <SvgImageSource
-                                    RasterizePixelHeight="128"
-                                    RasterizePixelWidth="128"
-                                    UriSource="/Assets/FolderIcon.svg" />
-                            </Image.Source>
-                        </Image>
-                        <Grid
-                            x:Name="TypeUnknownGlyph"
-                            Width="74"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="74"
-                                    Glyph="&#xE7C3;" />
-                            </Grid>
+                        x:Name="Picture"
+                        Width="74"
+                        Padding="0,12,0,12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+                        <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
+                    </Grid>
+                    <Image
+                        x:Name="FolderGlyph"
+                        Width="74"
+                        Height="74"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadFolderGlyph}"
+                        Stretch="Uniform">
+                        <Image.Source>
+                            <SvgImageSource
+                                RasterizePixelHeight="128"
+                                RasterizePixelWidth="128"
+                                UriSource="/Assets/FolderIcon.svg" />
+                        </Image.Source>
+                    </Image>
+                    <Grid
+                        x:Name="TypeUnknownGlyph"
+                        Width="74"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="74"
+                                Glyph="&#xE7C3;" />
                         </Grid>
                     </Grid>
-                    <Grid Width="150" Height="100">
-                        <StackPanel Height="Auto" VerticalAlignment="Center">
-                            <TextBlock
-                                x:Name="ItemName"
-                                Width="140"
-                                Height="Auto"
-                                MaxHeight="50"
-                                Margin="0,0,10,0"
-                                HorizontalAlignment="Left"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                Text="{x:Bind ItemName}"
-                                TextAlignment="Left"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="Wrap" />
-                            <TextBox
-                                x:Name="TileViewTextBoxItemName"
-                                Width="140"
-                                Height="Auto"
-                                MaxHeight="50"
-                                Margin="0,0,10,0"
-                                HorizontalAlignment="Left"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                Text="{x:Bind ItemName}"
-                                TextAlignment="Left"
-                                TextWrapping="Wrap"
-                                Visibility="Collapsed" />
-                            <TextBlock
-                                HorizontalAlignment="Left"
-                                Text="{x:Bind ItemType}"
-                                TextAlignment="Left"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                            <TextBlock
-                                HorizontalAlignment="Left"
-                                Text="{x:Bind FileSize}"
-                                TextAlignment="Left"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
+                </Grid>
+                <Grid Grid.Column="2" Height="100">
+                    <StackPanel Height="Auto" VerticalAlignment="Center">
+                        <TextBlock
+                            x:Name="ItemName"
+                            Width="130"
+                            Height="Auto"
+                            MaxHeight="50"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Left"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{x:Bind ItemName}"
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            x:Name="TileViewTextBoxItemName"
+                            Width="130"
+                            Height="Auto"
+                            MaxHeight="50"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Left"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{x:Bind ItemName}"
+                            TextAlignment="Left"
+                            TextWrapping="Wrap"
+                            Visibility="Collapsed" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Text="{x:Bind ItemType}"
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Text="{x:Bind FileSize}"
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </DataTemplate>
 
