@@ -611,7 +611,6 @@
                     <StackPanel Height="Auto" VerticalAlignment="Center">
                         <TextBlock
                             x:Name="ItemName"
-                            Width="130"
                             Height="Auto"
                             MaxHeight="50"
                             Margin="0,0,10,0"
@@ -623,7 +622,6 @@
                             TextWrapping="Wrap" />
                         <TextBox
                             x:Name="TileViewTextBoxItemName"
-                            Width="130"
                             Height="Auto"
                             MaxHeight="50"
                             Margin="0,0,10,0"
