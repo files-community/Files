@@ -834,4 +834,7 @@
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
     <value>Restart required</value>
   </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

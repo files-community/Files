@@ -962,6 +962,10 @@
           <source>Restart required</source>
           <target state="translated">Necessário reiniciar o Aplicativo</target>
         </trans-unit>
+        <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <target state="new">Status</target>
+        </trans-unit>
       </group>
     </body>
   </file>

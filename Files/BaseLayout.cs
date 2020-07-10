@@ -28,6 +28,7 @@ namespace Files
     {
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public SettingsViewModel AppSettings => App.AppSettings;
+        public CurrentInstanceViewModel InstanceViewModel => App.CurrentInstance.InstanceViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public bool IsQuickLookEnabled { get; set; } = false;
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
