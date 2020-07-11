@@ -463,11 +463,11 @@ namespace Files.Interacts
             }
         }
 
-        public async void CloseTab()
+        public void CloseTab()
         {
             if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                App.CloseApp();
             }
             else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
             {
