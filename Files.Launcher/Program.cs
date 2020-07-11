@@ -102,7 +102,7 @@ namespace FilesFullTrust
 
         private static async void Watcher_Changed(object sender, FileSystemEventArgs e)
         {
-            Debug.WriteLine($"Reycle bin event: {e.ChangeType}, {e.FullPath}");
+            Debug.WriteLine($"Recycle bin event: {e.ChangeType}, {e.FullPath}");
             if (connection != null)
             {
                 // Send message to UWP app to refresh items
