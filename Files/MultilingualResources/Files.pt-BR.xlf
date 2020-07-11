@@ -960,7 +960,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
           <source>Restart required</source>
-          <target state="new">Necessário reiniciar o Aplicativo</target>
+          <target state="new">Reinicialização necessária</target>
         </trans-unit>
       </group>
     </body>
