@@ -798,7 +798,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB9E;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -806,7 +806,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.LaunchNewWindow}"
                             Text="New Window">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8A7;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

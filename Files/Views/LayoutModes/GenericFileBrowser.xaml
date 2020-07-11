@@ -245,7 +245,7 @@
                 Tag="OpenWith"
                 Text="Open With">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeaea;"/>
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF108;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -256,7 +256,7 @@
                 Tag="OpenTab_FlyoutItem"
                 Text="Open in new tab">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF500;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -267,7 +267,7 @@
                 Tag="OpenWindow_FlyoutItem"
                 Text="Open in new window">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE8A7;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -287,7 +287,7 @@
                 Text="Set as lockscreen background"
                 Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xEE3F;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem
@@ -326,7 +326,7 @@
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.CutItem_Click}"
                 Text="Cut">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xE8C6;" />
+                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF105;" />
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem

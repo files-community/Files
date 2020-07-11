@@ -154,7 +154,7 @@
                                 Click="OpenInNewTab_Click"
                                 Text="Open in new tab">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB9E;" />
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
@@ -163,7 +163,7 @@
                                 Click="OpenInNewWindow_Click"
                                 Text="Open in new window">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8A7;" />
+                                    <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF107;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem
