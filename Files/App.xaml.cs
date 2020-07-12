@@ -19,6 +19,7 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -406,6 +407,11 @@ namespace Files
             }
             AppSettings?.Dispose();
             deferral.Complete();
+        }
+
+        public static async void CloseApp()
+        {
+            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync()) Application.Current.Exit();
         }
     }
 
