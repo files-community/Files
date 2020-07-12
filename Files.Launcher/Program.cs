@@ -28,6 +28,12 @@ namespace FilesFullTrust
         [STAThread]
         private static void Main(string[] args)
         {
+            using var contextMenu = Win32API.ContextMenu.GetContextMenuForFiles(@"PATH_TO_FILE_OR_FOLDER", Shell32.CMF.CMF_EXTENDEDVERBS);
+            System.Windows.Forms.Application.Run(new Win32API.ContextMenuDebuggerForm(contextMenu));
+            contextMenu.Items.First().Invoke();
+            contextMenu.Dispose();
+            return;
+
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
