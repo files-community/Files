@@ -149,7 +149,7 @@ namespace Files
             if (App.AppSettings.LayoutMode == 2)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
+                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 textBox = popup.Child as TextBox;
                 textBox.Text = textBlock.Text;
                 popup.IsOpen = true;
@@ -157,10 +157,8 @@ namespace Files
             }
             else
             {
-                StackPanel stackPanel =
-                    (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
-                TextBlock textBlock = stackPanel.Children[0] as TextBlock;
-                textBox = stackPanel.Children[1] as TextBox;
+                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
+                textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
                 textBox.Text = textBlock.Text;
                 oldItemName = textBlock.Text;
                 textBlock.Visibility = Visibility.Collapsed;
@@ -291,6 +289,17 @@ namespace Files
             {
                 AssociatedInteractions.ShowPropertiesButton_Click(null, null);
             }
+            else if (e.Key == VirtualKey.Space)
+            {
+                if (!isRenamingItem && !App.CurrentInstance.NavigationToolbar.IsEditModeEnabled)
+                {
+                    if ((App.CurrentInstance.ContentPage).IsQuickLookEnabled)
+                    {
+                        App.CurrentInstance.InteractionOperations.ToggleQuickLook();
+                    }
+                    e.Handled = true;
+                }
+            }
         }
 
         protected override void Page_CharacterReceived(CoreWindow sender, CharacterReceivedEventArgs args)
@@ -300,7 +309,8 @@ namespace Files
                 if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser) && !isRenamingItem)
                 {
                     var focusedElement = FocusManager.GetFocusedElement(XamlRoot) as FrameworkElement;
-                    if (focusedElement is TextBox || focusedElement is PasswordBox)
+                    if (focusedElement is TextBox || focusedElement is PasswordBox ||
+                        Interacts.Interaction.FindParent<ContentDialog>(focusedElement) != null)
                     {
                         return;
                     }

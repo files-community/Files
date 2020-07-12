@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files"
     xmlns:local2="using:Files.Filesystem"
@@ -15,6 +16,8 @@
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
     <local:BaseLayout.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
         <MenuFlyout x:Key="BaseLayoutContextFlyout">
             <MenuFlyoutSubItem
                 x:Name="SortByEmptySpace"
@@ -68,7 +71,7 @@
                 x:Name="PasteEmptySpace"
                 x:Uid="BaseLayoutContextFlyoutPaste"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.PasteItem_ClickAsync}"
-                IsEnabled="{x:Bind local:App.PS.IsEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                IsEnabled="{x:Bind local:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Text="Paste">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xe9b2;"/>
@@ -79,7 +82,7 @@
                 x:Name="OpenTerminal"
                 x:Uid="BaseLayoutContextFlyoutOpenInTerminal"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInTerminal}"
-                IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
+                IsEnabled="{x:Bind InstanceViewModel.CanOpenTerminalInPage, Mode=OneWay}"
                 Text="Open in Terminal...">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE756;" />
@@ -107,7 +110,7 @@
                     x:Name="NewBitmapImage"
                     x:Uid="BaseLayoutContextFlyoutNewBitmapImage"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewBitmapImage_Click}"
-                    IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                    IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Bitmap Image">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea83;"/>
@@ -117,7 +120,7 @@
                     x:Name="NewTextDocument"
                     x:Uid="BaseLayoutContextFlyoutNewTextDocument"
                     Click="{x:Bind local:App.CurrentInstance.InteractionOperations.NewTextDocument_Click}"
-                    IsEnabled="{x:Bind local:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
+                    IsEnabled="{x:Bind InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                     Text="Text Document">
                     <MenuFlyoutItem.Icon>
                         <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xea00;"/>
@@ -199,7 +202,7 @@
                 x:Name="EmptyRecycleBin"
                 x:Uid="BaseLayoutContextFlyoutEmptyRecycleBin"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.EmptyRecycleBin_ClickAsync}"
-                IsEnabled="True"
+                IsEnabled="{x:Bind AssociatedViewModel.IsFolderEmptyTextDisplayed, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}"
                 Text="Empty recycle bin">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource RecycleBinIcons}" Glyph="&#xEF88;" />
@@ -271,7 +274,7 @@
                 x:Uid="BaseLayoutItemContextFlyoutSetAsDesktopBackground"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsDesktopBackgroundItem_Click}"
                 Text="Set as desktop background"
-                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEC16;" />
                 </MenuFlyoutItem.Icon>
@@ -281,7 +284,7 @@
                 x:Uid="BaseLayoutItemContextFlyoutSetAsLockscreenBackground"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.SetAsLockscreenBackgroundItem_Click}"
                 Text="Set as lockscreen background"
-                Visibility="{x:Bind local:App.InteractionViewModel.IsSelectedItemImage, Mode=OneWay}">
+                Visibility="{x:Bind SelectedItemsPropertiesViewModel.IsSelectedItemImage, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF103;" />
                 </MenuFlyoutItem.Icon>
@@ -485,15 +488,33 @@
                         </Viewbox>
                     </Grid>
                 </Grid>
-                <TextBlock
-                    Grid.Row="1"
-                    Margin="5,0,5,10"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    HorizontalTextAlignment="Center"
-                    Text="{x:Bind ItemName}"
-                    TextTrimming="CharacterEllipsis"
-                    TextWrapping="NoWrap" />
+                <Grid MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}"
+                      HorizontalAlignment="Center"
+                      Grid.Row="1"
+                      Margin="5,0,5,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <FontIcon
+                        x:Name="CloudDriveSyncStatusGlyph"
+                        Grid.Column="0"
+                        VerticalAlignment="Stretch"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="18"
+                        Margin="0,0,5,0"
+                        x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                        Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                        Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}"/>
+                    <TextBlock
+                        Grid.Column="1"
+                        x:Name="ItemName"
+                        Text="{x:Bind ItemName}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        TextTrimming="CharacterEllipsis"
+                        TextWrapping="NoWrap"/>
+                </Grid>
                 <Popup
                     x:Name="EditPopup"
                     Grid.Row="1"
@@ -514,7 +535,7 @@
 
         <DataTemplate x:Name="TilesBrowserTemplate" x:DataType="local2:ListedItem">
             <Grid
-                Width="250"
+                Width="260"
                 Height="100"
                 Margin="0,0,0,0"
                 Padding="0"
@@ -529,89 +550,100 @@
                 RightTapped="StackPanel_RightTapped"
                 Tag="ItemRoot"
                 ToolTipService.ToolTip="{x:Bind ItemName}">
-                <StackPanel Orientation="Horizontal">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="90"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <FontIcon
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    x:Name="CloudDriveSyncStatusGlyph"
+                    FontFamily="Segoe MDL2 Assets"
+                    Glyph="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Glyph, Mode=OneWay}"
+                    x:Load="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).LoadSyncStatus, Mode=OneWay}"
+                    Foreground="{x:Bind ((local2:CloudDriveSyncStatusUI)SyncStatusUI).Foreground, Mode=OneWay}" />
+                <Grid
+                    Grid.Column="1"
+                    Height="Auto"
+                    MinHeight="100"
+                    Tag="ItemImage">
                     <Grid
-                        Width="100"
-                        Height="Auto"
-                        MinHeight="100"
-                        Tag="ItemImage">
-                        <Grid
-                            x:Name="Picture"
-                            Width="74"
-                            Padding="0,12,0,12"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
-                            <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
-                        </Grid>
-                        <Image
-                            x:Name="FolderGlyph"
-                            Width="74"
-                            Height="74"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadFolderGlyph}"
-                            Stretch="Uniform">
-                            <Image.Source>
-                                <SvgImageSource
-                                    RasterizePixelHeight="128"
-                                    RasterizePixelWidth="128"
-                                    UriSource="/Assets/FolderIcon.svg" />
-                            </Image.Source>
-                        </Image>
-                        <Grid
-                            x:Name="TypeUnknownGlyph"
-                            Width="74"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
-                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="74"
-                                    Glyph="&#xE7C3;" />
-                            </Grid>
+                        x:Name="Picture"
+                        Width="74"
+                        Padding="0,12,0,12"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadFileIcon, Mode=OneWay}">
+                        <Image Source="{x:Bind FileImage, Mode=OneWay}" Stretch="Uniform" />
+                    </Grid>
+                    <Image
+                        x:Name="FolderGlyph"
+                        Width="74"
+                        Height="74"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadFolderGlyph}"
+                        Stretch="Uniform">
+                        <Image.Source>
+                            <SvgImageSource
+                                RasterizePixelHeight="128"
+                                RasterizePixelWidth="128"
+                                UriSource="/Assets/FolderIcon.svg" />
+                        </Image.Source>
+                    </Image>
+                    <Grid
+                        x:Name="TypeUnknownGlyph"
+                        Width="74"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}">
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <FontIcon
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="74"
+                                Glyph="&#xE7C3;" />
                         </Grid>
                     </Grid>
-                    <Grid Width="150" Height="100">
-                        <StackPanel Height="Auto" VerticalAlignment="Center">
-                            <TextBlock
-                                Width="140"
-                                Height="Auto"
-                                MaxHeight="50"
-                                Margin="0,0,10,0"
-                                HorizontalAlignment="Left"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                Text="{x:Bind ItemName}"
-                                TextAlignment="Left"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="Wrap" />
-                            <TextBox
-                                Width="140"
-                                Height="Auto"
-                                MaxHeight="50"
-                                Margin="0,0,10,0"
-                                HorizontalAlignment="Left"
-                                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                                Text="{x:Bind ItemName}"
-                                TextAlignment="Left"
-                                TextWrapping="Wrap"
-                                Visibility="Collapsed" />
-                            <TextBlock
-                                HorizontalAlignment="Left"
-                                Text="{x:Bind ItemType}"
-                                TextAlignment="Left"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                            <TextBlock
-                                HorizontalAlignment="Left"
-                                Text="{x:Bind FileSize}"
-                                TextAlignment="Left"
-                                TextTrimming="CharacterEllipsis"
-                                TextWrapping="NoWrap" />
-                        </StackPanel>
-                    </Grid>
-                </StackPanel>
+                </Grid>
+                <Grid Grid.Column="2" Height="100">
+                    <StackPanel Height="Auto" VerticalAlignment="Center">
+                        <TextBlock
+                            x:Name="ItemName"
+                            Height="Auto"
+                            MaxHeight="50"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Left"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{x:Bind ItemName}"
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="Wrap" />
+                        <TextBox
+                            x:Name="TileViewTextBoxItemName"
+                            Height="Auto"
+                            MaxHeight="50"
+                            Margin="0,0,10,0"
+                            HorizontalAlignment="Left"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{x:Bind ItemName}"
+                            TextAlignment="Left"
+                            TextWrapping="Wrap"
+                            Visibility="Collapsed" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Text="{x:Bind ItemType}"
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                        <TextBlock
+                            HorizontalAlignment="Left"
+                            Text="{x:Bind FileSize}"
+                            TextAlignment="Left"
+                            TextTrimming="CharacterEllipsis"
+                            TextWrapping="NoWrap" />
+                    </StackPanel>
+                </Grid>
             </Grid>
         </DataTemplate>
 
@@ -646,13 +678,13 @@
                 Modifiers="Control" />
         </Grid.KeyboardAccelerators>
         <Interactivity:Interaction.Behaviors>
-            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
+            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                 <Core:ChangePropertyAction
                     PropertyName="ContextFlyout"
                     TargetObject="{Binding ElementName=RootGrid}"
                     Value="{StaticResource BaseLayoutRecycleBinContextFlyout}" />
             </Core:DataTriggerBehavior>
-            <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
+            <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                 <Core:ChangePropertyAction
                     PropertyName="ContextFlyout"
                     TargetObject="{Binding ElementName=RootGrid}"
@@ -699,13 +731,13 @@
             SelectionChanged="FileList_SelectionChanged"
             SelectionMode="Extended">
             <Interactivity:Interaction.Behaviors>
-                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
+                <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="True">
                     <Core:ChangePropertyAction
                         PropertyName="ItemContainerStyle"
                         TargetObject="{Binding ElementName=FileList}"
                         Value="{StaticResource GridViewItemRecycleBinContextFlyout}" />
                 </Core:DataTriggerBehavior>
-                <Core:DataTriggerBehavior Binding="{x:Bind local:App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
+                <Core:DataTriggerBehavior Binding="{x:Bind InstanceViewModel.IsPageTypeRecycleBin, Mode=OneWay}" Value="False">
                     <Core:ChangePropertyAction
                         PropertyName="ItemContainerStyle"
                         TargetObject="{Binding ElementName=FileList}"

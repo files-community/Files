@@ -31,7 +31,7 @@
                 x:Name="chkPermanentlyDelete"
                 x:Uid="ConfirmDeleteDialogPermanentlyDeleteCheckBox"
                 Content="Permanently delete"
-                IsChecked="{x:Bind local1:App.InteractionViewModel.PermanentlyDelete, Mode=TwoWay, Converter={StaticResource StorageDeleteOptionToBooleanConverter}}" />
+                IsChecked="{x:Bind PermanentlyDelete, Mode=TwoWay, Converter={StaticResource StorageDeleteOptionToBooleanConverter}}" />
         </StackPanel>
 
         <StackPanel

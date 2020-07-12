@@ -10,6 +10,27 @@
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:primitives="using:Microsoft.UI.Xaml.Controls.Primitives"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Name="Light">
+                    <SolidColorBrush x:Key="TabViewBackground" Color="White" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Name="Dark">
+                    <SolidColorBrush x:Key="TabViewBackground" Color="Black" />
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#80191919" />
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Name="HighContrast">
+                    <SolidColorBrush x:Key="TabViewBackground" Color="Black" />
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundSelected" Color="#191919" />
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPointerOver" Color="#80191919" />
+                    <SolidColorBrush x:Key="TabViewItemHeaderBackgroundPressed" Color="#191919" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"

@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.ApplicationModel.DataTransfer;
 
 namespace Files
 {
@@ -47,9 +48,15 @@ namespace Files
             App.InteractionViewModel = new InteractionViewModel();
             App.SidebarPinnedController = new SidebarPinnedController();
 
+            App.ConsentDialogDisplay = new Dialogs.ConsentDialog();
+            App.PropertiesDialogDisplay = new Dialogs.PropertiesDialog();
+            App.LayoutDialogDisplay = new Dialogs.LayoutDialog();
+            App.AddItemDialogDisplay = new Dialogs.AddItemDialog();
+            App.ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
             // Turn on Navigation Cache
             this.NavigationCacheMode = NavigationCacheMode.Enabled;
-
+            Clipboard.ContentChanged += App.Clipboard_ContentChanged;
+            App.Clipboard_ContentChanged(null, null);
             Window.Current.SizeChanged += Current_SizeChanged;
             Current_SizeChanged(null, null);
 
@@ -428,7 +435,7 @@ namespace Files
             args.Handled = true;
         }
 
-        private async void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        private void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
             var InvokedTabView = (args.Element as TabView);
 
@@ -437,7 +444,7 @@ namespace Files
             {
                 if (TabStrip.TabItems.Count == 1)
                 {
-                    await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                    App.CloseApp();
                 }
                 else
                 {
@@ -503,11 +510,11 @@ namespace Files
             }
         }
 
-        private async void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
+        private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
             if (TabStrip.TabItems.Count == 1)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                App.CloseApp();
             }
             else if (TabStrip.TabItems.Count > 1)
             {
