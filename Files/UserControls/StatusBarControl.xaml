@@ -61,7 +61,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.InvertAllItems}"
                             Text="Invert Selection">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE746;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf102;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -95,7 +95,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeGridViewLarge}"
                             Text="Grid View (Large)">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE71A;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A0;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -103,7 +103,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeGridViewMedium}"
                             Text="Grid View (Medium)">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xF0E2;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA72;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -111,7 +111,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeGridViewSmall}"
                             Text="Grid View (Small)">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE80A;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEBA1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -119,7 +119,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeTiles}"
                             Text="Tiles View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf100;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF100;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -127,7 +127,7 @@
                             Command="{x:Bind AppSettings.ToggleLayoutModeListView}"
                             Text="List View">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xf200;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF101;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
