@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
 using Windows.ApplicationModel;
@@ -28,12 +29,6 @@ namespace FilesFullTrust
         [STAThread]
         private static void Main(string[] args)
         {
-            using var contextMenu = Win32API.ContextMenu.GetContextMenuForFiles(@"PATH_TO_FILE_OR_FOLDER", Shell32.CMF.CMF_EXTENDEDVERBS);
-            System.Windows.Forms.Application.Run(new Win32API.ContextMenuDebuggerForm(contextMenu));
-            contextMenu.Items.First().Invoke();
-            contextMenu.Dispose();
-            return;
-
             StorageFolder storageFolder = ApplicationData.Current.LocalFolder;
             LogManager.Configuration = new NLog.Config.XmlLoggingConfiguration(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NLog.config"));
             LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
@@ -56,6 +51,9 @@ namespace FilesFullTrust
 
             try
             {
+                // Create handle table to store e.g. context menu references
+                handleTable = new Win32API.DisposableDictionary();
+
                 // Create shell COM object and get recycle bin folder
                 recycler = new ShellFolder(Shell32.KNOWNFOLDERID.FOLDERID_RecycleBinFolder);
                 ApplicationData.Current.LocalSettings.Values["RecycleBin_Title"] = recycler.Name;
@@ -95,6 +93,7 @@ namespace FilesFullTrust
                 {
                     watcher.Dispose();
                 }
+                handleTable?.Dispose();
                 recycler?.Dispose();
                 appServiceExit?.Dispose();
                 mutex?.ReleaseMutex();
@@ -135,6 +134,7 @@ namespace FilesFullTrust
         private static AppServiceConnection connection;
         private static AutoResetEvent appServiceExit;
         private static ShellFolder recycler;
+        private static Win32API.DisposableDictionary handleTable;
         private static IList<FileSystemWatcher> watchers;
 
         private static async void InitializeAppServiceConnection()
@@ -239,17 +239,32 @@ namespace FilesFullTrust
                     process.Start();
                     break;
 
-                case "LoadMUIVerb":
-                    var responseSet = new ValueSet();
-                    responseSet.Add("MUIVerbString", Win32API.ExtractStringFromDLL((string)args.Request.Message["MUIVerbLocation"], (int)args.Request.Message["MUIVerbLine"]));
-                    await args.Request.SendResponseAsync(responseSet);
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var loadThreadWithMessageQueue = new Win32API.ThreadWithMessageQueue<ValueSet>(HandleMenuMessage);
+                    var cMenuLoad = await loadThreadWithMessageQueue.PostMessage<Win32API.ContextMenu>(args.Request.Message);
+                    contextMenuResponse.Add("Handle", handleTable.AddValue(loadThreadWithMessageQueue));
+                    contextMenuResponse.Add("ContextMenu", JsonConvert.SerializeObject(cMenuLoad));
+                    await args.Request.SendResponseAsync(contextMenuResponse);
                     break;
 
-                case "ParseAguments":
-                    var responseArray = new ValueSet();
-                    var resultArgument = Win32API.CommandLineToArgs((string)args.Request.Message["Command"]);
-                    responseArray.Add("ParsedArguments", JsonConvert.SerializeObject(resultArgument));
-                    await args.Request.SendResponseAsync(responseArray);
+                case "ExecAndCloseContextMenu":
+                    var menuKey = (string)args.Request.Message["Handle"];
+                    var execThreadWithMessageQueue = handleTable.GetValue<Win32API.ThreadWithMessageQueue<ValueSet>>(menuKey);
+                    if (execThreadWithMessageQueue != null)
+                    {
+                        await execThreadWithMessageQueue.PostMessage(args.Request.Message);
+                    }
+                    //handleTable.RemoveValue(menuKey);
+                    break;
+
+                case "InvokeVerb":
+                    var filePath = (string)args.Request.Message["FilePath"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    using (var cMenu = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(), Shell32.CMF.CMF_DEFAULTONLY))
+                    {
+                        cMenu.InvokeVerb((string)args.Request.Message["Verb"]);
+                    }
                     break;
 
                 case "Bitlocker":
@@ -280,6 +295,52 @@ namespace FilesFullTrust
                     }
                     break;
             }
+        }
+
+        private static object HandleMenuMessage(ValueSet message, Win32API.DisposableDictionary table)
+        {
+            switch ((string)message["Arguments"])
+            {
+                case "LoadContextMenu":
+                    var contextMenuResponse = new ValueSet();
+                    var filePath = (string)message["FilePath"];
+                    var extendedMenu = (bool)message["ExtendedMenu"];
+                    var showOpenMenu = (bool)message["ShowOpenMenu"];
+                    var split = filePath.Split('|').Where(x => !string.IsNullOrWhiteSpace(x));
+                    var cMenuLoad = Win32API.ContextMenu.GetContextMenuForFiles(split.ToArray(),
+                        extendedMenu ? Shell32.CMF.CMF_EXTENDEDVERBS : Shell32.CMF.CMF_NORMAL, FilterMenuItems(showOpenMenu));
+                    table.SetValue("MENU", cMenuLoad);
+                    return cMenuLoad;
+
+                case "ExecAndCloseContextMenu":
+                    var cMenuExec = table.GetValue<Win32API.ContextMenu>("MENU");
+                    cMenuExec?.InvokeItem(message.Get("ItemID", -1));
+                    //table.RemoveValue("MENU");
+                    return null;
+
+                default:
+                    return null;
+            }
+        }
+
+        private static Func<string, bool> FilterMenuItems(bool showOpenMenu)
+        {
+            var knownItems = new List<string>() {
+                "opennew", "openas", "opencontaining"," opennewprocess",
+                "runas", "runasuser", "pintohome",
+                "cut", "copy", "delete", "properties", "link",
+                "Windows.ModernShare", "Windows.Share", "setdesktopwallpaper",
+                Win32API.ExtractStringFromDLL("shell32.dll", 30312), // SendTo menu
+                Win32API.ExtractStringFromDLL("shell32.dll", 34593), // Add to collection
+            };
+
+            bool filterMenuItemsImpl(string menuItem)
+            {
+                return string.IsNullOrEmpty(menuItem) ? false : knownItems.Contains(menuItem) 
+                    || (!showOpenMenu && menuItem.Equals("open", StringComparison.OrdinalIgnoreCase));
+            }
+
+            return filterMenuItemsImpl;
         }
 
         private static async Task parseFileOperation(AppServiceRequestReceivedEventArgs args)

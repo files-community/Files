@@ -972,4 +972,7 @@
   <data name="ShareDialogTitleMultipleItems" xml:space="preserve">
     <value>Sharing {0} {1}</value>
   </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>More</value>
+  </data>
 </root>

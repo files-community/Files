@@ -1,93 +1,187 @@
-﻿using System;
+﻿using Files.Common;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
 using Vanara.InteropServices;
 using Vanara.PInvoke;
 using Vanara.Windows.Shell;
+using Windows.Foundation.Collections;
 using static Vanara.PInvoke.Gdi32;
 
 namespace FilesFullTrust
 {
     internal partial class Win32API
     {
-        // Shows context menu items, only for debug purpose
-        public class ContextMenuDebuggerForm : System.Windows.Forms.Form
+        public class ThreadWithMessageQueue<T> : IDisposable
         {
-            private ContextMenu menu;
+            private BlockingCollection<Internal> messageQueue;
+            private Thread thread;
+            private DisposableDictionary state;
 
-            public ContextMenuDebuggerForm(ContextMenu menu)
+            public void Dispose()
             {
-                this.menu = menu;
-                this.Load += ContextMenuDebuggerForm_Load;
+                messageQueue.CompleteAdding();
+                thread.Join();
+                state.Dispose();
             }
 
-            private void ContextMenuDebuggerForm_Load(object sender, EventArgs e)
+            public async Task<V> PostMessage<V>(T payload)
             {
-                AutoScroll = true;
-                Text = this.GetType().Name;
-                int offset = 0;
-                RenderContextMenu(menu.Items, ref offset);
+                var message = new Internal(payload);
+                messageQueue.TryAdd(message);
+                return (V)await message.tcs.Task;
             }
 
-            private void RenderContextMenu(List<ContextMenuItem> items, ref int offset, int level = 0)
+            public Task PostMessage(T payload)
             {
-                foreach (var mi in items)
+                var message = new Internal(payload);
+                messageQueue.TryAdd(message);
+                return message.tcs.Task;
+            }
+
+            public ThreadWithMessageQueue(Func<T, DisposableDictionary, object> handleMessage)
+            {
+                messageQueue = new BlockingCollection<Internal>(new ConcurrentQueue<Internal>());
+                state = new DisposableDictionary();
+                thread = new Thread(new ThreadStart(() =>
                 {
-                    if (mi.Type != User32.MenuItemType.MFT_STRING)
-                        continue;
-                    var label = new System.Windows.Forms.Label();
-                    label.Text = mi.Label;
-                    label.Location = new Point(level * 30 + 30, offset * 30);
-                    label.Width = Width;
-                    var image = new System.Windows.Forms.PictureBox();
-                    image.Image = mi.Icon;
-                    image.Location = new Point(level * 30, offset * 30);
-                    image.Size = new Size(mi.Icon?.Width ?? 0, mi.Icon?.Height ?? 0);
-                    this.Controls.Add(image);
-                    this.Controls.Add(label);
-                    offset = offset + 1;
-                    RenderContextMenu(mi.SubItems, ref offset, level + 1);
+                    foreach (var message in messageQueue.GetConsumingEnumerable())
+                    {
+                        var res = handleMessage(message.payload, state);
+                        message.tcs.SetResult(res);
+                    }
+                }));
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+            }
+
+            private class Internal
+            {
+                public T payload;
+                public TaskCompletionSource<object> tcs;
+
+                public Internal(T payload)
+                {
+                    this.payload = payload;
+                    this.tcs = new TaskCompletionSource<object>(TaskCreationOptions.RunContinuationsAsynchronously);
                 }
             }
         }
 
-        public class ContextMenu : IDisposable
+        public class DisposableDictionary : IDisposable
         {
-            private IContextMenu cMenu;
-            public List<ContextMenuItem> Items { get; set; }
+            private ConcurrentDictionary<string, object> _dict;
 
-            public ContextMenu(IContextMenu cMenu)
+            public DisposableDictionary()
+            {
+                _dict = new ConcurrentDictionary<string, object>();
+            }
+
+            public string AddValue(object obj)
+            {
+                string key = Guid.NewGuid().ToString();
+                if (!_dict.TryAdd(key, obj))
+                    throw new ArgumentException("Could not create handle: key exists");
+                return key;
+            }
+
+            public void SetValue(string key, object obj)
+            {
+                RemoveValue(key);
+                if (!_dict.TryAdd(key, obj))
+                    throw new ArgumentException("Could not create handle: key exists");
+            }
+
+            public object GetValue(string key)
+            {
+                _dict.TryGetValue(key, out var elem);
+                return elem;
+            }
+
+            public T GetValue<T>(string key)
+            {
+                _dict.TryGetValue(key, out var elem);
+                return (T)elem;
+            }
+
+            public void RemoveValue(string key)
+            {
+                _dict.TryRemove(key, out var elem);
+                (elem as IDisposable)?.Dispose();
+            }
+
+            public void Dispose()
+            {
+                foreach (var elem in _dict)
+                {
+                    _dict.TryRemove(elem.Key, out _);
+                    (elem.Value as IDisposable)?.Dispose();
+                }
+            }
+        }
+
+        public class ContextMenu : IWin32ContextMenu, IDisposable
+        {
+            private Shell32.IContextMenu cMenu;
+
+            public ContextMenu(Shell32.IContextMenu cMenu)
             {
                 this.cMenu = cMenu;
-                this.Items = new List<ContextMenuItem>();
+                this.Items = new List<IWin32ContextMenuItem>();
             }
 
             public void InvokeVerb(string verb)
             {
-                var pici = new CMINVOKECOMMANDINFOEX();
-                pici.lpVerb = new SafeResourceId(verb, CharSet.Ansi);
-                pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
-                pici.cbSize = (uint)Marshal.SizeOf(pici);
-                cMenu.InvokeCommand(pici);
+                if (string.IsNullOrEmpty(verb)) return;
+                try
+                {
+                    var pici = new Shell32.CMINVOKECOMMANDINFOEX();
+                    pici.lpVerb = new SafeResourceId(verb, CharSet.Ansi);
+                    pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
+                    pici.cbSize = (uint)Marshal.SizeOf(pici);
+                    cMenu.InvokeCommand(pici);
+                }
+                catch (COMException ex)
+                {
+                    // Usually it's "invalid window handle"
+                    Debug.WriteLine(ex);
+                }
+            }
+
+            public void InvokeItem(int itemID)
+            {
+                if (itemID < 0) return;
+                try
+                {
+                    var pici = new Shell32.CMINVOKECOMMANDINFOEX();
+                    pici.lpVerb = Macros.MAKEINTRESOURCE(itemID);
+                    pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
+                    pici.cbSize = (uint)Marshal.SizeOf(pici);
+                    cMenu.InvokeCommand(pici);
+                }
+                catch (COMException ex)
+                {
+                    // Usually it's "invalid window handle"
+                    Debug.WriteLine(ex);
+                }
             }
 
             #region FactoryMethods
-            public static ContextMenu GetContextMenuForFiles(string filePath, Shell32.CMF flags)
-            {
-                return GetContextMenuForFiles(filePath.Split(';').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray(), flags);
-            }
-
-            public static ContextMenu GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags)
+            public static ContextMenu GetContextMenuForFiles(string[] filePathList, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 List<ShellItem> shellItems = new List<ShellItem>();
                 try
                 {
                     foreach (var fp in filePathList)
                         shellItems.Add(new ShellItem(fp));
-                    return GetContextMenuForFiles(shellItems.ToArray(), flags);
+                    return GetContextMenuForFiles(shellItems.ToArray(), flags, itemFilter);
                 }
                 finally
                 {
@@ -96,23 +190,27 @@ namespace FilesFullTrust
                 }
             }
 
-            public static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags)
+            public static ContextMenu GetContextMenuForFiles(ShellItem[] shellItems, Shell32.CMF flags, Func<string, bool> itemFilter = null)
             {
                 if (shellItems == null || !shellItems.Any())
                     return null;
                 using var sf = shellItems.First().Parent; // TODO: what if the items aren't all in the same folder?
-                IContextMenu menu = sf.GetChildrenUIObjects<IContextMenu>(null, shellItems);
+                Shell32.IContextMenu menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, shellItems);
                 var contextMenu = new ContextMenu(menu);
-                var hMenu = User32.CreatePopupMenu();                
+                var hMenu = User32.CreatePopupMenu();
                 menu.QueryContextMenu(hMenu, 0, 1, 0x7FFF, flags);
                 //User32.TrackPopupMenuEx(hMenu, User32.TrackPopupMenuFlags.TPM_RETURNCMD, 0, 0, wv.Handle);
-                ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items);
+                ContextMenu.EnumMenuItems(menu, hMenu, contextMenu.Items, itemFilter);
                 User32.DestroyMenu(hMenu);
                 return contextMenu;
             }
             #endregion
 
-            private static void EnumMenuItems(IContextMenu cMenu, HMENU hMenu, List<ContextMenuItem> menuItemsResult)
+            private static void EnumMenuItems(
+                Shell32.IContextMenu cMenu, 
+                HMENU hMenu, 
+                List<IWin32ContextMenuItem> menuItemsResult, 
+                Func<string, bool> itemFilter = null)
             {
                 var itemCount = User32.GetMenuItemCount(hMenu);
                 var mii = new User32.MENUITEMINFO();
@@ -124,7 +222,7 @@ namespace FilesFullTrust
                     | User32.MenuItemInfoMask.MIIM_SUBMENU;
                 for (uint ii = 0; ii < itemCount; ii++)
                 {
-                    var menuItem = new ContextMenuItem(cMenu);
+                    var menuItem = new ContextMenuItem();
                     var container = new SafeCoTaskMemString(512);
                     mii.dwTypeData = (IntPtr)container;
                     mii.cch = (uint)container.Capacity - 1; // https://devblogs.microsoft.com/oldnewthing/20040928-00/?p=37723
@@ -134,13 +232,19 @@ namespace FilesFullTrust
                         container.Dispose();
                         continue;
                     }
-                    menuItem.Type = mii.fType;
-                    menuItem.ID = mii.wID - 1; // wID - idCmdFirst
-                    if (mii.fType == User32.MenuItemType.MFT_STRING)
+                    menuItem.Type = (MenuItemType)mii.fType;
+                    menuItem.ID = (int)(mii.wID - 1); // wID - idCmdFirst
+                    if (menuItem.Type == MenuItemType.MFT_STRING)
                     {
                         Debug.WriteLine("Item {0} ({1}): {2}", ii, mii.wID, mii.dwTypeData);
                         menuItem.Label = mii.dwTypeData;
                         menuItem.CommandString = GetCommandString(cMenu, mii.wID - 1);
+                        if (itemFilter != null && (itemFilter(menuItem.CommandString) || itemFilter(menuItem.Label)))
+                        {
+                            // Skip items implemented in UWP
+                            container.Dispose();
+                            continue;
+                        }
                         if (mii.hbmpItem != HBITMAP.NULL)
                         {
                             var bitmap = GetTransparentBitmap(mii.hbmpItem);
@@ -149,16 +253,19 @@ namespace FilesFullTrust
                         if (mii.hSubMenu != HMENU.NULL)
                         {
                             Debug.WriteLine("Item {0}: has submenu", ii);
-                            var subItems = new List<ContextMenuItem>();
+                            var subItems = new List<IWin32ContextMenuItem>();
                             try
                             {
                                 (cMenu as Shell32.IContextMenu2)?.HandleMenuMsg((uint)User32.WindowMessage.WM_INITMENUPOPUP, (IntPtr)mii.hSubMenu, new IntPtr(ii));
+                                // Skip this items, clicking on them probably won't work
+                                container.Dispose();
+                                continue;
                             }
                             catch (NotImplementedException)
                             {
                                 // Only for dynamic/owner drawn? (open with, etc)
                             }
-                            EnumMenuItems(cMenu, mii.hSubMenu, subItems);
+                            EnumMenuItems(cMenu, mii.hSubMenu, subItems, itemFilter);
                             menuItem.SubItems = subItems;
                             Debug.WriteLine("Item {0}: done submenu", ii);
                         }
@@ -168,11 +275,20 @@ namespace FilesFullTrust
                         Debug.WriteLine("Item {0}: {1}", ii, mii.fType.ToString());
                     }
                     container.Dispose();
-                    menuItemsResult.Add(menuItem);
+                    if (!menuItemsResult.Any() || !(menuItem.Type == MenuItemType.MFT_SEPARATOR) || !(menuItemsResult.Last().Type == MenuItemType.MFT_SEPARATOR))
+                    {
+                        // Avoid duplicate separators
+                        menuItemsResult.Add(menuItem);
+                    }
+                }
+                if (menuItemsResult.LastOrDefault()?.Type == MenuItemType.MFT_SEPARATOR)
+                {
+                    // Remove trailing separator
+                    menuItemsResult.Remove(menuItemsResult.Last());
                 }
             }
 
-            private static string GetCommandString(IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
+            private static string GetCommandString(Shell32.IContextMenu cMenu, uint offset, Shell32.GCS flags = Shell32.GCS.GCS_VERBW)
             {
                 SafeCoTaskMemString commandString = null;
                 try
@@ -232,7 +348,7 @@ namespace FilesFullTrust
                         if (Items != null)
                         {
                             foreach (var si in Items)
-                                si.Dispose();
+                                (si as IDisposable)?.Dispose();
                             Items = null;
                         }
                     }
@@ -266,30 +382,27 @@ namespace FilesFullTrust
             #endregion
         }
 
-        public class ContextMenuItem : IDisposable
+        public class ContextMenuItem : IWin32ContextMenuItem, IDisposable
         {
-            public Bitmap Icon { get; set; }
-            public uint ID { get; set; } // Valid only in current menu to invoke item
-            public string Label { get; set; }
-            public string CommandString { get; set; }
-            public User32.MenuItemType Type { get; set; }
-            public List<ContextMenuItem> SubItems { get; set; }
-
-            private IContextMenu parentMenu;
-
-            public ContextMenuItem(IContextMenu menu)
+            private Bitmap _Icon;
+            [JsonIgnore]
+            public Bitmap Icon
             {
-                this.SubItems = new List<ContextMenuItem>();
-                this.parentMenu = menu;
+                get
+                {
+                    return _Icon;
+                }
+                set
+                {
+                    _Icon = value;
+                    byte[] bitmapData = (byte[])new ImageConverter().ConvertTo(value, typeof(byte[]));
+                    IconBase64 = Convert.ToBase64String(bitmapData, 0, bitmapData.Length);
+                }
             }
 
-            public void Invoke()
+            public ContextMenuItem()
             {
-                var pici = new CMINVOKECOMMANDINFOEX();
-                pici.lpVerb = Macros.MAKEINTRESOURCE((int)ID);
-                pici.nShow = ShowWindowCommand.SW_SHOWNORMAL;
-                pici.cbSize = (uint)Marshal.SizeOf(pici);
-                parentMenu?.InvokeCommand(pici);
+                this.SubItems = new List<IWin32ContextMenuItem>();
             }
 
             public void Dispose()
@@ -298,7 +411,7 @@ namespace FilesFullTrust
                 if (SubItems != null)
                 {
                     foreach (var si in SubItems)
-                        si.Dispose();
+                        (si as IDisposable)?.Dispose();
                     SubItems = null;
                 }
             }
@@ -309,43 +422,6 @@ namespace FilesFullTrust
     // The Vanara library contains the definitions for all members of Shell32.dll, User32.dll and more
     // The ones below are due to bugs in the current version of the library and can be removed once fixed
     #region WIN32_INTERFACES
-    [PInvokeData("shobjidl_core.h", MSDNShortId = "c4c7f053-fdb1-4bba-9eb9-a514ce1d90f6")]
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CMINVOKECOMMANDINFOEX
-    {
-        public uint cbSize;
-        public Shell32.CMIC fMask;
-        public HWND hwnd;
-        //[MarshalAs(UnmanagedType.LPStr)]
-        public ResourceId lpVerb;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string lpParameters;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string lpDirectory;
-        public ShowWindowCommand nShow;
-        public uint dwHotKey;
-        public HICON hIcon;
-        [MarshalAs(UnmanagedType.LPStr)]
-        public string lpTitle;
-        //[MarshalAs(UnmanagedType.LPWStr)]
-        public ResourceId lpVerbW;
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpParametersW;
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpDirectoryW;
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public string lpTitleW;
-        public Point ptInvoke;
-    }
 
-    [PInvokeData("Shobjidl.h", MSDNShortId = "bb776095")]
-    [ComImport, InterfaceType(ComInterfaceType.InterfaceIsIUnknown), Guid("000214E4-0000-0000-c000-000000000046")]
-    public interface IContextMenu
-    {
-        [PreserveSig]
-        HRESULT QueryContextMenu(HMENU hmenu, uint indexMenu, uint idCmdFirst, uint idCmdLast, Shell32.CMF uFlags);
-        void InvokeCommand(in CMINVOKECOMMANDINFOEX pici);
-        void GetCommandString(IntPtr idCmd, Shell32.GCS uType, IntPtr pReserved, IntPtr pszName, uint cchMax);
-    }
     #endregion
 }

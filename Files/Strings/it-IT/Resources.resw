@@ -852,4 +852,7 @@
   <data name="InvalidItemDialogTitle" xml:space="preserve">
     <value>Elemento non valido</value>
   </data>
+  <data name="ContextMenuMoreItemsLabel" xml:space="preserve">
+    <value>Altri elementi</value>
+  </data>
 </root>
