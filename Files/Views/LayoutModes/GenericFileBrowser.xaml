@@ -614,8 +614,8 @@
                                 <FontIcon
                                     x:Name="UnknownFileTypeElement"
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Glyph="&#xE7C3;" />
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
+                                    Glyph="&#xEA00;" />
                                 <Image
                                     x:Name="FileImageElement"
                                     Width="20"
