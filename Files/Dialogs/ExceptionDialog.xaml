@@ -30,11 +30,13 @@
                         <FontIcon
                             x:Name="ExpandIcon"
                             FontSize="14"
-                            Glyph="&#xE70D;" />
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            Glyph="&#xE9A5;" />
                         <FontIcon
                             x:Name="CollapseIcon"
                             FontSize="14"
-                            Glyph="&#xE70E;"
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            Glyph="&#xE9A9;"
                             Visibility="Collapsed" />
                         <TextBlock FontWeight="Bold" Text="More information" />
                     </StackPanel>

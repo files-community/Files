@@ -320,6 +320,7 @@
     <Content Include="Assets\Custom Glyphs\Custom-Glyphs.ttf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Custom Glyphs\fluentui.ttf" />
     <None Include="Assets\terminal\terminal.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

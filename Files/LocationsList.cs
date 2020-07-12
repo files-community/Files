@@ -17,11 +17,11 @@ namespace Locations
 
         public static void DisplayItems()
         {
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Blue.png", Icon = "\xE896", Text = ResourceController.GetTranslation("SidebarDownloads"), Tag = "Downloads" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Green.png", Icon = "\xE8A5", Text = ResourceController.GetTranslation("SidebarDocuments"), Tag = "Documents" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xEB9F", Text = ResourceController.GetTranslation("SidebarPictures"), Tag = "Pictures" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xEC4F", Text = ResourceController.GetTranslation("SidebarMusic"), Tag = "Music" });
-            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xE8B2", Text = ResourceController.GetTranslation("SidebarVideos"), Tag = "Videos" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Blue.png", Icon = "\xe91c", Text = ResourceController.GetTranslation("SidebarDownloads"), Tag = "Downloads" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Green.png", Icon = "\xea11", Text = ResourceController.GetTranslation("SidebarDocuments"), Tag = "Documents" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xea83", Text = ResourceController.GetTranslation("SidebarPictures"), Tag = "Pictures" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xead4", Text = ResourceController.GetTranslation("SidebarMusic"), Tag = "Music" });
+            itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xec0d", Text = ResourceController.GetTranslation("SidebarVideos"), Tag = "Videos" });
         }
     }
 }

@@ -962,7 +962,6 @@
           <source>Moving files to Recycle Bin</source>
           <target state="new">Moving files to Recycle Bin</target>
         </trans-unit>
-
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
           <target state="new">Recent</target>
