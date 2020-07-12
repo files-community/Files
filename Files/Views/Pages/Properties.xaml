@@ -111,6 +111,7 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind ViewModel.LoadDriveItemGlyph, Mode=OneWay}"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
                         FontSize="70"
                         Glyph="{x:Bind ViewModel.DriveItemGlyphSource, Mode=OneWay}" />
                     <Image
