@@ -961,6 +961,10 @@
           <source>File system:</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">Dateisystem:</target>
         </trans-unit>
+        <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
+          <source>Recent</source>
+          <target state="new">Recent</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
           <target state="new">App Language</target>

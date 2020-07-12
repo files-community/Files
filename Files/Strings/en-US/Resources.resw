@@ -828,6 +828,9 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>File system:</value>
   </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>Recent</value>
+  </data>
   <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
     <value>App Language</value>
   </data>

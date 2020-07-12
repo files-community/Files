@@ -4,6 +4,7 @@ using Files.Controls;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Helpers;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -56,8 +57,8 @@ namespace Files
         public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
+        public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public App()

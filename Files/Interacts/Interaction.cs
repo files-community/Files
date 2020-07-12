@@ -800,6 +800,8 @@ namespace Files.Interacts
                             var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
 
                             await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+
+                            App.JumpList.RemoveFolder(folder.Path);
                         }
                         else
                         {
@@ -815,6 +817,8 @@ namespace Files.Interacts
                             var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
 
                             await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+
+                            App.JumpList.RemoveFolder(folder.Path);
                         }
                         else
                         {
@@ -888,6 +892,9 @@ namespace Files.Interacts
             {
                 await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
             }
+
+            App.JumpList.RemoveFolder(SourceFolder.Path);
+            
             return createdRoot;
         }
 

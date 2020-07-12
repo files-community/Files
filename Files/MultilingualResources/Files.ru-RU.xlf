@@ -954,6 +954,10 @@
           <source>Moving files to Recycle Bin</source>
           <target state="translated">Перемещение файлов в Корзину</target>
         </trans-unit>
+        <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
+          <source>Recent</source>
+          <target state="new">Recent</target>
+        </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
           <target state="new">App Language</target>
