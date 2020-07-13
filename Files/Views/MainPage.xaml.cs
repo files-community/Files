@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
@@ -49,6 +50,8 @@ namespace Files.Views
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
+        public static event EventHandler<bool> OnTabItemDraggedOver;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -62,9 +65,20 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
+
+            AllowDrop = true;
+            DragOver += MainPage_DragOver;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
+        private void MainPage_DragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Properties.ContainsKey(VerticalTabView.TabPathIdentifier))
+            {
+                OnTabItemDraggedOver?.Invoke(sender, true);
+            }
+        }
+
+        protected override async void OnNavigatedTo(NavigationEventArgs eventArgs)
         {
             var navArgs = eventArgs.Parameter?.ToString();
             if (eventArgs.NavigationMode != NavigationMode.Back)
@@ -81,20 +95,20 @@ namespace Files.Views
                 {
                     try
                     {
-                        AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                        await AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
                     }
                     catch (Exception)
                     {
-                        AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                        await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                     }
                 }
                 else if (string.IsNullOrEmpty(navArgs))
                 {
-                    AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                    await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                 }
                 else
                 {
-                    AddNewTab(typeof(ModernShellPage), navArgs);
+                    await AddNewTab(typeof(ModernShellPage), navArgs);
                 }
 
                 // Initial setting of SelectedTabItem
@@ -104,7 +118,7 @@ namespace Files.Views
             }
         }
 
-        public static async void AddNewTab(Type t, string path)
+        public static async Task AddNewTab(Type t, string path, int atIndex = -1)
         {
             Frame frame = new Frame();
             string tabLocationHeader = null;
@@ -223,7 +237,7 @@ namespace Files.Views
                 IconSource = tabIcon,
                 Description = null
             };
-            MainPage.AppInstances.Add(tvi);
+            MainPage.AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tvi);
             //App.InteractionViewModel.TabStripSelectedIndex = Items.Count - 1;
 
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;

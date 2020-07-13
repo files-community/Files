@@ -1,4 +1,5 @@
 ﻿using Files.Filesystem;
+using Files.Interacts;
 using Files.View_Models;
 using System;
 using System.ComponentModel;
@@ -183,9 +184,9 @@ namespace Files.Controls
             App.CurrentInstance.InteractionOperations.OpenPathInNewTab(App.rightClickedItem.Path.ToString());
         }
 
-        private void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
+        private async void OpenInNewWindow_Click(object sender, RoutedEventArgs e)
         {
-            App.CurrentInstance.InteractionOperations.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
+            await Interaction.OpenPathInNewWindow(App.rightClickedItem.Path.ToString());
         }
     }
 
