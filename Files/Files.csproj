@@ -222,6 +222,7 @@
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
+    <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
