@@ -18,6 +18,7 @@ using Windows.ApplicationModel.DataTransfer;
 using static Files.Helpers.PathNormalization;
 using Files.UserControls.MultiTaskingControl;
 using Files.Views;
+using Files.Interacts;
 
 namespace Files.UserControls
 {
@@ -25,6 +26,9 @@ namespace Files.UserControls
     {
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
+
+        public const string TabPathIdentifier = "FilesTabViewItemPath";
+        private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
         public VerticalTabView()
         {
@@ -241,18 +245,9 @@ namespace Files.UserControls
             }
         }
 
-        private async void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
+        private void TabStrip_TabCloseRequested(TabView sender, TabViewTabCloseRequestedEventArgs args)
         {
-            if (Items.Count == 1)
-            {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
-            }
-            else if (Items.Count > 1)
-            {
-                int tabIndexToClose = Items.IndexOf(args.Item as TabItem);
-                Items.RemoveAt(tabIndexToClose);
-                //App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
-            }
+            RemoveTab(args.Item as TabItem);
         }
 
         public static T GetCurrentSelectedTabInstance<T>()
@@ -268,9 +263,9 @@ namespace Files.UserControls
             return default;
         }
 
-        private void verticalTabView_AddTabButtonClick(TabView sender, object args)
+        private async void verticalTabView_AddTabButtonClick(TabView sender, object args)
         {
-            MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         private void verticalTabView_TabItemsChanged(TabView sender, Windows.Foundation.Collections.IVectorChangedEventArgs args)
@@ -323,6 +318,95 @@ namespace Files.UserControls
                 e.AcceptedOperation = DataPackageOperation.Copy;
             else
                 e.AcceptedOperation = DataPackageOperation.None;
+        }
+
+        private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
+        {
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            args.Data.Properties.Add(TabPathIdentifier, tabViewItemPath);
+            args.Data.RequestedOperation = DataPackageOperation.Move;
+        }
+
+        private void TabStrip_TabStripDragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
+            {
+                e.AcceptedOperation = DataPackageOperation.Move;
+                e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsGlyphVisible = false;
+            }
+        }
+
+        private async void TabStrip_TabStripDrop(object sender, DragEventArgs e)
+        {
+            if (!(sender is TabView tabStrip))
+            {
+                return;
+            }
+
+            if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemPath))
+            {
+                return;
+            }
+
+            var index = -1;
+
+            for (int i = 0; i < tabStrip.TabItems.Count; i++)
+            {
+                var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
+
+                if (e.GetPosition(item).Y - item.ActualHeight < 0)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
+            await MainPage.AddNewTab(typeof(ModernShellPage), tabViewItemPath, index);
+        }
+
+        private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
+        {
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
+                (bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
+            {
+                RemoveTab(args.Item as TabItem);
+            }
+
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
+            {
+                ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
+            }
+        }
+
+        private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+        {
+            if (sender.TabItems.Count == 1) return;
+
+            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
+            var tabViewItemPath = ((((args.Item as TabItem).Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var selectedTabViewItemIndex = sender.SelectedIndex;
+            RemoveTab(args.Item as TabItem);
+            if (!await Interaction.OpenPathInNewWindow(tabViewItemPath))
+            {
+                sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
+                sender.SelectedIndex = selectedTabViewItemIndex;
+            }
+        }
+
+        private async void RemoveTab(TabItem tabItem)
+        {
+            if (Items.Count == 1)
+            {
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else if (Items.Count > 1)
+            {
+                Items.Remove(tabItem);
+                //App.InteractionViewModel.TabStripSelectedIndex = verticalTabView.SelectedIndex;
+            }
         }
     }
 }

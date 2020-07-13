@@ -97,9 +97,9 @@ namespace Files.Interacts
             await LockScreen.SetImageFileAsync(file);
         }
 
-        public void OpenNewTab()
+        public async void OpenNewTab()
         {
-            MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -117,22 +117,22 @@ namespace Files.Interacts
         {
             foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    await MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
         }
 
-        public void OpenPathInNewTab(string path)
+        public async void OpenPathInNewTab(string path)
         {
-            MainPage.AddNewTab(typeof(ModernShellPage), path);
+            await MainPage.AddNewTab(typeof(ModernShellPage), path);
         }
 
-        public async void OpenPathInNewWindow(string path)
+        public static async Task<bool> OpenPathInNewWindow(string path)
         {
             var folderUri = new Uri("files-uwp:" + "?folder=" + path);
-            await Launcher.LaunchUriAsync(folderUri);
+            return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
@@ -431,7 +431,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        await MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
                     }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                     {
@@ -1352,9 +1352,9 @@ namespace Files.Interacts
                     .ContinueWith(async (x) =>
                 {
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
-                        MainPage.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                        await MainPage.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
                 banner.Report(100);
