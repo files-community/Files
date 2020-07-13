@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
+using Windows.Services.Maps;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -106,10 +107,8 @@ namespace Files.Views
 
         public static async void AddNewTab(Type t, string path)
         {
-            Frame frame = new Frame();
             string tabLocationHeader = null;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
-            Microsoft.UI.Xaml.Controls.IconSource tabIcon;
 
             if (path != null)
             {
@@ -211,29 +210,43 @@ namespace Files.Views
                 }
             }
 
-            tabIcon = fontIconSource;
-            Grid gr = new Grid();
-            gr.Children.Add(frame);
-            gr.HorizontalAlignment = HorizontalAlignment.Stretch;
-            gr.VerticalAlignment = VerticalAlignment.Stretch;
             TabItem tvi = new TabItem()
             {
                 Header = tabLocationHeader,
-                Content = gr,
-                IconSource = tabIcon,
+                Content = new Grid()
+                {
+                    Children =
+                    {
+                        new Frame()
+                        {
+                            CacheSize = 0,
+                            Tag = new TabItemContent()
+                            {
+                                InitialPageType = t,
+                                NavigationArg = path
+                            }
+                        }
+                    },
+                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                    VerticalAlignment = VerticalAlignment.Stretch
+                },
+                IconSource = fontIconSource,
                 Description = null
             };
             MainPage.AppInstances.Add(tvi);
-            //App.InteractionViewModel.TabStripSelectedIndex = Items.Count - 1;
 
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
-            tabViewItemFrame.Loaded += delegate
+            tabViewItemFrame.Loaded += TabViewItemFrame_Loaded;
+        }
+
+        private static void TabViewItemFrame_Loaded(object sender, RoutedEventArgs e)
+        {
+            var frame = sender as Frame;
+            if (frame.CurrentSourcePageType != typeof(ModernShellPage))
             {
-                if (tabViewItemFrame.CurrentSourcePageType != typeof(ModernShellPage))
-                {
-                    tabViewItemFrame.Navigate(t, path);
-                }
-            };
+                frame.Navigate((frame.Tag as TabItemContent).InitialPageType, (frame.Tag as TabItemContent).NavigationArg);
+                frame.Loaded -= TabViewItemFrame_Loaded;
+            }
         }
 
         private void DragArea_Loaded(object sender, RoutedEventArgs e)

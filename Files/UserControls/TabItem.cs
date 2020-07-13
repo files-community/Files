@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using Microsoft.UI.Xaml.Controls;
+using System;
 
 namespace Files.UserControls
 {
@@ -19,5 +20,11 @@ namespace Files.UserControls
         private bool _AllowStorageItemDrop = false;
         public bool AllowStorageItemDrop { get => _AllowStorageItemDrop; set => Set(ref _AllowStorageItemDrop, value); }
 
+    }
+
+    public class TabItemContent
+    {
+        public Type InitialPageType { get; set; }
+        public string NavigationArg { get; set; }
     }
 }
