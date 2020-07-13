@@ -548,7 +548,14 @@
             AddTabButtonClick="verticalTabView_AddTabButtonClick"
             SelectionChanged="TabStrip_SelectionChanged"
             TabCloseRequested="TabStrip_TabCloseRequested"
-            TabWidthMode="Equal">
+            TabWidthMode="Equal"
+            CanDragTabs="True"
+            AllowDropTabs="True"
+            TabDragStarting="TabStrip_TabDragStarting"
+            TabStripDragOver="TabStrip_TabStripDragOver"
+            TabStripDrop="TabStrip_TabStripDrop"
+            TabDragCompleted="TabStrip_TabDragCompleted"
+            TabDroppedOutside="TabStrip_TabDroppedOutside">
             <muxc:TabView.Resources>
                 <StaticResource x:Key="TabViewItemHeaderBackgroundSelected" ResourceKey="ApplicationPageBackgroundThemeBrush" />
                 <Thickness x:Key="TabViewHeaderPadding">0,0,0,0</Thickness>

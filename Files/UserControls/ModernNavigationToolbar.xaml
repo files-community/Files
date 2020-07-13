@@ -799,7 +799,7 @@
                 x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                 Visibility="Visible">
                 <Button.Flyout>
-                    <Flyout Opened="Flyout_Opened" Closed="Flyout_Closed">
+                    <Flyout x:Name="VerticalTabViewFlyout" Opened="Flyout_Opened" Closed="Flyout_Closed">
                         <local:VerticalTabView
                             Margin="-6"
                             x:Name="verticalTabs"

@@ -1,6 +1,7 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
@@ -27,6 +28,13 @@ namespace Files.UserControls
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
+
+            MainPage.OnTabItemDraggedOver += MainPage_OnTabItemDraggedOver;
+        }
+
+        private void MainPage_OnTabItemDraggedOver(object sender, bool e)
+        {
+            VerticalTabViewFlyout.ShowAt(VerticalTabStripInvokeButton);
         }
 
         private bool manualEntryBoxLoaded = false;
