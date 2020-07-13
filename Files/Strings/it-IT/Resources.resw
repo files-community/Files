@@ -223,7 +223,7 @@
     <value>Apri in una nuova scheda</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Apri una specifica pagina/pagine</value>
+    <value>Apri una pagina specifica</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>All'avvio</value>
@@ -409,19 +409,19 @@
     <value>Questa cartella è vuota</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Indietro</value>
+    <value>Indietro (Alt + Freccia Sx)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Avanti</value>
+    <value>Avanti (Alt + Freccia Dx)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Sali</value>
+    <value>Sali (Alt + Freccia Sù)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aggiorna</value>
+    <value>Aggiorna (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Crea un nuovo elemento</value>
+    <value>Crea un nuovo elemento (Ctrl + Shift + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Cerca</value>
@@ -604,7 +604,7 @@
     <value>elemento selezionato</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>%@ elementi selezionati</value>
+    <value>elementi selezionati</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>elemento</value>
@@ -612,38 +612,53 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>elementi</value>
   </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Fissa la cartella sulla barra laterale</value>
+  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Ultimo accesso:</value>
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
-    <value>Proprietario</value>
+    <value>Proprietario:</value>
+  </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Mostra proprietario file nelle proprietà</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annulla</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Sei sicuro di voler cancellare tutti gli elementi?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Svuota Cestino</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Sufficiente</value>
+    <value>OK</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>byte</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>knowledge base</value>
+    <value>KB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
     <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>IT</value>
+    <value>GB</value>
+  </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>TB</value>
   </data>
   <data name="PetaByteSymbol" xml:space="preserve">
-    <value>BI</value>
+    <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>G</value>
+    <value>B</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Ulteriori informazioni sui formati data</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Sblocca</value>
@@ -651,17 +666,38 @@
   <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annulla</value>
   </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Inserisci la password per sbloccare il disco</value>
+  </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
     <value>Password</value>
   </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Controlla la password e prova di nuovo.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>Errore BitLocker</value>
+  </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Contenuto:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} File, {1:#,##0} Cartelle</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Esegui come amministratore</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Esegui come altro utente</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Tutti del tipo {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Tipi differenti</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Tutti in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Spazio utilizzato:</value>
@@ -670,15 +706,33 @@
     <value>Spazio disponibile:</value>
   </data>
   <data name="PropertiesDriveCapacity.Text" xml:space="preserve">
-    <value>Capacità</value>
+    <value>Capacità:</value>
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
-    <value>File system</value>
+    <value>File system:</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Eliminazione file in corso</value>
   </data>
   <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Estrazione file in corso...</value>
+    <value>Estrazione file in corso</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Copia file in corso</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Spostamento dei file nel Cestino in corso</value>
+  </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>Recenti</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>Lingua dell'applicazione</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>Riavvio richiestp</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Stato</value>
   </data>
 </root>
