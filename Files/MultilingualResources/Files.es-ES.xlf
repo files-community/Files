@@ -192,7 +192,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesShowConfirmDeleteDialog.Text" translate="yes" xml:space="preserve">
           <source>Show a confirmation dialog when deleting files or folders</source>
-          <target state="translated">Mostrar un diálogo de confirmación al eliminar elementos</target>
+          <target state="translated">Mostrar cuadro de diálogo para confirmar eliminación</target>
         </trans-unit>
         <trans-unit id="SidebarDesktop" translate="yes" xml:space="preserve">
           <source>Desktop</source>
@@ -964,7 +964,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
           <source>Restart required</source>
-          <target state="translated">Reinicio de aplicación requerido</target>
+          <target state="translated">Los cambios se aplicarán la próxima vez que inicies la aplicación</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>

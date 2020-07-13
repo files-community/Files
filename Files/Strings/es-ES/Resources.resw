@@ -151,7 +151,7 @@
     <value>Eliminar permanentemente</value>
   </data>
   <data name="SettingsPreferencesShowConfirmDeleteDialog.Text" xml:space="preserve">
-    <value>Mostrar un diálogo de confirmación al eliminar elementos</value>
+    <value>Mostrar cuadro de diálogo para confirmar eliminación</value>
   </data>
   <data name="SidebarDesktop" xml:space="preserve">
     <value>Escritorio</value>
@@ -709,7 +709,7 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Reinicio de aplicación requerido</value>
+    <value>Los cambios se aplicarán la próxima vez que inicies la aplicación</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Estado</value>
