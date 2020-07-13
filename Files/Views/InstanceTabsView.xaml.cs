@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.ApplicationModel.DataTransfer;
+using Files.Interacts;
 
 namespace Files
 {
@@ -28,6 +29,9 @@ namespace Files
         public static TabView tabView;
         public string navArgs;
         public SettingsViewModel AppSettings => App.AppSettings;
+
+        private const string TabPathIdentifier = "FilesTabViewItemPath";
+        private const string TabDropHandledIdentifier = "FilesTabViewItemDropHandled";
 
         public InstanceTabsView()
         {
@@ -109,7 +113,7 @@ namespace Files
             }
         }
 
-        public async void AddNewTab(Type t, string path)
+        public async void AddNewTab(Type t, string path, int atIndex = -1)
         {
             Frame frame = new Frame();
             string tabLocationHeader = null;
@@ -239,8 +243,8 @@ namespace Files
                 Style = rootGrid.Resources["TabItemStyle"] as Style,
                 ContentTransitions = null
             };
-            tabView.TabItems.Add(tvi);
-            TabStrip.SelectedIndex = TabStrip.TabItems.Count - 1;
+            tabView.TabItems.Insert(atIndex == -1 ? TabStrip.TabItems.Count : atIndex, tvi);
+            TabStrip.SelectedItem = tvi;
 
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
             tabViewItemFrame.Loaded += delegate
@@ -250,6 +254,18 @@ namespace Files
                     tabViewItemFrame.Navigate(t, path);
                 }
             };
+        }
+
+        private void RemoveTab(TabViewItem tabViewItem)
+        {
+            if (TabStrip.TabItems.Count == 1)
+            {
+                App.CloseApp();
+            }
+            else if (TabStrip.TabItems.Count > 1)
+            {
+                TabStrip.TabItems.Remove(tabViewItem);
+            }
         }
 
         public async void SetSelectedTabInfo(string text, string currentPathForTabIcon = null)
@@ -502,15 +518,7 @@ namespace Files
 
         private void TabStrip_TabCloseRequested(Microsoft.UI.Xaml.Controls.TabView sender, Microsoft.UI.Xaml.Controls.TabViewTabCloseRequestedEventArgs args)
         {
-            if (TabStrip.TabItems.Count == 1)
-            {
-                App.CloseApp();
-            }
-            else if (TabStrip.TabItems.Count > 1)
-            {
-                int tabIndexToClose = TabStrip.TabItems.IndexOf(args.Tab);
-                TabStrip.TabItems.RemoveAt(tabIndexToClose);
-            }
+            RemoveTab(args.Tab);
         }
 
         private void AddTabButton_Click(object sender, RoutedEventArgs e)
@@ -531,6 +539,82 @@ namespace Files
                 }
             }
             return default;
+        }
+
+        private void TabStrip_TabDragStarting(TabView sender, TabViewTabDragStartingEventArgs args)
+        {
+            var tabViewItemPath = (((args.Tab.Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            args.Data.Properties.Add(TabPathIdentifier, tabViewItemPath);
+            args.Data.RequestedOperation = DataPackageOperation.Move;
+        }
+
+        private void TabStrip_TabStripDragOver(object sender, DragEventArgs e)
+        {
+            if (e.DataView.Properties.ContainsKey(TabPathIdentifier))
+            {
+                e.AcceptedOperation = DataPackageOperation.Move;
+                e.DragUIOverride.Caption = ResourceController.GetTranslation("TabStripDragAndDropUIOverrideCaption");
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.IsGlyphVisible = false;
+            }
+        }
+
+        private void TabStrip_TabStripDrop(object sender, DragEventArgs e)
+        {
+            if (!(sender is TabView tabStrip))
+            {
+                return;
+            }
+
+            if (!e.DataView.Properties.TryGetValue(TabPathIdentifier, out object tabViewItemPathObj) || !(tabViewItemPathObj is string tabViewItemPath))
+            {
+                return;
+            }
+
+            var index = -1;
+
+            for (int i = 0; i < tabStrip.TabItems.Count; i++)
+            {
+                var item = tabStrip.ContainerFromIndex(i) as TabViewItem;
+
+                if (e.GetPosition(item).X - item.ActualWidth < 0)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
+            AddNewTab(typeof(ModernShellPage), tabViewItemPath, index);
+        }
+
+        private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)
+        {
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier) &&
+                (bool)ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier])
+            {
+                RemoveTab(args.Tab);
+            }
+
+            if (ApplicationData.Current.LocalSettings.Values.ContainsKey(TabDropHandledIdentifier))
+            {
+                ApplicationData.Current.LocalSettings.Values.Remove(TabDropHandledIdentifier);
+            }
+        }
+
+        private async void TabStrip_TabDroppedOutside(TabView sender, TabViewTabDroppedOutsideEventArgs args)
+        {
+            if (sender.TabItems.Count == 1) return;
+            
+            var indexOfTabViewItem = sender.TabItems.IndexOf(args.Tab);
+            var tabViewItemPath = (((args.Tab.Content as Grid).Children[0] as Frame).Content as IShellPage).NavigationToolbar.PathControlDisplayText;
+            var selectedTabViewItemIndex = sender.SelectedIndex;
+            RemoveTab(args.Tab);
+            if (!await Interaction.OpenPathInNewWindow(tabViewItemPath))
+            {
+                sender.TabItems.Insert(indexOfTabViewItem, args.Tab);
+                sender.SelectedIndex = selectedTabViewItemIndex;
+            }
         }
     }
 

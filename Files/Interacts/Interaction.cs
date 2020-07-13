@@ -130,10 +130,10 @@ namespace Files.Interacts
             instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
         }
 
-        public async void OpenPathInNewWindow(string path)
+        public static async Task<bool> OpenPathInNewWindow(string path)
         {
             var folderUri = new Uri("files-uwp:" + "?folder=" + path);
-            await Launcher.LaunchUriAsync(folderUri);
+            return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
