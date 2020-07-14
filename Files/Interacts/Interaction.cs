@@ -1,4 +1,5 @@
 using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
@@ -65,37 +66,44 @@ namespace Files.Interacts
             OpenSelectedItems(false);
         }
 
-        public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
+        public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            // Get the path of the selected file
-            StorageFile sourceFile = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
-
-            // Get the app's local folder to use as the destination folder.
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-
-            // Copy the file to the destination folder.
-            // Replace the existing file if the file already exists.
-            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
-
-            // Set the desktop background
-            UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
-            await profileSettings.TrySetWallpaperImageAsync(file);
+            SetAsBackground(WallpaperType.Desktop);
         }
 
-        public async void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
+        public void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            // Get the path of the selected file
-            StorageFile sourceFile = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+            SetAsBackground(WallpaperType.LockScreen);
+        }
 
-            // Get the app's local folder to use as the destination folder.
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+        public async void SetAsBackground(WallpaperType type)
+        {
+            if (UserProfilePersonalizationSettings.IsSupported())
+            {
+                // Get the path of the selected file
+                StorageFile sourceFile = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
 
-            // Copy the file to the destination folder.
-            // Replace the existing file if the file already exists.
-            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
+                // Get the app's local folder to use as the destination folder.
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
 
-            // Set the lockscreen background
-            await LockScreen.SetImageFileAsync(file);
+                // Copy the file to the destination folder.
+                // Generate unique name if the file already exists.
+                // If the file you are trying to set as the wallpaper has the same name as the current wallpaper, 
+                // the system will ignore the request and no-op the operation
+                StorageFile file = await sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName);
+
+                UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
+                if (type == WallpaperType.Desktop)
+                {
+                    // Set the desktop background
+                    await profileSettings.TrySetWallpaperImageAsync(file);
+                }
+                else if (type == WallpaperType.LockScreen)
+                {
+                    // Set the lockscreen background
+                    await profileSettings.TrySetLockScreenImageAsync(file);
+                }
+            }
         }
 
         public void OpenNewTab()
@@ -463,11 +471,11 @@ namespace Files.Interacts
             }
         }
 
-        public async void CloseTab()
+        public void CloseTab()
         {
             if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
             {
-                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+                App.CloseApp();
             }
             else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
             {
@@ -800,6 +808,8 @@ namespace Files.Interacts
                             var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
 
                             await folder.RenameAsync(newName, NameCollisionOption.GenerateUniqueName);
+
+                            App.JumpList.RemoveFolder(folder.Path);
                         }
                         else
                         {
@@ -815,6 +825,8 @@ namespace Files.Interacts
                             var folder = await ItemViewModel.GetFolderFromPathAsync(item.ItemPath);
 
                             await folder.RenameAsync(newName, NameCollisionOption.ReplaceExisting);
+
+                            App.JumpList.RemoveFolder(folder.Path);
                         }
                         else
                         {
@@ -888,6 +900,9 @@ namespace Files.Interacts
             {
                 await MoveDirectoryAsync(folderinSourceDir, DestinationFolder, folderinSourceDir.Name);
             }
+
+            App.JumpList.RemoveFolder(SourceFolder.Path);
+
             return createdRoot;
         }
 
@@ -1347,7 +1362,7 @@ namespace Files.Interacts
                         }
                     }
                 }));
-                
+
                 await CloneDirectoryAsync(destFolder_InBuffer, destinationFolder, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
                 {

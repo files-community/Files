@@ -20,7 +20,7 @@ namespace Files.Dialogs
         {
             if (InstanceTabsView.tabView.TabItems.Count == 1)
             {
-                Application.Current.Exit();
+                App.CloseApp();
             }
             else if (InstanceTabsView.tabView.TabItems.Count > 1)
             {
@@ -30,7 +30,7 @@ namespace Files.Dialogs
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Application.Current.Exit();
+            App.CloseApp();
         }
 
         private void ExpandMoreInfo_Click(object sender, RoutedEventArgs e)

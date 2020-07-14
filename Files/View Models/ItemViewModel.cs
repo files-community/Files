@@ -74,6 +74,8 @@ namespace Files.Filesystem
                 return;
             }
 
+            App.JumpList.AddFolderToJumpList(value);
+
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
 
@@ -1199,6 +1201,7 @@ namespace Files.Filesystem
                     {
                         IsFolderEmptyTextDisplayed = true;
                     }
+                    App.JumpList.RemoveFolder(item.ItemPath);
 
                     UpdateDirectoryInfo();
                 });

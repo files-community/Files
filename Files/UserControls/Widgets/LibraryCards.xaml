@@ -82,6 +82,7 @@
                                         Grid.Row="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch"
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="28"
                                         Glyph="{x:Bind Icon}" />
                                     <TextBlock

@@ -68,20 +68,26 @@
                                             x:Name="mfi_RemoveOneItem"
                                             x:Uid="RecentItemRemove"
                                             Click="RemoveOneFrequentItem"
-                                            Icon="Remove"
-                                            Text="Remove this item" />
+                                            Text="Remove this item">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB3D;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemClearAll"
                                             Click="MenuFlyoutItem_Click"
-                                            Icon="Delete"
-                                            Text="Clear all items" />
+                                            Text="Clear all items">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
                                         <MenuFlyoutItem
                                             x:Uid="RecentItemOpenFileLocation"
                                             Click="OpenFileLocation_Click"
                                             Text="Open file location"
                                             Visibility="{x:Bind IsFile}">
                                             <MenuFlyoutItem.Icon>
-                                                <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE838;" />
+                                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA5A;" />
                                             </MenuFlyoutItem.Icon>
                                         </MenuFlyoutItem>
                                     </MenuFlyout>
@@ -96,15 +102,15 @@
                                     Margin="0,0,0,0"
                                     VerticalAlignment="Stretch">
                                     <FontIcon
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
                                         Foreground="#ffe793"
-                                        Glyph="&#xE8D5;"
+                                        Glyph="&#xEA55;"
                                         Visibility="{x:Bind FolderImg}" />
                                     <FontIcon
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
                                         FontSize="24"
-                                        Glyph="&#xE7C3;"
+                                        Glyph="&#xEA00;"
                                         Visibility="{x:Bind EmptyImgVis}" />
                                     <Image
                                         Width="24"

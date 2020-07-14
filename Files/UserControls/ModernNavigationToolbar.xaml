@@ -496,10 +496,10 @@
                         FontSize="16"
                         FontWeight="Normal"
                         Text="{Binding Title}" />
-                                <FontIcon FontSize="10" Glyph="&#xE76C;" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
+                    <FontIcon FontSize="10" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A8;" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
 
                     <DataTemplate x:Name="CurrentItem">
                         <Grid
@@ -512,10 +512,10 @@
                         FontSize="16"
                         FontWeight="Medium"
                         Text="{Binding Title}" />
-                                <FontIcon FontSize="10" Glyph="&#xE76C;" />
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
+                    <FontIcon FontSize="10" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9A8;" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -538,17 +538,19 @@
                 x:Uid="NavBackButton"
                 Width="34"
                 Height="30"
+                FontSize="18"
+                Padding="0"
                 Margin="4,0,2,0"
                 x:FieldModifier="public"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Back_Click}"
                 CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="{StaticResource FluentUIGlyphs}"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoBack}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Back (Alt + Left Arrow)">
                 <Button.Content>
-                    &#xE72B;
+                    &#xe921;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton1" />
@@ -561,17 +563,19 @@
                 x:Uid="NavForwardButton"
                 Width="34"
                 Height="30"
+                FontSize="18"
+                Padding="0"
                 Margin="2,0,2,0"
                 x:FieldModifier="public"
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Forward_Click}"
                 CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="{StaticResource FluentUIGlyphs}"
                 IsEnabled="{x:Bind local1:App.CurrentInstance.NavigationToolbar.CanGoForward}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Forward (Alt + Right Arrow)">
                 <Button.Content>
-                    &#xE72A;
+                    &#xe92b;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton2" />
@@ -588,12 +592,14 @@
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Up_Click}"
                 CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
+                Padding="0"
+                FontSize="18"
+                FontFamily="{StaticResource FluentUIGlyphs}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Up (Alt + Up Arrow)"
                 Visibility="Visible">
                 <Button.Content>
-                    &#xE74A;
+                    &#xe936;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="Up" Modifiers="Menu" />
@@ -610,11 +616,13 @@
                 Background="Transparent"
                 Click="{x:Bind local1:NavigationActions.Refresh_Click}"
                 CornerRadius="2"
-                FontFamily="Segoe MDL2 Assets"
+                Padding="0"
+                FontSize="18"
+                FontFamily="{StaticResource FluentUIGlyphs}"
                 Style="{StaticResource ToolBarButtonStyle}"
                 ToolTipService.ToolTip="Refresh (F5)">
                 <Button.Content>
-                    &#xE72C;
+                    &#xe916;
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="F5" />
@@ -700,6 +708,7 @@
                 Grid.Row="3"
                 Width="34"
                 Height="30"
+                Padding="0"
                 Margin="0,0,4,0"
                 HorizontalAlignment="Right"
                 x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}"
@@ -711,7 +720,7 @@
                 ToolTipService.ToolTip="Create a new item (Ctrl + Shift + N)"
                 Visibility="Visible">
                 <Button.Content>
-                    <FontIcon FontSize="14" Glyph="&#xE710;" />
+                    <FontIcon FontSize="18" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE903;" />
                 </Button.Content>
                 <Button.Flyout>
                     <MenuFlyout Placement="BottomEdgeAlignedRight">
@@ -720,7 +729,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewFolder_Click}"
                             Text="Folder">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8B7;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
@@ -730,7 +739,7 @@
                             IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             Text="Bitmap Image">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEB9F;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA83;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -739,7 +748,7 @@
                             IsEnabled="{x:Bind local1:App.CurrentInstance.InstanceViewModel.CanCreateFileInPage, Mode=OneWay}"
                             Text="Text Document">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8A5;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA00;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout>
@@ -760,7 +769,7 @@
                 ToolTipService.ToolTip="Search"
                 Visibility="Visible">
                 <Button.Content>
-                    <FontIcon FontSize="14" Glyph="&#xE721;" />
+                    <FontIcon FontSize="18" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB51;" />
                 </Button.Content>
             </Button>
 
@@ -799,7 +808,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.OpenNewTab}"
                             Text="New Tab">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF400;" />
+                                <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF104;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -807,7 +816,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.LaunchNewWindow}"
                             Text="New Window">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE737;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE973;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem
@@ -817,7 +826,7 @@
                             Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.GetPath_Click}"
                             Text="Copy Path">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8C8;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B1;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator x:Name="SeparatorBar" x:Load="{x:Bind local1:App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
@@ -829,7 +838,7 @@
                             IsEnabled="{x:Bind local1:App.InteractionViewModel.IsPasteEnabled, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                             Text="Paste">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE77F;" />
+                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9B2;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem

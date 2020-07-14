@@ -422,7 +422,7 @@ namespace FilesFullTrust
                                         menu = sf.GetChildrenUIObjects<Shell32.IContextMenu>(null, files.ToArray());
                                         menu.QueryContextMenu(HMENU.NULL, 0, 0, 0, Shell32.CMF.CMF_DEFAULTONLY);
                                         var pici = new Shell32.CMINVOKECOMMANDINFOEX();
-                                        pici.lpVerb = Shell32.CMDSTR_OPEN;
+                                        pici.lpVerb = new SafeResourceId(Shell32.CMDSTR_OPEN, CharSet.Ansi);
                                         pici.nShow = ShowWindowCommand.SW_SHOW;
                                         pici.cbSize = (uint)Marshal.SizeOf(pici);
                                         menu.InvokeCommand(pici);
