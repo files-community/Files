@@ -92,7 +92,11 @@ namespace Files
             {
                 try
                 {
-                    AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                    if (App.AppSettings.PagesOnStartupList != null)
+                        foreach (string path in App.AppSettings.PagesOnStartupList)
+                            AddNewTab(typeof(ModernShellPage), path);
+                    else
+                        AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
                 }
                 catch (Exception)
                 {

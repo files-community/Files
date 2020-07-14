@@ -9,7 +9,6 @@
     mc:Ignorable="d">
 
     <Grid>
-
         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <StackPanel
                 Margin="12,12,8,8"
@@ -55,26 +54,11 @@
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel Orientation="Horizontal" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
-                    <TextBox
-                        x:Uid="SettingsOnStartupOpenASpecificPagePath"
-                        Width="240"
-                        Margin="12,0,0,0"
-                        HorizontalAlignment="Left"
-                        BorderThickness="1,1,0,1"
-                        CornerRadius="2,0,0,2"
-                        IsEnabled="False"
-                        PlaceholderText="New Tab"
-                        Text="{x:Bind AppSettings.OpenASpecificPageOnStartupPath, Mode=OneWay}" />
-
-                    <Button
-                        x:Name="btnOpenASpecificPageOnStartupPath"
-                        Height="33"
-                        Click="btnOpenASpecificPageOnStartupPath_Click"
-                        Content="&#xE838;"
-                        CornerRadius="0,2,2,0"
-                        FontFamily="Segoe MDL2 Assets"
-                        Style="{ThemeResource AccentButtonStyle}" />
+                <StackPanel x:Name="PagesPanel" Width="550" HorizontalAlignment="Left" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,20">
+                        <TextBlock Text="Pages: " FontSize="20" />
+                        <Button x:Name="btnAddPage" Content="Add Page" BorderThickness="2,2,2,2" Margin="400,0,0,0" Click="btnAddPage_Click" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
         </ScrollViewer>
