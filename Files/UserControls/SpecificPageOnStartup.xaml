@@ -31,19 +31,19 @@
             <Button.Flyout>
                 <MenuFlyout Placement="BottomEdgeAlignedRight">
                     <MenuFlyoutItem
-                        x:Uid="RemovePage"
-                        Text="Remove Page"
-                        Click="RemovePage_Click">
-                        <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE74D;" />
-                        </MenuFlyoutItem.Icon>
-                    </MenuFlyoutItem>
-                    <MenuFlyoutItem
                         x:Uid="ChangePage"
                         Text="Change Page Location"
                         Click="ChangePage_Click">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE70F;" />
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem
+                        x:Uid="RemovePage"
+                        Text="Remove Page"
+                        Click="RemovePage_Click">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xE74D;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyout>
