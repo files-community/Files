@@ -352,7 +352,7 @@
     <value>Open a new tab</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Open a specific page</value>
+    <value>Open a specific page or pages</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>On Startup</value>
