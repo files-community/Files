@@ -723,4 +723,10 @@
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Sistema de arquivos:</value>
   </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>Necessário reiniciar o Aplicativo</value>
+  </data>
 </root>

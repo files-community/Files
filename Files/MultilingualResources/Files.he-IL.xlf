@@ -319,8 +319,8 @@
           <target state="translated" state-qualifier="tm-suggestion">פתח כרטיסיה חדשה</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
-          <target state="new">Open a specific page</target>
+          <source>Open a specific page or pages</source>
+          <target state="new">Open a specific page or pages</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>

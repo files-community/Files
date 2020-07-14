@@ -311,8 +311,9 @@
           <target state="translated">新しいタブ</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
-          <target state="translated">特定のページを開く</target>
+          <source>Open a specific page or pages</source>
+          <target state="needs-review-translation">特定のページを開く</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>

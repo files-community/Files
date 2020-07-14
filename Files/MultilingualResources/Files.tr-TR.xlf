@@ -149,7 +149,7 @@
           <target state="translated">Yeni bir sekmede aç</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
+          <source>Open a specific page or pages</source>
           <target state="needs-review-translation">Belirli bir sayfayı veya sayfaları açma</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>

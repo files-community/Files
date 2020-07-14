@@ -31,17 +31,17 @@
             <Button.Flyout>
                 <MenuFlyout Placement="BottomEdgeAlignedRight">
                     <MenuFlyoutItem
-                        x:Uid="DeletePage"
-                        Text="Delete Page"
-                        Click="DeletePage_Click">
+                        x:Uid="RemovePage"
+                        Text="Remove Page"
+                        Click="RemovePage_Click">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE74D;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="EditPage"
-                        Text="Edit Page"
-                        Click="EditPage_Click">
+                        x:Uid="ChangePage"
+                        Text="Change Page Location"
+                        Click="ChangePage_Click">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xE70F;" />
                         </MenuFlyoutItem.Icon>

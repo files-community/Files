@@ -147,8 +147,9 @@
           <target state="translated">Открыть новую вкладку</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
-          <target state="translated">Открыть определенную страницу(ы)</target>
+          <source>Open a specific page or pages</source>
+          <target state="needs-review-translation">Открыть определенную страницу(ы)</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>

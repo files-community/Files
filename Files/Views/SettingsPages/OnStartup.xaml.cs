@@ -45,7 +45,7 @@ namespace Files.SettingsPages
         public SpecificPageOnStartup CreateAndAddPageItem(string path)
         {
             SpecificPageOnStartup newPageItem = new SpecificPageOnStartup(path);
-            newPageItem.editPageEvent += EditPage;
+            newPageItem.changePageEvent += EditPage;
             newPageItem.removePageEvent += RemovePage;
             PagesPanel.Children.Add(newPageItem);
             return newPageItem;

@@ -24,21 +24,21 @@ namespace Files.UserControls
     {
         //public SettingsViewModel AppSettings => App.AppSettings;
         public delegate void RemovePageEventHandler(SpecificPageOnStartup pageItem, string path);
-        public delegate void EditPageEventHandler(string old_path, string new_path);
+        public delegate void ChangePageEventHandler(string old_path, string new_path);
         public event RemovePageEventHandler removePageEvent;
-        public event EditPageEventHandler editPageEvent;
+        public event ChangePageEventHandler changePageEvent;
         public SpecificPageOnStartup(string path = "New Tab")
         {
             InitializeComponent();
             PagePath.Text = path;
         }
 
-        public void DeletePage_Click(object sender, RoutedEventArgs e)
+        public void RemovePage_Click(object sender, RoutedEventArgs e)
         {
             removePageEvent(this, PagePath.Text);
         }
 
-        public async void EditPage_Click(object sender, RoutedEventArgs e)
+        public async void ChangePage_Click(object sender, RoutedEventArgs e)
         {
             var folderPicker = new FolderPicker();
             folderPicker.FileTypeFilter.Add("*");
@@ -47,7 +47,7 @@ namespace Files.UserControls
 
             if (folder != null)
             {
-                editPageEvent(PagePath.Text, folder.Path);
+                changePageEvent(PagePath.Text, folder.Path);
                 PagePath.Text = folder.Path;
             }
         }
