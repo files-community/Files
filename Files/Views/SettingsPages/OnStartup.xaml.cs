@@ -22,7 +22,6 @@ namespace Files.SettingsPages
             if (AppSettings.OpenASpecificPageOnStartup && AppSettings.PagesOnStartupList?.Length > 0)
                 foreach (string path in AppSettings.PagesOnStartupList)
                     CreateAndAddPageItem(path);
-
         }
 
         private async void btnAddPage_Click(object sender, RoutedEventArgs e)

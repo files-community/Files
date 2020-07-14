@@ -67,7 +67,6 @@ namespace Files
             App.LayoutDialogDisplay = new Dialogs.LayoutDialog();
             App.AddItemDialogDisplay = new Dialogs.AddItemDialog();
             App.ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
-
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
