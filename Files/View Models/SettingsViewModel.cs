@@ -7,6 +7,7 @@ using Files.Helpers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -40,7 +41,8 @@ namespace Files.View_Models
             DetectRecycleBinPreference();
             DetectQuickLook();
             DetectGridViewSize();
-
+            DetectSortOption();
+            DetectSortDirection();
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
@@ -56,8 +58,10 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-
+            Analytics.TrackEvent("SortOption" + _directorySortOption.ToString());
+            Analytics.TrackEvent("SortDirection" + _directorySortDirection.ToString());
             // Load the supported languages
+
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel>();
             foreach (var lang in supportedLang)
@@ -90,6 +94,61 @@ namespace Files.View_Models
                 {
                     ApplicationLanguages.PrimaryLanguageOverride = value.ID;
                 }
+            }
+        }
+
+        private SortOption _directorySortOption = SortOption.Name;
+        private SortDirection _directorySortDirection = SortDirection.Ascending;
+        public SortOption DirectorySortOption
+        {
+            get => Get(_directorySortOption);
+            set
+            {
+                Set(ref _directorySortOption, value);
+                localSettings.Values[LocalSettings.SortOption] = (byte)value;
+				UpdateSortOptionStatus();
+                App.CurrentInstance?.FilesystemViewModel?.OrderFiles();
+            }
+        }
+
+        public SortDirection DirectorySortDirection
+        {
+            get => Get(_directorySortDirection);
+            set
+            {
+                if (value != _directorySortDirection)
+                {
+                    Set(ref _directorySortDirection, value);
+                    localSettings.Values[LocalSettings.SortDirection] =(byte)value;
+					UpdateSortDirectionStatus();
+                    App.CurrentInstance?.FilesystemViewModel?.OrderFiles();
+                }
+            }
+        }
+
+        public void DetectSortOption()
+        {
+            if (localSettings.Values[LocalSettings.SortOption] == null)
+            {
+                _directorySortOption = SortOption.Name;
+                localSettings.Values[LocalSettings.SortOption] = SortOption.Name;
+            }
+            else
+            {
+                _directorySortOption = (SortOption)localSettings.Values[LocalSettings.SortOption];
+            }
+        }
+
+        public void DetectSortDirection()
+        {
+            if (localSettings.Values[LocalSettings.SortDirection] == null)
+            {
+                _directorySortOption = SortOption.Name;
+                localSettings.Values[LocalSettings.SortDirection] = SortOption.Name;
+            }
+            else
+            {
+                _directorySortOption = (SortOption)localSettings.Values[LocalSettings.SortDirection];
             }
         }
 

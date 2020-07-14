@@ -49,8 +49,6 @@ namespace Files.Filesystem
 
         private string _jumpString = "";
         private readonly DispatcherTimer jumpTimer = new DispatcherTimer();
-        private SortOption _directorySortOption = SortOption.Name;
-        private SortDirection _directorySortDirection = SortDirection.Ascending;
 
         private string _customPath;
         public string WorkingDirectory
@@ -143,7 +141,7 @@ namespace Files.Filesystem
         }
 
         private bool _IsFolderEmptyTextDisplayed;
-
+		
         public bool IsFolderEmptyTextDisplayed
         {
             get => _IsFolderEmptyTextDisplayed;
@@ -157,111 +155,80 @@ namespace Files.Filesystem
             }
         }
 
-        public SortOption DirectorySortOption
-        {
-            get
-            {
-                return _directorySortOption;
-            }
-            set
-            {
-                if (value != _directorySortOption)
-                {
-                    _directorySortOption = value;
-                    NotifyPropertyChanged("DirectorySortOption");
-                    NotifyPropertyChanged("IsSortedByName");
-                    NotifyPropertyChanged("IsSortedByDate");
-                    NotifyPropertyChanged("IsSortedByType");
-                    NotifyPropertyChanged("IsSortedBySize");
-                    OrderFiles();
-                }
-            }
-        }
-
-        public SortDirection DirectorySortDirection
-        {
-            get
-            {
-                return _directorySortDirection;
-            }
-            set
-            {
-                if (value != _directorySortDirection)
-                {
-                    _directorySortDirection = value;
-                    NotifyPropertyChanged("DirectorySortDirection");
-                    NotifyPropertyChanged("IsSortedAscending");
-                    NotifyPropertyChanged("IsSortedDescending");
-                    OrderFiles();
-                }
-            }
-        }
-
+		public void UpdateSortOptionStatus()
+		{
+			NotifyPropertyChanged("IsSortedByName");
+			NotifyPropertyChanged("IsSortedByDate");
+			NotifyPropertyChanged("IsSortedByType");
+			NotifyPropertyChanged("IsSortedBySize");
+		}
+		
+		public void UpdateSortDirectionStatus()
+		{
+			NotifyPropertyChanged("IsSortedAscending");
+            NotifyPropertyChanged("IsSortedDescending");
+		}
+		
         public bool IsSortedByName
         {
-            get => DirectorySortOption == SortOption.Name;
+            get => AppSettings.DirectorySortOption == SortOption.Name;
             set
             {
                 if (value)
                 {
-                    DirectorySortOption = SortOption.Name;
+                    AppSettings.DirectorySortOption = SortOption.Name;
                     NotifyPropertyChanged("IsSortedByName");
-                    NotifyPropertyChanged("DirectorySortOption");
                 }
             }
         }
-
+		
         public bool IsSortedByDate
         {
-            get => DirectorySortOption == SortOption.DateModified;
+            get => AppSettings.DirectorySortOption == SortOption.DateModified;
             set
             {
                 if (value)
                 {
-                    DirectorySortOption = SortOption.DateModified;
+                    AppSettings.DirectorySortOption = SortOption.DateModified;
                     NotifyPropertyChanged("IsSortedByDate");
-                    NotifyPropertyChanged("DirectorySortOption");
                 }
             }
         }
 
         public bool IsSortedByType
         {
-            get => DirectorySortOption == SortOption.FileType;
+            get => AppSettings.DirectorySortOption == SortOption.FileType;
             set
             {
                 if (value)
                 {
-                    DirectorySortOption = SortOption.FileType;
+                    AppSettings.DirectorySortOption = SortOption.FileType;
                     NotifyPropertyChanged("IsSortedByType");
-                    NotifyPropertyChanged("DirectorySortOption");
                 }
             }
         }
 
         public bool IsSortedBySize
         {
-            get => DirectorySortOption == SortOption.Size;
+            get => AppSettings.DirectorySortOption == SortOption.Size;
             set
             {
                 if (value)
                 {
-                    DirectorySortOption = SortOption.Size;
+                    AppSettings.DirectorySortOption = SortOption.Size;
                     NotifyPropertyChanged("IsSortedBySize");
-                    NotifyPropertyChanged("DirectorySortOption");
                 }
             }
         }
 
         public bool IsSortedAscending
         {
-            get => DirectorySortDirection == SortDirection.Ascending;
+            get => AppSettings.DirectorySortDirection == SortDirection.Ascending;
             set
             {
-                DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
+                AppSettings.DirectorySortDirection = value ? SortDirection.Ascending : SortDirection.Descending;
                 NotifyPropertyChanged("IsSortedAscending");
                 NotifyPropertyChanged("IsSortedDescending");
-                NotifyPropertyChanged("DirectorySortDirection");
             }
         }
 
@@ -270,10 +237,9 @@ namespace Files.Filesystem
             get => !IsSortedAscending;
             set
             {
-                DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
+                AppSettings.DirectorySortDirection = value ? SortDirection.Descending : SortDirection.Ascending;
                 NotifyPropertyChanged("IsSortedAscending");
                 NotifyPropertyChanged("IsSortedDescending");
-                NotifyPropertyChanged("DirectorySortDirection");
             }
         }
 
@@ -389,7 +355,7 @@ namespace Files.Filesystem
             static object orderByNameFunc(ListedItem item) => item.ItemName;
             Func<ListedItem, object> orderFunc = orderByNameFunc;
             NaturalStringComparer naturalStringComparer = new NaturalStringComparer();
-            switch (DirectorySortOption)
+            switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:
                     orderFunc = orderByNameFunc;
@@ -414,25 +380,25 @@ namespace Files.Filesystem
             IOrderedEnumerable<ListedItem> ordered;
             List<ListedItem> orderedList;
 
-            if (DirectorySortDirection == SortDirection.Ascending)
+            if (AppSettings.DirectorySortDirection == SortDirection.Ascending)
             {
-                if (DirectorySortOption == SortOption.Name)
+                if (AppSettings.DirectorySortOption == SortOption.Name)
                     ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc, naturalStringComparer);
                 else
                     ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenBy(orderFunc);
             }
             else
             {
-                if (DirectorySortOption == SortOption.FileType)
+                if (AppSettings.DirectorySortOption == SortOption.FileType)
                 {
-                    if (DirectorySortOption == SortOption.Name)
+                    if (AppSettings.DirectorySortOption == SortOption.Name)
                         ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
                     else
                         ordered = _filesAndFolders.OrderBy(folderThenFileAsync).ThenByDescending(orderFunc);
                 }
                 else
                 {
-                    if (DirectorySortOption == SortOption.Name)
+                    if (AppSettings.DirectorySortOption == SortOption.Name)
                         ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc, naturalStringComparer);
                     else
                         ordered = _filesAndFolders.OrderByDescending(folderThenFileAsync).ThenByDescending(orderFunc);
@@ -440,9 +406,9 @@ namespace Files.Filesystem
             }
 
             // Further order by name if applicable
-            if (DirectorySortOption != SortOption.Name)
+            if (AppSettings.DirectorySortOption != SortOption.Name)
             {
-                if (DirectorySortDirection == SortDirection.Ascending)
+                if (AppSettings.DirectorySortDirection == SortDirection.Ascending)
                     ordered = ordered.ThenBy(orderByNameFunc, naturalStringComparer);
                 else
                     ordered = ordered.ThenByDescending(orderByNameFunc, naturalStringComparer);
