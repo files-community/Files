@@ -64,7 +64,11 @@ namespace Files.SettingsPages
         public void RemovePage(SpecificPageOnStartup pageItem, string path)
         {
             PagesPanel.Children.Remove(pageItem);
-            AppSettings.PagesOnStartupList = AppSettings.PagesOnStartupList.Where(s => s != path).ToArray();
+            string [] newPages = AppSettings.PagesOnStartupList.Where(s => s != path).ToArray();
+            if (newPages.Length > 0)
+                AppSettings.PagesOnStartupList = newPages;
+            else
+                AppSettings.PagesOnStartupList = null;
         }
     }
 }
