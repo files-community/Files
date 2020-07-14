@@ -60,6 +60,7 @@ namespace Files
             }
 
             AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
             Application.Start(_ => new App());
         }
 
