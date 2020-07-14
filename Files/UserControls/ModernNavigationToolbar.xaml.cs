@@ -260,9 +260,9 @@ namespace Files.UserControls
                                     if (App.Connection != null)
                                     {
                                         var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
-                                            ? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile)
+                                            ? AppSettings.HomePath
                                             : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-
+                                        
                                         var value = new ValueSet
                                         {
                                             { "WorkingDirectory", workingDir },
