@@ -155,19 +155,19 @@ namespace Files.Filesystem
             }
         }
 
-		public void UpdateSortOptionStatus()
-		{
-			NotifyPropertyChanged("IsSortedByName");
-			NotifyPropertyChanged("IsSortedByDate");
-			NotifyPropertyChanged("IsSortedByType");
-			NotifyPropertyChanged("IsSortedBySize");
-		}
+	public void UpdateSortOptionStatus()
+	{
+		NotifyPropertyChanged("IsSortedByName");
+		NotifyPropertyChanged("IsSortedByDate");
+		NotifyPropertyChanged("IsSortedByType");
+		NotifyPropertyChanged("IsSortedBySize");
+	}
 		
-		public void UpdateSortDirectionStatus()
-		{
-			NotifyPropertyChanged("IsSortedAscending");
-            NotifyPropertyChanged("IsSortedDescending");
-		}
+	public void UpdateSortDirectionStatus()
+	{
+		NotifyPropertyChanged("IsSortedAscending");
+            	NotifyPropertyChanged("IsSortedDescending");
+	}
 		
         public bool IsSortedByName
         {
