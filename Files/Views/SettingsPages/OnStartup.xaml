@@ -49,7 +49,7 @@
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Content="Open a specific page"
+                    Content="Open a specific page or pages"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
