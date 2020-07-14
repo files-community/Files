@@ -250,6 +250,10 @@ namespace Files
                     // parameter
                     rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
+                else
+                {
+                    (rootFrame.Content as InstanceTabsView).AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                }
 
                 // Ensure the current window is active
                 Window.Current.Activate();

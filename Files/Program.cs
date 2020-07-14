@@ -2,6 +2,7 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -37,7 +38,35 @@ namespace Files
                 }
             }
 
-            Application.Start(_ => new App());
+            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
+
+            if (AppInstance.RecommendedInstance != null)
+            {
+                AppInstance.RecommendedInstance.RedirectActivationTo();
+            }
+            else if (activatedArgs is LaunchActivatedEventArgs)
+            {
+                var launchArgs = activatedArgs as LaunchActivatedEventArgs;
+
+                // Constant key, only one instance activated
+                var instance = AppInstance.FindOrRegisterInstanceForKey("FILESUWP");
+                if (instance.IsCurrentInstance || string.IsNullOrEmpty(launchArgs.Arguments))
+                {
+                    // If we successfully registered this instance, we can now just
+                    // go ahead and do normal XAML initialization.
+                    Application.Start(_ => new App());
+                }
+                else
+                {
+                    // Some other instance has registered for this key, so we'll 
+                    // redirect this activation to that instance instead.
+                    instance.RedirectActivationTo();
+                }
+            }
+            else
+            {
+                Application.Start(_ => new App());
+            }
         }
 
         public static async Task OpenShellCommandInExplorer(string shellCommand, int pid)
