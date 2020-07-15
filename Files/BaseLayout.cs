@@ -30,6 +30,7 @@ namespace Files
     {
         public SelectedItemsPropertiesViewModel SelectedItemsPropertiesViewModel { get; }
         public SettingsViewModel AppSettings => App.AppSettings;
+        public CurrentInstanceViewModel InstanceViewModel => App.CurrentInstance.InstanceViewModel;
         public DirectoryPropertiesViewModel DirectoryPropertiesViewModel { get; }
         public bool IsQuickLookEnabled { get; set; } = false;
         public MenuFlyout BaseLayoutItemContextFlyout { get; set; }
@@ -437,6 +438,7 @@ namespace Files
 
         protected async void List_DragOver(object sender, DragEventArgs e)
         {
+            ClearSelection();
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
@@ -486,6 +488,8 @@ namespace Files
         protected async void Item_DragOver(object sender, DragEventArgs e)
         {
             ListedItem item = GetItemFromElement(sender);
+            SetSelectedItemOnUi(item);
+
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
                 e.Handled = true;

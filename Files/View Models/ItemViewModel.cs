@@ -3,7 +3,6 @@ using Files.Common;
 using Files.Enums;
 using Files.Helpers;
 using Files.View_Models;
-using Files.Views.Pages;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
@@ -26,12 +25,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
-using FileAttributes = System.IO.FileAttributes;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
 using Files.Views;
 using Files.UserControls;
 using Files.Dialogs;
+using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
 {
@@ -73,6 +72,8 @@ namespace Files.Filesystem
             {
                 return;
             }
+
+            App.JumpList.AddFolderToJumpList(value);
 
             INavigationControlItem item = null;
             List<INavigationControlItem> sidebarItems = MainPage.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
@@ -506,6 +507,8 @@ namespace Files.Filesystem
                                     matchingItem.LoadFileIcon = true;
                                 }
                             }
+                            var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                            matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                         }
                     }
                     catch (Exception)
@@ -524,6 +527,8 @@ namespace Files.Filesystem
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
                             matchingItem.ItemType = matchingStorageItem.DisplayType;
+                            var syncStatus = await CheckCloudDriveSyncStatus(matchingStorageItem);
+                            matchingItem.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
                         }
                     }
                     catch (Exception)
@@ -855,6 +860,11 @@ namespace Files.Filesystem
                 }
             }
 
+            // Is folder synced to cloud storage?
+            var syncStatus = await CheckCloudDriveSyncStatus(_rootFolder);
+            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = 
+                syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
+
             if (enumFromStorageFolder)
             {
                 await EnumFromStorageFolder();
@@ -967,6 +977,28 @@ namespace Files.Filesystem
             return false;
         }
 
+        private async Task<CloudDriveSyncStatus> CheckCloudDriveSyncStatus(IStorageItem item)
+        {
+            int? syncStatus = null;
+            if (item is StorageFile)
+            {
+                IDictionary<string, object> extraProperties = await ((StorageFile)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus" });
+                syncStatus = (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+            }
+            else if (item is StorageFolder)
+            {
+                IDictionary<string, object> extraProperties = await ((StorageFolder)item).Properties.RetrievePropertiesAsync(new string[] { "System.FilePlaceholderStatus", "System.FileOfflineAvailabilityStatus" });
+                syncStatus = (int?)(uint?)extraProperties["System.FileOfflineAvailabilityStatus"];
+                // If no FileOfflineAvailabilityStatus, check FilePlaceholderStatus
+                syncStatus = syncStatus ?? (int?)(uint?)extraProperties["System.FilePlaceholderStatus"];
+            }
+            if (syncStatus == null || !Enum.IsDefined(typeof(CloudDriveSyncStatus), syncStatus))
+            {
+                return CloudDriveSyncStatus.Unknown;
+            }
+            return (CloudDriveSyncStatus)syncStatus;
+        }
+
         private void WatchForDirectoryChanges(string path)
         {
             Debug.WriteLine("WatchForDirectoryChanges: {0}", path);
@@ -981,6 +1013,10 @@ namespace Files.Filesystem
                 var rand = Guid.NewGuid();
                 buff = new byte[4096];
                 int notifyFilters = FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_FILE_NAME;
+                if (App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive)
+                {
+                    notifyFilters |= FILE_NOTIFY_CHANGE_ATTRIBUTES;
+                }
 
                 OVERLAPPED overlapped = new OVERLAPPED();
                 overlapped.hEvent = CreateEvent(IntPtr.Zero, false, false, null);
@@ -1040,27 +1076,28 @@ namespace Files.Filesystem
                                     switch (action)
                                     {
                                         case FILE_ACTION_ADDED:
-                                            AddFileOrFolder(FileName);
                                             Debug.WriteLine("File " + FileName + " added to working directory.");
+                                            AddFileOrFolder(FileName);
                                             break;
 
                                         case FILE_ACTION_REMOVED:
-                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                             Debug.WriteLine("File " + FileName + " removed from working directory.");
+                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                             break;
 
                                         case FILE_ACTION_MODIFIED:
                                             Debug.WriteLine("File " + FileName + " had attributes modified in the working directory.");
+                                            UpdateFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                             break;
 
                                         case FILE_ACTION_RENAMED_OLD_NAME:
-                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                             Debug.WriteLine("File " + FileName + " will be renamed in the working directory.");
+                                            RemoveFileOrFolder(FilesAndFolders.ToList().First(x => x.ItemPath.Equals(FileName)));
                                             break;
 
                                         case FILE_ACTION_RENAMED_NEW_NAME:
-                                            AddFileOrFolder(FileName);
                                             Debug.WriteLine("File " + FileName + " was renamed in the working directory.");
+                                            AddFileOrFolder(FileName);
                                             break;
 
                                         default:
@@ -1105,9 +1142,13 @@ namespace Files.Filesystem
                         await StorageFile.GetFileFromPathAsync(path);
                         AddFile(path);
                     }
-                    catch (Exception)
+                    catch (ArgumentException)
                     {
                         AddFolder(path);
+                    }
+                    catch (Exception)
+                    {
+                        // Ignore this..
                     }
 
                     UpdateDirectoryInfo();
@@ -1126,6 +1167,28 @@ namespace Files.Filesystem
             }
         }
 
+        public async void UpdateFileOrFolder(ListedItem item)
+        {
+            IStorageItem storageItem = null;
+            if (item.PrimaryItemAttribute == StorageItemTypes.File)
+            {
+                storageItem = await StorageFile.GetFileFromPathAsync(item.ItemPath);
+            }
+            else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+            {
+                storageItem = await StorageFolder.GetFolderFromPathAsync(item.ItemPath);
+            }
+            if (storageItem != null)
+            {
+                var syncStatus = await CheckCloudDriveSyncStatus(storageItem);
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                    () =>
+                    {
+                        item.SyncStatusUI = CloudDriveSyncStatusUI.FromCloudDriveSyncStatus(syncStatus);
+                    });
+            }
+        }
+
         public async void RemoveFileOrFolder(ListedItem item)
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
@@ -1136,6 +1199,7 @@ namespace Files.Filesystem
                     {
                         IsFolderEmptyTextDisplayed = true;
                     }
+                    App.JumpList.RemoveFolder(item.ItemPath);
 
                     UpdateDirectoryInfo();
                 });

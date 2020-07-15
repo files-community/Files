@@ -149,7 +149,7 @@ namespace Files
             if (App.AppSettings.LayoutMode == 2)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
-                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).Children[1] as TextBlock;
+                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
                 textBox = popup.Child as TextBox;
                 textBox.Text = textBlock.Text;
                 popup.IsOpen = true;
@@ -157,10 +157,8 @@ namespace Files
             }
             else
             {
-                StackPanel stackPanel =
-                    (((gridViewItem.ContentTemplateRoot as Grid).Children[0] as StackPanel).Children[1] as Grid).Children[0] as StackPanel;
-                TextBlock textBlock = stackPanel.Children[0] as TextBlock;
-                textBox = stackPanel.Children[1] as TextBox;
+                TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
+                textBox = (gridViewItem.ContentTemplateRoot as Grid).FindName("TileViewTextBoxItemName") as TextBox;
                 textBox.Text = textBlock.Text;
                 oldItemName = textBlock.Text;
                 textBlock.Visibility = Visibility.Collapsed;

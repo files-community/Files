@@ -21,7 +21,7 @@ namespace Files.Dialogs
         {
             if (App.CurrentInstance.MultitaskingControl.Items.Count == 1)
             {
-                Application.Current.Exit();
+                App.CloseApp();
             }
             else if (App.CurrentInstance.MultitaskingControl.Items.Count > 1)
             {
@@ -31,7 +31,7 @@ namespace Files.Dialogs
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            Application.Current.Exit();
+            App.CloseApp();
         }
 
         private void ExpandMoreInfo_Click(object sender, RoutedEventArgs e)

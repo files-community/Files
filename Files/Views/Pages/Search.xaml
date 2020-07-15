@@ -96,9 +96,9 @@
                                     Glyph="&#xE8D5;"
                                     Visibility="{Binding FolderImg}" />
                                 <FontIcon
-                                    FontFamily="Segoe MDL2 Assets"
+                                    FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="24"
-                                    Glyph="&#xE7C3;"
+                                    Glyph="&#xEA00;"
                                     Visibility="{Binding EmptyImgVis}" />
                                 <Image
                                     Width="24"
