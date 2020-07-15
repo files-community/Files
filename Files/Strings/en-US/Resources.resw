@@ -853,6 +853,6 @@
     <value>Pages:</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>System Default</value>
+    <value>Windows default</value>
   </data>
 </root>
