@@ -173,7 +173,7 @@ namespace Files
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             //start tracking app usage
             SystemInformation.TrackAppUse(e);
@@ -216,7 +216,7 @@ namespace Files
                 }
                 else
                 {
-                    (rootFrame.Content as InstanceTabsView).AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                    await MainPage.AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
                 }
 
                 // Ensure the current window is active
