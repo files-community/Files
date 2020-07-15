@@ -996,6 +996,10 @@
           <source>Remove Page</source>
           <target state="new">Remove Page</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>System Default</source>
+          <target state="new">System Default</target>
+        </trans-unit>
       </group>
     </body>
   </file>
