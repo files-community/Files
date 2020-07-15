@@ -299,10 +299,11 @@ namespace Files.UserControls
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
                         await App.CurrentInstance.InteractionOperations.CloneDirectoryAsync(((StorageFolder)item), await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, true);
+                        await (await StorageFolder.GetFolderFromPathAsync(item.Path)).DeleteAsync();
                     }
                     else
                     {
-                        await ((StorageFile)item).CopyAsync(await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, NameCollisionOption.GenerateUniqueName);
+                        await ((StorageFile)item).MoveAsync(await StorageFolder.GetFolderFromPathAsync(tabViewItemWorkingDir), item.Name, NameCollisionOption.GenerateUniqueName);
                     }
                 }
             }
@@ -315,7 +316,7 @@ namespace Files.UserControls
         private void TabViewItem_DragOver(object sender, DragEventArgs e)
         {
             if (e.DataView.AvailableFormats.Contains(StandardDataFormats.StorageItems))
-                e.AcceptedOperation = DataPackageOperation.Copy;
+                e.AcceptedOperation = DataPackageOperation.Move;
             else
                 e.AcceptedOperation = DataPackageOperation.None;
         }
