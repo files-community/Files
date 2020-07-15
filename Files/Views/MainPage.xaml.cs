@@ -96,7 +96,17 @@ namespace Files.Views
                 {
                     try
                     {
-                        await AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                        if (App.AppSettings.PagesOnStartupList != null)
+                        {
+                            foreach (string path in App.AppSettings.PagesOnStartupList)
+                            {
+                                await AddNewTab(typeof(ModernShellPage), path);
+                            }
+                        }
+                        else
+                        {
+                            await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                        }
                     }
                     catch (Exception)
                     {

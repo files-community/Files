@@ -281,7 +281,7 @@ namespace Files.UserControls
                                             { "WorkingDirectory", workingDir },
                                             { "Application", item.Path },
                                             { "Arguments", string.Format(item.Arguments, 
-                                            InstanceTabsView.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                                            Helpers.PathNormalization.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                                         };
                                         await App.Connection.SendMessageAsync(value);
                                     }
