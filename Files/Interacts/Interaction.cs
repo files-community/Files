@@ -4,6 +4,7 @@ using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
@@ -52,13 +53,11 @@ namespace Files.Interacts
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IShellPage CurrentInstance;
-        private readonly InstanceTabsView instanceTabsView;
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
-            instanceTabsView = (Window.Current.Content as Frame).Content as InstanceTabsView;
         }
 
         public void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -88,7 +87,7 @@ namespace Files.Interacts
 
                 // Copy the file to the destination folder.
                 // Generate unique name if the file already exists.
-                // If the file you are trying to set as the wallpaper has the same name as the current wallpaper, 
+                // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
                 StorageFile file = await sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName);
 
@@ -106,9 +105,9 @@ namespace Files.Interacts
             }
         }
 
-        public void OpenNewTab()
+        public async void OpenNewTab()
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -126,22 +125,22 @@ namespace Files.Interacts
         {
             foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    await MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
         }
 
-        public void OpenPathInNewTab(string path)
+        public async void OpenPathInNewTab(string path)
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
+            await MainPage.AddNewTab(typeof(ModernShellPage), path);
         }
 
-        public async void OpenPathInNewWindow(string path)
+        public static async Task<bool> OpenPathInNewWindow(string path)
         {
             var folderUri = new Uri("files-uwp:" + "?folder=" + path);
-            await Launcher.LaunchUriAsync(folderUri);
+            return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
@@ -155,7 +154,7 @@ namespace Files.Interacts
                     { "WorkingDirectory", CurrentInstance.FilesystemViewModel.WorkingDirectory },
                     { "Application", terminal.Path },
                     { "Arguments", string.Format(terminal.Arguments,
-                        InstanceTabsView.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                       Helpers.PathNormalization.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
                 await App.Connection.SendMessageAsync(value);
             }
@@ -445,7 +444,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        await MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
                     }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                     {
@@ -478,13 +477,13 @@ namespace Files.Interacts
 
         public void CloseTab()
         {
-            if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
+            if (App.CurrentInstance.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
+            else if (App.CurrentInstance.MultitaskingControl.Items.Count > 1)
             {
-                ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
+                App.CurrentInstance.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 
@@ -559,9 +558,10 @@ namespace Files.Interacts
             }
             else
             {
-                App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
-                await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                var propertiesDialog = new PropertiesDialog();
+                propertiesDialog.propertiesFrame.Tag = propertiesDialog;
+                propertiesDialog.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -1372,11 +1372,9 @@ namespace Files.Interacts
                     .ContinueWith(async (x) =>
                 {
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
-                        Frame rootFrame = Window.Current.Content as Frame;
-                        var instanceTabsView = rootFrame.Content as InstanceTabsView;
-                        instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                        await MainPage.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
                 banner.Report(100);

@@ -15,6 +15,7 @@ namespace Files.Filesystem
                 Item = value;
             }
         }
+
         public string Path { get; set; }
         public IStorageItem Item { get; set; }
 

@@ -1,18 +1,22 @@
 ﻿using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls
@@ -24,6 +28,13 @@ namespace Files.UserControls
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
+
+            MainPage.OnTabItemDraggedOver += MainPage_OnTabItemDraggedOver;
+        }
+
+        private void MainPage_OnTabItemDraggedOver(object sender, bool e)
+        {
+            VerticalTabViewFlyout.ShowAt(VerticalTabStripInvokeButton);
         }
 
         private bool manualEntryBoxLoaded = false;
@@ -181,6 +192,8 @@ namespace Files.UserControls
 
         ObservableCollection<PathBoxItem> INavigationToolbar.PathComponents => pathComponents;
 
+        public UserControl MultiTaskingControl => verticalTabs;
+
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;
@@ -262,13 +275,13 @@ namespace Files.UserControls
                                         var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
                                             ? AppSettings.HomePath
                                             : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-                                        
+
                                         var value = new ValueSet
                                         {
                                             { "WorkingDirectory", workingDir },
                                             { "Application", item.Path },
-                                            { "Arguments", string.Format(item.Arguments, 
-                                            InstanceTabsView.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                                            { "Arguments", string.Format(item.Arguments,
+                                            Helpers.PathNormalization.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                                         };
                                         await App.Connection.SendMessageAsync(value);
                                     }
@@ -319,6 +332,89 @@ namespace Files.UserControls
                 return;
 
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+        }
+
+        private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutOpen = false;
+                await Task.Delay(1000);
+                if (!cancelFlyoutOpen)
+                {
+                    (sender as Button).Flyout.ShowAt(sender as Button);
+                    cancelFlyoutOpen = false;
+                }
+                else
+                {
+                    cancelFlyoutOpen = false;
+                }
+            }
+        }
+
+        private bool cancelFlyoutOpen = false;
+
+        private void VerticalTabStripInvokeButton_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                if (!(sender as Button).Flyout.IsOpen)
+                {
+                    cancelFlyoutOpen = true;
+                }
+            }
+        }
+
+        private void Button_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private void Flyout_Opened(object sender, object e)
+        {
+            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "PointerOver", false);
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
+        }
+
+        private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        private bool cancelFlyoutAutoClose = false;
+
+        private async void verticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutAutoClose = false;
+                verticalTabs.PointerEntered += verticalTabs_PointerEntered;
+                await Task.Delay(1000);
+                verticalTabs.PointerEntered -= verticalTabs_PointerEntered;
+                if (!cancelFlyoutAutoClose)
+                {
+                    VerticalTabViewFlyout.Hide();
+                }
+                cancelFlyoutAutoClose = false;
+            }
+        }
+
+        private void verticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutAutoClose = true;
+            }
         }
     }
 }

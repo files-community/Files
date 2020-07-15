@@ -1,4 +1,5 @@
 using Files.View_Models;
+using Files.Views;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -53,22 +54,22 @@ namespace Files.Filesystem
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
-                    if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                    if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                     {
-                        App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                        MainPage.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
                     }
                     foreach (DriveItem drive in Drives)
                     {
-                        if (!App.sideBarItems.Contains(drive))
+                        if (!MainPage.sideBarItems.Contains(drive))
                         {
-                            App.sideBarItems.Add(drive);
+                            MainPage.sideBarItems.Add(drive);
                         }
                     }
-                    foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                    foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                     {
                         if (item is DriveItem && !Drives.Contains(item))
                         {
-                            App.sideBarItems.Remove(item);
+                            MainPage.sideBarItems.Remove(item);
                         }
                     }
                 });
@@ -84,22 +85,22 @@ namespace Files.Filesystem
         {
             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                if (App.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
+                if (MainPage.sideBarItems.FirstOrDefault(x => x is HeaderTextItem && x.Text == ResourceController.GetTranslation("SidebarDrives")) == null)
                 {
-                    App.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
+                    MainPage.sideBarItems.Add(new HeaderTextItem() { Text = ResourceController.GetTranslation("SidebarDrives") });
                 }
                 foreach (DriveItem drive in Drives)
                 {
-                    if (!App.sideBarItems.Contains(drive))
+                    if (!MainPage.sideBarItems.Contains(drive))
                     {
-                        App.sideBarItems.Add(drive);
+                        MainPage.sideBarItems.Add(drive);
                     }
                 }
-                foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                 {
                     if (item is DriveItem && !Drives.Contains(item))
                     {
-                        App.sideBarItems.Remove(item);
+                        MainPage.sideBarItems.Remove(item);
                     }
                 }
             });
@@ -227,9 +228,9 @@ namespace Files.Filesystem
                         break;
 
                     case System.IO.DriveType.Fixed:
-                        if (InstanceTabsView.NormalizePath(drive.Name) != InstanceTabsView.NormalizePath("A:")
-                            && InstanceTabsView.NormalizePath(drive.Name) !=
-                            InstanceTabsView.NormalizePath("B:"))
+                        if (Helpers.PathNormalization.NormalizePath(drive.Name) != Helpers.PathNormalization.NormalizePath("A:")
+                            && Helpers.PathNormalization.NormalizePath(drive.Name) !=
+                            Helpers.PathNormalization.NormalizePath("B:"))
                         {
                             type = DriveType.Fixed;
                         }
@@ -299,7 +300,7 @@ namespace Files.Filesystem
             {
                 // Check among already discovered drives
                 StorageFolder matchingDrive = App.AppSettings.DrivesManager.Drives.FirstOrDefault(x =>
-                    InstanceTabsView.NormalizePath(x.Path) == InstanceTabsView.NormalizePath(rootPath))?.Root;
+                    Helpers.PathNormalization.NormalizePath(x.Path) == Helpers.PathNormalization.NormalizePath(rootPath))?.Root;
                 if (matchingDrive == null)
                 {
                     // Check on all removable drives
@@ -309,7 +310,7 @@ namespace Files.Filesystem
                         try
                         {
                             var root = StorageDevice.FromId(item.Id);
-                            if (InstanceTabsView.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
+                            if (Helpers.PathNormalization.NormalizePath(rootPath).Replace("\\\\?\\", "") == root.Name.ToUpperInvariant())
                             {
                                 matchingDrive = root;
                                 break;

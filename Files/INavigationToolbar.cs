@@ -1,5 +1,6 @@
 ﻿using Files.Views.Pages;
 using System.Collections.ObjectModel;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.UserControls
 {

@@ -11,7 +11,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    NavigationCacheMode="Required"
+    NavigationCacheMode="Enabled"
     PointerPressed="GridViewBrowserViewer_PointerPressed"
     PointerWheelChanged="BaseLayout_PointerWheelChanged"
     mc:Ignorable="d">
@@ -253,7 +253,8 @@
                 x:Load="False"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
-                Text="Open in new tab">
+                Text="Open in new tab"
+                Visibility="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                 </MenuFlyoutItem.Icon>

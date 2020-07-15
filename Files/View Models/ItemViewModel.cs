@@ -27,6 +27,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Imaging;
 using static Files.Helpers.NativeDirectoryChangesHelper;
 using static Files.Helpers.NativeFindStorageItemHelper;
+using Files.Views;
+using Files.UserControls;
+using Files.Dialogs;
 using FileAttributes = System.IO.FileAttributes;
 
 namespace Files.Filesystem
@@ -53,6 +56,7 @@ namespace Files.Filesystem
         private SortDirection _directorySortDirection = SortDirection.Ascending;
 
         private string _customPath;
+
         public string WorkingDirectory
         {
             get
@@ -60,6 +64,7 @@ namespace Files.Filesystem
                 return _currentStorageFolder?.Path ?? _customPath;
             }
         }
+
         private StorageFolderWithPath _currentStorageFolder;
         private StorageFolderWithPath _workingRoot;
 
@@ -69,15 +74,11 @@ namespace Files.Filesystem
             {
                 return;
             }
-            if (WorkingDirectory == value)
-            {
-                return;
-            }
 
             App.JumpList.AddFolderToJumpList(value);
 
             INavigationControlItem item = null;
-            List<INavigationControlItem> sidebarItems = App.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
+            List<INavigationControlItem> sidebarItems = MainPage.sideBarItems.Where(x => !string.IsNullOrWhiteSpace(x.Path)).ToList();
 
             item = sidebarItems.FirstOrDefault(x => x.Path.Equals(value, StringComparison.OrdinalIgnoreCase));
             if (item == null)
@@ -126,16 +127,19 @@ namespace Files.Filesystem
             var instance = App.CurrentInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFolderFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
+
         public static async Task<StorageFile> GetFileFromPathAsync(string value)
         {
             var instance = App.CurrentInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFileFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
+
         public static async Task<StorageFolderWithPath> GetFolderWithPathFromPathAsync(string value)
         {
             var instance = App.CurrentInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFolderWithPathFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
+
         public static async Task<StorageFileWithPath> GetFileWithPathFromPathAsync(string value)
         {
             var instance = App.CurrentInstance.FilesystemViewModel;
@@ -552,9 +556,7 @@ namespace Files.Filesystem
         {
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
 
-            Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
+            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(new DirectoryInfo(path).Name, path);
             CancelLoadAndClearFiles();
 
             try
@@ -795,7 +797,8 @@ namespace Files.Filesystem
             }
             catch (UnauthorizedAccessException)
             {
-                await App.ConsentDialogDisplay.ShowAsync();
+                var consentDialogDisplay = new ConsentDialog();
+                await consentDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
                 return;
             }
             catch (FileNotFoundException)
@@ -864,7 +867,7 @@ namespace Files.Filesystem
 
             // Is folder synced to cloud storage?
             var syncStatus = await CheckCloudDriveSyncStatus(_rootFolder);
-            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = 
+            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive =
                 syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
             if (enumFromStorageFolder)
@@ -1113,7 +1116,6 @@ namespace Files.Filesystem
                                 }
 
                                 offset += notifyInfo.NextEntryOffset;
-
                             } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
 
                             //ResetEvent(overlapped.hEvent);

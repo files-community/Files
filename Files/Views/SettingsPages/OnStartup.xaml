@@ -54,27 +54,25 @@
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel 
-                    x:Name="PagesPanel" 
-                    Width="550" 
-                    HorizontalAlignment="Left" 
+                <StackPanel
+                    x:Name="PagesPanel"
+                    Width="550"
+                    HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
-                    <StackPanel 
-                        Orientation="Horizontal" 
-                        Margin="0,10,0,20">
-                        <TextBlock 
+                    <StackPanel Margin="0,10,0,20" Orientation="Horizontal">
+                        <TextBlock
                             x:Uid="SettingsOnStartupPages"
-                            Text="Pages: " 
-                            FontSize="18" 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center" />
-                        <Button 
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontSize="18"
+                            Text="Pages: " />
+                        <Button
+                            x:Name="btnAddPage"
                             x:Uid="SettingsOnStartupOpenAddPageButton"
-                            x:Name="btnAddPage" 
-                            Content="Add a new page" 
-                            BorderThickness="2,2,2,2" 
-                            Margin="277,0,0,0" 
-                            Click="btnAddPage_Click" />
+                            Margin="277,0,0,0"
+                            BorderThickness="2,2,2,2"
+                            Click="btnAddPage_Click"
+                            Content="Add a new page" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

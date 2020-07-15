@@ -47,6 +47,7 @@ namespace Files.SettingsPages
                 CreateAndAddPageItem(folder.Path);
             }
         }
+
         public SpecificPageOnStartup CreateAndAddPageItem(string path)
         {
             SpecificPageOnStartup newPageItem = new SpecificPageOnStartup(path);
@@ -72,7 +73,7 @@ namespace Files.SettingsPages
         public void RemovePage(SpecificPageOnStartup pageItem, string path)
         {
             PagesPanel.Children.Remove(pageItem);
-            string [] newPages = AppSettings.PagesOnStartupList.Where(s => s != path).ToArray();
+            string[] newPages = AppSettings.PagesOnStartupList.Where(s => s != path).ToArray();
             if (newPages.Length > 0)
             {
                 AppSettings.PagesOnStartupList = newPages;

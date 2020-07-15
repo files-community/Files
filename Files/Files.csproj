@@ -180,6 +180,7 @@
     <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
+    <Compile Include="Helpers\PathNormalization.cs" />
     <Compile Include="Helpers\ShellCommandParser.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\MultitaskingControl\IMultitaskingControl.cs" />
     <Compile Include="UserControls\SidebarControl.cs">
       <DependentUpon>SidebarControl.xaml</DependentUpon>
     </Compile>
@@ -234,6 +236,10 @@
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UserControls\TabItem.cs" />
+	<Compile Include="UserControls\VerticalTabView.xaml.cs">
+	  <DependentUpon>VerticalTabView.xaml</DependentUpon>
+	</Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
     </Compile>
@@ -256,15 +262,14 @@
     <Compile Include="View Models\InteractionViewModel.cs" />
     <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
-    <Compile Include="Views\InstanceTabsView.xaml.cs">
-      <DependentUpon>InstanceTabsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
-    <Compile Include="LocationsList.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModernShellPage.xaml.cs">
       <DependentUpon>ModernShellPage.xaml</DependentUpon>
@@ -332,6 +337,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
+    <Content Include="Assets\SettingsAssets\VerticalTabsFlyout.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -461,6 +467,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+	<Page Include="UserControls\VerticalTabView.xaml">
+	  <SubType>Designer</SubType>
+	  <Generator>MSBuild:Compile</Generator>
+	</Page>
     <Page Include="UserControls\Widgets\LibraryCards.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -481,11 +491,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\InstanceTabsView.xaml">
+    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
+    <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

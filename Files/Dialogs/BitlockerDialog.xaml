@@ -23,7 +23,10 @@
                 <Setter.Value>
                     <DataTemplate x:DataType="Button">
                         <StackPanel Orientation="Horizontal" Spacing="5">
-                            <FontIcon FontSize="14" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEB67;" />
+                            <FontIcon
+                                FontFamily="{StaticResource FluentUIGlyphs}"
+                                FontSize="14"
+                                Glyph="&#xEB67;" />
                             <TextBlock Text="{Binding PrimaryButtonText, ElementName=BitlockerDriveDialog}" />
                         </StackPanel>
                     </DataTemplate>
