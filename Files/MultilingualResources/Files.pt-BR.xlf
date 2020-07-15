@@ -986,6 +986,10 @@
           <source>Remove Page</source>
           <target state="translated">Remover Página</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
+        </trans-unit>
       </group>
     </body>
   </file>
