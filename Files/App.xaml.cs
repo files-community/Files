@@ -214,12 +214,26 @@ namespace Files
                     // parameter
                     rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
                 }
+                else
+                {
+                    (rootFrame.Content as InstanceTabsView).AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
+                }
 
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                 var currentView = SystemNavigationManager.GetForCurrentView();
                 currentView.BackRequested += Window_BackRequested;
+            }
+        }
+
+        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
+        {
+            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated || 
+                args.WindowActivationState == CoreWindowActivationState.PointerActivated)
+            {
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
             }
         }
 
@@ -267,6 +281,7 @@ namespace Files
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                     currentView.BackRequested += Window_BackRequested;
                     return;
 
@@ -290,6 +305,7 @@ namespace Files
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                                     currentView.BackRequested += Window_BackRequested;
                                     return;
 
@@ -304,6 +320,7 @@ namespace Files
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
                                         Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                                         currentView.BackRequested += Window_BackRequested;
 
                                         return;
@@ -325,6 +342,7 @@ namespace Files
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                                     currentView.BackRequested += Window_BackRequested;
                                     return;
                             }
@@ -338,6 +356,7 @@ namespace Files
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
         }
 
         private void TryEnablePrelaunch()

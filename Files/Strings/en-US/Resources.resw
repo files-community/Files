@@ -855,6 +855,15 @@
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pages:</value>
   </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Always open a new instance</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Open folder in a new tab</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehaviour.Text" xml:space="preserve">
+    <value>When launching a pinned folder</value>
+  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
   </data>

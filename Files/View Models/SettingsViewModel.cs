@@ -414,6 +414,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool AlwaysOpenANewInstance
+        {
+            get => Get(false);
+            set => Set(value);
+        }
+
         private void DetectAcrylicPreference()
         {
             if (localSettings.Values["AcrylicEnabled"] == null) { localSettings.Values["AcrylicEnabled"] = true; }
