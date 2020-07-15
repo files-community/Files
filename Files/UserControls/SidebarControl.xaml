@@ -7,8 +7,9 @@
     xmlns:local="using:Files.Controls"
     xmlns:local1="using:Files"
     xmlns:local2="using:Files.Filesystem"
+    xmlns:local3="using:Files.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:local3="using:Files.Views"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     d:DesignHeight="768"
     d:DesignWidth="200"
     mc:Ignorable="d">
@@ -35,7 +36,10 @@
                     RightTapped="NavigationViewLocationItem_RightTapped"
                     Tag="{x:Bind Path}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontSize="18" FontFamily="{x:Bind Font}" Glyph="{x:Bind Glyph}" />
+                        <FontIcon
+                            FontFamily="{x:Bind Font}"
+                            FontSize="18"
+                            Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -52,7 +56,10 @@
                     ToolTipService.ToolTip="{x:Bind SpaceText}"
                     Visibility="{x:Bind ItemVisibility}">
                     <muxc:NavigationViewItem.Icon>
-                        <FontIcon FontSize="18" FontFamily="{StaticResource FluentUIGlyphs}" Glyph="{x:Bind Glyph}" />
+                        <FontIcon
+                            FontFamily="{StaticResource FluentUIGlyphs}"
+                            FontSize="18"
+                            Glyph="{x:Bind Glyph}" />
                     </muxc:NavigationViewItem.Icon>
                 </muxc:NavigationViewItem>
             </DataTemplate>
@@ -120,8 +127,8 @@
                                 </Grid.ColumnDefinitions>
                                 <FontIcon
                                     VerticalAlignment="Center"
-                                    FontSize="18"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
+                                    FontSize="18"
                                     Glyph="&#xEB5D;" />
                                 <TextBlock
                                     x:Uid="SidebarSettings"
@@ -151,8 +158,8 @@
                             <MenuFlyoutItem
                                 x:Name="OpenInNewTab"
                                 x:Uid="SideBarOpenInNewTab"
-                                Click="OpenInNewTab_Click"
                                 x:Load="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
+                                Click="OpenInNewTab_Click"
                                 Text="Open in new tab">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />

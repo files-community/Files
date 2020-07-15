@@ -328,7 +328,7 @@ namespace Files.UserControls
 
         private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            if(e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
                 e.Handled = true;
                 cancelFlyoutOpen = false;
@@ -344,7 +344,9 @@ namespace Files.UserControls
                 }
             }
         }
-        bool cancelFlyoutOpen = false;
+
+        private bool cancelFlyoutOpen = false;
+
         private void VerticalTabStripInvokeButton_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
@@ -371,7 +373,6 @@ namespace Files.UserControls
         private void Flyout_Closed(object sender, object e)
         {
             VisualStateManager.GoToState(VerticalTabStripInvokeButton, "Normal", false);
-
         }
 
         private void VerticalTabStripInvokeButton_DragEnter(object sender, DragEventArgs e)

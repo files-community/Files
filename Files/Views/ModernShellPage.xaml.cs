@@ -164,7 +164,7 @@ namespace Files.Views.Pages
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
                     }
-                    else if(NavParams.StartsWith("\\\\?\\"))
+                    else if (NavParams.StartsWith("\\\\?\\"))
                     {
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = App.AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{System.IO.Path.GetPathRoot(NavParams)}", StringComparison.OrdinalIgnoreCase));

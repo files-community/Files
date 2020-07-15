@@ -11,8 +11,8 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    Loaded="Page_Loaded"
     KeyboardAcceleratorPlacementMode="Hidden"
+    Loaded="Page_Loaded"
     mc:Ignorable="d">
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
@@ -95,7 +95,7 @@
                 Canvas.ZIndex="100"
                 OffsetX="-2"
                 ShadowOpacity=".04">
-                <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="0,32,0,0">
+                <Grid Padding="0,32,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -113,9 +113,9 @@
                     <Frame
                         x:Name="ItemDisplayFrame"
                         Grid.Row="1"
-                        CacheSize="2"
                         x:FieldModifier="public"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        CacheSize="2"
                         Navigated="ItemDisplayFrame_Navigated" />
 
                     <controls1:StatusBarControl

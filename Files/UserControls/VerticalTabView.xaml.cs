@@ -25,6 +25,7 @@ namespace Files.UserControls
     public sealed partial class VerticalTabView : UserControl, IMultitaskingControl
     {
         public ObservableCollection<TabItem> Items => MainPage.AppInstances;
+
         public void SelectionChanged() => TabStrip_SelectionChanged(null, null);
 
         public const string TabPathIdentifier = "FilesTabViewItemPath";
@@ -209,7 +210,7 @@ namespace Files.UserControls
             {
                 Microsoft.UI.Xaml.Controls.FontIconSource icon = new Microsoft.UI.Xaml.Controls.FontIconSource();
                 icon.Glyph = "\xE713";
-                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text") 
+                if ((Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).Header.ToString() != ResourceController.GetTranslation("SidebarSettings/Text")
                     && (Items[App.InteractionViewModel.TabStripSelectedIndex] as TabItem).IconSource != icon)
                 {
                     App.CurrentInstance = GetCurrentSelectedTabInstance<ModernShellPage>();
@@ -275,6 +276,7 @@ namespace Files.UserControls
                 case Windows.Foundation.Collections.CollectionChange.ItemRemoved:
                     App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
                     break;
+
                 case Windows.Foundation.Collections.CollectionChange.ItemInserted:
                     App.InteractionViewModel.TabStripSelectedIndex = Items.IndexOf(verticalTabView.SelectedItem as TabItem);
                     break;

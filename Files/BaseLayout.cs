@@ -219,7 +219,7 @@ namespace Files
             IsItemSelected = false;
             AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
             await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(parameters);
-            
+
             // pathRoot will be empty on recycle bin path
             string pathRoot = Path.GetPathRoot(App.CurrentInstance.FilesystemViewModel.WorkingDirectory);
             if (string.IsNullOrEmpty(pathRoot) || App.CurrentInstance.FilesystemViewModel.WorkingDirectory == pathRoot)

@@ -13,7 +13,7 @@ using Windows.UI.Xaml;
 
 namespace Files.View_Models.Properties
 {
-    class CombinedProperties : BaseProperties
+    internal class CombinedProperties : BaseProperties
     {
         public List<ListedItem> List { get; }
 

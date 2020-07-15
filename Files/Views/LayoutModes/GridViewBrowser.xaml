@@ -251,10 +251,10 @@
                 x:Name="OpenInNewTab"
                 x:Uid="BaseLayoutItemContextFlyoutOpenInNewTab"
                 x:Load="False"
-                Visibility="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}"
                 Click="{x:Bind local:App.CurrentInstance.InteractionOperations.OpenDirectoryInNewTab_Click}"
                 Tag="OpenTab_FlyoutItem"
-                Text="Open in new tab">
+                Text="Open in new tab"
+                Visibility="{x:Bind AppSettings.IsMultitaskingControlVisible, Mode=OneWay}">
                 <MenuFlyoutItem.Icon>
                     <FontIcon FontFamily="{StaticResource CustomGlyph}" Glyph="&#xF106;" />
                 </MenuFlyoutItem.Icon>

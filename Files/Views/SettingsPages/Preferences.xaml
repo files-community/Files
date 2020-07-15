@@ -29,7 +29,6 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
-
                 <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesAppLanguage"
@@ -54,7 +53,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                 </StackPanel>
-                
+
                 <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesPinOneDrive"

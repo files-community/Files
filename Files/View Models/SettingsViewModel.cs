@@ -594,6 +594,7 @@ namespace Files.View_Models
         }
 
         private bool isMultitaskingControlVisible = true;
+
         public bool IsMultitaskingControlVisible
         {
             get => isMultitaskingControlVisible;

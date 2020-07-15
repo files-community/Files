@@ -40,12 +40,14 @@ namespace Files.Filesystem
                     statusUI.Glyph = "\uE753";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
                     break;
+
                 case CloudDriveSyncStatus.File_Offline:
                 case CloudDriveSyncStatus.File_Offline_Pinned:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
                     break;
+
                 case CloudDriveSyncStatus.File_Sync:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uE895";
@@ -59,6 +61,7 @@ namespace Files.Filesystem
                     statusUI.Glyph = "\uE753";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOnlineColor"];
                     break;
+
                 case CloudDriveSyncStatus.Folder_Offline_Full:
                 case CloudDriveSyncStatus.Folder_Offline_Pinned:
                 case CloudDriveSyncStatus.Folder_Empty:
@@ -66,6 +69,7 @@ namespace Files.Filesystem
                     statusUI.Glyph = "\uE73E";
                     statusUI.Foreground = (SolidColorBrush)App.Current.Resources["CloudDriveSyncStatusOfflineColor"];
                     break;
+
                 case CloudDriveSyncStatus.Folder_Excluded:
                     statusUI.LoadSyncStatus = true;
                     statusUI.Glyph = "\uF140";

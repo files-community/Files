@@ -56,6 +56,7 @@ namespace Files.Filesystem
         private SortDirection _directorySortDirection = SortDirection.Ascending;
 
         private string _customPath;
+
         public string WorkingDirectory
         {
             get
@@ -63,6 +64,7 @@ namespace Files.Filesystem
                 return _currentStorageFolder?.Path ?? _customPath;
             }
         }
+
         private StorageFolderWithPath _currentStorageFolder;
         private StorageFolderWithPath _workingRoot;
 
@@ -125,16 +127,19 @@ namespace Files.Filesystem
             var instance = App.CurrentInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFolderFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
+
         public static async Task<StorageFile> GetFileFromPathAsync(string value)
         {
             var instance = App.CurrentInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFileFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
+
         public static async Task<StorageFolderWithPath> GetFolderWithPathFromPathAsync(string value)
         {
             var instance = App.CurrentInstance.FilesystemViewModel;
             return await StorageFileExtensions.GetFolderWithPathFromPathAsync(value, instance._workingRoot, instance._currentStorageFolder);
         }
+
         public static async Task<StorageFileWithPath> GetFileWithPathFromPathAsync(string value)
         {
             var instance = App.CurrentInstance.FilesystemViewModel;
@@ -862,7 +867,7 @@ namespace Files.Filesystem
 
             // Is folder synced to cloud storage?
             var syncStatus = await CheckCloudDriveSyncStatus(_rootFolder);
-            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = 
+            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive =
                 syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
             if (enumFromStorageFolder)
@@ -1111,7 +1116,6 @@ namespace Files.Filesystem
                                 }
 
                                 offset += notifyInfo.NextEntryOffset;
-
                             } while (notifyInfo.NextEntryOffset != 0 && x.Status != AsyncStatus.Canceled);
 
                             //ResetEvent(overlapped.hEvent);

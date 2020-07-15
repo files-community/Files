@@ -970,6 +970,10 @@
           <source>Status</source>
           <target state="translated">Статус</target>
         </trans-unit>
+        <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
+          <source>Move tab here</source>
+          <target state="new">Move tab here</target>
+        </trans-unit>
       </group>
     </body>
   </file>

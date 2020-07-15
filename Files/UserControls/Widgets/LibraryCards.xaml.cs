@@ -20,7 +20,6 @@ namespace Files
             itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Orange.png", Icon = "\xea83", Text = ResourceController.GetTranslation("SidebarPictures"), Tag = "Pictures" });
             itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Pink.png", Icon = "\xead4", Text = ResourceController.GetTranslation("SidebarMusic"), Tag = "Music" });
             itemsAdded.Add(new FavoriteLocationItem() { ImageSource = "Assets/Cards/Gradients/Red.png", Icon = "\xec0d", Text = ResourceController.GetTranslation("SidebarVideos"), Tag = "Videos" });
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

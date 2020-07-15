@@ -34,7 +34,10 @@
                     Text="WARNING: EXPERIMENTAL FEATURES AHEAD!" />
 
                 <StackPanel Spacing="10">
-                    <Image Height="200" Source="/Assets/SettingsAssets/VerticalTabsFlyout.png" HorizontalAlignment="Left" />
+                    <Image
+                        Height="200"
+                        HorizontalAlignment="Left"
+                        Source="/Assets/SettingsAssets/VerticalTabsFlyout.png" />
                     <TextBlock
                         x:Uid="SettingsPreferencesShowMultitaskingControl"
                         FontSize="17"

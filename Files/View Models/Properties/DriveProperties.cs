@@ -6,7 +6,7 @@ using Windows.UI.Xaml;
 
 namespace Files.View_Models.Properties
 {
-    class DriveProperties : BaseProperties
+    internal class DriveProperties : BaseProperties
     {
         public DriveItem Drive { get; }
 

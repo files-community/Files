@@ -87,7 +87,7 @@ namespace Files.Interacts
 
                 // Copy the file to the destination folder.
                 // Generate unique name if the file already exists.
-                // If the file you are trying to set as the wallpaper has the same name as the current wallpaper, 
+                // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
                 // the system will ignore the request and no-op the operation
                 StorageFile file = await sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName);
 

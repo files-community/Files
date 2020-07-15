@@ -25,7 +25,6 @@ using Windows.UI.Xaml.Navigation;
 
 using static Files.Helpers.PathNormalization;
 
-
 namespace Files.Views
 {
     /// <summary>
@@ -34,7 +33,8 @@ namespace Files.Views
     public sealed partial class MainPage : Page, INotifyPropertyChanged
     {
         private TabItem _SelectedTabItem;
-        public TabItem SelectedTabItem 
+
+        public TabItem SelectedTabItem
         {
             get
             {
@@ -268,6 +268,7 @@ namespace Files.Views
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

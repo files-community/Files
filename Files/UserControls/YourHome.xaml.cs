@@ -28,7 +28,6 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
