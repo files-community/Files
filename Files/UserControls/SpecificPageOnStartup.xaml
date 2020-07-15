@@ -8,18 +8,16 @@
     mc:Ignorable="d"
     d:DesignWidth="400" Height="40">
 
-    <StackPanel Orientation="Horizontal" Margin="0,0,0,3">
+    <StackPanel Orientation="Horizontal" Margin="0,0,0,3" HorizontalAlignment="Left">
         <TextBox 
             x:Name="PagePath"
-            Width="300"
+            Width="400"
             Height="34"
-            Margin="12,0,0,0"
-            HorizontalAlignment="Left"
             BorderThickness="1,1,0,1"
             CornerRadius="2,0,0,2"
             IsEnabled="False"
             PlaceholderText="New Tab"
-            Text="" />
+            Text="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" />
         <Button
             x:Name="btnMenu"
             Height="34"
