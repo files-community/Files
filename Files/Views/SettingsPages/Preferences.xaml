@@ -41,7 +41,7 @@
                         Visibility="Collapsed"
                         FontSize="14"
                         FontStyle="Italic"
-                        Foreground="Yellow"
+                        Foreground="{ThemeResource SystemErrorTextColor}"
                         Text="Restart required" />
                     <ComboBox
                         x:Name="ComboAppLanguage"
