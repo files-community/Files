@@ -154,7 +154,8 @@ namespace Files.Views.Pages
                         ItemDisplayFrame.Navigate(typeof(YourHome), NavParams, new SuppressNavigationTransitionInfo());
                         SidebarControl.SelectedSidebarItem = App.sideBarItems[0];
                     }
-                    else if (NavParams[0] >= 'A' && NavParams[0] <= 'Z' && NavParams[1] == ':')
+                    else if (((NavParams[0] >= 'A' && NavParams[0] <= 'Z') || (NavParams[0] >= 'a' && NavParams[0] <= 'z'))
+                        && NavParams[1] == ':')
                     {
                         NavigationPath = NavParams;
                         SidebarControl.SelectedSidebarItem = AppSettings.DrivesManager.Drives.First(x => x.Path.ToString().Equals($"{NavParams[0]}:\\", StringComparison.OrdinalIgnoreCase));
