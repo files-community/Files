@@ -62,7 +62,7 @@
                     <StackPanel 
                         Orientation="Horizontal" 
                         Margin="0,10,0,20">
-                        <TextBlock Text="Pages: " FontSize="20" />
+                        <TextBlock Text="Pages: " FontSize="18" />
                         <Button 
                             x:Name="btnAddPage" 
                             Content="Add Page" 
