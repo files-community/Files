@@ -161,12 +161,14 @@ namespace Files.Filesystem
             NotifyPropertyChanged("IsSortedByDate");
             NotifyPropertyChanged("IsSortedByType");
             NotifyPropertyChanged("IsSortedBySize");
+            OrderFiles();
         }
 
         public void UpdateSortDirectionStatus()
         {
             NotifyPropertyChanged("IsSortedAscending");
             NotifyPropertyChanged("IsSortedDescending");
+            OrderFiles();
         }
 
         public bool IsSortedByName

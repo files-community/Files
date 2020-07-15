@@ -40,9 +40,7 @@ namespace Files.View_Models
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DetectGridViewSize();
-            DetectSortOption();
-            DetectSortDirection();
+            DetectGridViewSize();d
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
@@ -58,8 +56,6 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-            Analytics.TrackEvent("SortOption" + _directorySortOption.ToString());
-            Analytics.TrackEvent("SortDirection" + _directorySortDirection.ToString());
             // Load the supported languages
 
             var supportedLang = ApplicationLanguages.ManifestLanguages;
@@ -97,59 +93,36 @@ namespace Files.View_Models
             }
         }
 
-        private SortOption _directorySortOption = SortOption.Name;
-        private SortDirection _directorySortDirection = SortDirection.Ascending;
         public SortOption DirectorySortOption
         {
-            get => Get(_directorySortOption);
+            get => (SortOption)SortOptionByte;
             set
             {
-                Set(ref _directorySortOption, value);
-                localSettings.Values[LocalSettings.SortOption] = (byte)value;
+                SortOptionByte = (byte)value;
                 App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
-                App.CurrentInstance?.FilesystemViewModel?.OrderFiles();
             }
         }
 
         public SortDirection DirectorySortDirection
         {
-            get => Get(_directorySortDirection);
+            get => (SortDirection)SortDirectionByte;
             set
             {
-                if (value != _directorySortDirection)
-                {
-                    Set(ref _directorySortDirection, value);
-                    localSettings.Values[LocalSettings.SortDirection] = (byte)value;
-                    App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
-                    App.CurrentInstance?.FilesystemViewModel?.OrderFiles();
-                }
+                SortDirectionByte = (byte)value;
+                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
             }
         }
 
-        public void DetectSortOption()
+        private byte SortOptionByte
         {
-            if (localSettings.Values[LocalSettings.SortOption] == null)
-            {
-                _directorySortOption = SortOption.Name;
-                localSettings.Values[LocalSettings.SortOption] = SortOption.Name;
-            }
-            else
-            {
-                _directorySortOption = (SortOption)localSettings.Values[LocalSettings.SortOption];
-            }
+            get => Get((byte)0);
+            set => Set(value);
         }
 
-        public void DetectSortDirection()
+        private byte SortDirectionByte
         {
-            if (localSettings.Values[LocalSettings.SortDirection] == null)
-            {
-                _directorySortOption = SortOption.Name;
-                localSettings.Values[LocalSettings.SortDirection] = SortOption.Name;
-            }
-            else
-            {
-                _directorySortOption = (SortOption)localSettings.Values[LocalSettings.SortDirection];
-            }
+            get => Get((byte)0);
+            set => Set(value);
         }
 
         public async void DetectQuickLook()
