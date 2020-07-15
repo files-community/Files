@@ -67,7 +67,6 @@ namespace Files
             App.LayoutDialogDisplay = new Dialogs.LayoutDialog();
             App.AddItemDialogDisplay = new Dialogs.AddItemDialog();
             App.ExceptionDialogDisplay = new Dialogs.ExceptionDialog();
-
         }
 
         public static TabWindowProperties WindowProperties { get; set; } = new TabWindowProperties();
@@ -99,7 +98,17 @@ namespace Files
             {
                 try
                 {
-                    AddNewTab(typeof(ModernShellPage), App.AppSettings.OpenASpecificPageOnStartupPath);
+                    if (App.AppSettings.PagesOnStartupList != null)
+                    {
+                        foreach (string path in App.AppSettings.PagesOnStartupList)
+                        {
+                            AddNewTab(typeof(ModernShellPage), path);
+                        }
+                    }
+                    else
+                    {
+                        AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+                    }
                 }
                 catch (Exception)
                 {
