@@ -35,7 +35,7 @@
                         Text="Change Page Location"
                         Click="ChangePage_Click">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE70F;" />
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA39;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
@@ -43,7 +43,7 @@
                         Text="Remove Page"
                         Click="RemovePage_Click">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xE74D;" />
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xE9ED;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyout>
