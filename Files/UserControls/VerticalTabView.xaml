@@ -579,9 +579,9 @@
                         AllowDrop="True"
                         DragOver="TabViewItem_DragOver"
                         Drop="TabViewItem_Drop"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
-                        FontFamily="{StaticResource FluentUIGlyphs}"
                         Style="{StaticResource TabItemStyle}"
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>

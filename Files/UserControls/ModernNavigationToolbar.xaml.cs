@@ -275,12 +275,12 @@ namespace Files.UserControls
                                         var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
                                             ? AppSettings.HomePath
                                             : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-                                        
+
                                         var value = new ValueSet
                                         {
                                             { "WorkingDirectory", workingDir },
                                             { "Application", item.Path },
-                                            { "Arguments", string.Format(item.Arguments, 
+                                            { "Arguments", string.Format(item.Arguments,
                                             Helpers.PathNormalization.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                                         };
                                         await App.Connection.SendMessageAsync(value);
@@ -389,7 +389,8 @@ namespace Files.UserControls
             (sender as Button).Flyout.ShowAt(sender as Button);
         }
 
-        bool cancelFlyoutAutoClose = false;
+        private bool cancelFlyoutAutoClose = false;
+
         private async void verticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)

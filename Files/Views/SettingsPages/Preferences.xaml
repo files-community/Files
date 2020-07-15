@@ -37,11 +37,11 @@
                     <TextBlock
                         x:Name="RestartRequiredPrompt"
                         x:Uid="SettingsPreferencesAppLanguageRestartRequired"
-                        Visibility="Collapsed"
                         FontSize="14"
                         FontStyle="Italic"
                         Foreground="{ThemeResource SystemErrorTextColor}"
-                        Text="Restart required" />
+                        Text="Restart required"
+                        Visibility="Collapsed" />
                     <ComboBox
                         x:Name="ComboAppLanguage"
                         Width="200"

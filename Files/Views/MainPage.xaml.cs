@@ -395,6 +395,5 @@ namespace Files.Views
             await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
             args.Handled = true;
         }
-
     }
 }

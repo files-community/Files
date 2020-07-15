@@ -655,10 +655,10 @@
                 FontFamily="Segoe UI"
                 FontSize="16"
                 FontWeight="SemiBold"
+                IsSpellCheckEnabled="False"
                 KeyDown="VisiblePath_TextChanged"
                 LostFocus="VisiblePath_LostFocus"
                 PlaceholderText="Enter a path"
-                IsSpellCheckEnabled="False"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 Text="{x:Bind PathText, Mode=OneWay}" />
@@ -829,8 +829,8 @@
                             Width="275"
                             MaxHeight="300"
                             Margin="-6"
-                            PointerExited="verticalTabs_PointerExited"
-                            x:FieldModifier="public" />
+                            x:FieldModifier="public"
+                            PointerExited="verticalTabs_PointerExited" />
                     </Flyout>
                 </Button.Flyout>
             </Button>

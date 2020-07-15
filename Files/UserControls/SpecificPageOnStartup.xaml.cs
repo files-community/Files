@@ -24,9 +24,13 @@ namespace Files.UserControls
     {
         //public SettingsViewModel AppSettings => App.AppSettings;
         public delegate void RemovePageEventHandler(SpecificPageOnStartup pageItem, string path);
+
         public delegate void ChangePageEventHandler(string old_path, string new_path);
+
         public event RemovePageEventHandler removePageEvent;
+
         public event ChangePageEventHandler changePageEvent;
+
         public SpecificPageOnStartup(string path = "New Tab")
         {
             InitializeComponent();
