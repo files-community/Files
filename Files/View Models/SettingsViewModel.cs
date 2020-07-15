@@ -106,7 +106,7 @@ namespace Files.View_Models
             {
                 Set(ref _directorySortOption, value);
                 localSettings.Values[LocalSettings.SortOption] = (byte)value;
-		App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
                 App.CurrentInstance?.FilesystemViewModel?.OrderFiles();
             }
         }
@@ -119,8 +119,8 @@ namespace Files.View_Models
                 if (value != _directorySortDirection)
                 {
                     Set(ref _directorySortDirection, value);
-                    localSettings.Values[LocalSettings.SortDirection] =(byte)value;
-		    App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+                    localSettings.Values[LocalSettings.SortDirection] = (byte)value;
+                    App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
                     App.CurrentInstance?.FilesystemViewModel?.OrderFiles();
                 }
             }

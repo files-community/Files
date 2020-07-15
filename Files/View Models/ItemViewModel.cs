@@ -141,7 +141,7 @@ namespace Files.Filesystem
         }
 
         private bool _IsFolderEmptyTextDisplayed;
-		
+
         public bool IsFolderEmptyTextDisplayed
         {
             get => _IsFolderEmptyTextDisplayed;
@@ -155,20 +155,20 @@ namespace Files.Filesystem
             }
         }
 
-	public void UpdateSortOptionStatus()
-	{
-		NotifyPropertyChanged("IsSortedByName");
-		NotifyPropertyChanged("IsSortedByDate");
-		NotifyPropertyChanged("IsSortedByType");
-		NotifyPropertyChanged("IsSortedBySize");
-	}
-		
-	public void UpdateSortDirectionStatus()
-	{
-		NotifyPropertyChanged("IsSortedAscending");
-            	NotifyPropertyChanged("IsSortedDescending");
-	}
-		
+        public void UpdateSortOptionStatus()
+        {
+            NotifyPropertyChanged("IsSortedByName");
+            NotifyPropertyChanged("IsSortedByDate");
+            NotifyPropertyChanged("IsSortedByType");
+            NotifyPropertyChanged("IsSortedBySize");
+        }
+
+        public void UpdateSortDirectionStatus()
+        {
+            NotifyPropertyChanged("IsSortedAscending");
+            NotifyPropertyChanged("IsSortedDescending");
+        }
+
         public bool IsSortedByName
         {
             get => AppSettings.DirectorySortOption == SortOption.Name;
@@ -181,7 +181,7 @@ namespace Files.Filesystem
                 }
             }
         }
-		
+
         public bool IsSortedByDate
         {
             get => AppSettings.DirectorySortOption == SortOption.DateModified;
@@ -830,7 +830,7 @@ namespace Files.Filesystem
 
             // Is folder synced to cloud storage?
             var syncStatus = await CheckCloudDriveSyncStatus(_rootFolder);
-            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = 
+            App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive =
                 syncStatus != CloudDriveSyncStatus.NotSynced && syncStatus != CloudDriveSyncStatus.Unknown;
 
             if (enumFromStorageFolder)
