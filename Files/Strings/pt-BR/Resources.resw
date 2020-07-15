@@ -729,7 +729,7 @@
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
     <value>Reinicialização necessária</value>
   </data>
-    <data name="syncStatusColumn.Header" xml:space="preserve">
+<data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
