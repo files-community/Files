@@ -855,4 +855,7 @@
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>Pages:</value>
   </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Windows default</value>
+  </data>
 </root>

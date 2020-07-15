@@ -995,6 +995,10 @@
           <source>Remove Page</source>
           <target state="new">Remove Page</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
+        </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
           <target state="new">Move tab here</target>
