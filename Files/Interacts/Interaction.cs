@@ -380,10 +380,10 @@ namespace Files.Interacts
                                 //We can have many sort entries
                                 SortEntry sortEntry = new SortEntry()
                                 {
-                                    AscendingOrder = CurrentInstance.FilesystemViewModel.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
+                                    AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
                                 };
 
-                                var sortOption = CurrentInstance.FilesystemViewModel.DirectorySortOption;
+                                var sortOption = AppSettings.DirectorySortOption;
 
                                 switch (sortOption)
                                 {

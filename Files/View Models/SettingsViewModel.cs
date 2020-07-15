@@ -8,6 +8,7 @@ using Files.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,6 @@ namespace Files.View_Models
             DetectRecycleBinPreference();
             DetectQuickLook();
             DetectGridViewSize();
-
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
@@ -59,8 +59,8 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-
             // Load the supported languages
+
             var supportedLang = ApplicationLanguages.ManifestLanguages;
             DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
             foreach (var lang in supportedLang)
@@ -84,6 +84,38 @@ namespace Files.View_Models
             {
                 ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
+        }
+
+        public SortOption DirectorySortOption
+        {
+            get => (SortOption)SortOptionByte;
+            set
+            {
+                SortOptionByte = (byte)value;
+                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+            }
+        }
+
+        public SortDirection DirectorySortDirection
+        {
+            get => (SortDirection)SortDirectionByte;
+            set
+            {
+                SortDirectionByte = (byte)value;
+                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+            }
+        }
+
+        private byte SortOptionByte
+        {
+            get => Get((byte)0);
+            set => Set(value);
+        }
+
+        private byte SortDirectionByte
+        {
+            get => Get((byte)0);
+            set => Set(value);
         }
 
         public async void DetectQuickLook()

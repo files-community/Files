@@ -34,15 +34,15 @@ namespace Files
             set
             {
                 if (value == nameColumn)
-                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.Name;
+                    AppSettings.DirectorySortOption = SortOption.Name;
                 else if (value == dateColumn)
-                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.DateModified;
+                    AppSettings.DirectorySortOption = SortOption.DateModified;
                 else if (value == typeColumn)
-                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.FileType;
+                    AppSettings.DirectorySortOption = SortOption.FileType;
                 else if (value == sizeColumn)
-                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.Size;
+                    AppSettings.DirectorySortOption = SortOption.Size;
                 else
-                    App.CurrentInstance.FilesystemViewModel.DirectorySortOption = SortOption.Name;
+                    AppSettings.DirectorySortOption = SortOption.Name;
 
                 if (value != _sortedColumn)
                 {
@@ -50,7 +50,7 @@ namespace Files
                     if (_sortedColumn != null)
                         _sortedColumn.SortDirection = null;
                 }
-                value.SortDirection = App.CurrentInstance.FilesystemViewModel.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
+                value.SortDirection = AppSettings.DirectorySortDirection == SortDirection.Ascending ? DataGridSortDirection.Ascending : DataGridSortDirection.Descending;
                 _sortedColumn = value;
             }
         }
@@ -59,7 +59,7 @@ namespace Files
         {
             InitializeComponent();
             base.BaseLayoutItemContextFlyout = this.BaseLayoutItemContextFlyout;
-            switch (App.CurrentInstance.FilesystemViewModel.DirectorySortOption)
+            switch (AppSettings.DirectorySortOption)
             {
                 case SortOption.Name:
                     SortedColumn = nameColumn;
@@ -192,7 +192,7 @@ namespace Files
         {
             if (e.PropertyName == "DirectorySortOption")
             {
-                switch (App.CurrentInstance.FilesystemViewModel.DirectorySortOption)
+                switch (AppSettings.DirectorySortOption)
                 {
                     case SortOption.Name:
                         SortedColumn = nameColumn;
