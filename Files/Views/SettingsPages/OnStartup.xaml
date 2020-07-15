@@ -73,7 +73,7 @@
                             x:Name="btnAddPage" 
                             Content="Add a new page" 
                             BorderThickness="2,2,2,2" 
-                            Margin="275,0,0,0" 
+                            Margin="277,0,0,0" 
                             Click="btnAddPage_Click" />
                     </StackPanel>
                 </StackPanel>
