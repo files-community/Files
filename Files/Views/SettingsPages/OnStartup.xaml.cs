@@ -52,6 +52,7 @@ namespace Files.SettingsPages
             SpecificPageOnStartup newPageItem = new SpecificPageOnStartup(path);
             newPageItem.changePageEvent += EditPage;
             newPageItem.removePageEvent += RemovePage;
+            newPageItem.HorizontalAlignment = HorizontalAlignment.Left;
             PagesPanel.Children.Add(newPageItem);
             return newPageItem;
         }
