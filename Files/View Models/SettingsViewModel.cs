@@ -40,7 +40,7 @@ namespace Files.View_Models
             PinSidebarLocationItems();
             DetectRecycleBinPreference();
             DetectQuickLook();
-            DetectGridViewSize();d
+            DetectGridViewSize();
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
