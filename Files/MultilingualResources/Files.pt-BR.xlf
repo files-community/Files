@@ -320,8 +320,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="needs-review-translation">Abra uma página específica</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
+          <target state="translated">Abra uma página ou páginas específicas</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -961,31 +960,31 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
           <source>Restart required</source>
-          <target state="translated">Necessário reiniciar o Aplicativo</target>
+          <target state="translated">Reinicialização necessária</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
-          <target state="new">Status</target>
+          <target state="translated">Status</target>
         </trans-unit>
         <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
           <source>Recent</source>
-          <target state="new">Recent</target>
+          <target state="translated">Recente</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="new">Add a new page</target>
+          <target state="translated">Adicionar uma nova página</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
-          <target state="new">Change Page Location</target>
+          <target state="translated">Alterar local da página</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
-          <target state="new">Pages:</target>
+          <target state="translated">Páginas:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
           <source>Remove Page</source>
-          <target state="new">Remove Page</target>
+          <target state="translated">Remover Página</target>
         </trans-unit>
       </group>
     </body>
