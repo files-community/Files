@@ -714,4 +714,19 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Estado</value>
   </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>Agregar una página nueva</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>Cambiar ubicación</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>Paginas</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>Quitar</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Predeterminado de windows</value>
+  </data>
 </root>
