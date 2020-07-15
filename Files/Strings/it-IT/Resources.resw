@@ -223,7 +223,7 @@
     <value>Apri in una nuova scheda</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Apri una pagina specifica</value>
+    <value>Apri una specifica pagina/pagine</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>All'avvio</value>

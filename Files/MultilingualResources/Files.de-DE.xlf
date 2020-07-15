@@ -147,7 +147,7 @@
           <target state="translated">Eine neue Registerkarte öffnen</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
+          <source>Open a specific page or pages</source>
           <target state="needs-review-translation">Bestimmte Seite oder Seiten öffnen</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
@@ -976,6 +976,22 @@
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
           <target state="new">Status</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
+          <source>Add a new page</source>
+          <target state="new">Add a new page</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
+          <source>Change Page Location</source>
+          <target state="new">Change Page Location</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
+          <source>Pages:</source>
+          <target state="new">Pages:</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
+          <source>Remove Page</source>
+          <target state="new">Remove Page</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehaviour.Text" translate="yes" xml:space="preserve">
           <source>When launching a pinned folder</source>

@@ -114,7 +114,7 @@ namespace Files.CommandLine
             }
 
             if (parsedArgs.Count == 0 && args.Length >= 2)
-                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1))));
+                parsedArgs.Add(new KeyValuePair<string, string>("-Cmdless", string.Join(" ", args.Skip(1)).TrimStart()));
 
             return parsedArgs;
         }

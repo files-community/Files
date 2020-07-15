@@ -54,31 +54,33 @@
                     x:Uid="SettingsOnStartupOpenASpecificPage"
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Content="Open a specific page"
+                    Content="Open a specific page or pages"
                     FontSize="16"
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel Orientation="Horizontal" Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
-                    <TextBox
-                        x:Uid="SettingsOnStartupOpenASpecificPagePath"
-                        Width="240"
-                        Margin="12,0,0,0"
-                        HorizontalAlignment="Left"
-                        BorderThickness="1,1,0,1"
-                        CornerRadius="2,0,0,2"
-                        IsEnabled="False"
-                        PlaceholderText="New Tab"
-                        Text="{x:Bind AppSettings.OpenASpecificPageOnStartupPath, Mode=OneWay}" />
-
-                    <Button
-                        x:Name="btnOpenASpecificPageOnStartupPath"
-                        Height="33"
-                        Click="btnOpenASpecificPageOnStartupPath_Click"
-                        Content="&#xE838;"
-                        CornerRadius="0,2,2,0"
-                        FontFamily="Segoe MDL2 Assets"
-                        Style="{ThemeResource AccentButtonStyle}" />
+                <StackPanel 
+                    x:Name="PagesPanel" 
+                    Width="550" 
+                    HorizontalAlignment="Left" 
+                    Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
+                    <StackPanel 
+                        Orientation="Horizontal" 
+                        Margin="0,10,0,20">
+                        <TextBlock 
+                            x:Uid="SettingsOnStartupPages"
+                            Text="Pages: " 
+                            FontSize="18" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" />
+                        <Button 
+                            x:Uid="SettingsOnStartupOpenAddPageButton"
+                            x:Name="btnAddPage" 
+                            Content="Add a new page" 
+                            BorderThickness="2,2,2,2" 
+                            Margin="277,0,0,0" 
+                            Click="btnAddPage_Click" />
+                    </StackPanel>
                 </StackPanel>
 
                 <TextBlock
