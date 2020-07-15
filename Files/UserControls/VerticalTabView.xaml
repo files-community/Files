@@ -514,9 +514,6 @@
                                             <TextBlock Text="Add tab" />
                                         </StackPanel>
                                     </Button.Content>
-                                    <Button.KeyboardAccelerators>
-                                        <KeyboardAccelerator Key="T" Modifiers="Control" />
-                                    </Button.KeyboardAccelerators>
                                 </Button>
 
                                 <ContentPresenter
@@ -596,48 +593,6 @@
                     FontWeight="Medium"
                     Text="Open tabs" />
             </muxc:TabView.TabStripHeader>
-            <muxc:TabView.KeyboardAccelerators>
-                <KeyboardAccelerator
-                    Key="Number1"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number2"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number3"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number4"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number5"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number6"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number7"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number8"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="Number9"
-                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-                <KeyboardAccelerator
-                    Key="W"
-                    Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
-                    Modifiers="Control" />
-            </muxc:TabView.KeyboardAccelerators>
         </muxc:TabView>
     </Grid>
 </UserControl>

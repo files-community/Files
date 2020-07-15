@@ -18,9 +18,11 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.Services.Maps;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
@@ -315,5 +317,84 @@ namespace Files.Views
                 App.InteractionViewModel.IsPasteEnabled = false;
             }
         }
+
+        private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            int indexToSelect = 0;
+
+            switch (sender.Key)
+            {
+                case VirtualKey.Number1:
+                    indexToSelect = 0;
+                    break;
+
+                case VirtualKey.Number2:
+                    indexToSelect = 1;
+                    break;
+
+                case VirtualKey.Number3:
+                    indexToSelect = 2;
+                    break;
+
+                case VirtualKey.Number4:
+                    indexToSelect = 3;
+                    break;
+
+                case VirtualKey.Number5:
+                    indexToSelect = 4;
+                    break;
+
+                case VirtualKey.Number6:
+                    indexToSelect = 5;
+                    break;
+
+                case VirtualKey.Number7:
+                    indexToSelect = 6;
+                    break;
+
+                case VirtualKey.Number8:
+                    indexToSelect = 7;
+                    break;
+
+                case VirtualKey.Number9:
+                    // Select the last tab
+                    indexToSelect = AppInstances.Count - 1;
+                    break;
+            }
+
+            // Only select the tab if it is in the list
+            if (indexToSelect < AppInstances.Count)
+            {
+                App.InteractionViewModel.TabStripSelectedIndex = indexToSelect;
+            }
+            args.Handled = true;
+        }
+
+        private async void CloseSelectedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            if (AppInstances.Count == 1)
+            {
+                await ApplicationView.GetForCurrentView().TryConsolidateAsync();
+            }
+            else
+            {
+                if (App.InteractionViewModel.TabStripSelectedIndex >= AppInstances.Count)
+                {
+                    AppInstances.RemoveAt(AppInstances.Count - 1);
+                }
+                else
+                {
+                    AppInstances.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
+                }
+            }
+            args.Handled = true;
+        }
+
+        private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            args.Handled = true;
+        }
+
     }
 }

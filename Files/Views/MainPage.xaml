@@ -9,7 +9,54 @@
     xmlns:usercontrols="using:Files.UserControls"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     NavigationCacheMode="Required"
+    KeyboardAcceleratorPlacementMode="Hidden"
     mc:Ignorable="d">
+    <Page.KeyboardAccelerators>
+        <KeyboardAccelerator
+                    Key="Number1"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number2"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number3"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number4"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number5"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number6"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number7"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number8"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="Number9"
+                    Invoked="NavigateToNumberedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="W"
+                    Invoked="CloseSelectedTabKeyboardAccelerator_Invoked"
+                    Modifiers="Control" />
+        <KeyboardAccelerator
+                    Key="T"
+                    Invoked="AddNewInstanceAccelerator_Invoked"
+                    Modifiers="Control"/>
+    </Page.KeyboardAccelerators>
 
     <Grid>
         <Grid
