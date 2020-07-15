@@ -11,7 +11,7 @@
     <StackPanel Orientation="Horizontal" Margin="0,0,0,3" HorizontalAlignment="Left">
         <TextBox 
             x:Name="PagePath"
-            Width="400"
+            Width="415"
             Height="34"
             BorderThickness="1,1,0,1"
             CornerRadius="2,0,0,2"

@@ -62,12 +62,12 @@
                     <StackPanel 
                         Orientation="Horizontal" 
                         Margin="0,10,0,20">
-                        <TextBlock Text="Pages: " FontSize="18" />
+                        <TextBlock Text="Pages: " FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
                         <Button 
                             x:Name="btnAddPage" 
-                            Content="Add Page" 
+                            Content="Add a new page" 
                             BorderThickness="2,2,2,2" 
-                            Margin="300,0,0,0" 
+                            Margin="275,0,0,0" 
                             Click="btnAddPage_Click" />
                     </StackPanel>
                 </StackPanel>
