@@ -28,13 +28,7 @@ namespace Files
         public YourHome()
         {
             InitializeComponent();
-            itemsAdded = new ObservableCollection<FavoriteLocationItem>();
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xE896", Text = ResourceController.GetTranslation("SidebarDownloads"), Tag = "Downloads" });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xE8A5", Text = ResourceController.GetTranslation("SidebarDocuments"), Tag = "Documents" });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xEB9F", Text = ResourceController.GetTranslation("SidebarPictures"), Tag = "Pictures" });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xEC4F", Text = ResourceController.GetTranslation("SidebarMusic"), Tag = "Music" });
-            itemsAdded.Add(new FavoriteLocationItem() { Icon = "\xE8B2", Text = ResourceController.GetTranslation("SidebarVideos"), Tag = "Videos" });
-
+            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs eventArgs)
@@ -45,7 +39,6 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             var parameters = eventArgs.Parameter.ToString();
-            PopulateRecentsList();
             App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
             App.CurrentInstance.MultitaskingControl?.SelectionChanged();
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
