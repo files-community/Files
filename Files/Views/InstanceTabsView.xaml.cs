@@ -105,7 +105,6 @@ namespace Files
                             AddNewTab(typeof(ModernShellPage), path);
                         }
                     }
-                        
                     else
                     {
                         AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
