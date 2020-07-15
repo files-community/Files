@@ -983,7 +983,7 @@
           <source>Pages:</source>
           <target state="new">Pages:</target>
         </trans-unit>
-        <trans-unit id="String1SettingsOnStartupOpenSpecificPagesUserControlRemovePage" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
           <source>Remove Page</source>
           <target state="new">Remove Page</target>
         </trans-unit>
