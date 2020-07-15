@@ -44,46 +44,47 @@ namespace Files.UserControls
             string tabLocationHeader;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
             Microsoft.UI.Xaml.Controls.IconSource tabIcon;
+            fontIconSource.FontFamily = App.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
             if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("SidebarSettings/Text"))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarSettings/Text");
-                fontIconSource.Glyph = "\xE713";
+                fontIconSource.Glyph = "\xeb5d";
             }
             else if (currentPathForTabIcon == null && text == ResourceController.GetTranslation("NewTab"))
             {
                 tabLocationHeader = ResourceController.GetTranslation("NewTab");
-                fontIconSource.Glyph = "\xE737";
+                fontIconSource.Glyph = "\xe90c";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarDesktop");
-                fontIconSource.Glyph = "\xE8FC";
+                fontIconSource.Glyph = "\xe9f1";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarDownloads");
-                fontIconSource.Glyph = "\xE896";
+                fontIconSource.Glyph = "\xe91c";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarDocuments");
-                fontIconSource.Glyph = "\xE8A5";
+                fontIconSource.Glyph = "\xEA11";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarPictures");
-                fontIconSource.Glyph = "\xEB9F";
+                fontIconSource.Glyph = "\xEA83";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarMusic");
-                fontIconSource.Glyph = "\xEC4F";
+                fontIconSource.Glyph = "\xead4";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = ResourceController.GetTranslation("SidebarVideos");
-                fontIconSource.Glyph = "\xE8B2";
+                fontIconSource.Glyph = "\xec0d";
             }
             else if (currentPathForTabIcon.Equals(App.AppSettings.RecycleBinPath, StringComparison.OrdinalIgnoreCase))
             {
@@ -95,12 +96,12 @@ namespace Files.UserControls
             else if (App.AppSettings.OneDrivePath != null && currentPathForTabIcon.Equals(App.AppSettings.OneDrivePath, StringComparison.OrdinalIgnoreCase))
             {
                 tabLocationHeader = "OneDrive";
-                fontIconSource.Glyph = "\xE753";
+                fontIconSource.Glyph = "\xe9b7";
             }
             else
             {
                 // If path is a drive's root
-                if (Helpers.PathNormalization.NormalizePath(Path.GetPathRoot(currentPathForTabIcon)) == NormalizePath(currentPathForTabIcon))
+                if (NormalizePath(Path.GetPathRoot(currentPathForTabIcon)) == NormalizePath(currentPathForTabIcon))
                 {
                     if (NormalizePath(currentPathForTabIcon) != NormalizePath("A:") && NormalizePath(currentPathForTabIcon) != NormalizePath("B:"))
                     {
@@ -109,24 +110,24 @@ namespace Files.UserControls
 
                         if (matchingDriveName == null)
                         {
-                            fontIconSource.Glyph = "\xEDA2";
+                            fontIconSource.Glyph = "\xeb8b";
                             tabLocationHeader = NormalizePath(currentPathForTabIcon);
                         }
                         else
                         {
-                            fontIconSource.Glyph = "\xE88E";
+                            fontIconSource.Glyph = "\xec0a";
                             tabLocationHeader = matchingDriveName;
                         }
                     }
                     else
                     {
-                        fontIconSource.Glyph = "\xE74E";
+                        fontIconSource.Glyph = "\xeb4a";
                         tabLocationHeader = NormalizePath(currentPathForTabIcon);
                     }
                 }
                 else
                 {
-                    fontIconSource.Glyph = "\xE8B7";
+                    fontIconSource.Glyph = "\xea55";
                     tabLocationHeader = currentPathForTabIcon.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar).Split('\\', StringSplitOptions.RemoveEmptyEntries).Last();
                 }
             }
@@ -137,7 +138,7 @@ namespace Files.UserControls
 
         private void NavigateToNumberedTabKeyboardAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            var InvokedTabView = (args.Element as TabView);
+            var InvokedTabView = args.Element as TabView;
 
             int tabToSelect = 0;
 

@@ -404,8 +404,8 @@ namespace Files.View_Models
         {
             get => Get(true);
             set => Set(value);
-
         }
+
         public bool OpenNewTabPageOnStartup
         {
             get => Get(true);

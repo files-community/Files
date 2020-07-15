@@ -584,6 +584,7 @@
                         Drop="TabViewItem_Drop"
                         Header="{x:Bind Header, Mode=OneWay}"
                         IconSource="{x:Bind IconSource, Mode=OneWay}"
+                        FontFamily="{StaticResource FluentUIGlyphs}"
                         Style="{StaticResource TabItemStyle}"
                         ToolTipService.ToolTip="{x:Null}" />
                 </DataTemplate>
