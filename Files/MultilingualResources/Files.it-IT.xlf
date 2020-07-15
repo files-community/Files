@@ -965,11 +965,23 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
           <source>Restart required</source>
-          <target state="translated">Riavvio richiestp</target>
+          <target state="translated">Riavvio richiesto</target>
         </trans-unit>
         <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
           <source>Status</source>
           <target state="translated">Stato</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupNewInstanceBehaviour.Text" translate="yes" xml:space="preserve">
+          <source>When launching a pinned folder</source>
+          <target state="translated">Quando si apre una cartella</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
+          <source>Always open a new instance</source>
+          <target state="translated">Apri sempre una nuova finestra</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open folder in a new tab</source>
+          <target state="translated">Apri la cartella in una nuova scheda</target>
         </trans-unit>
       </group>
     </body>

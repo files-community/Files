@@ -730,9 +730,18 @@
     <value>Lingua dell'applicazione</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Riavvio richiestp</value>
+    <value>Riavvio richiesto</value>
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stato</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehaviour.Text" xml:space="preserve">
+    <value>Quando si apre una cartella</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Apri sempre una nuova finestra</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Apri la cartella in una nuova scheda</value>
   </data>
 </root>

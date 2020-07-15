@@ -979,6 +979,18 @@
           <source>Status</source>
           <target state="translated">ସ୍ଥିତି</target>
         </trans-unit>
+        <trans-unit id="SettingsOnStartupNewInstanceBehaviour.Text" translate="yes" xml:space="preserve">
+          <source>When launching a pinned folder</source>
+          <target state="new">When launching a pinned folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
+          <source>Always open a new instance</source>
+          <target state="new">Always open a new instance</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open folder in a new tab</source>
+          <target state="new">Open folder in a new tab</target>
+        </trans-unit>
       </group>
     </body>
   </file>

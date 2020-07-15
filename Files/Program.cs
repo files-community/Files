@@ -39,23 +39,26 @@ namespace Files
                 }
             }
 
-            IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
-
-            if (AppInstance.RecommendedInstance != null)
+            if (!ApplicationData.Current.RoamingSettings.Values.Get("AlwaysOpenANewInstance", false))
             {
-                AppInstance.RecommendedInstance.RedirectActivationTo();
-                return;
-            }
-            else if (activatedArgs is LaunchActivatedEventArgs)
-            {
-                var launchArgs = activatedArgs as LaunchActivatedEventArgs;
+                IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
 
-                var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
-                var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
-                if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments))
+                if (AppInstance.RecommendedInstance != null)
                 {
-                    instance.RedirectActivationTo();
+                    AppInstance.RecommendedInstance.RedirectActivationTo();
                     return;
+                }
+                else if (activatedArgs is LaunchActivatedEventArgs)
+                {
+                    var launchArgs = activatedArgs as LaunchActivatedEventArgs;
+
+                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                    if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments))
+                    {
+                        instance.RedirectActivationTo();
+                        return;
+                    }
                 }
             }
 
