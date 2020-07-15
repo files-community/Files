@@ -721,7 +721,7 @@
     <value>Cambiar ubicación</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Paginas</value>
+    <value>Páginas</value>
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Quitar</value>
