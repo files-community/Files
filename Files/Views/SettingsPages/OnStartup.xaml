@@ -62,8 +62,14 @@
                     <StackPanel 
                         Orientation="Horizontal" 
                         Margin="0,10,0,20">
-                        <TextBlock Text="Pages: " FontSize="18" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                        <TextBlock 
+                            x:Uid="SettingsOnStartupPages"
+                            Text="Pages: " 
+                            FontSize="18" 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center" />
                         <Button 
+                            x:Uid="SettingsOnStartupOpenAddPageButton"
                             x:Name="btnAddPage" 
                             Content="Add a new page" 
                             BorderThickness="2,2,2,2" 

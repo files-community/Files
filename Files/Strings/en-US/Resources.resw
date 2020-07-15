@@ -840,4 +840,16 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>Add a new page</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>Change Page Location</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>Pages:</value>
+  </data>
+  <data name="String1SettingsOnStartupOpenSpecificPagesUserControlRemovePage" xml:space="preserve">
+    <value>Remove Page</value>
+  </data>
 </root>

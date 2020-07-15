@@ -29,7 +29,7 @@
             <Button.Flyout>
                 <MenuFlyout Placement="BottomEdgeAlignedRight">
                     <MenuFlyoutItem
-                        x:Uid="ChangePage"
+                        x:Uid="SettingsOnStartupOpenSpecificPagesUserControlChangePage"
                         Text="Change Page Location"
                         Click="ChangePage_Click">
                         <MenuFlyoutItem.Icon>
@@ -37,7 +37,7 @@
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                     <MenuFlyoutItem
-                        x:Uid="RemovePage"
+                        x:Uid="SettingsOnStartupOpenSpecificPagesUserControlRemovePage"
                         Text="Remove Page"
                         Click="RemovePage_Click">
                         <MenuFlyoutItem.Icon>

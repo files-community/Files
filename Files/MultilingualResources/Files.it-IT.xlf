@@ -971,6 +971,22 @@
           <source>Status</source>
           <target state="translated">Stato</target>
         </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
+          <source>Add a new page</source>
+          <target state="new">Add a new page</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
+          <source>Change Page Location</source>
+          <target state="new">Change Page Location</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
+          <source>Pages:</source>
+          <target state="new">Pages:</target>
+        </trans-unit>
+        <trans-unit id="String1SettingsOnStartupOpenSpecificPagesUserControlRemovePage" translate="yes" xml:space="preserve">
+          <source>Remove Page</source>
+          <target state="new">Remove Page</target>
+        </trans-unit>
       </group>
     </body>
   </file>
