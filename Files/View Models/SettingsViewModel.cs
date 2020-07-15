@@ -8,7 +8,9 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -694,5 +696,11 @@ namespace Files.View_Models
         }
 
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
+
+        public string[] PagesOnStartupList
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
     }
 }

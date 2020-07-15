@@ -222,7 +222,7 @@ namespace Files.UserControls
                             CurrentInput = AppSettings.TempPath;
                             break;
 
-                        case "%appdata":
+                        case "%appdata%":
                             CurrentInput = AppSettings.AppDataPath;
                             break;
 
@@ -259,9 +259,17 @@ namespace Files.UserControls
                                 {
                                     if (App.Connection != null)
                                     {
-                                        var value = new ValueSet();
-                                        value.Add("Application", item.Path);
-                                        value.Add("Arguments", String.Format(item.Arguments, App.CurrentInstance.FilesystemViewModel.WorkingDirectory));
+                                        var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
+                                            ? AppSettings.HomePath
+                                            : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
+                                        
+                                        var value = new ValueSet
+                                        {
+                                            { "WorkingDirectory", workingDir },
+                                            { "Application", item.Path },
+                                            { "Arguments", string.Format(item.Arguments, 
+                                            InstanceTabsView.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                                        };
                                         await App.Connection.SendMessageAsync(value);
                                     }
                                     return;
