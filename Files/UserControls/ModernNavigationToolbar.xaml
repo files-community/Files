@@ -829,6 +829,7 @@
                             Width="275"
                             MaxHeight="300"
                             Margin="-6"
+                            PointerExited="verticalTabs_PointerExited"
                             x:FieldModifier="public" />
                     </Flyout>
                 </Button.Flyout>

@@ -340,7 +340,7 @@ namespace Files.UserControls
             {
                 e.Handled = true;
                 cancelFlyoutOpen = false;
-                await Task.Delay(1250);
+                await Task.Delay(1000);
                 if (!cancelFlyoutOpen)
                 {
                     (sender as Button).Flyout.ShowAt(sender as Button);
@@ -387,6 +387,33 @@ namespace Files.UserControls
         {
             e.Handled = true;
             (sender as Button).Flyout.ShowAt(sender as Button);
+        }
+
+        bool cancelFlyoutAutoClose = false;
+        private async void verticalTabs_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutAutoClose = false;
+                verticalTabs.PointerEntered += verticalTabs_PointerEntered;
+                await Task.Delay(1000);
+                verticalTabs.PointerEntered -= verticalTabs_PointerEntered;
+                if (!cancelFlyoutAutoClose)
+                {
+                    VerticalTabViewFlyout.Hide();
+                }
+                cancelFlyoutAutoClose = false;
+            }
+        }
+
+        private void verticalTabs_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
+            {
+                e.Handled = true;
+                cancelFlyoutAutoClose = true;
+            }
         }
     }
 }
