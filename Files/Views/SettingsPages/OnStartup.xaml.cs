@@ -13,15 +13,18 @@ namespace Files.SettingsPages
     public sealed partial class OnStartup : Page
     {
         public SettingsViewModel AppSettings => App.AppSettings;
-        //public List<string> SpecificPagesOnStartup { get; set; }
 
         public OnStartup()
         {
             InitializeComponent();
 
             if (AppSettings.OpenASpecificPageOnStartup && AppSettings.PagesOnStartupList?.Length > 0)
+            {
                 foreach (string path in AppSettings.PagesOnStartupList)
+                {
                     CreateAndAddPageItem(path);
+                }
+            }
         }
 
         private async void btnAddPage_Click(object sender, RoutedEventArgs e)
@@ -34,10 +37,13 @@ namespace Files.SettingsPages
             if (folder != null)
             {
                 if (AppSettings.PagesOnStartupList != null)
+                {
                     AppSettings.PagesOnStartupList = AppSettings.PagesOnStartupList.Append(folder.Path).ToArray();
+                }
                 else
-                    AppSettings.PagesOnStartupList = new string[]{ folder.Path };
-
+                {
+                    AppSettings.PagesOnStartupList = new string[] { folder.Path };
+                }
                 CreateAndAddPageItem(folder.Path);
             }
         }
@@ -53,11 +59,13 @@ namespace Files.SettingsPages
         public void EditPage(string old_path, string new_path)
         {
             for (int i = 0; i < AppSettings.PagesOnStartupList.Length; i++)
+            {
                 if (AppSettings.PagesOnStartupList[i] == old_path)
                 {
                     AppSettings.PagesOnStartupList[i] = new_path;
                     break;
                 }
+            }
         }
 
         public void RemovePage(SpecificPageOnStartup pageItem, string path)
@@ -65,9 +73,13 @@ namespace Files.SettingsPages
             PagesPanel.Children.Remove(pageItem);
             string [] newPages = AppSettings.PagesOnStartupList.Where(s => s != path).ToArray();
             if (newPages.Length > 0)
+            {
                 AppSettings.PagesOnStartupList = newPages;
+            }
             else
+            {
                 AppSettings.PagesOnStartupList = null;
+            }
         }
     }
 }
