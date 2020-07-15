@@ -16,6 +16,7 @@
             x:Name="DragArea"
             Grid.Column="1"
             Height="32"
+            Margin="200,0,0,0"
             VerticalAlignment="Top"
             Background="Transparent"
             Canvas.ZIndex="4"
