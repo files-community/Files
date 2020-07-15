@@ -999,6 +999,10 @@
           <source>Open folder in a new tab</source>
           <target state="translated">Apri la cartella in una nuova scheda</target>
         </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
+        </trans-unit>
       </group>
     </body>
   </file>
