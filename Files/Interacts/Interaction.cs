@@ -193,8 +193,13 @@ namespace Files.Interacts
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
-                var value = new ValueSet();
-                value.Add("Application", applicationPaths.FirstOrDefault());
+                var value = new ValueSet
+                {
+                    { "WorkingDirectory", App.CurrentInstance.FilesystemViewModel.WorkingDirectory },
+                    { "Application", applicationPaths.FirstOrDefault() },
+                    { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
+                };
+
                 if (runAsAdmin)
                 {
                     value.Add("Arguments", "runas");
@@ -203,7 +208,7 @@ namespace Files.Interacts
                 {
                     value.Add("Arguments", arguments);
                 }
-                value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
+
                 await App.Connection.SendMessageAsync(value);
             }
         }

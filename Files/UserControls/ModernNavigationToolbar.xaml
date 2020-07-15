@@ -658,6 +658,7 @@
                 KeyDown="VisiblePath_TextChanged"
                 LostFocus="VisiblePath_LostFocus"
                 PlaceholderText="Enter a path"
+                IsSpellCheckEnabled="False"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 Text="{x:Bind PathText, Mode=OneWay}" />
