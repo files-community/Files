@@ -735,7 +735,7 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stato</value>
   </data>
-  <data name="SettingsOnStartupNewInstanceBehaviour.Text" xml:space="preserve">
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>Quando si apre una cartella</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">

@@ -986,7 +986,7 @@
           <source>Remove Page</source>
           <target state="translated">Remover Página</target>
         </trans-unit>
-        <trans-unit id="SettingsOnStartupNewInstanceBehaviour.Text" translate="yes" xml:space="preserve">
+        <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching a pinned folder</source>
           <target state="new">When launching a pinned folder</target>
         </trans-unit>
