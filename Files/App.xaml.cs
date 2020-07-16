@@ -422,6 +422,8 @@ namespace Files
         // ie. A task is fired and forgotten Task.Run(() => {...})
         private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
         {
+            Logger.Error(e.Exception, e.Exception.Message);
+
             var diagnosticInfo = new Dictionary<string, string>()
             {
                 { "Message", e.Exception?.Message },
