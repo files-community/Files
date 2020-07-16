@@ -861,7 +861,7 @@
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
     <value>Open folder in a new tab</value>
   </data>
-  <data name="SettingsOnStartupNewInstanceBehaviour.Text" xml:space="preserve">
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>When launching a pinned folder</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
