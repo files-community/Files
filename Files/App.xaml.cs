@@ -26,6 +26,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 namespace Files
 {
@@ -56,14 +57,15 @@ namespace Files
 
         public App()
         {
+            UnhandledException += OnUnhandledException;
+            TaskScheduler.UnobservedTaskException += OnUnobservedException;
+
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
             // Initialize NLog
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-
-            RegisterUncaughtExceptionLogger();
 
 #if !DEBUG
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
@@ -128,14 +130,6 @@ namespace Files
             // Complete the deferral so that the platform knows that we're done responding to the app service call.
             // Note for error handling: this must be called even if SendResponseAsync() throws an exception.
             messageDeferral.Complete();
-        }
-
-        private void RegisterUncaughtExceptionLogger()
-        {
-            UnhandledException += (sender, args) =>
-            {
-                Logger.Error(args.Exception, args.Message);
-            };
         }
 
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
@@ -392,6 +386,62 @@ namespace Files
             }
             AppSettings?.Dispose();
             deferral.Complete();
+        }
+
+        // Occurs when an exception is not handled on the UI thread.
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            Logger.Error(e.Exception, e.Message);
+
+            var diagnosticInfo = new Dictionary<string, string>()
+            {
+                { "Message", e.Message },
+                { "Exception", e.Exception?.ToString() },
+                { "Culture", SystemInformation.Culture.EnglishName },
+                { "AvailableMemory", SystemInformation.AvailableMemory.ToString("F0") },
+                { "FirstUseTimeUTC", SystemInformation.FirstUseTime.ToUniversalTime().ToString("MM/dd/yyyy HH:mm:ss") },
+                { "OSArchitecture", SystemInformation.OperatingSystemArchitecture.ToString() },
+                { "OSVersion", SystemInformation.OperatingSystemVersion.ToString() }
+            };
+
+            var attachment = ErrorAttachmentLog.AttachmentWithText(
+                $"Exception: {e.Exception}, " +
+                $"Message: {e.Message}, " +
+                $"InnerException: {e.Exception?.InnerException}, " +
+                $"InnerExceptionMessage: {e.Exception?.InnerException?.Message}",
+                "UnhandledException");
+
+            Analytics.TrackEvent("OnUnhandledException", diagnosticInfo);
+            Crashes.TrackError(e.Exception, diagnosticInfo, attachment);
+
+            // suppress and handle it manually.
+            e.Handled = true;
+        }
+
+        // Occurs when an exception is not handled on a background thread.
+        // ie. A task is fired and forgotten Task.Run(() => {...})
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            var diagnosticInfo = new Dictionary<string, string>()
+            {
+                { "Message", e.Exception?.Message },
+                { "Exception", e.Exception?.ToString() },
+                { "InnerException", e.Exception?.InnerException?.ToString() },
+                { "InnerExceptionMessage", e.Exception?.InnerException?.Message }
+            };
+
+            var attachment = ErrorAttachmentLog.AttachmentWithText(
+                $"Exception: {e.Exception}, " +
+                $"Message: {e.Exception?.Message}, " +
+                $"InnerException: {e.Exception?.InnerException}, " +
+                $"InnerExceptionMessage: {e.Exception?.InnerException?.Message}",
+                "UnobservedException");
+
+            Analytics.TrackEvent("OnUnobservedException", diagnosticInfo);
+            Crashes.TrackError(e.Exception, diagnosticInfo, attachment);
+
+            // suppress and handle it manually.
+            e.SetObserved();
         }
 
         public static async void CloseApp()
