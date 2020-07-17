@@ -414,8 +414,10 @@ namespace Files
             Analytics.TrackEvent("OnUnhandledException", diagnosticInfo);
             Crashes.TrackError(e.Exception, diagnosticInfo, attachment);
 
+#if !DEBUG
             // suppress and handle it manually.
             e.Handled = true;
+#endif
         }
 
         // Occurs when an exception is not handled on a background thread.
@@ -442,8 +444,10 @@ namespace Files
             Analytics.TrackEvent("OnUnobservedException", diagnosticInfo);
             Crashes.TrackError(e.Exception, diagnosticInfo, attachment);
 
+#if !DEBUG
             // suppress and handle it manually.
             e.SetObserved();
+#endif
         }
 
         public static async void CloseApp()
