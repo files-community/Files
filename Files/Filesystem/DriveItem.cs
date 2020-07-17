@@ -86,7 +86,7 @@ namespace Files.Filesystem
                     break;
 
                 case DriveType.CDRom:
-                    Glyph = "\uE958";
+                    Glyph = "\uec39";
                     break;
 
                 case DriveType.Unknown:

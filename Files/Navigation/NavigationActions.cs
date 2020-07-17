@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Files.Views;
+using System;
 using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -75,7 +76,7 @@ namespace Files
         {
             if (incomingSourcePageType == typeof(YourHome) && incomingSourcePageType != null)
             {
-                App.CurrentInstance.SidebarSelectedItem = App.sideBarItems.First(x => x.Path.Equals("Home"));
+                App.CurrentInstance.SidebarSelectedItem = MainPage.sideBarItems.First(x => x.Path.Equals("Home"));
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = ResourceController.GetTranslation("NewTab");
             }
         }

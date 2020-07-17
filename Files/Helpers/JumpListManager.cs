@@ -13,6 +13,7 @@ namespace Files.Helpers
     {
         private JumpList _instance = null;
         private List<string> JumpListItemPaths { get; set; }
+
         public JumpListManager()
         {
             Initialize();

@@ -1,5 +1,6 @@
 ﻿using Files.SettingsPages;
 using Files.View_Models;
+using Files.Views;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Resources.Core;
 using Windows.UI.Xaml;
@@ -46,7 +47,7 @@ namespace Files
         private void SettingsPane_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            rootFrame.Navigate(typeof(InstanceTabsView));
+            rootFrame.GoBack();
         }
     }
 }

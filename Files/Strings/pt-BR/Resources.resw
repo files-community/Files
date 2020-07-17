@@ -247,7 +247,7 @@
     <value>Abrir uma nova guia</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abra uma página específica</value>
+    <value>Abra uma página ou páginas específicas</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>Ao iniciar</value>
@@ -727,6 +727,24 @@
     <value>Idioma</value>
   </data>
   <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
-    <value>Necessário reiniciar o Aplicativo</value>
+    <value>Reinicialização necessária</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>Recente</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>Adicionar uma nova página</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>Alterar local da página</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>Páginas:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>Remover Página</value>
   </data>
 </root>

@@ -1,5 +1,20 @@
-﻿using Files.View_Models;
+﻿using Files.Dialogs;
+using Files.Filesystem;
+using Files.Helpers;
+using Files.Interacts;
+using Files.UserControls;
+using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -23,11 +38,8 @@ namespace Files
             App.CurrentInstance.InstanceViewModel.IsPageTypeRecycleBin = false;
             App.CurrentInstance.InstanceViewModel.IsPageTypeCloudDrive = false;
             var parameters = eventArgs.Parameter.ToString();
-
-            Frame rootFrame = Window.Current.Content as Frame;
-            var instanceTabsView = rootFrame.Content as InstanceTabsView;
-            instanceTabsView.SetSelectedTabInfo(parameters, null);
-            instanceTabsView.TabStrip_SelectionChanged(null, null);
+            App.CurrentInstance.MultitaskingControl?.SetSelectedTabInfo(parameters, null);
+            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
             App.CurrentInstance.NavigationToolbar.CanRefresh = false;
             App.CurrentInstance.NavigationToolbar.CanGoBack = App.CurrentInstance.ContentFrame.CanGoBack;
             App.CurrentInstance.NavigationToolbar.CanGoForward = App.CurrentInstance.ContentFrame.CanGoForward;

@@ -1,8 +1,10 @@
 using Files.Dialogs;
+using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
 using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using GalaSoft.MvvmLight.Command;
 using Newtonsoft.Json;
@@ -51,13 +53,11 @@ namespace Files.Interacts
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         private readonly IShellPage CurrentInstance;
-        private readonly InstanceTabsView instanceTabsView;
         public SettingsViewModel AppSettings => App.AppSettings;
 
         public Interaction()
         {
             CurrentInstance = App.CurrentInstance;
-            instanceTabsView = (Window.Current.Content as Frame).Content as InstanceTabsView;
         }
 
         public void List_ItemClick(object sender, DoubleTappedRoutedEventArgs e)
@@ -65,42 +65,49 @@ namespace Files.Interacts
             OpenSelectedItems(false);
         }
 
-        public async void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
+        public void SetAsDesktopBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            // Get the path of the selected file
-            StorageFile sourceFile = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
-
-            // Get the app's local folder to use as the destination folder.
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-
-            // Copy the file to the destination folder.
-            // Replace the existing file if the file already exists.
-            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
-
-            // Set the desktop background
-            UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
-            await profileSettings.TrySetWallpaperImageAsync(file);
+            SetAsBackground(WallpaperType.Desktop);
         }
 
-        public async void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
+        public void SetAsLockscreenBackgroundItem_Click(object sender, RoutedEventArgs e)
         {
-            // Get the path of the selected file
-            StorageFile sourceFile = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
-
-            // Get the app's local folder to use as the destination folder.
-            StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-
-            // Copy the file to the destination folder.
-            // Replace the existing file if the file already exists.
-            StorageFile file = await sourceFile.CopyAsync(localFolder, "Background.png", NameCollisionOption.ReplaceExisting);
-
-            // Set the lockscreen background
-            await LockScreen.SetImageFileAsync(file);
+            SetAsBackground(WallpaperType.LockScreen);
         }
 
-        public void OpenNewTab()
+        public async void SetAsBackground(WallpaperType type)
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            if (UserProfilePersonalizationSettings.IsSupported())
+            {
+                // Get the path of the selected file
+                StorageFile sourceFile = await ItemViewModel.GetFileFromPathAsync(CurrentInstance.ContentPage.SelectedItem.ItemPath);
+
+                // Get the app's local folder to use as the destination folder.
+                StorageFolder localFolder = ApplicationData.Current.LocalFolder;
+
+                // Copy the file to the destination folder.
+                // Generate unique name if the file already exists.
+                // If the file you are trying to set as the wallpaper has the same name as the current wallpaper,
+                // the system will ignore the request and no-op the operation
+                StorageFile file = await sourceFile.CopyAsync(localFolder, sourceFile.Name, NameCollisionOption.GenerateUniqueName);
+
+                UserProfilePersonalizationSettings profileSettings = UserProfilePersonalizationSettings.Current;
+                if (type == WallpaperType.Desktop)
+                {
+                    // Set the desktop background
+                    await profileSettings.TrySetWallpaperImageAsync(file);
+                }
+                else if (type == WallpaperType.LockScreen)
+                {
+                    // Set the lockscreen background
+                    await profileSettings.TrySetLockScreenImageAsync(file);
+                }
+            }
+        }
+
+        public async void OpenNewTab()
+        {
+            await MainPage.AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
         }
 
         public async void OpenInNewWindowItem_Click(object sender, RoutedEventArgs e)
@@ -118,22 +125,22 @@ namespace Files.Interacts
         {
             foreach (ListedItem listedItem in CurrentInstance.ContentPage.SelectedItems)
             {
-                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    instanceTabsView.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    await MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
                 });
             }
         }
 
-        public void OpenPathInNewTab(string path)
+        public async void OpenPathInNewTab(string path)
         {
-            instanceTabsView.AddNewTab(typeof(ModernShellPage), path);
+            await MainPage.AddNewTab(typeof(ModernShellPage), path);
         }
 
-        public async void OpenPathInNewWindow(string path)
+        public static async Task<bool> OpenPathInNewWindow(string path)
         {
             var folderUri = new Uri("files-uwp:" + "?folder=" + path);
-            await Launcher.LaunchUriAsync(folderUri);
+            return await Launcher.LaunchUriAsync(folderUri);
         }
 
         public async void OpenDirectoryInTerminal(object sender, RoutedEventArgs e)
@@ -147,7 +154,7 @@ namespace Files.Interacts
                     { "WorkingDirectory", CurrentInstance.FilesystemViewModel.WorkingDirectory },
                     { "Application", terminal.Path },
                     { "Arguments", string.Format(terminal.Arguments,
-                        InstanceTabsView.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
+                       Helpers.PathNormalization.NormalizePath(CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                 };
                 await App.Connection.SendMessageAsync(value);
             }
@@ -186,8 +193,13 @@ namespace Files.Interacts
             Debug.WriteLine("Launching EXE in FullTrustProcess");
             if (App.Connection != null)
             {
-                var value = new ValueSet();
-                value.Add("Application", applicationPaths.FirstOrDefault());
+                var value = new ValueSet
+                {
+                    { "WorkingDirectory", App.CurrentInstance.FilesystemViewModel.WorkingDirectory },
+                    { "Application", applicationPaths.FirstOrDefault() },
+                    { "ApplicationList", JsonConvert.SerializeObject(applicationPaths) },
+                };
+
                 if (runAsAdmin)
                 {
                     value.Add("Arguments", "runas");
@@ -196,7 +208,7 @@ namespace Files.Interacts
                 {
                     value.Add("Arguments", arguments);
                 }
-                value.Add("ApplicationList", JsonConvert.SerializeObject(applicationPaths));
+
                 await App.Connection.SendMessageAsync(value);
             }
         }
@@ -368,10 +380,10 @@ namespace Files.Interacts
                                 //We can have many sort entries
                                 SortEntry sortEntry = new SortEntry()
                                 {
-                                    AscendingOrder = CurrentInstance.FilesystemViewModel.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
+                                    AscendingOrder = AppSettings.DirectorySortDirection == Microsoft.Toolkit.Uwp.UI.SortDirection.Ascending,
                                 };
 
-                                var sortOption = CurrentInstance.FilesystemViewModel.DirectorySortOption;
+                                var sortOption = AppSettings.DirectorySortOption;
 
                                 switch (sortOption)
                                 {
@@ -432,7 +444,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        instanceTabsView.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        await MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
                     }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                     {
@@ -465,13 +477,13 @@ namespace Files.Interacts
 
         public void CloseTab()
         {
-            if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count == 1)
+            if (App.CurrentInstance.MultitaskingControl.Items.Count == 1)
             {
                 App.CloseApp();
             }
-            else if (((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.Count > 1)
+            else if (App.CurrentInstance.MultitaskingControl.Items.Count > 1)
             {
-                ((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.TabItems.RemoveAt(((Window.Current.Content as Frame).Content as InstanceTabsView).TabStrip.SelectedIndex);
+                App.CurrentInstance.MultitaskingControl.Items.RemoveAt(App.InteractionViewModel.TabStripSelectedIndex);
             }
         }
 
@@ -546,9 +558,10 @@ namespace Files.Interacts
             }
             else
             {
-                App.PropertiesDialogDisplay.propertiesFrame.Tag = App.PropertiesDialogDisplay;
-                App.PropertiesDialogDisplay.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
-                await App.PropertiesDialogDisplay.ShowAsync(ContentDialogPlacement.Popup);
+                var propertiesDialog = new PropertiesDialog();
+                propertiesDialog.propertiesFrame.Tag = propertiesDialog;
+                propertiesDialog.propertiesFrame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                await propertiesDialog.ShowAsync(ContentDialogPlacement.Popup);
             }
         }
 
@@ -894,7 +907,7 @@ namespace Files.Interacts
             }
 
             App.JumpList.RemoveFolder(SourceFolder.Path);
-            
+
             return createdRoot;
         }
 
@@ -1354,16 +1367,14 @@ namespace Files.Interacts
                         }
                     }
                 }));
-                
+
                 await CloneDirectoryAsync(destFolder_InBuffer, destinationFolder, destFolder_InBuffer.Name, true)
                     .ContinueWith(async (x) =>
                 {
                     await destFolder_InBuffer.DeleteAsync(StorageDeleteOption.PermanentDelete);
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                     {
-                        Frame rootFrame = Window.Current.Content as Frame;
-                        var instanceTabsView = rootFrame.Content as InstanceTabsView;
-                        instanceTabsView.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
+                        await MainPage.AddNewTab(typeof(ModernShellPage), destinationPath + "\\" + selectedItem.DisplayName + "_Extracted");
                     });
                 });
                 banner.Report(100);
