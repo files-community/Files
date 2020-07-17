@@ -229,58 +229,43 @@ namespace Files.UserControls
                 }
                 else
                 {
-                    switch (CurrentInput.ToLower())
-                    {
-                        case "%temp%":
-                            CurrentInput = AppSettings.TempPath;
-                            break;
+                    var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
+                        ? AppSettings.HomePath
+                        : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
+                    var parentItem = await StorageFileExtensions.GetFolderWithPathFromPathAsync(workingDir);
 
-                        case "%appdata%":
-                            CurrentInput = AppSettings.AppDataPath;
-                            break;
+                    if (CurrentInput.Contains("%temp%")) CurrentInput = CurrentInput.Replace("%temp%", AppSettings.TempPath);
+                    if (CurrentInput.Contains("%homepath%")) CurrentInput = CurrentInput.Replace("%homepath%", AppSettings.HomePath);
+                    CurrentInput = Environment.ExpandEnvironmentVariables(CurrentInput);
 
-                        case "%homepath%":
-                            CurrentInput = AppSettings.HomePath;
-                            break;
-
-                        case "%windir%":
-                            CurrentInput = AppSettings.WinDirPath;
-                            break;
-                    }
-
+                    var item = await DrivesManager.GetRootFromPath(CurrentInput);
                     try
                     {
-                        var item = await DrivesManager.GetRootFromPath(CurrentInput);
-                        await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item);
+                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item, parentItem)).Path;
 
-                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
+                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), pathToNavigate); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
                         try
                         {
-                            var item = await DrivesManager.GetRootFromPath(CurrentInput);
-                            await StorageFileExtensions.GetFileFromPathAsync(CurrentInput, item);
-                            await Interaction.InvokeWin32Component(CurrentInput);
+                            var pathToInvoke = (await StorageFileExtensions.GetFileFromPathAsync(CurrentInput, item, parentItem)).Path;
+                            await Interaction.InvokeWin32Component(pathToInvoke);
                         }
                         catch (Exception ex) // Not a file or not accessible
                         {
                             // Launch terminal application if possible
-                            foreach (var item in AppSettings.TerminalController.Model.Terminals)
+                            foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
                             {
-                                if (item.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || item.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                if (terminal.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || terminal.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (App.Connection != null)
                                     {
-                                        var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
-                                            ? AppSettings.HomePath
-                                            : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-
                                         var value = new ValueSet
                                         {
                                             { "WorkingDirectory", workingDir },
-                                            { "Application", item.Path },
-                                            { "Arguments", string.Format(item.Arguments,
+                                            { "Application", terminal.Path },
+                                            { "Arguments", string.Format(terminal.Arguments,
                                             Helpers.PathNormalization.NormalizePath(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)) }
                                         };
                                         await App.Connection.SendMessageAsync(value);
