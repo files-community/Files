@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Dialogs;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
@@ -150,7 +151,8 @@ namespace Files
             }
             catch (UnauthorizedAccessException)
             {
-                await App.ConsentDialogDisplay.ShowAsync();
+                var consentDialog = new ConsentDialog();
+                await consentDialog.ShowAsync();
             }
             catch (ArgumentException)
             {

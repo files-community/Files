@@ -1,7 +1,9 @@
 ﻿using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
+using Files.UserControls;
 using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -213,12 +215,6 @@ namespace Files
             AppSettings.LayoutModeChangeRequested += AppSettings_LayoutModeChangeRequested;
             Window.Current.CoreWindow.CharacterReceived += Page_CharacterReceived;
             var parameters = (string)eventArgs.Parameter;
-            if (AppSettings.FormFactor == Enums.FormFactorMode.Regular)
-            {
-                Frame rootFrame = Window.Current.Content as Frame;
-                InstanceTabsView instanceTabsView = rootFrame.Content as InstanceTabsView;
-                instanceTabsView.TabStrip_SelectionChanged(null, null);
-            }
             App.CurrentInstance.NavigationToolbar.CanRefresh = true;
             IsItemSelected = false;
             AssociatedViewModel.IsFolderEmptyTextDisplayed = false;
@@ -242,13 +238,15 @@ namespace Files
 
             App.CurrentInstance.FilesystemViewModel.RefreshItems();
 
-            App.Clipboard_ContentChanged(null, null);
+            App.CurrentInstance.MultitaskingControl?.SelectionChanged();
+            MainPage.Clipboard_ContentChanged(null, null);
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = parameters;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
             base.OnNavigatingFrom(e);
+            App.CurrentInstance.FilesystemViewModel.CancelLoadAndClearFiles();
             // Remove item jumping handler
             Window.Current.CoreWindow.CharacterReceived -= Page_CharacterReceived;
             AppSettings.LayoutModeChangeRequested -= AppSettings_LayoutModeChangeRequested;
@@ -427,7 +425,7 @@ namespace Files
                 AssociatedInteractions = App.CurrentInstance.InteractionOperations;
                 if (App.CurrentInstance == null)
                 {
-                    App.CurrentInstance = InstanceTabsView.GetCurrentSelectedTabInstance<ModernShellPage>();
+                    App.CurrentInstance = VerticalTabView.GetCurrentSelectedTabInstance<ModernShellPage>();
                 }
             }
         }

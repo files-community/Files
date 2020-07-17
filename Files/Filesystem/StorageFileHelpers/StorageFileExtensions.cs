@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -46,9 +47,9 @@ namespace Files.Filesystem
                 }
                 else if (s.Contains(":"))
                 {
-                    if (App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
+                    if (MainPage.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
                     {
-                        componentLabel = App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
+                        componentLabel = MainPage.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
                     }
                     else
                     {

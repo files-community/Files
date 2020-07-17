@@ -4,10 +4,14 @@ using Files.DataModels;
 using Files.Enums;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.AppCenter.Analytics;
+using Microsoft.Toolkit.Uwp.UI;
+using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
@@ -40,7 +44,6 @@ namespace Files.View_Models
             DetectRecycleBinPreference();
             DetectQuickLook();
             DetectGridViewSize();
-
             DrivesManager = new DrivesManager();
 
             //DetectWSLDistros();
@@ -56,18 +59,17 @@ namespace Files.View_Models
             Analytics.TrackEvent("ShowConfirmDeleteDialog " + ShowConfirmDeleteDialog.ToString());
             Analytics.TrackEvent("AcrylicSidebar " + AcrylicEnabled.ToString());
             Analytics.TrackEvent("ShowFileOwner " + ShowFileOwner.ToString());
-
             // Load the supported languages
+
             var supportedLang = ApplicationLanguages.ManifestLanguages;
-            DefaultLanguages = new ObservableCollection<DefaultLanguageModel>();
+            DefaultLanguages = new ObservableCollection<DefaultLanguageModel> { new DefaultLanguageModel(null) };
             foreach (var lang in supportedLang)
             {
                 DefaultLanguages.Add(new DefaultLanguageModel(lang));
             }
-
-            // Set the app language
-            ApplicationLanguages.PrimaryLanguageOverride = DefaultLanguage?.ID ?? "en-us";
         }
+
+        public DefaultLanguageModel CurrentLanguage = new DefaultLanguageModel(ApplicationLanguages.PrimaryLanguageOverride);
 
         public ObservableCollection<DefaultLanguageModel> DefaultLanguages { get; }
 
@@ -75,22 +77,45 @@ namespace Files.View_Models
         {
             get
             {
-                var language = Get((string)null);
-                if (language != null)
-                {
-                    return DefaultLanguages.FirstOrDefault(dl => dl.ID == language) ??
+                return DefaultLanguages.FirstOrDefault(dl => dl.ID == ApplicationLanguages.PrimaryLanguageOverride) ??
                            DefaultLanguages.FirstOrDefault();
-                }
-
-                return DefaultLanguages.FirstOrDefault();
             }
             set
             {
-                if (Set(value.ID))
-                {
-                    ApplicationLanguages.PrimaryLanguageOverride = value.ID;
-                }
+                ApplicationLanguages.PrimaryLanguageOverride = value.ID;
             }
+        }
+
+        public SortOption DirectorySortOption
+        {
+            get => (SortOption)SortOptionByte;
+            set
+            {
+                SortOptionByte = (byte)value;
+                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+            }
+        }
+
+        public SortDirection DirectorySortDirection
+        {
+            get => (SortDirection)SortDirectionByte;
+            set
+            {
+                SortDirectionByte = (byte)value;
+                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+            }
+        }
+
+        private byte SortOptionByte
+        {
+            get => Get((byte)0);
+            set => Set(value);
+        }
+
+        private byte SortDirectionByte
+        {
+            get => Get((byte)0);
+            set => Set(value);
         }
 
         public async void DetectQuickLook()
@@ -107,7 +132,7 @@ namespace Files.View_Models
 
         private void AddDefaultLocations()
         {
-            App.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
+            MainPage.sideBarItems.Add(new LocationItem { Text = ResourceController.GetTranslation("SidebarHome"), Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uea80", IsDefaultLocation = true, Path = "Home" });
         }
 
         private async void DetectWSLDistros()
@@ -148,7 +173,7 @@ namespace Files.View_Models
                         logoURI = new Uri("ms-appx:///Assets/WSL/genericpng.png");
                     }
 
-                    App.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
+                    MainPage.sideBarItems.Add(new WSLDistroItem() { Text = folder.DisplayName, Path = folder.Path, Logo = logoURI });
                 }
             }
             catch (Exception)
@@ -254,16 +279,16 @@ namespace Files.View_Models
                             Path = OneDrivePath,
                             Type = Filesystem.DriveType.VirtualDrive,
                         };
-                        App.sideBarItems.Add(oneDriveItem);
+                        MainPage.sideBarItems.Add(oneDriveItem);
                     }
                     else
                     {
                         localSettings.Values["PinOneDrive"] = false;
-                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                         {
                             if (item is DriveItem && item.ItemType == NavigationControlItemType.OneDrive)
                             {
-                                App.sideBarItems.Remove(item);
+                                MainPage.sideBarItems.Remove(item);
                             }
                         }
                     }
@@ -312,16 +337,16 @@ namespace Files.View_Models
                         };
                         // Add recycle bin to sidebar, title is read from LocalSettings (provided by the fulltrust process)
                         // TODO: the very first time the app is launched localized name not available
-                        App.sideBarItems.Insert(App.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
+                        MainPage.sideBarItems.Insert(MainPage.sideBarItems.Where(item => item is LocationItem).Count(), recycleBinItem);
                     }
                     else
                     {
                         localSettings.Values["PinRecycleBin"] = false;
-                        foreach (INavigationControlItem item in App.sideBarItems.ToList())
+                        foreach (INavigationControlItem item in MainPage.sideBarItems.ToList())
                         {
                             if (item is LocationItem && item.Path == RecycleBinPath)
                             {
-                                App.sideBarItems.Remove(item);
+                                MainPage.sideBarItems.Remove(item);
                             }
                         }
                     }
@@ -397,6 +422,12 @@ namespace Files.View_Models
             set => Set(value);
         }
 
+        public bool IsMultitaskingControlVisible
+        {
+            get => Get(true);
+            set => Set(value);
+        }
+
         public bool OpenNewTabPageOnStartup
         {
             get => Get(true);
@@ -412,6 +443,12 @@ namespace Files.View_Models
         public string OpenASpecificPageOnStartupPath
         {
             get => Get("");
+            set => Set(value);
+        }
+
+        public bool AlwaysOpenANewInstance
+        {
+            get => Get(false);
             set => Set(value);
         }
 
@@ -693,5 +730,11 @@ namespace Files.View_Models
         }
 
         private delegate bool TryParseDelegate<TValue>(string inValue, out TValue parsedValue);
+
+        public string[] PagesOnStartupList
+        {
+            get => Get<string[]>(null);
+            set => Set(value);
+        }
     }
 }

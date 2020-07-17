@@ -29,24 +29,27 @@
                     FontWeight="Medium"
                     Text="Preferences" />
 
-
                 <StackPanel Spacing="10">
                     <TextBlock
                         x:Uid="SettingsPreferencesAppLanguage"
                         FontSize="17"
                         Text="App Language" />
                     <TextBlock
+                        x:Name="RestartRequiredPrompt"
                         x:Uid="SettingsPreferencesAppLanguageRestartRequired"
                         FontSize="14"
                         FontStyle="Italic"
-                        Text="Restart required" />
+                        Foreground="{ThemeResource SystemErrorTextColor}"
+                        Text="Restart required"
+                        Visibility="Collapsed" />
                     <ComboBox
                         x:Name="ComboAppLanguage"
                         Width="200"
                         HorizontalAlignment="Left"
                         ItemsSource="{x:Bind AppSettings.DefaultLanguages}"
                         PlaceholderText="{x:Bind AppSettings.DefaultLanguage}"
-                        SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}">
+                        SelectedItem="{x:Bind AppSettings.DefaultLanguage, Mode=TwoWay}"
+                        SelectionChanged="ComboAppLanguage_SelectionChanged">
                         <ComboBox.ItemTemplate>
                             <DataTemplate x:DataType="datamodels:DefaultLanguageModel">
                                 <TextBlock Text="{x:Bind Name}" />

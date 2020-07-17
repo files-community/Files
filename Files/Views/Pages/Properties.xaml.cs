@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Dialogs;
+using Files.Filesystem;
 using Files.Helpers;
 using Files.Interacts;
 using Files.View_Models;
@@ -126,7 +127,8 @@ namespace Files
             }
             else
             {
-                App.PropertiesDialogDisplay.Hide();
+                var propertiesDialog = new PropertiesDialog();
+                propertiesDialog.Hide();
             }
         }
     }

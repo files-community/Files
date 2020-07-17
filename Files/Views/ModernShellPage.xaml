@@ -11,8 +11,8 @@
     xmlns:local1="using:Files"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
-    NavigationCacheMode="Required"
     mc:Ignorable="d">
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
@@ -84,19 +84,18 @@
         </Grid.ColumnDefinitions>
 
         <Grid>
-            <controls:SidebarControl x:Name="SidebarControl" Margin="0,-32,0,0" />
+            <controls:SidebarControl x:Name="SidebarControl" />
         </Grid>
 
         <Grid Grid.Column="1">
             <Custom:DropShadowPanel
-                Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Stretch"
                 BlurRadius="4"
                 Canvas.ZIndex="100"
                 OffsetX="-2"
                 ShadowOpacity=".04">
-                <Grid>
+                <Grid Padding="0,32,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -107,7 +106,7 @@
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
-                            Margin="10,4"
+                            Margin="10,0"
                             x:FieldModifier="public" />
                     </Grid>
 
@@ -116,6 +115,7 @@
                         Grid.Row="1"
                         x:FieldModifier="public"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                        CacheSize="2"
                         Navigated="ItemDisplayFrame_Navigated" />
 
                     <controls1:StatusBarControl
