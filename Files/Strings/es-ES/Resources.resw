@@ -726,7 +726,7 @@
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Quitar</value>
   </data>
-  <data name="SettingsOnStartupNewInstanceBehaviour.Text" xml:space="preserve">
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>Al abrir una carpeta anclada desde la barra de tareas</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
