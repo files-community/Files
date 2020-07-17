@@ -393,6 +393,8 @@ namespace Files
         {
             Logger.Error(e.Exception, e.Message);
 
+            var appVersion = Package.Current.Id.Version;
+
             var diagnosticInfo = new Dictionary<string, string>()
             {
                 { "Message", e.Message },
@@ -401,23 +403,11 @@ namespace Files
                 { "AvailableMemory", SystemInformation.AvailableMemory.ToString("F0") },
                 { "FirstUseTimeUTC", SystemInformation.FirstUseTime.ToUniversalTime().ToString("MM/dd/yyyy HH:mm:ss") },
                 { "OSArchitecture", SystemInformation.OperatingSystemArchitecture.ToString() },
-                { "OSVersion", SystemInformation.OperatingSystemVersion.ToString() }
+                { "OSVersion", SystemInformation.OperatingSystemVersion.ToString() },
+                { "AppVersion", string.Format("{0}.{1}.{2}.{3}", appVersion.Major, appVersion.Minor, appVersion.Build, appVersion.Revision) }
             };
 
-            var attachment = ErrorAttachmentLog.AttachmentWithText(
-                $"Exception: {e.Exception}, " +
-                $"Message: {e.Message}, " +
-                $"InnerException: {e.Exception?.InnerException}, " +
-                $"InnerExceptionMessage: {e.Exception?.InnerException?.Message}",
-                "UnhandledException");
-
             Analytics.TrackEvent("OnUnhandledException", diagnosticInfo);
-            Crashes.TrackError(e.Exception, diagnosticInfo, attachment);
-
-#if !DEBUG
-            // suppress and handle it manually.
-            e.Handled = true;
-#endif
         }
 
         // Occurs when an exception is not handled on a background thread.
@@ -426,28 +416,18 @@ namespace Files
         {
             Logger.Error(e.Exception, e.Exception.Message);
 
+            var appVersion = Package.Current.Id.Version;
+
             var diagnosticInfo = new Dictionary<string, string>()
             {
                 { "Message", e.Exception?.Message },
                 { "Exception", e.Exception?.ToString() },
                 { "InnerException", e.Exception?.InnerException?.ToString() },
-                { "InnerExceptionMessage", e.Exception?.InnerException?.Message }
+                { "InnerExceptionMessage", e.Exception?.InnerException?.Message },
+                { "AppVersion", string.Format("{0}.{1}.{2}.{3}", appVersion.Major, appVersion.Minor, appVersion.Build, appVersion.Revision) }
             };
 
-            var attachment = ErrorAttachmentLog.AttachmentWithText(
-                $"Exception: {e.Exception}, " +
-                $"Message: {e.Exception?.Message}, " +
-                $"InnerException: {e.Exception?.InnerException}, " +
-                $"InnerExceptionMessage: {e.Exception?.InnerException?.Message}",
-                "UnobservedException");
-
             Analytics.TrackEvent("OnUnobservedException", diagnosticInfo);
-            Crashes.TrackError(e.Exception, diagnosticInfo, attachment);
-
-#if !DEBUG
-            // suppress and handle it manually.
-            e.SetObserved();
-#endif
         }
 
         public static async void CloseApp()
