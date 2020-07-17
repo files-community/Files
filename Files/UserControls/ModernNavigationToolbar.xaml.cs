@@ -240,7 +240,7 @@ namespace Files.UserControls
                         var item = await DrivesManager.GetRootFromPath(CurrentInput);
                         await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item);
 
-                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), CurrentInput); // navigate to folder
+                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(CurrentInput), CurrentInput); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
@@ -310,7 +310,7 @@ namespace Files.UserControls
             if (itemTappedPath == "Home" || itemTappedPath == ResourceController.GetTranslation("NewTab"))
                 return;
 
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(itemTappedPath), itemTappedPath); // navigate to folder
         }
     }
 }

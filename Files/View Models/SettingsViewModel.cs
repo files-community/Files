@@ -445,26 +445,62 @@ namespace Files.View_Models
 
         public AcrylicTheme AcrylicTheme { get; set; }
 
-        public int LayoutMode
+        public LayoutMode LayoutMode = LayoutMode.ListView;
+
+        public void SetLayoutModeForCurrentDirectory(LayoutMode layoutMode)
         {
-            get => Get(0); // List View
-            set => Set(value);
+            LayoutMode = layoutMode;
+            try
+            {
+                ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.LayoutModeContainer, ApplicationDataCreateDisposition.Always);
+                dataContainer.Values[App.CurrentInstance.FilesystemViewModel?.WorkingDirectory] = (byte)LayoutMode;
+            }
+            catch
+            {
+                return;
+            }
         }
 
-        public Type GetLayoutType()
+        public Type GetLayoutType(string path)
         {
+            try
+            {
+                ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.LayoutModeContainer, ApplicationDataCreateDisposition.Always);
+                if (dataContainer.Values.ContainsKey(path))
+                {
+                    LayoutMode = (LayoutMode)(byte)dataContainer.Values[path];
+                }
+                else
+                {
+                    if (path == PicturesPath)
+                    {
+                        // Set grid view by default for pictures folder
+                        LayoutMode = LayoutMode.GridView;
+                    }
+                    else
+                    {
+                        LayoutMode = LayoutMode.ListView;
+                    }
+                    dataContainer.Values[path] = (byte)LayoutMode;
+                }
+            }
+            catch
+            {
+                LayoutMode = LayoutMode.ListView;
+            }
+
             Type type = null;
             switch (LayoutMode)
             {
-                case 0:
+                case LayoutMode.ListView:
                     type = typeof(GenericFileBrowser);
                     break;
 
-                case 1:
+                case LayoutMode.TilesView:
                     type = typeof(GridViewBrowser);
                     break;
 
-                case 2:
+                case LayoutMode.GridView:
                     type = typeof(GridViewBrowser);
                     break;
 
@@ -479,7 +515,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewLarge => new RelayCommand(() =>
         {
-            LayoutMode = 2; // Grid View
+            SetLayoutModeForCurrentDirectory(LayoutMode.GridView);
 
             GridViewSize = 375; // Size
 
@@ -488,7 +524,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewMedium => new RelayCommand(() =>
         {
-            LayoutMode = 2; // Grid View
+            SetLayoutModeForCurrentDirectory(LayoutMode.GridView);
 
             GridViewSize = 250; // Size
 
@@ -497,7 +533,7 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeGridViewSmall => new RelayCommand(() =>
         {
-            LayoutMode = 2; // Grid View
+            SetLayoutModeForCurrentDirectory(LayoutMode.GridView);
 
             GridViewSize = 125; // Size
 
@@ -506,14 +542,14 @@ namespace Files.View_Models
 
         public RelayCommand ToggleLayoutModeTiles => new RelayCommand(() =>
         {
-            LayoutMode = 1; // Tiles View
+            SetLayoutModeForCurrentDirectory(LayoutMode.TilesView);
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
 
         public RelayCommand ToggleLayoutModeListView => new RelayCommand(() =>
         {
-            LayoutMode = 0; // List View
+            SetLayoutModeForCurrentDirectory(LayoutMode.ListView);
 
             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
         });
@@ -532,16 +568,14 @@ namespace Files.View_Models
             {
                 if (value < _GridViewSize) // Size down
                 {
-                    if (LayoutMode == 1) // Size down from tiles to list
+                    if (LayoutMode == LayoutMode.TilesView) // Size down from tiles to list
                     {
-                        LayoutMode = 0;
-                        Set(0, "LayoutMode");
+                        SetLayoutModeForCurrentDirectory(LayoutMode.ListView);
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
-                    else if (LayoutMode == 2 && value < 125) // Size down from grid to tiles
+                    else if (LayoutMode == LayoutMode.GridView && value < 125) // Size down from grid to tiles
                     {
-                        LayoutMode = 1;
-                        Set(1, "LayoutMode");
+                        SetLayoutModeForCurrentDirectory(LayoutMode.TilesView);
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else if (LayoutMode != 0) // Resize grid view
@@ -549,10 +583,9 @@ namespace Files.View_Models
                         _GridViewSize = (value >= 125) ? value : 125; // Set grid size to allow immediate UI update
                         Set(value);
 
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
+                        if (LayoutMode != LayoutMode.GridView) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutMode = 2;
-                            Set(2, "LayoutMode");
+                            SetLayoutModeForCurrentDirectory(LayoutMode.GridView);
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
 
@@ -561,21 +594,19 @@ namespace Files.View_Models
                 }
                 else // Size up
                 {
-                    if (LayoutMode == 0) // Size up from list to tiles
+                    if (LayoutMode == LayoutMode.ListView) // Size up from list to tiles
                     {
-                        LayoutMode = 1;
-                        Set(1, "LayoutMode");
+                        SetLayoutModeForCurrentDirectory(LayoutMode.TilesView);
                         LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                     }
                     else // Size up from tiles to grid
                     {
-                        _GridViewSize = (LayoutMode == 1) ? 125 : (value <= 375) ? value : 375; // Set grid size to allow immediate UI update
+                        _GridViewSize = (LayoutMode == LayoutMode.TilesView) ? 125 : (value <= 375) ? value : 375; // Set grid size to allow immediate UI update
                         Set(_GridViewSize);
 
-                        if (LayoutMode != 2) // Only update layout mode if it isn't already in grid view
+                        if (LayoutMode != LayoutMode.GridView) // Only update layout mode if it isn't already in grid view
                         {
-                            LayoutMode = 2;
-                            Set(2, "LayoutMode");
+                            SetLayoutModeForCurrentDirectory(LayoutMode.GridView);
                             LayoutModeChangeRequested?.Invoke(this, EventArgs.Empty);
                         }
 

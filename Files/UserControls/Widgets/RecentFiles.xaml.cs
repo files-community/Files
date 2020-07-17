@@ -38,7 +38,7 @@ namespace Files
             {
                 var filePath = clickedOnItem.RecentPath;
                 var folderPath = filePath.Substring(0, filePath.Length - clickedOnItem.Name.Length);
-                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), folderPath);
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(folderPath), folderPath);
             }
         }
 
@@ -156,7 +156,7 @@ namespace Files
             {
                 if (new DirectoryInfo(path).Root.ToString().Contains(@"C:\"))
                 {
-                    App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), path);
+                    App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(path), path);
                 }
                 else
                 {
@@ -164,7 +164,7 @@ namespace Files
                     {
                         if (drive.Path.ToString() == new DirectoryInfo(path).Root.ToString())
                         {
-                            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), path);
+                            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(path), path);
                             return;
                         }
                     }

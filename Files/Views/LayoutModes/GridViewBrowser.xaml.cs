@@ -1,4 +1,5 @@
-﻿using Files.Filesystem;
+﻿using Files.Enums;
+using Files.Filesystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,14 +33,14 @@ namespace Files
 
         private void SetItemTemplate()
         {
-            FileList.ItemTemplate = (App.AppSettings.LayoutMode == 1) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
+            FileList.ItemTemplate = (App.AppSettings.LayoutMode == LayoutMode.TilesView) ? TilesBrowserTemplate : GridViewBrowserTemplate; // Choose Template
 
             // Set GridViewSize event handlers
-            if (App.AppSettings.LayoutMode == 1)
+            if (App.AppSettings.LayoutMode == LayoutMode.TilesView)
             {
                 App.AppSettings.GridViewSizeChangeRequested -= AppSettings_GridViewSizeChangeRequested;
             }
-            else if (App.AppSettings.LayoutMode == 2)
+            else if (App.AppSettings.LayoutMode == LayoutMode.GridView)
             {
                 _iconSize = UpdateThumbnailSize(); // Get icon size for jumps from other layouts directly to a grid size
                 App.AppSettings.GridViewSizeChangeRequested += AppSettings_GridViewSizeChangeRequested;
@@ -146,7 +147,7 @@ namespace Files
             TextBox textBox = null;
 
             // Handle layout differences between tiles browser and photo album
-            if (App.AppSettings.LayoutMode == 2)
+            if (App.AppSettings.LayoutMode == LayoutMode.GridView)
             {
                 Popup popup = (gridViewItem.ContentTemplateRoot as Grid).FindName("EditPopup") as Popup;
                 TextBlock textBlock = (gridViewItem.ContentTemplateRoot as Grid).FindName("ItemName") as TextBlock;
@@ -255,7 +256,7 @@ namespace Files
 
         private void EndRename(TextBox textBox)
         {
-            if (App.AppSettings.LayoutMode == 2)
+            if (App.AppSettings.LayoutMode == LayoutMode.GridView)
             {
                 Popup popup = textBox.Parent as Popup;
                 TextBlock textBlock = (popup.Parent as Grid).Children[1] as TextBlock;
@@ -373,7 +374,7 @@ namespace Files
 
         private static uint UpdateThumbnailSize()
         {
-            if (App.AppSettings.LayoutMode == 1 || App.AppSettings.GridViewSize < 200)
+            if (App.AppSettings.LayoutMode == LayoutMode.TilesView|| App.AppSettings.GridViewSize < 200)
                 return 80; // Small thumbnail
             else if (App.AppSettings.GridViewSize < 275)
                 return 120; // Medium thumbnail

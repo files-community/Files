@@ -48,7 +48,7 @@ namespace Files
                     break;
             }
 
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), NavigationPath);
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(NavigationPath), NavigationPath);
 
             App.CurrentInstance.InstanceViewModel.IsPageTypeNotHome = true; // show controls that were hidden on the home page
         }

@@ -125,7 +125,7 @@ namespace Files.Controls
                     }
             }
 
-            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
+            App.CurrentInstance.ContentFrame.Navigate(App.AppSettings.GetLayoutType(NavigationPath), NavigationPath, new SuppressNavigationTransitionInfo());
 
             App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
         }

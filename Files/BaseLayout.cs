@@ -195,7 +195,7 @@ namespace Files
                 App.CurrentInstance.FilesystemViewModel.IsLoadingItems = true;
                 App.CurrentInstance.FilesystemViewModel.IsLoadingItems = false;
 
-                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), App.CurrentInstance.FilesystemViewModel.WorkingDirectory, null);
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(App.CurrentInstance.FilesystemViewModel.WorkingDirectory), App.CurrentInstance.FilesystemViewModel.WorkingDirectory, null);
             }
         }
 

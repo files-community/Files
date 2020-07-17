@@ -177,7 +177,7 @@ namespace Files.Views.Pages
 
             if (NavigationPath != "")
             {
-                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), NavigationPath, new SuppressNavigationTransitionInfo());
+                App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(NavigationPath), NavigationPath, new SuppressNavigationTransitionInfo());
             }
 
             this.Loaded -= Page_Loaded;
