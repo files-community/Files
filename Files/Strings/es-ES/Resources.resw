@@ -112,13 +112,13 @@
     <value>Búsqueda</value>
   </data>
   <data name="SettingsOnStartupContinueWhereYouLeftOff.Content" xml:space="preserve">
-    <value>Continúa por donde lo has dejado</value>
+    <value>Continuar donde lo dejó</value>
   </data>
   <data name="SettingsOnStartupOpenANewTab.Content" xml:space="preserve">
-    <value>Abrir una nueva ventana</value>
+    <value>Abrir una nueva pestaña</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>Abrir en una página específica</value>
+    <value>Abrir una página o páginas específicas</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>En el inicio</value>
@@ -726,7 +726,19 @@
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>Quitar</value>
   </data>
+  <data name="SettingsOnStartupNewInstanceBehaviour.Text" xml:space="preserve">
+    <value>Al abrir una carpeta anclada desde la barra de tareas</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Abrir en una nueva ventana</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Abrir en una nueva pestaña</value>
+  </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Predeterminado de windows</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Mover la pestaña aquí</value>
   </data>
 </root>
