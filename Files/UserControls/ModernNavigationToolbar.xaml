@@ -5,6 +5,7 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
@@ -523,6 +524,21 @@
                             </StackPanel>
                         </Grid>
                     </DataTemplate>
+                    <ResourceDictionary.ThemeDictionaries>
+                        <ResourceDictionary x:Key="Light">
+                            <RevealBorderBrush x:Key="TransparentGridRevealBorderBrush"
+                                               TargetTheme="Light"
+                                               Color="Transparent"
+                                               FallbackColor="Transparent" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="Dark">
+                            <RevealBorderBrush x:Key="TransparentGridRevealBorderBrush"
+                                               TargetTheme="Dark"
+                                               Color="Transparent"
+                                               FallbackColor="Transparent" />
+                        </ResourceDictionary>
+                        <ResourceDictionary x:Key="HighContrast" />
+                    </ResourceDictionary.ThemeDictionaries>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
@@ -669,10 +685,11 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
-                BorderBrush="{ThemeResource SystemBaseMediumLowColor}"
-                BorderThickness="0"
+                BorderBrush="{ThemeResource TransparentGridRevealBorderBrush}"
+                BorderThickness="1"
                 CornerRadius="2"
-                PointerPressed="ManualPathEntryItem_Click">
+                PointerPressed="ManualPathEntryItem_Click"
+                extensions:Mouse.Cursor="Hand">
 
                 <ListView
                     x:Name="PathViewInteract"
