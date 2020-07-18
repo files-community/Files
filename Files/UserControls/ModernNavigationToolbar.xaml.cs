@@ -206,7 +206,7 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
-                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text);
+                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text, App.CurrentInstance.NavigationToolbar.PathControlDisplayText);
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else if (e.Key == VirtualKey.Escape)
@@ -215,14 +215,16 @@ namespace Files.UserControls
             }
         }
 
-        public async void CheckPathInput(ItemViewModel instance, string CurrentInput)
+        public async void CheckPathInput(ItemViewModel instance, string currentInput, string currentSelectedPath)
         {
-            if (CurrentInput != instance.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
+            if (currentSelectedPath == currentInput) return;
+
+            if (currentInput != instance.WorkingDirectory || App.CurrentInstance.ContentFrame.CurrentSourcePageType == typeof(YourHome))
             {
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.HomeItems.isEnabled = false;
                 //(App.CurrentInstance.OperationsControl as RibbonArea).RibbonViewModel.ShareItems.isEnabled = false;
 
-                if (CurrentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || CurrentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
+                if (currentInput.Equals("Home", StringComparison.OrdinalIgnoreCase) || currentInput.Equals(ResourceController.GetTranslation("NewTab"), StringComparison.OrdinalIgnoreCase))
                 {
                     await App.CurrentInstance.FilesystemViewModel.SetWorkingDirectory(ResourceController.GetTranslation("NewTab"));
                     App.CurrentInstance.ContentFrame.Navigate(typeof(YourHome), ResourceController.GetTranslation("NewTab"), new SuppressNavigationTransitionInfo());
@@ -234,12 +236,13 @@ namespace Files.UserControls
                         : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
                     var parentItem = await StorageFileExtensions.GetFolderWithPathFromPathAsync(workingDir);
 
-                    CurrentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(CurrentInput);
+                    currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
+                    if (currentSelectedPath == currentInput) return;
 
-                    var item = await DrivesManager.GetRootFromPath(CurrentInput);
+                    var item = await DrivesManager.GetRootFromPath(currentInput);
                     try
                     {
-                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item, parentItem)).Path;
+                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(currentInput, item, parentItem)).Path;
 
                         App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), pathToNavigate); // navigate to folder
                     }
@@ -247,7 +250,7 @@ namespace Files.UserControls
                     {
                         try
                         {
-                            var pathToInvoke = (await StorageFileExtensions.GetFileFromPathAsync(CurrentInput, item, parentItem)).Path;
+                            var pathToInvoke = (await StorageFileExtensions.GetFileFromPathAsync(currentInput, item, parentItem)).Path;
                             await Interaction.InvokeWin32Component(pathToInvoke);
                         }
                         catch (Exception ex) // Not a file or not accessible
@@ -255,7 +258,7 @@ namespace Files.UserControls
                             // Launch terminal application if possible
                             foreach (var terminal in AppSettings.TerminalController.Model.Terminals)
                             {
-                                if (terminal.Path.Equals(CurrentInput, StringComparison.OrdinalIgnoreCase) || terminal.Path.Equals(CurrentInput + ".exe", StringComparison.OrdinalIgnoreCase))
+                                if (terminal.Path.Equals(currentInput, StringComparison.OrdinalIgnoreCase) || terminal.Path.Equals(currentInput + ".exe", StringComparison.OrdinalIgnoreCase))
                                 {
                                     if (App.Connection != null)
                                     {
