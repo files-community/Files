@@ -103,14 +103,6 @@
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="None" />
         <KeyboardAccelerator
-            Key="Left"
-            Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Menu" />
-        <KeyboardAccelerator
-            Key="Right"
-            Invoked="KeyboardAccelerator_Invoked"
-            Modifiers="Menu" />
-        <KeyboardAccelerator
             Key="R"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control" />

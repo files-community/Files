@@ -659,6 +659,7 @@
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton1" />
                     <KeyboardAccelerator Key="Back" />
+                    <KeyboardAccelerator Key="Left" Modifiers="Menu" />
                 </Button.KeyboardAccelerators>
             </Button>
 
@@ -683,6 +684,7 @@
                 </Button.Content>
                 <Button.KeyboardAccelerators>
                     <KeyboardAccelerator Key="XButton2" />
+                    <KeyboardAccelerator Key="Right" Modifiers="Menu" />
                 </Button.KeyboardAccelerators>
             </Button>
 
