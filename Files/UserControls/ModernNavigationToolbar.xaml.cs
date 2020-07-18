@@ -313,10 +313,12 @@ namespace Files.UserControls
 
         private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
         {
-            var itemTappedPath = (e.ClickedItem as PathBoxItem).Path.ToString();
-            if (itemTappedPath == "Home" || itemTappedPath == ResourceController.GetTranslation("NewTab"))
+            var itemTapped = e.ClickedItem as PathBoxItem;
+            var itemTappedPath = itemTapped.Path;
+            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) == 
+                App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
                 return;
-
+            
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
 
