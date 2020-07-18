@@ -702,7 +702,7 @@
                     ItemClick="PathViewInteract_ItemClick"
                     ItemContainerStyle="{StaticResource ListViewItemContainerStyle_NoRevealBorder}"
                     ItemsSource="{x:Bind local1:App.CurrentInstance.NavigationToolbar.PathComponents, Mode=OneWay}"
-                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Hidden"
                     ScrollViewer.HorizontalScrollMode="Enabled"
                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
                     ScrollViewer.VerticalScrollMode="Disabled"
