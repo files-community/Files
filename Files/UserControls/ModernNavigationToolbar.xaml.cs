@@ -234,9 +234,7 @@ namespace Files.UserControls
                         : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
                     var parentItem = await StorageFileExtensions.GetFolderWithPathFromPathAsync(workingDir);
 
-                    if (CurrentInput.Contains("%temp%")) CurrentInput = CurrentInput.Replace("%temp%", AppSettings.TempPath);
-                    if (CurrentInput.Contains("%homepath%")) CurrentInput = CurrentInput.Replace("%homepath%", AppSettings.HomePath);
-                    CurrentInput = Environment.ExpandEnvironmentVariables(CurrentInput);
+                    CurrentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(CurrentInput);
 
                     var item = await DrivesManager.GetRootFromPath(CurrentInput);
                     try
