@@ -1046,7 +1046,8 @@ namespace Files.Interacts
             await PasteItems(packageView, destinationPath, packageView.RequestedOperation);
         }
 
-        public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
+        public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation,
+            bool copyDuplicate = true)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
@@ -1079,6 +1080,12 @@ namespace Files.Interacts
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
+                    if (!copyDuplicate && !string.IsNullOrEmpty(item.Path) && 
+                    !item.Path.Replace(destinationPath, string.Empty).Trim(Path.DirectorySeparatorChar).Contains(Path.DirectorySeparatorChar))
+                    {
+                        continue;
+                    }
+
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
                         if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
