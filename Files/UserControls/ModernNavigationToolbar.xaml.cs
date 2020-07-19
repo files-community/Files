@@ -206,7 +206,8 @@ namespace Files.UserControls
             if (e.Key == VirtualKey.Enter)
             {
                 var PathBox = (sender as TextBox);
-                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text, App.CurrentInstance.NavigationToolbar.PathControlDisplayText);
+                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text,
+                    App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
             else if (e.Key == VirtualKey.Escape)

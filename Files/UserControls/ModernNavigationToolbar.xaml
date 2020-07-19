@@ -5,6 +5,8 @@
     xmlns:Custom="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:Windows10version1903="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract, 8)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     xmlns:helpers="using:Files.Helpers"
     xmlns:local="using:Files.UserControls"
@@ -492,6 +494,24 @@
                             x:Name="ListViewItemContentGrid"
                             Background="Transparent"
                             Tag="{Binding Path}">
+                            <Interactivity:Interaction.Behaviors>
+                                <Core:EventTriggerBehavior EventName="PointerEntered">
+                                    <Core:ChangePropertyAction PropertyName="Opacity">
+                                        <Core:ChangePropertyAction.Value>
+                                            0.7
+                                        </Core:ChangePropertyAction.Value>
+                                    </Core:ChangePropertyAction>
+                                </Core:EventTriggerBehavior>
+
+                                <Core:EventTriggerBehavior EventName="PointerExited">
+                                    <Core:ChangePropertyAction PropertyName="Opacity">
+                                        <Core:ChangePropertyAction.Value>
+                                            1.0
+                                        </Core:ChangePropertyAction.Value>
+                                    </Core:ChangePropertyAction>
+                                </Core:EventTriggerBehavior>
+                            </Interactivity:Interaction.Behaviors>
+                            
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
                                     Margin="0,0,0,4"
@@ -511,6 +531,24 @@
                             x:Name="ListViewItemContentGrid"
                             Background="Transparent"
                             Tag="{Binding Path}">
+                            <Interactivity:Interaction.Behaviors>
+                                <Core:EventTriggerBehavior EventName="PointerEntered">
+                                    <Core:ChangePropertyAction PropertyName="Opacity">
+                                        <Core:ChangePropertyAction.Value>
+                                            0.7
+                                        </Core:ChangePropertyAction.Value>
+                                    </Core:ChangePropertyAction>
+                                </Core:EventTriggerBehavior>
+
+                                <Core:EventTriggerBehavior EventName="PointerExited">
+                                    <Core:ChangePropertyAction PropertyName="Opacity">
+                                        <Core:ChangePropertyAction.Value>
+                                            1.0
+                                        </Core:ChangePropertyAction.Value>
+                                    </Core:ChangePropertyAction>
+                                </Core:EventTriggerBehavior>
+                            </Interactivity:Interaction.Behaviors>
+                            
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
                                     Margin="0,0,0,4"
@@ -690,6 +728,23 @@
                 CornerRadius="2"
                 PointerPressed="ManualPathEntryItem_Click"
                 extensions:Mouse.Cursor="Hand">
+                <Interactivity:Interaction.Behaviors>
+                    <Core:EventTriggerBehavior EventName="PointerEntered">
+                        <Core:ChangePropertyAction PropertyName="Background">
+                            <Core:ChangePropertyAction.Value>
+                                <SolidColorBrush Color="{ThemeResource SystemRevealListLowColor}"/>
+                            </Core:ChangePropertyAction.Value>
+                        </Core:ChangePropertyAction>
+                    </Core:EventTriggerBehavior>
+
+                    <Core:EventTriggerBehavior EventName="PointerExited">
+                        <Core:ChangePropertyAction PropertyName="Background">
+                            <Core:ChangePropertyAction.Value>
+                                <SolidColorBrush Color="Transparent"/>
+                            </Core:ChangePropertyAction.Value>
+                        </Core:ChangePropertyAction>
+                    </Core:EventTriggerBehavior>
+                </Interactivity:Interaction.Behaviors>
 
                 <ListView
                     x:Name="PathViewInteract"
