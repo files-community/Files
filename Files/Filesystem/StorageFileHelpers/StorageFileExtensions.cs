@@ -1,6 +1,7 @@
 ﻿using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
 using System;
@@ -14,6 +15,8 @@ namespace Files.Filesystem
 {
     public static class StorageFileExtensions
     {
+        private static SettingsViewModel _AppSettings => App.AppSettings;
+
         public static List<PathBoxItem> GetDirectoryPathComponents(string value)
         {
             List<string> pathComponents = new List<string>();
@@ -194,6 +197,15 @@ namespace Files.Filesystem
         public async static Task<StorageFile> GetFileFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
         {
             return (await GetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).File;
+        }
+
+        public static string GetPathWithoutEnvironmentVariable(string path)
+        {
+            if (path.Contains("%temp%")) path = path.Replace("%temp%", _AppSettings.TempPath);
+            if (path.Contains("%tmp%")) path = path.Replace("%tmp%", _AppSettings.TempPath);
+            if (path.Contains("%localappdata%")) path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath);
+            if (path.Contains("%homepath%")) path = path.Replace("%homepath%", _AppSettings.HomePath);
+            return Environment.ExpandEnvironmentVariables(path);
         }
     }
 }
