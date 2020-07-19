@@ -695,7 +695,7 @@
             Margin="4,4"
             VerticalAlignment="Center">
 
-            <TextBox
+            <AutoSuggestBox
                 x:Name="VisiblePath"
                 x:Uid="NavigationToolbarVisiblePath"
                 Padding="4"
@@ -709,10 +709,12 @@
                 FontFamily="Segoe UI"
                 FontSize="16"
                 FontWeight="SemiBold"
-                IsSpellCheckEnabled="False"
-                KeyDown="VisiblePath_TextChanged"
+                TextChanged="VisiblePath_TextChanged"
                 LostFocus="VisiblePath_LostFocus"
+                PreviewKeyDown="VisiblePath_KeyDown"
                 PlaceholderText="Enter a path"
+                DisplayMemberPath="Name"
+                TextMemberPath="Path"
                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
                 ScrollViewer.VerticalScrollBarVisibility="Hidden"
                 Text="{x:Bind PathText, Mode=OneWay}" />

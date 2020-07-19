@@ -6,6 +6,8 @@ using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -198,14 +200,14 @@ namespace Files.UserControls
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;
             VisiblePath.Focus(FocusState.Programmatic);
-            VisiblePath.SelectAll();
+            //VisiblePath.SelectAll();
         }
 
-        private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
+        private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == VirtualKey.Enter)
             {
-                var PathBox = (sender as TextBox);
+                var PathBox = (sender as AutoSuggestBox);
                 CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text,
                     App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
@@ -403,6 +405,38 @@ namespace Files.UserControls
             {
                 e.Handled = true;
                 cancelFlyoutAutoClose = true;
+            }
+        }
+
+        private async void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                try
+                {
+                    var str = sender.Text.Substring(0, sender.Text.LastIndexOfAny(new char[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }));
+                    var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(str);
+                    var contents = await folder.GetFoldersWithPathAsync();
+                    var currPath = contents.Where(x => x.Path.Contains(sender.Text, StringComparison.OrdinalIgnoreCase));
+                    if (currPath.Count() >= 7)
+                    {
+                        sender.ItemsSource = currPath.Take(7).Select(x => new { x.Path, x.Folder.Name });
+                    }
+                    else if (currPath.Any())
+                    {
+                        var subPath = await currPath.First().GetFoldersWithPathAsync();
+                        sender.ItemsSource = currPath.Select(x => new { x.Path, x.Folder.Name }).Concat(
+                            subPath.Take(7 - currPath.Count()).Select(x => new { x.Path, Name = Path.Combine(currPath.First().Folder.Name, x.Folder.Name) }));
+                    }
+                    else
+                    {
+                        sender.ItemsSource = new[] { new { Path = App.CurrentInstance.FilesystemViewModel.WorkingDirectory, Name = "No results" } };
+                    }
+                }
+                catch
+                {
+                    sender.ItemsSource = new[] { new { Path = App.CurrentInstance.FilesystemViewModel.WorkingDirectory, Name = "No results" } };
+                }
             }
         }
     }
