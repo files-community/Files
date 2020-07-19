@@ -519,7 +519,6 @@ namespace Files
                     droppedOnDraggedItem = true;
                     break;
                 }
-                    
             }
 
             if (!droppedOnDraggedItem)
