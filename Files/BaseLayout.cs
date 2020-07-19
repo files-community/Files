@@ -521,6 +521,7 @@ namespace Files
                 }
                     
             }
+
             if (!droppedOnDraggedItem)
             {
                 await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
