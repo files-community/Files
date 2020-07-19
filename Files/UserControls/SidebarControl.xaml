@@ -111,7 +111,8 @@
                     <Button
                         x:Name="SettingsButton"
                         Height="40"
-                        HorizontalAlignment="Left"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
                         Background="Transparent"
                         BorderBrush="{StaticResource ButtonRevealBorderBrush}"
                         Click="SettingsButton_Click"
