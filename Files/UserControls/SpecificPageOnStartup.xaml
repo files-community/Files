@@ -6,16 +6,15 @@
     xmlns:local="using:Files.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Height="40"
-    d:DesignWidth="400"
+    d:DesignWidth="340"
     mc:Ignorable="d">
 
     <StackPanel
-        Margin="0,0,0,3"
         HorizontalAlignment="Left"
         Orientation="Horizontal">
         <TextBox
             x:Name="PagePath"
-            Width="415"
+            Width="308"
             Height="34"
             HorizontalAlignment="Left"
             HorizontalContentAlignment="Center"
