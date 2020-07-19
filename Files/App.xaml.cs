@@ -392,22 +392,6 @@ namespace Files
         private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Message);
-
-            var appVersion = Package.Current.Id.Version;
-
-            var diagnosticInfo = new Dictionary<string, string>()
-            {
-                { "Message", e.Message },
-                { "Exception", e.Exception?.ToString() },
-                { "Culture", SystemInformation.Culture.EnglishName },
-                { "AvailableMemory", SystemInformation.AvailableMemory.ToString("F0") },
-                { "FirstUseTimeUTC", SystemInformation.FirstUseTime.ToUniversalTime().ToString("MM/dd/yyyy HH:mm:ss") },
-                { "OSArchitecture", SystemInformation.OperatingSystemArchitecture.ToString() },
-                { "OSVersion", SystemInformation.OperatingSystemVersion.ToString() },
-                { "AppVersion", string.Format("{0}.{1}.{2}.{3}", appVersion.Major, appVersion.Minor, appVersion.Build, appVersion.Revision) }
-            };
-
-            Analytics.TrackEvent("OnUnhandledException", diagnosticInfo);
         }
 
         // Occurs when an exception is not handled on a background thread.
@@ -415,19 +399,6 @@ namespace Files
         private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Exception.Message);
-
-            var appVersion = Package.Current.Id.Version;
-
-            var diagnosticInfo = new Dictionary<string, string>()
-            {
-                { "Message", e.Exception?.Message },
-                { "Exception", e.Exception?.ToString() },
-                { "InnerException", e.Exception?.InnerException?.ToString() },
-                { "InnerExceptionMessage", e.Exception?.InnerException?.Message },
-                { "AppVersion", string.Format("{0}.{1}.{2}.{3}", appVersion.Major, appVersion.Minor, appVersion.Build, appVersion.Revision) }
-            };
-
-            Analytics.TrackEvent("OnUnobservedException", diagnosticInfo);
         }
 
         public static async void CloseApp()
