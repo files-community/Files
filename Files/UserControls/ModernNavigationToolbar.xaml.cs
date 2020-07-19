@@ -237,23 +237,21 @@ namespace Files.UserControls
                     var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
                         ? AppSettings.HomePath
                         : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-                    var parentItem = await StorageFileExtensions.GetFolderWithPathFromPathAsync(workingDir);
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-
                     var item = await DrivesManager.GetRootFromPath(currentInput);
+
                     try
                     {
-                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(currentInput, item, parentItem)).Path;
-
+                        var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
                         App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), pathToNavigate); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
                         try
                         {
-                            var pathToInvoke = (await StorageFileExtensions.GetFileFromPathAsync(currentInput, item, parentItem)).Path;
+                            var pathToInvoke = (await StorageFileExtensions.GetFileWithPathFromPathAsync(currentInput, item)).Path;
                             await Interaction.InvokeWin32Component(pathToInvoke);
                         }
                         catch (Exception ex) // Not a file or not accessible
