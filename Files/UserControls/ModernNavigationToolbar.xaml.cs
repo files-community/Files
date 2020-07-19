@@ -418,7 +418,9 @@ namespace Files.UserControls
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
 
+            var deferral = e.GetDeferral();
             await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
+            deferral.Complete();
         }
     }
 }
