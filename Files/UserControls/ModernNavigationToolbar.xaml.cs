@@ -401,5 +401,19 @@ namespace Files.UserControls
                 cancelFlyoutAutoClose = true;
             }
         }
+
+        private void PathBoxItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem)) return;
+
+            e.DragUIOverride.IsCaptionVisible = true;
+            e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
+            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+        }
+
+        private void PathBoxItem_Drop(object sender, DragEventArgs e)
+        {
+
+        }
     }
 }

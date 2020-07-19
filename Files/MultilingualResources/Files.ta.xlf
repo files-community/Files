@@ -1012,6 +1012,10 @@
           <source>Move tab here</source>
           <target state="new">Move tab here</target>
         </trans-unit>
+        <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Move to {0}</source>
+          <target state="new">Move to {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
