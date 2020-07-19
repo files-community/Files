@@ -136,7 +136,7 @@ namespace Files
 
         async void Page_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key.Equals(VirtualKey.Escape))
+            if (e.Key.Equals(VirtualKey.Escape) && ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
                 await propWindow.CloseAsync();
             }
