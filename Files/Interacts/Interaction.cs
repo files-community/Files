@@ -535,14 +535,25 @@ namespace Files.Interacts
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
+
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
+                frame.KeyDown += Frame_KeyDown;
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                 frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
+                
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
 
                 appWindow.RequestSize(new Size(400, 475));
                 appWindow.Title = ResourceController.GetTranslation("PropertiesTitle");
+
+                async void Frame_KeyDown(object sender, KeyRoutedEventArgs e)
+                {
+                    if (e.Key.Equals(VirtualKey.Escape))
+                    {
+                        await appWindow.CloseAsync();
+                    }
+                }
 
                 ElementCompositionPreview.SetAppWindowContent(appWindow, frame);
                 AppWindows.Add(frame.UIContext, appWindow);
