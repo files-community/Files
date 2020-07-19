@@ -9,10 +9,12 @@ using System.Collections.Generic;
 using System.Threading;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.WindowManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace Files
@@ -129,6 +131,14 @@ namespace Files
             {
                 var propertiesDialog = new PropertiesDialog();
                 propertiesDialog.Hide();
+            }
+        }
+
+        async void Page_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key.Equals(VirtualKey.Escape))
+            {
+                await propWindow.CloseAsync();
             }
         }
     }
