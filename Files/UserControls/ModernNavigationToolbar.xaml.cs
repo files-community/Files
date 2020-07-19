@@ -404,16 +404,21 @@ namespace Files.UserControls
 
         private void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
-            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem)) return;
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
 
             e.DragUIOverride.IsCaptionVisible = true;
             e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
             e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+            e.Handled = true;
         }
 
-        private void PathBoxItem_Drop(object sender, DragEventArgs e)
+        private async void PathBoxItem_Drop(object sender, DragEventArgs e)
         {
+            if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
+                pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
 
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, pathBoxItem.Path, e.AcceptedOperation);
         }
     }
 }

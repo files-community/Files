@@ -481,7 +481,7 @@ namespace Files
                 return;
             }
 
-            e.Data.SetStorageItems(selectedStorageItems);
+            e.Data.SetStorageItems(selectedStorageItems, false);
             e.DragUI.SetContentFromDataPackage();
         }
 
