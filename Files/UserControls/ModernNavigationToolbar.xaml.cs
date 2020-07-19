@@ -113,6 +113,8 @@ namespace Files.UserControls
                 {
                     ManualEntryBoxLoaded = true;
                     ClickablePathLoaded = false;
+                    VisiblePath.Focus(FocusState.Programmatic);
+                    //VisiblePath.SelectAll();
                 }
                 else
                 {
@@ -199,8 +201,6 @@ namespace Files.UserControls
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;
-            VisiblePath.Focus(FocusState.Programmatic);
-            //VisiblePath.SelectAll();
         }
 
         private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
