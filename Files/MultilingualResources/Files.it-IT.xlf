@@ -717,7 +717,7 @@
         </trans-unit>
         <trans-unit id="BaseLayoutContextFlyoutEmptyRecycleBin.Text" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="translated">Svuota cestino</target>
+          <target state="translated">Svuota il cestino</target>
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutRestore.Text" translate="yes" xml:space="preserve">
           <source>Restore</source>
@@ -817,11 +817,11 @@
         </trans-unit>
         <trans-unit id="PropertiesOwner.Text" translate="yes" xml:space="preserve">
           <source>Owner:</source>
-          <target state="translated" state-qualifier="tm-suggestion">Proprietario:</target>
+          <target state="translated">Proprietario:</target>
         </trans-unit>
         <trans-unit id="SettingsShowFileOwnerInProperties.Text" translate="yes" xml:space="preserve">
           <source>Show Owner in properties</source>
-          <target state="translated">Mostra proprietario file nelle proprietà</target>
+          <target state="translated">Mostra il proprietario nelle proprietà del file</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.SecondaryButtonText" translate="yes" xml:space="preserve">
           <source>Cancel</source>
@@ -833,7 +833,7 @@
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialogTitle" translate="yes" xml:space="preserve">
           <source>Empty recycle bin</source>
-          <target state="translated">Svuota Cestino</target>
+          <target state="translated">Svuota il Cestino</target>
         </trans-unit>
         <trans-unit id="ConfirmEmptyBinDialog.PrimaryButtonText" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -973,23 +973,23 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
           <source>Add a new page</source>
-          <target state="new">Add a new page</target>
+          <target state="translated">Aggiungi una nuova pagina</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
-          <target state="new">Change Page Location</target>
+          <target state="translated">Modifica il percorso della pagina</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
-          <target state="new">Pages:</target>
+          <target state="translated">Pagine:</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
           <source>Remove Page</source>
-          <target state="new">Remove Page</target>
+          <target state="translated">Rimuovi pagina</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching a pinned folder</source>
-          <target state="translated">Quando si apre una cartella</target>
+          <target state="translated">Quando si avvia una cartella fissata</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
@@ -1001,11 +1001,11 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="new">Windows default</target>
+          <target state="translated">Lingua di Windows</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
-          <target state="new">Move tab here</target>
+          <target state="translated">Sposta la scheda qui</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
