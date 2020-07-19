@@ -1008,6 +1008,10 @@
           <source>Move tab here</source>
           <target state="new">Move tab here</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
+          <source>No results</source>
+          <target state="new">No results</target>
+        </trans-unit>
       </group>
     </body>
   </file>
