@@ -59,27 +59,41 @@
                     GroupName="StartupPageSettingRadioGroup"
                     IsChecked="{x:Bind AppSettings.OpenASpecificPageOnStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
-                <StackPanel
-                    x:Name="PagesPanel"
-                    Width="550"
+                <Grid
+                    Width="Auto"
                     HorizontalAlignment="Left"
                     Visibility="{x:Bind OpenSpecificPage.IsChecked, Mode=OneWay}">
-                    <StackPanel Margin="0,10,0,20" Orientation="Horizontal">
-                        <TextBlock
-                            x:Uid="SettingsOnStartupPages"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontSize="18"
-                            Text="Pages: " />
-                        <Button
-                            x:Name="btnAddPage"
-                            x:Uid="SettingsOnStartupOpenAddPageButton"
-                            Margin="277,0,0,0"
-                            BorderThickness="2,2,2,2"
-                            Click="btnAddPage_Click"
-                            Content="Add a new page" />
-                    </StackPanel>
-                </StackPanel>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MinWidth="100" />
+                        <ColumnDefinition MinWidth="240" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        x:Uid="SettingsOnStartupPages"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        Text="Pages: " />
+
+                    <Button
+                        x:Name="btnAddPage"
+                        x:Uid="SettingsOnStartupOpenAddPageButton"
+                        Grid.Column="1"
+                        HorizontalAlignment="Right"
+                        BorderThickness="2,2,2,2"
+                        Click="btnAddPage_Click"
+                        Content="Add a new page" />
+
+                    <StackPanel
+                        x:Name="PagesPanel"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="2"
+                        Margin="0,10,0,20"
+                        HorizontalAlignment="Stretch" />
+                </Grid>
 
                 <TextBlock
                     x:Uid="SettingsOnStartupNewInstanceBehavior"
