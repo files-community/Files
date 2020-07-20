@@ -512,18 +512,9 @@ namespace Files
 
         protected async void Item_Drop(object sender, DragEventArgs e)
         {
-            IReadOnlyList<IStorageItem> draggedItemsList = await e.DataView.GetStorageItemsAsync();
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-
-            if (draggedItemsList.Any(draggedItem => draggedItem.Path == rowItem.ItemPath))
-            {
-                await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
-            }
-            else
-            {
-                e.DataView.ReportOperationCompleted(e.AcceptedOperation);
-            }
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
         }
 
         protected void InitializeDrag(UIElement element)
