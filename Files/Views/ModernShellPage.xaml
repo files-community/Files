@@ -119,7 +119,7 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="{x:Bind SidebarWidth, Mode=TwoWay}" MinWidth="200" MaxWidth="500" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
