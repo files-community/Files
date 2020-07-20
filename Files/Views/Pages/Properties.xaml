@@ -15,7 +15,7 @@
     Loaded="Properties_Loaded"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
     Unloaded="Properties_Unloaded"
-    mc:Ignorable="d">
+    mc:Ignorable="d" KeyDown="Page_KeyDown">
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"
