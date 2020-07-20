@@ -431,12 +431,12 @@ namespace Files.View_Models
             set => Set(ref _TempPath, value);
         }
 
-        private string _AppDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        private string _LocalAppDataPath = UserDataPaths.GetDefault().LocalAppData;
 
-        public string AppDataPath
+        public string LocalAppDataPath
         {
-            get => _AppDataPath;
-            set => Set(ref _AppDataPath, value);
+            get => _LocalAppDataPath;
+            set => Set(ref _LocalAppDataPath, value);
         }
 
         private string _HomePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
