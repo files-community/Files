@@ -492,10 +492,14 @@ namespace Files
 
             if (e.DataView.Contains(StandardDataFormats.StorageItems))
             {
-                e.Handled = true;
                 IReadOnlyList<IStorageItem> draggedItems = await e.DataView.GetStorageItemsAsync();
+                e.Handled = true;
                 // Items from the same parent folder as this folder are dragged into this folder, so we move the items instead of copy
-                if (draggedItems.Any(draggedItem => Directory.GetParent(draggedItem.Path).FullName == Directory.GetParent(item.ItemPath).FullName))
+                if (draggedItems.Any(draggedItem => draggedItem.Path == item.ItemPath))
+                {
+                    e.AcceptedOperation = DataPackageOperation.None;
+                }
+                else if (draggedItems.Any(draggedItem => Directory.GetParent(draggedItem.Path).FullName == Directory.GetParent(item.ItemPath).FullName))
                 {
                     e.AcceptedOperation = DataPackageOperation.Move;
                 }
@@ -511,17 +515,8 @@ namespace Files
             IReadOnlyList<IStorageItem> draggedItemsList = await e.DataView.GetStorageItemsAsync();
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            bool droppedOnDraggedItem = false;
-            foreach(IStorageItem draggedItem in draggedItemsList)
-            {
-                if (rowItem.ItemPath == draggedItem.Path)
-                {
-                    droppedOnDraggedItem = true;
-                    break;
-                }
-            }
 
-            if (!droppedOnDraggedItem)
+            if (draggedItemsList.Any(draggedItem => draggedItem.Path == rowItem.ItemPath))
             {
                 await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
             }
