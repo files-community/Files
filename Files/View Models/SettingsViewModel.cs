@@ -88,35 +88,92 @@ namespace Files.View_Models
 
         public SortOption DirectorySortOption
         {
-            get => (SortOption)SortOptionByte;
+            get
+            {
+                try
+                {
+                    var path = App.CurrentInstance.FilesystemViewModel?.WorkingDirectory;
+                    if (path != null)
+                    {
+                        ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.SortOptionContainer, ApplicationDataCreateDisposition.Always);
+                        if (dataContainer.Values.ContainsKey(path))
+                        {
+                            _DirectorySortOption = (SortOption)(byte)dataContainer.Values[path];
+                        }
+                        else
+                        {
+                            dataContainer.Values[path] = (byte)_DirectorySortOption;
+                        }
+                    }
+
+                    return _DirectorySortOption;
+                }
+                catch
+                {
+                    return _DirectorySortOption;
+                }
+            }
             set
             {
-                SortOptionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+                try
+                {
+                    _DirectorySortOption = value;
+                    ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.SortOptionContainer, ApplicationDataCreateDisposition.Always);
+                    dataContainer.Values[App.CurrentInstance.FilesystemViewModel?.WorkingDirectory] = (byte)_DirectorySortOption;
+                    App.CurrentInstance?.FilesystemViewModel?.UpdateSortOptionStatus();
+                }
+                catch
+                {
+                    return;
+                }
             }
         }
 
         public SortDirection DirectorySortDirection
         {
-            get => (SortDirection)SortDirectionByte;
+            get
+            {
+                try
+                {
+                    var path = App.CurrentInstance.FilesystemViewModel?.WorkingDirectory;
+                    if (path != null)
+                    {
+                        ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.SortDirectionContainer, ApplicationDataCreateDisposition.Always);
+                        if (dataContainer.Values.ContainsKey(path))
+                        {
+                            _DirectorySortDirection = (SortDirection)(byte)dataContainer.Values[path];
+                        }
+                        else
+                        {
+                            dataContainer.Values[path] = (byte)_DirectorySortDirection;
+                        }
+                    }
+
+                    return _DirectorySortDirection;
+                }
+                catch
+                {
+                    return _DirectorySortDirection;
+                }
+            }
             set
             {
-                SortDirectionByte = (byte)value;
-                App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+                try
+                {
+                    _DirectorySortDirection = value;
+                    ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.SortDirectionContainer, ApplicationDataCreateDisposition.Always);
+                    dataContainer.Values[App.CurrentInstance.FilesystemViewModel?.WorkingDirectory] = (byte)_DirectorySortDirection;
+                    App.CurrentInstance?.FilesystemViewModel?.UpdateSortDirectionStatus();
+                }
+                catch
+                {
+                    return;
+                }
             }
         }
 
-        private byte SortOptionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
-        }
-
-        private byte SortDirectionByte
-        {
-            get => Get((byte)0);
-            set => Set(value);
-        }
+        private SortOption _DirectorySortOption = SortOption.Name;
+        private SortDirection _DirectorySortDirection = SortDirection.Ascending;
 
         public async void DetectQuickLook()
         {
