@@ -713,6 +713,7 @@
                 TextChanged="VisiblePath_TextChanged"
                 LostFocus="VisiblePath_LostFocus"
                 PreviewKeyDown="VisiblePath_KeyDown"
+                QuerySubmitted="VisiblePath_QuerySubmitted"
                 PlaceholderText="Enter a path"
                 ItemsSource="{x:Bind NavigationBarSuggestions}"
                 DisplayMemberPath="ItemName"

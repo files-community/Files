@@ -139,9 +139,7 @@ namespace Files.Filesystem
             }
             else
             {
-                // Full path, still use GetFullPath to resolve "C:\User\Foo\..\..\Folder"
-                var fullPath = Path.GetFullPath(value);
-                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(fullPath));
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
             }
         }
 
@@ -193,9 +191,7 @@ namespace Files.Filesystem
             }
             else
             {
-                // Full path, still use GetFullPath to resolve "C:\User\Foo\..\..\File.ext"
-                var fullPath = Path.GetFullPath(value);
-                return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(fullPath));
+                return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(value));
             }
         }
 

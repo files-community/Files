@@ -216,14 +216,7 @@ namespace Files.UserControls
 
         private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                var PathBox = (sender as AutoSuggestBox);
-                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text,
-                    App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
-                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
-            }
-            else if (e.Key == VirtualKey.Escape)
+            if (e.Key == VirtualKey.Escape)
             {
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
@@ -430,9 +423,10 @@ namespace Files.UserControls
             try
             {
                 IList<ListedItem> suggestions = null;
-                var folderPath = Path.GetDirectoryName(sender.Text) ?? sender.Text;
+                var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
+                var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
                 var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(folderPath);
-                var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(sender.Text), (uint)maxSuggestions);
+                var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
                 if (currPath.Count() >= maxSuggestions)
                 {
                     suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).ToList();
@@ -492,6 +486,13 @@ namespace Files.UserControls
                     ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
                     ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") });
             }
+        }
+
+        private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            CheckPathInput(App.CurrentInstance.FilesystemViewModel, args.QueryText,
+                App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
+            App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
         }
     }
 }
