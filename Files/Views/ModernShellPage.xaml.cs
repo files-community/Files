@@ -26,26 +26,6 @@ namespace Files.Views.Pages
     {
         public SettingsViewModel AppSettings => App.AppSettings;
 
-        public GridLength SidebarWidth
-        {
-            get
-            {
-                var localSettings = ApplicationData.Current.LocalSettings;
-                var sidebarWidth = 200d;
-
-                if (localSettings.Values.ContainsKey("SidebarWidth"))
-                {
-                    sidebarWidth = Math.Min(Math.Max((double)localSettings.Values["SidebarWidth"], 200), 500);
-                }
-
-                return new GridLength(sidebarWidth, GridUnitType.Pixel);
-            }
-            set
-            {
-                ApplicationData.Current.LocalSettings.Values["SidebarWidth"] = value.Value;
-            }
-        }
-
         public ModernShellPage()
         {
             this.InitializeComponent();
