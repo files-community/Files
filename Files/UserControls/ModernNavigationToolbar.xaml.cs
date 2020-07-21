@@ -1,4 +1,4 @@
-﻿using Files.Filesystem;
+using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
@@ -243,8 +243,8 @@ namespace Files.UserControls
                     var item = await DrivesManager.GetRootFromPath(currentInput);
                     try
                     {
-                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(CurrentInput, item, parentItem)).Path;
-                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(CurrentInput), pathToNavigate); // navigate to folder
+                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(currentInput, item, parentItem)).Path;
+                        App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(pathToNavigate), pathToNavigate); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
                     {
