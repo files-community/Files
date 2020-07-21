@@ -643,11 +643,22 @@ namespace Files.Interacts
                 int itemsDeleted = 0;
                 if (selectedItems.Count > 3)
                 {
-                    banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
+                    if (deleteOption == StorageDeleteOption.PermanentDelete)
+                    {
+                        banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
                         CurrentInstance.FilesystemViewModel.WorkingDirectory,
                         0,
                         UserControls.StatusBanner.StatusBannerSeverity.Ongoing,
                         UserControls.StatusBanner.StatusBannerOperation.Delete);
+                    }
+                    else
+                    {
+                        banner = App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(null,
+                        CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                        0,
+                        UserControls.StatusBanner.StatusBannerSeverity.Ongoing,
+                        UserControls.StatusBanner.StatusBannerOperation.Recycle);
+                    }  
                 }
                 await Task.Run(async () =>
                 {
@@ -700,19 +711,50 @@ namespace Files.Interacts
                         itemsDeleted++;
                     }
                 });
-
+                if (deleteOption == StorageDeleteOption.PermanentDelete)
+                {
+                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    "Deletion Complete",
+                    "The operation has completed.",
+                    0,
+                    StatusBanner.StatusBannerSeverity.Success,
+                    StatusBanner.StatusBannerOperation.Delete);
+                }
+                else
+                {
+                    App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    "Recycle Complete",
+                    "The operation has completed.",
+                    0,
+                    StatusBanner.StatusBannerSeverity.Success,
+                    StatusBanner.StatusBannerOperation.Recycle);
+                }
+                
                 App.CurrentInstance.NavigationToolbar.CanGoForward = false;
             }
             catch (UnauthorizedAccessException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("AccessDeniedDeleteDialog/Title"), ResourceController.GetTranslation("AccessDeniedDeleteDialog/Text"));
+                if (StatusCenter.StatusBannersSource.Contains(banner)) StatusCenter.StatusBannersSource.Remove(banner);
+                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    ResourceController.GetTranslation("AccessDeniedDeleteDialog/Title"),
+                    ResourceController.GetTranslation("AccessDeniedDeleteDialog/Text"),
+                    0,
+                    StatusBanner.StatusBannerSeverity.Error,
+                    StatusBanner.StatusBannerOperation.Delete);
             }
             catch (FileNotFoundException)
             {
-                await DialogDisplayHelper.ShowDialog(ResourceController.GetTranslation("FileNotFoundDialog/Title"), ResourceController.GetTranslation("FileNotFoundDialog/Text"));
+                if (StatusCenter.StatusBannersSource.Contains(banner)) StatusCenter.StatusBannersSource.Remove(banner);
+                App.CurrentInstance.StatusBarControl.OngoingTasksControl.PostBanner(
+                    ResourceController.GetTranslation("FileNotFoundDialog/Title"),
+                    ResourceController.GetTranslation("FileNotFoundDialog/Text"),
+                    0,
+                    StatusBanner.StatusBannerSeverity.Error,
+                    StatusBanner.StatusBannerOperation.Delete);
             }
             catch (IOException)
             {
+                if (StatusCenter.StatusBannersSource.Contains(banner))  StatusCenter.StatusBannersSource.Remove(banner);
                 if (await DialogDisplayHelper.ShowDialog(
                     ResourceController.GetTranslation("FileInUseDeleteDialog/Title"),
                     ResourceController.GetTranslation("FileInUseDeleteDialog/Text"),
