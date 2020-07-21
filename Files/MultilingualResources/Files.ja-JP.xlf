@@ -1012,6 +1012,14 @@
           <source>Move to {0}</source>
           <target state="new">Move to {0}</target>
         </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
+          <source>The source and destination file names are the same.</source>
+          <target state="new">The source and destination file names are the same.</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
+          <source>The detination folder is the same as the source folder.</source>
+          <target state="new">The detination folder is the same as the source folder.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

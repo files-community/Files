@@ -6,6 +6,8 @@ using Files.Views.Pages;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
@@ -406,15 +408,30 @@ namespace Files.UserControls
             }
         }
 
-        private void PathBoxItem_DragOver(object sender, DragEventArgs e)
+        private async void PathBoxItem_DragOver(object sender, DragEventArgs e)
         {
             if (!((sender as Grid).DataContext is PathBoxItem pathBoxItem) ||
                 pathBoxItem.Path == "Home" || pathBoxItem.Path == ResourceController.GetTranslation("NewTab")) return;
 
-            e.DragUIOverride.IsCaptionVisible = true;
-            e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
-            e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
             e.Handled = true;
+            var deferral = e.GetDeferral();
+
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+            if (!storageItems.Any(storageItem => 
+            storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
+            Trim(Path.DirectorySeparatorChar).
+            Contains(Path.DirectorySeparatorChar)))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), pathBoxItem.Title);
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+            }
+
+            deferral.Complete();
         }
 
         private async void PathBoxItem_Drop(object sender, DragEventArgs e)
