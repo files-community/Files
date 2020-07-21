@@ -54,9 +54,17 @@ namespace Files.Helpers
 
         public void SetDefaultTheme()
         {
-            FallbackColor = (Color)Application.Current.Resources["SystemChromeMediumLowColor"];
-            TintColor = (Color)Application.Current.Resources["SystemAltHighColor"];
-            TintOpacity = 0.9;
+            if (Application.Current.RequestedTheme == ApplicationTheme.Light)
+            {
+                SetLightTheme();
+            }
+            else
+            {
+                SetDarkTheme();
+            }
+            //FallbackColor = (Color)Application.Current.Resources["SystemChromeMediumLowColor"];
+            //TintColor = (Color)Application.Current.Resources["SystemAltHighColor"];
+            //TintOpacity = 0.9;
         }
 
         public void SetLightTheme()
@@ -68,7 +76,7 @@ namespace Files.Helpers
 
         public void SetDarkTheme()
         {
-            FallbackColor = Color.FromArgb(255, 43, 43, 43);
+            FallbackColor = Color.FromArgb(255, 51, 51, 51);
             TintColor = Colors.Black;
             TintOpacity = 0.7;
         }

@@ -724,7 +724,7 @@
                 VerticalAlignment="Center"
                 x:Load="{x:Bind ClickablePathLoaded, Mode=OneWay}"
                 BorderBrush="{ThemeResource TransparentGridRevealBorderBrush}"
-                BorderThickness="1"
+                BorderThickness="0.5"
                 CornerRadius="2"
                 PointerPressed="ManualPathEntryItem_Click"
                 extensions:Mouse.Cursor="Hand">

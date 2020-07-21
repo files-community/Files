@@ -132,11 +132,19 @@ namespace Files.Filesystem
 
             try
             {
-                var folder = await parentFolder.Folder.GetFolderAsync(value);
-                var path = Path.Combine(parentFolder.Folder.Path, value);
-                return new StorageFolderWithPath(folder, path);
+                if (parentFolder == null)
+                {
+                    return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
+                }
+                else
+                {
+                    var folder = await parentFolder.Folder.GetFolderAsync(value);
+                    var path = Path.Combine(parentFolder.Folder.Path, value);
+                    return new StorageFolderWithPath(folder, path);
+                }
+                
             }
-            catch
+            catch (Exception)
             {
                 return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
             }
@@ -184,9 +192,16 @@ namespace Files.Filesystem
 
             try
             {
-                var file = await parentFolder.Folder.GetFileAsync(value);
-                var path = Path.Combine(parentFolder.Folder.Path, value);
-                return new StorageFileWithPath(file, path);
+                if (parentFolder != null)
+                {
+                    var file = await parentFolder.Folder.GetFileAsync(value);
+                    var path = Path.Combine(parentFolder.Folder.Path, value);
+                    return new StorageFileWithPath(file, path);
+                }
+                else
+                {
+                    return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(value));
+                }
             }
             catch
             {
