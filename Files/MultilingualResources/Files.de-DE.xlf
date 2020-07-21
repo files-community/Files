@@ -852,7 +852,7 @@
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
           <source>kB</source>
-          <target state="needs-review-translation" state-qualifier="tm-suggestion">kB</target>
+          <target state="translated" state-qualifier="tm-suggestion">kB</target>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>

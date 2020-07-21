@@ -577,7 +577,7 @@
     <value>{0} frei von {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Öffnen mit</value>
+    <value>Öffnen _mit</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
     <value>Okay</value>
@@ -643,7 +643,7 @@
     <value>Abbrechen</value>
   </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>passwort</value>
+    <value>password</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Inhalt:</value>
