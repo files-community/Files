@@ -851,9 +851,8 @@
           <target state="translated" state-qualifier="tm-suggestion">Bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
-          <source>KB</source>
+          <source>kB</source>
           <target state="needs-review-translation" state-qualifier="tm-suggestion">kB</target>
-          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>

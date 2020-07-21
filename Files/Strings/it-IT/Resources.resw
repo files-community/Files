@@ -544,7 +544,7 @@
     <value>Nascosto</value>
   </data>
   <data name="BaseLayoutContextFlyoutEmptyRecycleBin.Text" xml:space="preserve">
-    <value>Svuota il cestino</value>
+    <value>Svuota cestino</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Ripristina</value>
@@ -622,7 +622,7 @@
     <value>Proprietario:</value>
   </data>
   <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
-    <value>Mostra il proprietario nelle proprietà del file</value>
+    <value>Mostra proprietario file nelle proprietà</value>
   </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Annulla</value>
@@ -631,7 +631,7 @@
     <value>Sei sicuro di voler cancellare tutti gli elementi?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
-    <value>Svuota il Cestino</value>
+    <value>Svuota Cestino</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
     <value>OK</value>
@@ -735,31 +735,13 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Stato</value>
   </data>
-  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>Aggiungi una nuova pagina</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>Modifica il percorso della pagina</value>
-  </data>
-  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>Pagine:</value>
-  </data>
-  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>Rimuovi pagina</value>
-  </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>Quando si avvia una cartella fissata</value>
+    <value>Quando si apre una cartella</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>Apri sempre una nuova finestra</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
     <value>Apri la cartella in una nuova scheda</value>
-  </data>
-  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>Lingua di Windows</value>
-  </data>
-  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>Sposta la scheda qui</value>
   </data>
 </root>
