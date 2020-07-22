@@ -112,6 +112,14 @@
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="Control" />
         <KeyboardAccelerator
+            Key="L"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Control" />
+        <KeyboardAccelerator
+            Key="D"
+            Invoked="KeyboardAccelerator_Invoked"
+            Modifiers="Menu" />
+        <KeyboardAccelerator
             Key="F2"
             Invoked="KeyboardAccelerator_Invoked"
             Modifiers="None" />
