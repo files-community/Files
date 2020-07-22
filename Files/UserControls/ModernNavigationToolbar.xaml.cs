@@ -486,28 +486,27 @@ namespace Files.UserControls
             App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
         }
 
-        private async void ParentPathItem_Loaded(object sender, RoutedEventArgs e)
-        {
-            var dropdownGrid = sender as Grid;
-            await SetPathBoxDropDownFlyout(dropdownGrid.ContextFlyout as MenuFlyout, dropdownGrid.DataContext as PathBoxItem);
-
-            var pathSeparatorIcon = (dropdownGrid.Children[0] as StackPanel).Children[1] as FontIcon;
-            pathSeparatorIcon.Tapped += (s, e) => dropdownGrid.ContextFlyout.ShowAt(dropdownGrid);
-            dropdownGrid.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
-            dropdownGrid.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
-        }
-
-        private void PathboxItem_Tapped(object sender, TappedRoutedEventArgs e)
+        private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
 
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
 
+        private async void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
+        {
+            var pathSeparatorIcon = sender as FontIcon;
+            await SetPathBoxDropDownFlyout(pathSeparatorIcon.ContextFlyout as MenuFlyout, pathSeparatorIcon.DataContext as PathBoxItem);
+
+            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+        }
+
         private async void PathboxItemFlyout_Opened(object sender, object e)
         {
             var flyout = sender as MenuFlyout;
-            await SetPathBoxDropDownFlyout(flyout, (flyout.Target as Grid).DataContext as PathBoxItem);
+            await SetPathBoxDropDownFlyout(flyout, (flyout.Target as FontIcon).DataContext as PathBoxItem);
         }
 
         private async Task SetPathBoxDropDownFlyout(MenuFlyout flyout, PathBoxItem pathItem)
@@ -543,7 +542,7 @@ namespace Files.UserControls
                 return;
             }
             
-            var boldFontWeight = new FontWeight { Weight = 950 };
+            var boldFontWeight = new FontWeight { Weight = 800 };
             var normalFontWeight = new FontWeight { Weight = 400 };
             var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
