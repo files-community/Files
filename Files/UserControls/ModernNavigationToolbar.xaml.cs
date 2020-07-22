@@ -316,10 +316,10 @@ namespace Files.UserControls
         {
             var itemTapped = e.ClickedItem as PathBoxItem;
             var itemTappedPath = itemTapped.Path;
-            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) == 
+            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) ==
                 App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
                 return;
-            
+
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
         }
 
