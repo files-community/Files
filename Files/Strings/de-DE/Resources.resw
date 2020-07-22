@@ -379,19 +379,19 @@
     <value>Dieser Ordner ist leer.</value>
   </data>
   <data name="NavBackButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Zurück</value>
+    <value>Zurück (Alt + Linker Pfeil)</value>
   </data>
   <data name="NavForwardButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Vorwärts</value>
+    <value>Vorwärts (Alt + Recher Pfeil)</value>
   </data>
   <data name="NavUpButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Hoch</value>
+    <value>Hoch (Alt + Pfeil Hoch)</value>
   </data>
   <data name="NavRefreshButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Aktualisieren</value>
+    <value>Aktualisieren (F5)</value>
   </data>
   <data name="NavNewItemButton.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Datei erstellen</value>
+    <value>Neue Datei erstellen (Strg + Umschalt + N)</value>
   </data>
   <data name="NavSearchButton.ToolTipService.ToolTip" xml:space="preserve">
     <value>Suchen</value>
@@ -505,16 +505,16 @@
     <value>Laufwerk getrennt</value>
   </data>
   <data name="FileNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei auf die sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei auf die Sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FileNotFoundDialog.Title" xml:space="preserve">
     <value>Datei nicht gefunden</value>
   </data>
   <data name="FileNotFoundPreviewDialog.Text" xml:space="preserve">
-    <value>Die Datei die sie anzeigen möchten wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei die Sie anzeigen möchten wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FolderNotFoundDialog.Text" xml:space="preserve">
-    <value>Die Datei auf die sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</value>
+    <value>Die Datei auf die Sie zugreifen möchten wurde eventuell verschoben oder gelöscht.</value>
   </data>
   <data name="FolderNotFoundDialog.Title" xml:space="preserve">
     <value>Haben Sie diesen Ordner gelöscht?</value>
@@ -525,14 +525,17 @@
   <data name="StatusBarControlSelectionOptions.ToolTipService.ToolTip" xml:space="preserve">
     <value>Auswahloptionen</value>
   </data>
+  <data name="FileInUseDeleteDialog.Text" xml:space="preserve">
+    <value>Die Datei die sie löschen möchten wird derzeitig durch eine andere Anwendung verwendet.</value>
+  </data>
   <data name="FileInUseDeleteDialog.Title" xml:space="preserve">
     <value>Datei wird bereits verwendet.</value>
   </data>
   <data name="FileInUseDeleteDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Wiederholen</value>
+    <value>Erneut versuchen</value>
   </data>
   <data name="FileInUseDeleteDialog.SecondaryButtonText" xml:space="preserve">
-    <value>Okay</value>
+    <value>Ja</value>
   </data>
   <data name="PropertiesDialogReadOnly.Content" xml:space="preserve">
     <value>Schreibgeschützt</value>
@@ -546,6 +549,9 @@
   <data name="BaseLayoutItemContextFlyoutRestore.Text" xml:space="preserve">
     <value>Wiederherstellen</value>
   </data>
+  <data name="SettingsExperimentalRecycleBin.Text" xml:space="preserve">
+    <value>Unterstützung für Papierkorb aktivieren</value>
+  </data>
   <data name="DaysAgo" xml:space="preserve">
     <value>Vor {0} Tagen</value>
   </data>
@@ -553,16 +559,16 @@
     <value>Vor {0} Stunden</value>
   </data>
   <data name="DayAgo" xml:space="preserve">
-    <value>Vor {0} Tag</value>
+    <value>Vor einem Tag</value>
   </data>
   <data name="HourAgo" xml:space="preserve">
-    <value>vor {0} Stunde</value>
+    <value>vor einer Stunde</value>
   </data>
   <data name="MinutesAgo" xml:space="preserve">
     <value>Vor {0} Minuten</value>
   </data>
   <data name="MinuteAgo" xml:space="preserve">
-    <value>vor {0} Minute</value>
+    <value>vor einer Minute</value>
   </data>
   <data name="SecondsAgo" xml:space="preserve">
     <value>vor {0} Sekunden</value>
@@ -577,19 +583,28 @@
     <value>{0} frei von {1}</value>
   </data>
   <data name="BaseLayoutItemContextFlyoutOpenItemWith.Text" xml:space="preserve">
-    <value>Öffnen _mit</value>
+    <value>Öffnen mit</value>
+  </data>
+  <data name="FileNameTeachingTip.Subtitle" xml:space="preserve">
+    <value>Der Dateiname darf folgende Zeichen nicht enthalten: \ / : * ? " &lt; &gt; |</value>
   </data>
   <data name="FileNameTeachingTip.CloseButtonContent" xml:space="preserve">
-    <value>Okay</value>
+    <value>OK</value>
+  </data>
+  <data name="RenameDialogSymbolsTip.Text" xml:space="preserve">
+    <value>Der Dateiname darf folgende Zeichen nicht enthalten: \ / : * ? " &lt; &gt; |</value>
+  </data>
+  <data name="SettingsAboutOpenLogLocationButton.Content" xml:space="preserve">
+    <value>Logverzeichnis öffnen</value>
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Registerkarte	Strg+T</value>
+    <value>Neue Registerkarte (Strg + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>Element ausgewählt</value>
   </data>
   <data name="ItemsSelected.Text" xml:space="preserve">
-    <value>ausgewählte Elemente</value>
+    <value>Ausgewählte Elemente</value>
   </data>
   <data name="ItemCount.Text" xml:space="preserve">
     <value>Element</value>
@@ -597,26 +612,35 @@
   <data name="ItemsCount.Text" xml:space="preserve">
     <value>Elemente</value>
   </data>
+  <data name="BaseLayoutContextFlyoutPinDirectoryToSidebar.Text" xml:space="preserve">
+    <value>Verzeichnis an Seitenleiste anheften</value>
+  </data>
   <data name="PropertiesAccessed.Text" xml:space="preserve">
     <value>Letzter Zugriff:</value>
   </data>
   <data name="PropertiesOwner.Text" xml:space="preserve">
     <value>Besitzer:</value>
   </data>
+  <data name="SettingsShowFileOwnerInProperties.Text" xml:space="preserve">
+    <value>Besitzer in Eigenschaftenfenster anzeigen</value>
+  </data>
   <data name="ConfirmEmptyBinDialog.SecondaryButtonText" xml:space="preserve">
     <value>Abbrechen</value>
+  </data>
+  <data name="ConfirmEmptyBinDialogContent" xml:space="preserve">
+    <value>Sind Sie sicher das Sie alle Elemente löschen möchten?</value>
   </data>
   <data name="ConfirmEmptyBinDialogTitle" xml:space="preserve">
     <value>Papierkorb leeren</value>
   </data>
   <data name="ConfirmEmptyBinDialog.PrimaryButtonText" xml:space="preserve">
-    <value>Okay</value>
+    <value>OK</value>
   </data>
   <data name="ItemSizeBytes" xml:space="preserve">
     <value>Bytes</value>
   </data>
   <data name="KiloByteSymbol" xml:space="preserve">
-    <value>KB zurücksetzen</value>
+    <value>kB</value>
   </data>
   <data name="MegaByteSymbol" xml:space="preserve">
     <value>MB</value>
@@ -624,17 +648,29 @@
   <data name="GigaByteSymbol" xml:space="preserve">
     <value>DE</value>
   </data>
+  <data name="TeraByteSymbol" xml:space="preserve">
+    <value>TB</value>
+  </data>
   <data name="PetaByteSymbol" xml:space="preserve">
     <value>PB</value>
   </data>
   <data name="ByteSymbol" xml:space="preserve">
-    <value>F</value>
+    <value>Bit</value>
   </data>
   <data name="DeleteInProgress.Title" xml:space="preserve">
     <value>Dateien werden gelöscht</value>
   </data>
   <data name="ExtractInProgress.Title" xml:space="preserve">
-    <value>Dateien werden extrahiert...</value>
+    <value>Dateien werden extrahiert</value>
+  </data>
+  <data name="PasteInProgress.Title" xml:space="preserve">
+    <value>Dateien werden kopiert</value>
+  </data>
+  <data name="RecycleInProgress.Title" xml:space="preserve">
+    <value>Dateien werden in den Papierkorb verschoben</value>
+  </data>
+  <data name="SettingsAppearanceDateFormatsTip.ToolTipService.ToolTip" xml:space="preserve">
+    <value>Lernen Sie mehr über Datumsformate</value>
   </data>
   <data name="BitlockerDialog.PrimaryButtonText" xml:space="preserve">
     <value>Entsperren</value>
@@ -642,17 +678,38 @@
   <data name="BitlockerDialog.SecondaryButtonText" xml:space="preserve">
     <value>Abbrechen</value>
   </data>
+  <data name="BitlockerDialog.Title" xml:space="preserve">
+    <value>Geben Sie das Password ein, um die Festplatte zu entsperren</value>
+  </data>
   <data name="BitlockerDialogInputText.PlaceholderText" xml:space="preserve">
-    <value>password</value>
+    <value>Passwort</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Text" xml:space="preserve">
+    <value>Überprüfen Sie das Passwort und versuchen Sie es erneut.</value>
+  </data>
+  <data name="BitlockerInvalidPwDialog.Title" xml:space="preserve">
+    <value>BitLocker Fehler</value>
   </data>
   <data name="PropertiesFilesAndFoldersCount.Text" xml:space="preserve">
     <value>Inhalt:</value>
+  </data>
+  <data name="PropertiesFilesAndFoldersCountString" xml:space="preserve">
+    <value>{0:#,##0} Dateien, {1:#,##0} Ordner</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAdmin.Text" xml:space="preserve">
     <value>Als Administrator ausführen</value>
   </data>
   <data name="BaseLayoutContextFlyoutRunAsAnotherUser.Text" xml:space="preserve">
     <value>Als anderer Benutzer ausführen</value>
+  </data>
+  <data name="PropertiesDriveItemTypesEquals" xml:space="preserve">
+    <value>Alle Typen von {0}</value>
+  </data>
+  <data name="PropertiesDriveItemTypeDifferent" xml:space="preserve">
+    <value>Unterschiedliche Typen</value>
+  </data>
+  <data name="PropertiesCombinedItemPath" xml:space="preserve">
+    <value>Alle in {0}</value>
   </data>
   <data name="PropertiesDriveUsedSpace.Text" xml:space="preserve">
     <value>Belegter Speicherplatz:</value>
@@ -665,5 +722,44 @@
   </data>
   <data name="PropertiesDriveFileSystem.Text" xml:space="preserve">
     <value>Dateisystem:</value>
+  </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>Kürzlich</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>App Sprache</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>Neustart erforderlich</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>Neue Seite hinzufügen</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>Seitenposition ändern</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>Seiten:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>Seite entfernen</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>Wenn eine angeheftete Seite gestarted wird</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>Immer eine neue Instanz öffnen</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>Ordner in neuem Tab öffnen</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>Windows standard</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>Tab hierhin verschieben</value>
   </data>
 </root>

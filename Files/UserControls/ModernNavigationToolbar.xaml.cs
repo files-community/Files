@@ -1,22 +1,23 @@
+using Files.Common;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
 using Files.Views;
 using Files.Views.Pages;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
-using Windows.Storage;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls
@@ -111,6 +112,11 @@ namespace Files.UserControls
                 {
                     ManualEntryBoxLoaded = true;
                     ClickablePathLoaded = false;
+                    VisiblePath.Focus(FocusState.Programmatic);
+                    VisiblePath.Text = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
+                        ? AppSettings.HomePath
+                        : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
+                    Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
                 }
                 else
                 {
@@ -118,6 +124,15 @@ namespace Files.UserControls
                     ClickablePathLoaded = true;
                 }
             }
+        }
+
+        public ObservableCollection<ListedItem> NavigationBarSuggestions = new ObservableCollection<ListedItem>();
+
+        private void VisiblePath_Loaded(object sender, RoutedEventArgs e)
+        {
+            // AutoSuggestBox won't receive focus unless it's fully loaded
+            VisiblePath.Focus(FocusState.Programmatic);
+            Interaction.FindChild<TextBox>(VisiblePath)?.SelectAll();
         }
 
         bool INavigationToolbar.CanRefresh
@@ -197,20 +212,11 @@ namespace Files.UserControls
         private void ManualPathEntryItem_Click(object sender, RoutedEventArgs e)
         {
             (this as INavigationToolbar).IsEditModeEnabled = true;
-            VisiblePath.Focus(FocusState.Programmatic);
-            VisiblePath.SelectAll();
         }
 
-        private void VisiblePath_TextChanged(object sender, KeyRoutedEventArgs e)
+        private void VisiblePath_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == VirtualKey.Enter)
-            {
-                var PathBox = (sender as TextBox);
-                CheckPathInput(App.CurrentInstance.FilesystemViewModel, PathBox.Text,
-                    App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
-                App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
-            }
-            else if (e.Key == VirtualKey.Escape)
+            if (e.Key == VirtualKey.Escape)
             {
                 App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
             }
@@ -235,12 +241,11 @@ namespace Files.UserControls
                     var workingDir = string.IsNullOrEmpty(App.CurrentInstance.FilesystemViewModel.WorkingDirectory)
                         ? AppSettings.HomePath
                         : App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
-                    var parentItem = await StorageFileExtensions.GetFolderWithPathFromPathAsync(workingDir);
 
                     currentInput = StorageFileExtensions.GetPathWithoutEnvironmentVariable(currentInput);
                     if (currentSelectedPath == currentInput) return;
-
                     var item = await DrivesManager.GetRootFromPath(currentInput);
+
                     try
                     {
                         var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(currentInput, item, parentItem)).Path;
@@ -250,7 +255,7 @@ namespace Files.UserControls
                     {
                         try
                         {
-                            var pathToInvoke = (await StorageFileExtensions.GetFileFromPathAsync(currentInput, item, parentItem)).Path;
+                            var pathToInvoke = (await StorageFileExtensions.GetFileWithPathFromPathAsync(currentInput, item)).Path;
                             await Interaction.InvokeWin32Component(pathToInvoke);
                         }
                         catch (Exception ex) // Not a file or not accessible
@@ -315,9 +320,10 @@ namespace Files.UserControls
         {
             var itemTapped = e.ClickedItem as PathBoxItem;
             var itemTappedPath = itemTapped.Path;
-            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) == 
+            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) ==
                 App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
                 return;
+                
             App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(itemTappedPath), itemTappedPath); // navigate to folder
         }
 
@@ -402,6 +408,91 @@ namespace Files.UserControls
                 e.Handled = true;
                 cancelFlyoutAutoClose = true;
             }
+        }
+
+        private void VisiblePath_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                SetAddressBarSuggestions(sender);
+            }
+        }
+
+        private async void SetAddressBarSuggestions(AutoSuggestBox sender, int maxSuggestions = 7)
+        {
+            try
+            {
+                IList<ListedItem> suggestions = null;
+                var expandedPath = StorageFileExtensions.GetPathWithoutEnvironmentVariable(sender.Text);
+                var folderPath = Path.GetDirectoryName(expandedPath) ?? expandedPath;
+                var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(folderPath);
+                var currPath = await folder.GetFoldersWithPathAsync(Path.GetFileName(expandedPath), (uint)maxSuggestions);
+                if (currPath.Count() >= maxSuggestions)
+                {
+                    suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).ToList();
+                }
+                else if (currPath.Any())
+                {
+                    var subPath = await currPath.First().GetFoldersWithPathAsync((uint)(maxSuggestions - currPath.Count()));
+                    suggestions = currPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = x.Folder.Name }).Concat(
+                        subPath.Select(x => new ListedItem(null) { ItemPath = x.Path, ItemName = Path.Combine(currPath.First().Folder.Name, x.Folder.Name) })).ToList();
+                }
+                else
+                {
+                    suggestions = new List<ListedItem>() { new ListedItem(null) {
+                        ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                        ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") } };
+                }
+
+                // NavigationBarSuggestions becoming empty causes flickering of the suggestion box
+                // Here we check whether at least an element is in common between old and new list
+                if (!NavigationBarSuggestions.IntersectBy(suggestions, x => x.ItemName).Any())
+                {
+                    // No elemets in common, update the list in-place
+                    for (int si = 0; si < suggestions.Count; si++)
+                    {
+                        if (si < NavigationBarSuggestions.Count)
+                        {
+                            NavigationBarSuggestions[si].ItemName = suggestions[si].ItemName;
+                            NavigationBarSuggestions[si].ItemPath = suggestions[si].ItemPath;
+                        }
+                        else
+                        {
+                            NavigationBarSuggestions.Add(suggestions[si]);
+                        }
+                    }
+                    while (NavigationBarSuggestions.Count > suggestions.Count)
+                    {
+                        NavigationBarSuggestions.RemoveAt(NavigationBarSuggestions.Count - 1);
+                    }
+                }
+                else
+                {
+                    // At least an element in common, show animation
+                    foreach (var s in NavigationBarSuggestions.ExceptBy(suggestions, x => x.ItemName).ToList())
+                    {
+                        NavigationBarSuggestions.Remove(s);
+                    }
+                    foreach (var s in suggestions.ExceptBy(NavigationBarSuggestions, x => x.ItemName).ToList())
+                    {
+                        NavigationBarSuggestions.Insert(suggestions.IndexOf(s), s);
+                    }
+                }
+            }
+            catch
+            {
+                NavigationBarSuggestions.Clear();
+                NavigationBarSuggestions.Add(new ListedItem(null) {
+                    ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
+                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") });
+            }
+        }
+
+        private void VisiblePath_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            CheckPathInput(App.CurrentInstance.FilesystemViewModel, args.QueryText,
+                App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
+            App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
         }
     }
 }

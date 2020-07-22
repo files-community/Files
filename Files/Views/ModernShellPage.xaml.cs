@@ -290,6 +290,11 @@ namespace Files.Views.Pages
                 case (true, false, false, true, VirtualKey.R): // ctrl + r, refresh
                     NavigationActions.Refresh_Click(null, null);
                     break;
+
+                case (false, false, true, true, VirtualKey.D): // alt + d, select address bar (english)
+                case (true, false, false, true, VirtualKey.L): // ctrl + l, select address bar
+                    App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = true;
+                    break;
             };
 
             if (App.CurrentInstance.CurrentPageType == typeof(GridViewBrowser))
