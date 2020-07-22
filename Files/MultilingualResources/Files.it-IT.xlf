@@ -1007,6 +1007,10 @@
           <source>Move tab here</source>
           <target state="translated">Sposta la scheda qui</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
+          <source>No results</source>
+          <target state="translated">Nessun risultato</target>
+        </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
           <target state="new">Move to {0}</target>

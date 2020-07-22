@@ -762,4 +762,7 @@
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Sposta la scheda qui</value>
   </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>Nessun risultato</value>
+  </data>
 </root>

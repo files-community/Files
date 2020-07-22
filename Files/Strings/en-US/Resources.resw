@@ -867,6 +867,9 @@
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>Windows default</value>
   </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>No results</value>
+  </data>
   <data name="MoveToFolderCaptionText" xml:space="preserve">
     <value>Move to {0}</value>
   </data>
