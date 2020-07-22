@@ -51,7 +51,20 @@ namespace Files.Filesystem
             }
         }
 
-        public string ItemName { get; set; }
+        private string _ItemPath;
+        public string ItemPath
+        {
+            get => _ItemPath;
+            set => Set(ref _ItemPath, value);
+        }
+
+        private string _ItemName;
+        public string ItemName
+        {
+            get => _ItemName;
+            set => Set(ref _ItemName, value);
+        }
+
         public string ItemDateModified { get; private set; }
         private string _ItemType;
 
@@ -68,7 +81,6 @@ namespace Files.Filesystem
         }
 
         public string FileExtension { get; set; }
-        public string ItemPath { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 

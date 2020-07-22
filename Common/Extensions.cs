@@ -17,6 +17,14 @@ namespace Files.Common
                     yield return item;
         }
 
+        public static IEnumerable<TSource> IntersectBy<TSource, TKey>(
+            this IEnumerable<TSource> source,
+            IEnumerable<TSource> other,
+            Func<TSource, TKey> keySelector)
+        {
+            return source.Join(other.Select(keySelector), keySelector, id => id, (o, id) => o);
+        }
+
         public static TOut Get<TOut, TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TOut defaultValue = default(TOut))
         {
             // If setting doesn't exist, create it.

@@ -241,7 +241,7 @@ namespace Files.Interacts
                     T asType = (T)current;
                     return asType;
                 }
-                FindChild<T>(current);
+                return FindChild<T>(current);
             }
             return null;
         }

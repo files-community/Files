@@ -465,7 +465,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFile matchingStorageItem = await StorageFileExtensions.GetFileFromPathAsync(item.ItemPath, _workingRoot);
+                        StorageFile matchingStorageItem = await StorageFileExtensions.GetFileFromPathAsync(item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
@@ -495,7 +495,7 @@ namespace Files.Filesystem
                     var matchingItem = _filesAndFolders.FirstOrDefault(x => x == item);
                     try
                     {
-                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync(item.ItemPath, _workingRoot);
+                        StorageFolder matchingStorageItem = await StorageFileExtensions.GetFolderFromPathAsync(item.ItemPath, _workingRoot, _currentStorageFolder);
                         if (matchingItem != null && matchingStorageItem != null)
                         {
                             matchingItem.FolderRelativeId = matchingStorageItem.FolderRelativeId;
