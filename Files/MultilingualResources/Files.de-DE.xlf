@@ -771,7 +771,8 @@
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
-          <target state="translated" state-qualifier="tm-suggestion">{0} frei von {1}</target><!---Need to know the context (Available space?)-->
+          <target state="translated" state-qualifier="tm-suggestion">{0} frei von {1}</target>
+          <!---Need to know the context (Available space?)-->
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>

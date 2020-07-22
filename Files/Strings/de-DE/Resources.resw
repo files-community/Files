@@ -583,7 +583,7 @@
     <value>Okay</value>
   </data>
   <data name="TabStripAddNewTab.ToolTipService.ToolTip" xml:space="preserve">
-    <value>Neue Registerkarte	Strg+T</value>
+    <value>Neue Registerkarte (Strg + T)</value>
   </data>
   <data name="ItemSelected.Text" xml:space="preserve">
     <value>Element ausgewählt</value>

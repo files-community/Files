@@ -14,6 +14,46 @@
     KeyboardAcceleratorPlacementMode="Hidden"
     Loaded="Page_Loaded"
     mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DefaultGridSplitterStyle" TargetType="Custom:GridSplitter">
+                <Setter Property="IsTabStop" Value="True"/>
+                <Setter Property="UseSystemFocusVisuals" Value="True"/>
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                <Setter Property="VerticalAlignment" Value="Stretch"/>
+                <Setter Property="IsFocusEngagementEnabled" Value="True"/>
+                <Setter Property="MinWidth" Value="2"/>
+                <Setter Property="MinHeight" Value="2"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="GripperForeground" Value="Transparent"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Custom:GridSplitter">
+                            <Grid x:Name="RootGrid" Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="GridSplitterStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="PointerOver">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="Transparent"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.Background" Value="Transparent"/>
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <ContentPresenter Content="{TemplateBinding Element}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Page.KeyboardAccelerators>
         <KeyboardAccelerator
             Key="N"
@@ -79,8 +119,8 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="{x:Bind AppSettings.SidebarWidth, Mode=TwoWay}" MinWidth="200" MaxWidth="500" />
+            <ColumnDefinition Width="*" MinWidth="300" />
         </Grid.ColumnDefinitions>
 
         <Grid>
@@ -125,5 +165,23 @@
                 </Grid>
             </Custom:DropShadowPanel>
         </Grid>
+        <Custom:GridSplitter x:Name="SidebarResizer"
+                             Canvas.ZIndex="150"
+                             MinWidth="5"
+                             Background="Transparent"
+                             Foreground="Transparent"
+                             GripperForeground="Transparent"
+                             GripperCursor="Default"
+                             HorizontalAlignment="Left"
+                             Grid.Column="1"
+                             ResizeDirection="Auto"
+                             ResizeBehavior="BasedOnAlignment"
+                             CursorBehavior="ChangeOnSplitterHover"
+                             Width="5"
+                             Style="{StaticResource DefaultGridSplitterStyle}">
+            <Custom:GridSplitter.RenderTransform>
+                <TranslateTransform X="0" />
+            </Custom:GridSplitter.RenderTransform>
+        </Custom:GridSplitter>
     </Grid>
 </Page>
