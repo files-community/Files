@@ -14,10 +14,12 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls
@@ -316,17 +318,6 @@ namespace Files.UserControls
             }
         }
 
-        private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var itemTapped = e.ClickedItem as PathBoxItem;
-            var itemTappedPath = itemTapped.Path;
-            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) ==
-                App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
-                return;
-
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
-        }
-
         private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
@@ -493,6 +484,70 @@ namespace Files.UserControls
             CheckPathInput(App.CurrentInstance.FilesystemViewModel, args.QueryText,
                 App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
             App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
+        }
+
+        private async void ParentPathItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            var dropdownGrid = sender as Grid;
+            await SetPathBoxDropDownFlyout(dropdownGrid.ContextFlyout as MenuFlyout, dropdownGrid.DataContext as PathBoxItem);
+
+            var pathSeparatorIcon = (dropdownGrid.Children[0] as StackPanel).Children[2] as FontIcon;
+            pathSeparatorIcon.Tapped += (s, e) => dropdownGrid.ContextFlyout.ShowAt(dropdownGrid);
+            dropdownGrid.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
+            dropdownGrid.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+        }
+
+        private void PathboxItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
+
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+        }
+
+        private async void PathboxItemFlyout_Opened(object sender, object e)
+        {
+            var flyout = sender as MenuFlyout;
+            await SetPathBoxDropDownFlyout(flyout, (flyout.Target as Grid).DataContext as PathBoxItem);
+        }
+
+        private async Task SetPathBoxDropDownFlyout(MenuFlyout flyout, PathBoxItem pathItem)
+        {
+            var nextPathItemTitle = App.CurrentInstance.NavigationToolbar.PathComponents
+                [App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
+
+            var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+            var childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
+            flyout.Items?.Clear();
+            
+            var boldFontWeight = new FontWeight { Weight = 950 };
+            var normalFontWeight = new FontWeight { Weight = 400 };
+            var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            foreach (var childFolder in childFolders)
+            {
+                var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
+
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon
+                    {
+                        FontFamily = customGlyphFamily,
+                        Glyph = "\uEA5A",
+                        FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                    },
+                    Text = childFolder.Item.Name,
+                    FontSize = 12,
+                    FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                };
+
+                if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) ==
+                    App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
+                {
+                    flyoutItem.Click += (sender, args) => App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), childFolder.Path);
+                }
+
+                flyout.Items.Add(flyoutItem);
+            }
         }
     }
 }
