@@ -495,23 +495,6 @@
                             Background="Transparent"
                             Tag="{Binding Path}"
                             Loaded="ParentPathItem_Loaded">
-                            <Interactivity:Interaction.Behaviors>
-                                <Core:EventTriggerBehavior EventName="PointerEntered">
-                                    <Core:ChangePropertyAction PropertyName="Opacity">
-                                        <Core:ChangePropertyAction.Value>
-                                            0.7
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
-                                </Core:EventTriggerBehavior>
-
-                                <Core:EventTriggerBehavior EventName="PointerExited">
-                                    <Core:ChangePropertyAction PropertyName="Opacity">
-                                        <Core:ChangePropertyAction.Value>
-                                            1.0
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
-                                </Core:EventTriggerBehavior>
-                            </Interactivity:Interaction.Behaviors>
                             
                             <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
@@ -519,12 +502,49 @@
                                     FontSize="16"
                                     FontWeight="Normal"
                                     Text="{Binding Title}" 
-                                    Tapped="PathboxItem_Tapped" />
+                                    Tapped="PathboxItem_Tapped">
+                                    <Interactivity:Interaction.Behaviors>
+                                        <Core:EventTriggerBehavior EventName="PointerEntered">
+                                            <Core:ChangePropertyAction PropertyName="Opacity">
+                                                <Core:ChangePropertyAction.Value>
+                                                    0.7
+                                                </Core:ChangePropertyAction.Value>
+                                            </Core:ChangePropertyAction>
+                                        </Core:EventTriggerBehavior>
+                                        
+                                        <Core:EventTriggerBehavior EventName="PointerExited">
+                                            <Core:ChangePropertyAction PropertyName="Opacity">
+                                                <Core:ChangePropertyAction.Value>
+                                                    1.0
+                                                </Core:ChangePropertyAction.Value>
+                                            </Core:ChangePropertyAction>
+                                        </Core:EventTriggerBehavior>
+                                    </Interactivity:Interaction.Behaviors>
+                                </TextBlock>
+                                
                                 <FontIcon
                                     x:Name="PathSeaparatorIcon"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
-                                    Glyph="&#xE9A8;" />
+                                    Glyph="&#xE9A8;">
+                                    <Interactivity:Interaction.Behaviors>
+                                        <Core:EventTriggerBehavior EventName="PointerEntered">
+                                            <Core:ChangePropertyAction PropertyName="Opacity">
+                                                <Core:ChangePropertyAction.Value>
+                                                    0.7
+                                                </Core:ChangePropertyAction.Value>
+                                            </Core:ChangePropertyAction>
+                                        </Core:EventTriggerBehavior>
+
+                                        <Core:EventTriggerBehavior EventName="PointerExited">
+                                            <Core:ChangePropertyAction PropertyName="Opacity">
+                                                <Core:ChangePropertyAction.Value>
+                                                    1.0
+                                                </Core:ChangePropertyAction.Value>
+                                            </Core:ChangePropertyAction>
+                                        </Core:EventTriggerBehavior>
+                                    </Interactivity:Interaction.Behaviors>
+                                </FontIcon>
                             </StackPanel>
                             <Grid.ContextFlyout>
                                 <MenuFlyout
