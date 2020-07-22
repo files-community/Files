@@ -523,6 +523,9 @@ namespace Files.UserControls
             var normalFontWeight = new FontWeight { Weight = 400 };
             var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
 
+            var workingPath = App.CurrentInstance.NavigationToolbar.PathComponents
+                    [App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].
+                    Path.TrimEnd(Path.DirectorySeparatorChar);
             foreach (var childFolder in childFolders)
             {
                 var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
@@ -540,8 +543,7 @@ namespace Files.UserControls
                     FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
                 };
 
-                if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) ==
-                    App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
+                if (workingPath != childFolder.Path)
                 {
                     flyoutItem.Click += (sender, args) => App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), childFolder.Path);
                 }
