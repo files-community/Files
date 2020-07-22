@@ -491,7 +491,7 @@ namespace Files.UserControls
             var dropdownGrid = sender as Grid;
             await SetPathBoxDropDownFlyout(dropdownGrid.ContextFlyout as MenuFlyout, dropdownGrid.DataContext as PathBoxItem);
 
-            var pathSeparatorIcon = (dropdownGrid.Children[0] as StackPanel).Children[2] as FontIcon;
+            var pathSeparatorIcon = (dropdownGrid.Children[0] as StackPanel).Children[1] as FontIcon;
             pathSeparatorIcon.Tapped += (s, e) => dropdownGrid.ContextFlyout.ShowAt(dropdownGrid);
             dropdownGrid.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
             dropdownGrid.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
@@ -514,10 +514,34 @@ namespace Files.UserControls
         {
             var nextPathItemTitle = App.CurrentInstance.NavigationToolbar.PathComponents
                 [App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
+            IList< StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
 
-            var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
-            var childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
-            flyout.Items?.Clear();
+            try
+            {
+                var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+                childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
+            }
+            catch 
+            {
+                // Do nothing.
+            }
+            finally
+            {
+                flyout.Items?.Clear();
+            }
+
+            if (childFolders.Count == 0)
+            {
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uEC17" },
+                    Text = ResourceController.GetTranslation("SubDirectoryAccessDenied"),
+                    //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
+                    FontSize = 12
+                };
+                flyout.Items.Add(flyoutItem);
+                return;
+            }
             
             var boldFontWeight = new FontWeight { Weight = 950 };
             var normalFontWeight = new FontWeight { Weight = 400 };

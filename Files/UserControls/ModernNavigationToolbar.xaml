@@ -502,12 +502,6 @@
                                             0.7
                                         </Core:ChangePropertyAction.Value>
                                     </Core:ChangePropertyAction>
-
-                                    <Core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=PaddingBorder}">
-                                        <Core:ChangePropertyAction.Value>
-                                            <SolidColorBrush Color="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
                                 </Core:EventTriggerBehavior>
 
                                 <Core:EventTriggerBehavior EventName="PointerExited">
@@ -516,23 +510,16 @@
                                             1.0
                                         </Core:ChangePropertyAction.Value>
                                     </Core:ChangePropertyAction>
-
-                                    <Core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=PaddingBorder}">
-                                        <Core:ChangePropertyAction.Value>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
                                 </Core:EventTriggerBehavior>
                             </Interactivity:Interaction.Behaviors>
                             
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
                                     Margin="0,0,0,4"
                                     FontSize="16"
                                     FontWeight="Normal"
                                     Text="{Binding Title}" 
                                     Tapped="PathboxItem_Tapped" />
-                                <Border x:Name="PaddingBorder" Width="5" />
                                 <FontIcon
                                     x:Name="PathSeaparatorIcon"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
@@ -541,10 +528,10 @@
                             </StackPanel>
                             <Grid.ContextFlyout>
                                 <MenuFlyout
-                                            Placement="BottomEdgeAlignedLeft"
-                                            ScrollViewer.VerticalScrollMode="Auto"
-                                            ScrollViewer.VerticalScrollBarVisibility="Auto" 
-                                            Opened="PathboxItemFlyout_Opened" />
+                                    Placement="BottomEdgeAlignedLeft"
+                                    ScrollViewer.VerticalScrollMode="Auto"
+                                    ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                                    Opened="PathboxItemFlyout_Opened" />
                             </Grid.ContextFlyout>
                         </Grid>
                     </DataTemplate>
@@ -561,12 +548,6 @@
                                             0.7
                                         </Core:ChangePropertyAction.Value>
                                     </Core:ChangePropertyAction>
-
-                                    <Core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=PaddingBorder}">
-                                        <Core:ChangePropertyAction.Value>
-                                            <SolidColorBrush Color="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
                                 </Core:EventTriggerBehavior>
 
                                 <Core:EventTriggerBehavior EventName="PointerExited">
@@ -575,22 +556,15 @@
                                             1.0
                                         </Core:ChangePropertyAction.Value>
                                     </Core:ChangePropertyAction>
-
-                                    <Core:ChangePropertyAction PropertyName="Background" TargetObject="{Binding ElementName=PaddingBorder}">
-                                        <Core:ChangePropertyAction.Value>
-                                            <SolidColorBrush Color="Transparent"/>
-                                        </Core:ChangePropertyAction.Value>
-                                    </Core:ChangePropertyAction>
                                 </Core:EventTriggerBehavior>
                             </Interactivity:Interaction.Behaviors>
 
-                            <StackPanel Orientation="Horizontal">
+                            <StackPanel Orientation="Horizontal" Spacing="5">
                                 <TextBlock
                                     Margin="0,0,0,4"
                                     FontSize="16"
                                     FontWeight="Medium"
                                     Text="{Binding Title}" />
-                                <Border x:Name="PaddingBorder" Width="5" />
                                 <FontIcon
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     FontSize="10"
