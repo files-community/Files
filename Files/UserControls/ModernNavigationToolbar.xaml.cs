@@ -250,7 +250,7 @@ namespace Files.UserControls
 
                     try
                     {
-                        var pathToNavigate = (await StorageFileExtensions.GetFolderFromPathAsync(currentInput, item, parentItem)).Path;
+                        var pathToNavigate = (await StorageFileExtensions.GetFolderWithPathFromPathAsync(currentInput, item)).Path;
                         App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(pathToNavigate), pathToNavigate); // navigate to folder
                     }
                     catch (Exception) // Not a folder or inaccessible
@@ -501,7 +501,7 @@ namespace Files.UserControls
         {
             var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
 
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(itemTappedPath), itemTappedPath); // navigate to folder
         }
 
         private async void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
@@ -579,7 +579,7 @@ namespace Files.UserControls
 
                 if (workingPath != childFolder.Path)
                 {
-                    flyoutItem.Click += (sender, args) => App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), childFolder.Path);
+                    flyoutItem.Click += (sender, args) => App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(childFolder.Path), childFolder.Path);
                 }
 
                 flyout.Items.Add(flyoutItem);
