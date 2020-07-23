@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -576,18 +577,19 @@ namespace Files.View_Models
                     {
                         // Set grid view by default for pictures folder
                         LayoutMode = LayoutMode.GridView;
+                        dataContainer.Values[path] = (byte)LayoutMode;
+                    }
+                    else if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
+                    {
                     }
                     else
                     {
                         LayoutMode = LayoutMode.ListView;
+                        dataContainer.Values[path] = (byte)LayoutMode;
                     }
-                    dataContainer.Values[path] = (byte)LayoutMode;
                 }
             }
-            catch
-            {
-                LayoutMode = LayoutMode.ListView;
-            }
+            catch { }
 
             Type type = null;
             switch (LayoutMode)
