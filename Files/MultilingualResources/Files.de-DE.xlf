@@ -861,7 +861,7 @@
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="translated" state-qualifier="tm-suggestion">DE</target>
+          <target state="translated" state-qualifier="tm-suggestion">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
@@ -1017,23 +1017,23 @@
         </trans-unit>
         <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
           <source>No results</source>
-          <target state="new">No results</target>
+          <target state="translated">Keine Treffer</target>
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="new">Can't access any items to display</target>
+          <target state="translated">Es kann auf keine Dateien zugegriffen werden</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
-          <target state="new">Move to {0}</target>
+          <target state="translated">Verschieben nach {0}</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
           <source>The source and destination file names are the same.</source>
-          <target state="new">The source and destination file names are the same.</target>
+          <target state="translated">Das Quellverzeichnis ist identisch mit dem Zielverzeichnis.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
           <source>The detination folder is the same as the source folder.</source>
-          <target state="new">The detination folder is the same as the source folder.</target>
+          <target state="translated">Der Zielordner ist identisch mit dem Quellordner.</target>
         </trans-unit>
       </group>
     </body>
