@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.View_Models;
+using Files.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.UI.Xaml.Media;
 
 namespace Files.DataModels
 {
@@ -62,16 +64,17 @@ namespace Files.DataModels
             {
                 var item = await DrivesManager.GetRootFromPath(path);
                 StorageFolder folder = await StorageFileExtensions.GetFolderFromPathAsync(path, item);
-                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                int insertIndex = MainPage.sideBarItems.IndexOf(MainPage.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                     && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
+                    Font = App.Current.Resources["FluentUIGlyphs"] as FontFamily,
                     Path = path,
                     Glyph = GetItemIcon(path),
                     IsDefaultLocation = false,
                     Text = folder.DisplayName
                 };
-                App.sideBarItems.Insert(insertIndex, locationItem);
+                MainPage.sideBarItems.Insert(insertIndex, locationItem);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -100,14 +103,14 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < App.sideBarItems.Count(); i++)
+            for (int i = 0; i < MainPage.sideBarItems.Count(); i++)
             {
-                if (App.sideBarItems[i] is LocationItem)
+                if (MainPage.sideBarItems[i] is LocationItem)
                 {
-                    var item = App.sideBarItems[i] as LocationItem;
+                    var item = MainPage.sideBarItems[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
-                        App.sideBarItems.RemoveAt(i);
+                        MainPage.sideBarItems.RemoveAt(i);
                     }
                 }
             }
@@ -119,35 +122,35 @@ namespace Files.DataModels
 
             if (path.Equals(AppSettings.DesktopPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE8FC";
+                iconCode = "\ue9f1";
             }
             else if (path.Equals(AppSettings.DownloadsPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE896";
+                iconCode = "\uE91c";
             }
             else if (path.Equals(AppSettings.DocumentsPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE8A5";
+                iconCode = "\uea11";
             }
             else if (path.Equals(AppSettings.PicturesPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uEB9F";
+                iconCode = "\uea83";
             }
             else if (path.Equals(AppSettings.MusicPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uEC4F";
+                iconCode = "\uead4";
             }
             else if (path.Equals(AppSettings.VideosPath, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uE8B2";
+                iconCode = "\uec0d";
             }
             else if (Path.GetPathRoot(path).Equals(path, StringComparison.OrdinalIgnoreCase))
             {
-                iconCode = "\uEDA2";
+                iconCode = "\ueb8b";
             }
             else
             {
-                iconCode = "\uE8B7";
+                iconCode = "\uea55";
             }
 
             return iconCode;

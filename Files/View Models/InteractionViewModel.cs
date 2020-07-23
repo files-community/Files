@@ -1,6 +1,9 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Files.UserControls;
+using Files.Views;
+using GalaSoft.MvvmLight;
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Files.Controls
 {
@@ -12,6 +15,23 @@ namespace Files.Controls
         {
             get => _IsContentLoadingIndicatorVisible;
             set => Set(ref _IsContentLoadingIndicatorVisible, value);
+        }
+
+        private int _TabStripSelectedIndex = 0;
+
+        public int TabStripSelectedIndex
+        {
+            get => _TabStripSelectedIndex;
+            set
+            {
+                if (value >= 0)
+                {
+                    Set(ref _TabStripSelectedIndex, value);
+                    Frame rootFrame = Window.Current.Content as Frame;
+                    var mainView = rootFrame.Content as MainPage;
+                    mainView.SelectedTabItem = App.CurrentInstance.MultitaskingControl.Items[value];
+                }
+            }
         }
 
         private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
@@ -28,7 +48,7 @@ namespace Files.Controls
         {
             get => _LeftMarginLoaded;
             set => Set(ref _LeftMarginLoaded, value);
-        }      
+        }
 
         private bool _isPasteEnabled = false;
 
@@ -36,6 +56,6 @@ namespace Files.Controls
         {
             get => _isPasteEnabled;
             set => Set(ref _isPasteEnabled, value);
-        }      
+        }
     }
 }

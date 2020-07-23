@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.View_Models.Properties
 {
-    class FileProperties : BaseProperties
+    internal class FileProperties : BaseProperties
     {
         private ProgressBar ProgressBar;
 

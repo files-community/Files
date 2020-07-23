@@ -63,7 +63,7 @@
                             Padding="0,4"
                             Orientation="Horizontal"
                             Spacing="14">
-                            <FontIcon Glyph="&#xED15;" />
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xeb05;" />
                             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
                                 <TextBlock x:Uid="SettingsAboutSubmitFeedback" Text="Submit Feedback" />
                                 <TextBlock
@@ -92,6 +92,7 @@
                     <TextBlock Text="jeffsieu" />
                     <TextBlock Text="lampenlampen" />
                     <TextBlock Text="tsvietOK" />
+                    <TextBlock Text="gave92" />
                 </StackPanel>
 
                 <TextBlock

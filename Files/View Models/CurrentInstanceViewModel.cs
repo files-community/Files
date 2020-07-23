@@ -1,4 +1,5 @@
-﻿using GalaSoft.MvvmLight;
+﻿using Files.Views;
+using GalaSoft.MvvmLight;
 
 namespace Files.View_Models
 {
@@ -59,6 +60,14 @@ namespace Files.View_Models
         public bool CanOpenTerminalInPage
         {
             get => !_IsPageTypeMtpDevice && !_IsPageTypeRecycleBin && IsPageTypeNotHome;
+        }
+
+        private bool _IsPageTypeCloudDrive = false;
+
+        public bool IsPageTypeCloudDrive
+        {
+            get => _IsPageTypeCloudDrive;
+            set => Set(ref _IsPageTypeCloudDrive, value);
         }
     }
 }

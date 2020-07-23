@@ -1,7 +1,9 @@
 ﻿using Files.CommandLine;
+using Files.Common;
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Activation;
 using Windows.Storage;
 using Windows.UI.Xaml;
 
@@ -12,6 +14,7 @@ namespace Files
         private static void Main()
         {
             var args = Environment.GetCommandLineArgs();
+            var proc = System.Diagnostics.Process.GetCurrentProcess();
 
             if (args.Length == 2)
             {
@@ -24,7 +27,6 @@ namespace Files
                         switch (command.Type)
                         {
                             case ParsedCommandType.ExplorerShellCommand:
-                                var proc = System.Diagnostics.Process.GetCurrentProcess();
                                 OpenShellCommandInExplorer(command.Payload, proc.Id).GetAwaiter().GetResult();
                                 //Exit..
 
@@ -37,6 +39,31 @@ namespace Files
                 }
             }
 
+            if (!ApplicationData.Current.RoamingSettings.Values.Get("AlwaysOpenANewInstance", false))
+            {
+                IActivatedEventArgs activatedArgs = AppInstance.GetActivatedEventArgs();
+
+                if (AppInstance.RecommendedInstance != null)
+                {
+                    AppInstance.RecommendedInstance.RedirectActivationTo();
+                    return;
+                }
+                else if (activatedArgs is LaunchActivatedEventArgs)
+                {
+                    var launchArgs = activatedArgs as LaunchActivatedEventArgs;
+
+                    var activePid = ApplicationData.Current.LocalSettings.Values.Get("INSTANCE_ACTIVE", -1);
+                    var instance = AppInstance.FindOrRegisterInstanceForKey(activePid.ToString());
+                    if (!instance.IsCurrentInstance && !string.IsNullOrEmpty(launchArgs.Arguments))
+                    {
+                        instance.RedirectActivationTo();
+                        return;
+                    }
+                }
+            }
+
+            AppInstance.FindOrRegisterInstanceForKey(proc.Id.ToString());
+            ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = proc.Id;
             Application.Start(_ => new App());
         }
 

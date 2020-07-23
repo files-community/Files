@@ -232,7 +232,7 @@
         </trans-unit>
         <trans-unit id="SettingsAboutWebsite.Text" translate="yes" xml:space="preserve">
           <source>Website: </source>
-          <target state="translated">Site da web:</target>
+          <target state="translated">Site da web: </target>
         </trans-unit>
         <trans-unit id="SettingsAppearanceAcrylicSidebar.Text" translate="yes" xml:space="preserve">
           <source>Acrylic sidebar</source>
@@ -319,8 +319,8 @@
           <target state="translated">Abrir uma nova guia</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
-          <source>Open a specific page</source>
-          <target state="translated">Abra uma página específica</target>
+          <source>Open a specific page or pages</source>
+          <target state="translated">Abra uma página ou páginas específicas</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
@@ -656,7 +656,7 @@
         </trans-unit>
         <trans-unit id="StatusBarControlTilesView.Text" translate="yes" xml:space="preserve">
           <source>Tiles View</source>
-          <target state="translated">Lista</target>
+          <target state="translated">Blocos</target>
         </trans-unit>
         <trans-unit id="PropertiesDialogOKButton.Content" translate="yes" xml:space="preserve">
           <source>OK</source>
@@ -956,11 +956,63 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguage.Text" translate="yes" xml:space="preserve">
           <source>App Language</source>
-          <target state="new">App Language</target>
+          <target state="translated">Idioma</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesAppLanguageRestartRequired.Text" translate="yes" xml:space="preserve">
           <source>Restart required</source>
-          <target state="new">Restart required</target>
+          <target state="translated">Reinicialização necessária</target>
+        </trans-unit>
+        <trans-unit id="syncStatusColumn.Header" translate="yes" xml:space="preserve">
+          <source>Status</source>
+          <target state="translated">Status</target>
+        </trans-unit>
+        <trans-unit id="JumpListRecentGroupHeader" translate="yes" xml:space="preserve">
+          <source>Recent</source>
+          <target state="translated">Recente</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenAddPageButton.Content" translate="yes" xml:space="preserve">
+          <source>Add a new page</source>
+          <target state="translated">Adicionar uma nova página</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
+          <source>Change Page Location</source>
+          <target state="translated">Alterar local da página</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
+          <source>Pages:</source>
+          <target state="translated">Páginas:</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" translate="yes" xml:space="preserve">
+          <source>Remove Page</source>
+          <target state="translated">Remover Página</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
+          <source>When launching a pinned folder</source>
+          <target state="new">When launching a pinned folder</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
+          <source>Always open a new instance</source>
+          <target state="new">Always open a new instance</target>
+        </trans-unit>
+        <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
+          <source>Open folder in a new tab</source>
+          <target state="new">Open folder in a new tab</target>
+        </trans-unit>
+        <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
+          <source>Windows default</source>
+          <target state="new">Windows default</target>
+        </trans-unit>
+        <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
+          <source>Move tab here</source>
+          <target state="new">Move tab here</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
+          <source>No results</source>
+          <target state="new">No results</target>
+        </trans-unit>
+        <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
+          <source>Can't access any items to display</source>
+          <target state="new">Can't access any items to display</target>
         </trans-unit>
       </group>
     </body>

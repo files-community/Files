@@ -4,6 +4,8 @@ using Files.Controls;
 using Files.Filesystem;
 using Files.Interacts;
 using Files.View_Models;
+using Files.Views;
+using Files.Helpers;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -19,10 +21,12 @@ using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
+using System.Threading.Tasks;
 
 namespace Files
 {
@@ -45,30 +49,23 @@ namespace Files
             }
         }
 
-        public static Dialogs.ExceptionDialog ExceptionDialogDisplay { get; set; }
-        public static Dialogs.ConsentDialog ConsentDialogDisplay { get; set; }
-        public static Dialogs.PropertiesDialog PropertiesDialogDisplay { get; set; }
-        public static Dialogs.LayoutDialog LayoutDialogDisplay { get; set; }
-        public static Dialogs.AddItemDialog AddItemDialogDisplay { get; set; }
-        public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
-        public static ObservableCollection<LocationItem> locationItems = new ObservableCollection<LocationItem>();
-        public static ObservableCollection<WSLDistroItem> linuxDistroItems = new ObservableCollection<WSLDistroItem>();
         public static SettingsViewModel AppSettings { get; set; }
         public static InteractionViewModel InteractionViewModel { get; set; }
+        public static JumpListManager JumpList { get; } = new JumpListManager();
         public static SidebarPinnedController SidebarPinnedController { get; set; }
-
         private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         public App()
         {
+            UnhandledException += OnUnhandledException;
+            TaskScheduler.UnobservedTaskException += OnUnobservedException;
+
             InitializeComponent();
             Suspending += OnSuspending;
             LeavingBackground += OnLeavingBackground;
             // Initialize NLog
             Windows.Storage.StorageFolder storageFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
             NLog.LogManager.Configuration.Variables["LogPath"] = storageFolder.Path;
-
-            RegisterUncaughtExceptionLogger();
 
 #if !DEBUG
             AppCenter.Start("682666d1-51d3-4e4a-93d0-d028d43baaa0", typeof(Analytics), typeof(Crashes));
@@ -135,14 +132,6 @@ namespace Files
             messageDeferral.Complete();
         }
 
-        private void RegisterUncaughtExceptionLogger()
-        {
-            UnhandledException += (sender, args) =>
-            {
-                Logger.Error(args.Exception, args.Message);
-            };
-        }
-
         private void CoreWindow_PointerPressed(CoreWindow sender, PointerEventArgs args)
         {
             if (args.CurrentPoint.Properties.IsXButton1Pressed)
@@ -169,35 +158,6 @@ namespace Files
             }
         }
 
-        public static void Clipboard_ContentChanged(object sender, object e)
-        {
-            try
-            {
-                if (App.CurrentInstance != null)
-                {
-                    DataPackageView packageView = Clipboard.GetContent();
-                    if (packageView.Contains(StandardDataFormats.StorageItems)
-                        && App.CurrentInstance.CurrentPageType != typeof(YourHome)
-                        && !App.CurrentInstance.FilesystemViewModel.WorkingDirectory.StartsWith(AppSettings.RecycleBinPath))
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = true;
-                    }
-                    else
-                    {
-                        App.InteractionViewModel.IsPasteEnabled = false;
-                    }
-                }
-                else
-                {
-                    App.InteractionViewModel.IsPasteEnabled = false;
-                }
-            }
-            catch (Exception)
-            {
-                App.InteractionViewModel.IsPasteEnabled = false;
-            }
-        }
-
         public static Windows.UI.Xaml.UnhandledExceptionEventArgs ExceptionInfo { get; set; }
         public static string ExceptionStackTrace { get; set; }
         public static List<string> pathsToDeleteAfterPaste = new List<string>();
@@ -207,7 +167,7 @@ namespace Files
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
             //start tracking app usage
             SystemInformation.TrackAppUse(e);
@@ -222,7 +182,7 @@ namespace Files
             {
                 // Create a Frame to act as the navigation context and navigate to the first page
                 rootFrame = new Frame();
-
+                rootFrame.CacheSize = 1;
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
@@ -246,14 +206,28 @@ namespace Files
                     // When the navigation stack isn't restored navigate to the first page,
                     // configuring the new page by passing required information as a navigation
                     // parameter
-                    rootFrame.Navigate(typeof(InstanceTabsView), e.Arguments, new SuppressNavigationTransitionInfo());
+                    rootFrame.Navigate(typeof(MainPage), e.Arguments, new SuppressNavigationTransitionInfo());
+                }
+                else
+                {
+                    await MainPage.AddNewTab(typeof(Views.Pages.ModernShellPage), e.Arguments);
                 }
 
                 // Ensure the current window is active
                 Window.Current.Activate();
                 Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                 var currentView = SystemNavigationManager.GetForCurrentView();
                 currentView.BackRequested += Window_BackRequested;
+            }
+        }
+
+        private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
+        {
+            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated || 
+                args.WindowActivationState == CoreWindowActivationState.PointerActivated)
+            {
+                ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
             }
         }
 
@@ -278,6 +252,7 @@ namespace Files
             if (!(Window.Current.Content is Frame rootFrame))
             {
                 rootFrame = new Frame();
+                rootFrame.CacheSize = 1;
                 Window.Current.Content = rootFrame;
             }
 
@@ -289,17 +264,18 @@ namespace Files
 
                     if (eventArgs.Uri.AbsoluteUri == "files-uwp:")
                     {
-                        rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                     }
                     else
                     {
                         var trimmedPath = eventArgs.Uri.OriginalString.Split('=')[1];
-                        rootFrame.Navigate(typeof(InstanceTabsView), @trimmedPath, new SuppressNavigationTransitionInfo());
+                        rootFrame.Navigate(typeof(MainPage), @trimmedPath, new SuppressNavigationTransitionInfo());
                     }
 
                     // Ensure the current window is active.
                     Window.Current.Activate();
                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                     currentView.BackRequested += Window_BackRequested;
                     return;
 
@@ -318,11 +294,12 @@ namespace Files
                             switch (command.Type)
                             {
                                 case ParsedCommandType.OpenDirectory:
-                                    rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+                                    rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
 
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                                     currentView.BackRequested += Window_BackRequested;
                                     return;
 
@@ -332,11 +309,12 @@ namespace Files
                                     {
                                         var det = await StorageFolder.GetFolderFromPathAsync(command.Payload);
 
-                                        rootFrame.Navigate(typeof(InstanceTabsView), command.Payload, new SuppressNavigationTransitionInfo());
+                                        rootFrame.Navigate(typeof(MainPage), command.Payload, new SuppressNavigationTransitionInfo());
 
                                         // Ensure the current window is active.
                                         Window.Current.Activate();
                                         Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                        Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                                         currentView.BackRequested += Window_BackRequested;
 
                                         return;
@@ -354,10 +332,11 @@ namespace Files
                                     break;
 
                                 case ParsedCommandType.Unknown:
-                                    rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+                                    rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
                                     // Ensure the current window is active.
                                     Window.Current.Activate();
                                     Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+                                    Window.Current.CoreWindow.Activated += CoreWindow_Activated;
                                     currentView.BackRequested += Window_BackRequested;
                                     return;
                             }
@@ -366,11 +345,12 @@ namespace Files
                     break;
             }
 
-            rootFrame.Navigate(typeof(InstanceTabsView), null, new SuppressNavigationTransitionInfo());
+            rootFrame.Navigate(typeof(MainPage), null, new SuppressNavigationTransitionInfo());
 
             // Ensure the current window is active.
             Window.Current.Activate();
             Window.Current.CoreWindow.PointerPressed += CoreWindow_PointerPressed;
+            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
         }
 
         private void TryEnablePrelaunch()
@@ -406,6 +386,24 @@ namespace Files
             }
             AppSettings?.Dispose();
             deferral.Complete();
+        }
+
+        // Occurs when an exception is not handled on the UI thread.
+        private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            Logger.Error(e.Exception, e.Message);
+        }
+
+        // Occurs when an exception is not handled on a background thread.
+        // ie. A task is fired and forgotten Task.Run(() => {...})
+        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            Logger.Error(e.Exception, e.Exception.Message);
+        }
+
+        public static async void CloseApp()
+        {
+            if (!await ApplicationView.GetForCurrentView().TryConsolidateAsync()) Application.Current.Exit();
         }
     }
 

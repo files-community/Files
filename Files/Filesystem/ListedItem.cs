@@ -1,12 +1,12 @@
 ﻿using Files.Enums;
+using GalaSoft.MvvmLight;
 using System;
-using System.ComponentModel;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Files.Filesystem
 {
-    public class ListedItem : INotifyPropertyChanged
+    public class ListedItem : ObservableObject
     {
         public StorageItemTypes PrimaryItemAttribute { get; set; }
         public bool ItemPropertiesInitialized { get; set; } = false;
@@ -17,78 +17,70 @@ namespace Files.Filesystem
 
         public bool LoadFileIcon
         {
-            get
-            {
-                return _LoadFileIcon;
-            }
-            set
-            {
-                if (_LoadFileIcon != value)
-                {
-                    _LoadFileIcon = value;
-                    NotifyPropertyChanged("LoadFileIcon");
-                }
-            }
+            get => _LoadFileIcon;
+            set => Set(ref _LoadFileIcon, value);
         }
 
         private bool _LoadUnknownTypeGlyph;
 
         public bool LoadUnknownTypeGlyph
         {
-            get
-            {
-                return _LoadUnknownTypeGlyph;
-            }
-            set
-            {
-                if (_LoadUnknownTypeGlyph != value)
-                {
-                    _LoadUnknownTypeGlyph = value;
-                    NotifyPropertyChanged("LoadUnknownTypeGlyph");
-                }
-            }
+            get => _LoadUnknownTypeGlyph;
+            set => Set(ref _LoadUnknownTypeGlyph, value);
+        }
+
+        private CloudDriveSyncStatusUI _SyncStatusUI;
+
+        public CloudDriveSyncStatusUI SyncStatusUI
+        {
+            get => _SyncStatusUI;
+            set => Set(ref _SyncStatusUI, value);
         }
 
         private BitmapImage _FileImage;
 
         public BitmapImage FileImage
         {
-            get
-            {
-                return _FileImage;
-            }
+            get => _FileImage;
             set
             {
-                if (_FileImage != value && value != null)
+                if (value != null)
                 {
-                    _FileImage = value;
-                    NotifyPropertyChanged("FileImage");
+                    Set(ref _FileImage, value);
                 }
             }
         }
 
-        public string ItemName { get; set; }
+        private string _ItemPath;
+        public string ItemPath
+        {
+            get => _ItemPath;
+            set => Set(ref _ItemPath, value);
+        }
+
+        private string _ItemName;
+        public string ItemName
+        {
+            get => _ItemName;
+            set => Set(ref _ItemName, value);
+        }
+
         public string ItemDateModified { get; private set; }
         private string _ItemType;
 
         public string ItemType
         {
-            get
-            {
-                return _ItemType;
-            }
+            get => _ItemType;
             set
             {
-                if (_ItemType != value && value != null)
+                if (value != null)
                 {
-                    _ItemType = value;
-                    NotifyPropertyChanged("ItemType");
+                    Set(ref _ItemType, value);
                 }
             }
         }
 
         public string FileExtension { get; set; }
-        public string ItemPath { get; set; }
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 
@@ -97,7 +89,7 @@ namespace Files.Filesystem
 
         public DateTimeOffset ItemDateModifiedReal
         {
-            get { return _itemDateModifiedReal; }
+            get => _itemDateModifiedReal;
             set
             {
                 ItemDateModified = GetFriendlyDate(value);
@@ -107,13 +99,6 @@ namespace Files.Filesystem
 
         private DateTimeOffset _itemDateModifiedReal;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void NotifyPropertyChanged(string info)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(info));
-        }
-
         public ListedItem(string folderRelativeId)
         {
             FolderRelativeId = folderRelativeId;
@@ -121,7 +106,7 @@ namespace Files.Filesystem
 
         public static string GetFriendlyDate(DateTimeOffset d)
         {
-            Windows.Storage.ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+            ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
             var elapsed = DateTimeOffset.Now - d;
 
             string returnformat = Enum.Parse<TimeStyle>(localSettings.Values[LocalSettings.DateTimeFormat].ToString()) == TimeStyle.Application ? "D" : "g";
