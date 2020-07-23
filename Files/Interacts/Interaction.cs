@@ -1082,39 +1082,6 @@ namespace Files.Interacts
             {
                 foreach (IStorageItem item in itemsToPaste)
                 {
-                    if (!copyDuplicate && !string.IsNullOrEmpty(item.Path) &&
-                    !item.Path.Replace(destinationPath, string.Empty).Trim(Path.DirectorySeparatorChar).Contains(Path.DirectorySeparatorChar))
-                    {
-                        ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Skip;
-
-                        /// Currently following implementation throws exception until it is resolved keep it disabled
-                        /*Binding themeBind = new Binding();
-                        themeBind.Source = ThemeHelper.RootTheme;
-
-                        ContentDialog dialog = new ContentDialog()
-                        {
-                            Title = item.IsOfType(StorageItemTypes.File)
-                            ? ResourceController.GetTranslation("ErrorDialogSameSourceDestinationFile")
-                            : ResourceController.GetTranslation("ErrorDialogSameSourceDestinationFolder"),
-                            Content = ResourceController.GetTranslation(item.Name),
-                            PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
-                            CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
-                            PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
-                            CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
-                        };
-                        BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
-
-                        await dialog.ShowAsync();*/
-                        if (responseType == ImpossibleActionResponseTypes.Skip)
-                        {
-                            continue;
-                        }
-                        else if (responseType == ImpossibleActionResponseTypes.Abort)
-                        {
-                            return;
-                        }
-                    }
-
                     if (item.IsOfType(StorageItemTypes.Folder))
                     {
                         if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
