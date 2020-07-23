@@ -1085,7 +1085,9 @@ namespace Files.Interacts
                         if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
                         {
                             ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-                            Binding themeBind = new Binding();
+
+                            /// Currently following implementation throws exception until it is resolved keep it disabled
+                            /*Binding themeBind = new Binding();
                             themeBind.Source = ThemeHelper.RootTheme;
 
                             ContentDialog dialog = new ContentDialog()
@@ -1095,11 +1097,11 @@ namespace Files.Interacts
                                 PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
                                 CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
                                 PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
-                                CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                                CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
                             };
                             BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
 
-                            await dialog.ShowAsync();
+                            await dialog.ShowAsync();*/
                             if (responseType == ImpossibleActionResponseTypes.Skip)
                             {
                                 continue;
