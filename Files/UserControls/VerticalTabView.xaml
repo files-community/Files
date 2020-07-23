@@ -2,7 +2,10 @@
     x:Class="Files.UserControls.VerticalTabView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:contract4Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,4)"
     xmlns:contract6Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:contract7Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,7)"
+    xmlns:contract7NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,7)"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Files.UserControls"
     xmlns:local1="using:Files"
@@ -429,6 +432,198 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <Style TargetType="RepeatButton" x:Key="RepeatButtonRevealStyle">
+            <Setter Property="Background" Value="{ThemeResource RepeatButtonRevealBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource RepeatButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource RepeatButtonRevealBorderBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource RepeatButtonRevealBorderThemeThickness}" />
+            <Setter Property="Padding" Value="{ThemeResource ButtonPadding}" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"  />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="CornerRadius" Value="{ThemeResource ControlCornerRadius}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Grid x:Name="RootGrid" Background="{TemplateBinding Background}" contract7Present:CornerRadius="{TemplateBinding CornerRadius}">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(media:RevealBrush.State)" Value="PointerOver" />
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource RepeatButtonRevealBackgroundPointerOver}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource RepeatButtonRevealBorderBrushPointerOver}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource RepeatButtonForegroundPointerOver}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.(media:RevealBrush.State)" Value="Pressed" />
+                                            <Setter Target="RootGrid.Background" Value="{ThemeResource RepeatButtonRevealBackgroundPressed}"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource RepeatButtonRevealBorderBrushPressed}"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource RepeatButtonForegroundPressed}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="RootGrid.Background" Value="Transparent"/>
+                                            <Setter Target="ContentPresenter.BorderBrush" Value="Transparent"/>
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource RepeatButtonForegroundDisabled}"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentPresenter
+                                x:Name="ContentPresenter"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                contract7Present:CornerRadius="{TemplateBinding CornerRadius}"
+                                contract7NotPresent:CornerRadius="{ThemeResource ControlCornerRadius}"
+                                Content="{TemplateBinding Content}"
+                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                AutomationProperties.AccessibilityView="Raw" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DefaultTabViewListViewStyle" TargetType="primitives:TabViewListView">
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="Padding" Value="{ThemeResource TabViewHeaderPadding}" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="TabNavigation" Value="Once" />
+            <Setter Property="IsSwipeEnabled" Value="False" />
+            <Setter Property="SingleSelectionFollowsFocus" Value="False"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+            <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+            <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+            <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+            <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+            <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+            <Setter Property="ItemContainerTransitions">
+                <Setter.Value>
+                    <TransitionCollection>
+                        <AddDeleteThemeTransition />
+                        <ContentThemeTransition />
+                        <ReorderThemeTransition />
+                        <EntranceThemeTransition IsStaggeringEnabled="False" />
+                    </TransitionCollection>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="primitives:TabViewListView">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+                            <ScrollViewer x:Name="ScrollViewer"
+                            Grid.Column="1"
+                            AutomationProperties.AccessibilityView="Raw"
+                            BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                            IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                            IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                            IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                            TabNavigation="{TemplateBinding TabNavigation}"
+                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
+                            Style="{StaticResource DefaultTabScrollViewerStyle}">
+
+                                <ItemsPresenter x:Name="TabsItemsPresenter"
+                                Padding="{TemplateBinding Padding}" />
+
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DefaultTabScrollViewerStyle" TargetType="ScrollViewer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollViewer">
+                        <Border x:Name="Root"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <RepeatButton x:Name="ScrollDecreaseButton"
+                                AutomationProperties.AccessibilityView="Raw"
+                                VerticalAlignment="Center"
+                                Width="{ThemeResource TabViewItemScrollButtonWidth}"
+                                Height="{ThemeResource TabViewItemScrollButtonHeight}"
+                                Padding="{ThemeResource TabViewItemScrollButtonPadding}"
+                                Background="{ThemeResource TabViewScrollButtonBackground}"
+                                BorderThickness="1"
+                                Delay="50"
+                                FontFamily="Segoe MDL2 Assets"
+                                Interval="100"
+                                Style="{StaticResource RepeatButtonRevealStyle}"
+                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                HighContrastAdjustment="None"
+                                Content="&#xE76B;"/>
+
+                                <ScrollContentPresenter x:Name="ScrollContentPresenter"
+                                Grid.Column="1"
+                                Padding="1,0,0,0"
+                                contract4Present:TabFocusNavigation="Once" />
+
+                                <RepeatButton x:Name="ScrollIncreaseButton"
+                                AutomationProperties.AccessibilityView="Raw"
+                                Grid.Column="2"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="{ThemeResource TabViewItemScrollButtonWidth}"
+                                Height="{ThemeResource TabViewItemScrollButtonHeight}"
+                                Padding="{ThemeResource TabViewItemScrollButtonPadding}"
+                                Background="{ThemeResource TabViewScrollButtonBackground}"
+                                BorderThickness="1"
+                                Delay="50"
+                                FontFamily="Segoe MDL2 Assets"
+                                Interval="100"
+                                Style="{StaticResource RepeatButtonRevealStyle}"
+                                HighContrastAdjustment="None"
+                                Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                Content="&#xE76C;"/>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <Style x:Key="DefaultTabViewStyle" TargetType="muxc:TabView">
             <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -479,7 +674,8 @@
                                         ItemContainerTransitions="{x:Null}"
                                         ItemTemplate="{TemplateBinding TabItemTemplate}"
                                         ItemTemplateSelector="{TemplateBinding TabItemTemplateSelector}"
-                                        ItemsSource="{TemplateBinding TabItemsSource}">
+                                        ItemsSource="{TemplateBinding TabItemsSource}"
+                                        Style="{StaticResource DefaultTabViewListViewStyle}">
                                         <primitives:TabViewListView.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <ItemsStackPanel Orientation="Vertical" />
