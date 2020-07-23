@@ -224,7 +224,7 @@ namespace Files
 
         private void CoreWindow_Activated(CoreWindow sender, WindowActivatedEventArgs args)
         {
-            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated || 
+            if (args.WindowActivationState == CoreWindowActivationState.CodeActivated ||
                 args.WindowActivationState == CoreWindowActivationState.PointerActivated)
             {
                 ApplicationData.Current.LocalSettings.Values["INSTANCE_ACTIVE"] = Process.GetCurrentProcess().Id;
