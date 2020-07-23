@@ -32,12 +32,18 @@ namespace Files.UserControls
         {
             this.InitializeComponent();
 
-            MainPage.OnTabItemDraggedOver += MainPage_OnTabItemDraggedOver;
+            MainPage.TabFlyoutOpenIndicator += OnTabFlyoutOpenIndicated;
         }
 
-        private void MainPage_OnTabItemDraggedOver(object sender, bool e)
+        private async void OnTabFlyoutOpenIndicated(object sender, EventArgs e)
         {
-            VerticalTabViewFlyout.ShowAt(VerticalTabStripInvokeButton);
+            if (!(bool)VerticalTabStripInvokeButton?.Flyout?.IsOpen)
+            {
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.High, () =>
+                {
+                    VerticalTabStripInvokeButton?.Flyout?.ShowAt(VerticalTabStripInvokeButton);
+                });
+            }
         }
 
         private bool manualEntryBoxLoaded = false;

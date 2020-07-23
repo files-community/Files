@@ -299,7 +299,7 @@ namespace Files.UserControls
             }
 
             ApplicationData.Current.LocalSettings.Values[TabDropHandledIdentifier] = true;
-            await MainPage.AddNewTab(typeof(ModernShellPage), tabViewItemPath, index);
+            await MainPage.AddNewTab(typeof(ModernShellPage), tabViewItemPath, index, true);
         }
 
         private void TabStrip_TabDragCompleted(TabView sender, TabViewTabDragCompletedEventArgs args)

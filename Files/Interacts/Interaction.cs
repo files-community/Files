@@ -127,14 +127,14 @@ namespace Files.Interacts
             {
                 await CoreWindow.GetForCurrentThread().Dispatcher.RunAsync(CoreDispatcherPriority.Low, async () =>
                 {
-                    await MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath);
+                    await MainPage.AddNewTab(typeof(ModernShellPage), listedItem.ItemPath, -1, false);
                 });
             }
         }
 
         public async void OpenPathInNewTab(string path)
         {
-            await MainPage.AddNewTab(typeof(ModernShellPage), path);
+            await MainPage.AddNewTab(typeof(ModernShellPage), path, -1, false);
         }
 
         public static async Task<bool> OpenPathInNewWindow(string path)
@@ -444,7 +444,7 @@ namespace Files.Interacts
                 {
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.Folder))
                     {
-                        await MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath);
+                        await MainPage.AddNewTab(typeof(ModernShellPage), clickedOnItem.ItemPath, -1, false);
                     }
                     foreach (ListedItem clickedOnItem in CurrentInstance.ContentPage.SelectedItems.Where(x => x.PrimaryItemAttribute == StorageItemTypes.File))
                     {

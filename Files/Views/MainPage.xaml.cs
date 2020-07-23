@@ -54,7 +54,7 @@ namespace Files.Views
         public static ObservableCollection<TabItem> AppInstances = new ObservableCollection<TabItem>();
         public static ObservableCollection<INavigationControlItem> sideBarItems = new ObservableCollection<INavigationControlItem>();
 
-        public static event EventHandler<bool> OnTabItemDraggedOver;
+        public static event EventHandler TabFlyoutOpenIndicator;
 
         public MainPage()
         {
@@ -78,7 +78,7 @@ namespace Files.Views
         {
             if (e.DataView.Properties.ContainsKey(VerticalTabView.TabPathIdentifier))
             {
-                OnTabItemDraggedOver?.Invoke(sender, true);
+                TabFlyoutOpenIndicator?.Invoke(null, null);
             }
         }
 
@@ -132,7 +132,7 @@ namespace Files.Views
             }
         }
 
-        public static async Task AddNewTab(Type t, string path, int atIndex = -1)
+        public static async Task AddNewTab(Type t, string path, int atIndex = -1, bool? switchToNewTab = null)
         {
             string tabLocationHeader = null;
             Microsoft.UI.Xaml.Controls.FontIconSource fontIconSource = new Microsoft.UI.Xaml.Controls.FontIconSource();
@@ -265,6 +265,15 @@ namespace Files.Views
             MainPage.AppInstances.Insert(atIndex == -1 ? AppInstances.Count : atIndex, tvi);
             var tabViewItemFrame = (tvi.Content as Grid).Children[0] as Frame;
             tabViewItemFrame.Loaded += TabViewItemFrame_Loaded;
+
+            if (switchToNewTab == true)
+            {
+                App.InteractionViewModel.TabStripSelectedIndex = MainPage.AppInstances.IndexOf(tvi);
+            }
+            else if (switchToNewTab == false)
+            {
+                TabFlyoutOpenIndicator?.Invoke(null, null);
+            }
         }
 
         private static void TabViewItemFrame_Loaded(object sender, RoutedEventArgs e)
@@ -392,7 +401,7 @@ namespace Files.Views
 
         private async void AddNewInstanceAccelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
         {
-            await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"));
+            await AddNewTab(typeof(ModernShellPage), ResourceController.GetTranslation("NewTab"), -1, true);
             args.Handled = true;
         }
     }
