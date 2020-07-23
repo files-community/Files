@@ -203,7 +203,7 @@ namespace Files.Views
                         var dirName = Path.GetDirectoryName(normalizedPath);
                         if (dirName != null)
                         {
-                            tabLocationHeader = normalizedPath;
+                            tabLocationHeader = Path.GetFileName(path);
                             fontIconSource.Glyph = "\xea55";
                         }
                         else
