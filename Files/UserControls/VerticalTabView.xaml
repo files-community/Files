@@ -108,13 +108,16 @@
                                     Grid.Column="1"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding Header}"
                                     ContentTemplate="{TemplateBinding HeaderTemplate}"
                                     ContentTransitions="{TemplateBinding ContentTransitions}"
                                     FontSize="{ThemeResource TabViewItemHeaderFontSize}"
                                     FontWeight="{TemplateBinding FontWeight}"
                                     HighContrastAdjustment="None"
-                                    OpticalMarginAlignment="TrimSideBearings" />
+                                    OpticalMarginAlignment="TrimSideBearings">
+                                    <TextBlock 
+                                        Text="{TemplateBinding Header}" 
+                                        TextTrimming="CharacterEllipsis"/>
+                                </ContentPresenter>
 
                                 <Button
                                     x:Name="CloseButton"
