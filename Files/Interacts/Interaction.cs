@@ -1047,8 +1047,7 @@ namespace Files.Interacts
             await PasteItems(packageView, destinationPath, packageView.RequestedOperation);
         }
 
-        public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation,
-            bool copyDuplicate = true)
+        public async Task PasteItems(DataPackageView packageView, string destinationPath, DataPackageOperation acceptedOperation)
         {
             if (!packageView.Contains(StandardDataFormats.StorageItems))
             {
