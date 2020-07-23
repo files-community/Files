@@ -564,9 +564,21 @@ namespace Files.View_Models
 
         public Type GetLayoutType(string path)
         {
-            try
+            ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.LayoutModeContainer, ApplicationDataCreateDisposition.Always);
+            if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
             {
-                ApplicationDataContainer dataContainer = localSettings.CreateContainer(LocalSettings.LayoutModeContainer, ApplicationDataCreateDisposition.Always);
+                // For some reason, Windows doesn't like storing root paths in ApplicationDataContainer so handle it manually
+                if (dataContainer.Values.ContainsKey($"Root{path[0]}")
+                {
+                    LayoutMode = (LayoutMode)(byte)dataContainer.Values[$"Root{path[0]}"];
+                }
+                else
+                {
+                    dataContainer.Values[$"Root{path[0]}"] = (byte)LayoutMode;
+                }
+            }
+            else
+            {
                 if (dataContainer.Values.ContainsKey(path))
                 {
                     LayoutMode = (LayoutMode)(byte)dataContainer.Values[path];
@@ -579,9 +591,6 @@ namespace Files.View_Models
                         LayoutMode = LayoutMode.GridView;
                         dataContainer.Values[path] = (byte)LayoutMode;
                     }
-                    else if (Path.IsPathRooted(path) && Path.GetPathRoot(path) == path)
-                    {
-                    }
                     else
                     {
                         LayoutMode = LayoutMode.ListView;
@@ -589,7 +598,6 @@ namespace Files.View_Models
                     }
                 }
             }
-            catch { }
 
             Type type = null;
             switch (LayoutMode)
