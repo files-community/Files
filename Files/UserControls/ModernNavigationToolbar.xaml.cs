@@ -14,10 +14,12 @@ using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.System;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Files.UserControls
@@ -316,17 +318,6 @@ namespace Files.UserControls
             }
         }
 
-        private void PathViewInteract_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var itemTapped = e.ClickedItem as PathBoxItem;
-            var itemTappedPath = itemTapped.Path;
-            if (App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(itemTapped) ==
-                App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1)
-                return;
-
-            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
-        }
-
         private async void Button_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
@@ -529,6 +520,95 @@ namespace Files.UserControls
             CheckPathInput(App.CurrentInstance.FilesystemViewModel, args.QueryText,
                 App.CurrentInstance.NavigationToolbar.PathComponents[App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].Path);
             App.CurrentInstance.NavigationToolbar.IsEditModeEnabled = false;
+        }
+
+        private void PathBoxItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var itemTappedPath = ((sender as TextBlock).DataContext as PathBoxItem).Path;
+
+            App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), itemTappedPath); // navigate to folder
+        }
+
+        private async void PathItemSeparator_Loaded(object sender, RoutedEventArgs e)
+        {
+            var pathSeparatorIcon = sender as FontIcon;
+            await SetPathBoxDropDownFlyout(pathSeparatorIcon.ContextFlyout as MenuFlyout, pathSeparatorIcon.DataContext as PathBoxItem);
+
+            pathSeparatorIcon.Tapped += (s, e) => pathSeparatorIcon.ContextFlyout.ShowAt(pathSeparatorIcon);
+            pathSeparatorIcon.ContextFlyout.Opened += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A5"; };
+            pathSeparatorIcon.ContextFlyout.Closed += (s, e) => { pathSeparatorIcon.Glyph = "\uE9A8"; };
+        }
+
+        private async void PathboxItemFlyout_Opened(object sender, object e)
+        {
+            var flyout = sender as MenuFlyout;
+            await SetPathBoxDropDownFlyout(flyout, (flyout.Target as FontIcon).DataContext as PathBoxItem);
+        }
+
+        private async Task SetPathBoxDropDownFlyout(MenuFlyout flyout, PathBoxItem pathItem)
+        {
+            var nextPathItemTitle = App.CurrentInstance.NavigationToolbar.PathComponents
+                [App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
+            IList< StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
+
+            try
+            {
+                var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
+                childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
+            }
+            catch 
+            {
+                // Do nothing.
+            }
+            finally
+            {
+                flyout.Items?.Clear();
+            }
+
+            if (childFolders.Count == 0)
+            {
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon { FontFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily, Glyph = "\uEC17" },
+                    Text = ResourceController.GetTranslation("SubDirectoryAccessDenied"),
+                    //Foreground = (SolidColorBrush)Application.Current.Resources["SystemControlErrorTextForegroundBrush"],
+                    FontSize = 12
+                };
+                flyout.Items.Add(flyoutItem);
+                return;
+            }
+            
+            var boldFontWeight = new FontWeight { Weight = 800 };
+            var normalFontWeight = new FontWeight { Weight = 400 };
+            var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
+
+            var workingPath = App.CurrentInstance.NavigationToolbar.PathComponents
+                    [App.CurrentInstance.NavigationToolbar.PathComponents.Count - 1].
+                    Path.TrimEnd(Path.DirectorySeparatorChar);
+            foreach (var childFolder in childFolders)
+            {
+                var isPathItemFocused = childFolder.Item.Name == nextPathItemTitle;
+
+                var flyoutItem = new MenuFlyoutItem
+                {
+                    Icon = new FontIcon
+                    {
+                        FontFamily = customGlyphFamily,
+                        Glyph = "\uEA5A",
+                        FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                    },
+                    Text = childFolder.Item.Name,
+                    FontSize = 12,
+                    FontWeight = isPathItemFocused ? boldFontWeight : normalFontWeight
+                };
+
+                if (workingPath != childFolder.Path)
+                {
+                    flyoutItem.Click += (sender, args) => App.CurrentInstance.ContentFrame.Navigate(AppSettings.GetLayoutType(), childFolder.Path);
+                }
+
+                flyout.Items.Add(flyoutItem);
+            }
         }
     }
 }

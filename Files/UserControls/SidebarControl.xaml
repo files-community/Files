@@ -98,13 +98,13 @@
             HorizontalAlignment="Stretch"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="True"
-            OpenPaneLength="500"
             IsPaneToggleButtonVisible="False"
             IsSettingsVisible="False"
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
             MenuItemsSource="{x:Bind local3:MainPage.sideBarItems, Mode=OneWay}"
+            OpenPaneLength="500"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <muxc:NavigationView.PaneFooter>

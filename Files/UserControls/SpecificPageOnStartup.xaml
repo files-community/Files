@@ -9,9 +9,7 @@
     d:DesignWidth="340"
     mc:Ignorable="d">
 
-    <StackPanel
-        HorizontalAlignment="Left"
-        Orientation="Horizontal">
+    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
         <TextBox
             x:Name="PagePath"
             Width="308"

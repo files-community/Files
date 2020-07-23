@@ -1010,6 +1010,10 @@
           <source>No results</source>
           <target state="translated">无结果</target>
         </trans-unit>
+        <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
+          <source>Can't access any items to display</source>
+          <target state="new">Can't access any items to display</target>
+        </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
           <target state="new">Move to {0}</target>
