@@ -553,6 +553,7 @@
             VerticalAlignment="Stretch"
             x:FieldModifier="public"
             AddTabButtonClick="verticalTabView_AddTabButtonClick"
+            CanReorderTabs="True"
             AllowDropTabs="True"
             Background="Transparent"
             CanDragTabs="True"
