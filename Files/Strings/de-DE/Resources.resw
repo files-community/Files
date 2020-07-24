@@ -646,7 +646,7 @@
     <value>MB</value>
   </data>
   <data name="GigaByteSymbol" xml:space="preserve">
-    <value>DE</value>
+    <value>GB</value>
   </data>
   <data name="TeraByteSymbol" xml:space="preserve">
     <value>TB</value>
@@ -761,5 +761,20 @@
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>Tab hierhin verschieben</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>Keine Treffer</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>Es kann auf keine Dateien zugegriffen werden</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>Verschieben nach {0}</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>Das Quellverzeichnis ist identisch mit dem Zielverzeichnis.</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>Der Zielordner ist identisch mit dem Quellordner.</value>
   </data>
 </root>
