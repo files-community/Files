@@ -618,6 +618,10 @@
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
+                                <SymbolIcon
+                                    x:Name="WebShortcutGlyph"
+                                    x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                    Symbol="Link" />
                                 <Image
                                     x:Name="FileImageElement"
                                     Width="20"
@@ -625,6 +629,20 @@
                                     x:Load="{x:Bind LoadFileIcon, Mode=OneWay}"
                                     Source="{x:Bind FileImage, Mode=OneWay}"
                                     Stretch="UniformToFill" />
+                                <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                                        BorderBrush="{ThemeResource ApplicationForegroundThemeBrush}"
+                                        BorderThickness="1"
+                                        x:Name="ShortcutGlyphElement"
+                                        x:Load="{x:Bind IsShortcutItem}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="2,18,18,2"
+                                        Padding="1">
+                                    <FontIcon
+                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontSize="10"
+                                        Glyph="&#xEAAA;" />
+                                </Border>
                             </Grid>
                         </DataTemplate>
                     </controls:DataGridTemplateColumn.CellTemplate>

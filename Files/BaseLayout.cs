@@ -339,7 +339,15 @@ namespace Files
 
                     if (!string.IsNullOrEmpty(selectedDataItem.FileExtension))
                     {
-                        if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                        if (SelectedItem.IsShortcutItem)
+                        {
+                            (this.FindName("OpenItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
+                            UnloadMenuFlyoutItemByName("UnzipItem");
+                            UnloadMenuFlyoutItemByName("RunAsAdmin");
+                            UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                        }
+                        else if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
                             UnloadMenuFlyoutItemByName("OpenItem");
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
@@ -388,14 +396,23 @@ namespace Files
                     UnloadMenuFlyoutItemByName("UnzipItem");
                 }
             }
-            else     // All are Folders
+            else  // All are folders or shortcuts to folders
             {
                 UnloadMenuFlyoutItemByName("OpenItem");
                 UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
 
-                if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
+                if (selectedFileSystemItems.Any(x => x.IsShortcutItem))
+                {
+                    UnloadMenuFlyoutItemByName("SidebarPinItem");
+                }
+                else
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
+                }
+
+                if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)
+                {
                     (this.FindName("OpenInNewTab") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     (this.FindName("OpenInNewWindowItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
@@ -405,8 +422,6 @@ namespace Files
                 }
                 else if (selectedFileSystemItems.Count > 5)
                 {
-                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
-                    //this.FindName("SidebarPinItem");
                     UnloadMenuFlyoutItemByName("OpenInNewTab");
                     UnloadMenuFlyoutItemByName("OpenInNewWindowItem");
                     UnloadMenuFlyoutItemByName("UnzipItem");
@@ -467,12 +482,22 @@ namespace Files
         protected async void Item_DragStarting(object sender, DragStartingEventArgs e)
         {
             List<IStorageItem> selectedStorageItems = new List<IStorageItem>();
+
             foreach (ListedItem item in App.CurrentInstance.ContentPage.SelectedItems)
             {
-                if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                if (item is ShortcutItem)
+                {
+                    // Can't drag shortcut items
+                    continue;
+                }
+                else if (item.PrimaryItemAttribute == StorageItemTypes.File)
+                {
                     selectedStorageItems.Add(await ItemViewModel.GetFileFromPathAsync(item.ItemPath));
+                }
                 else if (item.PrimaryItemAttribute == StorageItemTypes.Folder)
+                {
                     selectedStorageItems.Add(await ItemViewModel.GetFolderFromPathAsync(item.ItemPath));
+                }
             }
 
             if (selectedStorageItems.Count == 0)
@@ -514,7 +539,7 @@ namespace Files
         {
             e.Handled = true;
             ListedItem rowItem = GetItemFromElement(sender);
-            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, rowItem.ItemPath, e.AcceptedOperation);
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, (rowItem as ShortcutItem)?.TargetPath ?? rowItem.ItemPath, e.AcceptedOperation);
         }
 
         protected void InitializeDrag(UIElement element)

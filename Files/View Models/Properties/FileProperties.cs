@@ -45,6 +45,11 @@ namespace Files.View_Models.Properties
 
         public override async void GetSpecialProperties()
         {
+            if (Item.IsShortcutItem)
+            {
+                // TODO: show TargetPath, arguments, ...
+                return;
+            }
             var file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
 

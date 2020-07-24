@@ -43,6 +43,11 @@ namespace Files.View_Models.Properties
 
         public async override void GetSpecialProperties()
         {
+            if (Item.IsShortcutItem)
+            {
+                // TODO: show TargetPath, arguments, ...
+                return;
+            }
             StorageFolder storageFolder;
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {

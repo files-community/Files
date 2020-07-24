@@ -84,9 +84,6 @@ namespace Files.Filesystem
         public string FileSize { get; set; }
         public long FileSizeBytes { get; set; }
 
-        // For recycle bin elements (path + name)
-        public string ItemOriginalPath { get; set; }
-
         public DateTimeOffset ItemDateModifiedReal
         {
             get => _itemDateModifiedReal;
@@ -144,5 +141,29 @@ namespace Files.Filesystem
                 return string.Format(ResourceController.GetTranslation("SecondsAgo"), elapsed.Seconds);
             }
         }
+
+        public bool IsRecycleBinItem => this is RecycleBinItem;
+        public bool IsShortcutItem => this is ShortcutItem;
+        public bool IsLinkItem => IsShortcutItem && ((ShortcutItem)this).IsUrl;
+    }
+
+    public class RecycleBinItem : ListedItem
+    {
+        public RecycleBinItem(string folderRelativeId) : base(folderRelativeId) { }
+
+        // For recycle bin elements (path + name)
+        public string ItemOriginalPath { get; set; }
+    }
+
+    public class ShortcutItem : ListedItem
+    {
+        public ShortcutItem(string folderRelativeId) : base(folderRelativeId) { }
+
+        // For shortcut elements (.lnk and .url)
+        public string TargetPath { get; set; }
+        public string Arguments { get; set; }
+        public string WorkingDirectory { get; set; }
+        public bool RunAsAdmin { get; set; }
+        public bool IsUrl { get; set; }
     }
 }
