@@ -34,7 +34,7 @@ namespace Files.Controls
             }
         }
 
-        private Thickness _TabsLeftMargin = new Thickness(200, 0, 0, 0);
+        private Thickness _TabsLeftMargin = new Thickness(0, 0, 0, 0);
 
         public Thickness TabsLeftMargin
         {
@@ -56,6 +56,26 @@ namespace Files.Controls
         {
             get => _isPasteEnabled;
             set => Set(ref _isPasteEnabled, value);
+        }
+
+        private bool _IsAppWindowSmall = Window.Current.Bounds.Width < 800;
+
+        public bool IsAppWindowSmall
+        {
+            get => _IsAppWindowSmall;
+            set 
+            {
+                Set(ref _IsAppWindowSmall, value);
+                IsHorizontalTabStripVisible = !value;
+            }
+        }
+
+        private bool _isHorizontalTabStripVisible = Window.Current.Bounds.Width > 800;
+
+        public bool IsHorizontalTabStripVisible
+        {
+            get => _isHorizontalTabStripVisible;
+            set => Set(ref _isHorizontalTabStripVisible, value);
         }
     }
 }

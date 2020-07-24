@@ -149,14 +149,16 @@
                 Canvas.ZIndex="100"
                 OffsetX="-2"
                 ShadowOpacity=".04">
-                <Grid Padding="0,32,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                <Grid Padding="0,8,0,0" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
+                    <Grid Height="24" x:Name="SmallWindowTitlebar" Loaded="SmallWindowTitlebar_Loaded" x:Load="{x:Bind local1:App.InteractionViewModel.IsAppWindowSmall, Mode=OneWay}"/>
 
-                    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+                    <Grid Grid.Row="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
                         <controls1:ModernNavigationToolbar
                             x:Name="NavToolbar"
                             Grid.Column="0"
@@ -166,7 +168,7 @@
 
                     <Frame
                         x:Name="ItemDisplayFrame"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         x:FieldModifier="public"
                         Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
                         CacheSize="2"
@@ -174,7 +176,7 @@
 
                     <controls1:StatusBarControl
                         x:Name="StatusBarControl"
-                        Grid.Row="2"
+                        Grid.Row="3"
                         x:Load="{x:Bind instanceViewModel.IsPageTypeNotHome, Mode=OneWay}" />
                 </Grid>
             </Custom:DropShadowPanel>

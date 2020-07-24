@@ -69,9 +69,14 @@ namespace Files.Views
             {
                 FlowDirection = FlowDirection.RightToLeft;
             }
-
+            Window.Current.SizeChanged += Current_SizeChanged;
             AllowDrop = true;
             DragOver += MainPage_DragOver;
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            App.InteractionViewModel.IsAppWindowSmall = e.Size.Width < 800;
         }
 
         private void MainPage_DragOver(object sender, DragEventArgs e)
@@ -275,11 +280,6 @@ namespace Files.Views
                 frame.Navigate((frame.Tag as TabItemContent).InitialPageType, (frame.Tag as TabItemContent).NavigationArg);
                 frame.Loaded -= TabViewItemFrame_Loaded;
             }
-        }
-
-        private void DragArea_Loaded(object sender, RoutedEventArgs e)
-        {
-            Window.Current.SetTitleBar(sender as Grid);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
