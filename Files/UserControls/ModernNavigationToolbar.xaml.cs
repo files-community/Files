@@ -31,13 +31,6 @@ namespace Files.UserControls
         public ModernNavigationToolbar()
         {
             this.InitializeComponent();
-
-            MainPage.OnTabItemDraggedOver += MainPage_OnTabItemDraggedOver;
-        }
-
-        private void MainPage_OnTabItemDraggedOver(object sender, bool e)
-        {
-            VerticalTabViewFlyout.ShowAt(VerticalTabStripInvokeButton);
         }
 
         private bool manualEntryBoxLoaded = false;
