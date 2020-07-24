@@ -1006,6 +1006,26 @@
           <source>Move tab here</source>
           <target state="translated">Mover la pestaña aquí</target>
         </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
+          <source>No results</source>
+          <target state="translated">No hay resultados</target>
+        </trans-unit>
+        <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
+          <source>Can't access any items to display</source>
+          <target state="translated">No se puede acceder a ningún elemento para mostrar</target>
+        </trans-unit>
+        <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Move to {0}</source>
+          <target state="translated">Mover a {0}</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
+          <source>The source and destination file names are the same.</source>
+          <target state="translated">Los nombres de archivo de origen y de destino son idénticos.</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
+          <source>The detination folder is the same as the source folder.</source>
+          <target state="translated">La carpeta de destino es la misma que la carpeta de origen.</target>
+        </trans-unit>
       </group>
     </body>
   </file>

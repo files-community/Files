@@ -241,7 +241,7 @@ namespace Files.Interacts
                     T asType = (T)current;
                     return asType;
                 }
-                FindChild<T>(current);
+                return FindChild<T>(current);
             }
             return null;
         }
@@ -535,12 +535,11 @@ namespace Files.Interacts
         {
             if (ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8))
             {
-
                 AppWindow appWindow = await AppWindow.TryCreateAsync();
                 Frame frame = new Frame();
                 appWindow.TitleBar.ExtendsContentIntoTitleBar = true;
                 frame.Navigate(typeof(Properties), item, new SuppressNavigationTransitionInfo());
-                
+
                 WindowManagementPreview.SetPreferredMinSize(appWindow, new Size(400, 500));
 
                 appWindow.RequestSize(new Size(400, 475));
@@ -1086,7 +1085,9 @@ namespace Files.Interacts
                         if (!string.IsNullOrEmpty(item.Path) && destinationPath.IsSubPathOf(item.Path))
                         {
                             ImpossibleActionResponseTypes responseType = ImpossibleActionResponseTypes.Abort;
-                            Binding themeBind = new Binding();
+
+                            /// Currently following implementation throws exception until it is resolved keep it disabled
+                            /*Binding themeBind = new Binding();
                             themeBind.Source = ThemeHelper.RootTheme;
 
                             ContentDialog dialog = new ContentDialog()
@@ -1096,11 +1097,11 @@ namespace Files.Interacts
                                 PrimaryButtonText = ResourceController.GetTranslation("ErrorDialogSkip"),
                                 CloseButtonText = ResourceController.GetTranslation("ErrorDialogCancel"),
                                 PrimaryButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Skip; }),
-                                CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; })
+                                CloseButtonCommand = new RelayCommand(() => { responseType = ImpossibleActionResponseTypes.Abort; }),
                             };
                             BindingOperations.SetBinding(dialog, FrameworkElement.RequestedThemeProperty, themeBind);
 
-                            await dialog.ShowAsync();
+                            await dialog.ShowAsync();*/
                             if (responseType == ImpossibleActionResponseTypes.Skip)
                             {
                                 continue;

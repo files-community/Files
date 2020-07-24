@@ -95,7 +95,6 @@
         </Grid.Resources>
         <muxc:NavigationView
             x:Name="SidebarNavView"
-            Width="200"
             HorizontalAlignment="Stretch"
             IsBackButtonVisible="Collapsed"
             IsPaneOpen="True"
@@ -105,22 +104,22 @@
             ItemInvoked="Sidebar_ItemInvoked"
             MenuItemTemplateSelector="{StaticResource NavItemSelector}"
             MenuItemsSource="{x:Bind local3:MainPage.sideBarItems, Mode=OneWay}"
-            OpenPaneLength="200"
+            OpenPaneLength="500"
             PaneDisplayMode="Left"
             SelectedItem="{x:Bind SelectedSidebarItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
             <muxc:NavigationView.PaneFooter>
-                <Grid Width="200">
+                <Grid>
                     <Button
                         x:Name="SettingsButton"
-                        Width="200"
                         Height="40"
-                        HorizontalAlignment="Left"
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Left"
                         Background="Transparent"
                         BorderBrush="{StaticResource ButtonRevealBorderBrush}"
                         Click="SettingsButton_Click"
                         CornerRadius="0">
                         <Button.Content>
-                            <Grid Width="200">
+                            <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="34" />
                                     <ColumnDefinition Width="*" />

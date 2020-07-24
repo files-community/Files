@@ -86,6 +86,12 @@ namespace Files.View_Models
             }
         }
 
+        public GridLength SidebarWidth
+        {
+            get => new GridLength(Math.Min(Math.Max(Get(200d), 200d), 500d), GridUnitType.Pixel);
+            set => Set(value.Value);
+        }
+
         public SortOption DirectorySortOption
         {
             get => (SortOption)SortOptionByte;
@@ -302,7 +308,7 @@ namespace Files.View_Models
 
         private void DetectRecycleBinPreference()
         {
-            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = false; }
+            if (localSettings.Values["PinRecycleBin"] == null) { localSettings.Values["PinRecycleBin"] = true; }
 
             if ((bool)localSettings.Values["PinRecycleBin"] == true)
             {

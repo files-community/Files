@@ -771,7 +771,8 @@
         </trans-unit>
         <trans-unit id="DriveFreeSpaceAndCapacity" translate="yes" xml:space="preserve">
           <source>{0} free of {1}</source>
-          <target state="translated" state-qualifier="tm-suggestion">{0} frei von {1}</target><!---Need to know the context (Available space?)-->
+          <target state="translated" state-qualifier="tm-suggestion">{0} frei von {1}</target>
+          <!---Need to know the context (Available space?)-->
         </trans-unit>
         <trans-unit id="BaseLayoutItemContextFlyoutOpenItemWith.Text" translate="yes" xml:space="preserve">
           <source>Open With</source>
@@ -850,8 +851,9 @@
           <target state="translated" state-qualifier="tm-suggestion">Bytes</target>
         </trans-unit>
         <trans-unit id="KiloByteSymbol" translate="yes" xml:space="preserve">
-          <source>kB</source>
-          <target state="translated" state-qualifier="tm-suggestion">kB</target>
+          <source>KB</source>
+          <target state="needs-review-translation" state-qualifier="tm-suggestion">kB</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
         <trans-unit id="MegaByteSymbol" translate="yes" xml:space="preserve">
           <source>MB</source>
@@ -859,7 +861,7 @@
         </trans-unit>
         <trans-unit id="GigaByteSymbol" translate="yes" xml:space="preserve">
           <source>GB</source>
-          <target state="translated" state-qualifier="tm-suggestion">DE</target>
+          <target state="translated" state-qualifier="tm-suggestion">GB</target>
         </trans-unit>
         <trans-unit id="TeraByteSymbol" translate="yes" xml:space="preserve">
           <source>TB</source>
@@ -1012,6 +1014,26 @@
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
           <target state="translated">Tab hierhin verschieben</target>
+        </trans-unit>
+        <trans-unit id="NavigationToolbarVisiblePathNoResults" translate="yes" xml:space="preserve">
+          <source>No results</source>
+          <target state="translated">Keine Treffer</target>
+        </trans-unit>
+        <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
+          <source>Can't access any items to display</source>
+          <target state="translated">Es kann auf keine Dateien zugegriffen werden</target>
+        </trans-unit>
+        <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Move to {0}</source>
+          <target state="translated">Verschieben nach {0}</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFile" translate="yes" xml:space="preserve">
+          <source>The source and destination file names are the same.</source>
+          <target state="translated">Das Quellverzeichnis ist identisch mit dem Zielverzeichnis.</target>
+        </trans-unit>
+        <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
+          <source>The detination folder is the same as the source folder.</source>
+          <target state="translated">Der Zielordner ist identisch mit dem Quellordner.</target>
         </trans-unit>
       </group>
     </body>

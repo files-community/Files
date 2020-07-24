@@ -12,10 +12,11 @@
     xmlns:toolkit="using:Microsoft.Toolkit.Uwp.UI.Controls"
     d:DesignHeight="700"
     d:DesignWidth="400"
+    KeyDown="Page_KeyDown"
     Loaded="Properties_Loaded"
     RequestedTheme="{x:Bind local1:ThemeHelper.RootTheme}"
     Unloaded="Properties_Unloaded"
-    mc:Ignorable="d" KeyDown="Page_KeyDown">
+    mc:Ignorable="d">
     <Page.Background>
         <AcrylicBrush
             Windows10version1903:TintLuminosityOpacity="0.9"

@@ -109,7 +109,7 @@ namespace Files
             ClearSelection();
             foreach (ListedItem selectedItem in selectedItems)
             {
-                AllView.SelectedItem = selectedItem;
+                AllView.SelectedItems.Add(selectedItem);
             }
         }
 
