@@ -237,7 +237,7 @@ namespace Files.Controls
             e.Handled = true;
             var storageItems = await e.DataView.GetStorageItemsAsync();
 
-            if (storageItems.Count == 0 || driveItem.SpaceText.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
+            if (storageItems.Count == 0 || "Unknown".Equals(driveItem.SpaceText, StringComparison.OrdinalIgnoreCase))
             {
                 e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
             }
