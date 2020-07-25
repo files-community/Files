@@ -228,6 +228,44 @@ namespace Files.Controls
             await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, locationItem.Path, e.AcceptedOperation);
             deferral.Complete();
         }
+
+        private async void NavigationViewDriveItem_DragOver(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+
+            var deferral = e.GetDeferral();
+            e.Handled = true;
+            var storageItems = await e.DataView.GetStorageItemsAsync();
+
+            if (storageItems.Count == 0 || driveItem.SpaceText.Equals("Unknown", StringComparison.OrdinalIgnoreCase))
+            {
+                e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.None;
+            }
+            else
+            {
+                e.DragUIOverride.IsCaptionVisible = true;
+                if (storageItems.AreItemsInSameDrive(driveItem.Path))
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Move;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("MoveToFolderCaptionText"), driveItem.Text);
+                }
+                else
+                {
+                    e.AcceptedOperation = Windows.ApplicationModel.DataTransfer.DataPackageOperation.Copy;
+                    e.DragUIOverride.Caption = string.Format(ResourceController.GetTranslation("CopyToFolderCaptionText"), driveItem.Text);
+                }
+            }
+            deferral.Complete();
+        }
+
+        private async void NavigationViewDriveItem_Drop(object sender, DragEventArgs e)
+        {
+            if (!((sender as Microsoft.UI.Xaml.Controls.NavigationViewItem).DataContext is DriveItem driveItem)) return;
+
+            var deferral = e.GetDeferral();
+            await App.CurrentInstance.InteractionOperations.PasteItems(e.DataView, driveItem.Path, e.AcceptedOperation);
+            deferral.Complete();
+        }
     }
 
     public class NavItemDataTemplateSelector : DataTemplateSelector

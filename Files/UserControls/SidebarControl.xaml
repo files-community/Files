@@ -57,7 +57,10 @@
                     RightTapped="NavigationViewDriveItem_RightTapped"
                     Tag="{x:Bind Path}"
                     ToolTipService.ToolTip="{x:Bind SpaceText}"
-                    Visibility="{x:Bind ItemVisibility}">
+                    Visibility="{x:Bind ItemVisibility}"
+                    AllowDrop="True"
+                    DragOver="NavigationViewDriveItem_DragOver"
+                    Drop="NavigationViewDriveItem_Drop">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{StaticResource FluentUIGlyphs}"
