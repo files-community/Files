@@ -880,6 +880,6 @@
     <value>The source and destination file names are the same.</value>
   </data>
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
-    <value>The detination folder is the same as the source folder.</value>
+    <value>The destination folder is the same as the source folder.</value>
   </data>
 </root>
