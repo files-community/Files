@@ -34,7 +34,10 @@
                     IsRightTapEnabled="True"
                     IsTabStop="False"
                     RightTapped="NavigationViewLocationItem_RightTapped"
-                    Tag="{x:Bind Path}">
+                    Tag="{x:Bind Path}"
+                    AllowDrop="True"
+                    DragOver="NavigationViewLocationItem_DragOver"
+                    Drop="NavigationViewLocationItem_Drop">
                     <muxc:NavigationViewItem.Icon>
                         <FontIcon
                             FontFamily="{x:Bind Font}"

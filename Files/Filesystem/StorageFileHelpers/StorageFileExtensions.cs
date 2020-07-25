@@ -227,5 +227,13 @@ namespace Files.Filesystem
             if (path.Contains("%homepath%")) path = path.Replace("%homepath%", _AppSettings.HomePath);
             return Environment.ExpandEnvironmentVariables(path);
         }
+
+        public static bool AreItemsInSameDrive(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        {
+            return storageItems.Any(storageItem => 
+            Path.GetPathRoot(storageItem.Path).Equals(
+                Path.GetPathRoot(destinationPath),
+                StringComparison.OrdinalIgnoreCase));
+        }
     }
 }
