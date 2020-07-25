@@ -247,7 +247,7 @@
     <value>एक नया टैब खोलें</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>एक विशिष्ट पन्ने खोलें</value>
+    <value>एक विशिष्ट पन्ने या पन्नों खोलें</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>शुरू पर</value>

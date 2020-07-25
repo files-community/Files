@@ -320,7 +320,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenASpecificPage.Content" translate="yes" xml:space="preserve">
           <source>Open a specific page or pages</source>
-          <target state="translated">एक विशिष्ट पन्ने खोलें</target>
+          <target state="translated">एक विशिष्ट पन्ने या पन्नों खोलें</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupTitle.Text" translate="yes" xml:space="preserve">
           <source>On Startup</source>
