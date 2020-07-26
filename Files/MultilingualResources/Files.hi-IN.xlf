@@ -996,7 +996,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewTab.Content" translate="yes" xml:space="preserve">
           <source>Open folder in a new tab</source>
-          <target state="translated">एक नए टैब में फ़ोल्डर खोलें</target>
+          <target state="translated">फ़ोल्डर को एक नए टैब में खोलें</target>
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
