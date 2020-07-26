@@ -1000,7 +1000,7 @@
         </trans-unit>
         <trans-unit id="SettingsPreferencesSystemDefaultLanguageOption" translate="yes" xml:space="preserve">
           <source>Windows default</source>
-          <target state="translated">विंडोज डिफ़ॉल्ट</target>
+          <target state="translated">विन्डोज़ डिफ़ॉल्ट</target>
         </trans-unit>
         <trans-unit id="TabStripDragAndDropUIOverrideCaption" translate="yes" xml:space="preserve">
           <source>Move tab here</source>
