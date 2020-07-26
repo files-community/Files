@@ -644,6 +644,11 @@ namespace Files.Interacts
             dataRequestDeferral.Complete();
         }
 
+        public void CreateShortcutFromItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         public void DeleteItem_Click(object sender, RoutedEventArgs e)
         {
             DeleteItem(StorageDeleteOption.Default);
@@ -1430,6 +1435,11 @@ namespace Files.Interacts
         public void NewBitmapImage_Click(object sender, RoutedEventArgs e)
         {
             AddItemDialog.CreateFile(AddItemType.BitmapImage);
+        }
+
+        public void NewShortcut_Click(object sender, RoutedEventArgs e)
+        {
+            AddItemDialog.CreateFile(AddItemType.Shortcut);
         }
 
         public async void ExtractItems_Click(object sender, RoutedEventArgs e)

@@ -1289,7 +1289,8 @@ namespace Files.Filesystem
                 if (App.Connection != null)
                 {
                     var response = App.Connection.SendMessageAsync(new ValueSet() {
-                        { "Arguments", "ParseLink" },
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "ParseLink" },
                         { "filepath", itemPath } }).AsTask().Result;
                     // If the request was canceled return now
                     if (_addFilesCTS.IsCancellationRequested)

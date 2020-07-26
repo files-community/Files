@@ -346,6 +346,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            UnloadMenuFlyoutItemByName("CreateShortcut");
                         }
                         else if (SelectedItem.FileExtension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
                         {
@@ -353,6 +354,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("UnzipItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".exe", StringComparison.OrdinalIgnoreCase)
@@ -366,6 +368,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             (this.FindName("RunAsAdmin") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                             (this.FindName("RunAsAnotherUser") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else if (SelectedItem.FileExtension.Equals(".appx", StringComparison.OrdinalIgnoreCase)
                             || SelectedItem.FileExtension.Equals(".msix", StringComparison.OrdinalIgnoreCase)
@@ -376,6 +379,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                         else
                         {
@@ -386,6 +390,7 @@ namespace Files
                             UnloadMenuFlyoutItemByName("UnzipItem");
                             UnloadMenuFlyoutItemByName("RunAsAdmin");
                             UnloadMenuFlyoutItemByName("RunAsAnotherUser");
+                            (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                         }
                     }
                 }
@@ -394,6 +399,7 @@ namespace Files
                     UnloadMenuFlyoutItemByName("OpenItem");
                     UnloadMenuFlyoutItemByName("OpenItemWithAppPicker");
                     UnloadMenuFlyoutItemByName("UnzipItem");
+                    UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
             }
             else  // All are folders or shortcuts to folders
@@ -404,11 +410,19 @@ namespace Files
                 if (selectedFileSystemItems.Any(x => x.IsShortcutItem))
                 {
                     UnloadMenuFlyoutItemByName("SidebarPinItem");
+                    UnloadMenuFlyoutItemByName("CreateShortcut");
+                }
+                else if (selectedFileSystemItems.Count == 1)
+                {
+                    (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
+                    //this.FindName("SidebarPinItem");
+                    (this.FindName("CreateShortcut") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                 }
                 else
                 {
                     (this.FindName("SidebarPinItem") as MenuFlyoutItemBase).Visibility = Visibility.Visible;
                     //this.FindName("SidebarPinItem");
+                    UnloadMenuFlyoutItemByName("CreateShortcut");
                 }
 
                 if (selectedFileSystemItems.Count <= 5 && selectedFileSystemItems.Count > 0)

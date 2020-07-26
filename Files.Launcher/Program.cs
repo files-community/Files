@@ -247,39 +247,7 @@ namespace FilesFullTrust
                     break;
 
                 case "FileOperation":
-                    await parseFileAction(args);
-                    break;
-
-                case "ParseLink":
-                    var linkPath = (string)args.Request.Message["filepath"];
-                    if (linkPath.EndsWith(".lnk"))
-                    {
-                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
-                        await args.Request.SendResponseAsync(new ValueSet() {
-                            { "TargetPath", link.TargetPath },
-                            { "Arguments", link.Arguments },
-                            { "WorkingDirectory", link.WorkingDirectory },
-                            { "RunAsAdmin", link.RunAsAdministrator },
-                            { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder },
-                        });
-                    }
-                    else if (linkPath.EndsWith(".url"))
-                    {
-                        var linkUrl = await Win32API.StartSTATask(() =>
-                        {
-                            var ipf = new Url.IUniformResourceLocator();
-                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
-                            ipf.GetUrl(out var retVal);
-                            return retVal;
-                        });
-                        await args.Request.SendResponseAsync(new ValueSet() {
-                            { "TargetPath", linkUrl },
-                            { "Arguments", null },
-                            { "WorkingDirectory", null },
-                            { "RunAsAdmin", false },
-                            { "IsFolder", false }
-                        });
-                    }
+                    await parseFileOperation(args);
                     break;
 
                 default:
@@ -297,7 +265,7 @@ namespace FilesFullTrust
             }
         }
 
-        private static async Task parseFileAction(AppServiceRequestReceivedEventArgs args)
+        private static async Task parseFileOperation(AppServiceRequestReceivedEventArgs args)
         {
             var fileOp = (string)args.Request.Message["fileop"];
 
@@ -338,6 +306,61 @@ namespace FilesFullTrust
                         op.PerformOperations();
                     }
                     //ShellFileOperations.Delete(fileToDeletePath, ShellFileOperations.OperationFlags.AllowUndo | ShellFileOperations.OperationFlags.NoUI);
+                    break;
+                case "ParseLink":
+                    var linkPath = (string)args.Request.Message["filepath"];
+                    if (linkPath.EndsWith(".lnk"))
+                    {
+                        using var link = new ShellLink(linkPath, LinkResolution.NoUIWithMsgPump, null, TimeSpan.FromMilliseconds(100));
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "TargetPath", link.TargetPath },
+                            { "Arguments", link.Arguments },
+                            { "WorkingDirectory", link.WorkingDirectory },
+                            { "RunAsAdmin", link.RunAsAdministrator },
+                            { "IsFolder", !string.IsNullOrEmpty(link.TargetPath) && link.Target.IsFolder },
+                        });
+                    }
+                    else if (linkPath.EndsWith(".url"))
+                    {
+                        var linkUrl = await Win32API.StartSTATask(() =>
+                        {
+                            var ipf = new Url.IUniformResourceLocator();
+                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Load(linkPath, 0);
+                            ipf.GetUrl(out var retVal);
+                            return retVal;
+                        });
+                        await args.Request.SendResponseAsync(new ValueSet() {
+                            { "TargetPath", linkUrl },
+                            { "Arguments", null },
+                            { "WorkingDirectory", null },
+                            { "RunAsAdmin", false },
+                            { "IsFolder", false }
+                        });
+                    }
+                    break;
+                case "CreateLink":
+                case "UpdateLink":
+                    var linkSavePath = (string)args.Request.Message["filepath"];
+                    var targetPath = (string)args.Request.Message["targetpath"];
+                    if (linkSavePath.EndsWith(".lnk"))
+                    {
+                        var arguments = (string)args.Request.Message["arguments"];
+                        var workingDirectory = (string)args.Request.Message["workingdir"];
+                        var runAsAdmin = (bool)args.Request.Message["runasadmin"];
+                        using var newLink = new ShellLink(targetPath, arguments, workingDirectory);
+                        newLink.RunAsAdministrator = runAsAdmin;
+                        newLink.SaveAs(linkSavePath); // Overwrite if exists
+                    }
+                    else if (linkSavePath.EndsWith(".url"))
+                    {
+                        await Win32API.StartSTATask(() =>
+                        {
+                            var ipf = new Url.IUniformResourceLocator();
+                            ipf.SetUrl(targetPath, Url.IURL_SETURL_FLAGS.IURL_SETURL_FL_GUESS_PROTOCOL);
+                            (ipf as System.Runtime.InteropServices.ComTypes.IPersistFile).Save(linkSavePath, false); // Overwrite if exists
+                            return true;
+                        });
+                    }
                     break;
             }
         }

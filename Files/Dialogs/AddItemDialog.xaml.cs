@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 
@@ -22,6 +23,7 @@ namespace Files.Dialogs
         {
             AddItemsList.Clear();
             AddItemsList.Add(new AddListItem { Header = "Folder", SubHeader = "Creates an empty folder", Icon = "\xE838", IsItemEnabled = true });
+            AddItemsList.Add(new AddListItem { Header = "Shortcut", SubHeader = "Creates a new shortcut", Icon = "\xEAAA", IsItemEnabled = true });
             AddItemsList.Add(new AddListItem { Header = "Text Document", SubHeader = "Creates a simple text file", Icon = "\xE8A5", IsItemEnabled = true });
             AddItemsList.Add(new AddListItem { Header = "Bitmap Image", SubHeader = "Creates an empty bitmap image file", Icon = "\xEB9F", IsItemEnabled = true });
         }
@@ -42,6 +44,10 @@ namespace Files.Dialogs
                 case "Bitmap Image":
                     CreateFile(AddItemType.BitmapImage);
                     break;
+
+                case "Shortcut":
+                    CreateFile(AddItemType.Shortcut);
+                    break;
             }
         }
 
@@ -53,7 +59,8 @@ namespace Files.Dialogs
             {
                 currentPath = TabInstance.FilesystemViewModel.WorkingDirectory;
             }
-            StorageFolder folderToCreateItem = await Filesystem.ItemViewModel.GetFolderFromPathAsync(currentPath);
+            var folderWithPath = await Filesystem.ItemViewModel.GetFolderWithPathFromPathAsync(currentPath);
+            StorageFolder folderToCreateItem = folderWithPath.Folder;
             RenameDialog renameDialog = new RenameDialog();
 
             var renameResult = await renameDialog.ShowAsync();
@@ -82,6 +89,25 @@ namespace Files.Dialogs
 
                 await folderToCreateItem.CreateFileAsync(userInput + ".bmp", CreationCollisionOption.GenerateUniqueName);
             }
+            else if (fileType == AddItemType.Shortcut)
+            {
+                userInput = !string.IsNullOrWhiteSpace(userInput) ? userInput : ResourceController.GetTranslation("NewShortcut");
+
+                if (App.Connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "CreateLink" },
+                        { "targetpath", "" },
+                        { "arguments", "" },
+                        { "workingdir", "" },
+                        { "runasadmin", false },
+                        { "filepath", System.IO.Path.Combine(folderWithPath.Path, userInput + ".lnk") }
+                    };
+                    await App.Connection.SendMessageAsync(value);
+                }
+            }
         }
     }
 
@@ -90,7 +116,8 @@ namespace Files.Dialogs
         Folder = 0,
         TextDocument = 1,
         BitmapImage = 2,
-        CompressedArchive = 3
+        CompressedArchive = 3,
+        Shortcut = 3,
     }
 
     public class AddListItem
