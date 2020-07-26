@@ -221,10 +221,18 @@ namespace Files.Filesystem
 
         public static string GetPathWithoutEnvironmentVariable(string path)
         {
-            if (path.Contains("%temp%")) path = path.Replace("%temp%", _AppSettings.TempPath);
-            if (path.Contains("%tmp%")) path = path.Replace("%tmp%", _AppSettings.TempPath);
-            if (path.Contains("%localappdata%")) path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath);
-            if (path.Contains("%homepath%")) path = path.Replace("%homepath%", _AppSettings.HomePath);
+            if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%temp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%tmp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%homepath%", _AppSettings.HomePath, StringComparison.OrdinalIgnoreCase);
+
             return Environment.ExpandEnvironmentVariables(path);
         }
     }
