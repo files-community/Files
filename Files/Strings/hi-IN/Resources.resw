@@ -751,7 +751,7 @@
     <value>पिन किए गए फ़ोल्डर खुलने का समय</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
-    <value>हमेशा एक नया उदाहरण खोलें</value>
+    <value>हमेशा एक नया दृष्टांत खोलें</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
     <value>फ़ोल्डर को एक नए टैब में खोलें</value>
