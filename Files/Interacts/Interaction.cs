@@ -639,14 +639,30 @@ namespace Files.Interacts
                 dataRequestDeferral.Complete();
                 return;
             }
-            
-            dataRequest.Data.SetStorageItems(items);            
+
+            dataRequest.Data.SetStorageItems(items);
             dataRequestDeferral.Complete();
         }
 
-        public void CreateShortcutFromItem_Click(object sender, RoutedEventArgs e)
+        public async void CreateShortcutFromItem_Click(object sender, RoutedEventArgs e)
         {
-
+            foreach (ListedItem selectedItem in CurrentInstance.ContentPage.SelectedItems)
+            {
+                if (App.Connection != null)
+                {
+                    var value = new ValueSet
+                    {
+                        { "Arguments", "FileOperation" },
+                        { "fileop", "CreateLink" },
+                        { "targetpath", selectedItem.ItemPath },
+                        { "arguments", "" },
+                        { "workingdir", "" },
+                        { "runasadmin", false },
+                        { "filepath", Path.Combine(CurrentInstance.FilesystemViewModel.WorkingDirectory, selectedItem.ItemName + " - shortcut" + ".lnk") }
+                    };
+                    await App.Connection.SendMessageAsync(value);
+                }
+            }
         }
 
         public void DeleteItem_Click(object sender, RoutedEventArgs e)
