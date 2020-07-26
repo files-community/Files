@@ -1026,8 +1026,12 @@
           <target state="new">The source and destination file names are the same.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
-          <source>The detination folder is the same as the source folder.</source>
-          <target state="new">The detination folder is the same as the source folder.</target>
+          <source>The destination folder is the same as the source folder.</source>
+          <target state="new">The destination folder is the same as the source folder.</target>
+        </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="new">Copy to {0}</target>
         </trans-unit>
       </group>
     </body>
