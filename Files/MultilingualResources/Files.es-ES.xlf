@@ -1026,6 +1026,10 @@
           <source>The detination folder is the same as the source folder.</source>
           <target state="translated">La carpeta de destino es la misma que la carpeta de origen.</target>
         </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="new">Copy to {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
