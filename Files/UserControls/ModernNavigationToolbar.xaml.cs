@@ -275,20 +275,35 @@ namespace Files.UserControls
                                 }
                             }
 
-                            var dialog = new ContentDialog()
+                            try
                             {
-                                Title = "Invalid item",
-                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                CloseButtonText = "OK"
-                            };
-
-                            await dialog.ShowAsync();
+                                if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
+                                {
+                                    throw new Exception();
+                                }
+                            }
+                            catch
+                            {
+                                ShowInvalidAccessDialog(ex.Message);
+                            }
                         }
                     }
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private async void ShowInvalidAccessDialog(string message)
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "Invalid item",
+                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + message,
+                CloseButtonText = "OK"
+            };
+
+            await dialog.ShowAsync();
         }
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)
@@ -403,7 +418,7 @@ namespace Files.UserControls
             var deferral = e.GetDeferral();
 
             var storageItems = await e.DataView.GetStorageItemsAsync();
-            if (!storageItems.Any(storageItem => 
+            if (!storageItems.Any(storageItem =>
             storageItem.Path.Replace(pathBoxItem.Path, string.Empty).
             Trim(Path.DirectorySeparatorChar).
             Contains(Path.DirectorySeparatorChar)))
@@ -502,9 +517,11 @@ namespace Files.UserControls
             catch
             {
                 NavigationBarSuggestions.Clear();
-                NavigationBarSuggestions.Add(new ListedItem(null) {
+                NavigationBarSuggestions.Add(new ListedItem(null)
+                {
                     ItemPath = App.CurrentInstance.FilesystemViewModel.WorkingDirectory,
-                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults") });
+                    ItemName = ResourceController.GetTranslation("NavigationToolbarVisiblePathNoResults")
+                });
             }
         }
 
@@ -542,14 +559,14 @@ namespace Files.UserControls
         {
             var nextPathItemTitle = App.CurrentInstance.NavigationToolbar.PathComponents
                 [App.CurrentInstance.NavigationToolbar.PathComponents.IndexOf(pathItem) + 1].Title;
-            IList< StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
+            IList<StorageFolderWithPath> childFolders = new List<StorageFolderWithPath>();
 
             try
             {
                 var folder = await ItemViewModel.GetFolderWithPathFromPathAsync(pathItem.Path);
                 childFolders = await folder.GetFoldersWithPathAsync(string.Empty);
             }
-            catch 
+            catch
             {
                 // Do nothing.
             }
@@ -570,7 +587,7 @@ namespace Files.UserControls
                 flyout.Items.Add(flyoutItem);
                 return;
             }
-            
+
             var boldFontWeight = new FontWeight { Weight = 800 };
             var normalFontWeight = new FontWeight { Weight = 400 };
             var customGlyphFamily = Application.Current.Resources["FluentUIGlyphs"] as FontFamily;
