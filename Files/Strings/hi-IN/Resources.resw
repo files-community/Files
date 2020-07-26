@@ -748,7 +748,7 @@
     <value>पन्ने निकालें</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
-    <value>पिन किए गए फ़ोल्डर खुलने का समय</value>
+    <value>पिन किए गए फ़ोल्डर को खोलते समय</value>
   </data>
   <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
     <value>हमेशा एक नया दृष्टांत खोलें</value>
