@@ -275,14 +275,17 @@ namespace Files.UserControls
                                 }
                             }
 
-                            var dialog = new ContentDialog()
+                            if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
                             {
-                                Title = "Invalid item",
-                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                CloseButtonText = "OK"
-                            };
+                                var dialog = new ContentDialog()
+                                {
+                                    Title = "Invalid item",
+                                    Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
+                                    CloseButtonText = "OK"
+                                };
 
-                            await dialog.ShowAsync();
+                                await dialog.ShowAsync();
+                            }
                         }
                     }
                 }
