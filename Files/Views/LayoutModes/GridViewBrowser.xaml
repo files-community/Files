@@ -515,9 +515,9 @@
                             Margin="8,0,0,8"
                             Padding="2">
                         <FontIcon
-                            FontFamily="{StaticResource FluentUIGlyphs}"
-                            FontSize="28"
-                            Glyph="&#xEAAA;" />
+                            FontFamily="{StaticResource CustomGlyph}"
+                            FontSize="18"
+                            Glyph="&#xF10A;" />
                     </Border>
                 </Grid>
                 <Grid
@@ -660,9 +660,9 @@
                             Margin="8,0,0,8"
                             Padding="2">
                         <FontIcon
-                            FontFamily="{StaticResource FluentUIGlyphs}"
-                            FontSize="22"
-                            Glyph="&#xEAAA;" />
+                            FontFamily="{StaticResource CustomGlyph}"
+                            FontSize="15"
+                            Glyph="&#xF10A;" />
                     </Border>
                 </Grid>
                 <Grid Grid.Column="2" Height="100">
