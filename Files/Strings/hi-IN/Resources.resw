@@ -739,7 +739,7 @@
     <value>एक नया पन्ने जोड़ें</value>
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>पन्ने स्थान बदलें</value>
+    <value>पन्नों का स्थान बदलें</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>पन्ने:</value>
