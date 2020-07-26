@@ -1575,7 +1575,7 @@ namespace Files.Interacts
         public async Task<string> GetHashForFile(ListedItem fileItem, string nameOfAlg, CancellationToken token, Microsoft.UI.Xaml.Controls.ProgressBar progress)
         {
             HashAlgorithmProvider algorithmProvider = HashAlgorithmProvider.OpenAlgorithm(nameOfAlg);
-            var itemFromPath = await ItemViewModel.GetFileFromPathAsync(fileItem.ItemPath);
+            var itemFromPath = await ItemViewModel.GetFileFromPathAsync((fileItem as ShortcutItem)?.TargetPath ?? fileItem.ItemPath);
             var stream = await itemFromPath.OpenStreamForReadAsync();
             var inputStream = stream.AsInputStream();
             var str = inputStream.AsStreamForRead();

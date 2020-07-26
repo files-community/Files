@@ -10,7 +10,7 @@
       Loaded="Properties_Loaded">
 
     <StackPanel VerticalAlignment="Top"
-                Padding="14">
+                Padding="14,0,14,14">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

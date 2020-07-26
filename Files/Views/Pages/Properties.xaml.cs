@@ -35,7 +35,6 @@ namespace Files
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
             this.navParameter = e.Parameter;
             this.TabShorcut.Visibility = e.Parameter is ShortcutItem ? Visibility.Visible : Visibility.Collapsed;
             base.OnNavigatedTo(e);
@@ -52,6 +51,7 @@ namespace Files
                 TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
                 AppSettings.UpdateThemeElements.Execute(null);
             }
+            AppSettings.ThemeModeChanged += AppSettings_ThemeModeChanged;
         }
 
         private void Properties_Unloaded(object sender, RoutedEventArgs e)
@@ -62,6 +62,7 @@ namespace Files
                 tokenSource.Dispose();
                 tokenSource = null;
             }
+            AppSettings.ThemeModeChanged -= AppSettings_ThemeModeChanged;
         }
 
         private void AppSettings_ThemeModeChanged(object sender, EventArgs e)
