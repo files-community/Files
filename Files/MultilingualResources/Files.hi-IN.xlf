@@ -1012,7 +1012,7 @@
         </trans-unit>
         <trans-unit id="SubDirectoryAccessDenied" translate="yes" xml:space="preserve">
           <source>Can't access any items to display</source>
-          <target state="translated">प्रदर्शित करने के लिए किसी भी आइटम का उपयोग नहीं कर सकते</target>
+          <target state="translated">प्रदर्शित करने के लिए किसी भी आइटम तक नहीं पहुंच सकते</target>
         </trans-unit>
         <trans-unit id="MoveToFolderCaptionText" translate="yes" xml:space="preserve">
           <source>Move to {0}</source>
