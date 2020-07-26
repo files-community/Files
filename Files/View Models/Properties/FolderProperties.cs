@@ -45,13 +45,55 @@ namespace Files.View_Models.Properties
         {
             if (Item.IsShortcutItem)
             {
-                // TODO: show TargetPath, arguments, ...
-                return;
+                var shortcutItem = (ShortcutItem)Item;
+                ViewModel.ShortcutTabVisibility = Visibility.Visible;
+                ViewModel.SelectedTabIndex = 1;
+                ViewModel.ShortcutItemType = "Folder";
+                ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
+                ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+                ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+                ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                {
+                    var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(((ShortcutItem)Item).TargetPath));
+                    await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                }, () =>
+                {
+                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
+                }, false);
+                ViewModel.ShortcutItemUpdateShortcutCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                {
+                    var tmpItem = (ShortcutItem)Item;
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                }, () =>
+                {
+                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
+                }, false);
+                if (string.IsNullOrWhiteSpace(shortcutItem.TargetPath))
+                {
+                    // Can't show any other property
+                    return;
+                }
             }
+
             StorageFolder storageFolder;
             if (App.CurrentInstance.ContentPage.IsItemSelected)
             {
-                storageFolder = await ItemViewModel.GetFolderFromPathAsync(Item.ItemPath);
+                storageFolder = await ItemViewModel.GetFolderFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
                 ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(storageFolder.DateCreated);
                 GetOtherProperties(storageFolder.Properties);
                 GetFolderSize(storageFolder, TokenSource.Token);

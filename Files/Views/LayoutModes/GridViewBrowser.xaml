@@ -500,7 +500,9 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
                         <Viewbox MaxWidth="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}" MaxHeight="{x:Bind local:App.AppSettings.GridViewSize, Mode=OneWay}">
-                            <SymbolIcon Symbol="Link" />
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                                      FontSize="28"
+                                      Glyph="&#xEAAB;" />
                         </Viewbox>
                     </Grid>
                     <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
@@ -643,7 +645,9 @@
                         VerticalAlignment="Stretch"
                         x:Load="{x:Bind IsLinkItem, Mode=OneWay}">
                         <Viewbox MaxWidth="74">
-                            <SymbolIcon Symbol="Link" />
+                            <FontIcon FontFamily="{StaticResource FluentUIGlyphs}"
+                                      FontSize="28"
+                                      Glyph="&#xEAAB;" />
                         </Viewbox>
                     </Grid>
                     <Border Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"

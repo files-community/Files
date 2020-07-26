@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.IO;
 using System.Threading;
+using Windows.Foundation.Collections;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml;
@@ -47,10 +48,66 @@ namespace Files.View_Models.Properties
         {
             if (Item.IsShortcutItem)
             {
-                // TODO: show TargetPath, arguments, ...
-                return;
+                var shortcutItem = (ShortcutItem)Item;
+                ViewModel.SelectedTabIndex = 1;
+                ViewModel.ShortcutTabVisibility = Visibility.Visible;
+                ViewModel.ShortcutItemType = Item.IsLinkItem ? "Web link" : "File";
+                ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
+                ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
+                ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
+                ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                {
+                    if (Item.IsLinkItem)
+                    {
+                        var tmpItem = (ShortcutItem)Item;
+                        await Interacts.Interaction.InvokeWin32Component(tmpItem.TargetPath, tmpItem.Arguments, tmpItem.RunAsAdmin, tmpItem.WorkingDirectory);
+                    }
+                    else
+                    {
+                        var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(((ShortcutItem)Item).TargetPath));
+                        await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                    }
+                }, () =>
+                {
+                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
+                }, false);
+                ViewModel.ShortcutItemUpdateShortcutCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                {
+                    var tmpItem = (ShortcutItem)Item;
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                }, () =>
+                {
+                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
+                }, false);
+                if (Item.IsLinkItem)
+                {
+                    ViewModel.LoadLinkIcon = true;
+                    // Can't show any other property
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(shortcutItem.TargetPath))
+                {
+                    // Can't show any other property
+                    return;
+                }
             }
-            var file = await ItemViewModel.GetFileFromPathAsync(Item.ItemPath);
+
+            var file = await ItemViewModel.GetFileFromPathAsync((Item as ShortcutItem)?.TargetPath ?? Item.ItemPath);
             ViewModel.ItemCreatedTimestamp = ListedItem.GetFriendlyDate(file.DateCreated);
 
             GetOtherProperties(file.Properties);

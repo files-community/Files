@@ -2,6 +2,7 @@ using ByteSizeLib;
 using Files.Filesystem;
 using Files.Helpers;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -520,6 +521,112 @@ namespace Files.View_Models
 
             // Since item is not an image, folder or file without extension, set the IsSelectedItemImage property to false
             IsSelectedItemImage = false;
+        }
+
+        private int _SelectedTabIndex = 0;
+
+        public int SelectedTabIndex
+        {
+            get => _SelectedTabIndex;
+            set => Set(ref _SelectedTabIndex, value);
+        }
+
+        private Visibility _ShortcutTabVisibility = Visibility.Collapsed;
+
+        public Visibility ShortcutTabVisibility
+        {
+            get => _ShortcutTabVisibility;
+            set => Set(ref _ShortcutTabVisibility, value);
+        }
+
+        private string _ShortcutItemType;
+
+        public string ShortcutItemType
+        {
+            get => _ShortcutItemType;
+            set
+            {
+                Set(ref _ShortcutItemType, value);
+            }
+        }
+
+        private string _ShortcutItemPath;
+
+        public string ShortcutItemPath
+        {
+            get => _ShortcutItemPath;
+            set
+            {
+                Set(ref _ShortcutItemPath, value);
+            }
+        }
+
+        private string _ShortcutItemWorkingDir;
+
+        public string ShortcutItemWorkingDir
+        {
+            get => _ShortcutItemWorkingDir;
+            set
+            {
+                Set(ref _ShortcutItemWorkingDir, value);
+            }
+        }
+
+        private Visibility _ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+
+        public Visibility ShortcutItemWorkingDirVisibility
+        {
+            get => _ShortcutItemWorkingDirVisibility;
+            set => Set(ref _ShortcutItemWorkingDirVisibility, value);
+        }
+
+        private string _ShortcutItemArguments;
+
+        public string ShortcutItemArguments
+        {
+            get => _ShortcutItemArguments;
+            set
+            {
+                Set(ref _ShortcutItemArguments, value);
+            }
+        }
+
+        private Visibility _ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+
+        public Visibility ShortcutItemArgumentsVisibility
+        {
+            get => _ShortcutItemArgumentsVisibility;
+            set => Set(ref _ShortcutItemArgumentsVisibility, value);
+        }
+
+        private bool _LoadLinkIcon;
+
+        public bool LoadLinkIcon
+        {
+            get => _LoadLinkIcon;
+            set => Set(ref _LoadLinkIcon, value);
+        }
+
+        private RelayCommand _ShortcutItemOpenLinkCommand;
+
+        public RelayCommand ShortcutItemOpenLinkCommand
+        {
+            get => _ShortcutItemOpenLinkCommand;
+            set
+            {
+                Set(ref _ShortcutItemOpenLinkCommand, value);
+            }
+        }
+
+        private RelayCommand _ShortcutUpdateShortcutCommand;
+
+        public RelayCommand ShortcutItemUpdateShortcutCommand
+        {
+            get => _ShortcutUpdateShortcutCommand;
+            set
+            {
+                Set(ref _ShortcutUpdateShortcutCommand, value);
+            }
         }
     }
 }

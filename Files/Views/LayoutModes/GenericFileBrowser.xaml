@@ -627,10 +627,10 @@
                                     x:Load="{x:Bind LoadUnknownTypeGlyph, Mode=OneWay}"
                                     FontFamily="{StaticResource FluentUIGlyphs}"
                                     Glyph="&#xEA00;" />
-                                <SymbolIcon
-                                    x:Name="WebShortcutGlyph"
-                                    x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
-                                    Symbol="Link" />
+                                <FontIcon x:Name="WebShortcutGlyph"
+                                          x:Load="{x:Bind IsLinkItem, Mode=OneWay}"
+                                          FontFamily="{StaticResource FluentUIGlyphs}"
+                                          Glyph="&#xEAAB;" />
                                 <Image
                                     x:Name="FileImageElement"
                                     Width="20"
