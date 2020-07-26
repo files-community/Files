@@ -754,7 +754,7 @@
     <value>हमेशा एक नया उदाहरण खोलें</value>
   </data>
   <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
-    <value>एक नए टैब में फ़ोल्डर खोलें</value>
+    <value>फ़ोल्डर को एक नए टैब में खोलें</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
     <value>विंडोज़ डिफ़ॉल्ट</value>
