@@ -1026,6 +1026,10 @@
           <source>The destination folder is the same as the source folder.</source>
           <target state="new">The destination folder is the same as the source folder.</target>
         </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="new">Copy to {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

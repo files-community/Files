@@ -882,4 +882,7 @@
   <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
     <value>The destination folder is the same as the source folder.</value>
   </data>
+  <data name="CopyToFolderCaptionText" xml:space="preserve">
+    <value>Copy to {0}</value>
+  </data>
 </root>

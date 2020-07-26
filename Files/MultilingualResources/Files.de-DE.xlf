@@ -1036,6 +1036,10 @@
           <target state="needs-review-translation">Der Zielordner ist identisch mit dem Quellordner.</target>
           <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
+        <trans-unit id="CopyToFolderCaptionText" translate="yes" xml:space="preserve">
+          <source>Copy to {0}</source>
+          <target state="new">Copy to {0}</target>
+        </trans-unit>
       </group>
     </body>
   </file>

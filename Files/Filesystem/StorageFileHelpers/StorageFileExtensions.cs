@@ -221,5 +221,34 @@ namespace Files.Filesystem
 
             return Environment.ExpandEnvironmentVariables(path);
         }
+
+        public static bool AreItemsInSameDrive(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        {
+            try
+            {
+                return storageItems.Any(storageItem =>
+               Path.GetPathRoot(storageItem.Path).Equals(
+                   Path.GetPathRoot(destinationPath),
+                   StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool AreItemsAlreadyInFolder(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        {
+            try
+            {
+                return storageItems.Any(storageItem =>
+                Directory.GetParent(storageItem.Path).FullName.Equals(
+                    destinationPath, StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
