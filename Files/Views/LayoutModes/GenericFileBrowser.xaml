@@ -648,9 +648,9 @@
                                         Margin="2,18,18,2"
                                         Padding="1">
                                     <FontIcon
-                                        FontFamily="{StaticResource FluentUIGlyphs}"
+                                        FontFamily="{StaticResource CustomGlyph}"
                                         FontSize="10"
-                                        Glyph="&#xEAAA;" />
+                                        Glyph="&#xF10A;" />
                                 </Border>
                             </Grid>
                         </DataTemplate>
