@@ -757,7 +757,7 @@
     <value>एक नए टैब में फ़ोल्डर खोलें</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>विंडोज डिफ़ॉल्ट</value>
+    <value>विंडोज़ डिफ़ॉल्ट</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>टैब यहां लाएं</value>
