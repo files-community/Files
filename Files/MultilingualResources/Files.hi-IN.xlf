@@ -988,7 +988,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupNewInstanceBehavior.Text" translate="yes" xml:space="preserve">
           <source>When launching a pinned folder</source>
-          <target state="translated">पिन किए गए फ़ोल्डर खुलने का समय</target>
+          <target state="translated">पिन किए गए फ़ोल्डर को खोलते समय</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupLaunchNewInstance.Content" translate="yes" xml:space="preserve">
           <source>Always open a new instance</source>
