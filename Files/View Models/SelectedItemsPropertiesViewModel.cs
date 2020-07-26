@@ -558,6 +558,7 @@ namespace Files.View_Models
             set
             {
                 Set(ref _ShortcutItemPath, value);
+                ShortcutItemOpenLinkCommand?.RaiseCanExecuteChanged();
             }
         }
 
@@ -615,17 +616,6 @@ namespace Files.View_Models
             set
             {
                 Set(ref _ShortcutItemOpenLinkCommand, value);
-            }
-        }
-
-        private RelayCommand _ShortcutUpdateShortcutCommand;
-
-        public RelayCommand ShortcutItemUpdateShortcutCommand
-        {
-            get => _ShortcutUpdateShortcutCommand;
-            set
-            {
-                Set(ref _ShortcutUpdateShortcutCommand, value);
             }
         }
     }

@@ -27,6 +27,7 @@ namespace Files.View_Models.Properties
             Item = item;
 
             GetBaseProperties();
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
@@ -62,37 +63,16 @@ namespace Files.View_Models.Properties
                     if (Item.IsLinkItem)
                     {
                         var tmpItem = (ShortcutItem)Item;
-                        await Interacts.Interaction.InvokeWin32Component(tmpItem.TargetPath, tmpItem.Arguments, tmpItem.RunAsAdmin, tmpItem.WorkingDirectory);
+                        await Interacts.Interaction.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
                     }
                     else
                     {
-                        var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(((ShortcutItem)Item).TargetPath));
+                        var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
                         await Windows.System.Launcher.LaunchUriAsync(folderUri);
                     }
                 }, () =>
                 {
-                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
-                }, false);
-                ViewModel.ShortcutItemUpdateShortcutCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
-                {
-                    var tmpItem = (ShortcutItem)Item;
-                    if (App.Connection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await App.Connection.SendMessageAsync(value);
-                    }
-                }, () =>
-                {
-                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
+                    return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
                 }, false);
                 if (Item.IsLinkItem)
                 {
@@ -141,6 +121,34 @@ namespace Files.View_Models.Properties
             {
                 NLog.LogManager.GetCurrentClassLogger().Error(ex, ex.Message);
                 ViewModel.ItemMD5HashCalcError = true;
+            }
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "ShortcutItemPath":
+                case "ShortcutItemWorkingDir":
+                case "ShortcutItemArguments":
+                    var tmpItem = (ShortcutItem)Item;
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                    break;
             }
         }
     }

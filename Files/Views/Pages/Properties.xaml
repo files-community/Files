@@ -605,12 +605,6 @@
                                         Orientation="Horizontal"
                                         Spacing="16"
                                         Visibility="Visible">
-                                <Button x:Name="UpdateShortcutButton"
-                                        x:Uid="PropertiesDialogUpdateShortcutButton"
-                                        MinWidth="100"
-                                        Command="{x:Bind ViewModel.ShortcutItemUpdateShortcutCommand, Mode=OneWay}"
-                                        Content="Update shortcut"
-                                        Style="{ThemeResource ButtonRevealStyle}" />
                                 <Button x:Name="OpenLinkButton"
                                         x:Uid="PropertiesDialogOpenLinkButton"
                                         MinWidth="100"

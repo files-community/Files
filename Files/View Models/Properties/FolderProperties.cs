@@ -24,6 +24,7 @@ namespace Files.View_Models.Properties
             Item = item;
 
             GetBaseProperties();
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
         }
 
         public override void GetBaseProperties()
@@ -56,32 +57,11 @@ namespace Files.View_Models.Properties
                 ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
                 ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
                 {
-                    var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(((ShortcutItem)Item).TargetPath));
+                    var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
                     await Windows.System.Launcher.LaunchUriAsync(folderUri);
                 }, () =>
                 {
-                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
-                }, false);
-                ViewModel.ShortcutItemUpdateShortcutCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
-                {
-                    var tmpItem = (ShortcutItem)Item;
-                    if (App.Connection != null)
-                    {
-                        var value = new ValueSet()
-                        {
-                            { "Arguments", "FileOperation" },
-                            { "fileop", "UpdateLink" },
-                            { "filepath", Item.ItemPath },
-                            { "targetpath", ViewModel.ShortcutItemPath },
-                            { "arguments", ViewModel.ShortcutItemArguments },
-                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
-                            { "runasadmin", tmpItem.RunAsAdmin },
-                        };
-                        await App.Connection.SendMessageAsync(value);
-                    }
-                }, () =>
-                {
-                    return !string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath);
+                    return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
                 }, false);
                 if (string.IsNullOrWhiteSpace(shortcutItem.TargetPath))
                 {
@@ -182,6 +162,34 @@ namespace Files.View_Models.Properties
             ViewModel.ItemSizeProgressVisibility = Visibility.Collapsed;
 
             SetItemsCountString();
+        }
+
+        private async void ViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "ShortcutItemPath":
+                case "ShortcutItemWorkingDir":
+                case "ShortcutItemArguments":
+                    var tmpItem = (ShortcutItem)Item;
+                    if (string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath))
+                        return;
+                    if (App.Connection != null)
+                    {
+                        var value = new ValueSet()
+                        {
+                            { "Arguments", "FileOperation" },
+                            { "fileop", "UpdateLink" },
+                            { "filepath", Item.ItemPath },
+                            { "targetpath", ViewModel.ShortcutItemPath },
+                            { "arguments", ViewModel.ShortcutItemArguments },
+                            { "workingdir", ViewModel.ShortcutItemWorkingDir },
+                            { "runasadmin", tmpItem.RunAsAdmin },
+                        };
+                        await App.Connection.SendMessageAsync(value);
+                    }
+                    break;
+            }
         }
     }
 }
