@@ -42,6 +42,33 @@ namespace Files.View_Models.Properties
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
+
+                if (Item.IsShortcutItem)
+                {
+                    var shortcutItem = (ShortcutItem)Item;
+                    ViewModel.ShortcutItemType = Item.IsLinkItem ? "Web link" : "File";
+                    ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
+                    ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                    ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                    ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
+                    ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                    {
+                        if (Item.IsLinkItem)
+                        {
+                            var tmpItem = (ShortcutItem)Item;
+                            await Interacts.Interaction.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
+                        }
+                        else
+                        {
+                            var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
+                            await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                        }
+                    }, () =>
+                    {
+                        return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
+                    }, false);
+                }
             }
         }
 
@@ -49,38 +76,13 @@ namespace Files.View_Models.Properties
         {
             if (Item.IsShortcutItem)
             {
-                var shortcutItem = (ShortcutItem)Item;
-                ViewModel.SelectedTabIndex = 1;
-                ViewModel.ShortcutTabVisibility = Visibility.Visible;
-                ViewModel.ShortcutItemType = Item.IsLinkItem ? "Web link" : "File";
-                ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
-                ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-                ViewModel.ShortcutItemWorkingDirVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
-                ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-                ViewModel.ShortcutItemArgumentsVisibility = Item.IsLinkItem ? Visibility.Collapsed : Visibility.Visible;
-                ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
-                {
-                    if (Item.IsLinkItem)
-                    {
-                        var tmpItem = (ShortcutItem)Item;
-                        await Interacts.Interaction.InvokeWin32Component(ViewModel.ShortcutItemPath, ViewModel.ShortcutItemArguments, tmpItem.RunAsAdmin, ViewModel.ShortcutItemWorkingDir);
-                    }
-                    else
-                    {
-                        var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
-                        await Windows.System.Launcher.LaunchUriAsync(folderUri);
-                    }
-                }, () =>
-                {
-                    return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
-                }, false);
                 if (Item.IsLinkItem)
                 {
                     ViewModel.LoadLinkIcon = true;
                     // Can't show any other property
                     return;
                 }
-                if (string.IsNullOrWhiteSpace(shortcutItem.TargetPath))
+                if (string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
                 {
                     // Can't show any other property
                     return;

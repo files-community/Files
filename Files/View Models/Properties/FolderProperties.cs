@@ -39,6 +39,25 @@ namespace Files.View_Models.Properties
                 ViewModel.LoadFolderGlyph = Item.LoadFolderGlyph;
                 ViewModel.LoadUnknownTypeGlyph = Item.LoadUnknownTypeGlyph;
                 ViewModel.LoadFileIcon = Item.LoadFileIcon;
+
+                if (Item.IsShortcutItem)
+                {
+                    var shortcutItem = (ShortcutItem)Item;
+                    ViewModel.ShortcutItemType = "Folder";
+                    ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
+                    ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
+                    ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
+                    ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
+                    ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
+                    {
+                        var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
+                        await Windows.System.Launcher.LaunchUriAsync(folderUri);
+                    }, () =>
+                    {
+                        return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
+                    }, false);
+                }
             }
         }
 
@@ -46,24 +65,7 @@ namespace Files.View_Models.Properties
         {
             if (Item.IsShortcutItem)
             {
-                var shortcutItem = (ShortcutItem)Item;
-                ViewModel.ShortcutTabVisibility = Visibility.Visible;
-                ViewModel.SelectedTabIndex = 1;
-                ViewModel.ShortcutItemType = "Folder";
-                ViewModel.ShortcutItemPath = shortcutItem.TargetPath;
-                ViewModel.ShortcutItemWorkingDir = shortcutItem.WorkingDirectory;
-                ViewModel.ShortcutItemWorkingDirVisibility = Visibility.Collapsed;
-                ViewModel.ShortcutItemArguments = shortcutItem.Arguments;
-                ViewModel.ShortcutItemArgumentsVisibility = Visibility.Collapsed;
-                ViewModel.ShortcutItemOpenLinkCommand = new GalaSoft.MvvmLight.Command.RelayCommand(async () =>
-                {
-                    var folderUri = new Uri("files-uwp:" + "?folder=" + Path.GetDirectoryName(ViewModel.ShortcutItemPath));
-                    await Windows.System.Launcher.LaunchUriAsync(folderUri);
-                }, () =>
-                {
-                    return !string.IsNullOrWhiteSpace(ViewModel.ShortcutItemPath);
-                }, false);
-                if (string.IsNullOrWhiteSpace(shortcutItem.TargetPath))
+                if (string.IsNullOrWhiteSpace(((ShortcutItem)Item).TargetPath))
                 {
                     // Can't show any other property
                     return;

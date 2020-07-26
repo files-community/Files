@@ -523,22 +523,6 @@ namespace Files.View_Models
             IsSelectedItemImage = false;
         }
 
-        private int _SelectedTabIndex = 0;
-
-        public int SelectedTabIndex
-        {
-            get => _SelectedTabIndex;
-            set => Set(ref _SelectedTabIndex, value);
-        }
-
-        private Visibility _ShortcutTabVisibility = Visibility.Collapsed;
-
-        public Visibility ShortcutTabVisibility
-        {
-            get => _ShortcutTabVisibility;
-            set => Set(ref _ShortcutTabVisibility, value);
-        }
-
         private string _ShortcutItemType;
 
         public string ShortcutItemType

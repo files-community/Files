@@ -1603,8 +1603,10 @@ namespace Files.Interacts
                 {
                     break;
                 }
-
-                progress.Value = (double)str.Position / str.Length * 100;
+                if (progress != null)
+                {
+                    progress.Value = (double)str.Position / str.Length * 100;
+                }
             }
             inputStream.Dispose();
             stream.Dispose();
