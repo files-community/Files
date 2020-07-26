@@ -1023,8 +1023,9 @@
           <target state="translated">Nazwa pliku źródłowego i docelowego są takie same.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
-          <source>The detination folder is the same as the source folder.</source>
-          <target state="translated">Folder docelowy jest taki sam jak folder źródłowy.</target>
+          <source>The destination folder is the same as the source folder.</source>
+          <target state="needs-review-translation">Folder docelowy jest taki sam jak folder źródłowy.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
       </group>
     </body>

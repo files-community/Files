@@ -1023,8 +1023,9 @@
           <target state="translated">Los nombres de archivo de origen y de destino son idénticos.</target>
         </trans-unit>
         <trans-unit id="ErrorDialogSameSourceDestinationFolder" translate="yes" xml:space="preserve">
-          <source>The detination folder is the same as the source folder.</source>
-          <target state="translated">La carpeta de destino es la misma que la carpeta de origen.</target>
+          <source>The destination folder is the same as the source folder.</source>
+          <target state="needs-review-translation">La carpeta de destino es la misma que la carpeta de origen.</target>
+          <note from="MultilingualUpdate" annotates="source" priority="2">Please verify the translation’s accuracy as the source string was updated after it was translated.</note>
         </trans-unit>
       </group>
     </body>
