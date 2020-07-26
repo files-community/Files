@@ -742,7 +742,7 @@
     <value>पन्ने स्थान बदलें</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
-    <value>पन्नों:</value>
+    <value>पन्ने:</value>
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
     <value>पन्ने निकालें</value>
