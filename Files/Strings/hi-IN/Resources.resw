@@ -736,16 +736,16 @@
     <value>स्थिति</value>
   </data>
   <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
-    <value>एक नया पन्ने जोड़ें</value>
+    <value>एक नया पन्ना जोड़ें</value>
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
-    <value>पन्नों का स्थान बदलें</value>
+    <value>पन्ने का स्थान बदलें</value>
   </data>
   <data name="SettingsOnStartupPages.Text" xml:space="preserve">
     <value>पन्ने:</value>
   </data>
   <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
-    <value>पन्ने निकालें</value>
+    <value>पन्ने हटाएं</value>
   </data>
   <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
     <value>पिन किए गए फ़ोल्डर को खोलते समय</value>
@@ -757,7 +757,7 @@
     <value>फ़ोल्डर को एक नए टैब में खोलें</value>
   </data>
   <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
-    <value>विंडोज़ डिफ़ॉल्ट</value>
+    <value>विन्डोज़ डिफ़ॉल्ट</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
     <value>टैब यहां लाएं</value>
