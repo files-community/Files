@@ -760,7 +760,7 @@
     <value>विंडोज डिफ़ॉल्ट</value>
   </data>
   <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
-    <value>यहां टैब ले जाएं</value>
+    <value>टैब यहां लाएं</value>
   </data>
   <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
     <value>कोई परिणाम नहीं</value>
