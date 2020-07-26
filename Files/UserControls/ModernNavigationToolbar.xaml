@@ -862,14 +862,6 @@
                                 <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEA55;" />
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
-                        <MenuFlyoutItem
-                            x:Uid="ModernNavigationToolbaNewShortcut"
-                            Click="{x:Bind local1:App.CurrentInstance.InteractionOperations.NewShortcut_Click}"
-                            Text="Shortcut">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon FontFamily="{StaticResource FluentUIGlyphs}" Glyph="&#xEAAA;" />
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
                         <MenuFlyoutSeparator />
                         <MenuFlyoutItem
                             x:Uid="ModernNavigationToolbaNewBitmapImage"

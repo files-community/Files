@@ -1437,11 +1437,6 @@ namespace Files.Interacts
             AddItemDialog.CreateFile(AddItemType.BitmapImage);
         }
 
-        public void NewShortcut_Click(object sender, RoutedEventArgs e)
-        {
-            AddItemDialog.CreateFile(AddItemType.Shortcut);
-        }
-
         public async void ExtractItems_Click(object sender, RoutedEventArgs e)
         {
             var selectedIndex = CurrentInstance.ContentPage.GetSelectedIndex();
