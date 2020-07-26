@@ -275,20 +275,35 @@ namespace Files.UserControls
                                 }
                             }
 
-                            var dialog = new ContentDialog()
+                            try
                             {
-                                Title = "Invalid item",
-                                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + ex.Message,
-                                CloseButtonText = "OK"
-                            };
-
-                            await dialog.ShowAsync();
+                                if (!await Launcher.LaunchUriAsync(new Uri(currentInput)))
+                                {
+                                    throw new Exception();
+                                }
+                            }
+                            catch
+                            {
+                                ShowInvalidAccessDialog(ex.Message);
+                            }
                         }
                     }
                 }
 
                 App.CurrentInstance.NavigationToolbar.PathControlDisplayText = App.CurrentInstance.FilesystemViewModel.WorkingDirectory;
             }
+        }
+
+        private async void ShowInvalidAccessDialog(string message)
+        {
+            var dialog = new ContentDialog()
+            {
+                Title = "Invalid item",
+                Content = "The item referenced is either invalid or inaccessible.\nMessage:\n\n" + message,
+                CloseButtonText = "OK"
+            };
+
+            await dialog.ShowAsync();
         }
 
         private void VisiblePath_LostFocus(object sender, RoutedEventArgs e)

@@ -247,7 +247,7 @@
     <value>ଏକ ନୂତନ ଟ୍ୟାବ୍ ଖୋଲ</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>ଏକ ନିର୍ଦ୍ଦିଷ୍ଟ ପୃଷ୍ଠା ଖୋଲ</value>
+    <value>ଏକ ନିର୍ଦ୍ଦିଷ୍ଟ ପୃଷ୍ଠା କିମ୍ବା ପୃଷ୍ଠାଗୁଡ଼ିକ ଖୋଲନ୍ତୁ</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>ଆରମ୍ଭ ରେ</value>
@@ -734,5 +734,47 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>ସ୍ଥିତି</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>ଏକ ନୂତନ ପୃଷ୍ଠା ଯୋଡନ୍ତୁ</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>ପୃଷ୍ଠା ଅବସ୍ଥାନ ପରିବର୍ତ୍ତନ କରନ୍ତୁ</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>ପୃଷ୍ଠାଗୁଡିକ:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>ପୃଷ୍ଠା ଅପସାରଣ କରନ୍ତୁ</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>ଏକ ପିନ୍ ହୋଇଥିବା ଫୋଲ୍ଡର୍ ଲଞ୍ଚ କରିବାବେଳେ</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>ସର୍ବଦା ଏକ ନୂତନ ଉଦାହରଣ ଖୋଲ</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>ଏକ ନୂଆ ଟ୍ୟାବରେ ଫୋଲ୍ଡର୍ ଖୋଲ</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>ୱିଣ୍ଡୋଜ୍ ଡିଫଲ୍ଟ</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>ଏଠାରେ ଟ୍ୟାବ୍ ଘୁଞ୍ଚାନ୍ତୁ</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>କୌଣସି ଫଳାଫଳ ନାହିଁ</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>ପ୍ରଦର୍ଶନ କରିବାକୁ କୌଣସି ଆଇଟମ୍ ପ୍ରବେଶ କରିପାରିବ ନାହିଁ</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>{0} କୁ ଘୁଞ୍ଚାନ୍ତୁ</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>ଉତ୍ସ ଏବଂ ଗନ୍ତବ୍ୟସ୍ଥଳ ଫାଇଲ ନାମଗୁଡ଼ିକ ସମାନ |</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>ଗନ୍ତବ୍ୟସ୍ଥଳ ଫୋଲ୍ଡର ଉତ୍ସ ଫୋଲ୍ଡର ସହିତ ସମାନ |</value>
   </data>
 </root>

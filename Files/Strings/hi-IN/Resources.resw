@@ -247,7 +247,7 @@
     <value>एक नया टैब खोलें</value>
   </data>
   <data name="SettingsOnStartupOpenASpecificPage.Content" xml:space="preserve">
-    <value>एक विशिष्ट पृष्ठ खोलें</value>
+    <value>एक विशिष्ट पन्ना या पन्ने खोलें</value>
   </data>
   <data name="SettingsOnStartupTitle.Text" xml:space="preserve">
     <value>शुरू पर</value>
@@ -734,5 +734,47 @@
   </data>
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>स्थिति</value>
+  </data>
+  <data name="SettingsOnStartupOpenAddPageButton.Content" xml:space="preserve">
+    <value>एक नया पन्ना जोड़ें</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" xml:space="preserve">
+    <value>पन्ने का स्थान बदलें</value>
+  </data>
+  <data name="SettingsOnStartupPages.Text" xml:space="preserve">
+    <value>पन्ने:</value>
+  </data>
+  <data name="SettingsOnStartupOpenSpecificPagesUserControlRemovePage.Text" xml:space="preserve">
+    <value>पन्ने हटाएं</value>
+  </data>
+  <data name="SettingsOnStartupNewInstanceBehavior.Text" xml:space="preserve">
+    <value>पिन किए गए फ़ोल्डर को खोलते समय</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewInstance.Content" xml:space="preserve">
+    <value>हमेशा एक नया दृष्टांत खोलें</value>
+  </data>
+  <data name="SettingsOnStartupLaunchNewTab.Content" xml:space="preserve">
+    <value>फ़ोल्डर को एक नए टैब में खोलें</value>
+  </data>
+  <data name="SettingsPreferencesSystemDefaultLanguageOption" xml:space="preserve">
+    <value>विन्डोज़ डिफ़ॉल्ट</value>
+  </data>
+  <data name="TabStripDragAndDropUIOverrideCaption" xml:space="preserve">
+    <value>टैब यहां लाएं</value>
+  </data>
+  <data name="NavigationToolbarVisiblePathNoResults" xml:space="preserve">
+    <value>कोई परिणाम नहीं</value>
+  </data>
+  <data name="SubDirectoryAccessDenied" xml:space="preserve">
+    <value>प्रदर्शित करने के लिए किसी भी आइटम तक नहीं पहुंच सकते</value>
+  </data>
+  <data name="MoveToFolderCaptionText" xml:space="preserve">
+    <value>{0} पर ले जाएँ</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFile" xml:space="preserve">
+    <value>स्रोत और गंतव्य फ़ाइल नाम एक ही हैं।</value>
+  </data>
+  <data name="ErrorDialogSameSourceDestinationFolder" xml:space="preserve">
+    <value>गंतव्य फ़ोल्डर स्रोत फ़ोल्डर के समान है।</value>
   </data>
 </root>
