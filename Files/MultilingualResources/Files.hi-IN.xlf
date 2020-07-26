@@ -976,7 +976,7 @@
         </trans-unit>
         <trans-unit id="SettingsOnStartupOpenSpecificPagesUserControlChangePage.Text" translate="yes" xml:space="preserve">
           <source>Change Page Location</source>
-          <target state="translated">पन्ने स्थान बदलें</target>
+          <target state="translated">पन्ने का स्थान बदलें</target>
         </trans-unit>
         <trans-unit id="SettingsOnStartupPages.Text" translate="yes" xml:space="preserve">
           <source>Pages:</source>
