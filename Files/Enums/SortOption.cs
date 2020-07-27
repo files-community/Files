@@ -1,6 +1,6 @@
 ﻿namespace Files.Enums
 {
-    public enum SortOption
+    public enum SortOption : byte
     {
         Name,
         DateModified,

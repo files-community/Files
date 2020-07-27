@@ -1,11 +1,11 @@
 ﻿using Files.DataModels;
 using Files.View_Models;
-using Newtonsoft.Json;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -13,9 +13,7 @@ namespace Files.SettingsPages
 {
     public sealed partial class Preferences : Page
     {
-        public SettingsViewModel AppSettings => App.AppSettings;
-        private StorageFolder localFolder = ApplicationData.Current.LocalFolder;
-        private ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+        private SettingsViewModel AppSettings => App.AppSettings;
 
         public Preferences()
         {
@@ -34,6 +32,18 @@ namespace Files.SettingsPages
             base.OnNavigatedTo(e);
 
             TerminalApplicationsComboBox.SelectedItem = AppSettings.TerminalController.Model.GetDefaultTerminal();
+        }
+
+        private void ComboAppLanguage_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (AppSettings.CurrentLanguage.ID == AppSettings.DefaultLanguage.ID)
+            {
+                RestartRequiredPrompt.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                RestartRequiredPrompt.Visibility = Visibility.Visible;
+            }
         }
 
         private void EditTerminalApplications_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)

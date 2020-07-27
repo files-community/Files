@@ -1,5 +1,6 @@
 ﻿using Files.Filesystem;
 using Files.View_Models;
+using Files.Views;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ namespace Files.DataModels
             {
                 var item = await DrivesManager.GetRootFromPath(path);
                 StorageFolder folder = await StorageFileExtensions.GetFolderFromPathAsync(path, item);
-                int insertIndex = App.sideBarItems.IndexOf(App.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
+                int insertIndex = MainPage.sideBarItems.IndexOf(MainPage.sideBarItems.Last(x => x.ItemType == NavigationControlItemType.Location
                     && !x.Path.Equals(App.AppSettings.RecycleBinPath))) + 1;
                 var locationItem = new LocationItem
                 {
@@ -73,7 +74,7 @@ namespace Files.DataModels
                     IsDefaultLocation = false,
                     Text = folder.DisplayName
                 };
-                App.sideBarItems.Insert(insertIndex, locationItem);
+                MainPage.sideBarItems.Insert(insertIndex, locationItem);
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -102,14 +103,14 @@ namespace Files.DataModels
         public void RemoveStaleSidebarItems()
         {
             // Remove unpinned items from sidebar
-            for (int i = 0; i < App.sideBarItems.Count(); i++)
+            for (int i = 0; i < MainPage.sideBarItems.Count(); i++)
             {
-                if (App.sideBarItems[i] is LocationItem)
+                if (MainPage.sideBarItems[i] is LocationItem)
                 {
-                    var item = App.sideBarItems[i] as LocationItem;
+                    var item = MainPage.sideBarItems[i] as LocationItem;
                     if (!item.IsDefaultLocation && !Items.Contains(item.Path))
                     {
-                        App.sideBarItems.RemoveAt(i);
+                        MainPage.sideBarItems.RemoveAt(i);
                     }
                 }
             }

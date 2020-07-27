@@ -720,4 +720,16 @@
   <data name="RecycleInProgress.Title" xml:space="preserve">
     <value>Перемещение файлов в Корзину</value>
   </data>
+  <data name="JumpListRecentGroupHeader" xml:space="preserve">
+    <value>Недавние</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguage.Text" xml:space="preserve">
+    <value>Язык приложения</value>
+  </data>
+  <data name="SettingsPreferencesAppLanguageRestartRequired.Text" xml:space="preserve">
+    <value>Требуется перезагрузка</value>
+  </data>
+  <data name="syncStatusColumn.Header" xml:space="preserve">
+    <value>Статус</value>
+  </data>
 </root>

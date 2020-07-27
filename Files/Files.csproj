@@ -180,6 +180,7 @@
     <Compile Include="Helpers\NativeFindStorageItemHelper.cs" />
     <Compile Include="Helpers\NaturalStringComparer.cs" />
     <Compile Include="Helpers\PackageHelper.cs" />
+    <Compile Include="Helpers\PathNormalization.cs" />
     <Compile Include="Helpers\ShellCommandParser.cs" />
     <Compile Include="Helpers\StringExtensions.cs" />
     <Compile Include="Helpers\BulkObservableCollection.cs" />
@@ -192,9 +193,7 @@
     <Compile Include="UserControls\ModernNavigationToolbar.xaml.cs">
       <DependentUpon>ModernNavigationToolbar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UserControls\SidebarControl.cs">
-      <DependentUpon>SidebarControl.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="UserControls\MultitaskingControl\IMultitaskingControl.cs" />
     <Compile Include="DataModels\TerminalFileModel.cs" />
     <Compile Include="DataModels\Terminal.cs" />
     <Compile Include="Dialogs\AddItemDialog.xaml.cs">
@@ -222,13 +221,24 @@
     <Compile Include="Enums\SidebarOpacity.cs" />
     <Compile Include="Enums\SortOption.cs" />
     <Compile Include="Enums\TimeStyle.cs" />
+    <Compile Include="Enums\WallpaperType.cs" />
     <Compile Include="Filesystem\DriveItem.cs" />
     <Compile Include="Filesystem\Drives.cs" />
+    <Compile Include="UserControls\SidebarControl.xaml.cs">
+      <DependentUpon>SidebarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\SpecificPageOnStartup.xaml.cs">
+      <DependentUpon>SpecificPageOnStartup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\StatusBarControl.xaml.cs">
       <DependentUpon>StatusBarControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\StatusCenter.xaml.cs">
       <DependentUpon>StatusCenter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\TabItem.cs" />
+    <Compile Include="UserControls\VerticalTabView.xaml.cs">
+      <DependentUpon>VerticalTabView.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\Widgets\LibraryCards.xaml.cs">
       <DependentUpon>LibraryCards.xaml</DependentUpon>
@@ -252,15 +262,14 @@
     <Compile Include="View Models\InteractionViewModel.cs" />
     <Compile Include="View Models\DirectoryPropertiesViewModel.cs" />
     <Compile Include="View Models\SelectedItemsPropertiesViewModel.cs" />
-    <Compile Include="Views\InstanceTabsView.xaml.cs">
-      <DependentUpon>InstanceTabsView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Interacts\Interaction.cs" />
     <Compile Include="IShellPage.cs" />
-    <Compile Include="LocationsList.cs" />
     <Compile Include="Navigation\NavigationActions.cs" />
     <Compile Include="Views\LayoutModes\GridViewBrowser.xaml.cs">
       <DependentUpon>GridViewBrowser.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ModernShellPage.xaml.cs">
       <DependentUpon>ModernShellPage.xaml</DependentUpon>
@@ -328,6 +337,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <Content Include="Assets\QuickLook\quicklook_icon_black.png" />
+    <Content Include="Assets\SettingsAssets\VerticalTabsFlyout.png" />
     <Content Include="Assets\SmallTile.scale-100.png" />
     <Content Include="Assets\SmallTile.scale-125.png" />
     <Content Include="Assets\SmallTile.scale-150.png" />
@@ -386,6 +396,8 @@
     <Content Include="Assets\WSL\ubuntu.svg" />
     <Content Include="Assets\WSL\ubuntupng.png" />
     <Content Include="Properties\Default.rd.xml" />
+    <PRIResource Include="Strings\or-IN\Resources.resw" />
+    <PRIResource Include="Strings\hi-IN\Resources.resw" />
     <PRIResource Include="Strings\pt-BR\Resources.resw" />
     <PRIResource Include="Strings\he-IL\Resources.resw" />
     <PRIResource Include="Strings\ja-JP\Resources.resw" />
@@ -419,10 +431,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UserControls\SidebarControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\AddItemDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -451,6 +459,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UserControls\SidebarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\SpecificPageOnStartup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\VerticalTabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserControls\Widgets\LibraryCards.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -471,11 +491,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\InstanceTabsView.xaml">
+    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\LayoutModes\GridViewBrowser.xaml">
+    <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -591,9 +611,11 @@
     <XliffResource Include="MultilingualResources\Files.es-ES.xlf" />
     <XliffResource Include="MultilingualResources\Files.fr-FR.xlf" />
     <XliffResource Include="MultilingualResources\Files.he-IL.xlf" />
+    <XliffResource Include="MultilingualResources\Files.hi-IN.xlf" />
     <XliffResource Include="MultilingualResources\Files.it-IT.xlf" />
     <XliffResource Include="MultilingualResources\Files.ja-JP.xlf" />
     <XliffResource Include="MultilingualResources\Files.nl-NL.xlf" />
+    <XliffResource Include="MultilingualResources\Files.or-IN.xlf" />
     <XliffResource Include="MultilingualResources\Files.pl-PL.xlf" />
     <XliffResource Include="MultilingualResources\Files.pt-BR.xlf" />
     <XliffResource Include="MultilingualResources\Files.ru-RU.xlf" />

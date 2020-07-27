@@ -1,6 +1,8 @@
 ﻿using Files.Common;
 using Files.Filesystem;
 using Files.Helpers;
+using Files.View_Models;
+using Files.Views;
 using Files.Views.Pages;
 using System;
 using System.Collections.Generic;
@@ -8,86 +10,75 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Search;
 
 namespace Files.Filesystem
 {
     public static class StorageFileExtensions
     {
-        public static List<PathBoxItem> GetDirectoryPathComponents(string value)
-        {
-            List<string> pathComponents = new List<string>();
-            List<PathBoxItem> pathBoxItems = new List<PathBoxItem>();
+        private static SettingsViewModel _AppSettings => App.AppSettings;
 
-            // If path is a library, simplify it
-            // If path is found to not be a library
-            if (value.StartsWith("\\\\?\\"))
+        private static PathBoxItem GetPathItem(string component, string path)
+        {
+            if (component.StartsWith(App.AppSettings.RecycleBinPath))
             {
-                pathComponents = value.Replace("\\\\?\\", "").Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                // Handle the recycle bin: use the localized folder name
+                return new PathBoxItem()
+                {
+                    Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
+                    Path = path,
+                };
+            }
+            else if (component.Contains(":"))
+            {
+                return new PathBoxItem()
+                {
+                    Title = MainPage.sideBarItems
+                        .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
+                            x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)) != null ?
+                            MainPage.sideBarItems
+                                .FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive &&
+                                    x.Path.Contains(component, StringComparison.OrdinalIgnoreCase)).Text :
+                            @"Drive (" + component + @"\)",
+                    Path = path,
+                };
             }
             else
             {
-                pathComponents = value.Split("\\", StringSplitOptions.RemoveEmptyEntries).ToList();
+                return new PathBoxItem
+                {
+                    Title = component,
+                    Path = path
+                };
             }
+        }
 
-            int index = 0;
-            foreach (string s in pathComponents)
+        public static List<PathBoxItem> GetDirectoryPathComponents(string value)
+        {
+            List<PathBoxItem> pathBoxItems = new List<PathBoxItem>();
+
+            if (!value.EndsWith("\\")) value += "\\";
+
+            int lastIndex = 0;
+
+            for (var i = 0; i < value.Length; i++)
             {
-                string componentLabel = null;
-                string tag = "";
-                if (s.StartsWith(App.AppSettings.RecycleBinPath))
+                if (value[i] == '\\' || value[i] == '?')
                 {
-                    // Handle the recycle bin: use the localized folder name
-                    PathBoxItem item = new PathBoxItem()
+                    if (lastIndex == i)
                     {
-                        Title = ApplicationData.Current.LocalSettings.Values.Get("RecycleBin_Title", "Recycle Bin"),
-                        Path = tag,
-                    };
-                    App.CurrentInstance.NavigationToolbar.PathComponents.Add(item);
-                }
-                else if (s.Contains(":"))
-                {
-                    if (App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)) != null)
-                    {
-                        componentLabel = App.sideBarItems.FirstOrDefault(x => x.ItemType == NavigationControlItemType.Drive && x.Path.Contains(s, StringComparison.OrdinalIgnoreCase)).Text;
-                    }
-                    else
-                    {
-                        componentLabel = @"Drive (" + s + @"\)";
-                    }
-                    tag = s + @"\";
-
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = componentLabel,
-                        Path = tag,
-                    };
-                    pathBoxItems.Add(item);
-                }
-                else
-                {
-                    componentLabel = s;
-                    foreach (string part in pathComponents.GetRange(0, index + 1))
-                    {
-                        tag = tag + part + @"\";
-                    }
-                    if (value.StartsWith("\\\\?\\"))
-                    {
-                        tag = "\\\\?\\" + tag;
-                    }
-                    else if (index == 0)
-                    {
-                        tag = "\\\\" + tag;
+                        lastIndex = i + 1;
+                        continue;
                     }
 
-                    PathBoxItem item = new PathBoxItem()
-                    {
-                        Title = componentLabel,
-                        Path = tag,
-                    };
-                    pathBoxItems.Add(item);
+                    var component = value.Substring(lastIndex, i - lastIndex);
+                    var path = value.Substring(0, i + 1);
+                    pathBoxItems.Add(GetPathItem(component, path));
+
+                    lastIndex = i + 1;
                 }
-                index++;
             }
+
             return pathBoxItems;
         }
 
@@ -125,7 +116,17 @@ namespace Files.Filesystem
                     return new StorageFolderWithPath(folder, path);
                 }
             }
-            return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
+
+            if (parentFolder != null && !Path.IsPathRooted(value))
+            {
+                // Relative path
+                var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(fullPath));
+            }
+            else
+            {
+                return new StorageFolderWithPath(await StorageFolder.GetFolderFromPathAsync(value));
+            }
         }
 
         public async static Task<StorageFolder> GetFolderFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
@@ -167,12 +168,87 @@ namespace Files.Filesystem
                     return new StorageFileWithPath(file, path);
                 }
             }
-            return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(value));
+
+            if (parentFolder != null && !Path.IsPathRooted(value))
+            {
+                // Relative path
+                var fullPath = Path.GetFullPath(Path.Combine(parentFolder.Path, value));
+                return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(fullPath));
+            }
+            else
+            {
+                return new StorageFileWithPath(await StorageFile.GetFileFromPathAsync(value));
+            }
         }
 
         public async static Task<StorageFile> GetFileFromPathAsync(string value, StorageFolderWithPath rootFolder = null, StorageFolderWithPath parentFolder = null)
         {
             return (await GetFileWithPathFromPathAsync(value, rootFolder, parentFolder)).File;
+        }
+
+        public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
+        {
+            return (await parentFolder.Folder.GetFoldersAsync(CommonFolderQuery.DefaultQuery, 0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, Path.Combine(parentFolder.Path, x.Name))).ToList();
+        }
+
+        public async static Task<IList<StorageFileWithPath>> GetFilesWithPathAsync(this StorageFolderWithPath parentFolder, uint maxNumberOfItems = uint.MaxValue)
+        {
+            return (await parentFolder.Folder.GetFilesAsync(CommonFileQuery.DefaultQuery, 0, maxNumberOfItems)).Select(x => new StorageFileWithPath(x, Path.Combine(parentFolder.Path, x.Name))).ToList();
+        }
+
+        public async static Task<IList<StorageFolderWithPath>> GetFoldersWithPathAsync(this StorageFolderWithPath parentFolder, string nameFilter, uint maxNumberOfItems = uint.MaxValue)
+        {
+            var queryOptions = new QueryOptions();
+            queryOptions.ApplicationSearchFilter = $"System.FileName:{nameFilter}*";
+            StorageFolderQueryResult queryResult = parentFolder.Folder.CreateFolderQueryWithOptions(queryOptions);
+
+            return (await queryResult.GetFoldersAsync(0, maxNumberOfItems)).Select(x => new StorageFolderWithPath(x, Path.Combine(parentFolder.Path, x.Name))).ToList();
+        }
+
+        public static string GetPathWithoutEnvironmentVariable(string path)
+        {
+            if (path.Contains("%temp%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%temp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%tmp%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%tmp%", _AppSettings.TempPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%localappdata%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%localappdata%", _AppSettings.LocalAppDataPath, StringComparison.OrdinalIgnoreCase);
+
+            if (path.Contains("%homepath%", StringComparison.OrdinalIgnoreCase)) 
+                path = path.Replace("%homepath%", _AppSettings.HomePath, StringComparison.OrdinalIgnoreCase);
+
+            return Environment.ExpandEnvironmentVariables(path);
+        }
+
+        public static bool AreItemsInSameDrive(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        {
+            try
+            {
+                return storageItems.Any(storageItem =>
+               Path.GetPathRoot(storageItem.Path).Equals(
+                   Path.GetPathRoot(destinationPath),
+                   StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool AreItemsAlreadyInFolder(this IReadOnlyList<IStorageItem> storageItems, string destinationPath)
+        {
+            try
+            {
+                return storageItems.Any(storageItem =>
+                Directory.GetParent(storageItem.Path).FullName.Equals(
+                    destinationPath, StringComparison.OrdinalIgnoreCase));
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
