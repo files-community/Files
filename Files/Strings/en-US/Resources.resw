@@ -840,4 +840,28 @@
   <data name="syncStatusColumn.Header" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="ExceptionPageRestartButton.Content" xml:space="preserve">
+    <value>Restart app and try again</value>
+  </data>
+  <data name="ExceptionPageAccessLogButton.Content" xml:space="preserve">
+    <value>Open log location</value>
+  </data>
+  <data name="ExceptionPageReportButton.Content" xml:space="preserve">
+    <value>Report issue to developer</value>
+  </data>
+   <data name="ExceptionPageTitle.Text" xml:space="preserve">
+    <value>We didn't expect that</value>
+  </data>
+   <data name="ExceptionPageDescription.Text" xml:space="preserve">
+    <value>Files ran into a problem that the developers didn't prepare for yet. Please restart the app and try what you were doing again.</value>
+  </data>
+   <data name="ExceptionPageSummaryHeader.Text" xml:space="preserve">
+    <value>Summary:</value>
+  </data>
+   <data name="ExceptionPageTechnicalInfoHeader.Text" xml:space="preserve">
+    <value>Technical Information:</value>
+  </data>
+   <data name="ExceptionPageWhatNowHeader.Text" xml:space="preserve">
+    <value>What now?</value>
+  </data>
 </root>
