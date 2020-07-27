@@ -392,6 +392,8 @@ namespace Files
         private static void OnUnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Message);
+			Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(UnhandledExceptionDisplay), e.Exception);
         }
 
         // Occurs when an exception is not handled on a background thread.
@@ -399,6 +401,12 @@ namespace Files
         private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Exception.Message);
+			await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
+                () =>
+                {
+					Frame rootFrame = Window.Current.Content as Frame;
+					rootFrame.Navigate(typeof(UnhandledExceptionDisplay), e.Exception);
+                });
         }
 
         public static async void CloseApp()
