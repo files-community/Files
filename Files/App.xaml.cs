@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.AppService;
 using Windows.ApplicationModel.DataTransfer;
@@ -398,7 +399,7 @@ namespace Files
 
         // Occurs when an exception is not handled on a background thread.
         // ie. A task is fired and forgotten Task.Run(() => {...})
-        private static void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
+        private static async void OnUnobservedException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             Logger.Error(e.Exception, e.Exception.Message);
 	    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
