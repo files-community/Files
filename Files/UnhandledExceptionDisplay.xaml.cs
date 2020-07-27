@@ -43,9 +43,9 @@ namespace Files
                 result == AppRestartFailureReason.RestartPending ||  
                 result == AppRestartFailureReason.Other)  
             {
-				// The old method of starting a new instance and exiting the current one
-				await Launcher.LaunchUriAsync(new Uri(@"files-uwp:///"));
-				CoreApplication.Exit();
+		// The old method of starting a new instance and exiting the current one
+		await Launcher.LaunchUriAsync(new Uri(@"files-uwp:///"));
+		CoreApplication.Exit();
             }
         }
 
@@ -55,9 +55,9 @@ namespace Files
             await Launcher.LaunchUriAsync(new Uri(@"https://github.com/files-community/files-uwp/issues/new/choose"));
         }
 		
-		private async void OpenLogLocation_Click(object sender, RoutedEventArgs e)
-		{
-			await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
-		}
+	private async void OpenLogLocation_Click(object sender, RoutedEventArgs e)
+	{
+	    await Launcher.LaunchFolderAsync(ApplicationData.Current.LocalFolder);
+	}
     }
 }
